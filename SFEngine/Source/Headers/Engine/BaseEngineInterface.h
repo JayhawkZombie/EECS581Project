@@ -19,8 +19,6 @@ namespace Engine
 
     virtual void OnShutDown() = 0;
 
-
-  protected:
     EventHandler Handler;
 
   };
