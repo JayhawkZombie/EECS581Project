@@ -11,6 +11,8 @@
 #include "ReturnValues.h"
 #include "../Events/EventHandler.h"
 
+#include "../UI/UIController.h"
+
 namespace Engine
 {
 
@@ -35,6 +37,7 @@ namespace Engine
     sf::RenderWindow *Window;
 
     EventHandler Handler;
+    UI::UIController EngineUIController;
 
     //Every method used for event handling must contain its own personal method AND
     //a function pointer bound to that method

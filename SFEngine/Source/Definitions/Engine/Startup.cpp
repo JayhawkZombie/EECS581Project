@@ -11,7 +11,8 @@ namespace Engine
     Handler.BindCallback(Events::WindowClosed, Callback_HandleWindowClosed);
     Handler.BindCallback(Events::WindowResized, Callback_HandleWindowResized);
     Handler.BindCallback(Events::MouseDown, Callback_HandleMousePress);
-
+    Handler.BindCallback(Events::MouseMoved, Callback_HandleMouseMovement);
+    Handler.BindCallback(Events::MouseReleased, Callback_HandleMouseRelease);
 
     return GameLoop();
   }

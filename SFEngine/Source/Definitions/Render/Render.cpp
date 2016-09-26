@@ -57,6 +57,11 @@ namespace Engine
       RenderSFDrawable(spr, bounds);
     }
 
+    void RenderSFDrawable(const sf::Drawable &drawable)
+    {
+      RenderSFDrawable(drawable, DefaultBounds());
+    }
+
     void RenderSFDrawable(const sf::Drawable &drawable, const sf::FloatRect &bounds)
     {
       if (DrawWindow) {

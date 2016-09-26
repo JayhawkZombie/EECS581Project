@@ -21,6 +21,23 @@ namespace Engine
 
     EventHandler Handler;
 
+  protected:
+    std::function<void(void)> Callback_HandleWindowClosed;
+    std::function<void(void)> Callback_HandleWindowResized;
+    std::function<void(void)> Callback_HandleWindowLostFocus;
+    std::function<void(void)> Callback_HandleWindowGainedFocus;
+    std::function<void(const sf::Vector2i &v)> Callback_HandleMouseMovement;
+    std::function<void(const sf::Vector2i &v, const sf::Mouse::Button &b)> Callback_HandleMousePress;
+    std::function<void(const sf::Vector2i &v, const sf::Mouse::Button &b)> Callback_HandleMouseRelease;
+    std::function<void(const sf::Keyboard::Key &k)> Callback_HandleKeyPress;
+    std::function<void(const sf::Keyboard::Key &k)> Callback_HandleKeyRelease;
+
+  private:
+    static void NO_ACTION(BaseEngineInterface *item, const sf::Vector2i &i);
+    static void NO_ACTION(BaseEngineInterface *item, const sf::Mouse::Button &);
+    static void NO_ACTION(BaseEngineInterface *item, const sf::Keyboard::Key &);
+    static void NO_ACTION(BaseEngineInterface *item);
+
   };
 }
 

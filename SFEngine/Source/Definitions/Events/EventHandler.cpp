@@ -22,53 +22,49 @@ namespace Engine
 
   }
 
-  void EventHandler::SetMousePositionArg(const sf::Vector2f &v)
+  void EventHandler::HandleMouseMovement(const sf::Vector2i &v)
   {
-
+    ftnCallback_MouseMovement(v);
   }
 
-  void EventHandler::SetMouseButtonArg(const sf::Mouse::Button &b)
-  { 
-
+  void EventHandler::HandleMouseOver(const sf::Vector2i &v)
+  {
+    ftnCallback_MouseOver(v);
   }
 
-  void EventHandler::SetKeyArg(const sf::Keyboard::Key &k)
+  void EventHandler::HandleMouseExit(const sf::Vector2i &v)
   {
-
+    ftnCallback_MouseExit(v);
   }
 
-  void EventHandler::InvokeCallback(const Events &type)
+  void EventHandler::HandleMousePress(const sf::Vector2i &v, const sf::Mouse::Button &b)
   {
-    switch (type)
-    {
-      case Events::KeyPressed:
-        if (ftnCallback_KeyPress)
-          ftnCallback_KeyPress(enKeyboardArg); break;
+    ftnCallback_MousePress(v, b);
+  }
 
-      case Events::KeyReleased:
-        if (ftnCallback_KeyRelease)
-          ftnCallback_KeyRelease(enKeyboardArg); break;
+  void EventHandler::HandleMouseRelease(const sf::Vector2i &v, const sf::Mouse::Button &b)
+  {
+    ftnCallback_MouseRelease(v, b);
+  }
 
-      case Events::MouseDown:
-        if (ftnCallback_MousePress)
-          ftnCallback_MousePress(v2iMousePosArg, enMouseButtonArg); break;
+  void EventHandler::HandleMouseScroll(const sf::Vector2i &v)
+  {
+    ftnCallback_MouseScroll(v);
+  }
 
-      case Events::MouseExit:
-        if (ftnCallback_MouseExit)
-          ftnCallback_MouseExit(v2iMousePosArg); break;
+  void EventHandler::HandleKeyPress(const sf::Keyboard::Key &k)
+  {
+    ftnCallback_KeyPress(k);
+  }
 
-      case Events::MouseMoved:
-        if (ftnCallback_MouseMovement)
-          ftnCallback_MouseMovement(v2iMousePosArg); break;
+  void EventHandler::HandleKeyRelease(const sf::Keyboard::Key &k)
+  {
+    ftnCallback_KeyRelease(k);
+  }
 
-      case Events::MouseOver:
-        if (ftnCallback_MouseOver)
-          ftnCallback_MouseOver(v2iMousePosArg); break;
-
-      case Events::MouseReleased:
-        if (ftnCallback_MouseRelease)
-          ftnCallback_MouseRelease(v2iMousePosArg, enMouseButtonArg); break;
-    }
+  void EventHandler::HandleTextEntered(const sf::Keyboard::Key &k)
+  {
+    ftnCallback_TextEntered(k);
   }
 
   void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> &ftn)

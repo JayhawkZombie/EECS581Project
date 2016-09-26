@@ -15,6 +15,7 @@ namespace Engine
     Callback_HandleWindowLostFocus = std::bind(&SFEngine::HandleWindowLostFocus, this);
     Callback_HandleMousePress = std::bind(&SFEngine::HandleMousePress, this, std::placeholders::_1, std::placeholders::_2);
     Callback_HandleMouseRelease = std::bind(&SFEngine::HandleMouseRelease, this, std::placeholders::_1, std::placeholders::_2);
+    Callback_HandleMouseMovement = std::bind(&SFEngine::HandleMouseMovement, this, std::placeholders::_1);
 
     return Startup();
   }
