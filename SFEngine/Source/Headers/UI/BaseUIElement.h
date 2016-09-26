@@ -62,8 +62,8 @@ namespace Engine
       virtual void HandleFocusGained(const sf::Vector2i &pos);
       virtual void HandleFocusLost(const sf::Vector2i &pos);
 
-      std::unordered_map<std::string, RenderTarget> RenderTargets;
-      std::unordered_map<std::string, MouseTarget> MouseTargets;
+      std::map<std::string, RenderTarget> RenderTargets;
+      std::map<std::string, MouseTarget> MouseTargets;
 
       sf::Vector2f v2fPostion;
       sf::Vector2f v2fSize;

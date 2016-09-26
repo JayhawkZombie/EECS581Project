@@ -30,8 +30,8 @@ namespace Engine
 
       if (tgt.MouseOver && IsMouseOverRect(pos, tgt.MouseBounds)) {
         tgt.MouseOver = true;
-tgt.MouseMovementCallback(pos - sf::Vector2i(tgt.MouseBounds.left, tgt.MouseBounds.top));
-return true;
+        tgt.MouseMovementCallback(pos - sf::Vector2i(tgt.MouseBounds.left, tgt.MouseBounds.top));
+        return true;
       }
 
       return false;
@@ -47,6 +47,8 @@ return true;
         tgt.MouseExitCallback(Mpos - sf::Vector2i(tgt.MouseBounds.left, tgt.MouseBounds.top));
         return true;
       }
+
+      return false;
     }
 
     void UIController::HandleMouseMovement(const sf::Vector2i &pos)
@@ -58,7 +60,7 @@ return true;
 
       if (FocusedElement && FocusedElement->State.test(Active)) {
         for (auto & tgt : FocusedElement->MouseTargets) {
-          if (TestDidMouseOver(tgt.second, pos) || TestDidMouseLeave(tgt.second, pos) || TestDidMouseMoveOn(tgt.second, pos))
+          if (TestDidMouseMoveOn(tgt.second, pos) || TestDidMouseOver(tgt.second, pos) || TestDidMouseLeave(tgt.second, pos))
             return;
         }
       }

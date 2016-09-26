@@ -15,12 +15,18 @@ namespace Engine
       ButtonShape = std::make_shared<sf::RectangleShape>();
       ButtonFont = std::make_shared<sf::Font>();
       ButtonTexture = std::make_shared<sf::Texture>();
+      ButtonHighlightedTexture = std::make_shared<sf::Texture>();
+      ButtonPressedTexture = std::make_shared<sf::Texture>();
       ButtonText = std::make_shared<sf::Text>();
 
-      ButtonFont->loadFromFile("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf");
+      ButtonFont->loadFromFile("./SFEngine/Samples/Fonts/Raleway-Light.ttf");
       ButtonTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBG.png");
+      ButtonHighlightedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGHovered.png");
+      ButtonPressedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGPressed.png");
 
       ButtonText->setColor(sf::Color::White);
+      ButtonText->setFont(*ButtonFont.get());
+      ButtonText->setString("Test String");
       ButtonShape->setTexture(ButtonTexture.get());
 
       RenderTarget tgt;
@@ -28,6 +34,12 @@ namespace Engine
       tgt.SetDrawBounds(Render::DefaultBounds());
 
       AddRenderTarget(std::string("ButtonBG"), ButtonShape);
+
+      RenderTarget txtTarget;
+      txtTarget.SetDrawable(ButtonText);
+      txtTarget.SetDrawBounds(Render::DefaultBounds());
+
+      AddRenderTarget(std::string("ButtonText"), ButtonText);
 
       
       MouseTarget mtgt;
@@ -56,11 +68,21 @@ namespace Engine
       ButtonShape->setPosition(v2fPostion);
       ButtonShape->setSize(v2fSize);
 
-      ButtonText->setCharacterSize(10);
-      ButtonText->setPosition(sf::Vector2f(v2fPostion.x + 10, v2fPostion.y + 10));
-      ButtonText->setString("Test String");
+      ButtonText->setCharacterSize(14);
+      float xDiff, yDiff;
+      float textWidth = ButtonText->getGlobalBounds().width;
+      float textHeight = ButtonText->getGlobalBounds().height;
+
+      xDiff = (v2fSize.x - textWidth) / 2.f;
+      yDiff = (v2fSize.y - textHeight) / 2.f;
+      ButtonText->setPosition(
+        xDiff > 0 ?
+          sf::Vector2f(v2fPostion.x + xDiff, v2fPostion.y + yDiff)
+        : sf::Vector2f(v2fPostion)
+      );
 
       RenderTargets["ButtonBG"].SetDrawBounds(ButtonShape->getGlobalBounds());
+      RenderTargets["ButtonText"].SetDrawBounds(ButtonShape->getGlobalBounds());
       sf::FloatRect r = ButtonShape->getGlobalBounds();
 
       MouseTargets["ButtonMouseRegion"].MouseBounds = ButtonShape->getGlobalBounds();
@@ -68,12 +90,12 @@ namespace Engine
 
     void ClickButton::HandleMouseOver(const sf::Vector2i &v)
     {
-      std::cerr << "<<<Moved over button" << std::endl;
+      ButtonShape->setTexture(ButtonHighlightedTexture.get());
     }
 
     void ClickButton::HandleMouseExit(const sf::Vector2i &pos)
     {
-      std::cerr << "<<<Mouse exited button" << std::endl;
+      ButtonShape->setTexture(ButtonTexture.get());
     }
 
     void ClickButton::HandleMouseMovement(const sf::Vector2i &pos)
@@ -83,22 +105,22 @@ namespace Engine
 
     void ClickButton::HandleMousePress(const sf::Vector2i &pos, const sf::Mouse::Button &b)
     {
-      std::cerr << "<<<Mouse pressed on button" << std::endl;
+      ButtonShape->setTexture(ButtonPressedTexture.get());
     }
 
     void ClickButton::HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b)
     {
-      std::cerr << "<<<Mouse released on button" << std::endl;
+      ButtonShape->setTexture(ButtonTexture.get());
     }
 
     void ClickButton::HandleFocusGained(const sf::Vector2i &pos)
     {
-      std::cerr << "<<<Button Gained Focus" << std::endl;
+      //std::cerr << "<<<Button Gained Focus" << std::endl;
     }
 
     void ClickButton::HandleFocusLost(const sf::Vector2i &pos)
     {
-      std::cerr << "<<<Button Lost Focus" << std::endl;
+      //std::cerr << "<<<Button Lost Focus" << std::endl;
     }
 
     void ClickButton::SetPosition(const sf::Vector2f &position)
@@ -120,8 +142,7 @@ namespace Engine
 
     void ClickButton::Render()
     {
-      Render::RenderShape(ButtonShape.get());
-      Render::RenderText(ButtonText.get());
+      
     }
 
     void ClickButton::OnShutDown()

@@ -40,6 +40,8 @@ namespace Engine
 
       std::shared_ptr<sf::RectangleShape> ButtonShape;
       std::shared_ptr<sf::Texture> ButtonTexture;
+      std::shared_ptr<sf::Texture> ButtonHighlightedTexture;
+      std::shared_ptr<sf::Texture> ButtonPressedTexture;
       std::shared_ptr<sf::Text> ButtonText;
       std::shared_ptr<sf::Font> ButtonFont;
       
