@@ -28,6 +28,8 @@ namespace Engine
     protected:
       std::vector<std::shared_ptr<BaseUIElement>> Elements;
 
+      BaseUIElement *FocusedElement;
+
       void HandleMouseMovement(const sf::Vector2i &pos);
       void HandleMouseOver(const sf::Vector2i &pos);
       void HandleMouseExit(const sf::Vector2i &pos);
@@ -38,6 +40,12 @@ namespace Engine
       void HandleKeyRelease(const sf::Keyboard::Key &which);
       void HandleTextEntered(const sf::Keyboard::Key &which);
 
+      sf::Vector2i curMousePos;
+      static bool TestDidMouseOver(MouseTarget &tgt, const sf::Vector2i &mousePos);
+      static bool TestDidMouseLeave(MouseTarget &tgt, const sf::Vector2i &mousePos);
+      static bool TestDidMouseMoveOn(MouseTarget &tgt, const sf::Vector2i &mousePos);
+      static void GiveFocus(BaseUIElement *newelem);
+      static void TakeFocus(BaseUIElement *newelem);
     };
   }
 }

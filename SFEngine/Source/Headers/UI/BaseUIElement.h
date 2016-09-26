@@ -41,10 +41,17 @@ namespace Engine
       virtual sf::Vector2f GetSize() const;
       virtual sf::Vector2f GetPosition() const;
 
-      template<typename EVENTS, typename CALLBACK, typename... OTHERS>
-      void AddMouseTarget(std::string &ID, const sf::FloatRect &rect, EVENTS, CALLBACK, OTHERS...);
+      void AddMouseTarget(std::string &ID, MouseTarget &tgt);
 
     protected:
+      virtual void HandleMouseOver(const sf::Vector2i &pos);
+      virtual void HandleMouseExit(const sf::Vector2i &pos);
+      virtual void HandleMouseMovement(const sf::Vector2i &pos);
+      virtual void HandleMousePress(const sf::Vector2i &pos, const sf::Mouse::Button &b);
+      virtual void HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b);
+      virtual void HandleFocusGained(const sf::Vector2i &pos);
+      virtual void HandleFocusLost(const sf::Vector2i &pos);
+
       std::unordered_map<std::string, RenderTarget> RenderTargets;
       std::unordered_map<std::string, MouseTarget> MouseTargets;
 

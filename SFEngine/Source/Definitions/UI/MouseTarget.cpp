@@ -2,36 +2,24 @@
 
 namespace Engine
 {
-  template<typename Events, typename CALLBACK>
-  MouseTarget::MouseTarget(Events evnt, CALLBACK &cb)
+  MouseTarget::MouseTarget()
   {
-    switch (evnt)
-    {
-      case Events::MouseOver:
-        MouseOverCallback = cb; break;
-      case Events::MouseMoved:
-        MouseMovementCallback = cb; break;
-      case Events::MouseExit:
-        MouseExitCallback = cb; break;
-    }
+    MouseOver = false;
+    MouseWasOver = false;
   }
 
-  template<typename Events, typename CALLBACK, typename... others>
-  MouseTarget::MouseTarget(const sf::FloatRect &bds ,Events evnt, CALLBACK &cb, others...) : MouseTarget(others...)
+  MouseTarget::MouseTarget(const MouseTarget &tgt)
   {
-    MouseBounds = bds;
-    MouseExitCallback = [this](const sf::Vector2i &) {};
-    MouseMovementCallback = [this](const sf::Vector2i &) {};
-    MouseOverCallback = [this](const sf::Vector2i &) {};
-
-    switch (evnt)
-    {
-      case Events::MouseOver:
-        MouseOverCallback = cb; break;
-      case Events::MouseMoved:
-        MouseMovementCallback = cb; break;
-      case Events::MouseExit:
-        MouseExitCallback = cb; break;
-    }
+    this->Enabled = tgt.Enabled;
+    this->MouseBounds = tgt.MouseBounds;
+    this->MouseExitCallback = tgt.MouseExitCallback;
+    this->MouseMovementCallback = tgt.MouseMovementCallback;
+    this->MouseOver = tgt.MouseOver;
+    this->MouseOverCallback = tgt.MouseOverCallback;
+    this->MousePressCallback = tgt.MousePressCallback;
+    this->MouseReleaseCallback = tgt.MouseReleaseCallback;
+    this->FocusGainedCallback = tgt.FocusGainedCallback;
+    this->FocusLostCallback = tgt.FocusLostCallback;
+    this->MouseWasOver = tgt.MouseWasOver;
   }
 }

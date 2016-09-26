@@ -25,6 +25,14 @@ namespace Engine
       virtual void Align();
 
     protected:
+      virtual void HandleMouseOver(const sf::Vector2i &pos);
+      virtual void HandleMouseExit(const sf::Vector2i &pos);
+      virtual void HandleMouseMovement(const sf::Vector2i &pos);
+      virtual void HandleMousePress(const sf::Vector2i &pos, const sf::Mouse::Button &b);
+      virtual void HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b);
+      virtual void HandleFocusGained(const sf::Vector2i &pos);
+      virtual void HandleFocusLost(const sf::Vector2i &pos);
+
       std::shared_ptr<sf::RectangleShape> ButtonShape;
       std::shared_ptr<sf::Texture> ButtonTexture;
       std::shared_ptr<sf::Text> ButtonText;

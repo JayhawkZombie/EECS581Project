@@ -62,12 +62,7 @@ namespace Engine
       }
     }
 
-    /**
-     * Variadic template construction of MouseTarget (in-place construction, to avoid copying)
-     *   I Promise, it only LOOKS gross. Everything is resolved at compile time :D
-     */
-    template<typename EVENTS, typename CALLBACK, typename... OTHERS>
-    void BaseUIElement::AddMouseTarget(std::string &ID, const sf::FloatRect &rect, EVENTS, CALLBACK, OTHERS...)
+    void BaseUIElement::AddMouseTarget(std::string &ID, MouseTarget &tgt)
     {
       auto found = MouseTargets.find(ID);
 
@@ -75,7 +70,7 @@ namespace Engine
         MouseTargets.emplace(
           std::piecewise_construct,
           std::make_tuple(ID),
-          std::make_tuple(rect, EVENTS, CALLBACK, OTHERS...)
+          std::make_tuple(tgt)
         );
       }
     }
@@ -91,5 +86,39 @@ namespace Engine
 
     }
 
+    void BaseUIElement::HandleMouseExit(const sf::Vector2i &pos)
+    {
+
+    }
+
+    void BaseUIElement::HandleMouseOver(const sf::Vector2i &pos)
+    {
+
+    }
+
+    void BaseUIElement::HandleMouseMovement(const sf::Vector2i &pos)
+    {
+
+    }
+
+    void BaseUIElement::HandleMousePress(const sf::Vector2i &pos, const sf::Mouse::Button &b)
+    {
+
+    }
+
+    void BaseUIElement::HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b)
+    {
+
+    }
+
+    void BaseUIElement::HandleFocusGained(const sf::Vector2i &pos)
+    {
+
+    }
+
+    void BaseUIElement::HandleFocusLost(const sf::Vector2i &pos)
+    {
+
+    }
   } //namespace UI
 }

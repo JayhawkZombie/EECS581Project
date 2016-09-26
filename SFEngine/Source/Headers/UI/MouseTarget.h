@@ -7,11 +7,8 @@
 namespace Engine
 {
   struct MouseTarget {
-    template<typename Events, typename CALLBACK>
-    MouseTarget(Events evnt, CALLBACK &cb);
-
-    template<typename Events, typename CALLBACK, typename... others>
-    MouseTarget(const sf::FloatRect &bds ,Events evnt, CALLBACK &cb, others...);
+    MouseTarget();
+    MouseTarget(const MouseTarget &tgt);
 
     sf::FloatRect MouseBounds;
 
@@ -20,6 +17,11 @@ namespace Engine
     std::function<void(const sf::Vector2i &pos)> MouseOverCallback;
     std::function<void(const sf::Vector2i &pos)> MouseExitCallback;
     std::function<void(const sf::Vector2i &pos)> MouseMovementCallback;
+    std::function<void(const sf::Vector2i &pos, const sf::Mouse::Button &which)> MousePressCallback;
+    std::function<void(const sf::Vector2i &pos, const sf::Mouse::Button &which)> MouseReleaseCallback;
+    std::function<void(const sf::Vector2i &pos)> FocusGainedCallback;
+    std::function<void(const sf::Vector2i &pos)> FocusLostCallback;
+
   };
 }
 

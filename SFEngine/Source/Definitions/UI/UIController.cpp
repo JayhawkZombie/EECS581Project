@@ -22,6 +22,8 @@ namespace Engine
 
       Handler.BindCallback(Events::MouseReleased,
                            [this](const sf::Vector2i &m, const sf::Mouse::Button &b) {this->HandleMouseRelease(m, b); });
+
+      FocusedElement = nullptr;
     }
 
     UIController::~UIController()

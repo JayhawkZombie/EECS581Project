@@ -28,6 +28,22 @@ namespace Engine
       tgt.SetDrawBounds(Render::DefaultBounds());
 
       AddRenderTarget(std::string("ButtonBG"), ButtonShape);
+
+      
+      MouseTarget mtgt;
+      mtgt.MouseBounds = ButtonShape->getGlobalBounds();
+
+      
+      mtgt.MouseExitCallback = [this](const sf::Vector2i &v) { this->HandleMouseExit(v); };
+      mtgt.MouseMovementCallback = [this](const sf::Vector2i &pos) { this->HandleMouseMovement(pos); };
+      mtgt.MouseOverCallback = [this](const sf::Vector2i &pos) { this->HandleMouseOver(pos); };
+      mtgt.MousePressCallback = [this](const sf::Vector2i &v, const sf::Mouse::Button &b) { this->HandleMousePress(v, b); };
+      mtgt.MouseReleaseCallback = [this](const sf::Vector2i &v, const sf::Mouse::Button &b) { this->HandleMouseRelease(v, b); }; 
+      mtgt.FocusGainedCallback = [this](const sf::Vector2i &v) { this->HandleFocusGained(v); };
+      mtgt.FocusLostCallback = [this](const sf::Vector2i &v) { this->HandleFocusLost(v); };
+
+      AddMouseTarget(std::string("ButtonMouseRegion"), mtgt);
+      
     }
 
     ClickButton::~ClickButton()
@@ -45,6 +61,44 @@ namespace Engine
       ButtonText->setString("Test String");
 
       RenderTargets["ButtonBG"].SetDrawBounds(ButtonShape->getGlobalBounds());
+      sf::FloatRect r = ButtonShape->getGlobalBounds();
+
+      MouseTargets["ButtonMouseRegion"].MouseBounds = ButtonShape->getGlobalBounds();
+    }
+
+    void ClickButton::HandleMouseOver(const sf::Vector2i &v)
+    {
+      std::cerr << "<<<Moved over button" << std::endl;
+    }
+
+    void ClickButton::HandleMouseExit(const sf::Vector2i &pos)
+    {
+      std::cerr << "<<<Mouse exited button" << std::endl;
+    }
+
+    void ClickButton::HandleMouseMovement(const sf::Vector2i &pos)
+    {
+      std::cerr << "<<<Mouse moved on button" << std::endl;
+    }
+
+    void ClickButton::HandleMousePress(const sf::Vector2i &pos, const sf::Mouse::Button &b)
+    {
+      std::cerr << "<<<Mouse pressed on button" << std::endl;
+    }
+
+    void ClickButton::HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b)
+    {
+      std::cerr << "<<<Mouse released on button" << std::endl;
+    }
+
+    void ClickButton::HandleFocusGained(const sf::Vector2i &pos)
+    {
+      std::cerr << "<<<Button Gained Focus" << std::endl;
+    }
+
+    void ClickButton::HandleFocusLost(const sf::Vector2i &pos)
+    {
+      std::cerr << "<<<Button Lost Focus" << std::endl;
     }
 
     void ClickButton::SetPosition(const sf::Vector2f &position)
