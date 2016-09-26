@@ -8,6 +8,19 @@ namespace Engine
     void UIController::HandleMouseMovement(const sf::Vector2i &pos)
     {
       //std::cerr << "Mouse Moved!" << std::endl;
+
+      for (auto & element : Elements) {
+        if (element->State.test(Active)) {
+          
+          for (auto & tgt : element->MouseTargets) {
+            if (IsMouseOverRect(pos, tgt.second.MouseBounds)) {
+               
+            }
+          } //end for tgt
+
+        } //if state.test(Active)
+      }//for element : Elements
+
     }
 
     void UIController::HandleMouseOver(const sf::Vector2i &pos)

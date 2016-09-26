@@ -6,20 +6,27 @@ namespace Engine
   {
     UIController::UIController()
     {
-      Callback_HandleKeyPress = std::bind(&UIController::HandleKeyPress, this, std::placeholders::_1);
-      Handler.BindCallback(Events::KeyPressed, Callback_HandleKeyPress);
+      //Screw it, LAMBDAS
+      //Ahhh, so much cleaner :D
+      Handler.BindCallback(Events::KeyPressed, 
+                           [this](const sf::Keyboard::Key &k) {this->HandleKeyPress(k); }
+      );
 
-      Callback_HandleKeyRelease = std::bind(&UIController::HandleKeyRelease, this, std::placeholders::_1);
-      Handler.BindCallback(Events::KeyReleased, Callback_HandleKeyRelease);
+      Handler.BindCallback(Events::KeyReleased,
+                           [this](const sf::Keyboard::Key &k) {this->HandleKeyRelease(k); }
+      );
 
-      Callback_HandleMouseMovement = std::bind(&UIController::HandleMouseMovement, this, std::placeholders::_1);
-      Handler.BindCallback(Events::MouseMoved, Callback_HandleMouseMovement);
-      
-      Callback_HandleMousePress = std::bind(&UIController::HandleMousePress, this, std::placeholders::_1, std::placeholders::_2);
-      Handler.BindCallback(Events::MouseDown, Callback_HandleMousePress);
-      
-      Callback_HandleMouseRelease = std::bind(&UIController::HandleMouseRelease, this, std::placeholders::_1, std::placeholders::_2);
-      Handler.BindCallback(Events::MouseReleased, Callback_HandleMouseRelease);
+      Handler.BindCallback(Events::MouseMoved,
+                           [this](const sf::Vector2i &m) {this->HandleMouseMovement(m); }
+      );
+
+      Handler.BindCallback(Events::MouseDown,
+                           [this](const sf::Vector2i &m, const sf::Mouse::Button &b) {this->HandleMousePress(m, b); }
+      );
+
+      Handler.BindCallback(Events::MouseReleased,
+                           [this](const sf::Vector2i &m, const sf::Mouse::Button &b) {this->HandleMouseRelease(m, b); }
+      );
     }
 
     UIController::~UIController()

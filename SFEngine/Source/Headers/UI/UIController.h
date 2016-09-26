@@ -5,6 +5,7 @@
 #include "../Engine/BaseEngineInterface.h"
 
 #include "BaseUIElement.h"
+#include "UIUtils.h"
 
 namespace Engine
 {

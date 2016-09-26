@@ -4,16 +4,26 @@ namespace Engine
 {
   UINT32 SFEngine::Startup()
   {
+    Handler.BindCallback(Events::GainedFocus,
+                         [this]() {this->HandleWindowGainedFocus(); });
 
-    //Delegate event handlers to the event handler object
-    Handler.BindCallback(Events::GainedFocus, Callback_HandleWindowGainedFocus);
-    Handler.BindCallback(Events::LostFocus, Callback_HandleWindowLostFocus);
-    Handler.BindCallback(Events::WindowClosed, Callback_HandleWindowClosed);
-    Handler.BindCallback(Events::WindowResized, Callback_HandleWindowResized);
-    Handler.BindCallback(Events::MouseDown, Callback_HandleMousePress);
-    Handler.BindCallback(Events::MouseMoved, Callback_HandleMouseMovement);
-    Handler.BindCallback(Events::MouseReleased, Callback_HandleMouseRelease);
+    Handler.BindCallback(Events::LostFocus,
+                         [this]() {this->HandleWindowLostFocus(); });
 
+    Handler.BindCallback(Events::WindowClosed,
+                         [this]() {this->HandleWindowClosed(); });
+
+    Handler.BindCallback(Events::WindowResized,
+                         [this]() {this->HandleWindowResized(); });
+
+    Handler.BindCallback(Events::MouseDown,
+                         [this](const sf::Vector2i &i, const sf::Mouse::Button &b) {this->HandleMousePress(i, b); });
+
+    Handler.BindCallback(Events::MouseReleased,
+                         [this](const sf::Vector2i &i, const sf::Mouse::Button &b) {this->HandleMouseRelease(i, b); });
+
+    Handler.BindCallback(Events::MouseMoved,
+                         [this](const sf::Vector2i &i) {this->HandleMouseMovement(i); });
     return GameLoop();
   }
 }

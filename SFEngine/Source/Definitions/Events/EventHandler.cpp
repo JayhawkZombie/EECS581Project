@@ -67,7 +67,7 @@ namespace Engine
     ftnCallback_TextEntered(k);
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> &ftn)
+  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> ftn)
   {
     switch (type)
     {
@@ -80,7 +80,7 @@ namespace Engine
     }
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> &ftn)
+  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftn)
   {
     switch (type)
     {
@@ -91,7 +91,7 @@ namespace Engine
     }
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> &ftn)
+  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> ftn)
   {
     switch (type)
     {
@@ -102,7 +102,7 @@ namespace Engine
     }
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(void)> &ftn)
+  void EventHandler::BindCallback(const Events &type, std::function<void(void)> ftn)
   {
     switch (type)
     {

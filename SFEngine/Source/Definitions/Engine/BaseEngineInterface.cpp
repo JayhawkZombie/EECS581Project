@@ -4,15 +4,7 @@ namespace Engine
 {
   BaseEngineInterface::BaseEngineInterface()
   {
-    Callback_HandleWindowClosed = [this]() {};
-    Callback_HandleWindowResized = [this]() {};
-    Callback_HandleWindowLostFocus = [this]() {};
-    Callback_HandleWindowGainedFocus = [this]() {};
-    Callback_HandleMouseMovement = [this](const sf::Vector2i &) {};
-    Callback_HandleMousePress = [this](const sf::Vector2i &, const sf::Mouse::Button &) {};
-    Callback_HandleMouseRelease = [this](const sf::Vector2i &, const sf::Mouse::Button &) {};
-    Callback_HandleKeyPress = [this](const sf::Keyboard::Key &) {};
-    Callback_HandleKeyRelease = [this](const sf::Keyboard::Key &) {};
+    
   }
 
   BaseEngineInterface::BaseEngineInterface(const BaseEngineInterface &b)

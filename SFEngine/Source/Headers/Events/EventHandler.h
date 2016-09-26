@@ -36,10 +36,10 @@ namespace Engine
     EventHandler(const EventHandler &);
     ~EventHandler();
 
-    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> &ftn);
-    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> &ftn);
-    void BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> &ftn);
-    void BindCallback(const Events &type, std::function<void(void)> &ftn);
+    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> ftn);
+    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftn);
+    void BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> ftn);
+    void BindCallback(const Events &type, std::function<void(void)> ftn);
 
     bool PollEvents(sf::RenderWindow *win, sf::Event &evnt, const bool &makeCallbacks);
 
