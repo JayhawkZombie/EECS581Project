@@ -31,6 +31,10 @@ namespace Engine
     txtFont.loadFromFile("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf");
     txt.setFont(txtFont);
 
+    auto Button = UI::ClickButton::Create();
+    Button->SetPosition(sf::Vector2f(200, 200));
+    Button->SetSize(sf::Vector2f(100, 20));
+    EngineUIController.AddElement(Button);
 
 
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
@@ -42,17 +46,19 @@ namespace Engine
 
       UpdateStart = std::chrono::high_resolution_clock::now();
       
+      EngineUIController.TickUpdate(TickDelta);
       //Call "update" on items
 
       UpdateEnd = std::chrono::high_resolution_clock::now();
 
       currentRenderWindow->clear();
 
+      EngineUIController.Render();
       //Render start
 
       txt.setString("Test String: Elapsed Tick Time: " + std::to_string(TickDelta));
 
-      Render::RenderText(txt);
+      Render::RenderText(&txt);
 
       currentRenderWindow->display();
 

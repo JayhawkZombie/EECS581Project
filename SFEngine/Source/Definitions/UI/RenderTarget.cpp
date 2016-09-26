@@ -4,13 +4,19 @@ namespace Engine
 {
   RenderTarget::RenderTarget()
   {
-    drawitem.reset();
     DrawBounds = Render::DefaultBounds();
   }
 
-  RenderTarget::RenderTarget(sf::Drawable *item)
+  RenderTarget::RenderTarget(std::shared_ptr<sf::Drawable> item)
   {
-    drawitem.reset(item);
+    drawitem.reset();
+    drawitem = item;
+  }
+
+  RenderTarget::RenderTarget(const RenderTarget &tgt)
+  {
+    drawitem = tgt.drawitem;
+    DrawBounds = tgt.DrawBounds;
   }
 
   RenderTarget::~RenderTarget()
@@ -19,12 +25,13 @@ namespace Engine
      * Reset each item, to cause the refernce count to go to zero and 
      * destroy the item
      */
-    drawitem.release();
+    
   }
 
-  void RenderTarget::SetDrawable(sf::Drawable *item)
+  void RenderTarget::SetDrawable(std::shared_ptr<sf::Drawable> item)
   {
-    drawitem.reset(item);
+    drawitem.reset();
+    drawitem = item;
   }
 
   void RenderTarget::SetDrawBounds(const sf::FloatRect &rect)
@@ -35,6 +42,6 @@ namespace Engine
   void RenderTarget::Render() const
   {
     if (drawitem)
-      Render::RenderSFDrawable(*drawitem.get());
+      Render::RenderSFDrawable(drawitem.get());
   }
 }

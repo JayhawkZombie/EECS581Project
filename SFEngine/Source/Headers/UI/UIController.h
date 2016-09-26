@@ -20,7 +20,7 @@ namespace Engine
       UIController(const UIController &) = delete;
       ~UIController();
 
-      void AddElement(BaseUIElement *);
+      void AddElement(std::shared_ptr<BaseUIElement>);
       void TickUpdate(const double &delta);
       void Render();
       void OnShutDown();

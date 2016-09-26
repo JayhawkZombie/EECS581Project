@@ -17,16 +17,16 @@ namespace Engine
   {
   public:
     RenderTarget();
-    RenderTarget(sf::Drawable *item);
-    RenderTarget(const RenderTarget &) = delete;
+    RenderTarget(std::shared_ptr<sf::Drawable> item);
+    RenderTarget(const RenderTarget&);
     ~RenderTarget();
 
     void Render() const;
-    void SetDrawable(sf::Drawable *item);
+    void SetDrawable(std::shared_ptr<sf::Drawable> item);
     void SetDrawBounds(const sf::FloatRect &rect);
 
   private:
-    std::unique_ptr<sf::Drawable> drawitem;
+    std::shared_ptr<sf::Drawable> drawitem;
     sf::FloatRect DrawBounds;
 
   };

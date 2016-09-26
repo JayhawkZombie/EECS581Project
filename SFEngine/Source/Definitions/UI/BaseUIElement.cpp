@@ -21,7 +21,27 @@ namespace Engine
       }
     }
 
-    void BaseUIElement::AddRenderTarget(std::string &ID, sf::Drawable *item)
+    void BaseUIElement::SetPosition(const sf::Vector2f &v)
+    {
+      v2fPostion = v;
+    }
+
+    void BaseUIElement::SetSize(const sf::Vector2f &v)
+    {
+      v2fSize = v;
+    }
+
+    sf::Vector2f BaseUIElement::GetSize() const
+    {
+      return v2fSize;
+    }
+
+    sf::Vector2f BaseUIElement::GetPosition() const
+    {
+      return v2fPostion;
+    }
+
+    void BaseUIElement::AddRenderTarget(std::string &ID, std::shared_ptr<sf::Drawable> item)
     {
       auto found = RenderTargets.find(ID);
 

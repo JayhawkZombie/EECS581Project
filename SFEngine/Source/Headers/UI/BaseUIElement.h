@@ -33,7 +33,13 @@ namespace Engine
       virtual bool RespondsTo(const Events &evnt) const;
       virtual void Align();
 
-      void AddRenderTarget(std::string &ID, sf::Drawable *item);
+      void AddRenderTarget(std::string &ID, std::shared_ptr<sf::Drawable> item);
+
+      virtual void SetPosition(const sf::Vector2f &v);
+      virtual void SetSize(const sf::Vector2f &v);
+
+      virtual sf::Vector2f GetSize() const;
+      virtual sf::Vector2f GetPosition() const;
 
       template<typename EVENTS, typename CALLBACK, typename... OTHERS>
       void AddMouseTarget(std::string &ID, const sf::FloatRect &rect, EVENTS, CALLBACK, OTHERS...);
@@ -41,6 +47,9 @@ namespace Engine
     protected:
       std::unordered_map<std::string, RenderTarget> RenderTargets;
       std::unordered_map<std::string, MouseTarget> MouseTargets;
+
+      sf::Vector2f v2fPostion;
+      sf::Vector2f v2fSize;
 
       std::bitset<32> State;
     };

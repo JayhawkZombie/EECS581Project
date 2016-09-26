@@ -5,7 +5,6 @@ namespace Engine
 
   void SFEngine::HandleMouseMovement(const sf::Vector2i &mousePos)
   {
-    std::cerr << "[ENGINE]: Mouse Moved at: (" << mousePos.x << ", " << mousePos.y << ")" << std::endl;
 
     EngineUIController.Handler.HandleMouseMovement(mousePos);
   }
