@@ -30,8 +30,8 @@ namespace Engine
 
       if (tgt.MouseOver && IsMouseOverRect(pos, tgt.MouseBounds)) {
         tgt.MouseOver = true;
-        tgt.MouseMovementCallback(pos - sf::Vector2i(tgt.MouseBounds.left, tgt.MouseBounds.top));
-        return true;
+tgt.MouseMovementCallback(pos - sf::Vector2i(tgt.MouseBounds.left, tgt.MouseBounds.top));
+return true;
       }
 
       return false;
@@ -67,7 +67,7 @@ namespace Engine
 
       for (auto & element : Elements) {
         if (element->State.test(Active)) {
-          
+
           for (auto & tgt : element->MouseTargets) {
 
             //We do not pass "MouseMoved" events if the given element hasn't been given focus, so TestDidMouseMoveOn isn't tested
@@ -129,6 +129,18 @@ namespace Engine
     void UIController::HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &which)
     {
       std::cerr << "Mouse released!" << std::endl;
+      //For the sake of simplicity (and so the user can't activate the wrong element)
+      // MouseReleased elements will only be passed to the focused element
+      if (FocusedElement && FocusedElement->State.test(Active)) {
+        for (auto & tgt : FocusedElement->MouseTargets) {
+          if (IsMouseOverRect(pos, tgt.second.MouseBounds)) {
+            tgt.second.MouseOver = true;
+            tgt.second.MouseReleaseCallback(pos - sf::Vector2i(tgt.second.MouseBounds.left, tgt.second.MouseBounds.top), which);
+            return;
+          }
+        }
+      } //if (FocusedElement)
+
     }
 
     void UIController::HandleMouseScroll(const sf::Vector2i &pos)

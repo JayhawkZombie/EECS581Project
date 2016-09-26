@@ -7,6 +7,13 @@ namespace Engine
     BaseUIElement::BaseUIElement()
     {
       State = DefaultBisetState;
+      OnFocusGained = [this](const sf::Vector2i &) {};
+      OnFocusLost = [this](const sf::Vector2i &) {};
+      OnMouseExit = [this](const sf::Vector2i &) {};
+      OnMouseMove = [this](const sf::Vector2i &) {};
+      OnMouseOver = [this](const sf::Vector2i &) {};
+      OnMousePress = [this](const sf::Vector2i &, const sf::Mouse::Button &) {};
+      OnMouseRelease = [this](const sf::Vector2i &, const sf::Mouse::Button &) {};
     }
 
     BaseUIElement::~BaseUIElement()

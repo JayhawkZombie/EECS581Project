@@ -34,6 +34,9 @@ namespace Engine
     auto Button = UI::ClickButton::Create();
     Button->SetPosition(sf::Vector2f(200, 200));
     Button->SetSize(sf::Vector2f(100, 20));
+    Button->OnMouseRelease = [this](const sf::Vector2i &v, const sf::Mouse::Button &b) {
+      std::cout << "[Engine]: Custom Release Callback" << std::endl;
+    };
     EngineUIController.AddElement(Button);
 
 

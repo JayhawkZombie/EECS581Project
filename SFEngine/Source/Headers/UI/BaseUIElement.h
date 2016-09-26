@@ -43,7 +43,17 @@ namespace Engine
 
       void AddMouseTarget(std::string &ID, MouseTarget &tgt);
 
+      std::function<void(const sf::Vector2i &pos)> OnMouseOver;
+      std::function<void(const sf::Vector2i &pos)> OnMouseExit;
+      std::function<void(const sf::Vector2i &pos)> OnMouseMove;
+      std::function<void(const sf::Vector2i &pos, const sf::Mouse::Button &which)> OnMousePress;
+      std::function<void(const sf::Vector2i &pos, const sf::Mouse::Button &which)> OnMouseRelease;
+      std::function<void(const sf::Vector2i &pos)> OnFocusGained;
+      std::function<void(const sf::Vector2i &pos)> OnFocusLost;
+
     protected:
+      //Internal methods used
+      //Not intended to be used by the end-user to custom actions
       virtual void HandleMouseOver(const sf::Vector2i &pos);
       virtual void HandleMouseExit(const sf::Vector2i &pos);
       virtual void HandleMouseMovement(const sf::Vector2i &pos);

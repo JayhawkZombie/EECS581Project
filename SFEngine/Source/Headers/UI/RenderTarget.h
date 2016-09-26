@@ -15,6 +15,14 @@ namespace Engine
    */
   class RenderTarget 
   {
+    /**
+     * An element which can be rendered automatically by the UIController
+     * Create a drawable element, and store it in a shared_ptr
+     * Call SetDrawBounds(FloatRect) and pass the rectangular region in which
+        said element is supposed to be drawn
+     * Call SetDrawable(ptr) and pass the shared ptr to the sf::Drawable to be
+        rendered
+     */
   public:
     RenderTarget();
     RenderTarget(std::shared_ptr<sf::Drawable> item);

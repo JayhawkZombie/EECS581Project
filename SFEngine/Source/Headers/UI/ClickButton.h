@@ -7,6 +7,11 @@ namespace Engine
 {
   namespace UI
   {
+    /**
+     * ClickButton
+     * Basic button that is clickable
+     *  If callbacks are bound, events will be passed to the button whenever an action occurs on it
+     */
     class ClickButton : public BaseUIElement
     {
     public:
