@@ -36,17 +36,22 @@ namespace Engine
     EventHandler(const EventHandler &);
     ~EventHandler();
 
-    void InvokeCallback(const Events &type);
-    void SetMousePositionArg(const sf::Vector2f &v);
-    void SetMouseButtonArg(const sf::Mouse::Button &b);
-    void SetKeyArg(const sf::Keyboard::Key &k);
+    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> ftn);
+    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftn);
+    void BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> ftn);
+    void BindCallback(const Events &type, std::function<void(void)> ftn);
 
-    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> &ftn);
-    void BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> &ftn);
-    void BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> &ftn);
-    void BindCallback(const Events &type, std::function<void(void)> &ftn);
+    bool PollEvents(sf::RenderWindow *win, sf::Event &evnt, const bool &makeCallbacks);
 
-    bool PollEvents(sf::RenderWindow *win, sf::Event &evnt, const bool &makeCallbacks); 
+    void HandleMouseMovement(const sf::Vector2i &v);
+    void HandleMouseOver(const sf::Vector2i &v);
+    void HandleMouseExit(const sf::Vector2i &v);
+    void HandleMousePress(const sf::Vector2i &v, const sf::Mouse::Button &b);
+    void HandleMouseRelease(const sf::Vector2i &v, const sf::Mouse::Button &b);
+    void HandleMouseScroll(const sf::Vector2i &v);
+    void HandleKeyPress(const sf::Keyboard::Key &k);
+    void HandleKeyRelease(const sf::Keyboard::Key &k);
+    void HandleTextEntered(const sf::Keyboard::Key &k);
 
   protected:
     sf::Vector2i v2iMousePosArg;

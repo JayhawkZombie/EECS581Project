@@ -7,6 +7,7 @@
 #include <chrono>
 #include <random>
 #include <cassert>
+#include <unordered_map>
 
 #include "EngineTypes.h"
 #include "Events\EventHandler.h"

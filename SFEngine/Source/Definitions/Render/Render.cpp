@@ -17,52 +17,57 @@ namespace Engine
       return sf::FloatRect(0, 0, WinSize.x, WinSize.y);
     }
 
-    void RenderText(const sf::Text &text)
+    void RenderText(const sf::Text *text)
     {
       RenderText(text, DefaultBounds());
     }
 
-    void RenderText(const sf::Text &text, const sf::FloatRect &bounds)
+    void RenderText(const sf::Text *text, const sf::FloatRect &bounds)
     {
       RenderSFDrawable(text, bounds);
     }
 
-    void RenderVertices(const sf::VertexArray &arr)
+    void RenderVertices(const sf::VertexArray *arr)
     {
       RenderVertices(arr, DefaultBounds());
     }
 
-    void RenderVertices(const sf::VertexArray &arr, const sf::FloatRect &bounds)
+    void RenderVertices(const sf::VertexArray *arr, const sf::FloatRect &bounds)
     {
       RenderSFDrawable(arr, bounds);
     }
 
-    void RenderShape(const sf::Shape &shape)
+    void RenderShape(const sf::Shape *shape)
     {
       RenderShape(shape, DefaultBounds());
     }
 
-    void RenderShape(const sf::Shape &shape, const sf::FloatRect &bounds)
+    void RenderShape(const sf::Shape *shape, const sf::FloatRect &bounds)
     {
       RenderSFDrawable(shape, bounds);
     }
 
-    void RenderSprite(const sf::Sprite &spr)
+    void RenderSprite(const sf::Sprite *spr)
     {
       RenderSprite(spr, DefaultBounds());
     }
 
-    void RenderSprite(const sf::Sprite &spr, const sf::FloatRect &bounds)
+    void RenderSprite(const sf::Sprite *spr, const sf::FloatRect &bounds)
     {
       RenderSFDrawable(spr, bounds);
     }
 
-    void RenderSFDrawable(const sf::Drawable &drawable, const sf::FloatRect &bounds)
+    void RenderSFDrawable(const sf::Drawable *drawable)
+    {
+      RenderSFDrawable(drawable, DefaultBounds());
+    }
+
+    void RenderSFDrawable(const sf::Drawable *drawable, const sf::FloatRect &bounds)
     {
       if (DrawWindow) {
         __Create__ViewPanel(bounds);
 
-        DrawWindow->draw(drawable);
+        DrawWindow->draw(*drawable);
         DrawWindow->setView(DrawWindow->getDefaultView());
       }
     }

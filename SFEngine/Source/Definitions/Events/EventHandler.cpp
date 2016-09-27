@@ -22,56 +22,52 @@ namespace Engine
 
   }
 
-  void EventHandler::SetMousePositionArg(const sf::Vector2f &v)
+  void EventHandler::HandleMouseMovement(const sf::Vector2i &v)
   {
-
+    ftnCallback_MouseMovement(v);
   }
 
-  void EventHandler::SetMouseButtonArg(const sf::Mouse::Button &b)
-  { 
-
-  }
-
-  void EventHandler::SetKeyArg(const sf::Keyboard::Key &k)
+  void EventHandler::HandleMouseOver(const sf::Vector2i &v)
   {
-
+    ftnCallback_MouseOver(v);
   }
 
-  void EventHandler::InvokeCallback(const Events &type)
+  void EventHandler::HandleMouseExit(const sf::Vector2i &v)
   {
-    switch (type)
-    {
-      case Events::KeyPressed:
-        if (ftnCallback_KeyPress)
-          ftnCallback_KeyPress(enKeyboardArg); break;
-
-      case Events::KeyReleased:
-        if (ftnCallback_KeyRelease)
-          ftnCallback_KeyRelease(enKeyboardArg); break;
-
-      case Events::MouseDown:
-        if (ftnCallback_MousePress)
-          ftnCallback_MousePress(v2iMousePosArg, enMouseButtonArg); break;
-
-      case Events::MouseExit:
-        if (ftnCallback_MouseExit)
-          ftnCallback_MouseExit(v2iMousePosArg); break;
-
-      case Events::MouseMoved:
-        if (ftnCallback_MouseMovement)
-          ftnCallback_MouseMovement(v2iMousePosArg); break;
-
-      case Events::MouseOver:
-        if (ftnCallback_MouseOver)
-          ftnCallback_MouseOver(v2iMousePosArg); break;
-
-      case Events::MouseReleased:
-        if (ftnCallback_MouseRelease)
-          ftnCallback_MouseRelease(v2iMousePosArg, enMouseButtonArg); break;
-    }
+    ftnCallback_MouseExit(v);
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> &ftn)
+  void EventHandler::HandleMousePress(const sf::Vector2i &v, const sf::Mouse::Button &b)
+  {
+    ftnCallback_MousePress(v, b);
+  }
+
+  void EventHandler::HandleMouseRelease(const sf::Vector2i &v, const sf::Mouse::Button &b)
+  {
+    ftnCallback_MouseRelease(v, b);
+  }
+
+  void EventHandler::HandleMouseScroll(const sf::Vector2i &v)
+  {
+    ftnCallback_MouseScroll(v);
+  }
+
+  void EventHandler::HandleKeyPress(const sf::Keyboard::Key &k)
+  {
+    ftnCallback_KeyPress(k);
+  }
+
+  void EventHandler::HandleKeyRelease(const sf::Keyboard::Key &k)
+  {
+    ftnCallback_KeyRelease(k);
+  }
+
+  void EventHandler::HandleTextEntered(const sf::Keyboard::Key &k)
+  {
+    ftnCallback_TextEntered(k);
+  }
+
+  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &)> ftn)
   {
     switch (type)
     {
@@ -84,7 +80,7 @@ namespace Engine
     }
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> &ftn)
+  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftn)
   {
     switch (type)
     {
@@ -95,7 +91,7 @@ namespace Engine
     }
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> &ftn)
+  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> ftn)
   {
     switch (type)
     {
@@ -106,7 +102,7 @@ namespace Engine
     }
   }
 
-  void EventHandler::BindCallback(const Events &type, std::function<void(void)> &ftn)
+  void EventHandler::BindCallback(const Events &type, std::function<void(void)> ftn)
   {
     switch (type)
     {
