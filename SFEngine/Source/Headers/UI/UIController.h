@@ -25,10 +25,27 @@ namespace Engine
       void Render();
       void OnShutDown();
 
+      void Show();
+      void Hide();
+      void ToggleShown();
+
+      bool IsShown() const;
+
+      void ShowBoundsRect();
+      void HideBoundsRect();
+
+      sf::FloatRect GetBounds() const;
+      void SetBounds(const sf::FloatRect &bnds);
+
     protected:
       std::vector<std::shared_ptr<BaseUIElement>> Elements;
 
       BaseUIElement *FocusedElement;
+      bool Shown;
+      bool DisplayBoundsRect;
+      sf::RectangleShape BoundsRect;
+
+      sf::FloatRect UIBounds;
 
       void HandleMouseMovement(const sf::Vector2i &pos);
       void HandleMouseOver(const sf::Vector2i &pos);

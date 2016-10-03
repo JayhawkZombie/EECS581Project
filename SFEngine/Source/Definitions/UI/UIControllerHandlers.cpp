@@ -53,6 +53,9 @@ namespace Engine
 
     void UIController::HandleMouseMovement(const sf::Vector2i &pos)
     {
+      if (!Shown || !IsMouseOverRect(pos, UIBounds))
+        return;
+      
       //std::cerr << "Mouse Moved!" << std::endl;
       curMousePos = pos;
       Mpos = pos;
@@ -85,16 +88,20 @@ namespace Engine
 
     void UIController::HandleMouseOver(const sf::Vector2i &pos)
     {
-
+      if (!Shown || !IsMouseOverRect(pos, UIBounds))
+        return;
     }
 
     void UIController::HandleMouseExit(const sf::Vector2i &pos)
     {
-
+      if (!Shown || !IsMouseOverRect(pos, UIBounds))
+        return;
     }
 
     void UIController::HandleMousePress(const sf::Vector2i &pos, const sf::Mouse::Button &which)
     {
+      if (!Shown || !IsMouseOverRect(pos, UIBounds))
+        return;
       std::cerr << "Mouse pressed!" << std::endl;
 
       if (FocusedElement && FocusedElement->State.test(Active)) {
@@ -130,6 +137,9 @@ namespace Engine
 
     void UIController::HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &which)
     {
+      if (!Shown || !IsMouseOverRect(pos, UIBounds))
+        return;
+
       std::cerr << "Mouse released!" << std::endl;
       //For the sake of simplicity (and so the user can't activate the wrong element)
       // MouseReleased elements will only be passed to the focused element
@@ -147,22 +157,42 @@ namespace Engine
 
     void UIController::HandleMouseScroll(const sf::Vector2i &pos)
     {
-
+      if (!Shown || !IsMouseOverRect(pos, UIBounds))
+        return;
     }
 
     void UIController::HandleKeyPress(const sf::Keyboard::Key &which)
     {
+      if (!Shown || !IsMouseOverRect(curMousePos, UIBounds))
+        return;
 
+      if (FocusedElement) {
+        for (auto & target : FocusedElement->KeyTargets) {
+          if (target.second.Keys.test(which)) {
+            target.second.OnKeyPress(which);
+          }
+        }
+      }
     }
 
     void UIController::HandleKeyRelease(const sf::Keyboard::Key &which)
     {
+      if (!Shown || !IsMouseOverRect(curMousePos, UIBounds))
+        return;
 
+      if (FocusedElement) {
+        for (auto & target : FocusedElement->KeyTargets) {
+          if (target.second.Keys.test(which)) {
+            target.second.OnKeyRelease(which);
+          }
+        }
+      }
     }
 
     void UIController::HandleTextEntered(const sf::Keyboard::Key &which)
     {
-
+      if (!Shown || !IsMouseOverRect(curMousePos, UIBounds))
+        return;
     }
 
   }

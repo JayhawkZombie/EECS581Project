@@ -82,6 +82,19 @@ namespace Engine
       }
     }
 
+    void BaseUIElement::AddKeyTarget(std::string &ID, KeyTarget &tgt)
+    {
+      auto found = KeyTargets.find(ID);
+
+      if (found == KeyTargets.end()) {
+        KeyTargets.emplace(
+          std::piecewise_construct,
+          std::make_tuple(ID),
+          std::make_tuple(tgt)
+        );
+      }
+    }
+
     bool BaseUIElement::RespondsTo(const Events &evnt) const
     {
 
@@ -124,6 +137,16 @@ namespace Engine
     }
 
     void BaseUIElement::HandleFocusLost(const sf::Vector2i &pos)
+    {
+
+    }
+
+    void BaseUIElement::HandleKeyPress(const sf::Keyboard::Key &key)
+    {
+
+    }
+
+    void BaseUIElement::HandleKeyRelease(const sf::Keyboard::Key &key)
     {
 
     }

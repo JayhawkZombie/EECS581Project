@@ -1,6 +1,6 @@
 #exclude "Debug" folder, and all the vcx files
 Debug/**
 *.vcx*
-
+*.sln
 #ignore all assets
 SFEngine/Samples/*/*.ttf

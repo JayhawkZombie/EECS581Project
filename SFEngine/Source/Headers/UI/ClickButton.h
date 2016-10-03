@@ -37,6 +37,13 @@ namespace Engine
       virtual void HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b);
       virtual void HandleFocusGained(const sf::Vector2i &pos);
       virtual void HandleFocusLost(const sf::Vector2i &pos);
+      virtual void HandleKeyPress(const sf::Keyboard::Key &key);
+      virtual void HandleKeyRelease(const sf::Keyboard::Key &key);
+
+      void GetBGTexture(std::shared_ptr<sf::Texture> tex);
+      void GetHighlightedTexture(std::shared_ptr<sf::Texture> tex);
+      void GetPressedTexture(std::shared_ptr<sf::Texture> tex);
+      void GetFont(std::shared_ptr<sf::Font> fnt);
 
       std::shared_ptr<sf::RectangleShape> ButtonShape;
       std::shared_ptr<sf::Texture> ButtonTexture;
@@ -44,6 +51,10 @@ namespace Engine
       std::shared_ptr<sf::Texture> ButtonPressedTexture;
       std::shared_ptr<sf::Text> ButtonText;
       std::shared_ptr<sf::Font> ButtonFont;
+
+      bool GotBGTexture;
+      bool GotHighlightedTexture;
+      bool GotPressedTexture;
       
       sf::Color ButtonColor;
     };

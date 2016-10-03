@@ -12,6 +12,7 @@ namespace Engine
 
     ClickButton::ClickButton()
     {
+      ReadyToRender = false;
       ButtonShape = std::make_shared<sf::RectangleShape>();
       ButtonFont = std::make_shared<sf::Font>();
       ButtonTexture = std::make_shared<sf::Texture>();
@@ -19,15 +20,21 @@ namespace Engine
       ButtonPressedTexture = std::make_shared<sf::Texture>();
       ButtonText = std::make_shared<sf::Text>();
 
-      ButtonFont->loadFromFile("./SFEngine/Samples/Fonts/Raleway-Light.ttf");
-      ButtonTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBG.png");
-      ButtonHighlightedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGHovered.png");
-      ButtonPressedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGPressed.png");
+      //ButtonFont->loadFromFile("./SFEngine/Samples/Fonts/Raleway-Light.ttf");
+      //ButtonTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBG.png");
+      //ButtonHighlightedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGHovered.png");
+      //ButtonPressedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGPressed.png");
+      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBG.png", "ButtonBG", [this](std::shared_ptr<sf::Texture> t) {this->GetBGTexture(t); });
+      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBGHovered.png", "ButtonHighlight", [this](std::shared_ptr<sf::Texture> t) {this->GetHighlightedTexture(t); });
+      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBGPressed.png", "ButtonPressed", [this](std::shared_ptr<sf::Texture> t) {this->GetPressedTexture(t); });
+      ResourceManager->RequestFont("./SFEngine/Samples/Fonts/Raleway-Light.ttf", "ButtonFont", [this](std::shared_ptr<sf::Font> f) {this->GetFont(f); });
+      
+
 
       ButtonText->setColor(sf::Color::White);
       ButtonText->setFont(*ButtonFont.get());
       ButtonText->setString("Test String");
-      ButtonShape->setTexture(ButtonTexture.get());
+      //ButtonShape->setTexture(ButtonTexture.get());
 
       RenderTarget tgt;
       tgt.SetDrawable(ButtonShape);
@@ -41,6 +48,12 @@ namespace Engine
 
       AddRenderTarget(std::string("ButtonText"), ButtonText);
 
+      KeyTarget kTgt;
+      kTgt.Keys.set(sf::Keyboard::Return);
+      kTgt.OnKeyPress = [this](const sf::Keyboard::Key &k) {this->HandleKeyPress(k); };
+      kTgt.OnKeyRelease = [this](const sf::Keyboard::Key &k) {this->HandleKeyRelease(k); };
+
+      AddKeyTarget(std::string("KeyTarget"), kTgt);
       
       MouseTarget mtgt;
       mtgt.MouseBounds = ButtonShape->getGlobalBounds();
@@ -55,12 +68,62 @@ namespace Engine
       mtgt.FocusLostCallback = [this](const sf::Vector2i &v) { this->HandleFocusLost(v); if (OnFocusLost) OnFocusLost(v); };
 
       AddMouseTarget(std::string("ButtonMouseRegion"), mtgt);
-      
+      GotBGTexture = GotHighlightedTexture = GotPressedTexture = false;
+      State.reset(Active);
     }
 
     ClickButton::~ClickButton()
     {
 
+    }
+
+    void ClickButton::GetFont(std::shared_ptr<sf::Font> fnt)
+    {
+      std::cerr << "Whoooo! Setting button font" << std::endl;
+      ButtonFont = fnt;
+      ButtonText->setFont(*ButtonFont.get());
+      ReadyToRender = (GotBGTexture && GotHighlightedTexture && GotPressedTexture);
+      if (ReadyToRender) {
+        State.set(Active);
+        Align();
+      }
+    }
+
+    void ClickButton::GetBGTexture(std::shared_ptr<sf::Texture> tex)
+    {
+      std::cerr << "Whoooo! Setting button BG texture" << std::endl;
+      ButtonTexture = tex;
+      GotBGTexture = true;
+      ButtonShape->setTexture(ButtonTexture.get());
+      ReadyToRender = (GotBGTexture && GotHighlightedTexture && GotPressedTexture);
+      if (ReadyToRender) {
+        State.set(Active);
+        Align();
+      }
+    }
+
+    void ClickButton::GetHighlightedTexture(std::shared_ptr<sf::Texture> tex)
+    {
+      std::cerr << "Whoooo! Setting highlighted texture" << std::endl;
+      ButtonHighlightedTexture = tex;
+      GotHighlightedTexture = true;
+      ReadyToRender = (GotBGTexture && GotHighlightedTexture && GotPressedTexture);
+      if (ReadyToRender) {
+        State.set(Active);
+        Align();
+      }
+    }
+
+    void ClickButton::GetPressedTexture(std::shared_ptr<sf::Texture> tex)
+    {
+      std::cerr << "Whoooo! Setting pressed texture" << std::endl;
+      ButtonPressedTexture = tex;
+      GotPressedTexture = true;
+      ReadyToRender = (GotBGTexture && GotHighlightedTexture && GotPressedTexture);
+      if (ReadyToRender) {
+        State.set(Active);
+        Align();
+      }
     }
 
     void ClickButton::Align()
@@ -90,27 +153,31 @@ namespace Engine
 
     void ClickButton::HandleMouseOver(const sf::Vector2i &v)
     {
-      ButtonShape->setTexture(ButtonHighlightedTexture.get());
+      if (ReadyToRender)
+        ButtonShape->setTexture(ButtonHighlightedTexture.get());
     }
 
     void ClickButton::HandleMouseExit(const sf::Vector2i &pos)
     {
-      ButtonShape->setTexture(ButtonTexture.get());
+      if (ReadyToRender)
+        ButtonShape->setTexture(ButtonTexture.get());
     }
 
     void ClickButton::HandleMouseMovement(const sf::Vector2i &pos)
     {
-      std::cerr << "<<<Mouse moved on button" << std::endl;
+      //std::cerr << "<<<Mouse moved on button" << std::endl;
     }
 
     void ClickButton::HandleMousePress(const sf::Vector2i &pos, const sf::Mouse::Button &b)
     {
-      ButtonShape->setTexture(ButtonPressedTexture.get());
+      if (ReadyToRender)
+        ButtonShape->setTexture(ButtonPressedTexture.get());
     }
 
     void ClickButton::HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b)
     {
-      ButtonShape->setTexture(ButtonTexture.get());
+      if (ReadyToRender)
+        ButtonShape->setTexture(ButtonTexture.get());
     }
 
     void ClickButton::HandleFocusGained(const sf::Vector2i &pos)
@@ -123,16 +190,24 @@ namespace Engine
       //std::cerr << "<<<Button Lost Focus" << std::endl;
     }
 
+    void ClickButton::HandleKeyPress(const sf::Keyboard::Key &key)
+    {
+      std::cerr << key << " pressed on button " << std::endl;
+    }
+
+    void ClickButton::HandleKeyRelease(const sf::Keyboard::Key &key)
+    {
+      std::cerr << key << " released on button " << std::endl;
+    }
+
     void ClickButton::SetPosition(const sf::Vector2f &position)
     {
       v2fPostion = position;
-      Align();
     }
 
     void ClickButton::SetSize(const sf::Vector2f &size)
     {
       v2fSize = size;
-      Align();
     }
 
     void ClickButton::TickUpdate(const double &delta)

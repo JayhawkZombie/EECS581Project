@@ -6,6 +6,7 @@
 
 #include "RenderTarget.h"
 #include "MouseTarget.h"
+#include "KeyTarget.h"
 
 #include <bitset>
 
@@ -42,6 +43,7 @@ namespace Engine
       virtual sf::Vector2f GetPosition() const;
 
       void AddMouseTarget(std::string &ID, MouseTarget &tgt);
+      void AddKeyTarget(std::string &ID, KeyTarget &tgt);
 
       std::function<void(const sf::Vector2i &pos)> OnMouseOver;
       std::function<void(const sf::Vector2i &pos)> OnMouseExit;
@@ -61,13 +63,16 @@ namespace Engine
       virtual void HandleMouseRelease(const sf::Vector2i &pos, const sf::Mouse::Button &b);
       virtual void HandleFocusGained(const sf::Vector2i &pos);
       virtual void HandleFocusLost(const sf::Vector2i &pos);
+      virtual void HandleKeyPress(const sf::Keyboard::Key &key);
+      virtual void HandleKeyRelease(const sf::Keyboard::Key &key);
 
       std::map<std::string, RenderTarget> RenderTargets;
       std::map<std::string, MouseTarget> MouseTargets;
+      std::map<std::string, KeyTarget> KeyTargets;
 
       sf::Vector2f v2fPostion;
       sf::Vector2f v2fSize;
-
+      bool ReadyToRender;
       std::bitset<32> State;
     };
   }

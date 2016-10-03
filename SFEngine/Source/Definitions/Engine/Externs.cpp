@@ -3,4 +3,5 @@
 namespace Engine
 {
   sf::RenderWindow *currentRenderWindow = nullptr;
+  std::shared_ptr<Resource::ResourceManager> ResourceManager;
 }

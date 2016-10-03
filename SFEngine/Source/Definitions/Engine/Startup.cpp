@@ -4,6 +4,7 @@ namespace Engine
 {
   UINT32 SFEngine::Startup()
   {
+    std::cerr << "Binding callbacks" << std::endl;
     Handler.BindCallback(Events::GainedFocus,
                          [this]() {this->HandleWindowGainedFocus(); });
 
@@ -24,6 +25,17 @@ namespace Engine
 
     Handler.BindCallback(Events::MouseMoved,
                          [this](const sf::Vector2i &i) {this->HandleMouseMovement(i); });
+
+    Handler.BindCallback(Events::KeyPressed,
+                         [this](const sf::Keyboard::Key &k) {this->HandleKeyPress(k); });
+
+    Handler.BindCallback(Events::KeyReleased,
+                         [this](const sf::Keyboard::Key &k) {this->HandleKeyRelease(k); });
+
+    std::cerr << "Starting resource manager" << std::endl;
+    ResourceManager = std::shared_ptr<Resource::ResourceManager>(new Resource::ResourceManager);
+    ResourceManager->Start();
+
     return GameLoop();
   }
 }

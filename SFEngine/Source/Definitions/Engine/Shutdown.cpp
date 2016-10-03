@@ -7,6 +7,7 @@ namespace Engine
     delete[] Window;
 
     currentRenderWindow = nullptr;
+    ResourceManager->Shutdown();
 
     return Success::GAMELOOP_SUCCESS;
   }
