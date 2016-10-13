@@ -78,6 +78,61 @@ void RPGTest::runTests(bool quiet)
 	{
 		numTotal++;
 	}
+	if (testTile1(quiet))
+	{
+		numPassed++;
+		numTotal++;
+	}
+	else
+	{
+		numTotal++;
+	}
+	if (testTile2(quiet))
+	{
+		numPassed++;
+		numTotal++;
+	}
+	else
+	{
+		numTotal++;
+	}
+	if (testTile3(quiet))
+	{
+		numPassed++;
+		numTotal++;
+	}
+	else
+	{
+		numTotal++;
+	}
+	if (testTile4(quiet))
+	{
+		numPassed++;
+		numTotal++;
+	}
+	else
+	{
+		numTotal++;
+	}
+	if (testTile5(quiet))
+	{
+		numPassed++;
+		numTotal++;
+	}
+	else
+	{
+		numTotal++;
+	}
+	if (testTile6(quiet))
+	{
+		numPassed++;
+		numTotal++;
+	}
+	else
+	{
+		numTotal++;
+	}
+	std::cout << numPassed << "/" << numTotal << "Passed, " << ((double)numPassed / (double)numTotal) * 100 << "%\n";
 }
 
 bool RPGTest::testRPGActor1(bool quiet)
@@ -95,6 +150,7 @@ bool RPGTest::testRPGActor1(bool quiet)
 	else
 	{
 		std::cout << "RPGActor Test 1: FAILED\n";
+		std::cout << "myActor->getName() ==" << myActor->getName() << "\n";
 		delete myActor;
 		return false;
 	}
@@ -124,7 +180,7 @@ bool RPGTest::testRPGActor2(bool quiet)
 bool RPGTest::testRPGItem1(bool quiet)
 {//tests constructor and implicitly test getters and setters
 	RPGItem* myItem = new RPGItem();
-	if (  (myItem->getName().compare("")) && (myItem->getDescription().compare("") ) && (myItem->getValue() == 0) && (myItem->getId() == 0)  )
+	if (  (myItem->getName().compare("")==0) && (myItem->getDescription().compare("")==0 ) && (myItem->getValue() == 0) && (myItem->getId() == 0)  )
 	{
 		if (!quiet)
 		{
@@ -136,6 +192,12 @@ bool RPGTest::testRPGItem1(bool quiet)
 	else
 	{
 		std::cout << "RPGItem Test 1: FAILED\n";
+		std::cout << "myItem->getName() = " << myItem->getName() << "\n";
+		std::cout << "myItem->getDescription() = " << myItem->getDescription() << "\n";
+		std::cout << "myItem->getValue() = " << myItem->getValue() << "\n";
+		std::cout << "myItem->getId() = " << myItem->getId() << "\n";
+		std::cout << "myItem->getName().compare(\"\") = " << myItem->getName().compare("") << "\n";
+//		std::cout << "myItem->getName()==\"\" " << myItem->getName() == "";
 		delete myItem;
 		return false;
 	}
@@ -199,6 +261,7 @@ bool RPGTest::testRPGItem4(bool quiet)
 	else
 	{
 		std::cout << "RPGItem test 4: FAILED\n";
+		return false;
 	}
 }
 
@@ -218,5 +281,131 @@ bool RPGTest::testRPGItem5(bool quiet)
 	else
 	{
 		std::cout << "RPGItem test 5: FAILED\n";
+		return false;
+	}
+}
+
+bool RPGTest::testTile1(bool quiet)
+{
+	Tile* myTile = new Tile();
+	if (  (myTile->getCanTravel()) && (myTile->getShow() == 'W') && (myTile->getSpriteBackground().compare("") == 0) && (myTile->getSpriteForeground().compare("") == 0))
+	{
+		if (!quiet)
+		{
+			std::cout << "Tile test 1: PASSED\n";
+		}
+		delete myTile;
+		return true;
+	}
+	else
+	{
+		std::cout << "Tile test 1: FAILED\n";
+		delete myTile;
+		return false;
+	}
+}
+
+bool RPGTest::testTile2(bool quiet)
+{
+	Tile* myTile = new Tile();
+	myTile->setCanTravel(true);
+	if (myTile->getCanTravel())
+	{
+		if (!quiet)
+		{
+			std::cout << "Tile test2: PASSED\n";
+		}
+		delete myTile;
+		return true;
+	}
+	else
+	{
+		std::cout << "Tile test 2: FAILED\n";
+		delete myTile;
+		return false;
+	}
+}
+
+bool RPGTest::testTile3(bool quiet)
+{
+	Tile* myTile = new Tile();
+	myTile->setCanTravel(false);
+	if (!(myTile->getCanTravel()))
+	{
+		if (!quiet)
+		{
+			std::cout << "Tile test 3: PASSED\n";
+		}
+		delete myTile;
+		return true;
+	}
+	else
+	{
+		std::cout << "Tile test 3: FAILED\n";
+		delete myTile;
+		return false;
+	}
+}
+
+bool RPGTest::testTile4(bool quiet)
+{
+	Tile* myTile = new Tile();
+	myTile->setShow('X');
+	if (myTile->getShow() == 'X')
+	{
+		if (!quiet)
+		{
+			std::cout << "Tile test 4: PASSED\n";
+		}
+		delete myTile;
+		return true;
+	}
+	else
+	{
+		std::cout << "Tile test 4: FAILED\n";
+		delete myTile;
+		return false;
+	}
+}
+
+bool RPGTest::testTile5(bool quiet)
+{
+	Tile* myTile = new Tile();
+	myTile->setSpriteBackground("/pixels/Bgtile/Grass1.png");
+	if (myTile->getSpriteBackground().compare("/pixels/Bgtile/Grass1.png") == 0)
+	{
+		if (!quiet)
+		{
+			std::cout << "Tile test 5: PASSED\n";
+		}
+		delete myTile;
+		return true;
+	}
+	else
+	{
+		std::cout << "Tile test 5: FAILED\n";
+		delete myTile;
+		return false;
+	}
+}
+
+bool RPGTest::testTile6(bool quiet)
+{
+	Tile* myTile = new Tile();
+	myTile->setSpriteForeground("/pixels/Bgtile/Grass1.png");
+	if (myTile->getSpriteForeground().compare("/pixels/Bgtile/Grass1.png") == 0)
+	{
+		if (!quiet)
+		{
+			std::cout << "Tile test 6: PASSED\n";
+		}
+		delete myTile;
+		return true;
+	}
+	else
+	{
+		std::cout << "Tile test 6: FAILED\n";
+		delete myTile;
+		return false;
 	}
 }

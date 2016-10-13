@@ -1,6 +1,6 @@
 #include "RPGItem.h"
 
-
+//int RPGItem::num=0;
 //constructors
 RPGItem::RPGItem()
 {
@@ -8,7 +8,7 @@ RPGItem::RPGItem()
 	m_description = "";
 	m_value = 0;
 	m_id = 0;
-	num++;
+//	num++;
 }
 
 
@@ -60,12 +60,12 @@ void RPGItem::setId(int id)
 
 //Other functions
 
-void RPGItem::InitializeRPGItem()
-{
-	num = 0;
-}
+//void RPGItem::InitializeRPGItem()
+//{
+//	num = 0;
+//}
 
-int RPGItem::HowMany()
-{
-	return num;
-}
+//int RPGItem::HowMany()
+//{
+//	return num;
+//}

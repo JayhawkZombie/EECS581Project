@@ -20,13 +20,13 @@ public:
 
 	//Other Methods
 	void InitializeRPGItem();
-	static int HowMany();//returns the number of items
+//	static int HowMany();//returns the number of items
 //	static RPGItem* get();//returns a pointer to the
 	//base of the array of length Num() that holds 
 	//All of the RPGItem objects
 private:
 //	RPGItem* arrayBase;
-	static int num;
+//	static int num;
 	std::string m_name;
 	std::string m_description;
 	int m_value;
