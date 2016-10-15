@@ -150,6 +150,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Game\GameMain.h" />
+    <ClInclude Include="Game\RPGActor.h" />
+    <ClInclude Include="Game\RPGItem.h" />
+    <ClInclude Include="Game\RPGTest.h" />
+    <ClInclude Include="Game\Tile.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\Headers\Actor\Actor.h" />
@@ -181,6 +186,11 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\ReadIni.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\GameMain.cpp" />
+    <ClCompile Include="Game\RPGActor.cpp" />
+    <ClCompile Include="Game\RPGItem.cpp" />
+    <ClCompile Include="Game\RPGTest.cpp" />
+    <ClCompile Include="Game\Tile.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
