@@ -40,10 +40,10 @@ namespace Engine
       virtual void HandleKeyPress(const sf::Keyboard::Key &key);
       virtual void HandleKeyRelease(const sf::Keyboard::Key &key);
 
-      void GetBGTexture(std::shared_ptr<sf::Texture> tex);
-      void GetHighlightedTexture(std::shared_ptr<sf::Texture> tex);
-      void GetPressedTexture(std::shared_ptr<sf::Texture> tex);
-      void GetFont(std::shared_ptr<sf::Font> fnt);
+      void GetBGTexture(std::shared_ptr<sf::Texture> tex, const std::string &ID);
+      void GetHighlightedTexture(std::shared_ptr<sf::Texture> tex, const std::string &ID);
+      void GetPressedTexture(std::shared_ptr<sf::Texture> tex, const std::string &ID);
+      void GetFont(std::shared_ptr<sf::Font> fnt, const std::string &ID);
 
       std::shared_ptr<sf::RectangleShape> ButtonShape;
       std::shared_ptr<sf::Texture> ButtonTexture;

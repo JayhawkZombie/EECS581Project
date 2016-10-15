@@ -3,7 +3,7 @@
 namespace Engine
 {
 
-  void SomeCallback(std::shared_ptr<sf::Texture> tex)
+  void SomeCallback(std::shared_ptr<sf::Texture> tex, const std::string &ID)
   {
     std::cerr << "<<<<< OOOOOOOH!!!!!" << std::endl;
   }
@@ -12,7 +12,7 @@ namespace Engine
   {
     sf::ContextSettings settings;
 
-    Window = new sf::RenderWindow(sf::VideoMode(800, 800), "SFEngine V0.1.1", sf::Style::Default, settings);
+    Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, settings);
     MaximumWindowView = Window->getDefaultView();
     Window->setKeyRepeatEnabled(false);
     currentRenderWindow = Window;
@@ -66,11 +66,13 @@ namespace Engine
 
     EngineUIController.SetBounds(sf::FloatRect(0, 0, 800, 300));
     EngineUIController.Show();
-    EngineUIController.ShowBoundsRect();
+    //EngineUIController.ShowBoundsRect();
 
+    
+    std::cerr << "Size of Levels: " << sizeof(Levels[0]) << std::endl;
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
-
+      
       CurrentFrameStart = std::chrono::high_resolution_clock::now();
       TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
       LastFrameStart = std::chrono::high_resolution_clock::now();
@@ -81,9 +83,13 @@ namespace Engine
         EngineUIController.TickUpdate(TickDelta);
       //Call "update" on items
 
+      Levels[0]->TickUpdate(TickDelta);
+
       UpdateEnd = std::chrono::high_resolution_clock::now();
 
       currentRenderWindow->clear(sf::Color::Black);
+
+     Levels[0]->Render();
 
       if (EngineUIController.IsShown())
         EngineUIController.Render();

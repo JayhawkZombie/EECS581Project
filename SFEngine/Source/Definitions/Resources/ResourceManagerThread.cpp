@@ -123,14 +123,14 @@ namespace Engine
     }
 
     void ResourceManager::LoadTexture(const std::string &Filepath, 
-                                      const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>)> cb)
+                                      const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> cb)
     {
       StorageAccessLock->lock();
 
       auto it = Textures->find(ID);
       if (it != Textures->end()) {
         std::cerr << "Texture already loaded into memory" << std::endl;
-        cb(it->second);
+        cb(it->second, ID);
       }
       else {
         auto tex = std::shared_ptr<sf::Texture>(new sf::Texture);
@@ -139,20 +139,20 @@ namespace Engine
                        , std::make_tuple(ID)
                        , std::make_tuple(tex));
         if (cb)
-          cb(tex);
+          cb(tex, ID);
       }
 
       StorageAccessLock->unlock();
     }
 
     void ResourceManager::LoadFont(const std::string &Filepath, 
-                                   const std::string &ID, std::function<void(std::shared_ptr<sf::Font>)> cb)
+                                   const std::string &ID, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> cb)
     {
       StorageAccessLock->lock();
 
       auto it = Fonts->find(ID);
       if (it != Fonts->end()) {
-        cb(it->second);
+        cb(it->second, ID);
       }
       else {
         auto fnt = std::shared_ptr<sf::Font>(new sf::Font);
@@ -161,20 +161,20 @@ namespace Engine
                     , std::make_tuple(ID)
                     , std::make_tuple(fnt));
         if (cb)
-          cb(fnt);
+          cb(fnt, ID);
       }
 
       StorageAccessLock->unlock();
     }
 
     void ResourceManager::LoadVertexShader(const std::string &Filepath, 
-                                           const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> cb)
+                                           const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> cb)
     {
       StorageAccessLock->lock();
 
       auto it = VertexShaders->find(ID);
       if (it != VertexShaders->end()) {
-        cb(it->second);
+        cb(it->second, ID);
       }
       else {
         auto shader = std::shared_ptr<sf::Shader>(new sf::Shader);
@@ -183,20 +183,20 @@ namespace Engine
                              , std::make_tuple(ID)
                              , std::make_tuple(shader));
         if (cb)
-          cb(shader);
+          cb(shader, ID);
       }
 
       StorageAccessLock->unlock();
     }
 
     void ResourceManager::LoadFragmentShader(const std::string &Filepath, 
-                                             const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> cb)
+                                             const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> cb)
     {
       StorageAccessLock->lock();
 
       auto it = FragmentShaders->find(ID);
       if (it != FragmentShaders->end()) {
-        cb(it->second);
+        cb(it->second, ID);
       }
       else {
         auto shader = std::shared_ptr<sf::Shader>(new sf::Shader);
@@ -205,7 +205,7 @@ namespace Engine
                                , std::make_tuple(ID)
                                , std::make_tuple(shader));
         if (cb)
-          cb(shader);
+          cb(shader, ID);
       }
 
       StorageAccessLock->unlock();

@@ -13,6 +13,7 @@
 
 #include "../UI/UIController.h"
 #include "../UI/ClickButton.h"
+#include "../Level/Level.h"
 
 namespace Engine
 {
@@ -39,6 +40,14 @@ namespace Engine
 
     EventHandler Handler;
     UI::UIController EngineUIController;
+    BaseEngineInterface *testAnimaiton;
+
+    /**
+     * Engine configuration settings
+     *
+     */
+    std::string InitialLevel;
+    std::vector<std::shared_ptr<Level>> Levels;
 
     //Every method used for event handling must contain its own personal method AND
     //a function pointer bound to that method

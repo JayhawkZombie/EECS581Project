@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <memory>
 #include <functional>
@@ -13,6 +14,8 @@
 #include "EngineTypes.h"
 #include "Events\EventHandler.h"
 #include "Globals\GlobalHooks.h"
+#include "Utils\ReadIni.h"
+#include "Utils\Convert.h"
 
 #include "Render\Render.h"
 

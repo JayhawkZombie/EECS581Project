@@ -6,6 +6,16 @@
 
 namespace Engine
 {
+  /**
+   * Necessary forward declaration
+   *  to allow this to be seen by the BaseClass and avoid circular includes
+   *  will work on fixing later and getting GlobalHooks in better shape
+   */
+  class Level;
+  extern std::shared_ptr<Level> CurrentLevel;
+
+
+
   class BaseEngineInterface
   {
   public:

@@ -24,15 +24,15 @@ namespace Engine
       ResourceManager(const ResourceManager &) = delete;
       ~ResourceManager();
 
-      void RequestTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>)> callback);
-      void RequestVertexShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> callback);
-      void RequestFragmentShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> callback);
-      void RequestFont(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Font>)> callback);
+      void RequestTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> callback);
+      void RequestVertexShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
+      void RequestFragmentShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
+      void RequestFont(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> callback);
 
-      void RequestTextureChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Texture>)> callback);
-      void RequestVertexShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>)> callback);
-      void RequestFragmentShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>)> callback);
-      void RequestFontChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Font>)> callback);
+      void RequestTextureChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> callback);
+      void RequestVertexShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
+      void RequestFragmentShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
+      void RequestFontChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> callback);
 
       std::size_t GetSizeOfTexturePool() const;
       std::size_t GetSizeOfVertexShaderPool() const;
@@ -45,10 +45,10 @@ namespace Engine
 
     private:
       void ThreadMethod();
-      void LoadTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>)> cb);
-      void LoadFont(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Font>)> cb);
-      void LoadVertexShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> cb);
-      void LoadFragmentShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> cb);
+      void LoadTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> callback);
+      void LoadFont(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> callback);
+      void LoadVertexShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
+      void LoadFragmentShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
 
       void CopyFromPushQueue();
       void LoadShadersFromActiveQueues();
@@ -69,28 +69,28 @@ namespace Engine
 
       //Oh my, how disgusting
       std::queue <std::pair<DoubleStringPair
-                , std::function<void(std::shared_ptr<sf::Texture>)>>> *TextureQueue;
+                , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>> *TextureQueue;
 
       std::queue<std::pair<DoubleStringPair
-                , std::function<void(std::shared_ptr<sf::Shader>)>>> *VertexShaderQueue;
+                , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>> *VertexShaderQueue;
 
       std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Shader>)>>> *FragmentShaderQueue;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>> *FragmentShaderQueue;
 
       std::queue<std::pair<DoubleStringPair
-                , std::function<void(std::shared_ptr<sf::Font>)>>> *FontQueue;
+                , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>> *FontQueue;
 
       std::queue <std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Texture>)>>> *ActiveTextureQueue;
+        , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>> *ActiveTextureQueue;
 
       std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Shader>)>>> *ActiveVertexShaderQueue;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>> *ActiveVertexShaderQueue;
 
       std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Shader>)>>> *ActiveFragmentShaderQueue;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>> *ActiveFragmentShaderQueue;
 
       std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Font>)>>> *ActiveFontQueue;
+        , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>> *ActiveFontQueue;
 
       std::map<std::string, std::shared_ptr<sf::Texture>> *Textures;
       std::map<std::string, std::shared_ptr<sf::Shader>> *VertexShaders;

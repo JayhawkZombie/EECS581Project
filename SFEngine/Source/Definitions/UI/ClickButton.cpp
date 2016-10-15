@@ -13,21 +13,22 @@ namespace Engine
     ClickButton::ClickButton()
     {
       ReadyToRender = false;
+
       ButtonShape = std::make_shared<sf::RectangleShape>();
       ButtonFont = std::make_shared<sf::Font>();
-      ButtonTexture = std::make_shared<sf::Texture>();
-      ButtonHighlightedTexture = std::make_shared<sf::Texture>();
-      ButtonPressedTexture = std::make_shared<sf::Texture>();
+      ButtonTexture = std::shared_ptr<sf::Texture>();
+      ButtonHighlightedTexture = std::shared_ptr<sf::Texture>();
+      ButtonPressedTexture = std::shared_ptr<sf::Texture>();
       ButtonText = std::make_shared<sf::Text>();
 
       //ButtonFont->loadFromFile("./SFEngine/Samples/Fonts/Raleway-Light.ttf");
       //ButtonTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBG.png");
       //ButtonHighlightedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGHovered.png");
       //ButtonPressedTexture->loadFromFile("./SFEngine/Samples/Textures/UI/ButtonBGPressed.png");
-      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBG.png", "ButtonBG", [this](std::shared_ptr<sf::Texture> t) {this->GetBGTexture(t); });
-      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBGHovered.png", "ButtonHighlight", [this](std::shared_ptr<sf::Texture> t) {this->GetHighlightedTexture(t); });
-      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBGPressed.png", "ButtonPressed", [this](std::shared_ptr<sf::Texture> t) {this->GetPressedTexture(t); });
-      ResourceManager->RequestFont("./SFEngine/Samples/Fonts/Raleway-Light.ttf", "ButtonFont", [this](std::shared_ptr<sf::Font> f) {this->GetFont(f); });
+      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBG.png", "ButtonBG", [this](std::shared_ptr<sf::Texture> t, const std::string &ID) {this->GetBGTexture(t, ID); });
+      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBGHovered.png", "ButtonHighlight", [this](std::shared_ptr<sf::Texture> t, const std::string &ID) {this->GetHighlightedTexture(t, ID); });
+      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBGPressed.png", "ButtonPressed", [this](std::shared_ptr<sf::Texture> t, const std::string &ID) {this->GetPressedTexture(t, ID); });
+      ResourceManager->RequestFont("./SFEngine/Samples/Fonts/Raleway-Light.ttf", "ButtonFont", [this](std::shared_ptr<sf::Font> f, const std::string &ID) {this->GetFont(f, ID); });
       
 
 
@@ -47,7 +48,7 @@ namespace Engine
       txtTarget.SetDrawBounds(Render::DefaultBounds());
 
       AddRenderTarget(std::string("ButtonText"), ButtonText);
-
+      
       KeyTarget kTgt;
       kTgt.Keys.set(sf::Keyboard::Return);
       kTgt.OnKeyPress = [this](const sf::Keyboard::Key &k) {this->HandleKeyPress(k); };
@@ -77,7 +78,7 @@ namespace Engine
 
     }
 
-    void ClickButton::GetFont(std::shared_ptr<sf::Font> fnt)
+    void ClickButton::GetFont(std::shared_ptr<sf::Font> fnt, const std::string &ID)
     {
       std::cerr << "Whoooo! Setting button font" << std::endl;
       ButtonFont = fnt;
@@ -89,7 +90,7 @@ namespace Engine
       }
     }
 
-    void ClickButton::GetBGTexture(std::shared_ptr<sf::Texture> tex)
+    void ClickButton::GetBGTexture(std::shared_ptr<sf::Texture> tex, const std::string &ID)
     {
       std::cerr << "Whoooo! Setting button BG texture" << std::endl;
       ButtonTexture = tex;
@@ -102,7 +103,7 @@ namespace Engine
       }
     }
 
-    void ClickButton::GetHighlightedTexture(std::shared_ptr<sf::Texture> tex)
+    void ClickButton::GetHighlightedTexture(std::shared_ptr<sf::Texture> tex, const std::string &ID)
     {
       std::cerr << "Whoooo! Setting highlighted texture" << std::endl;
       ButtonHighlightedTexture = tex;
@@ -114,7 +115,7 @@ namespace Engine
       }
     }
 
-    void ClickButton::GetPressedTexture(std::shared_ptr<sf::Texture> tex)
+    void ClickButton::GetPressedTexture(std::shared_ptr<sf::Texture> tex, const std::string &ID)
     {
       std::cerr << "Whoooo! Setting pressed texture" << std::endl;
       ButtonPressedTexture = tex;

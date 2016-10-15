@@ -26,28 +26,28 @@ namespace Engine
       Fonts = new std::map<std::string, std::shared_ptr<sf::Font>>;
 
       TextureQueue = new std::queue <std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Texture>)>>>;
+        , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>>;
 
       FragmentShaderQueue = new std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Shader>)>>>;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>>;
 
       VertexShaderQueue = new std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Shader>)>>>;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>>;
 
       FontQueue = new std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Font>)>>>;
+        , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>>;
 
       ActiveTextureQueue = new std::queue <std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Texture>)>>>;
+        , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>>;
 
       ActiveFragmentShaderQueue = new std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Shader>)>>>;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>>;
 
       ActiveVertexShaderQueue = new std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Shader>)>>>;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>>;
 
       ActiveFontQueue = new std::queue<std::pair<DoubleStringPair
-        , std::function<void(std::shared_ptr<sf::Font>)>>>;
+        , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>>;
     }
 
     void ResourceManager::Start()
@@ -97,89 +97,89 @@ namespace Engine
       WakeUpThread->notify_all();
     }
 
-    void ResourceManager::RequestTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>)> callback)
+    void ResourceManager::RequestTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> callback)
     {
       DoubleStringPair pair(Filepath, ID);
       PushQueueLock->lock();
-      TextureQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Texture>)>>(pair, callback));
+      TextureQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>(pair, callback));
       PushQueueLock->unlock();
       *ThreadWorkToDo = true;
       WakeUpThread->notify_all();
     }
 
-    void ResourceManager::RequestVertexShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> callback)
+    void ResourceManager::RequestVertexShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback)
     {
       DoubleStringPair pair(Filepath, ID);
       PushQueueLock->lock();
-      VertexShaderQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>)>>(pair, callback));
+      VertexShaderQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>(pair, callback));
       PushQueueLock->unlock();
       *ThreadWorkToDo = true;
       WakeUpThread->notify_all();
     }
 
-    void ResourceManager::RequestFragmentShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>)> callback)
+    void ResourceManager::RequestFragmentShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback)
     {
       DoubleStringPair pair(Filepath, ID);
       PushQueueLock->lock();
-      FragmentShaderQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>)>>(pair, callback));
+      FragmentShaderQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>(pair, callback));
       PushQueueLock->unlock();
       *ThreadWorkToDo = true;
       WakeUpThread->notify_all();
     }
 
-    void ResourceManager::RequestFont(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Font>)> callback)
+    void ResourceManager::RequestFont(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> callback)
     {
       DoubleStringPair pair(Filepath, ID);
       PushQueueLock->lock();
-      FontQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Font>)>>(pair, callback));
+      FontQueue->push(std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>(pair, callback));
       PushQueueLock->unlock();
       *ThreadWorkToDo = true;
       WakeUpThread->notify_all();
     }
 
-    void ResourceManager::RequestTextureChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Texture>)> callback)
+    void ResourceManager::RequestTextureChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> callback)
     {
       PushQueueLock->lock();
 
       for (auto it = Info.begin(); it != Info.end(); it++) {
         TextureQueue->push(
-          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Texture>)>>(DoubleStringPair(it->first, it->second), callback));
+          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>(DoubleStringPair(it->first, it->second), callback));
       }
 
       PushQueueLock->unlock();
     }
 
-    void ResourceManager::RequestVertexShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>)> callback)
+    void ResourceManager::RequestVertexShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback)
     {
       PushQueueLock->lock();
 
       for (auto it = Info.begin(); it != Info.end(); it++) {
         VertexShaderQueue->push(
-          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>)>>(DoubleStringPair(it->first, it->second), callback));
+          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>(DoubleStringPair(it->first, it->second), callback));
       }
 
       PushQueueLock->unlock();
     }
 
-    void ResourceManager::RequestFragmentShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>)> callback)
+    void ResourceManager::RequestFragmentShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback)
     {
       PushQueueLock->lock();
 
       for (auto it = Info.begin(); it != Info.end(); it++) {
         FragmentShaderQueue->push(
-          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>)>>(DoubleStringPair(it->first, it->second), callback));
+          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>(DoubleStringPair(it->first, it->second), callback));
       }
 
       PushQueueLock->unlock();
     }
 
-    void ResourceManager::RequestFontChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Font>)> callback)
+    void ResourceManager::RequestFontChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> callback)
     {
       PushQueueLock->lock();
 
       for (auto it = Info.begin(); it != Info.end(); it++) {
         FontQueue->push(
-          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Font>)>>(DoubleStringPair(it->first, it->second), callback));
+          std::pair<DoubleStringPair, std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>(DoubleStringPair(it->first, it->second), callback));
       }
 
       PushQueueLock->unlock();
