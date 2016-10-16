@@ -21,3 +21,6 @@
 
 #include <SFML\Graphics.hpp>
 #include <SFML/Audio.hpp>
+
+#define SFENGINE_INTERNAL_DEPRECATED __declspec(deprecated)
+#define SFENGINE_DEPRECATED __declspec(deprecated)

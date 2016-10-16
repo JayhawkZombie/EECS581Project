@@ -8,6 +8,15 @@ namespace Engine
 {
   namespace Render
   {
+    struct RenderSettings {
+      float Brightness;
+      float Contrast;
+      float Gamma;
+      int PostProcess;
+      sf::Color HueShift;
+      sf::RenderTexture *texture;
+    };
+
     sf::FloatRect DefaultBounds();
 
     void RenderText(const sf::Text *text);
@@ -25,8 +34,15 @@ namespace Engine
     void RenderSFDrawable(const sf::Drawable *drawable);
     void RenderSFDrawable(const sf::Drawable *drawable, const sf::FloatRect &bounds);
 
+    void SecondPassRender();
+    void ClearRender();
+
     void __Set__Window(sf::RenderWindow *window);
     void __Create__ViewPanel(const sf::FloatRect &bounds);
+    void __Set__Core__Shaders(sf::Shader *frag, sf::Shader *vert);
+    void __Set__Render__States(const sf::RenderStates &states);
+    void __Set__Render__Settings(const RenderSettings &settings);
+    void AddPostProcessShader(sf::Shader *shader);
   }
 }
 

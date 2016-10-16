@@ -33,6 +33,12 @@ namespace Engine
     UINT32 Shutdown();
     UINT32 GameLoop();
 
+    void Render();
+    sf::Shader *VertexShader;
+    sf::Shader *FragmentShader;
+    sf::RenderStates RenderStates;
+    Render::RenderSettings RenderSettings;
+
     Config EngineConfig;
 
     sf::View MaximumWindowView;

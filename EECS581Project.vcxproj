@@ -197,6 +197,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Externs.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\GameLoop.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Go.cpp" />
@@ -251,6 +252,10 @@
     <None Include="SFEngine\Samples\Textures\UI\ButtonBG.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.xcf" />
+    <None Include="SFEngine\Source\BlurFragmentShader.fsh" />
+    <None Include="SFEngine\Source\CoreFragmentShader.fsh" />
+    <None Include="SFEngine\Source\CoreVertexShader.vsh" />
+    <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

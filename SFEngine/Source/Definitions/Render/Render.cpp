@@ -3,9 +3,15 @@
 namespace
 {
   sf::RenderWindow *DrawWindow = nullptr;
+  sf::Sprite renderSprite;
+  std::vector<sf::Shader *> PostProcessShaders;
   sf::Vector2u WinSize;
   sf::FloatRect ViewPanel;
+  sf::RenderStates RenderStates;
   sf::View view;
+  sf::Shader *FragmentShader;
+  sf::Shader *VertexShader;
+  Engine::Render::RenderSettings CoreRenderSettings;
 }
 
 namespace Engine
@@ -14,6 +20,7 @@ namespace Engine
   {
     sf::FloatRect DefaultBounds()
     {
+      
       return sf::FloatRect(0, 0, WinSize.x, WinSize.y);
     }
 
@@ -67,9 +74,56 @@ namespace Engine
       if (DrawWindow) {
         __Create__ViewPanel(bounds);
 
-        DrawWindow->draw(*drawable);
-        DrawWindow->setView(DrawWindow->getDefaultView());
+        ViewPanel = sf::FloatRect(
+          bounds.left / WinSize.x,
+          bounds.top / WinSize.y,
+          bounds.width / WinSize.x,
+          bounds.height / WinSize.y
+        );
+
+        view.reset(bounds);
+        view.setViewport(ViewPanel);
+
+
+        CoreRenderSettings.texture->setActive(true);
+        CoreRenderSettings.texture->setView(view);
+        CoreRenderSettings.texture->draw(*drawable, VertexShader);
+        CoreRenderSettings.texture->setView(CoreRenderSettings.texture->getDefaultView());
       }
+    }
+
+    void ClearRender()
+    {
+      CoreRenderSettings.texture->setActive(true);
+      CoreRenderSettings.texture->clear();
+    }
+
+    void SecondPassRender()
+    {
+      //Now that every has been drawn to a render texture, draw that one huge texture
+      CoreRenderSettings.texture->setActive(true);
+      CoreRenderSettings.texture->display();
+      
+
+      FragmentShader->setUniform("BRIGHTNESS", CoreRenderSettings.Brightness);
+      FragmentShader->setUniform("CONTRAST", CoreRenderSettings.Contrast);
+      FragmentShader->setUniform("SCENE", sf::Shader::CurrentTexture);
+      FragmentShader->setUniform("GAMMA", CoreRenderSettings.Gamma);
+      FragmentShader->setUniform("POST_PROCESS_EFFECT", CoreRenderSettings.PostProcess);
+      sf::Sprite spr(CoreRenderSettings.texture->getTexture());
+
+      DrawWindow->draw(spr, FragmentShader);
+
+      switch (CoreRenderSettings.PostProcess)
+      {
+        case 1:
+
+        case 2:
+
+        default:
+          break;
+      }
+
     }
 
     void __Set__Window(sf::RenderWindow *window)
@@ -94,6 +148,33 @@ namespace Engine
 
       view.reset(bounds);
       view.setViewport(ViewPanel);
+    }
+
+	  void __Set__Core__Shaders(sf::Shader *frag, sf::Shader *vert)
+	  {
+      VertexShader = vert;
+      FragmentShader = frag;
+		  
+	  }
+
+	  void __Set__Render__States(const sf::RenderStates &states)
+	  {
+		  RenderStates = states;
+	  }
+
+    void __Set__Render__Settings(const RenderSettings &settings)
+    {
+      CoreRenderSettings.Brightness = settings.Brightness;
+      CoreRenderSettings.Contrast = settings.Contrast;
+      CoreRenderSettings.HueShift = settings.HueShift;
+      CoreRenderSettings.texture = settings.texture;
+      CoreRenderSettings.Gamma = settings.Gamma;
+      CoreRenderSettings.PostProcess = settings.PostProcess;
+    }
+
+    void AddPostProcessShader(sf::Shader *shader)
+    {
+      PostProcessShaders.push_back(shader);
     }
   }
 }

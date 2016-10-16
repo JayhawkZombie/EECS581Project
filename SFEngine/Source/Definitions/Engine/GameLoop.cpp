@@ -17,6 +17,24 @@ namespace Engine
     Window->setKeyRepeatEnabled(false);
     currentRenderWindow = Window;
 
+    RenderSettings.texture = new sf::RenderTexture;
+    RenderSettings.texture->create(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y);
+    RenderSettings.texture->setActive(true);
+
+    FragmentShader = new sf::Shader;
+    VertexShader = new sf::Shader;
+    if (!FragmentShader->loadFromFile("./SFEngine/Source/CoreFragmentShader.fsh", sf::Shader::Fragment)) {
+      std::cerr << "Failed to load fragment shader from file" << std::endl;
+    }
+    if (!VertexShader->loadFromFile("./SFEngine/Source/CoreVertexShader.vsh", sf::Shader::Vertex)) {
+      std::cerr << "Failed to load vertex shader from file" << std::endl;
+    }
+
+    RenderStates.blendMode = sf::BlendAdd;
+    Render::__Set__Core__Shaders(FragmentShader, VertexShader);
+    Render::__Set__Render__States(RenderStates);
+    Render::__Set__Render__Settings(RenderSettings);
+
     Render::__Set__Window(Window);
     Window->clear(sf::Color::Black);
     Window->display();
@@ -88,8 +106,9 @@ namespace Engine
       UpdateEnd = std::chrono::high_resolution_clock::now();
 
       currentRenderWindow->clear(sf::Color::Black);
+      Render::ClearRender();
 
-     Levels[0]->Render();
+      Levels[0]->Render();
 
       if (EngineUIController.IsShown())
         EngineUIController.Render();
@@ -107,10 +126,12 @@ namespace Engine
       Render::RenderText(&ResourcePoolSizes[2]);
       Render::RenderText(&ResourcePoolSizes[3]);
 
+      Render();
+
       currentRenderWindow->display();
 
     }
-
+    delete RenderSettings.texture;
     return Shutdown();
   }
 }

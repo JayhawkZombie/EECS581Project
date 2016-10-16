@@ -4,10 +4,13 @@ namespace Engine
 {
   UINT32 SFEngine::Shutdown()
   {
-    delete[] Window;
+    delete Window;
 
     currentRenderWindow = nullptr;
     ResourceManager->Shutdown();
+
+    delete FragmentShader;
+    delete VertexShader;
 
     return Success::GAMELOOP_SUCCESS;
   }

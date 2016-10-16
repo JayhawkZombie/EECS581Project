@@ -4,6 +4,10 @@ namespace Engine
 {
   UINT32 SFEngine::Startup()
   {
+	  if (!sf::Shader::isAvailable()) {
+		  return(GL_NO_SHADERS);
+	  }
+
     std::cerr << "Binding callbacks" << std::endl;
     Handler.BindCallback(Events::GainedFocus,
                          [this]() {this->HandleWindowGainedFocus(); });
@@ -32,7 +36,6 @@ namespace Engine
     Handler.BindCallback(Events::KeyReleased,
                          [this](const sf::Keyboard::Key &k) {this->HandleKeyRelease(k); });
 
-    
     std::ifstream IN("SFEngine/Config/Engine.ini");
     if (IN.fail()) {
       std::cerr << "Failed to open configuration file: \"Engine.ini\"" << std::endl;
@@ -47,6 +50,10 @@ namespace Engine
       std::cerr << "Pair.first = \"" << pair.first << "\", .second = \"" << pair.second << "\"" << std::endl;
       InitialLevel = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", IN);
       std::cout << "Initial Level: " << InitialLevel << std::endl;
+      RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 0, "Engine.ini", IN);
+      RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0, "Engine.ini", IN);
+      RenderSettings.Gamma = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", IN);
+      RenderSettings.PostProcess = Util::GetUnsignedIntConfig("Render", "PostProcess", 0, "Engine.ini", IN);
       IN.clear();
       IN.close();
     }
