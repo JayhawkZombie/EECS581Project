@@ -52,61 +52,61 @@ std::string MonsterType::getDescription()
 {
 	return m_description;
 }
-void setEvolvesFrom1(MonsterType* evolvesFrom1)
+void MonsterType::setEvolvesFrom1(MonsterType* evolvesFrom1)
 {
 	m_evolvesFrom1 = evolvesFrom1;
 }
-void setEvolvesFrom2(MonsterType* evolvesFrom2)
+void MonsterType::setEvolvesFrom2(MonsterType* evolvesFrom2)
 {
 	m_evolvesFrom2 = evolvesFrom2;
 }
-void setEvolvesFrom3(MonsterType* evolvesFrom3)
+void MonsterType::setEvolvesFrom3(MonsterType* evolvesFrom3)
 {
 	m_evolvesFrom3 = evolvesFrom3;
 }
-MonsterType* getEvolvesFrom1()
+MonsterType* MonsterType::getEvolvesFrom1()
 {
 	return m_evolvesFrom1;
 }
-MonsterType* getEvolvesFrom2()
+MonsterType* MonsterType::getEvolvesFrom2()
 {
 	return m_evolvesFrom2;
 }
-MonsterType* getEvolvesFrom3()
+MonsterType* MonsterType::getEvolvesFrom3()
 {
 	return m_evolvesFrom3;
 }
-void setEvolvesInto1(MonsterType* evolvesInto1)
+void MonsterType::setEvolvesInto1(MonsterType* evolvesInto1)
 {
 	if (m_evolvesInto1 == NULL)
 		m_numEvolutions++;
 	m_evolvesInto1 = evolvesInto1;
 }
-void setEvolvesInto2(MonsterType* evolvesInto2)
+void MonsterType::setEvolvesInto2(MonsterType* evolvesInto2)
 {
 	if (m_evolvesInto2 == NULL)
 		m_numEvolutions++;
 	m_evolvesInto2 = evolvesInto2;
 }
-void setEvolvesInto3(MonsterType* evolvesInto3)
+void MonsterType::setEvolvesInto3(MonsterType* evolvesInto3)
 {
 	if (m_evolvesInto3 == NULL)
 		m_numEvolutions++;
 	m_evolvesInto3 = evolvesInto3;
 }
-MonsterType* getEvolvesInto1()
+MonsterType* MonsterType::getEvolvesInto1()
 {
 	return m_evolvesInto1;
 }
-MonsterType* getEvolvesInto3()
+MonsterType* MonsterType::getEvolvesInto2()
 {
 	return m_evolvesInto2;
 }
-MonsterType* getEvolvesInto3()
+MonsterType* MonsterType::getEvolvesInto3()
 {
-	return = m_evolvesInto3;
+	return m_evolvesInto3;
 }
-int getNumOfEvolutions()
+int MonsterType::getNumOfEvolutions()
 {
 	return m_numEvolutions;
 }
