@@ -26,9 +26,9 @@ namespace Engine
     bool IsReady() const;
 
   protected:
+    void HandleKeyEvent(const sf::Keyboard::Key &key);
 
 
-    //Trash
     std::vector<std::shared_ptr<LevelLayer>> Layers;
     std::vector<GenericActor> Actors;
 

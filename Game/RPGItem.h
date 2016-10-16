@@ -1,4 +1,6 @@
-#pragma once
+#ifndef RPG_ITEM_H
+#define RPG_ITEM_H
+
 #include <string>
 class RPGItem
 {
@@ -32,4 +34,4 @@ private:
 	int m_value;
 	int m_id;
 };
-
+#endif

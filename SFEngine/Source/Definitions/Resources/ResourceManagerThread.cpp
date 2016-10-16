@@ -126,7 +126,7 @@ namespace Engine
                                       const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> cb)
     {
       StorageAccessLock->lock();
-
+      
       auto it = Textures->find(ID);
       if (it != Textures->end()) {
         std::cerr << "Texture already loaded into memory" << std::endl;

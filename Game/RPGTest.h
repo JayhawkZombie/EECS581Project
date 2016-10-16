@@ -1,3 +1,6 @@
+#ifndef RPG_TEST_H
+#define RPG_TEST_H
+
 #include "RPGActor.h"
 #include "RPGItem.h"
 #include "Tile.h"
@@ -25,4 +28,4 @@ public:
 
 
 };
-
+#endif

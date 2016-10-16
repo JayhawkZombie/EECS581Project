@@ -14,6 +14,12 @@ namespace Engine
 
   }
 
+  void GenericActor::ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex)
+  {
+    SpriteTexture = tex;
+    Sprite.setTexture(*SpriteTexture);
+  }
+
   GenericActor::~GenericActor()
   {
 

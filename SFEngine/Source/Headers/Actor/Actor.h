@@ -17,12 +17,15 @@ namespace Engine
     void TickUpdate(const double &delta);
     void Render();
     void OnShutDown();
-
+    
   protected:
     sf::Vector2f Velocity;
     sf::Vector2f Acceleration;
     sf::Vector2f Position;
     sf::Sprite Sprite;
+    std::shared_ptr<sf::Texture> SpriteTexture;
+
+    void ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex);
   };
 
 }

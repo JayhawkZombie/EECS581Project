@@ -1,4 +1,6 @@
-#pragma once
+#ifndef RPG_ACTOR_H
+#define RPG_ACTOR_H
+
 #include <string>
 class RPGActor
 {
@@ -14,3 +16,4 @@ private:
 	std::string m_name;
 };
 
+#endif

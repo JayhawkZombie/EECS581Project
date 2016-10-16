@@ -19,6 +19,15 @@ namespace Engine
     COND_VAR = std::shared_ptr<std::condition_variable>(new std::condition_variable);
     MUTEX = std::shared_ptr<std::mutex>(new std::mutex);
     CHECK_READY_MUTEX = std::shared_ptr<std::mutex>(new std::mutex);
+
+    Handler.BindCallback(
+      Events::KeyPressed,
+      [this](const sf::Keyboard::Key &k)
+      {
+        this->HandleKeyEvent(k);
+      }
+    );
+
   }
 
   Level::Level(const Level &lvl)

@@ -9,6 +9,10 @@ namespace Engine
       EngineUIController.ToggleShown();
     else
       EngineUIController.Handler.HandleKeyPress(k);
+
+    for (auto & level : Levels) {
+      level->Handler.HandleKeyPress(k);
+    }
   }
 
   void SFEngine::HandleKeyRelease(const sf::Keyboard::Key &k)

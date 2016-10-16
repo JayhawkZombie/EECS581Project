@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_MAIN_H
+#define GAME_MAIN_H
+
 class GameMain
 {
 public:
@@ -7,3 +9,4 @@ public:
 	static int run();
 };
 
+#endif
