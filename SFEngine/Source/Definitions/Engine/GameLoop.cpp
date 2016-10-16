@@ -10,9 +10,8 @@ namespace Engine
 
   UINT32 SFEngine::GameLoop()
   {
-    sf::ContextSettings settings;
 
-    Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, settings);
+    Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
     MaximumWindowView = Window->getDefaultView();
     Window->setKeyRepeatEnabled(false);
     currentRenderWindow = Window;

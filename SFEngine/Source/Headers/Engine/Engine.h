@@ -38,6 +38,7 @@ namespace Engine
     sf::Shader *FragmentShader;
     sf::RenderStates RenderStates;
     Render::RenderSettings RenderSettings;
+    sf::ContextSettings ContextSettings;
 
     Config EngineConfig;
 
