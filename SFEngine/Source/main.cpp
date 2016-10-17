@@ -6,11 +6,21 @@
 #include <windows.h>
 #endif
 
+#include "CoreTests\TestDefs.h"
+
+//If doing engine tests, let Catch provide its own main and run the unit tests
+//otherwise run the engine like normal
+#if ENGINE_TESTS
+#include "CoreTests\CoreTests.h"
+#else
+
 int main(int argc, char **argv)
 {
-  Engine::SFEngine GameEngine;
   GameMain::run();
+
+  Engine::SFEngine GameEngine;
   return (GameEngine.Go(argc, argv));
 }
+#endif
 
 

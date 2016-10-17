@@ -5,6 +5,7 @@ namespace Engine
 
   Level::Level()
   {
+    CurrentEventSequence = nullptr;
     ReadCorrectly = true;
     BGHeight = 0;
     BGWidth = 0;
@@ -27,6 +28,19 @@ namespace Engine
         this->HandleKeyEvent(k);
       }
     );
+
+    PlayerActor.Collsion.Position = sf::Vector2f(250, 250);
+    PlayerActor.Collsion.Size = sf::Vector2f(50, 75);
+    PlayerActor.MoveTo(sf::Vector2f(250, 250));
+
+    CollisionBoxes.push_back({});
+    CollisionBoxes.push_back({});
+
+    CollisionBoxes[0].Position = sf::Vector2f(100, 100);
+    CollisionBoxes[0].Size = sf::Vector2f(50, 50);
+
+    CollisionBoxes[1].Position = sf::Vector2f(300, 300);
+    CollisionBoxes[1].Size = sf::Vector2f(150, 100);
 
   }
 

@@ -5,6 +5,9 @@
 #include "LevelObject.h"
 #include "Layer.h"
 #include "../Actor/Actor.h"
+#include "../Actor/Player.h"
+
+#include "../Events/EventSequence.h"
 
 namespace Engine
 {
@@ -27,10 +30,18 @@ namespace Engine
 
   protected:
     void HandleKeyEvent(const sf::Keyboard::Key &key);
+    void CheckCollisions();
+    void CorrectActorMovement(const std::size_t &boxIndex);
+    std::size_t CanActorMove(const sf::FloatRect &ActorBox);
+
+    std::map<std::string, EventSequence> EventSequences;
+    EventSequence *CurrentEventSequence;
 
 
     std::vector<std::shared_ptr<LevelLayer>> Layers;
     std::vector<GenericActor> Actors;
+    Player PlayerActor;
+    std::vector<CollisionBox> CollisionBoxes;
 
     std::vector<LevelObject> LevelObjects;
     sf::Text LevelWaitingText;
