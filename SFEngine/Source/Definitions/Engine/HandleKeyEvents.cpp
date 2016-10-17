@@ -9,7 +9,7 @@ namespace Engine
       EngineUIController.ToggleShown();
     else
       EngineUIController.Handler.HandleKeyPress(k);
-
+    /*
     if (k == sf::Keyboard::Up) {
       RenderSettings.Brightness += 0.1;
     }
@@ -38,7 +38,7 @@ namespace Engine
     }
     //std::cerr << "PostProcessEffect = " << RenderSettings.PostProcess << std::endl;
     Render::__Set__Render__Settings(RenderSettings);
-
+    */
     for (auto & level : Levels) {
       level->Handler.HandleKeyPress(k);
     }

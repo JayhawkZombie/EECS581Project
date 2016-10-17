@@ -40,5 +40,10 @@ namespace Engine
 
   }
 
+  bool GenericActor::WantsInputEvent(const Events &evnt) const
+  {
+    return false;
+  }
+
 
 }
