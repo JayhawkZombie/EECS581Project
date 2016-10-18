@@ -28,6 +28,8 @@ namespace Engine
 
     if (texsReceived == numTextures) {
       ReadyToDraw = true;
+      if (LOADER.joinable())
+        LOADER.join();
       __DrawTiles();
       delete[] Maps;
     }
