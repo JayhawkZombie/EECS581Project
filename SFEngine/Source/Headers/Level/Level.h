@@ -1,34 +1,32 @@
-#ifndef SFENGINE_LEVEL_H
-#define SFENGINE_LEVEL_H
+#ifndef SFENGINE_OPT_LEVEL_G
+#define SFENGINE_OPT_LEVEL_G
 
-#include "../BasicIncludes.h"
-#include "LevelObject.h"
+
+#include "../Engine/BaseEngineInterface.h"
 #include "Layer.h"
-#include "../Actor/Actor.h"
-#include "../Actor/Player.h"
-
+#include "LevelObject.h"
 #include "../Events/EventSequence.h"
+#include "../Actor/Player.h"
 
 namespace Engine
 {
 
   class Level : public BaseEngineInterface
   {
-  public:
-    friend class SFEngine;
 
-    Level();
-    Level(const Level &lvl);
+  public:
+    Level(const std::string &levelFile);
+    Level(const Level &) = delete;
     ~Level();
 
-    void TickUpdate(const double &delta);
-    void Render();
-    void OnShutDown();
+    void TickUpdate(const double &delta) override;
+    void Render() override;
+    void OnShutDown() override;
 
-    void LoadLevel(const std::string &file);
-    bool IsReady() const;
+    void LoadLevel();
+    void IsReady() const;
 
-  protected:
+  private:
     void HandleKeyEvent(const sf::Keyboard::Key &key);
     void CheckCollisions();
     void CorrectActorMovement(const std::size_t &boxIndex);
@@ -49,30 +47,20 @@ namespace Engine
     void ReceiveFont(std::shared_ptr<sf::Font> font, const std::string &ID);
     std::shared_ptr<sf::Font> LevelWaitingFont;
 
-    std::thread LOADER, DRAWER;
 
-    std::vector<std::vector<std::string>> BGLayout;
-    std::size_t BGHeight, BGWidth;
 
-    void ReadIDAndPath(std::streampos &pos, std::ifstream &IN);
-    void ReadLayout(std::streampos &pos, std::ifstream &IN);
-    bool ReadCorrectly;
-    bool ReadyToDraw;
 
-    bool ReadyToPlay;
+    void __LoadLevel();
+    void __ReadLoadTextures(const std::size_t &layer, std::ifstream &IN);
+    void __LoadLayout(std::ifstream &IN);
+    void __DrawTiles();
+    void ReceiveTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture);
 
-    std::map<std::string, std::shared_ptr<sf::Texture>> IDToTexture;
-    std::map<std::string, std::string> MapToTextureID;
-    std::vector<std::string> KnownTextures;
+    std::thread LOADER;
+    std::string LevelFile;
 
-    void ReceiveTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID);
-    void RequestTextures();
-    void DrawToRenderTexture();
-
-    std::shared_ptr<std::condition_variable> COND_VAR;
-    std::shared_ptr<std::mutex> MUTEX;
-
-    std::shared_ptr<std::mutex> CHECK_READY_MUTEX;
+    bool Playable;
+    LevelLayer BackgroundLayer;
 
   };
 
