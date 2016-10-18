@@ -59,6 +59,10 @@ namespace Engine
       ContextSettings.depthBits = Util::GetUnsignedIntConfig("Render", "uiDepthBits", 0, "Engine.ini", IN);
       ContextSettings.sRgbCapable = Util::GetBooleanConfig("Render", "bSRGBCapable", true, "Engine.ini", IN);
       ContextSettings.stencilBits = Util::GetUnsignedIntConfig("Render", "uiStencilBits", 0, "Engine.ini", IN);
+
+      sf::FloatRect testRect = Util::GetFloatRectConfig("Tests", "SampleRect", sf::FloatRect(), "Engine.ini", IN);
+      std::cerr << "TestRect: (" << testRect.left << ", " << testRect.top << ", " << testRect.width << ", " << testRect.height << ")" << std::endl;
+
       IN.clear();
       IN.close();
     }
@@ -69,8 +73,9 @@ namespace Engine
     ResourceManager->Start();
 
     //Now begin loading the level
-    Levels.push_back(std::make_shared<Level>(*new Level));
-    Levels[0]->LoadLevel(InitialLevel);
+    Level *lvl = new Level("./SFEngine/Samples/Maps/testmap.ini");
+    Levels.push_back(std::shared_ptr<Level>(lvl));
+    Levels[0]->LoadLevel();
 
     return GameLoop();
   }

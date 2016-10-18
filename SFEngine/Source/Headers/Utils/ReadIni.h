@@ -72,6 +72,8 @@ namespace Engine
     */
     sf::Vector2f GetVec2fConfig(const std::string &category, const std::string &key, const sf::Vector2f &defaultValue, const std::string &inifile, std::ifstream &in);
 
+    sf::FloatRect GetFloatRectConfig(const std::string &category, const std::string &key, const sf::FloatRect &defaultValue, const std::string &inifile, std::ifstream &in);
+
     /**
     <summary>Retrieve the float value for a given key</summary>
     <param name="category">The category in which a key is expected to appear in</param>
@@ -131,6 +133,7 @@ namespace Engine
 
     std::string GetBracedConfig(const std::string &category, const std::string &key, const std::string &defaultValue, const std::string &infile, std::ifstream &in);
     std::pair<std::string, std::string> GetStringPair(const std::string &category, const std::string &key, const std::pair<std::string, std::string> &defaultValue, const std::string &infile, std::ifstream &in);
+    std::pair<std::string, std::string> GetPairText(const std::string &line, std::size_t &curroffset);
 
     void WriteBooleanConfig(const std::string &category, const std::string &key, const bool &value, const std::string &inifile, std::ifstream &in);
     void WriteBooleanConfig(const std::string &category, const std::string &key, const bool &value, const std::string &inifile, std::ifstream &in);

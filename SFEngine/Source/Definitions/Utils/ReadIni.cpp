@@ -57,7 +57,7 @@ namespace Engine
 
     std::pair<std::string, std::string> GetPairText(const std::string &line, std::size_t &curroffset) 
     {
-      std::size_t pos = line.find_first_of('<');
+      std::size_t pos = line.find_first_of('<', curroffset);
       std::size_t comma = line.find_first_of(',', pos + 1);
       std::size_t end = line.find_first_of('>', comma + 1);
       if (pos == std::string::npos || comma == std::string::npos || end == std::string::npos) {
@@ -67,6 +67,7 @@ namespace Engine
       else {
         std::string first = line.substr(pos + 1, comma - pos - 1);
         std::string second = line.substr(line.find_first_not_of(" \t", comma + 1), end - comma - 2);
+        std::cerr << "first = " << first << ", second = " << second << std::endl;
         curroffset = end;
         return std::pair<std::string, std::string>(first, second);
       }
@@ -153,6 +154,23 @@ namespace Engine
         return defaultValue;
 
       return Util::StringToVec2<float>(valstring);
+    }
+
+    sf::FloatRect GetFloatRectConfig(const std::string &category, const std::string &key, const sf::FloatRect &defaultValue, const std::string &inifile, std::ifstream &in)
+    {
+
+      if (!MoveToCategory(category, in)) {
+        in.seekg(std::ios::beg);
+        return defaultValue;
+      }
+
+      std::string val = MoveToKey(key, in);
+
+      if (val == "")
+        return defaultValue;
+
+      return Util::StringToRect<float>(val);
+
     }
 
     float GetFloatConfig(const std::string &category, const std::string &key, const float &defaultValue, const std::string &inifile, std::ifstream &in)

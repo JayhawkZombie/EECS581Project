@@ -21,9 +21,9 @@ namespace Engine
 
   protected:
     void KeyWasPressed(const sf::Keyboard::Key &k);
+    void KeyWasReleased(const sf::Keyboard::Key &k);
     
     void TryToMove(const sf::Vector2f &amount);
-
 
     sf::RectangleShape TestShape;
   };

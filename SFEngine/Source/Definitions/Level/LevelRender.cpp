@@ -4,16 +4,18 @@ namespace Engine
 {
   void Level::Render()
   {
-    if (!IsReady()) {
+    if (!Playable) {
       Render::RenderText(&LevelWaitingText);
     }
     else {
       LevelWaitingText.setString("Done loading!");
 
+      Render::RenderSprite(BackgroundLayer.BGSprite);
+
       for (auto & layer : Layers) {
-        
+
         Render::RenderSprite(layer->BGSprite);
-        
+
       } //for (auto & layer : Layers)
 
       sf::RectangleShape shape;
@@ -27,6 +29,8 @@ namespace Engine
 
         Render::RenderShape(&shape);
       }
+
+      Render::RenderText(&LevelWaitingText);
 
       PlayerActor.Render();
     } //end else

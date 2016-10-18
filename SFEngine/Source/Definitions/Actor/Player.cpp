@@ -19,6 +19,7 @@ namespace Engine
 
     TestShape.setPosition(Position);
     TestShape.setSize(sf::Vector2f(50, 75));
+    Velocity = sf::Vector2f(0, 0);
   }
 
   Player::~Player()
@@ -28,7 +29,7 @@ namespace Engine
 
   void Player::TickUpdate(const double &delta)
   {
-
+    TryToMove(Velocity);
   }
 
   void Player::Render()
@@ -60,16 +61,35 @@ namespace Engine
     switch (k)
     {
       case sf::Keyboard::Right:
-        TryToMove(sf::Vector2f(16, 0));
+        Velocity = sf::Vector2f(0.3, 0);
         break;
       case sf::Keyboard::Left:
-        TryToMove(sf::Vector2f(-16, 0));
+        Velocity = sf::Vector2f(-0.3, 0);
         break;
       case sf::Keyboard::Up:
-        TryToMove(sf::Vector2f(0, -16));
+        Velocity = sf::Vector2f(0, -0.3);
         break;
       case sf::Keyboard::Down:
-        TryToMove(sf::Vector2f(0, 16));
+        Velocity = sf::Vector2f(0, 0.3);
+        break;
+    }
+  }
+
+  void Player::KeyWasReleased(const sf::Keyboard::Key &k)
+  {
+    switch (k)
+    {
+      case sf::Keyboard::Right:
+        Velocity = sf::Vector2f(0, 0);
+        break;
+      case sf::Keyboard::Left:
+        Velocity = sf::Vector2f(0, 0);
+        break;
+      case sf::Keyboard::Up:
+        Velocity = sf::Vector2f(0, 0);
+        break;
+      case sf::Keyboard::Down:
+        Velocity = sf::Vector2f(0, 0);
         break;
     }
   }
