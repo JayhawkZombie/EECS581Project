@@ -132,7 +132,125 @@ void RPGTest::runTests(bool quiet)
 	{
 		numTotal++;
 	}
+  if (testDamage1(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testDamage2(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testArmor1(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testArmor2(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testArmor3(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testArmor4(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testArmor5(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testArmor6(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testArmor7(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testWeapon1(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testWeapon2(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testWeapon3(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testWeapon4(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
 	std::cout << numPassed << "/" << numTotal << "Passed, " << ((double)numPassed / (double)numTotal) * 100 << "%\n";
+
 }
 
 bool RPGTest::testRPGActor1(bool quiet)
@@ -408,4 +526,351 @@ bool RPGTest::testTile6(bool quiet)
 		delete myTile;
 		return false;
 	}
+}
+
+bool RPGTest::testDamage1(bool quiet)
+{
+  Damage* myDamage = new Damage();
+  {
+    for (int i = 0; i < 30; i++)
+    {
+      if (myDamage->content[i] != 0)
+      {
+        std::cout << "Damage Test 1: FAILED\n";
+        delete myDamage;
+        return false;
+      }
+    }
+    if(!quiet)
+    {
+      std::cout << "Damage Test 1: PASSED\n";
+    }
+    delete myDamage;
+    return true;
+  }
+}
+
+bool RPGTest::testDamage2(bool quiet)
+{
+  Damage* myDamage = new Damage();
+  for (int i = 0; i < 30; i++)//loads damage into the array
+  {
+    myDamage->content[i] = ((i * 2) + (i%5));
+  }
+  for (int i = 0; i < 30; i++)//Testing that the array was loaded properly
+  {
+    if (myDamage->content[i] != ((i * 2) + (i % 5)))
+    {
+      std::cout << "Damage Test 2: FAILED\n";
+      delete myDamage;
+      return false;
+    }
+  }
+  if (!quiet)
+  {
+    std::cout << "Damage Test 2: PASSED\n";
+    delete myDamage;
+    return true;
+  }
+}
+
+bool RPGTest::testArmor1(bool quiet)
+{
+  Armor* myArmor = new Armor();
+  for (int i = 0; i < Damage::size; i++)
+  {
+    if (myArmor->getDefense().content[i] != 0)
+    {
+      std::cout << "Armor Test 1: FAILED\n";
+      delete myArmor;
+      return false;
+    }
+  }
+  if (!myArmor->getLegs() && !myArmor->getTorso() && !myArmor->getArms() && !myArmor->getHead() && !myArmor->getRing())
+  {
+    if (!quiet)
+    {
+      std::cout << "Armor Test 1: PASSED\n";
+    }
+    delete myArmor;
+    return true;
+  }
+  else
+  {
+    std::cout << "Armor Test 1: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+}
+
+bool RPGTest::testArmor2(bool quiet)
+{
+  Armor* myArmor = new Armor();
+  myArmor->setLegs(true);
+  if (!myArmor->getLegs())
+  {
+    std::cout << "Armor Test 2: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  myArmor->setLegs(false);
+  if (myArmor->getLegs())
+  {
+    std::cout << "Armor Test 2: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  else
+  {
+    if (!quiet)
+    {
+      std::cout << "Armor Test 2: PASSED\n";
+    }
+    delete myArmor;
+    return true;
+  }
+}
+
+bool RPGTest::testArmor3(bool quiet)
+{
+  Armor* myArmor = new Armor();
+  myArmor->setTorso(true);
+  if (!myArmor->getTorso())
+  {
+    std::cout << "Armor Test 3: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  myArmor->setTorso(false);
+  if (myArmor->getTorso())
+  {
+    std::cout << "Armor Test 3: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  else
+  {
+    if (!quiet)
+    {
+      std::cout << "Armor Test 3: PASSED\n";
+    }
+    delete myArmor;
+    return true;
+  }
+}
+
+bool RPGTest::testArmor4(bool quiet)
+{
+  Armor* myArmor = new Armor();
+  myArmor->setArms(true);
+  if (!myArmor->getArms())
+  {
+    std::cout << "Armor Test 4: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  myArmor->setArms(false);
+  if (myArmor->getArms())
+  {
+    std::cout << "Armor Test 4: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  else
+  {
+    if (!quiet)
+    {
+      std::cout << "Armor Test 4: PASSED\n";
+    }
+    delete myArmor;
+    return true;
+  }
+}
+
+bool RPGTest::testArmor5(bool quiet)
+{
+  Armor* myArmor = new Armor();
+  myArmor->setHead(true);
+  if (!myArmor->getHead())
+  {
+    std::cout << "Armor Test 5: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  myArmor->setHead(false);
+  if (myArmor->getHead())
+  {
+    std::cout << "Armor Test 5: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  else
+  {
+    if (!quiet)
+    {
+      std::cout << "Armor Test 5: PASSED\n";
+    }
+    delete myArmor;
+    return true;
+  }
+}
+
+bool RPGTest::testArmor6(bool quiet)
+{
+  Armor* myArmor = new Armor();
+  myArmor->setRing(true);
+  if (!myArmor->getRing())
+  {
+    std::cout << "Armor Test 6: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  myArmor->setRing(false);
+  if (myArmor->getRing())
+  {
+    std::cout << "Armor Test 6: FAILED\n";
+    delete myArmor;
+    return false;
+  }
+  else
+  {
+    if (!quiet)
+    {
+      std::cout << "Armor Test 6: PASSED\n";
+    }
+    delete myArmor;
+    return true;
+  }
+}
+
+bool RPGTest::testArmor7(bool quiet)
+{
+  Armor* myArmor = new Armor;
+  Damage* myDamage = new Damage;
+  for (int i = 0; i < Damage::size; i++)
+  {
+    myDamage->content[i] = ((i * 4) + (i % 5));
+  }
+  myArmor->setDefense(*myDamage);
+  for (int i = 0; i < Damage::size; i++)
+  {
+    if (myArmor->getDefense().content[i] != ((i * 4) + (i % 5)))
+    {
+      std::cout << "Armor Test 7: FAILED\n";
+      delete myArmor;
+      return false;
+    }
+  }
+  if (!quiet)
+  {
+    std::cout << "Armor Test 7: PASSED\n";
+  }
+  delete myArmor;
+  return true;
+}
+
+bool RPGTest::testWeapon1(bool quiet)
+{
+  Weapon* myWeapon = new Weapon();
+  for (int i = 0; i < Damage::size; i++)
+  {
+    if (myWeapon->getAddedDamage().content[i] != 0)
+    {
+      std::cout << "Weapon Test 1: FAILED\n";
+      delete myWeapon;
+      return false;
+    }
+  }
+  if (!myWeapon->getRightHand() || myWeapon->getLeftHand())
+  {
+    std::cout << "Weapon Test 1: FAILED\n";
+    delete myWeapon;
+    return false;
+  }
+  else
+  {
+    if (!quiet)
+    {
+      std::cout << "Weapon Test 1: PASSED\n";
+    }
+    delete myWeapon;
+    return true;
+  }
+}
+
+bool RPGTest::testWeapon2(bool quiet)
+{
+  Weapon* myWeapon = new Weapon();
+  Damage* myDamage = new Damage();
+  for (int i = 0; i < Damage::size; i++)
+  {
+    myDamage->content[i] = ((i * 3) + (i % 5));
+  }
+  myWeapon->setAddedDamage(*myDamage);
+  for (int i = 0; i < Damage::size; i++)
+  {
+    if (myWeapon->getAddedDamage().content[i] != ((i * 3) + (i % 5)))
+    {
+      std::cout << "Weapon Test 2: FAILED\n";
+      delete myWeapon;
+      return false;
+    }
+  }
+  if (!quiet)
+  {
+    std::cout << "Weapon Test 2: PASSED\n";
+    delete myWeapon;
+    return true;
+  }
+}
+
+bool RPGTest::testWeapon3(bool quiet)
+{
+  Weapon* myWeapon = new Weapon();
+  myWeapon->setRightHand(true);
+  if (!myWeapon->getRightHand())
+  {
+    std::cout << "Weapon Test 3: FAILED\n";
+    delete myWeapon;
+    return false;
+  }
+  myWeapon->setRightHand(false);
+  if (myWeapon->getRightHand())
+  {
+    std::cout << "Weapon Test 3: FAILED\n";
+    delete myWeapon;
+    return false;
+  }
+  if (!quiet)
+  {
+    std::cout << "Weapon Test 3: PASSED\n";
+  }
+  delete myWeapon;
+  return true;
+}
+
+bool RPGTest::testWeapon4(bool quiet)
+
+{
+  Weapon* myWeapon = new Weapon();
+  myWeapon->setLeftHand(true);
+  if (!myWeapon->getLeftHand())
+  {
+    std::cout << "Weapon Test 4: FAILED\n";
+    delete myWeapon;
+    return false;
+  }
+  myWeapon->setLeftHand(false);
+  if (myWeapon->getLeftHand())
+  {
+    std::cout << "Weapon Test 4: FAILED\n";
+    delete myWeapon;
+    return false;
+  }
+  if (!quiet)
+  {
+    std::cout << "WeaponTest 4: PASSED/n";
+  }
+  delete myWeapon;
+  return true;
 }
