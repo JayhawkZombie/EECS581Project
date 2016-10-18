@@ -4,6 +4,10 @@
 #include <SFML\Graphics.hpp>
 #include <cassert>
 
+#include "../Lights/GenericLightSource.h"
+#include "../Lights/GlobalLightSource.h"
+#include <vector>
+
 namespace Engine
 {
   namespace Render
@@ -43,6 +47,8 @@ namespace Engine
     void __Set__Render__States(const sf::RenderStates &states);
     void __Set__Render__Settings(const RenderSettings &settings);
     void AddPostProcessShader(sf::Shader *shader);
+    void AddLightSource(const GenericLightSource &light);
+    void AddGlobalLight(const GlobalLightSource &light);
   }
 }
 

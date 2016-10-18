@@ -8,6 +8,8 @@
 #include "../Events/EventSequence.h"
 #include "../Actor/Player.h"
 
+#include "../Lights/GlobalLightSource.h"
+
 namespace Engine
 {
 
@@ -31,6 +33,8 @@ namespace Engine
     void CheckCollisions();
     void CorrectActorMovement(const std::size_t &boxIndex);
     std::size_t CanActorMove(const sf::FloatRect &ActorBox);
+
+    GlobalLightSource GlobalLight;
 
     std::map<std::string, EventSequence> EventSequences;
     EventSequence *CurrentEventSequence;

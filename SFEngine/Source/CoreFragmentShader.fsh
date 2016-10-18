@@ -7,6 +7,10 @@ uniform float GAMMA;
 uniform int POST_PROCESS_EFFECT;
 uniform float BLUR_AMOUNT;
 
+uniform vec4 GLOBAL_LIGHT;
+uniform float GLOBAL_LIGHT_INTENSITY;
+uniform float GLOBAL_LIGHT_ATTENUATION;
+
 uniform float offset = 1.0/300;
 
 float BlurKernel[9] = float[](
@@ -21,10 +25,10 @@ float SharpenKernel[9] = float[](
     -1, -1, -1
 );
 
-vec4 brightnessContrast()
+vec4 brightnessContrast(vec4 pixel)
 {
-    vec4 pixel = texture2D(SCENE, gl_TexCoord[0].st);
-    pixel *= gl_Color;
+    //vec4 pixel = texture2D(SCENE, gl_TexCoord[0].st);
+    //pixel *= gl_Color;
     pixel *= CONTRAST;
     pixel.rgb += vec3(BRIGHTNESS, BRIGHTNESS, BRIGHTNESS);
     return pixel;
@@ -79,7 +83,13 @@ vec4 invert(vec4 color)
 
 void main()
 {
-  vec4 color = brightnessContrast();
+  //Add the global light to the color
+  vec4 pixel = texture2D(SCENE, gl_TexCoord[0].st);
+  pixel *= gl_Color;
+  float I = GLOBAL_LIGHT_INTENSITY / 100;
+  pixel = pixel * I + GLOBAL_LIGHT * I;
+
+  vec4 color = brightnessContrast(pixel);
   color.rgb = pow(color.rgb, vec3(1.0 / GAMMA));
 
   if (POST_PROCESS_EFFECT == 1)

@@ -20,6 +20,10 @@ namespace Engine
 
     ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", "./SFEngine/Samples/Fonts/OpenSans-Regular.ttf",
                                  [this](std::shared_ptr<sf::Font> f, const std::string &s) {this->ReceiveFont(f, s); });
+    GlobalLight.SetColor(sf::Color::Red);
+    GlobalLight.SetIntensity(25);
+
+    Render::AddGlobalLight(GlobalLight);
 
     PlayerActor.Collsion.Position = sf::Vector2f(250, 250);
     PlayerActor.Collsion.Size = sf::Vector2f(50, 75);

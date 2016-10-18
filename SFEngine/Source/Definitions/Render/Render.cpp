@@ -12,6 +12,8 @@ namespace
   sf::Shader *FragmentShader;
   sf::Shader *VertexShader;
   Engine::Render::RenderSettings CoreRenderSettings;
+  std::vector<Engine::GenericLightSource> Lights;
+  Engine::GlobalLightSource GlobalLight;
 }
 
 namespace Engine
@@ -110,6 +112,10 @@ namespace Engine
       FragmentShader->setUniform("SCENE", sf::Shader::CurrentTexture);
       FragmentShader->setUniform("GAMMA", CoreRenderSettings.Gamma);
       FragmentShader->setUniform("POST_PROCESS_EFFECT", CoreRenderSettings.PostProcess);
+
+      FragmentShader->setUniform("GLOBAL_LIGHT", sf::Glsl::Vec4(GlobalLight.GetColor()));
+      FragmentShader->setUniform("GLOBAL_LIGHT_INTENSITY", GlobalLight.GetIntensity());
+
       sf::Sprite spr(CoreRenderSettings.texture->getTexture());
 
       DrawWindow->draw(spr, FragmentShader);
@@ -175,6 +181,16 @@ namespace Engine
     void AddPostProcessShader(sf::Shader *shader)
     {
       PostProcessShaders.push_back(shader);
+    }
+
+    void AddLightSource(const GenericLightSource &light)
+    {
+      Lights.push_back(light);
+    }
+
+    void AddGlobalLight(const GlobalLightSource &light)
+    {
+      GlobalLight = light;
     }
   }
 }
