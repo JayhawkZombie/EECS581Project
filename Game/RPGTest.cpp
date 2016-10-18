@@ -249,6 +249,26 @@ void RPGTest::runTests(bool quiet)
   {
     numTotal++;
   }
+
+
+  if (testUseable1(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
+  if (testUseable2(quiet))
+  {
+    numPassed++;
+    numTotal++;
+  }
+  else
+  {
+    numTotal++;
+  }
 	std::cout << numPassed << "/" << numTotal << "Passed, " << ((double)numPassed / (double)numTotal) * 100 << "%\n";
 
 }
@@ -807,6 +827,7 @@ bool RPGTest::testWeapon2(bool quiet)
     myDamage->content[i] = ((i * 3) + (i % 5));
   }
   myWeapon->setAddedDamage(*myDamage);
+  delete myDamage;
   for (int i = 0; i < Damage::size; i++)
   {
     if (myWeapon->getAddedDamage().content[i] != ((i * 3) + (i % 5)))
@@ -874,3 +895,68 @@ bool RPGTest::testWeapon4(bool quiet)
   delete myWeapon;
   return true;
 }
+
+bool RPGTest::testMonsterType1(bool quiet)
+{
+  MonsterType* myMonster = new MonsterType();
+  if ((myMonster->getDescription().compare("") != 0) || (myMonster->getPrimary() != -1) || (myMonster->getSecondary() != -1) || (myMonster->getEvolutionStage() != -1) || (myMonster->getEvolutionType() != -1) || (myMonster->getName().compare("") != 0))
+  {
+    std::cout << "Monster Test 1: FAILED\n";
+    delete myMonster;
+    return false;
+  }
+  if (!quiet)
+  {
+    std::cout << "Monster Test 1: PASSED\n";
+  }
+  delete myMonster;
+  return true;
+}
+
+bool RPGTest::testUseable1(bool quiet)
+{
+  Useable* myUseable = new Useable();
+  for (int i = 0; i < Damage::size; i++)
+  {
+    if (myUseable->getDamage().content[i] != 0)
+    {
+      std::cout << "Useable Test 1: FAILED\n";
+      delete myUseable;
+      return false;
+    }
+  }
+  if (!quiet)
+  {
+    std::cout << "Useable Test 1: PASSED\n";
+    delete myUseable;
+    return false;
+  }
+}
+
+bool RPGTest::testUseable2(bool quiet)
+{
+  Useable* myUseable = new Useable();
+  Damage* myDamage = new Damage();
+  for (int i = 0; i < Damage::size; i++)
+  {
+    myDamage->content[i] = ((i * 4) + (i % 3));
+  }
+  myUseable->setDamage(*myDamage);
+  delete myDamage;
+  for (int i = 0; i < Damage::size; i++)
+  {
+    if (myUseable->getDamage().content[i] != ((i * 4) + (i % 3)));
+    {
+      std::cout << "Useable Test 2: FAILED\n";
+      delete myUseable;
+      return false;
+    }
+  }
+  if (!quiet)
+  {
+    std::cout << "Useable Test 2: PASSED\n";
+    delete myUseable;
+    return true;
+  }
+}
+

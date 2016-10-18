@@ -7,6 +7,8 @@
 #include "Damage.h"
 #include "Tile.h"
 #include "Weapon.h"
+#include "MonsterType.h"
+#include "Useable.h"
 #include <iostream>
 class RPGTest
 {
@@ -40,7 +42,9 @@ public:
   static bool testWeapon2(bool quiet);
   static bool testWeapon3(bool quiet);
   static bool testWeapon4(bool quiet);
-
+  static bool testMonsterType1(bool quiet);
+  static bool testUseable1(bool quiet);
+  static bool testUseable2(bool quiet);
 
 };
 #endif
