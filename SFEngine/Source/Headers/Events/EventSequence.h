@@ -11,27 +11,33 @@ namespace Engine
 
   struct GenericEvent {
     GenericEvent(const double &dur)
-      : Duration(dur) {}
+     : TotalDuration(dur), CurrDuration(0) {}
     GenericEvent()
-      : Repeat(false), Duration(0), Trigger([]() {}) {}
+     : Repeat(false), TotalDuration(0), CurrDuration(0), Trigger([]() {}) {}
 
     GenericEvent(const GenericEvent &t)
-      : Repeat(t.Repeat), Duration(t.Duration), Trigger(t.Trigger) {}
+     : Repeat(t.Repeat), TotalDuration(t.TotalDuration), CurrDuration(0), Trigger(t.Trigger) {}
 
     //Method called when the sequence node is hit
     std::function<void(void)> Trigger = []() {};
 
+
+    bool TickUpdate(const double &delta); 
+    virtual void UpdateEvent();
+    virtual void Restart();
+
     bool Repeat = false;
-    double Duration;
+    double TotalDuration;
+    double CurrDuration;
   };
 
-  class EventSequence : public BaseEngineInterface
+  class EventSequence
   {
   public:
+    EventSequence();
+    ~EventSequence();
 
-    void TickUpdate(const double &delta);
-    void Render();
-    void OnShutDown();
+    bool TickUpdate(const double &delta);
 
     void AdvanceEvent();
     bool IsOver() const;
@@ -39,6 +45,16 @@ namespace Engine
     void BeginSequence();
     void PauseSequence();
     void HaltSequence();
+
+    bool Paused;
+    bool Halted;
+    bool Finished;
+
+    Util::Node<GenericEvent>* GetSequenceBeginning() const;
+    Util::Node<GenericEvent>* GetSequenceEnd() const;
+    Util::Node<GenericEvent>* GetSequenceCurrent() const;
+
+    void AddEvent(GenericEvent *Event);
 
 
   private:

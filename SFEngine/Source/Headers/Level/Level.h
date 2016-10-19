@@ -9,6 +9,7 @@
 #include "../Actor/Player.h"
 
 #include "../Lights/GlobalLightSource.h"
+#include "LevelEnvironment.h"
 
 namespace Engine
 {
@@ -53,6 +54,11 @@ namespace Engine
     void ReceiveFont(std::shared_ptr<sf::Font> font, const std::string &ID);
     std::shared_ptr<sf::Font> LevelWaitingFont;
 
+
+    LevelEnvironment Environment;
+    void AddActor(const std::string &ID, GenericActor *src);
+    void AddLight(const std::string &ID, GenericLightSource *src);
+    void AddGlobalLight(const std::string &ID, GlobalLightSource *src);
 
 
 

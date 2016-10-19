@@ -3,20 +3,37 @@
 
 #include "LevelObject.h"
 #include "../Lights/GlobalLightSource.h"
-#include "../Actor/Actor.h"
 
 namespace Engine
 {
+  class GenericActor;
+  class Player;
 
-  namespace LevelEnvironment
+  class LevelEnvironment
   {
+  public:
+    LevelEnvironment();
+    ~LevelEnvironment();
 
-    extern GlobalLightSource *GlobalLight;
-    extern GenericActor **Actors;
-    extern GenericLightSource **Lights;
+    void AddGlobalLight(const std::string &ID, GlobalLightSource *src);
+    void AddActor(const std::string &ID, GenericActor *src);
+    void AddLight(const std::string &ID, GenericLightSource *src);
+    void SetPlayer(const std::string &ID);
 
-    class GenericActor;
-  }
+    GlobalLightSource* GetGlobalLight(const std::string &ID);
+    GenericActor* GetActor(const std::string &ID);
+    GenericLightSource* GetLight(const std::string &ID);
+    Player* GetPlayer(const std::string &ID);
+
+  protected:
+    std::vector<std::shared_ptr<GenericLightSource>> LevelLights;
+    std::shared_ptr<GlobalLightSource> LevelGlobalLight;
+    std::vector<std::shared_ptr<GenericActor>> LevelActors;
+    std::shared_ptr<Player> LevelPlayerActor;
+  };
+
+  extern LevelEnvironment *CurrentLevelEnvironment;
+
 
 }
 

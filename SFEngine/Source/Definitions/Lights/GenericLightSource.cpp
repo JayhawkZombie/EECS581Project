@@ -5,11 +5,12 @@ namespace Engine
 
   GenericLightSource::GenericLightSource()
   {
-
+    LightID = "";
   }
 
   GenericLightSource::GenericLightSource(const GenericLightSource &src)
   {
+    LightID = "";
     Position = src.Position;
     Attenutation = src.Attenutation;
     Intensity = src.Intensity;
@@ -70,6 +71,16 @@ namespace Engine
   const bool& GenericLightSource::GetDoesCastShadows() const
   {
     return bDoesCastShadows;
+  }
+
+  void GenericLightSource::SetID(const std::string &ID)
+  {
+    LightID = ID;
+  }
+
+  const std::string& GenericLightSource::GetID() const
+  {
+    return LightID;
   }
 
 }

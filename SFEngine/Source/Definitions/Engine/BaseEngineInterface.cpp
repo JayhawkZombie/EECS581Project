@@ -34,4 +34,14 @@ namespace Engine
   {
 
   }
+
+  std::string BaseEngineInterface::GetID() const
+  {
+    return ItemID;
+  }
+
+  void BaseEngineInterface::SetID(const std::string &ID)
+  {
+    ItemID = ID;
+  }
 }
