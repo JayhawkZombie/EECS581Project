@@ -28,12 +28,15 @@ namespace Engine
     virtual void SetDoesCastShadows(const bool &b);
     virtual const bool& GetDoesCastShadows() const;
 
+    void SetID(const std::string &ID);
+    const std::string& GetID() const;
+
   protected:
     sf::Vector2f Position;
     sf::Vector2f Attenutation;
     float Intensity;
     sf::Color Color;
-
+    std::string LightID;
     bool bDoesCastShadows;
 
   };

@@ -16,7 +16,7 @@ namespace Engine
       Node<T> *Previous;
 
       Node(const T &v) : value(v), Next(nullptr) {}
-      Node(const T &v, Node<T> *p) : Previous(p) : Node(v) {}
+      Node(const T &v, Node<T> *p) : Previous(p), Next(nullptr), value(v) {}
 
       inline bool operator==(const Node<T> &other) {
         return (value == other.value);
@@ -88,6 +88,15 @@ namespace Engine
         return Length;
       }
 
+      Node<Sequence>* GetBeginning() const {
+        return Beginning;
+      }
+      Node<Sequence>* GetEnd() const {
+        return End;
+      }
+      Node<Sequence>* GetCurrent() const {
+        return Current;
+      }
 
     private:
       Node<Sequence> *Beginning;

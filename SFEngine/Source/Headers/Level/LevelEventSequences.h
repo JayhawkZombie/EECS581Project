@@ -12,7 +12,7 @@ namespace Engine
     UserInputEvent(const UserInputEvent &e)
     {
       Trigger = e.Trigger;
-      Duration = e.Duration;
+      TotalDuration = e.TotalDuration;
       Repeat = e.Repeat;
       TriggerEvent = e.TriggerEvent;
     }
@@ -26,10 +26,10 @@ namespace Engine
     {
       Trigger = [&]()->void {cb(_key); };
     }
-    UserKeyPressEvent(const UserKeyPressEvent &e) : UserInputEvent(e.TriggerEvent, e.Duration)
+    UserKeyPressEvent(const UserKeyPressEvent &e) : UserInputEvent(e.TriggerEvent, e.TotalDuration)
     {
       Trigger = e.Trigger;
-      Duration = e.Duration;
+      TotalDuration = e.TotalDuration;
       TriggerEvent = e.TriggerEvent;
       Repeat = e.Repeat;
       _key = e._key;
@@ -47,10 +47,10 @@ namespace Engine
       Trigger = [=]()->void {cb(_key); };
     }
     UserKeyReleaseEvent(const UserKeyReleaseEvent &e)
-      : UserInputEvent(e.TriggerEvent, e.Duration)
+      : UserInputEvent(e.TriggerEvent, e.TotalDuration)
     {
       Trigger = e.Trigger;
-      Duration = e.Duration;
+      TotalDuration = e.TotalDuration;
       TriggerEvent = e.TriggerEvent;
       Repeat = e.Repeat;
       _key = e._key;
@@ -70,10 +70,10 @@ namespace Engine
       Trigger = [=]()->void {cb(_pos, _button); };
     }
     UserMousePressEvent(const UserMousePressEvent &e)
-      : UserInputEvent(e.TriggerEvent, e.Duration)
+      : UserInputEvent(e.TriggerEvent, e.TotalDuration)
     {
       Trigger = e.Trigger;
-      Duration = e.Duration;
+      TotalDuration = e.TotalDuration;
       TriggerEvent = e.TriggerEvent;
       Repeat = e.Repeat;
       _pos = e._pos;
@@ -94,10 +94,10 @@ namespace Engine
       Trigger = [=]()->void {cb(_pos, _button); };
     }
     UserMouseReleaseEvent(const UserMouseReleaseEvent &e)
-      : UserInputEvent(e.TriggerEvent, e.Duration)
+      : UserInputEvent(e.TriggerEvent, e.TotalDuration)
     {
       Trigger = e.Trigger; 
-      Duration = e.Duration;
+      TotalDuration = e.TotalDuration;
       TriggerEvent = e.TriggerEvent;
       Repeat = e.Repeat;
       _pos = e._pos;

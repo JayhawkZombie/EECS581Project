@@ -23,6 +23,11 @@ namespace Engine
     });
   }
 
+  Player::Player(const Player &p)
+  {
+
+  }
+
   Player::Player()
   {
     TestShape.setFillColor(sf::Color::Black);

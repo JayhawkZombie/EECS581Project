@@ -175,6 +175,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Level\Layer.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\Level.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEnvironment.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Level\LevelEnvironmentEvent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEventSequences.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GenericLightSource.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\UIUtils.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Convert.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\ListTemplates.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\NullType.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\ReadIni.h" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +227,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelCollision.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironment.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironmentEvent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventHandling.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventSequences.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoad.cpp" />
@@ -242,6 +245,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\ClickButton.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\KeyTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\MouseTarget.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\RenderTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIController.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIControllerHandlers.cpp" />
@@ -271,6 +275,7 @@
     <None Include="SFEngine\Source\BlurFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreVertexShader.vsh" />
+    <None Include="SFEngine\Source\Definitions\Level\ClassDiagram.cd" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
