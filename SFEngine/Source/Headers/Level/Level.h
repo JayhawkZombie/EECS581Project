@@ -36,6 +36,8 @@ namespace Engine
 
     GlobalLightSource GlobalLight;
 
+    sf::Vector2f OldActorPos;
+
     std::map<std::string, EventSequence> EventSequences;
     EventSequence *CurrentEventSequence;
 

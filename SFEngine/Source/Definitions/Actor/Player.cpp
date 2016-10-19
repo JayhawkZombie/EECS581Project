@@ -3,13 +3,9 @@
 namespace Engine
 {
 
-  Player::Player()
+  Player::Player(const std::string &texfile, const std::string &texID)
+    : GenericActor(texfile, texID)
   {
-    Handler.BindCallback(Events::KeyPressed,
-    [this](const sf::Keyboard::Key &key)
-    {
-      this->KeyWasPressed(key);
-    });
 
     TestShape.setFillColor(sf::Color::Black);
 
@@ -20,6 +16,29 @@ namespace Engine
     TestShape.setPosition(Position);
     TestShape.setSize(sf::Vector2f(50, 75));
     Velocity = sf::Vector2f(0, 0);
+    Handler.BindCallback(Events::KeyPressed,
+                         [this](const sf::Keyboard::Key &key)
+    {
+      this->KeyWasPressed(key);
+    });
+  }
+
+  Player::Player()
+  {
+    TestShape.setFillColor(sf::Color::Black);
+
+    Position = sf::Vector2f(250, 250);
+    ActorBox.Position = Position;
+    ActorBox.Size = sf::Vector2f(50, 75);
+
+    TestShape.setPosition(Position);
+    TestShape.setSize(sf::Vector2f(50, 75));
+    Velocity = sf::Vector2f(0, 0);
+    Handler.BindCallback(Events::KeyPressed,
+                         [this](const sf::Keyboard::Key &key)
+    {
+      this->KeyWasPressed(key);
+    });
   }
 
   Player::~Player()
@@ -30,6 +49,8 @@ namespace Engine
   void Player::TickUpdate(const double &delta)
   {
     TryToMove(Velocity);
+    TestShape.setPosition(Position);
+    TestShape.setSize(sf::Vector2f(50, 75));
   }
 
   void Player::Render()
@@ -58,25 +79,27 @@ namespace Engine
 
   void Player::KeyWasPressed(const sf::Keyboard::Key &k)
   {
+    //std::cerr << "Player: KeyWasPressed" << std::endl;
     switch (k)
     {
       case sf::Keyboard::Right:
-        Velocity = sf::Vector2f(0.3, 0);
+        Velocity = sf::Vector2f(0.1, 0);
         break;
       case sf::Keyboard::Left:
-        Velocity = sf::Vector2f(-0.3, 0);
+        Velocity = sf::Vector2f(-0.1, 0);
         break;
       case sf::Keyboard::Up:
-        Velocity = sf::Vector2f(0, -0.3);
+        Velocity = sf::Vector2f(0, -0.1);
         break;
       case sf::Keyboard::Down:
-        Velocity = sf::Vector2f(0, 0.3);
+        Velocity = sf::Vector2f(0, 0.1);
         break;
     }
   }
 
   void Player::KeyWasReleased(const sf::Keyboard::Key &k)
   {
+    //std::cerr << "Player: KeyWasReleased" << std::endl;
     switch (k)
     {
       case sf::Keyboard::Right:

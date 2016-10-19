@@ -9,6 +9,7 @@ namespace Engine
   {
   public:
     Player();
+    Player(const std::string &texfile, const std::string &texID);
     ~Player();
 
 

@@ -174,6 +174,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Globals\GlobalHooks.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\Layer.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\Level.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Level\LevelEnvironment.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEventSequences.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GenericLightSource.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Layer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelCollision.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironment.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventHandling.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventSequences.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoad.cpp" />

@@ -21,7 +21,7 @@ namespace Engine
     //If the PlayerActor moved on top of a collision box, place the actor back at their old position
     //TODO: CORRECT movement instead of disallowing all movement
     //  ie PLACE ACTOR AT EDGE OF BOX
-    sf::Vector2f oldActorPos = PlayerActor.Position;
+    //sf::Vector2f oldActorPos = PlayerActor.Position;
 
     /**
      * BUG - Rectangle cannot move across the edge of the surface
@@ -36,7 +36,7 @@ namespace Engine
 
     if (intersects != INT_MAX) {
       PlayerActor.Velocity = sf::Vector2f(0, 0);
-      PlayerActor.MoveTo(oldActorPos);
+      PlayerActor.MoveTo(OldActorPos);
 
     }
 

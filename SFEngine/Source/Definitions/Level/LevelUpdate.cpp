@@ -5,6 +5,7 @@ namespace Engine
 
   void Level::TickUpdate(const double &delta)
   {
+    OldActorPos = PlayerActor.Position;
     PlayerActor.TickUpdate(delta);
 
     CheckCollisions();
