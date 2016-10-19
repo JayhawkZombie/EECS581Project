@@ -25,9 +25,8 @@ namespace Engine
     GlobalLight.SetColor(colors[currColor]);
     Render::AddGlobalLight(GlobalLight);
 
-
-
     if (PlayerActor.WantsInputEvent(Events::KeyPressed)) {
+      OldActorPos = PlayerActor.Position;
       PlayerActor.Handler.HandleKeyPress(key);
     }
 
