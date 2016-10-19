@@ -39,6 +39,7 @@ true
 false
 false
 FallFlower circlet
+3
 This cirlcet was crafted by a foolish young boy for a girl he loved. It is a simple twist of barkless branches woven together and tied with fallflowers
 1 
 2 
@@ -50,6 +51,7 @@ false
 true  
 false 
 Simple Boots
+13
 These boots were quickly crafted by a journeyman cobbler, shortly before moving on to the next pair that looks exactly the same
 6
 2

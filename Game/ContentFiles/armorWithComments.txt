@@ -1,5 +1,6 @@
 5 //number of instances (the length of the array that should conatin them)
 Ring Of Mist and Wind//This is the name of the Armor, which comes first
+10000//this is the value of the item as in money, inherited from ItemRPG class
 Created for Lady Lackless, this ring was created by a magician who mastered the sea- and put its essence inside the glass of this ring
 1 //this is the damage index-water
 3 //this is the value to go in that index
@@ -11,6 +12,7 @@ false //this item is not equipped on the arms
 false //this item is not equipped on the head
 true  //this item is equipped in the m_ring slot
 Bear Fur Bracers// m_name
+35//money m_value
 Cut from the hide of a great grizzly, these bracers serve as a layer of protection from the elements
 1 //index
 1 //value
@@ -24,9 +26,10 @@ true //equipped on arms
 false //not equipped on head
 false //not equipped on ring
 Silver Plate //m_name
+850//m_value
 This plate was crafted from pure silver for the use of the Light Lord's Justicars, protectors of the peace
 4 //index
-10 //value
+10 //value in the index
 5 //index
 10 //value
 6 //index
@@ -39,6 +42,7 @@ true //ALSO equipped on the arms
 false // not equipped on the head
 false // not equipped on the ring
 FallFlower circlet
+3
 This cirlcet was crafted by a foolish young boy for a girl he loved. It is a simple twist of barkless branches woven together and tied with fallflowers
 1 //index
 2 //value
@@ -50,6 +54,7 @@ false //not equipped on the arms
 true  //equipped on the head
 false //not equipped on the ring
 Simple Boots
+13
 These boots were quickly crafted by a journeyman cobbler, shortly before moving on to the next pair that looks exactly the same
 6//index
 2//value
