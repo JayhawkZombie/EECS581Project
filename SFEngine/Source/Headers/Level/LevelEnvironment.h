@@ -35,8 +35,6 @@ namespace Engine
   };
 
   extern LevelEnvironment *CurrentLevelEnvironment;
-
-
 }
 
 #endif

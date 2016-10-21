@@ -73,7 +73,7 @@ namespace Engine
     ResourceManager->Start();
 
     //Now begin loading the level
-    Level *lvl = new Level("./SFEngine/Samples/Maps/testmap.ini");
+    Level *lvl = new Level("./SFEngine/Samples/Maps/testforest.ini");
     Levels.push_back(std::shared_ptr<Level>(lvl));
     Levels[0]->LoadLevel();
 

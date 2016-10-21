@@ -6,52 +6,40 @@
 
 namespace Engine
 {
-  //Simulate user input
-  struct UserInputEvent : public GenericEvent {
-    UserInputEvent(const Events &e, const double &duration) : TriggerEvent(e), GenericEvent(duration) {}
-    UserInputEvent(const UserInputEvent &e)
-    {
-      Trigger = e.Trigger;
-      TotalDuration = e.TotalDuration;
-      Repeat = e.Repeat;
-      TriggerEvent = e.TriggerEvent;
-    }
-    Events TriggerEvent;
-  };
 
   //Simulate user pressing a key
-  struct UserKeyPressEvent : public UserInputEvent {
+  struct UserKeyPressEvent : public GenericEvent {
     UserKeyPressEvent(sf::Keyboard::Key k, std::function<void(sf::Keyboard::Key k)> &cb, const double &duration)
-      : _key(k), UserInputEvent(Events::KeyPressed, duration) 
+      : _key(k), CALLBACK(cb), GenericEvent(Events::KeyPressed, duration) 
     {
-      Trigger = [&]()->void {cb(_key); };
+      Trigger = [this]()->void {CALLBACK(_key); };
     }
-    UserKeyPressEvent(const UserKeyPressEvent &e) : UserInputEvent(e.TriggerEvent, e.TotalDuration)
+    UserKeyPressEvent(const UserKeyPressEvent &e) : GenericEvent(e.EventTrigger, e.TotalDuration)
     {
       Trigger = e.Trigger;
       TotalDuration = e.TotalDuration;
-      TriggerEvent = e.TriggerEvent;
+      EventTrigger = e.EventTrigger;
       Repeat = e.Repeat;
       _key = e._key;
     }
 
-
+    std::function<void(sf::Keyboard::Key k)> CALLBACK;
     sf::Keyboard::Key _key;
   };
 
   //Simulate a user releasing a key
-  struct UserKeyReleaseEvent : public UserInputEvent {
+  struct UserKeyReleaseEvent : public GenericEvent {
     UserKeyReleaseEvent(sf::Keyboard::Key k, std::function<void(sf::Keyboard::Key k)> cb, const double &duration)
-      : _key(k), UserInputEvent(Events::KeyReleased, duration)
+      : _key(k), GenericEvent(Events::KeyReleased, duration)
     {
       Trigger = [=]()->void {cb(_key); };
     }
     UserKeyReleaseEvent(const UserKeyReleaseEvent &e)
-      : UserInputEvent(e.TriggerEvent, e.TotalDuration)
+      : GenericEvent(e.EventTrigger, e.TotalDuration)
     {
       Trigger = e.Trigger;
       TotalDuration = e.TotalDuration;
-      TriggerEvent = e.TriggerEvent;
+      EventTrigger = e.EventTrigger;
       Repeat = e.Repeat;
       _key = e._key;
     }
@@ -61,20 +49,20 @@ namespace Engine
   };
 
   //Simulate user pressing a mouse button
-  struct UserMousePressEvent : public UserInputEvent
+  struct UserMousePressEvent : public GenericEvent
   {
     UserMousePressEvent(const sf::Mouse::Button &b, const sf::Vector2i &p,
                         std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> cb, const double &duration)
-      : _button(b), _pos(p), UserInputEvent(Events::MouseDown, duration)
+      : _button(b), _pos(p), GenericEvent(Events::MouseDown, duration)
     {
       Trigger = [=]()->void {cb(_pos, _button); };
     }
     UserMousePressEvent(const UserMousePressEvent &e)
-      : UserInputEvent(e.TriggerEvent, e.TotalDuration)
+      : GenericEvent(e.EventTrigger, e.TotalDuration)
     {
       Trigger = e.Trigger;
       TotalDuration = e.TotalDuration;
-      TriggerEvent = e.TriggerEvent;
+      EventTrigger = e.EventTrigger;
       Repeat = e.Repeat;
       _pos = e._pos;
       _button = e._button;
@@ -85,20 +73,20 @@ namespace Engine
   };
 
   //Simulate user releasing a mouse button
-  struct UserMouseReleaseEvent : public UserInputEvent
+  struct UserMouseReleaseEvent : public GenericEvent
   {
     UserMouseReleaseEvent(const sf::Mouse::Button &b, const sf::Vector2i &p,
                           std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> cb, const double &duration)
-      : _pos(p), _button(b), UserInputEvent(Events::MouseReleased, duration)
+      : _pos(p), _button(b), GenericEvent(Events::MouseReleased, duration)
     {
       Trigger = [=]()->void {cb(_pos, _button); };
     }
     UserMouseReleaseEvent(const UserMouseReleaseEvent &e)
-      : UserInputEvent(e.TriggerEvent, e.TotalDuration)
+      : GenericEvent(e.EventTrigger, e.TotalDuration)
     {
       Trigger = e.Trigger; 
       TotalDuration = e.TotalDuration;
-      TriggerEvent = e.TriggerEvent;
+      EventTrigger = e.EventTrigger;
       Repeat = e.Repeat;
       _pos = e._pos;
       _button = e._button;

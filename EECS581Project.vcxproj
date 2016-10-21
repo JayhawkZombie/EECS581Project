@@ -270,6 +270,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SFEngine\Config\Engine.ini" />
+    <None Include="SFEngine\Samples\Maps\testforest.ini" />
     <None Include="SFEngine\Samples\Maps\testmap.ini" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBG.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.xcf" />
@@ -277,6 +278,7 @@
     <None Include="SFEngine\Source\BlurFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreVertexShader.vsh" />
+    <None Include="SFEngine\Source\Definitions\Physics\ClassDiagram.cd" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

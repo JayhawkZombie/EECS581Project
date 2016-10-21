@@ -10,17 +10,17 @@ namespace Engine
 {
 
   struct GenericEvent {
-    GenericEvent(const double &dur)
-     : TotalDuration(dur), CurrDuration(0) {}
+    GenericEvent(Events t, const double &dur)
+     : EventTrigger(t), TotalDuration(dur), CurrDuration(0) {}
     GenericEvent()
-     : Repeat(false), TotalDuration(0), CurrDuration(0), Trigger([]() {}) {}
+      : Repeat(false), TotalDuration(0), CurrDuration(0), Trigger([]() {}) {}
 
     GenericEvent(const GenericEvent &t)
      : Repeat(t.Repeat), TotalDuration(t.TotalDuration), CurrDuration(0), Trigger(t.Trigger) {}
 
     //Method called when the sequence node is hit
-    std::function<void(void)> Trigger = []() {};
-
+    std::function<void(void)> Trigger;
+    Events EventTrigger;
 
     bool TickUpdate(const double &delta); 
     virtual void UpdateEvent();
