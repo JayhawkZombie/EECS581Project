@@ -14,13 +14,19 @@ class ListReader{
 		//returns the monster array
 		MonsterType** readMonsters(std::string fileName);
 		//return bestiary size
-		const int bestiarySize();
+		const int getNumMonsters();
+		const int getNumArmor();
+		const int getNumWeapons();
+		const int getNumUsables();
 		
 		
 		
 
 	private:
-		int bestiarySize;
-		
+		int num_monsters;
+		int num_armor;
+		int num_usables;
+		int num_weapons;
+
 };
 #endif
