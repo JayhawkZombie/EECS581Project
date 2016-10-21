@@ -25,10 +25,10 @@ float SharpenKernel[9] = float[](
     -1, -1, -1
 );
 
-vec4 brightnessContrast(vec4 pixel)
+vec4 brightnessContrast()
 {
-    //vec4 pixel = texture2D(SCENE, gl_TexCoord[0].st);
-    //pixel *= gl_Color;
+    vec4 pixel = texture2D(SCENE, gl_TexCoord[0].st);
+    pixel *= gl_Color;
     pixel *= CONTRAST;
     pixel.rgb += vec3(BRIGHTNESS, BRIGHTNESS, BRIGHTNESS);
     return pixel;
@@ -83,23 +83,18 @@ vec4 invert(vec4 color)
 
 void main()
 {
-  //Add the global light to the color
-  vec4 pixel = texture2D(SCENE, gl_TexCoord[0].st);
-  pixel *= gl_Color;
+  vec4 pixel = brightnessContrast();
+  pixel.rgb = pow(pixel.rgb, vec3(1.0 / GAMMA));
+
   float I = GLOBAL_LIGHT_INTENSITY / 100;
   pixel = pixel * I + GLOBAL_LIGHT * I;
 
-  vec4 color = brightnessContrast(pixel);
-  color.rgb = pow(color.rgb, vec3(1.0 / GAMMA));
-
   if (POST_PROCESS_EFFECT == 1)
-    color = KernelMethod(color);
+    pixel = KernelMethod(pixel);
   else if (POST_PROCESS_EFFECT == 2)
-    color = KernelMethod(color);
+    pixel = KernelMethod(pixel);
   else if (POST_PROCESS_EFFECT == 3)
-    color = invert(color);
+    pixel = invert(pixel);
 
-  gl_FragColor = color;
+  gl_FragColor = pixel;
 }
-
-

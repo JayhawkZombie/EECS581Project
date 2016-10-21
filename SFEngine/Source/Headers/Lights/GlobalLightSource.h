@@ -13,6 +13,8 @@ namespace Engine
   class GlobalLightSource : public GenericLightSource
   {
   public:
+    static std::shared_ptr<GlobalLightSource> Create();
+
     GlobalLightSource();
     GlobalLightSource(const GlobalLightSource &src);
     ~GlobalLightSource();

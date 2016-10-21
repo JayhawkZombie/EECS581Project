@@ -16,35 +16,28 @@ namespace Engine
 
   }
 
-  void LevelEnvironment::AddGlobalLight(const std::string &ID, GlobalLightSource *src)
+  void LevelEnvironment::AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src)
   {
-    std::shared_ptr<GlobalLightSource> light(src);
-    light->SetID(ID);
-    LevelLights.push_back(light);
+    //std::shared_ptr<GlobalLightSource> light(src);
+    src->SetID(ID);
+    LevelLights.push_back(src);
   }
 
-  void LevelEnvironment::AddActor(const std::string &ID, GenericActor *src)
+  void LevelEnvironment::AddActor(const std::string &ID, std::shared_ptr<GenericActor> src)
   {
-    LevelActors.push_back(std::shared_ptr<GenericActor>(src));
+    src->SetID(ID);
+    LevelActors.push_back(src);
   }
 
-  void LevelEnvironment::AddLight(const std::string &ID, GenericLightSource *src)
+  void LevelEnvironment::AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src)
   {
+    src->SetID(ID);
     LevelLights.push_back(std::shared_ptr<GenericLightSource>(src));
   }
 
-  void LevelEnvironment::SetPlayer(const std::string &ID)
+  void LevelEnvironment::SetPlayer(std::shared_ptr<Player> player)
   {
-    if (LevelPlayerActor->GetID() == ID)
-      return;
-    else {
-      for (auto & it : LevelActors) {
-        if (it->GetID() == ID) {
-          
-          break;
-        }
-      }
-    }
+    LevelPlayerActor = player;
   }
 
   GlobalLightSource* LevelEnvironment::GetGlobalLight(const std::string &ID)

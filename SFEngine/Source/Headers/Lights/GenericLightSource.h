@@ -2,6 +2,7 @@
 #define SFENGINE_GENERIC_LIGHT_SOURCE_H
 
 #include <SFML\Graphics.hpp>
+#include <memory>
 
 namespace Engine
 {

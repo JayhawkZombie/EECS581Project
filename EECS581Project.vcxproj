@@ -181,6 +181,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Lights\GenericLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GlobalLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Collision.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\Physics.h" />
     <ClInclude Include="SFEngine\Source\Headers\Render\Render.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\BaseUIElement.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GenericLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GlobalLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collision.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Physics\InitialPhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Physics.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Render\Render.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManager.cpp" />
@@ -275,7 +277,6 @@
     <None Include="SFEngine\Source\BlurFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreVertexShader.vsh" />
-    <None Include="SFEngine\Source\Definitions\Level\ClassDiagram.cd" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

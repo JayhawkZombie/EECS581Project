@@ -21,7 +21,7 @@ namespace Engine
 
   //Simulate user pressing a key
   struct UserKeyPressEvent : public UserInputEvent {
-    UserKeyPressEvent(const sf::Keyboard::Key &k, std::function<void(const sf::Keyboard::Key &k)> &cb, const double &duration)
+    UserKeyPressEvent(sf::Keyboard::Key k, std::function<void(sf::Keyboard::Key k)> &cb, const double &duration)
       : _key(k), UserInputEvent(Events::KeyPressed, duration) 
     {
       Trigger = [&]()->void {cb(_key); };
@@ -41,7 +41,7 @@ namespace Engine
 
   //Simulate a user releasing a key
   struct UserKeyReleaseEvent : public UserInputEvent {
-    UserKeyReleaseEvent(const sf::Keyboard::Key &k, std::function<void(const sf::Keyboard::Key &k)> cb, const double &duration)
+    UserKeyReleaseEvent(sf::Keyboard::Key k, std::function<void(sf::Keyboard::Key k)> cb, const double &duration)
       : _key(k), UserInputEvent(Events::KeyReleased, duration)
     {
       Trigger = [=]()->void {cb(_key); };

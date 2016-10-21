@@ -4,6 +4,14 @@ namespace Engine
 {
   void Level::Render()
   {
+    if (Playable) {
+
+      Render::RenderSprite(BackgroundLayer.BGSprite);
+
+    }
+
+
+    /*
     if (!Playable) {
       Render::RenderText(&LevelWaitingText);
     }
@@ -33,6 +41,6 @@ namespace Engine
       Render::RenderText(&LevelWaitingText);
 
       PlayerActor.Render();
-    } //end else
+    } //end else*/
   } //Render()
 }

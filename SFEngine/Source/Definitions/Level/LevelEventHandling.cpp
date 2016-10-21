@@ -11,19 +11,19 @@ namespace Engine
     //  ie PLACE ACTOR AT EDGE OF BOX
 
     static std::size_t currColor = 0;
-    sf::Color colors[4] = { sf::Color::Blue, sf::Color::Red, sf::Color::Green, sf::Color::Magenta };
+    sf::Color colors[5] = { sf::Color::Transparent, sf::Color::Blue, sf::Color::Red, sf::Color::Green, sf::Color::Magenta };
 
     if (key == sf::Keyboard::Num1)
-      currColor = (currColor - 1) % 4;
+      currColor = (currColor - 1) % 5;
     else if (key == sf::Keyboard::Num2)
-      currColor = (currColor + 1) % 4;
+      currColor = (currColor + 1) % 5;
     else if (key == sf::Keyboard::Num3)
-      GlobalLight.SetIntensity(GlobalLight.GetIntensity() - 5);
+      Environment.LevelGlobalLight->SetIntensity(Environment.LevelGlobalLight->GetIntensity() - 5);
     else if (key == sf::Keyboard::Num4)
-      GlobalLight.SetIntensity(GlobalLight.GetIntensity() + 5);
+      Environment.LevelGlobalLight->SetIntensity(Environment.LevelGlobalLight->GetIntensity() + 5);
 
-    GlobalLight.SetColor(colors[currColor]);
-    Render::AddGlobalLight(GlobalLight);
+    Environment.LevelGlobalLight->SetColor(colors[currColor]);
+    Render::AddGlobalLight(*Environment.LevelGlobalLight);
 
     if (PlayerActor.WantsInputEvent(Events::KeyPressed)) {
       OldActorPos = PlayerActor.Position;
