@@ -3,6 +3,11 @@
 namespace Engine
 {
 
+  std::shared_ptr<GlobalLightSource> GlobalLightSource::Create()
+  {
+    return std::make_shared<GlobalLightSource>();
+  }
+
   GlobalLightSource::GlobalLightSource()
   {
     bDoesCastShadows = false;

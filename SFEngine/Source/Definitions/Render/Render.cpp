@@ -1,4 +1,5 @@
 #include "../../Headers/Render/Render.h"
+#include <iostream>
 
 namespace
 {
@@ -86,11 +87,10 @@ namespace Engine
         view.reset(bounds);
         view.setViewport(ViewPanel);
 
-
         CoreRenderSettings.texture->setActive(true);
         CoreRenderSettings.texture->setView(view);
-        CoreRenderSettings.texture->draw(*drawable, VertexShader);
-        CoreRenderSettings.texture->setView(CoreRenderSettings.texture->getDefaultView());
+        CoreRenderSettings.texture->draw(*drawable);
+        CoreRenderSettings.texture->setView(CoreRenderSettings.texture->getDefaultView()); 
       }
     }
 
@@ -105,7 +105,6 @@ namespace Engine
       //Now that every has been drawn to a render texture, draw that one huge texture
       CoreRenderSettings.texture->setActive(true);
       CoreRenderSettings.texture->display();
-      
 
       FragmentShader->setUniform("BRIGHTNESS", CoreRenderSettings.Brightness);
       FragmentShader->setUniform("CONTRAST", CoreRenderSettings.Contrast);
@@ -119,17 +118,6 @@ namespace Engine
       sf::Sprite spr(CoreRenderSettings.texture->getTexture());
 
       DrawWindow->draw(spr, FragmentShader);
-
-      switch (CoreRenderSettings.PostProcess)
-      {
-        case 1:
-
-        case 2:
-
-        default:
-          break;
-      }
-
     }
 
     void __Set__Window(sf::RenderWindow *window)

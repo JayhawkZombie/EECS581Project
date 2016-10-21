@@ -5,11 +5,14 @@
 #include "../Engine/BaseEngineInterface.h"
 #include "Layer.h"
 #include "LevelObject.h"
+#include "LevelEventSequences.h"
 #include "../Events/EventSequence.h"
 #include "../Actor/Player.h"
 
 #include "../Lights/GlobalLightSource.h"
 #include "LevelEnvironment.h"
+
+#include "../Physics/Physics.h"
 
 namespace Engine
 {
@@ -35,8 +38,6 @@ namespace Engine
     void CorrectActorMovement(const std::size_t &boxIndex);
     std::size_t CanActorMove(const sf::FloatRect &ActorBox);
 
-    GlobalLightSource GlobalLight;
-
     sf::Vector2f OldActorPos;
 
     std::map<std::string, EventSequence> EventSequences;
@@ -56,9 +57,9 @@ namespace Engine
 
 
     LevelEnvironment Environment;
-    void AddActor(const std::string &ID, GenericActor *src);
-    void AddLight(const std::string &ID, GenericLightSource *src);
-    void AddGlobalLight(const std::string &ID, GlobalLightSource *src);
+    void AddActor(const std::string &ID, std::shared_ptr<GenericActor> src);
+    void AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src);
+    void AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src);
 
 
 
@@ -67,6 +68,8 @@ namespace Engine
     void __LoadLayout(std::ifstream &IN);
     void __DrawTiles();
     void ReceiveTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture);
+
+    EventSequence Seq;
 
     std::thread LOADER;
     std::string LevelFile;

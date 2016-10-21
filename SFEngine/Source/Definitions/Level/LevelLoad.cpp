@@ -37,6 +37,8 @@ namespace Engine
 
   void Level::__DrawTiles()
   {
+    std::cerr << "Drawing level tiles" << std::endl;
+
     BackgroundLayer.BackgroundTexture.create(
       tileSizeX * tileWidth, tileSizeY * tileHeight
     );
@@ -73,7 +75,7 @@ namespace Engine
 
   void Level::LoadLevel()
   {
-
+    std::cerr << "Level loading" << std::endl;
     LOADER = std::thread(
       [this]() { this->__LoadLevel(); }
     );

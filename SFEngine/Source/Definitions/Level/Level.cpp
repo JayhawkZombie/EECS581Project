@@ -25,25 +25,29 @@ namespace Engine
     ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", "./SFEngine/Samples/Fonts/OpenSans-Regular.ttf",
                                  [this](std::shared_ptr<sf::Font> f, const std::string &s) {this->ReceiveFont(f, s); });
 
-    GlobalLightSource *GlobalLight = new GlobalLightSource;
+    auto GlobalLight = GlobalLightSource::Create();
+
     GlobalLight->SetColor(sf::Color::Transparent);
     GlobalLight->SetIntensity(25);
 
-    Environment.AddGlobalLight("LevelGlobalLight", new GlobalLightSource);
+    Environment.LevelGlobalLight = GlobalLight;
+    Render::AddGlobalLight(*GlobalLight);
 
     /**
      * Just for testing
      */
-    //Player *player = new Player;
-    //player->Collsion.Position = sf::Vector2f(250, 250);
-   // player->Collsion.Size = sf::Vector2f(50, 75);
-   // player->MoveTo(sf::Vector2f(250, 250));
-    //Environment.AddActor("MainPlayerActor", player);
-    //Environment.SetPlayer("MainPlayerActor");
+    Player *__player = new Player;
 
-    //PlayerActor.Collsion.Position = sf::Vector2f(250, 250);
-    //PlayerActor.Collsion.Size = sf::Vector2f(50, 75);
-    //PlayerActor.MoveTo(sf::Vector2f(250, 250));
+    std::shared_ptr<Player> player(__player);
+    player->Collsion.Position = sf::Vector2f(250, 250);
+    player->Collsion.Size = sf::Vector2f(50, 75);
+    player->MoveTo(sf::Vector2f(250, 250));
+    Environment.AddActor("MainPlayerActor", player);
+    Environment.SetPlayer(player);
+
+    PlayerActor.Collsion.Position = sf::Vector2f(250, 250);
+    PlayerActor.Collsion.Size = sf::Vector2f(50, 75);
+    PlayerActor.MoveTo(sf::Vector2f(250, 250));
 
     CollisionBoxes.push_back({});
     CollisionBoxes.push_back({});
@@ -69,17 +73,17 @@ namespace Engine
     }
   }
 
-  void Level::AddActor(const std::string &ID, GenericActor *src)
+  void Level::AddActor(const std::string &ID, std::shared_ptr<GenericActor> src)
   {
     Environment.AddActor(ID, src);
   }
 
-  void Level::AddLight(const std::string &ID, GenericLightSource *src)
+  void Level::AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src)
   {
     Environment.AddLight(ID, src);
   }
 
-  void Level::AddGlobalLight(const std::string &ID, GlobalLightSource *src)
+  void Level::AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src)
   {
     Environment.AddGlobalLight(ID, src);
   }

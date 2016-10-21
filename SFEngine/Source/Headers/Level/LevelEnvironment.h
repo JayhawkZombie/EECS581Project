@@ -12,13 +12,15 @@ namespace Engine
   class LevelEnvironment
   {
   public:
+    friend class Level;
+
     LevelEnvironment();
     ~LevelEnvironment();
 
-    void AddGlobalLight(const std::string &ID, GlobalLightSource *src);
-    void AddActor(const std::string &ID, GenericActor *src);
-    void AddLight(const std::string &ID, GenericLightSource *src);
-    void SetPlayer(const std::string &ID);
+    void AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src);
+    void AddActor(const std::string &ID, std::shared_ptr<GenericActor> src);
+    void AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src);
+    void SetPlayer(std::shared_ptr<Player> player);
 
     GlobalLightSource* GetGlobalLight(const std::string &ID);
     GenericActor* GetActor(const std::string &ID);
