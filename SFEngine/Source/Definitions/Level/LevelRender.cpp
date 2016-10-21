@@ -7,6 +7,10 @@ namespace Engine
     if (Playable) {
 
       Render::RenderSprite(BackgroundLayer.BGSprite);
+      
+      for (auto player : Environment.LevelActors) {
+        Render::RenderShape(&player->ActorRectangle);
+      }
 
     }
 

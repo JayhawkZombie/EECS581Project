@@ -7,11 +7,7 @@
 namespace Engine
 {
 
-  struct LevelEnvironmentEvent : public GenericEvent {
-    LevelEnvironmentEvent() :  GenericEvent(0) {}
-
-
-  };
+ 
 
 }
 
