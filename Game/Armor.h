@@ -2,7 +2,8 @@
 #define ARMOR_H
 
 #include "Damage.h"
-class Armor
+#include "RPGItem.h"
+class Armor : public RPGItem
 {
 public:
   Armor();
