@@ -27,6 +27,11 @@ std::string RPGItem::getDescription() const
 	return m_description;
 }
 
+std::string RPGItem::getTexture() const
+{
+  return m_texture;
+}
+
 int RPGItem::getValue() const
 {
 	return m_value;
@@ -48,6 +53,10 @@ void RPGItem::setDescription(std::string description)
 	m_description = description;
 }
 
+void RPGItem::setTexture(std::string texture)
+{
+  m_texture = texture;
+}
 void RPGItem::setValue(int value)
 {
 	m_value = value;
