@@ -589,9 +589,10 @@ bool RPGTest::testDamage2(bool quiet)
   if (!quiet)
   {
     std::cout << "Damage Test 2: PASSED\n";
-    delete myDamage;
-    return true;
   }
+  delete myDamage;
+  return true;
+
 }
 
 bool RPGTest::testArmor1(bool quiet)
@@ -840,9 +841,9 @@ bool RPGTest::testWeapon2(bool quiet)
   if (!quiet)
   {
     std::cout << "Weapon Test 2: PASSED\n";
-    delete myWeapon;
-    return true;
   }
+  delete myWeapon;
+  return true;
 }
 
 bool RPGTest::testWeapon3(bool quiet)
@@ -928,9 +929,9 @@ bool RPGTest::testUseable1(bool quiet)
   if (!quiet)
   {
     std::cout << "Useable Test 1: PASSED\n";
-    delete myUseable;
-    return false;
   }
+  delete myUseable;
+  return false;
 }
 
 bool RPGTest::testUseable2(bool quiet)
@@ -945,7 +946,7 @@ bool RPGTest::testUseable2(bool quiet)
   delete myDamage;
   for (int i = 0; i < Damage::size; i++)
   {
-    if (myUseable->getDamage().content[i] != ((i * 4) + (i % 3)));
+    if (myUseable->getDamage().content[i] != ((i * 4) + (i % 3)))
     {
       std::cout << "Useable Test 2: FAILED\n";
       delete myUseable;
@@ -955,7 +956,27 @@ bool RPGTest::testUseable2(bool quiet)
   if (!quiet)
   {
     std::cout << "Useable Test 2: PASSED\n";
-    delete myUseable;
+  }
+  delete myUseable;
+  return true;
+}
+
+bool RPGTest::testSkill1(bool quiet)
+{
+  Skill* mySkill = new Skill();
+  {
+    mySkill->setIsMagical(true);
+    if (!mySkill->getIsMagical())
+    {
+      std::cout << "Skill Test 1: FAILED\n";
+      delete mySkill;
+      return false;
+    }
+    if (!quiet)
+    {
+      std::cout << "Skill Test 1: PASSED\n";
+    }
+    delete mySkill;
     return true;
   }
 }
