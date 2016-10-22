@@ -2,31 +2,36 @@
 #define ListReader_H
 
 #include "MonsterType.h"
+#include "Armor.h"
+#include "Weapon.h"
+#include "Useable.h"
+
+#include <ctype.h>
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
+#include <regex>
 
 class ListReader{
 	public:
 		ListReader();
 		~ListReader();
-		//reads in the file and fills in a monsters array
-		//returns the monster array
+		//reads in the file and fills in an array
+		//returns the array
 		MonsterType** readMonsters(std::string fileName);
-		//return bestiary size
+		Armor** readArmor(std::string fileName);
+		Weapon** readWeapons(std::string fileName);		
+		Useable** readUseables(std::string fileName);
+		//returns the number on top of the file
 		const int getNumMonsters();
 		const int getNumArmor();
 		const int getNumWeapons();
-		const int getNumUsables();
-		
-		
-		
+		const int getNumUseables();
 
 	private:
 		int num_monsters;
 		int num_armor;
-		int num_usables;
 		int num_weapons;
-
+		int num_useables;
 };
 #endif

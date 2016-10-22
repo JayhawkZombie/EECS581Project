@@ -8,7 +8,7 @@ class Damage
 public:
   Damage();
   ~Damage();
-  int content[30];//feeling risky, making public to save time
+  int content[31];//feeling risky, making public to save time
   static int size;
   void setValue(int index, int value);
 };
