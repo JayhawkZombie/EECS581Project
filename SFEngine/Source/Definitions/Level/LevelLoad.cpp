@@ -1,164 +1,72 @@
 #include "../../Headers/Level/Level.h"
 
-namespace
-{
-  std::map<std::string, std::shared_ptr<sf::Texture>> IDToTexture;
-  std::size_t numTextures = 0;
-  std::size_t texsReceived = 0;
-  std::pair<std::string, std::string> *Maps;
-  std::size_t numLayers = 0;
-  std::size_t currentLayer = 0;
-  std::size_t tileWidth, tileHeight;
-  std::size_t tileSizeX, tileSizeY;
-  std::string **Layout;
-  bool ReadyToDraw = false;
-}
-
 namespace Engine
 {
-
-
-  void Level::ReceiveTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture)
-  {
-    IDToTexture[ID] = texture;
-    ++texsReceived;
-
-    tileSizeY = texture.get()->getSize().y;
-    tileSizeX = texture.get()->getSize().x;
-
-    if (texsReceived == numTextures) {
-      ReadyToDraw = true;
-      if (LOADER.joinable())
-        LOADER.join();
-      __DrawTiles();
-      delete[] Maps;
-    }
-  }
-
-  void Level::__DrawTiles()
-  {
-    std::cerr << "Drawing level tiles" << std::endl;
-
-    BackgroundLayer.BackgroundTexture.create(
-      tileSizeX * tileWidth, tileSizeY * tileHeight
-    );
-
-    sf::Sprite spr;
-    BackgroundLayer.BackgroundTexture.clear();
-
-    for (std::size_t ROW = 0; ROW < tileWidth; ++ROW) {
-      for (std::size_t COL = 0; COL < tileHeight; ++COL) {
-        spr.setPosition(sf::Vector2f(tileSizeX * COL, tileSizeY * ROW));
-        if (IDToTexture[Layout[ROW][COL]].get()) {
-          spr.setTexture(*IDToTexture[Layout[ROW][COL]]);
-          BackgroundLayer.BackgroundTexture.draw(spr);
-        }
-      } //end COL
-    }//end ROW
-
-    BackgroundLayer.BackgroundTexture.display();
-    BackgroundLayer.BGSprite->setTexture(BackgroundLayer.BackgroundTexture.getTexture());
-    BackgroundLayer.BGSprite->setTextureRect(sf::IntRect(0, 0, tileSizeX * tileWidth, tileSizeY * tileHeight));
-    sf::Vector2f scale;
-    scale.x = (WindowSize.x) / (tileSizeX * tileWidth);
-    scale.y = (WindowSize.y) / (tileSizeY * tileHeight);
-    BackgroundLayer.BGSprite->setScale(scale);
-
-    Playable = true;
-
-    for (std::size_t ROW = 0; ROW < tileHeight; ++ROW) {
-      delete[] Layout[ROW];
-    }
-    delete[] Layout;
-    IDToTexture.clear();
-  } //__DrawTiles()
-
   void Level::LoadLevel()
   {
-    std::cerr << "Level loading" << std::endl;
     LOADER = std::thread(
-      [this]() { this->__LoadLevel(); }
+     [this]() { this->LoadFromFile(LevelFile); }
     );
-    //__LoadLevel();
+    Playable = true;
   }
 
-  void Level::__LoadLevel()
+  void Level::LoadFromFile(const std::string &file)
   {
-    std::ifstream IN(LevelFile);
-    if (!IN) {
-      std::cerr << "Error. Failure opening level file: \"" << LevelFile << "\"" << std::endl;
+    LevelFile = file;
+
+    std::ifstream IN(file);
+    if (IN.fail()) {
+      std::cerr << "Error: Failed to open level file \"" << file << "\"" << std::endl;
       return;
     }
-
-    //Read in the number of Layers we will have
-    numLayers = Util::GetUnsignedIntConfig("Config", "NumLayers", 1, LevelFile, IN);
-
-    std::string layerstring = "Layer";
-    __ReadLoadTextures(0, IN);
-
-  }
-
-  void Level::__LoadLayout(std::ifstream &IN)
-  {
-    std::string bracedtext = Util::GetBracedConfig("Layer0/Layout", "TileLayout", "{}", "testmap.ini", IN);
-
-    std::size_t TilesAcross = Util::GetUnsignedIntConfig("Layer0/Layout", "Width", 0, "testmap.ini", IN);
-    std::size_t TilesUp = Util::GetUnsignedIntConfig("Layer0/Layout", "Height", 0, "testmap.ini", IN);
-
-    tileHeight = TilesUp;
-    tileWidth = TilesAcross;
-
-    Layout = new std::string*[TilesUp]; //RowCount
-    for (std::size_t COL = 0; COL < TilesUp; ++COL) {
-      Layout[COL] = new std::string[TilesAcross];
-    }
-
-    bracedtext.erase(0, 1);
-    bracedtext.erase(bracedtext.size() - 1);
-
-    std::stringstream stream(bracedtext);
-    std::string temp;
-    std::size_t currRow{ 0 }, currCol{ 0 };
-
-    while (stream >> temp) {
-      Layout[currRow][currCol] = temp;
-      ++currCol;
-
-      if (currCol == TilesAcross) {
-        ++currRow;
-        currCol = 0;
-      }
+    else {
+      __LoadWithGrid(IN);
     }
   }
 
-  void Level::__ReadLoadTextures(const std::size_t &layer, std::ifstream &IN)
+  void  Level::__LoadWithGrid(std::ifstream &IN)
   {
-    std::string layerstring = "Layer" + std::to_string(layer);
-    std::size_t texCount = Util::GetUnsignedIntConfig(layerstring + "/Textures", "NumTextures", 0, LevelFile, IN);
-    numTextures = texCount;
 
-    std::string bracedText = Util::GetBracedConfig(layerstring + "/Textures", "Textures", "{}", LevelFile, IN);
-    Maps = new std::pair<std::string, std::string>[texCount];
+    TileGridWidth     = Util::GetUnsignedIntConfig("Layer0/Layout", "Width",        0, LevelFile, IN);
+    TileGridHeight    = Util::GetUnsignedIntConfig("Layer0/Layout", "Height",       0, LevelFile, IN);
+    TileTextureWidth  = Util::GetUnsignedIntConfig("Layer0/Layout", "TextureWidth", 1, LevelFile, IN);
 
-    std::size_t currentPos = 0;
-    std::size_t beg, end;
-    for (int i = 0; i < texCount; i++) {
-      //Get position of the end of the "pair", ie the string <...>
-      beg = bracedText.find_first_of("<", currentPos + 1);
-      end = bracedText.find_first_of(">", beg + 1);
+    //Get the braced level layout
+    /**
+     * { T T T T 
+     *    ...
+     *   O W X C }
+     */
+    //And then chop off the 
+    GridTileLayout      = Util::GetBracedConfig("Layer0/Layout",        "TileLayout", "{}", LevelFile, IN);
+    GridTextures        = Util::GetBracedConfig("Layer0/Textures",      "Textures",   "{}", LevelFile, IN);
+    NumGridTextures     = Util::GetUnsignedIntConfig("Layer0/Textures", "NumTextures", 0,   LevelFile, IN);
 
-      Maps[i] = Util::GetPairText(bracedText, beg);
-      currentPos = bracedText.find_first_of(",", end + 1);
+    GridTileLayout.erase(0, 1);
+    GridTileLayout.erase(GridTileLayout.size() - 1);
 
-      ResourceManager->RequestTexture(
-        Maps[i].second, Maps[i].first,
-        [this](std::shared_ptr<sf::Texture> t, const std::string &ID) {this->ReceiveTexture(ID, t); }
-      );
+    Environment.BackgroundTiles = new TileGrid;
+    Environment.BackgroundTiles->SetGridSize(TileGridHeight, TileGridWidth, { 1,1 });
+    //Get the textures and request them from the resource manager
+    auto texvector = Util::ParsePairedText(GridTextures, NumGridTextures);
+    
+    for (auto & pair : texvector) {
+      ResourceManager->RequestTexture(pair.second, pair.first,
+                                      [this](const std::shared_ptr<sf::Texture> t, const std::string &str) -> void
+                                      { this->__GetGridTexture(str, t); } );
     }
+  }
 
-    __LoadLayout(IN);
+  void Level::__GetGridTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture)
+  {
+    static std::size_t Count = 0;
+    Environment.BackgroundTiles->GetTexture(ID, texture);
 
-    return;
+    ++Count;
+    if (Count >= NumGridTextures) {
+      //We've already gotten all of the texutres now
+      Environment.BackgroundTiles->CreateTexturizedGrid(GridTileLayout);
+    }
   }
 
 }

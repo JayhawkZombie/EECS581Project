@@ -7,13 +7,15 @@ namespace Engine
 {
 
   LevelEnvironment::LevelEnvironment()
+    : BackgroundTiles(nullptr)
   {
 
   }
 
   LevelEnvironment::~LevelEnvironment()
   {
-
+    if (BackgroundTiles)
+      delete BackgroundTiles;
   }
 
   void LevelEnvironment::AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src)
@@ -46,7 +48,7 @@ namespace Engine
       return LevelGlobalLight.get();
     else {
       //ugh
-
+      return nullptr;
     }
   }
 
@@ -95,6 +97,11 @@ namespace Engine
 
     LevelActors.push_back(player);
     return player.get();
+  }
+
+  void LevelEnvironment::Render()
+  {
+    BackgroundTiles->Render();
   }
 
 }

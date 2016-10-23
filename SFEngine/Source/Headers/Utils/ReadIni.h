@@ -135,6 +135,8 @@ namespace Engine
     std::pair<std::string, std::string> GetStringPair(const std::string &category, const std::string &key, const std::pair<std::string, std::string> &defaultValue, const std::string &infile, std::ifstream &in);
     std::pair<std::string, std::string> GetPairText(const std::string &line, std::size_t &curroffset);
 
+    std::vector<std::pair<std::string, std::string>> ParsePairedText(const std::string &str, const std::size_t &paircount);
+
     void WriteBooleanConfig(const std::string &category, const std::string &key, const bool &value, const std::string &inifile, std::ifstream &in);
     void WriteBooleanConfig(const std::string &category, const std::string &key, const bool &value, const std::string &inifile, std::ifstream &in);
     void WriteUnsignedIntConfig(const std::string &category, const std::string &key, const unsigned int &value, const std::string &inifile, std::ifstream &in);

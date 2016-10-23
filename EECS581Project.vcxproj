@@ -177,6 +177,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEnvironment.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEnvironmentEvent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEventSequences.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Level\LevelGrid.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GenericLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GlobalLightSource.h" />
@@ -194,8 +195,11 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\UIUtils.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Convert.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\ListTemplates.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\Mat2D.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\NullType.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\ReadIni.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\String.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\StringMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\GameMain.cpp" />
@@ -231,6 +235,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironmentEvent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventHandling.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventSequences.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelGrid.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoad.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
@@ -246,6 +251,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\BaseUIElement.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\ClickButton.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\KeyTarget.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Mat2D.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\MouseTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\RenderTarget.cpp" />
@@ -254,6 +260,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIUtils.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Convert.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\ReadIni.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Utils\String.cpp" />
     <ClCompile Include="SFEngine\Source\main.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\UnitTesting\Catch.hpp" />
   </ItemGroup>

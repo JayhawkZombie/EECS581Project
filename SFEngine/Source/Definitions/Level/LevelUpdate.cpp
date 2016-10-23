@@ -13,7 +13,7 @@ namespace Engine
 
   void Level::OnShutDown()
   {
-    
+    Environment.BackgroundTiles->ClearGrid();
   }
 
 }

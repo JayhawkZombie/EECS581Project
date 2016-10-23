@@ -88,16 +88,16 @@ namespace Engine
     switch (k)
     {
       case sf::Keyboard::Right:
-        Velocity = sf::Vector2f(0.1, 0);
+        Velocity = sf::Vector2f(0.3, 0);
         break;
       case sf::Keyboard::Left:
-        Velocity = sf::Vector2f(-0.1, 0);
+        Velocity = sf::Vector2f(-0.3, 0);
         break;
       case sf::Keyboard::Up:
-        Velocity = sf::Vector2f(0, -0.1);
+        Velocity = sf::Vector2f(0, -0.3);
         break;
       case sf::Keyboard::Down:
-        Velocity = sf::Vector2f(0, 0.1);
+        Velocity = sf::Vector2f(0, 0.3);
         break;
     }
   }

@@ -32,7 +32,16 @@ namespace Engine
     void LoadLevel();
     void IsReady() const;
 
+    void LoadFromFile(const std::string &file);
+
   private:
+    void __LoadWithGrid(std::ifstream &IN);
+    void __GetGridTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture);
+    std::size_t NumGridTextures, TileTextureWidth, TileGridHeight, TileGridWidth;
+    std::string GridTileLayout, GridTextures;
+
+
+
     void HandleKeyEvent(const sf::Keyboard::Key &key);
     void CheckCollisions();
     void CorrectActorMovement(const std::size_t &boxIndex);
@@ -60,14 +69,6 @@ namespace Engine
     void AddActor(const std::string &ID, std::shared_ptr<GenericActor> src);
     void AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src);
     void AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src);
-
-
-
-    void __LoadLevel();
-    void __ReadLoadTextures(const std::size_t &layer, std::ifstream &IN);
-    void __LoadLayout(std::ifstream &IN);
-    void __DrawTiles();
-    void ReceiveTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture);
 
     EventSequence Seq;
 
