@@ -3,6 +3,7 @@
 
 #include "LevelObject.h"
 #include "../Lights/GlobalLightSource.h"
+#include "LevelGrid.h"
 
 namespace Engine
 {
@@ -27,11 +28,16 @@ namespace Engine
     GenericLightSource* GetLight(const std::string &ID);
     Player* GetPlayer(const std::string &ID);
 
+    TileGrid *BackgroundTiles;
+
+    void Render();
+
   protected:
     std::vector<std::shared_ptr<GenericLightSource>> LevelLights;
     std::shared_ptr<GlobalLightSource> LevelGlobalLight;
     std::vector<std::shared_ptr<GenericActor>> LevelActors;
     std::shared_ptr<Player> LevelPlayerActor;
+
   };
 
   extern LevelEnvironment *CurrentLevelEnvironment;

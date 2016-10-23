@@ -4,31 +4,13 @@ namespace Engine
 {
   void Level::Render()
   {
-    if (Playable) {
+    Environment.Render();
 
-      Render::RenderSprite(BackgroundLayer.BGSprite);
+    if (Playable) {
       
       for (auto player : Environment.LevelActors) {
         Render::RenderShape(&player->ActorRectangle);
       }
-
-    }
-
-
-    /*
-    if (!Playable) {
-      Render::RenderText(&LevelWaitingText);
-    }
-    else {
-      LevelWaitingText.setString("Done loading!");
-
-      Render::RenderSprite(BackgroundLayer.BGSprite);
-
-      for (auto & layer : Layers) {
-
-        Render::RenderSprite(layer->BGSprite);
-
-      } //for (auto & layer : Layers)
 
       sf::RectangleShape shape;
       shape.setFillColor(sf::Color::Transparent);
@@ -42,9 +24,8 @@ namespace Engine
         Render::RenderShape(&shape);
       }
 
-      Render::RenderText(&LevelWaitingText);
-
-      PlayerActor.Render();
-    } //end else*/
+    }
+    
+    PlayerActor.Render();
   } //Render()
 }

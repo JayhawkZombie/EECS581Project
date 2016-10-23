@@ -75,7 +75,6 @@ namespace Engine
       std::size_t comment = s.find_first_of(';');
 
       scpy = s.substr(0, comment);
-      std::cerr << "Init string to convert: " << scpy << std::endl;
 
       std::stringstream ss(scpy);
 

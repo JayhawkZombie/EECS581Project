@@ -42,6 +42,11 @@ namespace Engine
     player->Collsion.Position = sf::Vector2f(250, 250);
     player->Collsion.Size = sf::Vector2f(50, 75);
     player->MoveTo(sf::Vector2f(250, 250));
+
+    player->Collsion.Position = sf::Vector2f(250, 250);
+    player->Collsion.Size = sf::Vector2f(50, 75);
+    player->MoveTo(sf::Vector2f(250, 250));
+
     Environment.AddActor("MainPlayerActor", player);
     Environment.SetPlayer(player);
 
@@ -57,6 +62,8 @@ namespace Engine
 
     CollisionBoxes[1].Position = sf::Vector2f(300, 300);
     CollisionBoxes[1].Size = sf::Vector2f(150, 100);
+
+    NumGridTextures = 0;
   }
 
   Level::~Level()

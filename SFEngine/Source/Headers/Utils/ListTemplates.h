@@ -28,6 +28,50 @@ namespace Engine
 
     };
 
+    template<typename T>
+    struct MinimalNode {
+      MinimalNode() : Next(nullptr) {}
+      MinimalNode(const T& v) : value(v), Next(nullptr), Previous(nullptr) {}
+      MinimalNode(const T& v, MinimalNode<T> *p) : value(v), Previous(p), Next(nullptr) {}
+
+      T value;
+      MinimalNode<T> *Next;
+      MinimalNode<T> *Previous;
+    };
+
+    template<typename Item>
+    class LinkedList
+    {
+    public:
+      LinkedList() : Front(nullptr) {}
+      ~LinkedList() {
+        MinimalNode<Item> *Temp = Front;
+
+        while (Temp != nullptr) {
+          Temp = Front;
+          Front = Front->Next;
+          delete Temp;
+        }
+      }
+
+      void AddItem(const Item &item) {
+        if (Front == nullptr) {
+          Front = new MinimalNode<Item>(item);
+          Back = Front;
+        }
+        else {
+          Back->Next = new MinimalNode<Item>(item);
+          Back->Previous = Back;
+          Back = Back->Next;
+        }
+      }
+
+    private:
+      MinimalNode<Item> *Front;
+      MinimalNode<Item> *Back;
+    };
+
+
     template<typename Sequence>
     class NodeSequence {
     public:
