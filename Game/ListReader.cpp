@@ -92,7 +92,9 @@ Armor** ListReader::readArmor(std::string fileName)
 		newArmor->setDescription(line);
 
 		std::getline(file,line);
-
+		newArmor->setTexture(line);
+		
+		std::getline(file,line);
 		damage = new Damage;
 		while ( std::regex_search (line,integers) )
 		{	
@@ -177,6 +179,9 @@ Weapon** ListReader::readWeapons(std::string fileName)
 		newWeapon->setDescription(line);	
 
 		std::getline(file,line);
+		newWeapon->setTexture(line);
+		
+		std::getline(file,line);
 		damage = new Damage;
 		while ( std::regex_search (line,integers) )
 		{	
@@ -245,6 +250,9 @@ Useable** ListReader::readUseables(std::string fileName)
 		std::getline(file,line);
 		newUseable->setDescription(line);
 
+		std::getline(file,line);
+		newUseable->setTexture(line);
+		
 		std::getline(file,line);
 
 		damage = new Damage;
