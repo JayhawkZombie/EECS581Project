@@ -50,8 +50,8 @@ namespace Engine
       std::cerr << "Pair.first = \"" << pair.first << "\", .second = \"" << pair.second << "\"" << std::endl;
       InitialLevel = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", IN);
       std::cout << "Initial Level: " << InitialLevel << std::endl;
-      RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 0, "Engine.ini", IN);
-      RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0, "Engine.ini", IN);
+      RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", IN);
+      RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", IN);
       RenderSettings.Gamma = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", IN);
       RenderSettings.PostProcess = Util::GetUnsignedIntConfig("Render", "PostProcess", 0, "Engine.ini", IN);
 
@@ -73,9 +73,6 @@ namespace Engine
     ResourceManager->Start();
 
     //Now begin loading the level
-    Level *lvl = new Level("./SFEngine/Samples/Maps/testmap.ini");
-    Levels.push_back(std::shared_ptr<Level>(lvl));
-    Levels[0]->LoadLevel();
 
     return GameLoop();
   }

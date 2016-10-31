@@ -2,71 +2,184 @@
 
 namespace Engine
 {
+
   void Level::LoadLevel()
   {
     LOADER = std::thread(
-     [this]() { this->LoadFromFile(LevelFile); }
+      [this]() {this->LoadFromFile(); }
     );
-    Playable = true;
   }
 
-  void Level::LoadFromFile(const std::string &file)
+  void Level::LoadFromFile()
   {
-    LevelFile = file;
-
-    std::ifstream IN(file);
+    std::ifstream IN(LevelFile);
     if (IN.fail()) {
-      std::cerr << "Error: Failed to open level file \"" << file << "\"" << std::endl;
+      std::cerr << "Unable to open level file: \"" << LevelFile << std::endl;
       return;
     }
-    else {
-      __LoadWithGrid(IN);
+
+    ResourceLock->lock();
+
+    CurrentLoadingMessage = "Loading Level Config";
+
+    ResourceLock->unlock();
+
+    TileSize = Util::GetUnsignedIntConfig("Config", "TileSize", 0, LevelFile, IN);
+    std::cerr << "TileSize = " << TileSize << std::endl;
+    LevelSizeX = Util::GetUnsignedIntConfig("Config", "LevelSizeX", 0, LevelFile, IN);
+    LevelSizeY = Util::GetUnsignedIntConfig("Config", "LevelSizeY", 0, LevelFile, IN);
+    sf::FloatRect StartingView = Util::GetFloatRectConfig("Config", "StartingView", sf::FloatRect(0, 0, 0, 0), LevelFile, IN);
+
+
+    TilesAcross = Util::GetUnsignedIntConfig("Config", "TilesAcross", 1, LevelFile, IN);
+    std::cerr << "TilesAcross = " << TilesAcross << std::endl;
+    if (LevelSizeX == 0 || LevelSizeY == 0) {
+      std::cerr << "Level size is 0. Aborting loading" << std::endl;
+      return;
     }
+
+    Environment.CurrentView = StartingView;
+    Environment.TileSize = TileSize;
+    Environment.TilesAcross = TilesAcross;
+    Environment.LevelSizeX = LevelSizeX;
+    Environment.LevelSizeY = LevelSizeY;
+    BGTiles.Create(LevelSizeY, LevelSizeX);
+
+    NumTiles = Util::GetUnsignedIntConfig("Tiles", "NumTiles", 0, LevelFile, IN);
+    NumTextures = Util::GetUnsignedIntConfig("Tiles", "NumTextures", 0, LevelFile, IN);
+    std::string TilesBraced = Util::GetBracedConfig("Tiles", "Tiles", "{}", LevelFile, IN);
+    if (TilesBraced == "{}") {
+      std::cerr << "No tiles are present in the level file. Aborting loading" << std::endl;
+      return;
+    }
+
+    auto v = Util::ParsePairedText(TilesBraced, NumTiles);
+    for (std::size_t i = 0; i < v.size(); ++i) {
+      LayoutIDTOTextureID.emplace(
+        std::piecewise_construct,
+        std::make_tuple(v[i].first),
+        std::make_tuple(v[i].second)
+      );
+    }
+
+    for (auto & tile : LayoutIDTOTextureID) {
+      LoadTileData(tile.first, tile.second, IN);
+    }
+
+    while (TexturesReceived < NumTextures)
+    {
+    }
+
+    LoadTileLayout(IN);
+    AssignTileTextures();
   }
 
-  void  Level::__LoadWithGrid(std::ifstream &IN)
+  void Level::LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN)
   {
+    //Go to the tag in the file and retrieve the relevant information
+    ResourceLock->lock();
 
-    TileGridWidth     = Util::GetUnsignedIntConfig("Layer0/Layout", "Width",        0, LevelFile, IN);
-    TileGridHeight    = Util::GetUnsignedIntConfig("Layer0/Layout", "Height",       0, LevelFile, IN);
-    TileTextureWidth  = Util::GetUnsignedIntConfig("Layer0/Layout", "TextureWidth", 1, LevelFile, IN);
+    Tiles.push_back({});
+    std::size_t Index = Tiles.size() - 1;
 
-    //Get the braced level layout
-    /**
-     * { T T T T 
-     *    ...
-     *   O W X C }
-     */
-    //And then chop off the 
-    GridTileLayout      = Util::GetBracedConfig("Layer0/Layout",        "TileLayout", "{}", LevelFile, IN);
-    GridTextures        = Util::GetBracedConfig("Layer0/Textures",      "Textures",   "{}", LevelFile, IN);
-    NumGridTextures     = Util::GetUnsignedIntConfig("Layer0/Textures", "NumTextures", 0,   LevelFile, IN);
+    std::string TileFile = Util::GetStringConfig(TileTag, "FilePath", "", LevelFile, IN);
+    bool IsAnimated = Util::GetBooleanConfig(TileTag, "Animated", false, LevelFile, IN);
 
-    GridTileLayout.erase(0, 1);
-    GridTileLayout.erase(GridTileLayout.size() - 1);
+    Tiles[Index].FilePath = TileFile;
+    Tiles[Index].TileID = TileTag;
+    Tiles[Index].animated = IsAnimated;
+    Tiles[Index].TileSprite.setTextureRect({ 0, 0, static_cast<int>(TileSize), static_cast<int>(TileSize) });
 
-    Environment.BackgroundTiles = new TileGrid;
-    Environment.BackgroundTiles->SetGridSize(TileGridHeight, TileGridWidth, { 1,1 });
-    //Get the textures and request them from the resource manager
-    auto texvector = Util::ParsePairedText(GridTextures, NumGridTextures);
+    float scalex = WindowSize.x / (TileSize * TilesAcross);
+    float scaley = WindowSize.y / (TileSize * TilesAcross);
+    Tiles[Index].TileSprite.setScale({ scalex , scaley});
+    Environment.Scale = sf::Vector2f(scalex, scaley);
     
-    for (auto & pair : texvector) {
-      ResourceManager->RequestTexture(pair.second, pair.first,
-                                      [this](const std::shared_ptr<sf::Texture> t, const std::string &str) -> void
-                                      { this->__GetGridTexture(str, t); } );
-    }
+    ResourceLock->unlock();
+
+    ResourceManager->RequestTexture(TileFile, TileTag, 
+                                    [this](std::shared_ptr<sf::Texture> t, const std::string &s) -> void
+                                    {
+                                    this->StoreTexture(t, s);
+                                    }
+    );
   }
 
-  void Level::__GetGridTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture)
+  void Level::LoadTileLayout(std::ifstream &IN)
   {
-    static std::size_t Count = 0;
-    Environment.BackgroundTiles->GetTexture(ID, texture);
+    std::string layout = Util::GetBracedConfig("Layer0", "TileLayout", "{}", LevelFile, IN);
+    if (layout == "{}") {
+      std::cerr << "Error reading tile layout from file. Aborting loading." << std::endl;
+      return;
+    }
 
-    ++Count;
-    if (Count >= NumGridTextures) {
-      //We've already gotten all of the texutres now
-      Environment.BackgroundTiles->CreateTexturizedGrid(GridTileLayout);
+    layout.erase(layout.end() - 1);
+    layout.erase(layout.begin());
+
+    std::stringstream ss(layout);
+    std::string temp{ "" };
+    
+    while (ss >> temp)
+      TileLayout.push_back(temp);
+
+    //Now that we have the tile layout loaded, we can populate the grid with the background tiles
+    Environment.EnvironmentGrid.Create(LevelSizeY, LevelSizeX);
+
+    //Loop through the grid and assign the LEVEL position, IDs, etc for the grid cells
+    for (std::size_t Y = 0; Y < LevelSizeY; ++Y) {
+      for (std::size_t X = 0; X < LevelSizeX; ++X) {
+        ResourceLock->lock();
+
+        Environment.EnvironmentGrid.Mat[Y][X].LevelPosition = sf::Vector2f(X * TileSize, Y * TileSize);
+        Environment.EnvironmentGrid.Mat[Y][X].BGTile.TileID = LayoutIDTOTextureID[TileLayout[LevelSizeX * Y + X]];
+        ++Environment.TilesAssigned;
+
+        ResourceLock->unlock();
+      }
     }
   }
 
+  void Level::AssignTileTextures()
+  {
+    for (auto & Tile : Tiles) {
+      Tile.TileSprite.setTexture(*TileIDToTexture[Tile.TileID]);
+    }
+
+    //Loop through the grid and assign the textures to each background tile
+    //IF, for some strange reason, there's an ID in there we can't recognize, we'll catch it
+    for (std::size_t Y = 0; Y < LevelSizeY; ++Y) {
+      for (std::size_t X = 0; X < LevelSizeX; ++X) {
+        ResourceLock->lock();
+        
+        std::string ID = Environment.EnvironmentGrid.Mat[Y][X].BGTile.TileID;
+        auto it = TileIDToTexture.find(ID);
+
+        if (it != TileIDToTexture.end()) {
+          Environment.EnvironmentGrid.Mat[Y][X].BGTile.TileSprite.setTexture(
+            *it->second);
+        }
+
+        ResourceLock->unlock();
+      }
+    }
+
+    ResourceLock->lock();
+    ReadyToPlay = true;
+    Environment.UpdateView();
+    ResourceLock->unlock();
+  }
+
+  void Level::StoreTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID)
+  {
+    TexturesReceived++;
+
+    ResourceLock->lock();
+    TileIDToTexture.emplace(
+      std::piecewise_construct,
+      std::make_tuple(ID),
+      std::make_tuple(texture)
+    );
+
+    ResourceLock->unlock();
+  }
 }

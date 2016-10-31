@@ -4,28 +4,26 @@ namespace Engine
 {
   void Level::Render()
   {
+    ResourceLock->lock();
+
+    if (!ReadyToPlay)
+      RenderLoadingScreen();
+    else
+      RenderRegular();
+
+    ResourceLock->unlock();
+  }
+
+  void Level::RenderRegular()
+  {
+    Environment.DiagnosticText.setFont(*LevelFont);
     Environment.Render();
+    Render::RenderText(&Environment.DiagnosticText);
+  }
 
-    if (Playable) {
-      
-      for (auto player : Environment.LevelActors) {
-        Render::RenderShape(&player->ActorRectangle);
-      }
+  void Level::RenderLoadingScreen()
+  {
+    Render::RenderShape(&LoadingTexturesBar);
+  }
 
-      sf::RectangleShape shape;
-      shape.setFillColor(sf::Color::Transparent);
-      shape.setOutlineColor(sf::Color::Black);
-      shape.setOutlineThickness(3);
-
-      for (auto & box : CollisionBoxes) {
-        shape.setPosition(box.Position);
-        shape.setSize(box.Size);
-
-        Render::RenderShape(&shape);
-      }
-
-    }
-    
-    PlayerActor.Render();
-  } //Render()
 }

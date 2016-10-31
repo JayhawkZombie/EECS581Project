@@ -45,7 +45,6 @@ namespace Engine
       }
     }
 
-  private:
     T **Mat;
     std::size_t MatHeight, MatWidth;
 

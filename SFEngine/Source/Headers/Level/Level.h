@@ -17,6 +17,8 @@
 namespace Engine
 {
 
+
+
   class Level : public BaseEngineInterface
   {
 
@@ -30,53 +32,61 @@ namespace Engine
     void OnShutDown() override;
 
     void LoadLevel();
+    void JoinLoaderThread();
     void IsReady() const;
 
-    void LoadFromFile(const std::string &file);
+    void HandleKeyPress(const sf::Keyboard::Key &key);
+    void HandleKeyRelease(const sf::Keyboard::Key &key);
 
   private:
-    void __LoadWithGrid(std::ifstream &IN);
-    void __GetGridTexture(const std::string &ID, std::shared_ptr<sf::Texture> texture);
-    std::size_t NumGridTextures, TileTextureWidth, TileGridHeight, TileGridWidth;
-    std::string GridTileLayout, GridTextures;
+    void RenderRegular();
+    void RenderLoadingScreen();
+    Render::RenderSettings LevelRenderSettings;
 
-
-
-    void HandleKeyEvent(const sf::Keyboard::Key &key);
-    void CheckCollisions();
-    void CorrectActorMovement(const std::size_t &boxIndex);
-    std::size_t CanActorMove(const sf::FloatRect &ActorBox);
-
-    sf::Vector2f OldActorPos;
-
-    std::map<std::string, EventSequence> EventSequences;
-    EventSequence *CurrentEventSequence;
-
-
-    std::vector<std::shared_ptr<LevelLayer>> Layers;
-    std::vector<GenericActor> Actors;
-    Player PlayerActor;
-    std::vector<CollisionBox> CollisionBoxes;
-
-    std::vector<LevelObject> LevelObjects;
-    sf::Text LevelWaitingText;
-
-    void ReceiveFont(std::shared_ptr<sf::Font> font, const std::string &ID);
-    std::shared_ptr<sf::Font> LevelWaitingFont;
-
-
-    LevelEnvironment Environment;
-    void AddActor(const std::string &ID, std::shared_ptr<GenericActor> src);
-    void AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src);
-    void AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src);
-
-    EventSequence Seq;
+    //Mutex for synchronization
+    std::mutex *ResourceLock;
 
     std::thread LOADER;
     std::string LevelFile;
 
-    bool Playable;
-    LevelLayer BackgroundLayer;
+    void LoadFromFile();
+    void LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN);
+    void LoadTileLayout(std::ifstream &IN);
+    void AssignTileTextures();
+    void StoreTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID);
+    std::size_t TexturesReceived;
+
+    LevelEnvironment Environment;
+    std::shared_ptr<sf::Font> LevelFont;
+
+    //A couple things for a crappy makeshift loading screen
+    std::string CurrentLoadingMessage;
+    unsigned int LoadingProgress;
+    sf::RectangleShape LoadingTexturesBar;
+    sf::Font LoadingFont;
+    sf::Text LoadingMessageText;
+
+    //Map the short sequence of characters used in the layout
+    //to the ID used to ID the tile
+    std::map <
+      std::string, std::string
+    > LayoutIDTOTextureID;
+
+    //Map the unique Tile ID to the "Tile"'s texture
+    std::map <
+      std::string, std::shared_ptr<sf::Texture>
+    > TileIDToTexture;
+
+    //Information about how many textures and tiles there are
+    std::size_t NumTextures, NumTiles;
+    bool ReadyToPlay;
+
+    //Informaton about level size and scaling tiles to fit the screen
+    std::size_t LevelSizeX, LevelSizeY, TileSize, TilesAcross;
+    
+    std::vector<Tile> Tiles;
+    std::vector<std::string> TileLayout;
+    Matrix<Tile> BGTiles;
 
   };
 

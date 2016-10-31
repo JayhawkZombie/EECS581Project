@@ -2,6 +2,7 @@
 
 namespace Engine
 {
+  /*
   std::size_t Level::CanActorMove(const sf::FloatRect &ActorBox)
   {
     for (std::size_t i = 0; i < CollisionBoxes.size(); ++i) {
@@ -23,11 +24,6 @@ namespace Engine
     //  ie PLACE ACTOR AT EDGE OF BOX
     //sf::Vector2f oldActorPos = PlayerActor.Position;
 
-    /**
-     * BUG - Rectangle cannot move across the edge of the surface
-     * BUG - Rectangle can move one more pixel inside of the surface and be locked
-     */
-
     std::size_t intersects = 0;
     sf::FloatRect Rect(PlayerActor.Collsion.GetBox());
     intersects = CanActorMove(Rect);
@@ -41,4 +37,5 @@ namespace Engine
     }
 
   }
+  */
 }
