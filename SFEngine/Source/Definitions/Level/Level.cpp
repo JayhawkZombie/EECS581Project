@@ -8,6 +8,62 @@ namespace
 namespace Engine
 {
 
+  Level::Level(const std::string &lvl)
+    : LevelFile(lvl), ResourceLock(new std::mutex), ReadyToPlay(false)
+    , LevelSizeX(0), LevelSizeY(0), TileSize(0), TilesAcross(0), TexturesReceived(0)
+  {
+    ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", 
+                                 "OpenSansRegular", 
+                                 [this](std::shared_ptr<sf::Font> t, const std::string &s) -> void
+                                 {
+                                   this->LevelFont = t;
+                                   this->LoadingMessageText.setFont(*t);
+                                   this->Environment.DiagnosticText.setFont(*t);
+                                 }
+    
+    );
+    Handler.BindCallback(Events::KeyPressed,
+
+                         [this](const sf::Keyboard::Key &k) -> void
+                         {
+                           this->HandleKeyPress(k);
+                         }
+
+    );
+    Handler.BindCallback(Events::KeyReleased,
+                         
+                         [this](const sf::Keyboard::Key &k) ->void
+                         {
+                           this->HandleKeyRelease(k);
+                         }
+    );
+
+    LoadingMessageText.setPosition(sf::Vector2f(400, 400));
+    LoadingMessageText.setCharacterSize(12);
+    LoadingMessageText.setFillColor(sf::Color::White);
+    LoadingMessageText.setString("Loading string");
+  }
+
+  Level::~Level()
+  {
+    if (LOADER.joinable())
+      LOADER.join();
+
+    delete ResourceLock;
+  }
+
+  void Level::JoinLoaderThread()
+  {
+    if (LOADER.joinable())
+      LOADER.join();
+  }
+
+  void Level::OnShutDown()
+  {
+
+  }
+
+  /*
   Level::Level(const std::string &levelFile)
   {
     LevelFile = levelFile;
@@ -33,9 +89,6 @@ namespace Engine
     Environment.LevelGlobalLight = GlobalLight;
     Render::AddGlobalLight(*GlobalLight);
 
-    /**
-     * Just for testing
-     */
     Player *__player = new Player;
 
     std::shared_ptr<Player> player(__player);
@@ -99,5 +152,5 @@ namespace Engine
   {
 
   }
-
+  */
 }

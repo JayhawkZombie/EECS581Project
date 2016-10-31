@@ -2,18 +2,20 @@
 
 namespace Engine
 {
-
   void Level::TickUpdate(const double &delta)
   {
-    OldActorPos = PlayerActor.Position;
-    PlayerActor.TickUpdate(delta);
+    ResourceLock->lock();
 
-    CheckCollisions();
-  }
+    if (!ReadyToPlay) {
+      float progress = 100.f * (TexturesReceived / NumTextures);
+      LoadingTexturesBar.setSize({ 20, progress });
+      LoadingTexturesBar.setPosition({ 50, 400 });
+    }
+    else {
+      Environment.TickUpdate(delta);
+    }
 
-  void Level::OnShutDown()
-  {
-    Environment.BackgroundTiles->ClearGrid();
+    ResourceLock->unlock();
   }
 
 }

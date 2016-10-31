@@ -63,6 +63,8 @@ namespace Engine
     ResourcePoolSizes[3].setCharacterSize(12);
     ResourcePoolSizes[3].setPosition(sf::Vector2f(10, 90));
 
+
+
     txt.setCharacterSize(12);
     txt.setColor(sf::Color::White); //setColor was deprecated, but setFillColor fails
     sf::Font txtFont;
@@ -84,7 +86,11 @@ namespace Engine
     EngineUIController.SetBounds(sf::FloatRect(0, 0, 800, 300));
     EngineUIController.Show();
     //EngineUIController.ShowBoundsRect();
-
+    std::shared_ptr<Level> lvl(new Level("./SFEngine/Samples/Maps/testforest.ini"));
+    Levels.push_back(lvl);
+    Levels[0]->LoadLevel();
+    Levels[0]->JoinLoaderThread();
+    
     
     std::cerr << "Size of Levels: " << sizeof(Levels[0]) << std::endl;
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {

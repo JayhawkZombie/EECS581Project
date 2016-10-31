@@ -113,7 +113,7 @@ namespace Engine
       FragmentShader->setUniform("POST_PROCESS_EFFECT", CoreRenderSettings.PostProcess);
 
       FragmentShader->setUniform("GLOBAL_LIGHT", sf::Glsl::Vec4(GlobalLight.GetColor()));
-      FragmentShader->setUniform("GLOBAL_LIGHT_INTENSITY", GlobalLight.GetIntensity());
+      FragmentShader->setUniform("GLOBAL_LIGHT_INTENSITY", 100.f);
 
       sf::Sprite spr(CoreRenderSettings.texture->getTexture());
 
