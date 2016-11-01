@@ -74,6 +74,23 @@ namespace Engine
     AssignTileTextures();
   }
 
+  void Level::LoadLights(std::ifstream &IN)
+  {
+    auto color = Util::GetFloatRectConfig("GlobalLight", "Color", sf::FloatRect(255,255,255,0), LevelFile, IN);
+    auto intensity = Util::GetFloatConfig("GlobalLight", "Intensity", 0, LevelFile, IN);
+
+    std::shared_ptr<GlobalLightSource> Light(new GlobalLightSource);
+    Light->SetColor(sf::Color(color.left, color.top, color.width, color.height));
+    Light->SetIntensity(intensity);
+
+    Environment.AddGlobalLight("GlobalLight", Light);
+  }
+
+  void Level::LoadVolumes(std::ifstream &IN)
+  {
+
+  }
+
   void Level::LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN)
   {
     //Go to the tag in the file and retrieve the relevant information

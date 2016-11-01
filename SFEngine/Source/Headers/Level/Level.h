@@ -52,6 +52,8 @@ namespace Engine
     void LoadFromFile();
     void LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN);
     void LoadTileLayout(std::ifstream &IN);
+    void LoadLights(std::ifstream &IN);
+    void LoadVolumes(std::ifstream &IN);
     void AssignTileTextures();
     void StoreTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID);
     std::size_t TexturesReceived;
