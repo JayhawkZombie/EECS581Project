@@ -185,6 +185,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Physics\Physics.h" />
     <ClInclude Include="SFEngine\Source\Headers\Render\Render.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Shaders\Shader.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\BaseUIElement.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\ClickButton.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\KeyTarget.h" />
