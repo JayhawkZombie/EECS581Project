@@ -43,7 +43,7 @@ namespace Engine
     Environment.TilesAcross = TilesAcross;
     Environment.LevelSizeX = LevelSizeX;
     Environment.LevelSizeY = LevelSizeY;
-    BGTiles.Create(LevelSizeY, LevelSizeX);
+    //BGTiles.Create(LevelSizeY, LevelSizeX);
 
     NumTiles = Util::GetUnsignedIntConfig("Tiles", "NumTiles", 0, LevelFile, IN);
     NumTextures = Util::GetUnsignedIntConfig("Tiles", "NumTextures", 0, LevelFile, IN);
@@ -79,20 +79,33 @@ namespace Engine
     //Go to the tag in the file and retrieve the relevant information
     ResourceLock->lock();
 
-    Tiles.push_back({});
-    std::size_t Index = Tiles.size() - 1;
-
     std::string TileFile = Util::GetStringConfig(TileTag, "FilePath", "", LevelFile, IN);
     bool IsAnimated = Util::GetBooleanConfig(TileTag, "Animated", false, LevelFile, IN);
+    std::string Frames = Util::GetBracedConfig(TileTag, "Frames", "{}", LevelFile, IN);
+    std::size_t NumFrames = Util::GetUnsignedIntConfig(TileTag, "NumFrames", 1, LevelFile, IN);
+    if (NumFrames <= 0)
+      NumFrames = 1;
 
-    Tiles[Index].FilePath = TileFile;
-    Tiles[Index].TileID = TileTag;
-    Tiles[Index].animated = IsAnimated;
-    Tiles[Index].TileSprite.setTextureRect({ 0, 0, static_cast<int>(TileSize), static_cast<int>(TileSize) });
+    double AnimationDuration = (double)Util::GetUnsignedIntConfig(TileTag, "AnimationDuration", 0, LevelFile, IN);;
+    double FrameDelta = AnimationDuration / NumFrames;
+
+    Frames.erase(Frames.begin());
+    Frames.erase(Frames.end() - 1);
+    auto V = Util::ParseSFRectConfig<int>(Frames, NumFrames);
+
+    MapTileIDToTile[TileTag] = Tile{};
+    Tile *tile = &MapTileIDToTile[TileTag];
+    tile->FilePath = TileFile;
+    tile->Frames = V;
+    tile->CurrentFrame = 0;
+    tile->IsAnimated = IsAnimated;
+    tile->NumFrames = NumFrames;
+    tile->FrameDelta = AnimationDuration / NumFrames;
+    tile->TotalAnimationDuration = AnimationDuration;
 
     float scalex = WindowSize.x / (TileSize * TilesAcross);
     float scaley = WindowSize.y / (TileSize * TilesAcross);
-    Tiles[Index].TileSprite.setScale({ scalex , scaley});
+    
     Environment.Scale = sf::Vector2f(scalex, scaley);
     
     ResourceLock->unlock();
@@ -130,8 +143,18 @@ namespace Engine
       for (std::size_t X = 0; X < LevelSizeX; ++X) {
         ResourceLock->lock();
 
+        std::string _ID = LayoutIDTOTextureID[TileLayout[LevelSizeX * Y + X]];
+        //auto it = MapTileIDToTile.find(_ID);
+        //if (it != MapTileIDToTile.end()) {
+        //  Environment.EnvironmentGrid.Mat[Y][X].BGTile.FrameDelta = it->second.FrameDelta;
+        //  Environment.EnvironmentGrid.Mat[Y][X].BGTile.Frames = it->second.Frames;
+        //  Environment.EnvironmentGrid.Mat[Y][X].BGTile.NumFrames = it->second.NumFrames;
+        //  Environment.EnvironmentGrid.Mat[Y][X].BGTile.IsAnimated = it->second.IsAnimated;
+        //  Environment.EnvironmentGrid.Mat[Y][X].BGTile.TotalAnimationDuration = it->second.TotalAnimationDuration;
+        //}
+
         Environment.EnvironmentGrid.Mat[Y][X].LevelPosition = sf::Vector2f(X * TileSize, Y * TileSize);
-        Environment.EnvironmentGrid.Mat[Y][X].BGTile.TileID = LayoutIDTOTextureID[TileLayout[LevelSizeX * Y + X]];
+        Environment.EnvironmentGrid.Mat[Y][X].BGTile.TileID = _ID;
         ++Environment.TilesAssigned;
 
         ResourceLock->unlock();
@@ -141,10 +164,6 @@ namespace Engine
 
   void Level::AssignTileTextures()
   {
-    for (auto & Tile : Tiles) {
-      Tile.TileSprite.setTexture(*TileIDToTexture[Tile.TileID]);
-    }
-
     //Loop through the grid and assign the textures to each background tile
     //IF, for some strange reason, there's an ID in there we can't recognize, we'll catch it
     for (std::size_t Y = 0; Y < LevelSizeY; ++Y) {
@@ -159,13 +178,23 @@ namespace Engine
             *it->second);
         }
 
+        std::string _ID = LayoutIDTOTextureID[TileLayout[LevelSizeX * Y + X]];
+        auto _it = MapTileIDToTile.find(_ID);
+        if (_it != MapTileIDToTile.end()) {
+          Environment.EnvironmentGrid.Mat[Y][X].BGTile.FrameDelta = _it->second.FrameDelta;
+          Environment.EnvironmentGrid.Mat[Y][X].BGTile.Frames = _it->second.Frames;
+          Environment.EnvironmentGrid.Mat[Y][X].BGTile.NumFrames = _it->second.NumFrames;
+          Environment.EnvironmentGrid.Mat[Y][X].BGTile.IsAnimated = _it->second.IsAnimated;
+          Environment.EnvironmentGrid.Mat[Y][X].BGTile.TotalAnimationDuration = _it->second.TotalAnimationDuration;
+        }
+
         ResourceLock->unlock();
       }
     }
 
     ResourceLock->lock();
     ReadyToPlay = true;
-    Environment.UpdateView();
+    Environment.UpdateView(0.f);
     ResourceLock->unlock();
   }
 

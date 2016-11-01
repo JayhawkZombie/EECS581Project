@@ -66,7 +66,7 @@ namespace Engine
 
 
     txt.setCharacterSize(12);
-    txt.setColor(sf::Color::White); //setColor was deprecated, but setFillColor fails
+    txt.setFillColor(sf::Color::White); //setColor was deprecated, but setFillColor fails
     sf::Font txtFont;
     txtFont.loadFromFile("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf");
     txt.setFont(txtFont);

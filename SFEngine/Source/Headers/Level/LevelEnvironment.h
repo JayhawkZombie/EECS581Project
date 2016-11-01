@@ -11,24 +11,30 @@ namespace Engine
   class Player;
   class LevelObject;
 
-  struct Tile {
-    Tile() : animated(false), TileAnimationDuration(0) {}
+  class Tile {
+  public:
+    Tile();
+
+    void TickUpdate(const double &delta);
+    void Render();
 
     sf::Sprite TileSprite;
     std::string TileID;
-    std::vector<sf::FloatRect> Frames; //Used if tile is animated
+    std::vector<sf::IntRect> Frames; //Used if tile is animated
     sf::Vector2f LevelPosition;
     sf::Vector2f ScreenPosition;
     std::string FilePath;
-    bool animated;
-    double TileAnimationDuration;
+    bool IsAnimated;
+    double TotalAnimationDuration;
+    double FrameDelta;
+    std::size_t NumFrames, CurrentFrame;
+    double CurrentAnimationDuration;
   };
 
   struct GridCell {
-    GridCell() :
-      LevelPosition({ 0,0 }), ScreenPosition({ -10000, -10000 })
-    {
-    }
+    GridCell();
+
+    void TickUpdate(const double &delta);
 
     std::vector<std::shared_ptr<GenericActor>> Actors;
     std::vector<std::shared_ptr<LevelObject>> Objects;
@@ -57,8 +63,8 @@ namespace Engine
 
     void Render();
     void TickUpdate(const double &delta);
-    void UpdateView();
-    void UpdateGemoetry();
+    void UpdateView(const double &delta);
+    void UpdateGemoetry(const double &delta);
     void MoveView(const sf::Vector2f &Movement);
     void ComputeLevelToWindowTransformation(sf::Vector2f &LC, sf::Vector2f &WC);
     void ComputeLevelScale();

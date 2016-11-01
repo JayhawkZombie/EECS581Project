@@ -59,12 +59,23 @@ namespace Engine
     return nullptr;
   }
 
-  void LevelEnvironment::UpdateGemoetry()
+  void LevelEnvironment::UpdateGemoetry(const double &delta)
   {
+    int CELL_LEFT = std::floor(CurrentView.left / TileSize);
+    int CELL_TOP = std::floor(CurrentView.top / TileSize);
+    int CELL_RIGHT = std::floor(CurrentView.width / TileSize);
+    int CELL_BOTTOM = std::floor(CurrentView.height / TileSize);
+
+    for (std::size_t X = CELL_LEFT; X <= CELL_RIGHT; ++X) {
+      for (std::size_t Y = CELL_TOP; Y <= CELL_BOTTOM; ++Y) {
+        EnvironmentGrid.Mat[Y][X].TickUpdate(delta);
+      }
+    }
+
     MoveView(LevelMovement);
   }
 
-  void LevelEnvironment::UpdateView()
+  void LevelEnvironment::UpdateView(const double &delta)
   {
     ComputeLevelScale();
 
@@ -81,7 +92,7 @@ namespace Engine
       }
     }
 
-    DiagnosticText.setPosition(sf::Vector2f(100, 400));
+    DiagnosticText.setPosition(sf::Vector2f(100.f, 400.f));
     DiagnosticText.setCharacterSize(12);
     DiagnosticText.setFillColor(sf::Color::White);
     DiagnosticText.setString(
@@ -116,8 +127,8 @@ namespace Engine
 
   void LevelEnvironment::TickUpdate(const double &delta)
   {
-    UpdateGemoetry();
-    UpdateView();
+    UpdateGemoetry(delta);
+    UpdateView(delta);
   }
 
   void LevelEnvironment::MoveView(const sf::Vector2f &Movement) 
@@ -132,6 +143,7 @@ namespace Engine
     sf::FloatRect NewView = CurrentView;
 
     //Check to make sure we aren't trying to view outside the level
+    
     if (!(deltaLeft < 0) && !(deltaRight >= LevelSizeX * TileSize)) {
       NewView.left += Movement.x;
       NewView.width += Movement.x;
@@ -141,12 +153,8 @@ namespace Engine
       NewView.top += Movement.y;
       NewView.height += Movement.y;
     }
-
+    
     CurrentView = NewView;
-    DiagnosticText.setString(
-      "Current Level View: (" + std::to_string(CurrentView.left) + ", " + std::to_string(CurrentView.top)
-      + ", " + std::to_string(CurrentView.width) + ", " + std::to_string(CurrentView.height)
-    );
   }
 
   void LevelEnvironment::Render()
