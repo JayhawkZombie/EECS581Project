@@ -83,10 +83,10 @@ namespace Engine
 
     //Informaton about level size and scaling tiles to fit the screen
     std::size_t LevelSizeX, LevelSizeY, TileSize, TilesAcross;
-    
-    std::vector<Tile> Tiles;
+
+    //We store information about each tile (unique info, but nothing about position)
+    std::map<std::string, Tile> MapTileIDToTile;
     std::vector<std::string> TileLayout;
-    Matrix<Tile> BGTiles;
 
   };
 
