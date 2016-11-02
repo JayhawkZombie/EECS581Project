@@ -11,6 +11,7 @@ public:
 
   //getters
   std::string getName();
+  std::string getFilePath();
   std::string getDescription();
   bool getIsPhysical();
   bool getIsMagical();
@@ -22,6 +23,7 @@ public:
 
   //setters
   void setName(std::string name);
+  void setFilePath(std::string filePath);
   void setDescription(std::string description);
   void setIsPhysical(bool isPhysical);
   void setIsMagical(bool isMagical);
@@ -33,6 +35,7 @@ public:
 
 private:
   std::string m_name;
+  std::string m_filePath;
   std::string m_description;
   bool m_isPhysical;
   bool m_isMagical;

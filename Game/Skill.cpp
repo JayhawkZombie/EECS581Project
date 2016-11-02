@@ -5,6 +5,7 @@
 Skill::Skill()
 {
   m_name = "";
+  m_filePath = "";
   m_description = "";
   m_isPhysical = false;
   m_isMagical = false;
@@ -25,7 +26,10 @@ std::string Skill::getName()
 {
   return m_name;
 }
-
+std::string Skill::getFilePath()
+{
+  return m_filePath;
+}
 std::string Skill::getDescription()
 {
   return m_description;
@@ -64,6 +68,10 @@ Damage Skill::getDamage()
 void Skill::setName(std::string name)
 {
   m_name = name;
+}
+void Skill::setFilePath(std::string filePath)
+{
+  m_filePath = filePath;
 }
 void Skill::setDescription(std::string description)
 {
