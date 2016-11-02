@@ -151,11 +151,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Armor.h" />
+    <ClInclude Include="Game\Damage.h" />
     <ClInclude Include="Game\GameMain.h" />
+    <ClInclude Include="Game\MonsterType.h" />
     <ClInclude Include="Game\RPGActor.h" />
     <ClInclude Include="Game\RPGItem.h" />
     <ClInclude Include="Game\RPGTest.h" />
     <ClInclude Include="Game\Tile.h" />
+    <ClInclude Include="Game\Weapon.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
@@ -203,11 +207,15 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\StringMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Armor.cpp" />
+    <ClCompile Include="Game\Damage.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
+    <ClCompile Include="Game\MonsterType.cpp" />
     <ClCompile Include="Game\RPGActor.cpp" />
     <ClCompile Include="Game\RPGItem.cpp" />
     <ClCompile Include="Game\RPGTest.cpp" />
     <ClCompile Include="Game\Tile.cpp" />
+    <ClCompile Include="Game\Weapon.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\EventHandlerTests.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\ResourceManagerTests.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
