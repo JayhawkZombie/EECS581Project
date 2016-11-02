@@ -30,7 +30,8 @@ namespace Engine
     virtual void OnShutDown() = 0;
 
     EventHandler Handler;
-
+    virtual std::string GetID() const;
+    virtual void SetID(const std::string &ID);
   protected:
 
   private:
@@ -39,6 +40,7 @@ namespace Engine
     static void NO_ACTION(BaseEngineInterface *item, const sf::Keyboard::Key &);
     static void NO_ACTION(BaseEngineInterface *item);
 
+    std::string ItemID;
   };
 }
 

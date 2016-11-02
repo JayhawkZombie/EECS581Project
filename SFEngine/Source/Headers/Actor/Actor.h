@@ -10,21 +10,41 @@ namespace Engine
   class GenericActor : public LevelObject
   {
   public:
+    friend class Level;
     GenericActor();
+    GenericActor(const std::string &texfile, const std::string &texID);
     GenericActor(const GenericActor &actor);
     ~GenericActor();
 
-    void TickUpdate(const double &delta);
-    void Render();
-    void OnShutDown();
+    virtual void TickUpdate(const double &delta);
+    virtual void Render();
+    virtual void OnShutDown();
+
+    virtual bool WantsInputEvent(const Events &evnt) const;
+
+    virtual void SetActorPosition(const sf::Vector2f &pos);
+    virtual void SetActorSize(const sf::Vector2f &size);
+    virtual void SetActorVelocity(const sf::Vector2f &vel);
+    virtual void SetActorAcceleration(const sf::Vector2f &acc);
+
+    virtual const sf::Vector2f& GetActorPosition() const;
+    virtual const sf::Vector2f& GetActorSize() const;
+    virtual const sf::Vector2f& GetActorVelocity() const;
+    virtual const sf::Vector2f& GetActorAcceleration() const;
+
+    virtual void SetTexture(const std::string &texfile, const std::string &texID);
     
   protected:
     sf::Vector2f Velocity;
     sf::Vector2f Acceleration;
     sf::Vector2f Position;
+    sf::Vector2f Size;
     sf::Sprite Sprite;
-    std::shared_ptr<sf::Texture> SpriteTexture;
 
+    sf::RectangleShape ActorRectangle;
+
+    std::shared_ptr<sf::Texture> SpriteTexture;
+    CollisionBox ActorBox;
     void ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex);
   };
 

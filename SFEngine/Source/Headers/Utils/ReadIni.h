@@ -72,6 +72,8 @@ namespace Engine
     */
     sf::Vector2f GetVec2fConfig(const std::string &category, const std::string &key, const sf::Vector2f &defaultValue, const std::string &inifile, std::ifstream &in);
 
+    sf::FloatRect GetFloatRectConfig(const std::string &category, const std::string &key, const sf::FloatRect &defaultValue, const std::string &inifile, std::ifstream &in);
+
     /**
     <summary>Retrieve the float value for a given key</summary>
     <param name="category">The category in which a key is expected to appear in</param>
@@ -131,6 +133,28 @@ namespace Engine
 
     std::string GetBracedConfig(const std::string &category, const std::string &key, const std::string &defaultValue, const std::string &infile, std::ifstream &in);
     std::pair<std::string, std::string> GetStringPair(const std::string &category, const std::string &key, const std::pair<std::string, std::string> &defaultValue, const std::string &infile, std::ifstream &in);
+    std::pair<std::string, std::string> GetPairText(const std::string &line, std::size_t &curroffset);
+
+    std::vector<std::pair<std::string, std::string>> ParsePairedText(const std::string &str, const std::size_t &paircount);
+    
+    /** 
+     * Visual studio does not like it when template methods are defined in a different file
+     * Visual studio ie fucking stupid like that, so we have to define it here, even though this is a header file
+     */
+    template<typename T>
+    std::vector<sf::Rect<T>> ParseSFRectConfig(const std::string &str, const std::size_t &paircount) {
+      std::vector<sf::Rect<T>> V;
+      std::size_t beg{ 0 }, end{ std::string::npos }, currentpos{ 0 };
+      for (std::size_t i = 0; i < paircount; ++i) {
+        beg = str.find_first_of("(", currentpos);
+        end = str.find_first_of(")", beg + 1);
+        std::string substr = str.substr(beg, end - beg + 1);
+        V.push_back(Util::StringToRect<T>(substr));
+        currentpos = str.find_first_of("(", end + 1);
+      }
+
+      return V;
+    }
 
     void WriteBooleanConfig(const std::string &category, const std::string &key, const bool &value, const std::string &inifile, std::ifstream &in);
     void WriteBooleanConfig(const std::string &category, const std::string &key, const bool &value, const std::string &inifile, std::ifstream &in);

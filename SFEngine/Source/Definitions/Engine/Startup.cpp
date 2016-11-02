@@ -50,8 +50,8 @@ namespace Engine
       std::cerr << "Pair.first = \"" << pair.first << "\", .second = \"" << pair.second << "\"" << std::endl;
       InitialLevel = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", IN);
       std::cout << "Initial Level: " << InitialLevel << std::endl;
-      RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 0, "Engine.ini", IN);
-      RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0, "Engine.ini", IN);
+      RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", IN);
+      RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", IN);
       RenderSettings.Gamma = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", IN);
       RenderSettings.PostProcess = Util::GetUnsignedIntConfig("Render", "PostProcess", 0, "Engine.ini", IN);
 
@@ -59,6 +59,10 @@ namespace Engine
       ContextSettings.depthBits = Util::GetUnsignedIntConfig("Render", "uiDepthBits", 0, "Engine.ini", IN);
       ContextSettings.sRgbCapable = Util::GetBooleanConfig("Render", "bSRGBCapable", true, "Engine.ini", IN);
       ContextSettings.stencilBits = Util::GetUnsignedIntConfig("Render", "uiStencilBits", 0, "Engine.ini", IN);
+
+      sf::FloatRect testRect = Util::GetFloatRectConfig("Tests", "SampleRect", sf::FloatRect(), "Engine.ini", IN);
+      std::cerr << "TestRect: (" << testRect.left << ", " << testRect.top << ", " << testRect.width << ", " << testRect.height << ")" << std::endl;
+
       IN.clear();
       IN.close();
     }
@@ -69,8 +73,6 @@ namespace Engine
     ResourceManager->Start();
 
     //Now begin loading the level
-    Levels.push_back(std::make_shared<Level>(*new Level));
-    Levels[0]->LoadLevel(InitialLevel);
 
     return GameLoop();
   }

@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
+  <Class Name="Engine::Level">
+    <Position X="0.5" Y="9.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AADABEAGEEAhpAACAAAAoAIEAECAEAiFKBQQQgABBAI=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\Level.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::BaseEngineInterface">
+    <Position X="6.5" Y="6" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAIIAAAgAAAoAAAAQAAAAAAABBAgAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Engine\BaseEngineInterface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::SFEngine">
+    <Position X="21.75" Y="10.75" Width="7.25" />
+    <TypeIdentifier>
+      <HashCode>AIUAIgIAAAIIAwAAoQAAGQABEIBAIAABABQiCEhIAEA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Engine\Engine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::EventHandler">
+    <Position X="15.75" Y="9.75" Width="5.75" />
+    <TypeIdentifier>
+      <HashCode>GAQAogAAIgAAAAQAAAAAEEgEAABwAAIACBAAAYgABFA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Events\EventHandler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Resource::ResourceManager">
+    <Position X="21.75" Y="0.5" Width="7.25" />
+    <TypeIdentifier>
+      <HashCode>CBgUBBCABKBAAQDQQIAJGwGBJABASCABAAAQABaIAAg=</HashCode>
+      <FileName>SFEngine\Source\Headers\Resources\ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::UI::BaseUIElement">
+    <Position X="4.25" Y="9.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAIgAAQCAgIECAABAIMABAEBVBAwBUARAgDQoQIBg=</HashCode>
+      <FileName>SFEngine\Source\Headers\UI\BaseUIElement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::UI::UIController">
+    <Position X="12.75" Y="9.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>BAQBIoCAAAgBIAQAEAAQsAAABQB0AMgIABAABgoAoBA=</HashCode>
+      <FileName>SFEngine\Source\Headers\UI\UIController.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::UI::ClickButton">
+    <Position X="12.75" Y="18.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAYAogAAAgAiIAAAAACKMAAAQAhAAkAMABgIAQgAKLA=</HashCode>
+      <FileName>SFEngine\Source\Headers\UI\ClickButton.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::RenderTarget">
+    <Position X="20.5" Y="21.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAgAAIAAAAgAAAAAAAAAAABCAAABAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\UI\RenderTarget.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::GenericActor">
+    <Position X="8.75" Y="13.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAABoAIgAACBIAABADBCCAYQABAEAAAMABA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Actor\Actor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Player">
+    <Position X="8.75" Y="20" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAQAAIAAAAAAAIAAAAAAICAAAABAAAQQAABA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Actor\Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::LevelEnvironment">
+    <Position X="0.5" Y="18.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>EAAQBEACAACAABAAAAGAAABAAAAAEACAACAgAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelEnvironment.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::LevelObject">
+    <Position X="9" Y="9.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIABAAAAAIAAAAAAAAAABABAAAwAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::GenericLightSource">
+    <Position X="17.25" Y="1" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAIACAAACAAAIAgAAACiBAIAAgQAgCBAAgAoAAAAAI=</HashCode>
+      <FileName>SFEngine\Source\Headers\Lights\GenericLightSource.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::GlobalLightSource">
+    <Position X="17" Y="6.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Lights\GlobalLightSource.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Engine::Config">
+    <Position X="29.75" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAREhEAAAAAAAAIHAIIAAAEAAgAEECCBAAAABAAAQA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Engine\EngineConfiguration.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::KeyTarget">
+    <Position X="16.25" Y="21.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAIAAAAAAACAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\UI\KeyTarget.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::MouseTarget">
+    <Position X="16.25" Y="18.25" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAgAAIAAACAIAAABAhAAAIAAAAAoAAAAAAAAAIAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\UI\MouseTarget.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::LevelLayer">
+    <Position X="0.5" Y="22.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAEAAAAAAAAIAAAABAQAAABAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\Layer.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::LevelEnvironmentEvent">
+    <Position X="0.5" Y="24.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelEnvironmentEvent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::UserInputEvent">
+    <Position X="5" Y="1" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelEventSequences.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::UserKeyPressEvent">
+    <Position X="3.5" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelEventSequences.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::UserKeyReleaseEvent">
+    <Position X="11" Y="3.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelEventSequences.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::UserMousePressEvent">
+    <Position X="0.5" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelEventSequences.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::UserMouseReleaseEvent">
+    <Position X="7" Y="3.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAIAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelEventSequences.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::Render::RenderSettings">
+    <Position X="30" Y="9.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAQAAAAAgAAAAAAAAgBAIA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Render\Render.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="DoubleStringPair" Collapsed="true">
+    <Position X="16.75" Y="8.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Resources\ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="Engine::Error">
+    <Position X="34.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>IgCQAAAAAAgAQIAAQAABACIAAAIBAAIAAAgEAABEgAE=</HashCode>
+      <FileName>SFEngine\Source\Headers\Engine\ReturnValues.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Engine::Warning">
+    <Position X="34.5" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Engine\ReturnValues.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Engine::Success">
+    <Position X="34.5" Y="6.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAgEAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Engine\ReturnValues.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Engine::Events">
+    <Position X="14.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAiAAIAAAAAAAAAAAAgCAAAAEAEAEAAAAAARBgAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Events\EventHandler.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

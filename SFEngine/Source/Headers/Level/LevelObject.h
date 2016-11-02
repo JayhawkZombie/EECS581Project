@@ -6,14 +6,24 @@
 
 #include "../Physics/Collision.h"
 
+#define REQUIRED_LEVEL_OBJ_CLASS_CODE(CLASSNAME) \
+  friend class SFEngine; \
+  friend class Level; \
+  friend class LevelEnvironment; \
+  void CollisionUpdate(const sf::Vector2f &delta); \
+  friend std::ostream& operator<<(std::ostream &out, const CLASSNAME &obj) \
+    { \
+       out << #CLASSNAME << "\n"; \
+    }
+
 namespace Engine
 {
- 
 
   class LevelObject : public BaseEngineInterface
   {
   public:
-    friend class SFEngine;
+
+    REQUIRED_LEVEL_OBJ_CLASS_CODE(LevelObject);
 
     LevelObject();
     LevelObject(const LevelObject &obj);
@@ -26,7 +36,8 @@ namespace Engine
   protected:
     CollisionBox Collsion;
 
-    std::vector<std::shared_ptr<sf::Texture>> Textures;
+    std::map<std::string, CollisionBox> CollisionBoxes;
+    std::map<std::string, CollisionBox> PreviousPhysicsState;
 
     //TODO: Implement animations
     //std::map<STRING, Animation> Animations;

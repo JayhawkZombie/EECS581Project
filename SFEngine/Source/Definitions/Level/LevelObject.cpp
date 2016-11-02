@@ -33,4 +33,12 @@ namespace Engine
 
   }
 
+  void LevelObject::CollisionUpdate(const sf::Vector2f &movement)
+  {
+    for (auto & box : CollisionBoxes) {
+      PreviousPhysicsState[box.first] = box.second;
+      box.second.Position += movement;
+    }
+  }
+
 }

@@ -7,6 +7,10 @@ uniform float GAMMA;
 uniform int POST_PROCESS_EFFECT;
 uniform float BLUR_AMOUNT;
 
+uniform vec4 GLOBAL_LIGHT;
+uniform float GLOBAL_LIGHT_INTENSITY;
+uniform float GLOBAL_LIGHT_ATTENUATION;
+
 uniform float offset = 1.0/300;
 
 float BlurKernel[9] = float[](
@@ -79,17 +83,18 @@ vec4 invert(vec4 color)
 
 void main()
 {
-  vec4 color = brightnessContrast();
-  color.rgb = pow(color.rgb, vec3(1.0 / GAMMA));
+  vec4 pixel = brightnessContrast();
+  pixel.rgb = pow(pixel.rgb, vec3(1.0 / GAMMA));
+
+  float I = GLOBAL_LIGHT_INTENSITY / 100;
+  pixel = pixel * I + GLOBAL_LIGHT * I;
 
   if (POST_PROCESS_EFFECT == 1)
-    color = KernelMethod(color);
+    pixel = KernelMethod(pixel);
   else if (POST_PROCESS_EFFECT == 2)
-    color = KernelMethod(color);
+    pixel = KernelMethod(pixel);
   else if (POST_PROCESS_EFFECT == 3)
-    color = invert(color);
+    pixel = invert(pixel);
 
-  gl_FragColor = color;
+  gl_FragColor = pixel;
 }
-
-

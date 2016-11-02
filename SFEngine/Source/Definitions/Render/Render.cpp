@@ -1,4 +1,5 @@
 #include "../../Headers/Render/Render.h"
+#include <iostream>
 
 namespace
 {
@@ -12,6 +13,8 @@ namespace
   sf::Shader *FragmentShader;
   sf::Shader *VertexShader;
   Engine::Render::RenderSettings CoreRenderSettings;
+  std::vector<Engine::GenericLightSource> Lights;
+  Engine::GlobalLightSource GlobalLight;
 }
 
 namespace Engine
@@ -84,11 +87,10 @@ namespace Engine
         view.reset(bounds);
         view.setViewport(ViewPanel);
 
-
         CoreRenderSettings.texture->setActive(true);
         CoreRenderSettings.texture->setView(view);
-        CoreRenderSettings.texture->draw(*drawable, VertexShader);
-        CoreRenderSettings.texture->setView(CoreRenderSettings.texture->getDefaultView());
+        CoreRenderSettings.texture->draw(*drawable);
+        CoreRenderSettings.texture->setView(CoreRenderSettings.texture->getDefaultView()); 
       }
     }
 
@@ -103,27 +105,19 @@ namespace Engine
       //Now that every has been drawn to a render texture, draw that one huge texture
       CoreRenderSettings.texture->setActive(true);
       CoreRenderSettings.texture->display();
-      
 
       FragmentShader->setUniform("BRIGHTNESS", CoreRenderSettings.Brightness);
       FragmentShader->setUniform("CONTRAST", CoreRenderSettings.Contrast);
       FragmentShader->setUniform("SCENE", sf::Shader::CurrentTexture);
       FragmentShader->setUniform("GAMMA", CoreRenderSettings.Gamma);
       FragmentShader->setUniform("POST_PROCESS_EFFECT", CoreRenderSettings.PostProcess);
+
+      FragmentShader->setUniform("GLOBAL_LIGHT", sf::Glsl::Vec4(GlobalLight.GetColor()));
+      FragmentShader->setUniform("GLOBAL_LIGHT_INTENSITY", 100.f);
+
       sf::Sprite spr(CoreRenderSettings.texture->getTexture());
 
       DrawWindow->draw(spr, FragmentShader);
-
-      switch (CoreRenderSettings.PostProcess)
-      {
-        case 1:
-
-        case 2:
-
-        default:
-          break;
-      }
-
     }
 
     void __Set__Window(sf::RenderWindow *window)
@@ -175,6 +169,16 @@ namespace Engine
     void AddPostProcessShader(sf::Shader *shader)
     {
       PostProcessShaders.push_back(shader);
+    }
+
+    void AddLightSource(const GenericLightSource &light)
+    {
+      Lights.push_back(light);
+    }
+
+    void AddGlobalLight(const GlobalLightSource &light)
+    {
+      GlobalLight = light;
     }
   }
 }
