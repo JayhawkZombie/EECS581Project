@@ -63,6 +63,11 @@ namespace Engine
 
   }
 
+  void Level::HandleWindowResized()
+  {
+    
+  }
+
   /*
   Level::Level(const std::string &levelFile)
   {

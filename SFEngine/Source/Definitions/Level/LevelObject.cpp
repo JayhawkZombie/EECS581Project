@@ -27,7 +27,14 @@ namespace Engine
 
   void LevelObject::Render()
   {
-
+    /*
+    if (RenderOutlined) {
+      sf::RectangleShape shape;
+      shape.setFillColor(sf::Color::Transparent);
+      shape.setOutlineThickness(2);
+      shape.setOutlineColor(sf::Color::Black);
+      shape.setPosition(this->CurrentPhysicsState.GetScreenPosition());
+    }*/
   }
 
   void LevelObject::OnShutDown()

@@ -72,6 +72,7 @@ namespace Engine
 
     LoadTileLayout(IN);
     AssignTileTextures();
+    LoadActors(IN);
   }
 
   void Level::LoadLights(std::ifstream &IN)
@@ -109,7 +110,16 @@ namespace Engine
 
   void Level::LoadActors(std::ifstream &IN)
   {
+    sf::Vector2f PlayerSpawn = Util::GetVec2fConfig("Player", "Spawn", sf::Vector2f(-1, -1), LevelFile, IN);
+    if (PlayerSpawn != sf::Vector2f(-1, -1)) {
+      std::shared_ptr<Player> player(new Player);
+      player->CurrentPhysicsState.LevelPosition = PlayerSpawn;
+      player->CurrentPhysicsState.BoundingBox = sf::FloatRect(PlayerSpawn, sf::Vector2f(15, 20));
+      player->RenderOutlined = true;
 
+      std::cerr << "Spawning player at: (" << PlayerSpawn.x << ", " << PlayerSpawn.y << ")" << std::endl;
+      Environment.AddActor("LevelMainPlayer", player);
+    }
   }
 
   void Level::LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN)

@@ -32,7 +32,7 @@ namespace Engine
       
 
 
-      ButtonText->setColor(sf::Color::White);
+      ButtonText->setFillColor(sf::Color::White);
       ButtonText->setFont(*ButtonFont.get());
       ButtonText->setString("Test String");
       //ButtonShape->setTexture(ButtonTexture.get());

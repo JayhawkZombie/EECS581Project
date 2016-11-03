@@ -24,7 +24,7 @@ namespace Engine
 
     sf::Sprite TileSprite;
     std::string TileID;
-    std::vector<sf::IntRect> Frames; //Used if tile is animated
+    std::vector<sf::IntRect> Frames;
     sf::Vector2f LevelPosition;
     sf::Vector2f ScreenPosition;
     std::string FilePath;

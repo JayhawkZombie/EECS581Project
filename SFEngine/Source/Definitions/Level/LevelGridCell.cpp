@@ -35,7 +35,7 @@ namespace Engine
 
         if (Physics::DoObjectsOverlap(actor.get(), object.get())) {
           OverlapAction action = object->OnActorOverlap(actor.get());
-
+          std::cerr << "Actor overlapped object" << std::endl;
           switch (action)
           {
             case OverlapAction::KILL_ACTOR:
@@ -57,17 +57,19 @@ namespace Engine
     for (auto & object : Objects) {
       sf::Vector2f WinPos;
       sf::Vector2f LC = object->CurrentPhysicsState.GetLevelPosition();
-      conversion(LC, WinPos);
+      conversion(WinPos, LC);
 
       object->CurrentPhysicsState.SetScreenPosition(WinPos);
+      object->Render();
     }
 
     for (auto & actor : Actors) {
       sf::Vector2f WinPos;
       sf::Vector2f LC = actor->CurrentPhysicsState.GetLevelPosition();
-      conversion(LC, WinPos);
+      conversion(WinPos, LC);
 
       actor->CurrentPhysicsState.SetScreenPosition(WinPos);
+      actor->Render();
     }
 
   }
