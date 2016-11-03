@@ -5,12 +5,53 @@
 #include "../Engine/BaseEngineInterface.h"
 
 #include "../Physics/Collision.h"
+#include "../Physics/PhysicsState.h"
 
 #define REQUIRED_LEVEL_OBJ_CLASS_CODE(CLASSNAME) \
+  public: \
   friend class SFEngine; \
   friend class Level; \
   friend class LevelEnvironment; \
+  friend struct GridCell; \
+  PhysicsState CurrentPhysicsState; \
+  PhysicsState PreviousPhysicsState; \
+  private: \
+    bool DidUpdate; \
+    bool DidPhysicsUpdate; \
+  public: \
+  void PhysicsUpdate(const PhysicsState &state) \
+  { \
+    if (!DidPhysicsUpdate) { \
+      PreviousPhysicsState = CurrentPhysicsState; \
+      CurrentPhysicsState = state; \
+      DidPhysicsUpdate = true; \
+    } \
+  } \
+  bool DidUpdateThisFrame() const \
+  { \
+    return DidUpdate; \
+  } \
+  bool DidPhysicsUpdateThisFrame() const \
+  { \
+    return DidPhysicsUpdate; \
+  } \
+  void LevelGridCellUpdate(const double &delta) \
+  { \
+    if (!DidUpdate) { \
+        DidUpdate = true; \
+        TickUpdate(delta); \
+      } \
+  } \
   void CollisionUpdate(const sf::Vector2f &delta); \
+  void EndOfFrame() \
+  { \
+    DidUpdate = false; \
+    DidPhysicsUpdate = false; \
+  } \
+  virtual std::string ClassName() \
+  { \
+    return std::string(#CLASSNAME); \
+  } \
   friend std::ostream& operator<<(std::ostream &out, const CLASSNAME &obj) \
     { \
        out << #CLASSNAME << "\n"; \
@@ -18,6 +59,15 @@
 
 namespace Engine
 {
+  class GenericActor;
+  class Player;
+
+  enum class OverlapAction
+  {
+    KILL_ACTOR = 0,
+    DISALLOW_ACTOR_OVERLAP = 1,
+    CUSTOM_ACTION
+  };
 
   class LevelObject : public BaseEngineInterface
   {
@@ -33,15 +83,19 @@ namespace Engine
     void Render();
     void OnShutDown();
 
+    virtual OverlapAction OnActorOverlap(GenericActor *actor);
+    virtual bool DoTestCollisions() const;
+    virtual bool DoesAllowActorOverlap() const;
+
   protected:
     CollisionBox Collsion;
+    sf::FloatRect LevelArea;
 
-    std::map<std::string, CollisionBox> CollisionBoxes;
-    std::map<std::string, CollisionBox> PreviousPhysicsState;
+    CollisionBox GlobalCollisionBox;
 
-    //TODO: Implement animations
-    //std::map<STRING, Animation> Animations;
-
+    bool AllowsActorOverlap; //if false, then actors will never be allowed to cross over this object
+    bool RenderOutlined;
+    bool TestingCollisions;
   };
 }
 

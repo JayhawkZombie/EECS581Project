@@ -88,6 +88,27 @@ namespace Engine
 
   void Level::LoadVolumes(std::ifstream &IN)
   {
+    std::string StopVolumesText = Util::GetBracedConfig("Volumes", "StopVolumes", "{}", LevelFile, IN);
+    bool RenderOutlined = Util::GetBooleanConfig("Volumes", "RenderOutlines", false, LevelFile, IN);
+    if (StopVolumesText != "{}") {
+      std::size_t NumStopVolumes = Util::GetUnsignedIntConfig("Volumes", "NumStopVolumes", 0, LevelFile, IN);
+      auto V = Util::ParseSFRectConfig<float>(StopVolumesText, NumStopVolumes);
+
+      std::size_t __count = 0;
+      for (auto & volume : V) {
+        std::shared_ptr<LevelObject> obj(new LevelObject);
+        obj->AllowsActorOverlap = false;
+        obj->GlobalCollisionBox.Position = sf::Vector2f(volume.left, volume.top);
+        obj->GlobalCollisionBox.Size = sf::Vector2f(volume.width, volume.height);
+        obj->RenderOutlined = RenderOutlined;
+        std::string ID = "StopVolume" + std::to_string(__count++);
+        Environment.AddObject(ID, obj);
+      }
+    }
+  }
+
+  void Level::LoadActors(std::ifstream &IN)
+  {
 
   }
 

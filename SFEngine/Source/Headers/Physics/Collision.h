@@ -6,6 +6,8 @@
 namespace Engine
 {
 
+  class LevelObject;
+
   namespace Physics
   {
 
@@ -19,6 +21,8 @@ namespace Engine
     float Mag(const sf::Vector2f &a);
     unsigned int Mag(const sf::Vector2u &a);
     int Mag(const sf::Vector2i &a);
+
+    bool DoObjectsOverlap(LevelObject *Obj1, LevelObject *Obj2);
 
   }
 

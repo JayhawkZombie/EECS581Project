@@ -1,5 +1,7 @@
 #include "../../Headers/Level/LevelObject.h"
 
+#include "../../Headers/Actor/Actor.h"
+
 namespace Engine
 {
 
@@ -33,12 +35,24 @@ namespace Engine
 
   }
 
+  OverlapAction LevelObject::OnActorOverlap(GenericActor *actor)
+  {
+    return OverlapAction::DISALLOW_ACTOR_OVERLAP;
+  }
+
   void LevelObject::CollisionUpdate(const sf::Vector2f &movement)
   {
-    for (auto & box : CollisionBoxes) {
-      PreviousPhysicsState[box.first] = box.second;
-      box.second.Position += movement;
-    }
+    
+  }
+
+  bool LevelObject::DoTestCollisions() const
+  {
+    return TestingCollisions;
+  }
+
+  bool LevelObject::DoesAllowActorOverlap() const
+  {
+    return AllowsActorOverlap;
   }
 
 }

@@ -35,6 +35,8 @@ namespace Engine
     virtual void SetTexture(const std::string &texfile, const std::string &texID);
     
   protected:
+    void __HandleKeyPress(const sf::Keyboard::Key &key);
+
     sf::Vector2f Velocity;
     sf::Vector2f Acceleration;
     sf::Vector2f Position;

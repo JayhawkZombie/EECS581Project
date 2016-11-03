@@ -187,6 +187,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Lights\GlobalLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Collision.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Physics.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsState.h" />
     <ClInclude Include="SFEngine\Source\Headers\Render\Render.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
     <ClInclude Include="SFEngine\Source\Headers\Shaders\Shader.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collision.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\InitialPhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Physics.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Render\Render.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManager.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
