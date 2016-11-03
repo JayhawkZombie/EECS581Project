@@ -1,16 +1,16 @@
 5
 Fillet Knife
+/../SFEngine/Samples/Textures/ItemTextures/WeaponTextures/FilletKnifeTexture.png
 5
 This sharp iron knife has been used by your father to skin many deer and elk.
-FilletKnife.png
 6 
 5 
 true 
 false
 ScrapWood Bow
+/../SFEngine/Samples/Textures/ItemTextures/WeaponTextures/ScrapWoodBowTexture.png
 7
 This bow was fashioned from scrap wood by a desperate survivor- your father kept it to remember hard times. Its draw can knick even tough armor
-ScrapWoodBow.png
 6
 3
 8
@@ -18,9 +18,9 @@ ScrapWoodBow.png
 true 
 true 
 Herbalists' shortSword
+/../SFEngine/Samples/Textures/ItemTextures/WeaponTextures/HerbalistsShortSwordTexture.png
 15
 Though this old shortSword was used in war, it lately has only been used to cut herbs for the old herbalist
-HerbalistsShortSword.png
 6
 4
 11
@@ -28,9 +28,9 @@ HerbalistsShortSword.png
 true;
 false;
 DriftWood wand
+/../SFEngine/Samples/Textures/ItemTextures/WeaponTextures/DriftWoodWandTexture.png
 12
 This wood travelled the seas for an untold amount of time. It must have been a wand once, as it still chanels magic energy
-DriftWoodWand.png
 7
 4
 1
@@ -38,9 +38,9 @@ DriftWoodWand.png
 true
 false
 Unadorned Staff
+/../SFEngine/Samples/Textures/ItemTextures/WeaponTextures/UnadornedStaffTexture.png
 8
 This old ragged staff is edged and dirty. Youre amazed that it channels at all. Yet when you do use it, it shines green with the power of the forest it came from
-UnadornedStaff.png
 2
 5
 7
