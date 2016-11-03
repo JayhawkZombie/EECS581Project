@@ -40,6 +40,34 @@ namespace Engine
     }
 
     template<typename T>
+    sf::Rect<T> StringToRect(const std::string &s)
+    {
+      T a, b, c, d;
+
+      std::string astr, bstr, cstr, dstr;
+      std::size_t comma1, comma2, comma3, comment;
+
+      comma1 = s.find_first_of(',');
+      comma2 = s.find_first_of(',', comma1 + 1);
+      comma3 = s.find_first_of(',', comma2 + 1);
+      comment = s.find_first_not_of("-0123456789.", comma3 + 1);
+
+      astr = s.substr(1, comma1 - 1);
+      bstr = s.substr(comma1 + 1, comma2 - comma1 - 1);
+      cstr = s.substr(comma2 + 1, comma3 - comma2 - 1);
+      dstr = s.substr(comma3 + 1, comment - comma3 - 1);
+
+      std::stringstream converta(astr), convertb(bstr), convertc(cstr), convertd(dstr);
+      a = (converta >> a ? a : T());
+      b = (convertb >> b ? b : T());
+      c = (convertc >> c ? c : T());
+      d = (convertd >> d ? d : T());
+
+      return sf::Rect<T>(a, b, c, d);
+
+    }
+
+    template<typename T>
     T StringToType(const std::string &s)
     {
       T a;
@@ -47,7 +75,6 @@ namespace Engine
       std::size_t comment = s.find_first_of(';');
 
       scpy = s.substr(0, comment);
-      std::cerr << "Init string to convert: " << scpy << std::endl;
 
       std::stringstream ss(scpy);
 

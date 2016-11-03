@@ -4,19 +4,26 @@ namespace Engine
 {
   void Level::Render()
   {
-    if (!IsReady()) {
-      Render::RenderText(&LevelWaitingText);
-    }
-    else {
-      LevelWaitingText.setString("Done loading!");
+    ResourceLock->lock();
 
-      for (auto & layer : Layers) {
-        
-        Render::RenderSprite(layer->BGSprite);
-        
-      } //for (auto & layer : Layers)
+    if (!ReadyToPlay)
+      RenderLoadingScreen();
+    else
+      RenderRegular();
 
-      Render::RenderText(&LevelWaitingText);
-    } //end else
-  } //Render()
+    ResourceLock->unlock();
+  }
+
+  void Level::RenderRegular()
+  {
+    Environment.DiagnosticText.setFont(*LevelFont);
+    Environment.Render();
+    Render::RenderText(&Environment.DiagnosticText);
+  }
+
+  void Level::RenderLoadingScreen()
+  {
+    Render::RenderShape(&LoadingTexturesBar);
+  }
+
 }

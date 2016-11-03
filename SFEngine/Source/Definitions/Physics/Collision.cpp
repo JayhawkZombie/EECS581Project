@@ -9,7 +9,13 @@ namespace Engine
 
   CollisionBox::CollisionBox(const CollisionBox &box)
   {
+    Position = box.Position;
+    Size = box.Size;
+  }
 
+  sf::FloatRect CollisionBox::GetBox() const
+  {
+    return sf::FloatRect(Position, Size);
   }
 
   CollisionBox::~CollisionBox()

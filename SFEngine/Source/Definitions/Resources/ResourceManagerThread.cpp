@@ -8,11 +8,11 @@ namespace Engine
 
     void ResourceManager::ThreadMethod()
     {
-      std::cerr << "Beginning ThreadMethod()" << std::endl;
+      //std::cerr << "Beginning ThreadMethod()" << std::endl;
 
       while (!*ThreadQuit)
       {
-        std::cerr << "Beginning thread loop" << std::endl;
+        //std::cerr << "Beginning thread loop" << std::endl;
 
         std::unique_lock<std::mutex> __lock(*LoadLock);
 
@@ -23,11 +23,11 @@ namespace Engine
         if (*ThreadQuit)
           break;
 
-        std::cerr << "Thread woken up, not time to quit" << std::endl;
+        //std::cerr << "Thread woken up, not time to quit" << std::endl;
 
         while (!FontQueue->empty() || !VertexShaderQueue->empty() || !FragmentShaderQueue->empty() || !TextureQueue->empty())
         {
-          std::cerr << "Copying from push queue" << std::endl;
+          //std::cerr << "Copying from push queue" << std::endl;
           PushQueueLock->lock();
           CopyFromPushQueue();
           PushQueueLock->unlock();
@@ -35,14 +35,14 @@ namespace Engine
           //Now we've copied everything from the push queue, 
           //Now we can load using the values in the Active queues without stalling the main thread
           //and still allowing the main thread to submit requests
-          std::cerr << "Loading from active queue" << std::endl;
+          //std::cerr << "Loading from active queue" << std::endl;
           LoadShadersFromActiveQueues();
           LoadFontsFromActiveQueue();
           LoadTexturesFromActiveQueue();
         }
 
       }
-      std::cerr << "ThreadQuit set, returning from thread" << std::endl;
+      //std::cerr << "ThreadQuit set, returning from thread" << std::endl;
 
     } //ThreadMethod
 
@@ -129,7 +129,7 @@ namespace Engine
       
       auto it = Textures->find(ID);
       if (it != Textures->end()) {
-        std::cerr << "Texture already loaded into memory" << std::endl;
+        //std::cerr << "Texture already loaded into memory (Address: " << it->second.get() << std::endl;
         cb(it->second, ID);
       }
       else {

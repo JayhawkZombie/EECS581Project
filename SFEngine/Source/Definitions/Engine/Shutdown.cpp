@@ -4,6 +4,12 @@ namespace Engine
 {
   UINT32 SFEngine::Shutdown()
   {
+
+    for (auto & lvl : Levels)
+      lvl->OnShutDown();
+
+    EngineUIController.OnShutDown();
+
     delete Window;
 
     currentRenderWindow = nullptr;

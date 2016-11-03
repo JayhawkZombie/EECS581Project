@@ -57,7 +57,7 @@ namespace Engine
 
     std::pair<std::string, std::string> GetPairText(const std::string &line, std::size_t &curroffset) 
     {
-      std::size_t pos = line.find_first_of('<');
+      std::size_t pos = line.find_first_of('<', curroffset);
       std::size_t comma = line.find_first_of(',', pos + 1);
       std::size_t end = line.find_first_of('>', comma + 1);
       if (pos == std::string::npos || comma == std::string::npos || end == std::string::npos) {
@@ -113,6 +113,21 @@ namespace Engine
       return "{}";
     }
 
+    std::vector<std::pair<std::string, std::string>> ParsePairedText(const std::string &str, const std::size_t &paircount)
+    {
+      std::vector<std::pair<std::string, std::string>> V;
+      std::size_t beg{ 0 }, end{ std::string::npos }, currentpos{ 0 };
+      for (std::size_t i = 0; i < paircount; ++i) {
+        beg = str.find_first_of("<", currentpos);
+        end = str.find_first_of(">", beg + 1);
+
+        V.push_back(Util::GetPairText(str, beg));
+        currentpos = str.find_first_of(",", end + 1);
+      }
+      
+      return V;
+    }
+
     bool GetBooleanConfig(const std::string &category, const std::string &key, const bool &defaultValue, const std::string &inifile, std::ifstream &in)
     {
       if (!MoveToCategory(category, in)) {
@@ -153,6 +168,23 @@ namespace Engine
         return defaultValue;
 
       return Util::StringToVec2<float>(valstring);
+    }
+
+    sf::FloatRect GetFloatRectConfig(const std::string &category, const std::string &key, const sf::FloatRect &defaultValue, const std::string &inifile, std::ifstream &in)
+    {
+
+      if (!MoveToCategory(category, in)) {
+        in.seekg(std::ios::beg);
+        return defaultValue;
+      }
+
+      std::string val = MoveToKey(key, in);
+
+      if (val == "")
+        return defaultValue;
+
+      return Util::StringToRect<float>(val);
+
     }
 
     float GetFloatConfig(const std::string &category, const std::string &key, const float &defaultValue, const std::string &inifile, std::ifstream &in)

@@ -1,67 +1,94 @@
-#ifndef SFENGINE_LEVEL_H
-#define SFENGINE_LEVEL_H
+#ifndef SFENGINE_OPT_LEVEL_G
+#define SFENGINE_OPT_LEVEL_G
 
-#include "../BasicIncludes.h"
-#include "LevelObject.h"
+
+#include "../Engine/BaseEngineInterface.h"
 #include "Layer.h"
-#include "../Actor/Actor.h"
+#include "LevelObject.h"
+#include "LevelEventSequences.h"
+#include "../Events/EventSequence.h"
+#include "../Actor/Player.h"
+
+#include "../Lights/GlobalLightSource.h"
+#include "LevelEnvironment.h"
+
+#include "../Physics/Physics.h"
 
 namespace Engine
 {
 
+
+
   class Level : public BaseEngineInterface
   {
-  public:
-    friend class SFEngine;
 
-    Level();
-    Level(const Level &lvl);
+  public:
+    Level(const std::string &levelFile);
+    Level(const Level &) = delete;
     ~Level();
 
-    void TickUpdate(const double &delta);
-    void Render();
-    void OnShutDown();
+    void TickUpdate(const double &delta) override;
+    void Render() override;
+    void OnShutDown() override;
 
-    void LoadLevel(const std::string &file);
-    bool IsReady() const;
+    void LoadLevel();
+    void JoinLoaderThread();
+    void IsReady() const;
 
-  protected:
-    void HandleKeyEvent(const sf::Keyboard::Key &key);
+    void HandleKeyPress(const sf::Keyboard::Key &key);
+    void HandleKeyRelease(const sf::Keyboard::Key &key);
 
+  private:
+    void RenderRegular();
+    void RenderLoadingScreen();
+    Render::RenderSettings LevelRenderSettings;
 
-    std::vector<std::shared_ptr<LevelLayer>> Layers;
-    std::vector<GenericActor> Actors;
+    //Mutex for synchronization
+    std::mutex *ResourceLock;
 
-    std::vector<LevelObject> LevelObjects;
-    sf::Text LevelWaitingText;
+    std::thread LOADER;
+    std::string LevelFile;
 
-    void ReceiveFont(std::shared_ptr<sf::Font> font, const std::string &ID);
-    std::shared_ptr<sf::Font> LevelWaitingFont;
+    void LoadFromFile();
+    void LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN);
+    void LoadTileLayout(std::ifstream &IN);
+    void LoadLights(std::ifstream &IN);
+    void LoadVolumes(std::ifstream &IN);
+    void AssignTileTextures();
+    void StoreTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID);
+    std::size_t TexturesReceived;
 
-    std::thread LOADER, DRAWER;
+    LevelEnvironment Environment;
+    std::shared_ptr<sf::Font> LevelFont;
 
-    std::vector<std::vector<std::string>> BGLayout;
-    std::size_t BGHeight, BGWidth;
+    //A couple things for a crappy makeshift loading screen
+    std::string CurrentLoadingMessage;
+    unsigned int LoadingProgress;
+    sf::RectangleShape LoadingTexturesBar;
+    sf::Font LoadingFont;
+    sf::Text LoadingMessageText;
 
-    void ReadIDAndPath(std::streampos &pos, std::ifstream &IN);
-    void ReadLayout(std::streampos &pos, std::ifstream &IN);
-    bool ReadCorrectly;
-    bool ReadyToDraw;
+    //Map the short sequence of characters used in the layout
+    //to the ID used to ID the tile
+    std::map <
+      std::string, std::string
+    > LayoutIDTOTextureID;
 
+    //Map the unique Tile ID to the "Tile"'s texture
+    std::map <
+      std::string, std::shared_ptr<sf::Texture>
+    > TileIDToTexture;
+
+    //Information about how many textures and tiles there are
+    std::size_t NumTextures, NumTiles;
     bool ReadyToPlay;
 
-    std::map<std::string, std::shared_ptr<sf::Texture>> IDToTexture;
-    std::map<std::string, std::string> MapToTextureID;
-    std::vector<std::string> KnownTextures;
+    //Informaton about level size and scaling tiles to fit the screen
+    std::size_t LevelSizeX, LevelSizeY, TileSize, TilesAcross;
 
-    void ReceiveTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID);
-    void RequestTextures();
-    void DrawToRenderTexture();
-
-    std::shared_ptr<std::condition_variable> COND_VAR;
-    std::shared_ptr<std::mutex> MUTEX;
-
-    std::shared_ptr<std::mutex> CHECK_READY_MUTEX;
+    //We store information about each tile (unique info, but nothing about position)
+    std::map<std::string, Tile> MapTileIDToTile;
+    std::vector<std::string> TileLayout;
 
   };
 

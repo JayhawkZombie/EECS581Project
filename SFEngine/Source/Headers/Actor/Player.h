@@ -9,12 +9,25 @@ namespace Engine
   {
   public:
     Player();
+    Player(const std::string &texfile, const std::string &texID);
+    Player(const Player &p);
     ~Player();
 
 
+    virtual void TickUpdate(const double &delta);
+    virtual void Render();
+    virtual void OnShutDown();
+    virtual bool WantsInputEvent(const Events &evnt) const override;
+
+    virtual void MoveTo(const sf::Vector2f &pos);
+
   protected:
     void KeyWasPressed(const sf::Keyboard::Key &k);
+    void KeyWasReleased(const sf::Keyboard::Key &k);
+    
+    void TryToMove(const sf::Vector2f &amount);
 
+    sf::RectangleShape TestShape;
   };
 }
 

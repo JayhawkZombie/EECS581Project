@@ -1,39 +1,47 @@
 #include "../../Headers/Level/Level.h"
 
+namespace
+{
+
+}
+
 namespace Engine
 {
 
-  Level::Level()
+  Level::Level(const std::string &lvl)
+    : LevelFile(lvl), ResourceLock(new std::mutex), ReadyToPlay(false)
+    , LevelSizeX(0), LevelSizeY(0), TileSize(0), TilesAcross(0), TexturesReceived(0)
   {
-    ReadCorrectly = true;
-    BGHeight = 0;
-    BGWidth = 0;
-    ReadyToDraw = false;
+    ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", 
+                                 "OpenSansRegular", 
+                                 [this](std::shared_ptr<sf::Font> t, const std::string &s) -> void
+                                 {
+                                   this->LevelFont = t;
+                                   this->LoadingMessageText.setFont(*t);
+                                   this->Environment.DiagnosticText.setFont(*t);
+                                 }
+    
+    );
+    Handler.BindCallback(Events::KeyPressed,
 
-    LevelWaitingText.setString(std::string("Waiting for level to load..."));
-    LevelWaitingText.setPosition(sf::Vector2f(200, 200));
-    LevelWaitingText.setCharacterSize(12);
-    ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", "./SFEngine/Samples/Fonts/OpenSans-Regular.ttf",
-                                 [this](std::shared_ptr<sf::Font> f, const std::string &s) {this->ReceiveFont(f, s); });
+                         [this](const sf::Keyboard::Key &k) -> void
+                         {
+                           this->HandleKeyPress(k);
+                         }
 
-    COND_VAR = std::shared_ptr<std::condition_variable>(new std::condition_variable);
-    MUTEX = std::shared_ptr<std::mutex>(new std::mutex);
-    CHECK_READY_MUTEX = std::shared_ptr<std::mutex>(new std::mutex);
-
-    Handler.BindCallback(
-      Events::KeyPressed,
-      [this](const sf::Keyboard::Key &k)
-      {
-        this->HandleKeyEvent(k);
-      }
+    );
+    Handler.BindCallback(Events::KeyReleased,
+                         
+                         [this](const sf::Keyboard::Key &k) ->void
+                         {
+                           this->HandleKeyRelease(k);
+                         }
     );
 
-  }
-
-  Level::Level(const Level &lvl)
-    : Level()
-  {
-
+    LoadingMessageText.setPosition(sf::Vector2f(400, 400));
+    LoadingMessageText.setCharacterSize(12);
+    LoadingMessageText.setFillColor(sf::Color::White);
+    LoadingMessageText.setString("Loading string");
   }
 
   Level::~Level()
@@ -41,8 +49,80 @@ namespace Engine
     if (LOADER.joinable())
       LOADER.join();
 
-    if (DRAWER.joinable())
-      DRAWER.join();
+    delete ResourceLock;
+  }
+
+  void Level::JoinLoaderThread()
+  {
+    if (LOADER.joinable())
+      LOADER.join();
+  }
+
+  void Level::OnShutDown()
+  {
+
+  }
+
+  /*
+  Level::Level(const std::string &levelFile)
+  {
+    LevelFile = levelFile;
+    Playable = false;
+
+
+    Handler.BindCallback(
+      Events::KeyPressed,
+      [this](const sf::Keyboard::Key &k)
+    {
+      this->HandleKeyEvent(k);
+    }
+    );
+
+    ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", "./SFEngine/Samples/Fonts/OpenSans-Regular.ttf",
+                                 [this](std::shared_ptr<sf::Font> f, const std::string &s) {this->ReceiveFont(f, s); });
+
+    auto GlobalLight = GlobalLightSource::Create();
+
+    GlobalLight->SetColor(sf::Color::Transparent);
+    GlobalLight->SetIntensity(25);
+
+    Environment.LevelGlobalLight = GlobalLight;
+    Render::AddGlobalLight(*GlobalLight);
+
+    Player *__player = new Player;
+
+    std::shared_ptr<Player> player(__player);
+    player->Collsion.Position = sf::Vector2f(250, 250);
+    player->Collsion.Size = sf::Vector2f(50, 75);
+    player->MoveTo(sf::Vector2f(250, 250));
+
+    player->Collsion.Position = sf::Vector2f(250, 250);
+    player->Collsion.Size = sf::Vector2f(50, 75);
+    player->MoveTo(sf::Vector2f(250, 250));
+
+    Environment.AddActor("MainPlayerActor", player);
+    Environment.SetPlayer(player);
+
+    PlayerActor.Collsion.Position = sf::Vector2f(250, 250);
+    PlayerActor.Collsion.Size = sf::Vector2f(50, 75);
+    PlayerActor.MoveTo(sf::Vector2f(250, 250));
+
+    CollisionBoxes.push_back({});
+    CollisionBoxes.push_back({});
+
+    CollisionBoxes[0].Position = sf::Vector2f(100, 100);
+    CollisionBoxes[0].Size = sf::Vector2f(50, 50);
+
+    CollisionBoxes[1].Position = sf::Vector2f(300, 300);
+    CollisionBoxes[1].Size = sf::Vector2f(150, 100);
+
+    NumGridTextures = 0;
+  }
+
+  Level::~Level()
+  {
+    if (LOADER.joinable())
+      LOADER.join();
   }
 
   void Level::ReceiveFont(std::shared_ptr<sf::Font> font, const std::string &ID)
@@ -53,204 +133,24 @@ namespace Engine
     }
   }
 
-  void Level::RequestTextures()
+  void Level::AddActor(const std::string &ID, std::shared_ptr<GenericActor> src)
   {
-    //Go through all the known textures we have
-    //and make a request to the resource manager for each of them
-
-    for (auto & tex : KnownTextures) {
-      ResourceManager->RequestTexture(tex, tex,
-                                      [this](std::shared_ptr<sf::Texture> t, const std::string &s) {this->ReceiveTexture(t, s); }
-      );
-    } //for (tex : KnownTextures)
+    Environment.AddActor(ID, src);
   }
 
-  void Level::ReceiveTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID)
+  void Level::AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src)
   {
-    static std::size_t texturesReceived = 0;
-
-    texturesReceived++;
-    if (texturesReceived > KnownTextures.size()) {
-      std::cerr << "Engine::Level::ReceiveTexture : Unexpected texture sent, ID = \"" << ID << "\"" << std::endl;
-      return;
-    }
-
-    std::cerr << "RECEIVED TEXTURE: \"" << ID << "\"" << std::endl;
-
-    IDToTexture.emplace(
-      std::piecewise_construct,
-      std::make_tuple(ID),
-      std::make_tuple(texture)
-    );
-
-    if (IDToTexture.size() == KnownTextures.size()) {
-      ReadyToDraw = true;
-      COND_VAR->notify_all();
-    }
-
+    Environment.AddLight(ID, src);
   }
 
-  void Level::DrawToRenderTexture()
+  void Level::AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src)
   {
-
-    while (!ReadyToDraw) {
-      std::unique_lock<std::mutex> lock(*MUTEX);
-      COND_VAR->wait(lock);
-    }
-    std::cerr << "All textures received. Drawing to render texture" << std::endl;
-
-    sf::Sprite spr;
-    std::size_t texWidth{ 0 }, texHeight{ 0 };
-    sf::Vector2u textureSize =
-      IDToTexture[KnownTextures[0]]->getSize();
-
-    Layers.push_back(std::shared_ptr<LevelLayer>(new LevelLayer));
-
-    Layers[0]->BackgroundTexture.create(
-      BGWidth * textureSize.x, BGHeight * textureSize.y
-      );
-    Layers[0]->BackgroundTexture.clear();
-
-
-    sf::Texture *looptexture = nullptr;
-    std::string RealTextureID{ "" };
-
-    for (std::size_t OUTER = 0; OUTER < BGLayout.size(); ++OUTER) {
-      
-      for (std::size_t INNER = 0; INNER < BGLayout[OUTER].size(); ++INNER) {
-        spr.setPosition(sf::Vector2f(INNER * textureSize.x, OUTER * textureSize.y));
-        
-        RealTextureID = MapToTextureID[BGLayout[OUTER][INNER]];
-
-        auto loc = IDToTexture.find(RealTextureID);
-        if (loc != IDToTexture.end()) {
-          spr.setTexture(*loc->second);
-          Layers[0]->BackgroundTexture.draw(spr);
-        }
-       
-      }
-    }
-    
-    Layers[0]->BackgroundTexture.display();
-    Layers[0]->BGSprite->setTexture(
-      Layers[0]->BackgroundTexture.getTexture()
-    );
-
-    Layers[0]->BGSprite->setTextureRect(
-      sf::IntRect(0, 0, BGWidth * textureSize.x, BGHeight * textureSize.y)
-    );
-
-    sf::Vector2f scale;
-    scale.x = (WindowSize.x) / (BGWidth * textureSize.x);
-    scale.y = (WindowSize.y) / (BGHeight * textureSize.y);
-    Layers[0]->BGSprite->setScale(scale);
-
-    //For now, this is all we need to do to make the level ready to play
-    
-
-    CHECK_READY_MUTEX->lock();
-    ReadyToPlay = true;
-    CHECK_READY_MUTEX->unlock();
+    Environment.AddGlobalLight(ID, src);
   }
 
-  void Level::LoadLevel(const std::string &file)
+  void Level::IsReady() const
   {
-    //This needs to be done in a different thread
-
-    LOADER = std::thread([this, file]() {
-      std::ifstream IN(file);
-
-      if (IN.fail()) {
-        std::cerr << "Unable to load level: " << file << std::endl;
-        IN.clear();
-        return;
-      }
-
-      std::string str{ "" };
-      while (IN >> str) {
-
-        if (str == "ID:")
-          this->ReadIDAndPath(IN.tellg(), IN);
-
-        else if (str == "Layout:")
-          this->ReadLayout(IN.tellg(), IN);
-
-        else {
-          std::cerr << "Unrecognized formatting in file. \"" << str << "\"" << std::endl;
-          return;
-        }
-      }
-      this->RequestTextures();
-      IN.clear();
-      IN.close();
-    });
-    LOADER.detach();
-
-    DRAWER = std::thread([this]() {
-      this->DrawToRenderTexture();
-    });
-
-    DRAWER.detach();
 
   }
-
-  void Level::ReadLayout(std::streampos &pos, std::ifstream &IN)
-  {
-    std::string ID{ "" };
-    std::string substring{ "" };
-    std::size_t line{ 0 }, height{ 0 };
-
-    std::stringstream ss;
-    IN.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    while (std::getline(IN, ID)) {
-      ss << ID;
-      line = 0;
-      std::vector<std::string> temp;
-      BGWidth = 0;
-      while (ss >> substring) {
-        temp.push_back(substring);
-        BGWidth++;
-      }
-      BGLayout.push_back(temp);
-      BGHeight++;
-      ss.clear();
-    }
-
-    std::cout << BGHeight << " by " << BGWidth << " background" << std::endl;
-  }
-
-  void Level::ReadIDAndPath(std::streampos &pos, std::ifstream &IN)
-  {
-    std::string ID{ "" };
-    IN >> ID;
-
-    std::string file;
-    IN >> file;
-    if (file != "Path:") {
-      std::cerr << "Error reading file path for ID: \"" << ID << "\"" << std::endl;
-      return;
-    }
-    IN >> file;
-
-    MapToTextureID.emplace(
-      std::piecewise_construct,
-      std::make_tuple(ID),
-      std::make_tuple(file)
-    );
-
-    //Push back the ID that'll be used by the resource manager, and
-    //keep track of how many textures we know we are going to need
-    KnownTextures.push_back(file);
-  }
-
-  bool Level::IsReady() const
-  {
-    bool b = false;
-    CHECK_READY_MUTEX->lock();
-    b = ReadyToPlay;
-    CHECK_READY_MUTEX->unlock();
-    return b;
-  }
-
+  */
 }
