@@ -188,7 +188,7 @@ Weapon** ListReader::readWeapons(std::string &fileName)
 		newWeapon->setDescription(line);	
 
 		std::getline(file,line);
-		newWeapon->setTexture(line) you rework the I/O ac;
+		newWeapon->setTexture(line);
 		
 		std::getline(file,line);
 		damage = new Damage;
