@@ -20,7 +20,7 @@ public:
   bool getCastOnEnemy();
   int getMpCost();
   Damage getDamage();
-  static int getSize();
+  ///static const int m_size;
   //setters
   void setName(std::string name);
   void setFilePath(std::string filePath);
@@ -44,7 +44,6 @@ private:
   bool m_castOnEnemy;
   int m_mpCost;
   Damage m_effect;
-  static int m_size;
 };
 
 #endif

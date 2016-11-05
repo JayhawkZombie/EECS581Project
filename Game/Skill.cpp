@@ -14,7 +14,6 @@ Skill::Skill()
   m_castOnEnemy = false;
   m_mpCost = 0;
   m_effect = Damage();
-
 }
 
 
@@ -63,10 +62,10 @@ Damage Skill::getDamage()
 {
   return m_effect;
 }
-int Skill::getSize()//returns how many skills there are for use as the parameter of SkillSet(s)
-{
-  return m_size;
-}
+//int Skill::getSize()//returns how many skills there are for use as the parameter of SkillSet(s)
+//{
+ // return m_size;
+//}
 
 
 //setters

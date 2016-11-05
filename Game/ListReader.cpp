@@ -188,7 +188,7 @@ Weapon** ListReader::readWeapons(std::string fileName)
 		newWeapon->setDescription(line);	
 
 		std::getline(file,line);
-		newWeapon->setTexture(line) you rework the I/O ac;
+		newWeapon->setTexture(line);// you rework the I / O ac;
 		
 		std::getline(file,line);
 		damage = new Damage;
@@ -296,6 +296,7 @@ Skill** readSkills(std::string fileName)
 		return NULL;
 	}
 	//assumes the file size is on top of the data
+	int num_skills;
 	file >> num_skills;
 	
 	Skill** skills = new Skill*[num_skills];

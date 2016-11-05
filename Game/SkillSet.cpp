@@ -4,9 +4,9 @@
 
 SkillSet::SkillSet()
 {
-  for (int i = 0; i < Skill::getSize(); i++)
+  for (int i = 0; i < sizeof(skillArray); i++)
   {
-    skillArray[0] = false;
+    skillArray[i] = false;
   }
 }
 
@@ -17,7 +17,7 @@ SkillSet::~SkillSet()
 
 void SkillSet::learnSkill(int index)
 {
-  if (index > Skill::getSize||index<0)
+  if (index > sizeof(skillArray)||index<0)
   {
     return;//ignore case-outside bounds
   }
@@ -26,9 +26,9 @@ void SkillSet::learnSkill(int index)
 
 bool SkillSet::knowSkill(int index)
 {
-  if (index > Skill::getSize || index<0)
+  if (index > sizeof(skillArray)|| index<0)
   {
-    return;//ignore case-outside bounds
+	  return false;//ignore case-outside bounds
   }
   return skillArray[index];
 }

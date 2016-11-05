@@ -11,12 +11,12 @@ public:
 
 	//getters/setters
 	std::string getName() const;
-  std::string getFilePath() const;
+    std::string getFilePath() const;
 	void setName(std::string name);
-  void setFilePath(std::string filePath);
+    void setFilePath(std::string filePath);
 private:
 	std::string m_name;
-  std::string m_filePath;
+    std::string m_filePath;
 };
 
 #endif
