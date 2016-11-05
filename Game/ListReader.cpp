@@ -1,5 +1,5 @@
 #include "ListReader.h"
-ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0)
+ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0), num_skills(0)
 {}
 ListReader::~ListReader()
 {}
