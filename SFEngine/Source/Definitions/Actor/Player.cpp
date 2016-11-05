@@ -60,6 +60,7 @@ namespace Engine
 
   void Player::Render()
   {
+    /*
     if (RenderOutlined) {
       TestShape.setOutlineThickness(2);
       TestShape.setOutlineColor(sf::Color::Red);
@@ -68,7 +69,7 @@ namespace Engine
       Render::RenderShape(&TestShape);
       TestShape.setOutlineThickness(0);
       TestShape.setOutlineColor(sf::Color::Transparent);
-    }
+    } */
   }
 
   void Player::OnShutDown()

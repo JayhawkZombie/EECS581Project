@@ -26,6 +26,7 @@ namespace Engine
 
   void LevelEnvironment::AddActor(const std::string &ID, std::shared_ptr<GenericActor> src)
   {
+    src->SetID(ID);
     LevelActors.push_back(src);
     sf::FloatRect BOX = src->CurrentPhysicsState.BoundingBox;
 
@@ -34,7 +35,7 @@ namespace Engine
     std::size_t CELL_LEFT = static_cast<std::size_t>(std::floor(BOX.left / TileSize));
     std::size_t CELL_RIGHT = static_cast<std::size_t>(std::floor((BOX.left + BOX.width) / TileSize));
     std::size_t CELL_TOP = static_cast<std::size_t>(std::floor(BOX.top / TileSize));
-    std::size_t CELL_BOTTOM = static_cast<std::size_t>(std::floor((BOX.left + BOX.height) / TileSize));
+    std::size_t CELL_BOTTOM = static_cast<std::size_t>(std::floor((BOX.top + BOX.height) / TileSize));
 
     for (std::size_t X = CELL_LEFT; X <= CELL_RIGHT; ++X) {
       for (std::size_t Y = CELL_TOP; Y <= CELL_TOP; ++Y) {

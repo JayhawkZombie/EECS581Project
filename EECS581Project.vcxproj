@@ -290,6 +290,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SFEngine\Config\Engine.ini" />
+    <None Include="SFEngine\Samples\Actors\testactor.ini" />
     <None Include="SFEngine\Samples\Maps\testforest.ini" />
     <None Include="SFEngine\Samples\Maps\testmap.ini" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBG.xcf" />

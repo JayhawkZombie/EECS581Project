@@ -115,6 +115,7 @@ namespace Engine
 
   protected:
     void ProcessCollisions();
+    void UpdateDayCycle(const double &delta);
 
     std::size_t CELL_LEFT, CELL_TOP, CELL_RIGHT, CELL_BOTTOM;
 

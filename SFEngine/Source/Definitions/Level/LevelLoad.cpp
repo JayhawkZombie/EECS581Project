@@ -114,7 +114,7 @@ namespace Engine
     if (PlayerSpawn != sf::Vector2f(-1, -1)) {
       std::shared_ptr<Player> player(new Player);
       player->CurrentPhysicsState.LevelPosition = PlayerSpawn;
-      player->CurrentPhysicsState.BoundingBox = sf::FloatRect(PlayerSpawn, sf::Vector2f(15, 20));
+      player->CurrentPhysicsState.BoundingBox = sf::FloatRect(PlayerSpawn, sf::Vector2f(75, 200));
       player->RenderOutlined = true;
 
       std::cerr << "Spawning player at: (" << PlayerSpawn.x << ", " << PlayerSpawn.y << ")" << std::endl;

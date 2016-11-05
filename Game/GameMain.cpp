@@ -17,3 +17,14 @@ int GameMain::run()
 	RPGTest::runTests(true);
 	return 0;
 }
+
+void GameMain::Init(std::shared_ptr<Engine::Level> GameLevel)
+{
+  Level = GameLevel;
+  LoadLevel();
+}
+
+void GameMain::LoadLevel()
+{
+  
+}

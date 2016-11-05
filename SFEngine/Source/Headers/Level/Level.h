@@ -14,6 +14,8 @@
 
 #include "../Physics/Physics.h"
 
+class GameMain;
+
 namespace Engine
 {
 
@@ -23,7 +25,9 @@ namespace Engine
   {
 
   public:
-    Level(const std::string &levelFile);
+    friend class GameMain;
+
+    Level();
     Level(const Level &) = delete;
     ~Level();
 
@@ -50,7 +54,7 @@ namespace Engine
     std::thread LOADER;
     std::string LevelFile;
 
-    void LoadFromFile();
+    void LoadFromFile(const std::string &levelFile);
     void LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN);
     void LoadTileLayout(std::ifstream &IN);
     void LoadLights(std::ifstream &IN);
