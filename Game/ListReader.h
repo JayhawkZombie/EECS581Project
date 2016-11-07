@@ -19,11 +19,11 @@ class ListReader{
 		~ListReader();
 		//reads in the file and fills in an array
 		//returns the array
-		MonsterType** readMonsters(std::string fileName);
-		Armor** readArmor(std::string fileName);
-		Weapon** readWeapons(std::string fileName);		
-		Useable** readUseables(std::string fileName);
-		Skill** readSkills(std::string fileName);
+		MonsterType** readMonsters(std::string &fileName);
+		Armor** readArmor(std::string &fileName);
+		Weapon** readWeapons(std::string &fileName);		
+		Useable** readUseables(std::string &fileName);
+		Skill** readSkills(std::string &fileName);
 		//returns the number on top of the file
 		const int getNumMonsters();
 		const int getNumArmor();

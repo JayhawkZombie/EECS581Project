@@ -1,9 +1,9 @@
 #include "ListReader.h"
-ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0)
+ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0), num_skills(0)
 {}
 ListReader::~ListReader()
 {}
-MonsterType** ListReader::readMonsters(std::string fileName)
+MonsterType** ListReader::readMonsters(std::string &fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -51,7 +51,7 @@ MonsterType** ListReader::readMonsters(std::string fileName)
 	file.close();
 	return monsters;
 }
-Armor** ListReader::readArmor(std::string fileName)
+Armor** ListReader::readArmor(std::string &fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -143,7 +143,7 @@ Armor** ListReader::readArmor(std::string fileName)
 	file.close();
 	return armor;	
 }
-Weapon** ListReader::readWeapons(std::string fileName)
+Weapon** ListReader::readWeapons(std::string &fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -188,7 +188,7 @@ Weapon** ListReader::readWeapons(std::string fileName)
 		newWeapon->setDescription(line);	
 
 		std::getline(file,line);
-		newWeapon->setTexture(line);// you rework the I / O ac;
+		newWeapon->setTexture(line);
 		
 		std::getline(file,line);
 		damage = new Damage;
@@ -220,7 +220,7 @@ Weapon** ListReader::readWeapons(std::string fileName)
 	file.close();
 	return weapons;	
 }
-Useable** ListReader::readUseables(std::string fileName)
+Useable** ListReader::readUseables(std::string &fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -286,7 +286,7 @@ Useable** ListReader::readUseables(std::string fileName)
 	file.close();
 	return useables;	
 }
-Skill** readSkills(std::string fileName)
+Skill** readSkills(std::string &fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
