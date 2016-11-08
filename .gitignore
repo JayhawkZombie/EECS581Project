@@ -2,5 +2,6 @@
 #keep the vcxproj file, don't get rid of it
 Debug/**
 *.sln
+.vs/
 #ignore all assets
 SFEngine/Samples/*/*.ttf
