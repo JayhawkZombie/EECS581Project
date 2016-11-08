@@ -9,7 +9,24 @@ Damage::Damage()
     content[i] = 0;
   }
 }
-
+Damage::Damage(Damage inflicted, Damage defense)
+{
+	for (int i = 0; i < Damage::size; i++)
+	{
+		if (i == 8)
+		{
+			this->content[8] = inflicted.content[8];
+		}
+		if (inflicted.content[i] - defense.content[i] > 0)
+		{
+			this->content[i] = inflicted.content[i] - defense.content[i];
+		}
+		else
+		{
+			this->content[i] = 0;
+		}
+	}
+}
 
 Damage::~Damage()
 {
