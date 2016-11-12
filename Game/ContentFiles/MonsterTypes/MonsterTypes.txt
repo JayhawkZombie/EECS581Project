@@ -1,0 +1,221 @@
+20
+
+Flarial
+A young spirit, made of flame, that hovers above the earth- it casts no shadow, as it is a source of light
+0
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet
+NULL
+NULL
+NULL
+
+Philammon
+A lesser son of vulcan. though it is fire elemental, it is known for its somber mood, unlike other fire primaries
+0
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet
+NULL
+NULL
+NULL
+
+Salamander
+A limbless snake that dwells in hot places, typically deserts or volcanoes. It will bite when threatened.
+0
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+NULL
+NULL
+
+Lesser Phoenix
+Not yet brilliant, or aflame like its stronger, larger cousins, the lesser phoenix is known to be a tempermental bird, aggressive and purile
+0
+3
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/LesserPhoenix12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Angier
+The youngest justice monster, Angiers are very concerned with right and wrong, although their own moral compass is still undeveloped
+0
+4
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Angier12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Spiten
+Unsurprisingly, Spitens are known for being unforgiving and cruel. While not large enough to inflict the vengance they desire, they still keep a list in their heads of all who wronged them- so their anger can be satisfied at a later date
+0
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Spiten12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Minor Steamlet
+Unlike their cousins, the foglets, Steamlets live only in the warmest caves and saunas- near volcanoes for instance
+1
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/MinorSteamlet12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Minnow
+A small blue fish with a blue eye, known for floating in the air when water isn't around. Weird magic, huh?
+1
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Minnow12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Tapple
+The Tapple's parents were terrible at naming babies, so they asked the tapple what it would like to be called. It tried to say tadpole, but as it was a baby, it couldn't pronounce it properly. The name stuck. The tapple is blue-green and is very proud of its long double-finned tail. Its parents told it not to get too attached, but it did anyway
+1
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Tapple12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Cirrus
+A small cloud that curves around like a snake. It has no mouth and a small blue diamond on its head, its body is covered by fog, and it is lighter than air.
+1
+3
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Cirrus12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+SnoBall
+The Snoball is a ball of snow, and no one can tell quite whats inside, as many different young snow creatures stay in the ball of snow until a teenager. It has the passive ability melt, which lessens the other teams fire abilities after it is slain
+1
+4
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Snoball12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Deepfish
+The deepfish is a small fish used to the echoes of the darkness. Its face is sunken, its scales are dark and ruddy, the spines of its fin are black, but the webbing is blue
+1
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Deepfish12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Sprite
+The sprite is about nine inches tall, and three of those inches are a ridiculously large brown hat, wizard style with a black belt and a golden buckle. it has a mischeveous face with a big red ruddy nose and is always smiling. It is wearing a green frock and brown pointed boots with a black strap and gold buckle. The hem of the green frock is cut into right angles. It can fly, obviously, and enjoys casting mischevious magic. Its personality is similar to everyone's annoying little brother
+2
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Sprite12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Boggart
+The Boggart lives cheifly in bogs and haunts them. It is a myth that they can change shape at will- although perhaps they used to, and just recently became lazy
+2
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Boggart12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Babadger
+The Babadger lures its enemies close with its cuteness, and then slashes them viciously when they're exposed. But its only enemies are its fellow babadger pups, which is why its parents seperate them at birth
+2
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Babadger12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Bulbapup
+A small, energetic puppy with a large bulb on its back, resembling an onion. It loves to jump around, but when it does so it is rather comical, as the weight of the bulb often makes it fall over. Its bark is adoable. And its not a refrence to Bulbasaur from Pokemon. At all.
+2
+2
+1
+1
+SFEngine/Samples/Animations/CharacterAnimations/Bulbapup12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Sticket
+The sticket pretends to be magical but isn't. Its very depressing huh? Its basically just a small stick that can move on its own. But its very good at listening, probably because it cant talk. If it could though it would always advise revenge by saying 'Sticket to em!'
+2
+2
+1
+2
+SFEngine/Samples/Animations/CharacterAnimations/Sticket12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Minor Pegasus
+Half horse, half plant half bird... Or wait, is that too many halves? Its front two legs are treeish, while the torso, head and back legs are a horse and it has wings. Dont look at me, you've all seen Hercules! Its like that except the two front legs are treeish. And its the reaally cute baby form, obviously
+2
+3
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/MinorPegasus12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Buddi
+A Buddi is a young enlighted being who can heal through compassion, and will heal both the virtuous and the vengeful, it looks like a buddhist mask
+2
+4
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Buddi12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+SeweRat
+A rather large sewer-dwelling rat. It has adapted resistance to poison, as it is surrounded by it constantly. As such, its bite can cause a nasty infection
+2
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/SeweRat12FSpriteSheet.png
+NULL
+NULL
+NULL
