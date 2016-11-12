@@ -1,5 +1,5 @@
 #include "../../Headers/Engine/Engine.h"
-
+#include "../../Headers/Animation/Animation.h"
 namespace Engine
 {
 
@@ -10,6 +10,14 @@ namespace Engine
 
   UINT32 SFEngine::GameLoop()
   {
+    Animation walkingAnimationDown;
+    walkingAnimationDown.RequestSpriteSheet("../../../../Game/MockUps/player.png", "Anim1");   
+    walkingAnimationDown.AddFrame(sf::IntRect(32, 0, 32, 32));
+    walkingAnimationDown.AddFrame(sf::IntRect(64, 0, 32, 32));
+    walkingAnimationDown.AddFrame(sf::IntRect(32, 0, 32, 32));
+    walkingAnimationDown.AddFrame(sf::IntRect(0, 0, 32, 32));
+    walkingAnimationDown.Play();
+    walkingAnimationDown.SetPosition(100, 100);
 
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
     MaximumWindowView = Window->getDefaultView();
@@ -107,7 +115,7 @@ namespace Engine
       //Call "update" on items
 
       Levels[0]->TickUpdate(TickDelta);
-
+      walkingAnimationDown.Update(TickDelta);
       UpdateEnd = std::chrono::high_resolution_clock::now();
 
       currentRenderWindow->clear(sf::Color::Black);
@@ -130,6 +138,7 @@ namespace Engine
       Render::RenderText(&ResourcePoolSizes[1]);
       Render::RenderText(&ResourcePoolSizes[2]);
       Render::RenderText(&ResourcePoolSizes[3]);
+      walkingAnimationDown.Render();
 
       Render();
 
