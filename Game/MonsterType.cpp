@@ -1,6 +1,11 @@
 #include "MonsterType.h"
 
-MonsterType::MonsterType() : m_primary(-1), m_secondary(-1), m_evolutionStage(-1), m_evolutionType(-1), m_name(""), m_description(""), m_evolvesInto1(NULL), m_evolvesInto2(NULL), m_evolvesInto3(NULL), m_evolvesFrom1(NULL), m_evolvesFrom2(NULL), m_evolvesFrom3(NULL), m_numEvolutions(0)
+MonsterType::MonsterType() :
+m_primary(-1), m_secondary(-1), m_evolutionStage(-1), m_evolutionType(-1),
+m_name(""), m_description(""),
+m_physicalEvolution(NULL), m_balancedEvolution(NULL), m_magicalEvolution(NULL),
+m_numEvolutions(0), m_texture("")
+
 {}
 MonsterType::~MonsterType()
 {}
@@ -44,6 +49,25 @@ int MonsterType::getEvolutionType()
 {
 	return m_evolutionType;
 }
+int MonsterType::getConcatenation()
+{
+	std::string str_concat;
+	str_concat.append( (std::to_string(m_primary)) );
+	str_concat.append( (std::to_string(m_secondary)) );
+	str_concat.append( (std::to_string(m_evolutionStage)) );
+	str_concat.append( (std::to_string(m_evolutionType)) );
+	m_concatenation = std::stoi(str_concat);
+	
+	return m_concatenation;
+}
+void MonsterType::setTexture(std::string texture)
+{
+	m_texture = texture;
+}
+std::string MonsterType::getTexture()
+{
+	return m_texture;
+}
 std::string MonsterType::getName()
 {
 	return m_name;
@@ -52,61 +76,27 @@ std::string MonsterType::getDescription()
 {
 	return m_description;
 }
-void MonsterType::setEvolvesFrom1(MonsterType* evolvesFrom1)
+void MonsterType::setPhysicalEvolution(MonsterType* physicalEvolution)
 {
-	m_evolvesFrom1 = evolvesFrom1;
+	m_physicalEvolution = physicalEvolution;
 }
-void MonsterType::setEvolvesFrom2(MonsterType* evolvesFrom2)
+void MonsterType::setBalancedEvolution(MonsterType* balancedEvolution)
 {
-	m_evolvesFrom2 = evolvesFrom2;
+	m_balancedEvolution = balancedEvolution;
 }
-void MonsterType::setEvolvesFrom3(MonsterType* evolvesFrom3)
+void MonsterType::setMagicalEvolution(MonsterType* magicalEvolution)
 {
-	m_evolvesFrom3 = evolvesFrom3;
+	m_magicalEvolution = magicalEvolution;
 }
-MonsterType* MonsterType::getEvolvesFrom1()
+MonsterType* MonsterType::getPhysicalEvolution()
 {
-	return m_evolvesFrom1;
+	return m_physicalEvolution;
 }
-MonsterType* MonsterType::getEvolvesFrom2()
+MonsterType* MonsterType::getBalancedEvolution()
 {
-	return m_evolvesFrom2;
+	return m_balancedEvolution;
 }
-MonsterType* MonsterType::getEvolvesFrom3()
+MonsterType* MonsterType::getMagicalEvolution()
 {
-	return m_evolvesFrom3;
-}
-void MonsterType::setEvolvesInto1(MonsterType* evolvesInto1)
-{
-	if (m_evolvesInto1 == NULL)
-		m_numEvolutions++;
-	m_evolvesInto1 = evolvesInto1;
-}
-void MonsterType::setEvolvesInto2(MonsterType* evolvesInto2)
-{
-	if (m_evolvesInto2 == NULL)
-		m_numEvolutions++;
-	m_evolvesInto2 = evolvesInto2;
-}
-void MonsterType::setEvolvesInto3(MonsterType* evolvesInto3)
-{
-	if (m_evolvesInto3 == NULL)
-		m_numEvolutions++;
-	m_evolvesInto3 = evolvesInto3;
-}
-MonsterType* MonsterType::getEvolvesInto1()
-{
-	return m_evolvesInto1;
-}
-MonsterType* MonsterType::getEvolvesInto2()
-{
-	return m_evolvesInto2;
-}
-MonsterType* MonsterType::getEvolvesInto3()
-{
-	return m_evolvesInto3;
-}
-int MonsterType::getNumOfEvolutions()
-{
-	return m_numEvolutions;
+	return m_magicalEvolution;
 }
