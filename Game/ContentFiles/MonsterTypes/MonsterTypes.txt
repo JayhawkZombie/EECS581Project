@@ -1,4 +1,4 @@
-20
+38
 
 Flarial
 A young spirit, made of flame, that hovers above the earth- it casts no shadow, as it is a source of light
@@ -216,6 +216,204 @@ A rather large sewer-dwelling rat. It has adapted resistance to poison, as it is
 1
 0
 SFEngine/Samples/Animations/CharacterAnimations/SeweRat12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Kangarat
+The Kangarat is a small rodent that lives in the desert and can spend its whole life without drinking any water
+3
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Kangarat12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+GullFish
+The first fish a baby gull ever caught is still in its claws. It doesn't intend to eat it though, and the fish and gull have become fast friends
+3
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Gullfish.png
+NULL
+NULL
+NULL
+
+Colour
+The Colour is a baby tropic bird a green head, blue wings and red plumage, it is known for using its bright colors to confuse its enemies and entice its prey
+3
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Colour.png
+NULL
+NULL
+NULL
+
+Flapper
+The Flapper shows a ridiculous amount of leg, especially for this time period. It is very stylish, and has a feather in its headband, even though it already has feathers on its head
+3
+3
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
+NULL
+NULL
+NULL
+
+CockaOne
+The cockaOne is a very young cocka that barely knows how to fly. It is a social animal, and is known for buffing its allies
+3
+4
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/CockaOne.png
+NULL
+NULL
+NULL
+
+FourShadoWing
+The FourShadoWing is a baby bat that casts four shadows instead of one. It is also used by underskilled plot developers who want to blatantly imply future events
+3
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/FourShadoWing.png
+NULL
+NULL
+NULL
+
+FireFaux
+The FireFaux is a baby fox that enjoys soaking in the suns rays. Its also a refrence to an awesome browser
+4
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/FireFaux.png
+NULL
+NULL
+NULL
+
+Lunapup
+The Lunapup is a small wolf born during the full moon. It feels a special connection to the moon, as if when they howl the moon howls back
+4
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Lunapup.png
+NULL
+NULL
+NULL
+
+Escutcheoner
+The Escutcheoner is a baby guardian that holds onto an oversized shield with all of its might to protect those around it
+4
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Escutcheoner.png
+NULL
+NULL
+NULL
+
+DemiAngel
+The DemiAngel is a small angel who left heaven in order to help the world- or its wings were not strong enough to keep it afloat
+4
+3
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/DemiAngel.png
+NULL
+NULL
+NULL
+
+Lumin
+A being of pure light, the lumen is often kept around by adventurers because then they can use their torch-hand for something while dungeon-diving
+4
+4
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
+NULL
+NULL
+NULL
+
+Guilt
+Guilt is a lesser demon - one of the few light-sided demons that makes people desire to right their past wrongs
+4
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Guilt.png
+NULL
+NULL
+NULL
+
+Fiend
+The Fiend is a minor demon, known for its incalculable rage and black horns- it is painful to touch, but excites - touching it elicits a feeling of joy and hunger at bad things to come
+5
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Fiend.png
+NULL
+NULL
+NULL
+
+Stinger
+The Stingser is a small scorpion that stings its enemies when frightened. Its tail drips with poison
+5
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Stinger.png
+NULL
+NULL
+NULL
+
+Stull
+Named for an entrance to hell, this floating skull has glowing green orbs in its eye sockets and feels really creepy to be around
+5
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+NULL
+NULL
+NULL
+
+Maltag
+Have you ever had a really bad day? So bad that even if it was sunny, a small mean cloud was following you and raining on your parade? This is that cloud: a Cirrus with a bad attitude.
+5
+3
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Maltag.png
+NULL
+NULL
+NULL
+
+FallenDemiAngel
+The Fallen DemiAngel is an angel that followed the light bringer when he fell from heaven, it was weak then, and never did regain its strength
+5
+4
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
+NULL
+NULL
+NULL
+
+Umbress
+The umbress appears to be a small floating black flame- that absorbs light instead of casting it - with blue eyes
+5
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
 NULL
 NULL
 NULL
