@@ -1,8 +1,22 @@
 #include "ListReader.h"
-ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0), num_skills(0)
+ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0)//, monsters(NULL), armor(NULL), weapons(NULL), useables(NULL)
 {}
 ListReader::~ListReader()
-{}
+{
+	/*if (monsters != NULL)
+	{
+		for (int i = 0; i < num_monsters; i++)
+		{
+			delete monsters[i];
+		}
+		delete monsters;
+		monsters = NULL;
+	}
+	//repeat for rest
+		*/
+}
+//shared_ptr<MonsterType> ListReader::readMonsters(std::string &fileName)
+//	shared_ptr<MonsterType*> monsters(new MonsterType*)[num_monsters];
 MonsterType** ListReader::readMonsters(std::string &fileName)
 {
 	std::ifstream file;
@@ -26,6 +40,14 @@ MonsterType** ListReader::readMonsters(std::string &fileName)
 	while (index < num_monsters)
 	{
 		newMonster = new MonsterType;
+		std::getline(file,line);
+		std::getline(file,line);
+		std::getline(file,line);
+		newMonster->setName(line);
+		
+		std::getline(file,line);
+		newMonster->setDescription(line);
+		
 		file >> intVal;
 		newMonster->setPrimary(intVal);
 
@@ -40,11 +62,15 @@ MonsterType** ListReader::readMonsters(std::string &fileName)
 
 		std::getline(file,line);
 		std::getline(file,line);
-		newMonster->setName(line);
+		newMonster->setTexture(line);
 
 		std::getline(file,line);
-		newMonster->setDescription(line);
-
+		//newMonster->setPhysicalEvolution(line);
+		std::getline(file,line);
+		//newMonster->setBalancedEvolution(line);
+		std::getline(file,line);
+		//newMonster->setMagicalEvolution(line);
+		
 		monsters[index] = newMonster;
 		index++;
 	}
@@ -84,10 +110,6 @@ Armor** ListReader::readArmor(std::string &fileName)
 		std::getline(file,line);
 		newArmor->setName(line);
 
-		//texture
-		std::getline(file,line);
-		std::string AnimationFile = line;
-		
 		file >> intVal;
 		newArmor->setValue(intVal);
 
@@ -99,7 +121,6 @@ Armor** ListReader::readArmor(std::string &fileName)
 		newArmor->setTexture(line);
 		
 		std::getline(file,line);
-		//storing damage defense
 		damage = new Damage;
 		while ( std::regex_search (line,integers) )
 		{	
@@ -176,10 +197,6 @@ Weapon** ListReader::readWeapons(std::string &fileName)
 		std::getline(file,line);
 		newWeapon->setName(line);
 
-		//texture
-		std::getline(file,line);
-		std::string AnimationFile = line;
-
 		file >> intVal;
 		newWeapon->setValue(intVal);
 
@@ -254,12 +271,8 @@ Useable** ListReader::readUseables(std::string &fileName)
 
 		file >> intVal;
 		newUseable->setValue(intVal);
-		std::getline(file,line);
 
-		//texture
 		std::getline(file,line);
-		std::string AnimationFile = line;
-
 		std::getline(file,line);
 		newUseable->setDescription(line);
 
@@ -286,7 +299,7 @@ Useable** ListReader::readUseables(std::string &fileName)
 	file.close();
 	return useables;	
 }
-Skill** readSkills(std::string &fileName)
+/*Conversation** readConversation(std::string &fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -295,92 +308,12 @@ Skill** readSkills(std::string &fileName)
 		std::cout << "No file\n";
 		return NULL;
 	}
-	//assumes the file size is on top of the data
-	int num_skills;
-	file >> num_skills;
-	
-	Skill** skills = new Skill*[num_skills];
-	Skill* newSkill;
-	Damage* damage;
-
 	int index = 0;
 	std::string line;
 	int intVal;
 	int intIndex;
-
-	//accounting for whitespace on the end of the line
-	std::regex integers("[[:digit:]]+");
-	std::regex truespace("(true)");
-
-	while (index < num_skills)
-	{
-		newSkill = new Skill;
-
-		std::getline(file,line);
-		newSkill->setName(line);
-
-		//texture
-		std::getline(file,line);
-		std::string AnimationFile = line;
-
-		std::getline(file,line);
-		newSkill->setDescription(line);
-
-		//set true if true, otherwise ignore the line (because it's already set to false)
-		std::getline(file,line);
-		if ( std::regex_search (line,truespace) )
-		{
-			newSkill->setIsPhysical(true);
-		}
-
-		std::getline(file,line);
-		if ( std::regex_search (line,truespace) )
-		{
-			newSkill->setIsMagical(true);
-		}
-
-		std::getline(file,line);
-		if ( std::regex_search (line,truespace) )
-		{
-			newSkill->setCastOnSelf(true);
-		}
-
-		std::getline(file,line);
-		if ( std::regex_search (line,truespace) )
-		{
-			newSkill->setCastOnSingle(true);
-		}
-
-		std::getline(file,line);
-		if ( std::regex_search (line,truespace) )
-		{
-			newSkill->setCastOnEnemy(true);
-		}
-		//assumes mp_cost will be read in after 5 strings (bools)
-		
-		file >> intVal;
-		newSkill->setMpCost(intVal);
-
-		//set damage
-		std::getline(file,line);
-		std::getline(file,line);
-		damage = new Damage;
-		while ( std::regex_search (line,integers) )
-		{	
-			intIndex = stoi (line);
-			std::getline(file,line);
-			intVal = stoi (line);
-			damage->setValue(intIndex,intVal);
-			std::getline(file,line);
-		}
-		newSkill->setDamage(*damage);
-
-		skills[index] = newSkill;
-		index++;
-	}
-	file.close();
-	return skills;	
 }
+*/
 const int ListReader::getNumMonsters()
 {
 	return num_monsters;
@@ -397,8 +330,3 @@ const int ListReader::getNumUseables()
 {
 	return num_useables;
 }
-const int ListReader::getNumSkills()
-{
-	return num_skills;
-}
-
