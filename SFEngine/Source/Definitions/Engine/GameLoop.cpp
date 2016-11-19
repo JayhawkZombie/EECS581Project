@@ -11,11 +11,12 @@ namespace Engine
   UINT32 SFEngine::GameLoop()
   {
     Animation walkingAnimationDown;
-    walkingAnimationDown.RequestSpriteSheet("../../../../Game/MockUps/player.png", "Anim1");   
-    walkingAnimationDown.AddFrame(sf::IntRect(32, 0, 32, 32));
-    walkingAnimationDown.AddFrame(sf::IntRect(64, 0, 32, 32));
-    walkingAnimationDown.AddFrame(sf::IntRect(32, 0, 32, 32));
-    walkingAnimationDown.AddFrame(sf::IntRect(0, 0, 32, 32));
+    walkingAnimationDown.RequestSpriteSheet("./SFEngine/Samples/Animations/CharacterAnimations/Guy12FSpriteSheet.png", "Anim1");
+    walkingAnimationDown.AddFrame(sf::IntRect(0, 0, 16, 16));
+    walkingAnimationDown.AddFrame(sf::IntRect(16, 0, 16, 16));
+    walkingAnimationDown.AddFrame(sf::IntRect(32, 0, 16, 16));
+    //walkingAnimationDown.AddFrame(sf::IntRect(0, 0, 32, 32));
+    walkingAnimationDown.SetFrameTime(250);
     walkingAnimationDown.Play();
     walkingAnimationDown.SetPosition(100, 100);
 
