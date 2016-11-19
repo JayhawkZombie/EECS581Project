@@ -52,6 +52,11 @@ namespace Engine
     delete ResourceLock;
   }
 
+  void Level::SerializeOut(std::ostream &out)
+  {
+
+  }
+
   void Level::JoinLoaderThread()
   {
     if (LOADER.joinable())

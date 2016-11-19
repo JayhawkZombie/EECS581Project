@@ -42,6 +42,11 @@ namespace Engine
 
   }
 
+  void LevelObject::SerializeOut(std::ostream &out)
+  {
+
+  }
+
   OverlapAction LevelObject::OnActorOverlap(GenericActor *actor)
   {
     return OverlapAction::DISALLOW_ACTOR_OVERLAP;

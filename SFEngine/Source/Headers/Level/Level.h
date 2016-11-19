@@ -26,14 +26,16 @@ namespace Engine
 
   public:
     friend class GameMain;
+    TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
 
-    Level();
+    Level(const std::string &levelFile);
     Level(const Level &) = delete;
     ~Level();
 
     void TickUpdate(const double &delta) override;
     void Render() override;
     void OnShutDown() override;
+    virtual void SerializeOut(std::ostream &out) override;
 
     void LoadLevel();
     void JoinLoaderThread();
@@ -54,7 +56,11 @@ namespace Engine
     std::thread LOADER;
     std::string LevelFile;
 
-    void LoadFromFile(const std::string &levelFile);
+    //Internal method, load the information from the file
+    void LoadFromFile();
+    
+    //Load all of the information about the level before actually loading it off disk
+    void LoadLevelInformation();
     void LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN);
     void LoadTileLayout(std::ifstream &IN);
     void LoadLights(std::ifstream &IN);
@@ -66,13 +72,6 @@ namespace Engine
 
     LevelEnvironment Environment;
     std::shared_ptr<sf::Font> LevelFont;
-
-    //A couple things for a crappy makeshift loading screen
-    std::string CurrentLoadingMessage;
-    unsigned int LoadingProgress;
-    sf::RectangleShape LoadingTexturesBar;
-    sf::Font LoadingFont;
-    sf::Text LoadingMessageText;
 
     //Map the short sequence of characters used in the layout
     //to the ID used to ID the tile

@@ -14,6 +14,8 @@ namespace Engine
   class Level;
   extern std::shared_ptr<Level> CurrentLevel;
 
+#define TYPEDEF_PARENT_CLASS(PARENTCLASS) \
+  typedef PARENTCLASS Super; 
 
 
   class BaseEngineInterface
@@ -28,6 +30,12 @@ namespace Engine
     virtual void Render() = 0;
 
     virtual void OnShutDown() = 0;
+
+    /**
+     * Beginning of object serialization
+     *   this will be REQUIRED to be overridden by base classes
+     */
+    virtual void SerializeOut(std::ostream &out) = 0;
 
     EventHandler Handler;
     virtual std::string GetID() const;

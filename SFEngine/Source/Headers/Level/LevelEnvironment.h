@@ -46,6 +46,7 @@ namespace Engine
     std::vector<std::shared_ptr<GenericActor>> Actors;
     std::vector<std::shared_ptr<LevelObject>> Objects;
     Tile BGTile;
+    std::vector<Tile> Tiles;
     sf::Vector2f LevelPosition;
     sf::Vector2f ScreenPosition;
   };

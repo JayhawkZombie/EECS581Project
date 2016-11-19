@@ -150,8 +150,8 @@ namespace Engine
   void LevelEnvironment::ComputeLevelScale()
   {
     LevelScale = sf::Vector2f(
-      WindowSize.x / (CurrentView.width - CurrentView.left),
-      WindowSize.y / (CurrentView.height - CurrentView.top)
+      std::ceil(WindowSize.x / (CurrentView.width - CurrentView.left)),
+      std::ceil(WindowSize.y / (CurrentView.height - CurrentView.top))
     );
 
   }

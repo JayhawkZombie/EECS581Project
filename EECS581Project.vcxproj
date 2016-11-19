@@ -252,6 +252,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelUpdate.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LoadLevelInformation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GenericLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GlobalLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collision.cpp" />
@@ -291,6 +292,7 @@
   <ItemGroup>
     <None Include="SFEngine\Config\Engine.ini" />
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
+    <None Include="SFEngine\Samples\Maps\MultiLayerForestSmall.ini" />
     <None Include="SFEngine\Samples\Maps\testforest.ini" />
     <None Include="SFEngine\Samples\Maps\testmap.ini" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBG.xcf" />

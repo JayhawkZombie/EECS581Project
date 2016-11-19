@@ -28,6 +28,11 @@ namespace Engine
       }
     }
 
+    void BaseUIElement::SerializeOut(std::ostream &out)
+    {
+
+    }
+
     void BaseUIElement::SetPosition(const sf::Vector2f &v)
     {
       v2fPostion = v;

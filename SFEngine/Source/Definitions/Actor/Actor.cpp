@@ -65,6 +65,11 @@ namespace Engine
 
   }
 
+  void GenericActor::SerializeOut(std::ostream &out)
+  {
+
+  }
+
   void GenericActor::OnShutDown()
   {
 

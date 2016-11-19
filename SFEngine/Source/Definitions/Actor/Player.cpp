@@ -51,6 +51,11 @@ namespace Engine
 
   }
 
+  void Player::SerializeOut(std::ostream &out)
+  {
+
+  }
+
   void Player::TickUpdate(const double &delta)
   {
     //TryToMove(Velocity);

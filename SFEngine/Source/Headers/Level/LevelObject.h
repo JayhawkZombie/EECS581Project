@@ -72,16 +72,17 @@ namespace Engine
   class LevelObject : public BaseEngineInterface
   {
   public:
-
+    TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
     REQUIRED_LEVEL_OBJ_CLASS_CODE(LevelObject);
 
     LevelObject();
     LevelObject(const LevelObject &obj);
     ~LevelObject();
 
-    void TickUpdate(const double &delta);
-    void Render();
-    void OnShutDown();
+    virtual void TickUpdate(const double &delta) override;
+    virtual void Render() override;
+    virtual void OnShutDown() override;
+    virtual void SerializeOut(std::ostream &out) override;
 
     virtual OverlapAction OnActorOverlap(GenericActor *actor);
     virtual bool DoTestCollisions() const;

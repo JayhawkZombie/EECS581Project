@@ -16,14 +16,16 @@ namespace Engine
     {
     public:
       static std::shared_ptr<ClickButton> Create();
+      TYPEDEF_PARENT_CLASS(Engine::UI::BaseUIElement);
 
       ClickButton();
       ClickButton(const ClickButton &) = delete;
       ~ClickButton();
       
-      virtual void TickUpdate(const double &delta);
-      virtual void Render();
-      virtual void OnShutDown();
+      virtual void TickUpdate(const double &delta) override;
+      virtual void Render() override;
+      virtual void OnShutDown() override;
+      virtual void SerializeOut(std::ostream &out) override;
 
       virtual void SetSize(const sf::Vector2f &size);
       virtual void SetPosition(const sf::Vector2f &Position);

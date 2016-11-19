@@ -7,6 +7,11 @@ namespace Engine
     
   }
 
+  void BaseEngineInterface::SerializeOut(std::ostream &out)
+  {
+
+  }
+
   BaseEngineInterface::BaseEngineInterface(const BaseEngineInterface &b)
   {
 

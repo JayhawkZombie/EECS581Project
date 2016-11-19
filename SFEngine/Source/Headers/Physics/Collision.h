@@ -26,6 +26,24 @@ namespace Engine
 
   }
 
+  enum class MeshType {
+    Simple,
+    Complex,
+    None
+  };
+
+  class Mesh
+  {
+  public:
+    Mesh(const MeshType &type);
+    ~Mesh();
+
+  private:
+    MeshType &type;
+    sf::FloatRect SimpleMesh;
+    std::vector<sf::Vertex> ComplexMesh;
+  };
+
   class CollisionBox
   {
   public:

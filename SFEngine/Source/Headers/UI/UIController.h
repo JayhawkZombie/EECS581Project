@@ -16,6 +16,8 @@ namespace Engine
     public:
       friend class SFEngine;
 
+      TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
+
       UIController();
       UIController(const UIController &) = delete;
       ~UIController();
@@ -24,6 +26,7 @@ namespace Engine
       void TickUpdate(const double &delta);
       void Render();
       void OnShutDown();
+      void SerializeOut(std::ostream &out);
 
       void Show();
       void Hide();

@@ -18,12 +18,6 @@ namespace Engine
       return;
     }
 
-    ResourceLock->lock();
-
-    CurrentLoadingMessage = "Loading Level Config";
-
-    ResourceLock->unlock();
-
     TileSize = Util::GetUnsignedIntConfig("Config", "TileSize", 0, LevelFile, IN);
     std::cerr << "TileSize = " << TileSize << std::endl;
     LevelSizeX = Util::GetUnsignedIntConfig("Config", "LevelSizeX", 0, LevelFile, IN);

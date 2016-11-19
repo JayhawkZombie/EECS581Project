@@ -22,6 +22,7 @@ namespace Engine
     {
     public:
       friend class UIController;
+      TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
 
       BaseUIElement();
       BaseUIElement(const BaseUIElement &b) = delete;
@@ -30,6 +31,7 @@ namespace Engine
       virtual void TickUpdate(const double &delta) = 0;
       virtual void Render();
       virtual void OnShutDown() = 0;
+      virtual void SerializeOut(std::ostream &out) = 0;
       
       virtual bool RespondsTo(const Events &evnt) const;
       virtual void Align();

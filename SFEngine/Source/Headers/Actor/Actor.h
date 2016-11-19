@@ -11,14 +11,17 @@ namespace Engine
   {
   public:
     friend class Level;
+    TYPEDEF_PARENT_CLASS(Engine::LevelObject);
+
     GenericActor();
     GenericActor(const std::string &texfile, const std::string &texID);
     GenericActor(const GenericActor &actor);
     ~GenericActor();
 
-    virtual void TickUpdate(const double &delta);
-    virtual void Render();
-    virtual void OnShutDown();
+    virtual void TickUpdate(const double &delta) override;
+    virtual void Render() override;
+    virtual void OnShutDown() override;
+    virtual void SerializeOut(std::ostream &out) override;
 
     virtual bool WantsInputEvent(const Events &evnt) const;
 

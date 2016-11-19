@@ -39,6 +39,11 @@ namespace Engine
 
     }
 
+    void UIController::SerializeOut(std::ostream &out)
+    {
+
+    }
+
     void UIController::Render()
     {
       if (!Shown)

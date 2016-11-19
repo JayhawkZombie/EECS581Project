@@ -78,6 +78,11 @@ namespace Engine
 
     }
 
+    void ClickButton::SerializeOut(std::ostream &out)
+    {
+
+    }
+
     void ClickButton::GetFont(std::shared_ptr<sf::Font> fnt, const std::string &ID)
     {
       std::cerr << "Whoooo! Setting button font" << std::endl;
