@@ -12,20 +12,22 @@ namespace Engine
 
   void Level::LoadFromFile()
   {
-    std::ifstream IN(LevelFile);
-    if (IN.fail()) {
+    std::ifstream _IN(LevelFile);
+    if (_IN.fail()) {
       std::cerr << "Unable to open level file: \"" << LevelFile << std::endl;
       return;
     }
+   
+    LoadConfigInfo(_IN);
 
-    TileSize = Util::GetUnsignedIntConfig("Config", "TileSize", 0, LevelFile, IN);
+    TileSize = Util::GetUnsignedIntConfig("Config", "TileSize", 0, LevelFile, _IN);
     std::cerr << "TileSize = " << TileSize << std::endl;
-    LevelSizeX = Util::GetUnsignedIntConfig("Config", "LevelSizeX", 0, LevelFile, IN);
-    LevelSizeY = Util::GetUnsignedIntConfig("Config", "LevelSizeY", 0, LevelFile, IN);
-    sf::FloatRect StartingView = Util::GetFloatRectConfig("Config", "StartingView", sf::FloatRect(0, 0, 0, 0), LevelFile, IN);
+    LevelSizeX = Util::GetUnsignedIntConfig("Config", "LevelSizeX", 0, LevelFile, _IN);
+    LevelSizeY = Util::GetUnsignedIntConfig("Config", "LevelSizeY", 0, LevelFile, _IN);
+    sf::FloatRect StartingView = Util::GetFloatRectConfig("Config", "StartingView", sf::FloatRect(0, 0, 0, 0), LevelFile, _IN);
 
 
-    TilesAcross = Util::GetUnsignedIntConfig("Config", "TilesAcross", 1, LevelFile, IN);
+    TilesAcross = Util::GetUnsignedIntConfig("Config", "TilesAcross", 1, LevelFile, _IN);
     std::cerr << "TilesAcross = " << TilesAcross << std::endl;
     if (LevelSizeX == 0 || LevelSizeY == 0) {
       std::cerr << "Level size is 0. Aborting loading" << std::endl;
@@ -39,9 +41,9 @@ namespace Engine
     Environment.LevelSizeY = LevelSizeY;
     //BGTiles.Create(LevelSizeY, LevelSizeX);
 
-    NumTiles = Util::GetUnsignedIntConfig("Tiles", "NumTiles", 0, LevelFile, IN);
-    NumTextures = Util::GetUnsignedIntConfig("Tiles", "NumTextures", 0, LevelFile, IN);
-    std::string TilesBraced = Util::GetBracedConfig("Tiles", "Tiles", "{}", LevelFile, IN);
+    NumTiles = Util::GetUnsignedIntConfig("Tiles", "NumTiles", 0, LevelFile, _IN);
+    NumTextures = Util::GetUnsignedIntConfig("Tiles", "NumTextures", 0, LevelFile, _IN);
+    std::string TilesBraced = Util::GetBracedConfig("Tiles", "Tiles", "{}", LevelFile, _IN);
     if (TilesBraced == "{}") {
       std::cerr << "No tiles are present in the level file. Aborting loading" << std::endl;
       return;
@@ -57,22 +59,22 @@ namespace Engine
     }
 
     for (auto & tile : LayoutIDTOTextureID) {
-      LoadTileData(tile.first, tile.second, IN);
+      LoadTileData(tile.first, tile.second, _IN);
     }
 
     while (TexturesReceived < NumTextures)
     {
     }
 
-    LoadTileLayout(IN);
+    LoadTileLayout(_IN);
     AssignTileTextures();
-    LoadActors(IN);
+    LoadActors(_IN);
   }
 
-  void Level::LoadLights(std::ifstream &IN)
+  void Level::LoadLights(std::ifstream &_IN)
   {
-    auto color = Util::GetFloatRectConfig("GlobalLight", "Color", sf::FloatRect(255,255,255,0), LevelFile, IN);
-    auto intensity = Util::GetFloatConfig("GlobalLight", "Intensity", 0, LevelFile, IN);
+    auto color = Util::GetFloatRectConfig("GlobalLight", "Color", sf::FloatRect(255,255,255,0), LevelFile, _IN);
+    auto intensity = Util::GetFloatConfig("GlobalLight", "Intensity", 0, LevelFile, _IN);
 
     std::shared_ptr<GlobalLightSource> Light(new GlobalLightSource);
     Light->SetColor(sf::Color(color.left, color.top, color.width, color.height));
@@ -81,12 +83,12 @@ namespace Engine
     Environment.AddGlobalLight("GlobalLight", Light);
   }
 
-  void Level::LoadVolumes(std::ifstream &IN)
+  void Level::LoadVolumes(std::ifstream &_IN)
   {
-    std::string StopVolumesText = Util::GetBracedConfig("Volumes", "StopVolumes", "{}", LevelFile, IN);
-    bool RenderOutlined = Util::GetBooleanConfig("Volumes", "RenderOutlines", false, LevelFile, IN);
+    std::string StopVolumesText = Util::GetBracedConfig("Volumes", "StopVolumes", "{}", LevelFile, _IN);
+    bool RenderOutlined = Util::GetBooleanConfig("Volumes", "RenderOutlines", false, LevelFile, _IN);
     if (StopVolumesText != "{}") {
-      std::size_t NumStopVolumes = Util::GetUnsignedIntConfig("Volumes", "NumStopVolumes", 0, LevelFile, IN);
+      std::size_t NumStopVolumes = Util::GetUnsignedIntConfig("Volumes", "NumStopVolumes", 0, LevelFile, _IN);
       auto V = Util::ParseSFRectConfig<float>(StopVolumesText, NumStopVolumes);
 
       std::size_t __count = 0;
@@ -102,9 +104,9 @@ namespace Engine
     }
   }
 
-  void Level::LoadActors(std::ifstream &IN)
+  void Level::LoadActors(std::ifstream &_IN)
   {
-    sf::Vector2f PlayerSpawn = Util::GetVec2fConfig("Player", "Spawn", sf::Vector2f(-1, -1), LevelFile, IN);
+    sf::Vector2f PlayerSpawn = Util::GetVec2fConfig("Player", "Spawn", sf::Vector2f(-1, -1), LevelFile, _IN);
     if (PlayerSpawn != sf::Vector2f(-1, -1)) {
       std::shared_ptr<Player> player(new Player);
       player->CurrentPhysicsState.LevelPosition = PlayerSpawn;
@@ -116,19 +118,19 @@ namespace Engine
     }
   }
 
-  void Level::LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN)
+  void Level::LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &_IN)
   {
     //Go to the tag in the file and retrieve the relevant information
     ResourceLock->lock();
 
-    std::string TileFile = Util::GetStringConfig(TileTag, "FilePath", "", LevelFile, IN);
-    bool IsAnimated = Util::GetBooleanConfig(TileTag, "Animated", false, LevelFile, IN);
-    std::string Frames = Util::GetBracedConfig(TileTag, "Frames", "{}", LevelFile, IN);
-    std::size_t NumFrames = Util::GetUnsignedIntConfig(TileTag, "NumFrames", 1, LevelFile, IN);
+    std::string TileFile = Util::GetStringConfig(TileTag, "FilePath", "", LevelFile, _IN);
+    bool IsAnimated = Util::GetBooleanConfig(TileTag, "Animated", false, LevelFile, _IN);
+    std::string Frames = Util::GetBracedConfig(TileTag, "Frames", "{}", LevelFile, _IN);
+    std::size_t NumFrames = Util::GetUnsignedIntConfig(TileTag, "NumFrames", 1, LevelFile, _IN);
     if (NumFrames <= 0)
       NumFrames = 1;
 
-    double AnimationDuration = (double)Util::GetUnsignedIntConfig(TileTag, "AnimationDuration", 0, LevelFile, IN);;
+    double AnimationDuration = (double)Util::GetUnsignedIntConfig(TileTag, "AnimationDuration", 0, LevelFile, _IN);;
     double FrameDelta = AnimationDuration / NumFrames;
 
     Frames.erase(Frames.begin());
@@ -160,9 +162,9 @@ namespace Engine
     );
   }
 
-  void Level::LoadTileLayout(std::ifstream &IN)
+  void Level::LoadTileLayout(std::ifstream &_IN)
   {
-    std::string layout = Util::GetBracedConfig("Layer0", "TileLayout", "{}", LevelFile, IN);
+    std::string layout = Util::GetBracedConfig("Layer0", "TileLayout", "{}", LevelFile, _IN);
     if (layout == "{}") {
       std::cerr << "Error reading tile layout from file. Aborting loading." << std::endl;
       return;

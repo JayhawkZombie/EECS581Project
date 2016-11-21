@@ -22,6 +22,8 @@ namespace Engine
     {
     public:
       friend class UIController;
+      friend class SFEngine;
+
       TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
 
       BaseUIElement();

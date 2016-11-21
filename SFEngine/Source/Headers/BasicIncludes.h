@@ -21,8 +21,14 @@
 
 #include "Render\Render.h"
 
+
+
 #include <SFML\Graphics.hpp>
 #include <SFML/Audio.hpp>
+
+#include "../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 #define SFENGINE_INTERNAL_DEPRECATED __declspec(deprecated)
 #define SFENGINE_DEPRECATED __declspec(deprecated)

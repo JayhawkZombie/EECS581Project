@@ -7,9 +7,7 @@ namespace Engine
     ResourceLock->lock();
 
     if (!ReadyToPlay) {
-      float progress = 100.f * (TexturesReceived / NumTextures);
-      LoadingTexturesBar.setSize({ 20, progress });
-      LoadingTexturesBar.setPosition({ 50, 400 });
+
     }
     else {
       Environment.TickUpdate(delta);

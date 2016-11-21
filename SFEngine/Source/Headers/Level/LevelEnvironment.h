@@ -51,6 +51,21 @@ namespace Engine
     sf::Vector2f ScreenPosition;
   };
 
+  class Layer {
+  public:
+    Layer();
+    ~Layer();
+
+    void TickUpdate(const double &delta);
+    void EndOfFrame();
+    void PhysicsUpdate();
+    void Render(std::function<void(sf::Vector2f &LC, sf::Vector2f &WC)> conversion);
+
+
+    Matrix<GridCell> Grid;
+
+  };
+
   class LevelEnvironment
   {
   public:
@@ -127,6 +142,8 @@ namespace Engine
     std::vector<std::shared_ptr<GenericActor>> LevelActors;
     std::vector<std::shared_ptr<LevelObject>> LevelObjects;
     std::shared_ptr<Player> LevelPlayerActor;
+
+    std::vector<Layer> Layers;
 
     Matrix<GridCell> EnvironmentGrid;
     sf::Vector2f Scale;

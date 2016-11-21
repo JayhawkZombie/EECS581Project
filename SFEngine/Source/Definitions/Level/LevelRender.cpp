@@ -23,7 +23,7 @@ namespace Engine
 
   void Level::RenderLoadingScreen()
   {
-    Render::RenderShape(&LoadingTexturesBar);
+    
   }
 
 }

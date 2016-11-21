@@ -12,16 +12,6 @@ namespace Engine
     : LevelFile(lvl), ResourceLock(new std::mutex), ReadyToPlay(false)
     , LevelSizeX(0), LevelSizeY(0), TileSize(0), TilesAcross(0), TexturesReceived(0)
   {
-    ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", 
-                                 "OpenSansRegular", 
-                                 [this](std::shared_ptr<sf::Font> t, const std::string &s) -> void
-                                 {
-                                   this->LevelFont = t;
-                                   this->LoadingMessageText.setFont(*t);
-                                   this->Environment.DiagnosticText.setFont(*t);
-                                 }
-    
-    );
     Handler.BindCallback(Events::KeyPressed,
 
                          [this](const sf::Keyboard::Key &k) -> void
@@ -37,17 +27,14 @@ namespace Engine
                            this->HandleKeyRelease(k);
                          }
     );
-
-    LoadingMessageText.setPosition(sf::Vector2f(400, 400));
-    LoadingMessageText.setCharacterSize(12);
-    LoadingMessageText.setFillColor(sf::Color::White);
-    LoadingMessageText.setString("Loading string");
   }
 
   Level::~Level()
   {
     if (LOADER.joinable())
       LOADER.join();
+    if (INFO_LOADER.joinable())
+      INFO_LOADER.join();
 
     delete ResourceLock;
   }
@@ -61,6 +48,8 @@ namespace Engine
   {
     if (LOADER.joinable())
       LOADER.join();
+    if (INFO_LOADER.joinable())
+      INFO_LOADER.join();
   }
 
   void Level::OnShutDown()

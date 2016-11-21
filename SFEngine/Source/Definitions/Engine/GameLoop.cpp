@@ -10,34 +10,6 @@ namespace Engine
 
   UINT32 SFEngine::GameLoop()
   {
-
-    Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
-    MaximumWindowView = Window->getDefaultView();
-    Window->setKeyRepeatEnabled(false);
-    currentRenderWindow = Window;
-
-    RenderSettings.texture = new sf::RenderTexture;
-    RenderSettings.texture->create(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y);
-    RenderSettings.texture->setActive(true);
-
-    FragmentShader = new sf::Shader;
-    VertexShader = new sf::Shader;
-    if (!FragmentShader->loadFromFile("./SFEngine/Source/CoreFragmentShader.fsh", sf::Shader::Fragment)) {
-      std::cerr << "Failed to load fragment shader from file" << std::endl;
-    }
-    if (!VertexShader->loadFromFile("./SFEngine/Source/CoreVertexShader.vsh", sf::Shader::Vertex)) {
-      std::cerr << "Failed to load vertex shader from file" << std::endl;
-    }
-
-    RenderStates.blendMode = sf::BlendAdd;
-    Render::__Set__Core__Shaders(FragmentShader, VertexShader);
-    Render::__Set__Render__States(RenderStates);
-    Render::__Set__Render__Settings(RenderSettings);
-
-    Render::__Set__Window(Window);
-    Window->clear(sf::Color::Black);
-    Window->display();
-
     std::chrono::high_resolution_clock::time_point LastFrameStart = std::chrono::high_resolution_clock::now();
     std::chrono::high_resolution_clock::time_point CurrentFrameStart = std::chrono::high_resolution_clock::now();
     std::chrono::high_resolution_clock::time_point TickEnd;
@@ -65,34 +37,39 @@ namespace Engine
 
 
 
-    txt.setCharacterSize(12);
+    txt.setCharacterSize(20);
     txt.setFillColor(sf::Color::White); //setColor was deprecated, but setFillColor fails
     sf::Font txtFont;
-    txtFont.loadFromFile("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf");
+    txtFont.loadFromFile("./SFEngine/Samples/Fonts/PressStart2P.ttf");
     txt.setFont(txtFont);
     ResourcePoolSizes[0].setFont(txtFont);
     ResourcePoolSizes[1].setFont(txtFont);
     ResourcePoolSizes[2].setFont(txtFont);
     ResourcePoolSizes[3].setFont(txtFont);
 
+    std::shared_ptr<Level> lvl(new Level("./SFEngine/Samples/Maps/testforest.ini"));
+    Levels.push_back(lvl);
+
     auto Button = UI::ClickButton::Create();
     Button->SetPosition(sf::Vector2f(100, 100));
-    Button->SetSize(sf::Vector2f(100, 20));
-    Button->OnMouseRelease = [this](const sf::Vector2i &v, const sf::Mouse::Button &b) {
-      ResourceManager->RequestTexture("./SFEngine/Samples/Textures/UI/ButtonBG.png", "ButtonBG2", SomeCallback);
+    Button->SetSize(sf::Vector2f(200, 75));
+
+    Button->OnMouseRelease = [this, Button](const sf::Vector2i &pos, const sf::Mouse::Button &b)
+    { //this->Levels[0]->LoadLevel();
+      //this->Levels[0]->JoinLoaderThread();
+      Button->OnMouseRelease = [](const sf::Vector2i &pos, const sf::Mouse::Button &b) {}; //Unbind behavior, prevent extra loads
     };
+
     EngineUIController.AddElement(Button);
 
     EngineUIController.SetBounds(sf::FloatRect(0, 0, 800, 300));
     EngineUIController.Show();
     //EngineUIController.ShowBoundsRect();
-    std::shared_ptr<Level> lvl(new Level("./SFEngine/Samples/Maps/testforest.ini"));
-    Levels.push_back(lvl);
     Levels[0]->LoadLevel();
     Levels[0]->JoinLoaderThread();
     
     
-    std::cerr << "Size of Levels: " << sizeof(Levels[0]) << std::endl;
+    Window->clear();
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       
@@ -106,14 +83,16 @@ namespace Engine
         EngineUIController.TickUpdate(TickDelta);
       //Call "update" on items
 
-      Levels[0]->TickUpdate(TickDelta);
+      if (Levels[0]->IsReady())
+        Levels[0]->TickUpdate(TickDelta);
 
       UpdateEnd = std::chrono::high_resolution_clock::now();
 
       currentRenderWindow->clear(sf::Color::Black);
       Render::ClearRender();
 
-      Levels[0]->Render();
+      if (Levels[0]->IsReady())
+        Levels[0]->Render();
 
       if (EngineUIController.IsShown())
         EngineUIController.Render();

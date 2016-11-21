@@ -206,6 +206,43 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\ReadIni.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\String.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\StringMap.h" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_defines.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_stdlib.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_threading.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\any.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\bad_boxed_cast.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\bind_first.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\bootstrap.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\bootstrap_stl.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\boxed_cast.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\boxed_cast_helper.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\boxed_number.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\boxed_value.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\callable_traits.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\dispatchkit.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\dynamic_object.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\dynamic_object_detail.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\exception_specification.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\function_call.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\function_call_detail.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\handle_return.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\operators.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\proxy_constructors.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\proxy_functions.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\proxy_functions_detail.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\register_function.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\type_conversions.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\dispatchkit\type_info.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\language\chaiscript_algebraic.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\language\chaiscript_common.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\language\chaiscript_engine.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\language\chaiscript_eval.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\language\chaiscript_parser.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\language\chaiscript_prelude_docs.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json_wrap.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\utility.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Armor.cpp" />
@@ -224,6 +261,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineRender.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine_ExposedScriptMethods.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Externs.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\GameLoop.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Go.cpp" />
@@ -243,6 +281,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelCollision.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironment.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironmentEvent.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironmentLayer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEnvironmentTiles.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventHandling.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventSequences.cpp" />
@@ -290,6 +329,7 @@
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Game\GameSetup.chai" />
     <None Include="SFEngine\Config\Engine.ini" />
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForestSmall.ini" />

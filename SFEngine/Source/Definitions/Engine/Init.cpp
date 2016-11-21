@@ -9,6 +9,10 @@ namespace Engine
       std::cout << "\t" << i << ": " << argv[i] << std::endl;
     }
 
+    std::cerr << "Starting resource manager" << std::endl;
+    ResourceManager = std::shared_ptr<Resource::ResourceManager>(new Resource::ResourceManager);
+    ResourceManager->Start();
+
     return Startup();
   }
 }

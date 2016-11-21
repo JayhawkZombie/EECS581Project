@@ -33,7 +33,24 @@ namespace Engine
     UINT32 Shutdown();
     UINT32 GameLoop();
 
+    chaiscript::ChaiScript *ScriptEngine;
+    chaiscript::ModulePtr EngineModule;
+    chaiscript::ModulePtr LevelModule;
+    //Methods that we will expose to the scripting engine to change engine settings
+    void SetAALevel(unsigned int level);
+    void SetFramerateLimit(unsigned int level);
+    void SetBrightness(unsigned int level);
+    void SetGamma(unsigned int level);
+    void SetTimeScale(float amount);
+    void SetContrast(unsigned int level);
+
+    sf::Sprite EngineLogoSprite;
+    sf::Texture EngineLogoTexture;
+    sf::Text EngineLoadingText;
+    sf::Font EngineLoadingFont;
+
     void Render();
+    void InitRenderWindow();
     sf::Shader *VertexShader;
     sf::Shader *FragmentShader;
     sf::RenderStates RenderStates;

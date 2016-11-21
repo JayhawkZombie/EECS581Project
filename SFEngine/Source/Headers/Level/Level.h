@@ -19,7 +19,34 @@ class GameMain;
 namespace Engine
 {
 
+  struct LayerInformation {
+    std::vector<std::string> LayerLayout;
+    std::string RawLayout;
+    unsigned int Height, Width;
+  };
 
+  struct TileInfo {
+    std::string TileID;
+    std::string LayoutID;
+    std::string FilePath;
+    bool Animated, Traversible;
+    sf::IntRect TextureRect;
+    std::vector<sf::IntRect> AnimationFrames;
+    std::shared_ptr<sf::Texture> Texture;
+  };
+
+  struct LevelLoadInformation {
+    bool ShadersEnabled;
+    unsigned int NumLayers;
+    unsigned int LevelSizeX, LevelSizeY;
+    unsigned int TileSize, TilesAcross;
+    sf::FloatRect StartingView;
+
+    std::vector<LayerInformation> LayersInfo;
+    std::map<std::string, std::string> LayoutIDToTileID;
+    unsigned int NumTiles;
+    std::vector<TileInfo> TileInfos;
+  };
 
   class Level : public BaseEngineInterface
   {
@@ -39,7 +66,9 @@ namespace Engine
 
     void LoadLevel();
     void JoinLoaderThread();
-    void IsReady() const;
+    bool IsReady() const {
+      return ReadyToPlay;
+    }
 
     void HandleKeyPress(const sf::Keyboard::Key &key);
     void HandleKeyRelease(const sf::Keyboard::Key &key);
@@ -54,13 +83,28 @@ namespace Engine
     std::mutex *ResourceLock;
 
     std::thread LOADER;
+    std::thread INFO_LOADER;
     std::string LevelFile;
 
     //Internal method, load the information from the file
     void LoadFromFile();
     
     //Load all of the information about the level before actually loading it off disk
-    void LoadLevelInformation();
+    LevelLoadInformation LoadingInformation;
+    void LoadLevelInformation(const std::string &filename);
+
+    void LoadConfigInfo(std::ifstream &IN);
+    void LoadLayerInfo(std::ifstream &IN);
+    void LoadTileInfo(std::ifstream &IN);
+    void LoadLayoutInfo(std::ifstream &IN);
+    void RequestLevelData();
+    void FormalizeLayerLayouts();
+    void ReceiveLevelTexture(std::shared_ptr<sf::Texture> texture, const std::string &ID);
+    void SetLevelData();
+    void LoadLayerData(std::ifstream &IN);
+    void LoadTilesData(std::ifstream &IN);
+    void LoadObjectData(std::ifstream &IN);
+
     void LoadTileData(const std::string &layoutTag, const std::string &TileTag, std::ifstream &IN);
     void LoadTileLayout(std::ifstream &IN);
     void LoadLights(std::ifstream &IN);
