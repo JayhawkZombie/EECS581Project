@@ -146,12 +146,21 @@ namespace Engine
     Window->draw(EngineLoadingText);
     Window->display();
 
+    std::string str{ "" }, str2{ "" };
     ScriptEngine->eval_file("./Game/GameSetup.chai");
-    std::string str = (*ScriptEngine).eval<std::string>("InitialGameLevel()");
-    std::cerr << "\n\n------------------InitialGameLevel: " << str << std::endl;
+    ScriptEngine->eval_file("./SFEngine/Samples/Scripts/EngineEventTests.chai");
+    try
+    {
+      str = (*ScriptEngine).eval<std::string>("InitialGameLevel()");
+      str2 = (*ScriptEngine).eval<std::string>("SetupFile()");
 
-    std::string str2 = (*ScriptEngine).eval<std::string>("SetupFile()");
-    std::cerr << "\n\n------------------Setup File: " << str2 << std::endl;
+      std::cerr << "\n\n------------------InitialGameLevel: " << str << std::endl;
+      std::cerr << "\n\n------------------Setup File: " << str2 << std::endl;
+    }
+    catch (chaiscript::exception::eval_error &e)
+    {
+      std::cerr << "Script execution error: " << e.what() << std::endl;
+    }    
 
     return GameLoop();
   }

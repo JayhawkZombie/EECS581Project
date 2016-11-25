@@ -1,10 +1,21 @@
 #include "../../Headers/Engine/Engine.h"
 
+std::map<sf::Keyboard::Key, std::string> KeyToString = {
+  { sf::Keyboard::A, "A" },{ sf::Keyboard::B, "B" },{ sf::Keyboard::C, "C" },{ sf::Keyboard::D, "D" },{ sf::Keyboard::E, "E" }, 
+  { sf::Keyboard::F, "F" },{ sf::Keyboard::G, "G" },{ sf::Keyboard::H, "H" },{ sf::Keyboard::I, "I" },{ sf::Keyboard::J, "J" },
+  { sf::Keyboard::K, "K" },{ sf::Keyboard::L, "L" },{ sf::Keyboard::M, "M" },{ sf::Keyboard::N, "N" },{ sf::Keyboard::O, "O" },
+  { sf::Keyboard::P, "P" },{ sf::Keyboard::Q, "Q" },{ sf::Keyboard::R, "R" },{ sf::Keyboard::S, "S" },{ sf::Keyboard::T, "T" },
+  { sf::Keyboard::U, "U" },{ sf::Keyboard::V, "V" },{ sf::Keyboard::W, "W" },{ sf::Keyboard::X, "X" },{ sf::Keyboard::Y, "Y" },
+  { sf::Keyboard::Z, "Z" },{ sf::Keyboard::Add, "Add" },{ sf::Keyboard::BackSlash, "Bkslsh" },{ sf::Keyboard::BackSpace, "Bckspc" },{ sf::Keyboard::Comma, "Comma" },
+};
+
 namespace Engine
 {
 
   void SFEngine::HandleKeyPress(const sf::Keyboard::Key &k)
   {
+    (*ScriptEngine).eval("Engine_KeyPressed(\"" + KeyToString[k] + "\")");
+
     if (k == sf::Keyboard::Escape)
       EngineUIController.ToggleShown();
     else

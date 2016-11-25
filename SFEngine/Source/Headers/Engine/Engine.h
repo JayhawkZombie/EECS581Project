@@ -28,7 +28,7 @@ namespace Engine
     UINT32 Go(int argc, char **argv);
     UINT32 Init(int argc, char **argv);
     UINT32 Startup();
-
+    void HandleEngineCrash();
   private:
     UINT32 Shutdown();
     UINT32 GameLoop();
@@ -51,6 +51,7 @@ namespace Engine
 
     void Render();
     void InitRenderWindow();
+
     sf::Shader *VertexShader;
     sf::Shader *FragmentShader;
     sf::RenderStates RenderStates;

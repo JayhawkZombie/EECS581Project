@@ -24,6 +24,8 @@ namespace Engine
       FragmentShaders = new std::map<std::string, std::shared_ptr<sf::Shader>>;
       Textures = new std::map<std::string, std::shared_ptr<sf::Texture>>;
       Fonts = new std::map<std::string, std::shared_ptr<sf::Font>>;
+      SoundBuffers = new std::map<std::string, std::shared_ptr<sf::SoundBuffer>>;
+      Sounds = new std::map<std::string, std::shared_ptr<sf::Sound>>;
 
       TextureQueue = new std::queue <std::pair<DoubleStringPair
         , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>>;
@@ -37,6 +39,8 @@ namespace Engine
       FontQueue = new std::queue<std::pair<DoubleStringPair
         , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>>;
 
+      SoundQueue = new std::queue<DoubleStringPair>;
+
       ActiveTextureQueue = new std::queue <std::pair<DoubleStringPair
         , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>>;
 
@@ -48,6 +52,10 @@ namespace Engine
 
       ActiveFontQueue = new std::queue<std::pair<DoubleStringPair
         , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>>;
+
+      ActiveSoundQueue = new std::queue<DoubleStringPair>;
+
+      AudioPlayQueue = new std::queue<std::string>;
     }
 
     void ResourceManager::Start()
@@ -81,7 +89,11 @@ namespace Engine
       delete FragmentShaderQueue;
       delete VertexShaderQueue;
       delete FontQueue;
-
+      delete AudioPlayQueue;
+      
+      delete Sounds;
+      delete SoundQueue;
+      delete ActiveSoundQueue;
 
       delete ActiveTextureQueue;
       delete ActiveFragmentShaderQueue;
@@ -89,12 +101,78 @@ namespace Engine
       delete ActiveFontQueue;
     }
 
+    void ResourceManager::ReleaseAllResources()
+    {
+      for (auto & sound : *Sounds) {
+        sound.second->stop();
+        sound.second->resetBuffer();
+        sound.second.reset();
+      }
+    }
+
     void ResourceManager::Shutdown()
     {
       std::cerr << "Notifying thread of shutdown request" << std::endl;
+      ReleaseAllResources();
       *ThreadQuit = true;
       *ThreadWorkToDo = true;
       WakeUpThread->notify_all();
+    }
+
+    void ResourceManager::LoadAudio(const std::string &FilePath, const std::string &ID, bool PlayAfterLoading)
+    {
+      std::cerr << "----------------------------Loading audio file: " << ID << std::endl;
+      DoubleStringPair pair(FilePath, ID);
+      PushQueueLock->lock();
+      SoundQueue->push(pair);
+      PushQueueLock->unlock();
+      *ThreadWorkToDo = true;
+      WakeUpThread->notify_all();
+      if (PlayAfterLoading)
+        AudioPlayQueue->push(ID);
+    }
+
+    void ResourceManager::PlayAudio(const std::string &ID, bool loop)
+    {
+      StorageAccessLock->lock();
+
+      auto it = Sounds->find(ID);
+      auto buff = SoundBuffers->find(ID);
+      //If the audio buffer and audio instance exist in memory (already loaded), then play it
+      if (it != Sounds->end() && buff != SoundBuffers->end()) {
+        if (!it->second->getBuffer())
+          it->second->setBuffer(*(buff->second)); //Bind the buffer if it hasn't already been bound
+        it->second->setLoop(loop);
+        it->second->play();
+      }
+
+      StorageAccessLock->unlock();
+    }
+
+    void ResourceManager::PauseAudio(const std::string &ID)
+    {
+      StorageAccessLock->lock();
+
+      auto it = Sounds->find(ID);
+      if (it != Sounds->end()) {
+        if (it->second->getBuffer())
+          it->second->pause();
+      }
+
+      StorageAccessLock->unlock();
+    }
+
+    void ResourceManager::StopAudio(const std::string &ID)
+    {
+      StorageAccessLock->lock();
+
+      auto it = Sounds->find(ID);
+      if (it != Sounds->end()) {
+        if (it->second->getBuffer())
+          it->second->stop();
+      }
+
+      StorageAccessLock->unlock();
     }
 
     void ResourceManager::RequestTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> callback)

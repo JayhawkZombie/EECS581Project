@@ -4,7 +4,17 @@ namespace Engine
 {
   BaseEngineInterface::BaseEngineInterface()
   {
-    
+    Handler.ftnCallback_KeyPress = [this](auto k) {};
+    Handler.ftnCallback_KeyRelease = [this](auto k) {};
+    Handler.ftnCallback_MouseExit = [this](auto p) {};
+    Handler.ftnCallback_MouseMovement = [this](auto p) {};
+    Handler.ftnCallback_MouseOver = [this](auto p) {};
+    Handler.ftnCallback_MousePress = [this](auto b, auto p) {};
+    Handler.ftnCallback_MouseRelease = [this](auto b, auto p) {};
+    Handler.ftnCallback_MouseScroll = [this](auto p) {};
+    Handler.ftnCallback_TextEntered = [this](auto t) {};
+    Handler.ftnCallback_WindowClosed = [this]() {};
+    Handler.ftnCallback_WindowResized = [this]() {};
   }
 
   void BaseEngineInterface::SerializeOut(std::ostream &out)

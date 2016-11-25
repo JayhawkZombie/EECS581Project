@@ -68,52 +68,63 @@ namespace Engine
     Levels[0]->LoadLevel();
     Levels[0]->JoinLoaderThread();
     
+    ResourceManager->LoadAudio("./SFEngine/Samples/Audio/X_Y.ogg", "X_Y", true);
+    ResourceManager->PlayAudio("X_Y", true);
+
     
     Window->clear();
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       
-      CurrentFrameStart = std::chrono::high_resolution_clock::now();
-      TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
-      LastFrameStart = std::chrono::high_resolution_clock::now();
+      try
+      {
 
-      UpdateStart = std::chrono::high_resolution_clock::now();
-      
-      if (EngineUIController.IsShown())
-        EngineUIController.TickUpdate(TickDelta);
-      //Call "update" on items
+        CurrentFrameStart = std::chrono::high_resolution_clock::now();
+        TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
+        LastFrameStart = std::chrono::high_resolution_clock::now();
 
-      if (Levels[0]->IsReady())
-        Levels[0]->TickUpdate(TickDelta);
+        UpdateStart = std::chrono::high_resolution_clock::now();
 
-      UpdateEnd = std::chrono::high_resolution_clock::now();
+        if (EngineUIController.IsShown())
+          EngineUIController.TickUpdate(TickDelta);
+        //Call "update" on items
 
-      currentRenderWindow->clear(sf::Color::Black);
-      Render::ClearRender();
+        if (Levels[0]->IsReady())
+          Levels[0]->TickUpdate(TickDelta);
 
-      if (Levels[0]->IsReady())
-        Levels[0]->Render();
+        UpdateEnd = std::chrono::high_resolution_clock::now();
 
-      if (EngineUIController.IsShown())
-        EngineUIController.Render();
-      //Render start
+        currentRenderWindow->clear(sf::Color::Black);
+        Render::ClearRender();
 
-      txt.setString("Test String: Elapsed Tick Time: " + std::to_string(TickDelta));
-      ResourcePoolSizes[0].setString("Texure Pooling: " + std::to_string(ResourceManager->GetSizeOfTexturePool()) + " bytes");
-      ResourcePoolSizes[1].setString("Font   Pooling: " + std::to_string(ResourceManager->GetSizeOfFontPool()) + " bytes");
-      ResourcePoolSizes[2].setString("FSH    Pooling: " + std::to_string(ResourceManager->GetSizeOfFragmentShaderPool()) + " bytes");
-      ResourcePoolSizes[3].setString("VSH    Pooling: " + std::to_string(ResourceManager->GetSizeOfVertexShaderPool()) + " bytes");
+        if (Levels[0]->IsReady())
+          Levels[0]->Render();
 
-      Render::RenderText(&txt);
-      Render::RenderText(&ResourcePoolSizes[0]);
-      Render::RenderText(&ResourcePoolSizes[1]);
-      Render::RenderText(&ResourcePoolSizes[2]);
-      Render::RenderText(&ResourcePoolSizes[3]);
+        if (EngineUIController.IsShown())
+          EngineUIController.Render();
+        //Render start
 
-      Render();
+        txt.setString("Test String: Elapsed Tick Time: " + std::to_string(TickDelta));
+        ResourcePoolSizes[0].setString("Texure Pooling: " + std::to_string(ResourceManager->GetSizeOfTexturePool()) + " bytes");
+        ResourcePoolSizes[1].setString("Font   Pooling: " + std::to_string(ResourceManager->GetSizeOfFontPool()) + " bytes");
+        ResourcePoolSizes[2].setString("FSH    Pooling: " + std::to_string(ResourceManager->GetSizeOfFragmentShaderPool()) + " bytes");
+        ResourcePoolSizes[3].setString("VSH    Pooling: " + std::to_string(ResourceManager->GetSizeOfVertexShaderPool()) + " bytes");
 
+        Render::RenderText(&txt);
+        Render::RenderText(&ResourcePoolSizes[0]);
+        Render::RenderText(&ResourcePoolSizes[1]);
+        Render::RenderText(&ResourcePoolSizes[2]);
+        Render::RenderText(&ResourcePoolSizes[3]);
+
+        Render();
+
+      }
+      catch (chaiscript::exception::eval_error &e)
+      {
+        std::cerr << "Script execution error in runtime: " << e.what() << std::endl;
+      }
       currentRenderWindow->display();
-
+      
     }
     delete RenderSettings.texture;
     return Shutdown();

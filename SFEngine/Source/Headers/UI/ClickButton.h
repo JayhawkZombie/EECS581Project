@@ -20,7 +20,7 @@ namespace Engine
 
       ClickButton();
       ClickButton(const ClickButton &) = delete;
-      ~ClickButton();
+      virtual ~ClickButton();
       
       virtual void TickUpdate(const double &delta) override;
       virtual void Render() override;

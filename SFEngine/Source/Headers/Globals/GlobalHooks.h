@@ -9,6 +9,9 @@ namespace Engine
   extern sf::RenderWindow *currentRenderWindow;
   extern std::shared_ptr<Resource::ResourceManager> ResourceManager;
   extern sf::Vector2f WindowSize;
+
+  class BaseUIElement;
+
 }
 
 #endif

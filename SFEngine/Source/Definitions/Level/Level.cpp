@@ -39,6 +39,11 @@ namespace Engine
     delete ResourceLock;
   }
 
+  LevelEnvironment* Level::GetEnvironment()
+  {
+    return &Environment;
+  }
+
   void Level::SerializeOut(std::ostream &out)
   {
 

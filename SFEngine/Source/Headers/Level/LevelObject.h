@@ -77,7 +77,7 @@ namespace Engine
 
     LevelObject();
     LevelObject(const LevelObject &obj);
-    ~LevelObject();
+    virtual ~LevelObject();
 
     virtual void TickUpdate(const double &delta) override;
     virtual void Render() override;

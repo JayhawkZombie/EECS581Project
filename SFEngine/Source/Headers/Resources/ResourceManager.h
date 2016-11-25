@@ -35,6 +35,11 @@ namespace Engine
       void RequestFragmentShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
       void RequestFontChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> callback);
 
+      void LoadAudio(const std::string &FilePath, const std::string &ID, bool playAfterLoading);
+      void PlayAudio(const std::string &ID, bool loop);
+      void PauseAudio(const std::string &ID);
+      void StopAudio(const std::string &ID);
+
       std::size_t GetSizeOfTexturePool() const;
       std::size_t GetSizeOfVertexShaderPool() const;
       std::size_t GetSizeOfFragmentShaderPool() const;
@@ -51,10 +56,14 @@ namespace Engine
       void LoadVertexShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
       void LoadFragmentShader(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
 
+      void LoadAudioFile(const std::string &FilePath, const std::string &ID);
+      void ReleaseAllResources();
+
       void CopyFromPushQueue();
       void LoadShadersFromActiveQueues();
       void LoadTexturesFromActiveQueue();
       void LoadFontsFromActiveQueue();
+      void LoadAudioFromActiveQueue();
 
       std::thread LoaderThread;
       bool *ThreadQuit;
@@ -70,16 +79,18 @@ namespace Engine
 
       //Oh my, how disgusting
       std::queue <std::pair<DoubleStringPair
-                , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>> *TextureQueue;
+        , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>> *TextureQueue;
 
       std::queue<std::pair<DoubleStringPair
-                , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>> *VertexShaderQueue;
+        , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>> *VertexShaderQueue;
 
       std::queue<std::pair<DoubleStringPair
         , std::function<void(std::shared_ptr<sf::Shader>, std::string ID)>>> *FragmentShaderQueue;
 
       std::queue<std::pair<DoubleStringPair
-                , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>> *FontQueue;
+        , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>> *FontQueue;
+
+      std::queue<DoubleStringPair> *SoundQueue;
 
       std::queue <std::pair<DoubleStringPair
         , std::function<void(std::shared_ptr<sf::Texture>, std::string ID)>>> *ActiveTextureQueue;
@@ -93,10 +104,16 @@ namespace Engine
       std::queue<std::pair<DoubleStringPair
         , std::function<void(std::shared_ptr<sf::Font>, std::string ID)>>> *ActiveFontQueue;
 
+      std::queue<DoubleStringPair> *ActiveSoundQueue;
+
+      std::queue<std::string> *AudioPlayQueue;
+
       std::map<std::string, std::shared_ptr<sf::Texture>> *Textures;
       std::map<std::string, std::shared_ptr<sf::Shader>> *VertexShaders;
       std::map<std::string, std::shared_ptr<sf::Shader>> *FragmentShaders;
       std::map<std::string, std::shared_ptr<sf::Font>> *Fonts;
+      std::map<std::string, std::shared_ptr<sf::Sound>> *Sounds;
+      std::map<std::string, std::shared_ptr<sf::SoundBuffer>> *SoundBuffers;
     };
 
   }

@@ -176,6 +176,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Events\EventHandler.h" />
     <ClInclude Include="SFEngine\Source\Headers\Events\EventSequence.h" />
     <ClInclude Include="SFEngine\Source\Headers\Globals\GlobalHooks.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Level\ExposedLevelApi.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\Layer.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\Level.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEnvironment.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineCrashRecovery.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine_ExposedScriptMethods.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Externs.cpp" />
@@ -276,6 +278,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Startup.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Events\EventHandler.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Events\EventSequence.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\ExposedLevelApi.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Layer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelCollision.cpp" />
@@ -332,6 +335,7 @@
     <None Include="Game\GameSetup.chai" />
     <None Include="SFEngine\Config\Engine.ini" />
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
+    <None Include="SFEngine\Samples\Scripts\EngineEventTests.chai" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForestSmall.ini" />
     <None Include="SFEngine\Samples\Maps\testforest.ini" />
     <None Include="SFEngine\Samples\Maps\testmap.ini" />
@@ -340,6 +344,7 @@
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.xcf" />
     <None Include="SFEngine\Source\BlurFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreFragmentShader.fsh" />
+    <None Include="SFEngine\Source\CoreScript.chai" />
     <None Include="SFEngine\Source\CoreVertexShader.vsh" />
     <None Include="SFEngine\Source\Definitions\Physics\ClassDiagram.cd" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />

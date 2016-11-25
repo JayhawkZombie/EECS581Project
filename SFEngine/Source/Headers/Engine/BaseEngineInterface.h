@@ -23,7 +23,7 @@ namespace Engine
   public:
     BaseEngineInterface();
     BaseEngineInterface(const BaseEngineInterface &b);
-    ~BaseEngineInterface();
+    virtual ~BaseEngineInterface();
 
     virtual void TickUpdate(const double &delta) = 0;
 

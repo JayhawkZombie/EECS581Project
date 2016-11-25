@@ -28,7 +28,7 @@ namespace Engine
 
       BaseUIElement();
       BaseUIElement(const BaseUIElement &b) = delete;
-      ~BaseUIElement();
+      virtual ~BaseUIElement();
 
       virtual void TickUpdate(const double &delta) = 0;
       virtual void Render();

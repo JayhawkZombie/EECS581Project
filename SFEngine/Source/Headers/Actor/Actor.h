@@ -16,7 +16,7 @@ namespace Engine
     GenericActor();
     GenericActor(const std::string &texfile, const std::string &texID);
     GenericActor(const GenericActor &actor);
-    ~GenericActor();
+    virtual ~GenericActor();
 
     virtual void TickUpdate(const double &delta) override;
     virtual void Render() override;

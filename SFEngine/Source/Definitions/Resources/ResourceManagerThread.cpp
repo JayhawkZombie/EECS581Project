@@ -25,7 +25,7 @@ namespace Engine
 
         //std::cerr << "Thread woken up, not time to quit" << std::endl;
 
-        while (!FontQueue->empty() || !VertexShaderQueue->empty() || !FragmentShaderQueue->empty() || !TextureQueue->empty())
+        while (!FontQueue->empty() || !VertexShaderQueue->empty() || !FragmentShaderQueue->empty() || !TextureQueue->empty() || !SoundQueue->empty())
         {
           //std::cerr << "Copying from push queue" << std::endl;
           PushQueueLock->lock();
@@ -39,6 +39,7 @@ namespace Engine
           LoadShadersFromActiveQueues();
           LoadFontsFromActiveQueue();
           LoadTexturesFromActiveQueue();
+          LoadAudioFromActiveQueue();
         }
 
       }
@@ -75,6 +76,27 @@ namespace Engine
         ActiveFragmentShaderQueue->push(TOP);
         FragmentShaderQueue->pop();
       }
+
+      while (!SoundQueue->empty()) {
+        auto TOP = SoundQueue->front();
+
+        ActiveSoundQueue->push(TOP);
+        SoundQueue->pop();
+      }
+    }
+
+    void ResourceManager::LoadAudioFromActiveQueue()
+    {
+      ActiveQueueLock->lock();
+
+      //SFML has a limit of 255 sound clips that can be loaded at one time
+      while (!ActiveSoundQueue->empty() && Sounds->size() < 255) {
+        auto TOP = ActiveSoundQueue->front();
+        LoadAudioFile(TOP.first, TOP.second);
+        ActiveSoundQueue->pop();
+      }
+
+      ActiveQueueLock->unlock();
     }
 
     void ResourceManager::LoadShadersFromActiveQueues()
@@ -120,6 +142,44 @@ namespace Engine
       }
 
       ActiveQueueLock->unlock();
+    }
+
+    void ResourceManager::LoadAudioFile(const std::string &FilePath, const std::string &ID)
+    {
+      std::cerr << "----------------------Performing audio loading" << std::endl;
+      StorageAccessLock->lock();
+
+      auto it = Sounds->find(ID);
+      if (it != Sounds->end()) {
+        std::cerr << "----------------------------Audio file: " << ID << " already loaded" << std::endl;
+      }
+      else {
+        auto sound = std::shared_ptr<sf::Sound>(new sf::Sound);
+        auto buffer = std::shared_ptr<sf::SoundBuffer>(new sf::SoundBuffer);
+
+        std::cerr << "----------------------------Emplacing audio and buffer" << std::endl;
+        Sounds->emplace(std::piecewise_construct,
+                        std::make_tuple(ID),
+                        std::make_tuple(sound));
+        SoundBuffers->emplace(std::piecewise_construct,
+                              std::make_tuple(ID),
+                              std::make_tuple(buffer));
+
+        buffer->loadFromFile(FilePath);
+        sound->setBuffer(*buffer);
+      }
+
+      StorageAccessLock->unlock();
+      while (!AudioPlayQueue->empty()) {
+        StorageAccessLock->lock();
+        std::string TOP = AudioPlayQueue->front();
+        std::cerr << "Playing audio file: " << TOP << std::endl;
+        AudioPlayQueue->pop();
+        auto audio = Sounds->find(TOP);
+        if (audio != Sounds->end())
+          audio->second->play();
+        StorageAccessLock->unlock();
+      }
     }
 
     void ResourceManager::LoadTexture(const std::string &Filepath, 

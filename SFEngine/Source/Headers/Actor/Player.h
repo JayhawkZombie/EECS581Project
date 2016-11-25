@@ -13,7 +13,7 @@ namespace Engine
     Player();
     Player(const std::string &texfile, const std::string &texID);
     Player(const Player &p);
-    ~Player();
+    virtual ~Player();
 
 
     virtual void TickUpdate(const double &delta) override;

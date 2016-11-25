@@ -73,7 +73,7 @@ namespace Engine
     void HandleKeyPress(const sf::Keyboard::Key &key);
     void HandleKeyRelease(const sf::Keyboard::Key &key);
     void HandleWindowResized();
-
+    LevelEnvironment* GetEnvironment();
   private:
     void RenderRegular();
     void RenderLoadingScreen();
