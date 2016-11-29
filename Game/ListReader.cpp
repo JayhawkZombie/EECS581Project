@@ -1,5 +1,6 @@
 #include "ListReader.h"
-ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0)//, monsters(NULL), armor(NULL), weapons(NULL), useables(NULL)
+ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0), num_convos(0),
+monsters(NULL), armor(NULL), weapons(NULL), useables(NULL), conversations(NULL)
 {}
 ListReader::~ListReader()
 {
@@ -17,7 +18,7 @@ ListReader::~ListReader()
 }
 //shared_ptr<MonsterType> ListReader::readMonsters(std::string &fileName)
 //	shared_ptr<MonsterType*> monsters(new MonsterType*)[num_monsters];
-MonsterType** ListReader::readMonsters(std::string &fileName)
+MonsterType** ListReader::readMonsters(std::string fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -29,7 +30,7 @@ MonsterType** ListReader::readMonsters(std::string &fileName)
 	//assumes the file size is on top of the data
 	file >> num_monsters;
 	
-	MonsterType** monsters = new MonsterType*[num_monsters];
+	monsters = new MonsterType*[num_monsters];
 	MonsterType* newMonster;
 	
 	int index = 0;
@@ -77,7 +78,7 @@ MonsterType** ListReader::readMonsters(std::string &fileName)
 	file.close();
 	return monsters;
 }
-Armor** ListReader::readArmor(std::string &fileName)
+Armor** ListReader::readArmor(std::string fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -89,7 +90,7 @@ Armor** ListReader::readArmor(std::string &fileName)
 	//assumes the file size is on top of the data
 	file >> num_armor;
 	
-	Armor** armor = new Armor*[num_armor];
+	armor = new Armor*[num_armor];
 	Armor* newArmor;
 	
 	Damage* damage;
@@ -164,7 +165,7 @@ Armor** ListReader::readArmor(std::string &fileName)
 	file.close();
 	return armor;	
 }
-Weapon** ListReader::readWeapons(std::string &fileName)
+Weapon** ListReader::readWeapons(std::string fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -176,7 +177,7 @@ Weapon** ListReader::readWeapons(std::string &fileName)
 	//assumes the file size is on top of the data
 	file >> num_weapons;
 	
-	Weapon** weapons = new Weapon*[num_weapons];
+	weapons = new Weapon*[num_weapons];
 	Weapon* newWeapon;
 	Damage* damage;
 
@@ -237,7 +238,7 @@ Weapon** ListReader::readWeapons(std::string &fileName)
 	file.close();
 	return weapons;	
 }
-Useable** ListReader::readUseables(std::string &fileName)
+Useable** ListReader::readUseables(std::string fileName)
 {
 	std::ifstream file;
 	file.open(fileName);
@@ -249,7 +250,7 @@ Useable** ListReader::readUseables(std::string &fileName)
 	//assumes the file size is on top of the data
 	file >> num_useables;
 	
-	Useable** useables = new Useable*[num_useables];
+	useables = new Useable*[num_useables];
 	Useable* newUseable;
 	Damage* damage;
 
@@ -299,21 +300,106 @@ Useable** ListReader::readUseables(std::string &fileName)
 	file.close();
 	return useables;	
 }
-/*Conversation** readConversation(std::string &fileName)
+Conversation** ListReader::readConversation(std::string fileName)
 {
-	std::ifstream file;
-	file.open(fileName);
-	if (!file.is_open())
-	{
-		std::cout << "No file\n";
-		return NULL;
-	}
-	int index = 0;
-	std::string line;
-	int intVal;
-	int intIndex;
+  std::ifstream file;
+  file.open(fileName);
+  if (!file.is_open())
+  {
+    std::cout << "No file\n";
+    return NULL;
+  }
+  int index = 0;
+  std::string line;
+  int intVal;
+  int intIndex;
+  int intChoices;
+  std::string name;
+  std::getline(file, name);
+  file >> num_convos;
+  conversations = new Conversation*[num_convos];
+  Conversation* newConversation;
+  std::regex integers("[[:digit:]]+");
+  //  MainCharacter* newCharacter = new MainCharacter;
+  std::getline(file, line);
+  while (index < num_convos)
+  {
+    newConversation = new Conversation;
+
+    newConversation->setUserID(name);
+    std::getline(file, line);
+    std::getline(file, line);
+    //if conversationID doesn't match any previous conversation ID
+    newConversation->setConvoID(line);
+    std::getline(file, line);
+    newConversation->setContent(line);
+    file >> intChoices;
+    newConversation->setNumChoices(intChoices);
+    std::getline(file, line);
+    for (int i = 0; i < intChoices; i++)
+    {
+      std::getline(file, line);
+      newConversation->setConvoNodesContent(line);
+      std::getline(file, line);
+      while (std::regex_search(line, integers))
+      {
+        intIndex = stoi(line);
+        std::getline(file, line);
+        intVal = stoi(line);
+        //MC->setValue(intIndex, intVal);
+        std::getline(file, line);
+      }
+      newConversation->setConvoNodes(line);
+    }
+
+    conversations[index] = newConversation;
+    index++;
+  }
+
+  file.close();
+
+  int menuChoice = 0;
+  int current = 0;
+  bool Out = true;
+  while (Out)
+  {
+    std::cout << "\nEnter 100 to Exit";
+    std::cout << "\nConversation with: " << conversations[current]->getUserID();
+    std::cout << "\nConversation Node ID: " << conversations[current]->getConvoID();
+    std::cout << "\nNumber of responses: " << conversations[current]->getNumChoices();
+    for (int k = 0; k < conversations[current]->getNumChoices(); k++)
+    {
+      std::cout << "\nChoice " << k << ": " << conversations[current]->getConvoNodes(k);
+      std::cout << "\n\t" << conversations[current]->getConvoNodesContent(k);
+    }
+    std::cout << "\nChoose a number: (start at 0): ";
+    std::cin >> menuChoice;
+    if (menuChoice == 100)
+    {
+      Out = false;
+      break;
+    }
+
+  //  std::cout << conversations[1]->getConvoID(); //sleepingReponse
+ //   std::cout << conversations[0]->getConvoNodes(0); //no, tell him i'm sleeping
+
+    for (int k = 0; k < num_convos; k++)
+    {
+      if (conversations[k]->getConvoID() == conversations[current]->getConvoNodes(menuChoice))
+      {
+        current = k;
+        std::cout << "\nYou chose: " << conversations[current]->getConvoID();
+        std::cout << "\n\t" << conversations[current]->getContent();
+        break;
+      }
+    }
+
+  } //end while
 }
-*/
+const int ListReader::getNumConversations()
+{
+  return num_convos;
+}
 const int ListReader::getNumMonsters()
 {
 	return num_monsters;
