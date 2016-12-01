@@ -127,6 +127,19 @@ namespace Engine
 
     ScriptEngine = new chaiscript::ChaiScript(chaiscript::Std_Lib::library());
 
+    //Add the engine class to the script engine
+    chaiscript::ModulePtr __mptr(new chaiscript::Module);
+    chaiscript::utility::add_class<Engine::SFEngine>(*__mptr, "Engine",
+    { chaiscript::constructor<Engine::SFEngine()>() },
+    { {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetAALevel)), "SetAALevel"},
+    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetBrightness)), "SetBrightness"},
+    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetContrast)), "SetContrast"},
+    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetFramerateLimit)), "SetFramerateLimit"},
+    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetGamma)), "SetGamma"},
+    {chaiscript::fun(static_cast<void(SFEngine::*)(std::string)> (&SFEngine::LoadLevel)), "LoadLevel"},
+    {chaiscript::fun(static_cast<void(SFEngine::*)(std::string)>(&SFEngine::SwitchToLevel)), "SwitchToLevel"} }
+    );
+
     //Bind the exposed engine apis to chaiscript
     EngineLoadingText.setString("Binding APIs to Chaiscript...");
     Window->draw(EngineLogoSprite);

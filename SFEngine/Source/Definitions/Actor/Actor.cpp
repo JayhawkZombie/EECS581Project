@@ -26,6 +26,12 @@ namespace Engine
 
   }
 
+  void GenericActor::AddAnimation(const std::string &ID, AnimationInfo info)
+  {
+    Animations[ID] = {};
+    
+  }
+
   void GenericActor::__HandleKeyPress(const sf::Keyboard::Key &key)
   {
     switch (key)

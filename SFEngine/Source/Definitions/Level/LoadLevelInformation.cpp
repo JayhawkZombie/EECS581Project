@@ -120,11 +120,13 @@ namespace Engine
   {
     std::size_t pos = 0;
     std::regex_iterator<std::string::iterator> regend;
+    //LoadingInformation.TileInfos.resize(NumTiles);
+
     for (auto & pair : LoadingInformation.LayoutIDToTileID) {
       std::string Tag = pair.second;
       std::string LayoutID = pair.first;
 
-      LoadingInformation.TileInfos.push_back({});
+      TileInfo info;
       
       std::string FilePath = Util::GetStringConfig(Tag, "FilePath", "", LevelFile, _IN);
       bool _trav = Util::GetBooleanConfig(Tag, "Traversable", false, LevelFile, _IN);
@@ -132,11 +134,13 @@ namespace Engine
       std::size_t _framecnt = Util::GetUnsignedIntConfig(Tag, "NumFrames", 1, LevelFile, _IN);
       std::string FrameList = Util::GetBracedConfig(Tag, "Frames", "{}", LevelFile, _IN);
 
-      LoadingInformation.TileInfos[pos].FilePath = FilePath;
-      LoadingInformation.TileInfos[pos].TileID = Tag;
-      LoadingInformation.TileInfos[pos].LayoutID = LayoutID;
-      LoadingInformation.TileInfos[pos].Traversible = _trav;
-      LoadingInformation.TileInfos[pos].Animated = _anim;
+      info.FilePath = FilePath;
+      info.TileID = Tag;
+      info.LayoutID = LayoutID;
+      info.Traversible = _trav;
+      info.Animated = _anim;
+
+      LoadingInformation.TileInfos.push_back(info);
 
       try
       {

@@ -13,4 +13,14 @@ namespace Engine
 
   }
 
+  void SFEngine::LoadLevel(std::string lvl)
+  {
+
+  }
+
+  void SFEngine::SwitchToLevel(std::string lvl)
+  {
+
+  }
+
 }

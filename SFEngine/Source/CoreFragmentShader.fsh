@@ -96,5 +96,8 @@ void main()
   else if (POST_PROCESS_EFFECT == 3)
     pixel = invert(pixel);
 
+  pixel = texture2D(SCENE, gl_TexCoord[0].st);
+  pixel *= gl_Color;
+
   gl_FragColor = pixel;
 }

@@ -1,5 +1,7 @@
 #include "../../Headers/Engine/Engine.h"
 
+#include "../../Headers/Level/LevelLoader.h"
+
 namespace Engine
 {
 
@@ -47,9 +49,6 @@ namespace Engine
     ResourcePoolSizes[2].setFont(txtFont);
     ResourcePoolSizes[3].setFont(txtFont);
 
-    std::shared_ptr<Level> lvl(new Level("./SFEngine/Samples/Maps/testforest.ini"));
-    Levels.push_back(lvl);
-
     auto Button = UI::ClickButton::Create();
     Button->SetPosition(sf::Vector2f(100, 100));
     Button->SetSize(sf::Vector2f(200, 75));
@@ -65,19 +64,22 @@ namespace Engine
     EngineUIController.SetBounds(sf::FloatRect(0, 0, 800, 300));
     EngineUIController.Show();
     //EngineUIController.ShowBoundsRect();
-    Levels[0]->LoadLevel();
-    Levels[0]->JoinLoaderThread();
-    
-    ResourceManager->LoadAudio("./SFEngine/Samples/Audio/X_Y.ogg", "X_Y", true);
-    ResourceManager->PlayAudio("X_Y", true);
 
-    
+    LoadingAnimation[0].Play();
+   // LoadingAnimation[0].TickUpdate(0.f);
+    LoadingAnimation[1].Play();
+   // LoadingAnimation[1].TickUpdate(0.f);
+
+    LevelLoader loader;
+    loader.Load("./SFEngine/Samples/Maps/MultiLayerForestSmall.ini");
+
     Window->clear();
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
-      
       try
       {
+        if (loader.DoneLoading())
+          loader.JoinThread();
 
         CurrentFrameStart = std::chrono::high_resolution_clock::now();
         TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
@@ -89,16 +91,16 @@ namespace Engine
           EngineUIController.TickUpdate(TickDelta);
         //Call "update" on items
 
-        if (Levels[0]->IsReady())
-          Levels[0]->TickUpdate(TickDelta);
+        LoadingAnimation[0].TickUpdate(TickDelta);
+
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
         currentRenderWindow->clear(sf::Color::Black);
         Render::ClearRender();
 
-        if (Levels[0]->IsReady())
-          Levels[0]->Render();
+        LoadingAnimation[0].Render();
+        loader.TestRender();
 
         if (EngineUIController.IsShown())
           EngineUIController.Render();

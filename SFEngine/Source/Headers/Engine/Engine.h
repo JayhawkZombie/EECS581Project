@@ -10,7 +10,7 @@
 #include "EngineConfiguration.h"
 #include "ReturnValues.h"
 #include "../Events/EventHandler.h"
-
+#include "../Animation/Animation.h"
 #include "../UI/UIController.h"
 #include "../UI/ClickButton.h"
 #include "../Level/Level.h"
@@ -33,6 +33,8 @@ namespace Engine
     UINT32 Shutdown();
     UINT32 GameLoop();
 
+    Animation LoadingAnimation[6];
+
     chaiscript::ChaiScript *ScriptEngine;
     chaiscript::ModulePtr EngineModule;
     chaiscript::ModulePtr LevelModule;
@@ -43,6 +45,9 @@ namespace Engine
     void SetGamma(unsigned int level);
     void SetTimeScale(float amount);
     void SetContrast(unsigned int level);
+
+    void LoadLevel(std::string lvl);
+    void SwitchToLevel(std::string lvl);
 
     sf::Sprite EngineLogoSprite;
     sf::Texture EngineLogoTexture;

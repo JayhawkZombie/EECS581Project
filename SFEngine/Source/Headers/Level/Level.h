@@ -26,6 +26,12 @@ namespace Engine
   };
 
   struct TileInfo {
+    TileInfo() = default;
+    TileInfo(const TileInfo &info)
+      : TileID(info.TileID), LayoutID(info.LayoutID), FilePath(info.FilePath),
+      Animated(info.Animated), Traversible(info.Traversible), TextureRect(info.TextureRect),
+      AnimationFrames(info.AnimationFrames), Texture(info.Texture), AnimationDuration(info.AnimationDuration) {}
+    
     std::string TileID;
     std::string LayoutID;
     std::string FilePath;
@@ -33,6 +39,7 @@ namespace Engine
     sf::IntRect TextureRect;
     std::vector<sf::IntRect> AnimationFrames;
     std::shared_ptr<sf::Texture> Texture;
+    double AnimationDuration;
   };
 
   struct LevelLoadInformation {

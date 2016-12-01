@@ -3,9 +3,20 @@
 
 #include "../Engine/BaseEngineInterface.h"
 #include "../Level/LevelObject.h"
+#include "../Physics/PhysicsState.h"
+#include "../Animation/Animation.h"
 
 namespace Engine
 {
+
+  struct ActorInfo
+  {
+    std::map<std::string, std::string> Scripts;
+    PhysicsState ActorState;
+    std::string ID;
+    std::string TextureID, TexturePath;
+    AnimationInfo AnimInfo;
+  };
 
   class GenericActor : public LevelObject
   {
@@ -36,6 +47,7 @@ namespace Engine
     virtual const sf::Vector2f& GetActorAcceleration() const;
 
     virtual void SetTexture(const std::string &texfile, const std::string &texID);
+    virtual void AddAnimation(const std::string &ID, AnimationInfo info);
     
   protected:
     void __HandleKeyPress(const sf::Keyboard::Key &key);
@@ -51,6 +63,8 @@ namespace Engine
     std::shared_ptr<sf::Texture> SpriteTexture;
     CollisionBox ActorBox;
     void ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex);
+
+    std::map<std::string, Animation> Animations;
   };
 
 }
