@@ -15,30 +15,31 @@
 #include <memory>
 
 class ListReader{
-	public:
-		ListReader();
-		~ListReader();
-		//reads in the file and fills in an array
-		//returns the array
-//		shared_ptr<MonsterType> readMonsters(std::string &fileName);
-		MonsterType** readMonsters(std::string fileName);
-		Armor** readArmor(std::string fileName);
-		Weapon** readWeapons(std::string fileName);		
-		Useable** readUseables(std::string fileName);
-		Conversation** readConversation(std::string fileName);
+  public:
+    ListReader();
+    ~ListReader();
+    //reads in the file and fills in an array
+    //returns the array
+//    shared_ptr<MonsterType> readMonsters(std::string &fileName);
+    MonsterType** readMonsters(std::string fileName);
+    Armor** readArmor(std::string fileName);
+    Weapon** readWeapons(std::string fileName);    
+    Useable** readUseables(std::string fileName);
+    Conversation** readConversation(std::string fileName);
+    void menu();
   
-		//returns the number on top of the file
-		const int getNumMonsters();
-		const int getNumArmor();
-		const int getNumWeapons();
-		const int getNumUseables();
+    //returns the number on top of the file
+    const int getNumMonsters();
+    const int getNumArmor();
+    const int getNumWeapons();
+    const int getNumUseables();
     const int getNumConversations();
 
-	private:
-		int num_monsters;
-		int num_armor;
-		int num_weapons;
-		int num_useables;
+  private:
+    int num_monsters;
+    int num_armor;
+    int num_weapons;
+    int num_useables;
     int num_convos;
     MonsterType** monsters;
     Armor** armor;

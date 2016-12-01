@@ -20,51 +20,51 @@ Conversation::~Conversation()
 //getters
 const std::string Conversation::getUserID()
 {
-	return m_userID;
+  return m_userID;
 }
 const std::string Conversation::getConvoID()
 {
-	return m_convoID;
+  return m_convoID;
 }
 const std::string Conversation::getConvoNodes(int choice)
 {
-	return m_convoNodes[choice];
+  return m_convoNodes[choice];
 }
 const std::string Conversation::getConvoNodesContent(int choice)
 {
-	return m_convoNodesContent[choice];
+  return m_convoNodesContent[choice];
 }
 const int Conversation::getNumChoices()
 {
-	return m_numChoices;
+  return m_numChoices;
 }
 const std::string Conversation::getContent()
 {
-	return m_content;
+  return m_content;
 }
 //const int Conversation::getAffinity()
 //int?
 const std::string Conversation::getChoiceID()
 {
-	return m_choiceID;
+  return m_choiceID;
 }
 
 //setters
 void Conversation::setUserID(std::string &userID)
 {
-	m_userID = userID;
+  m_userID = userID;
 }
 void Conversation::setConvoID(std::string &convoID)
 {
-	m_convoID = convoID;
+  m_convoID = convoID;
 } //ID of main conversation node
 void Conversation::setContent(std::string &content)
 {
-	m_content = content;
+  m_content = content;
 }
 void Conversation::setChoiceID(std::string &choiceID)
 {
-	m_choiceID = choiceID;
+  m_choiceID = choiceID;
 } //ID of choices in conversation
 void Conversation::setConvoNodes(std::string &convoNode)
 {
@@ -78,6 +78,6 @@ void Conversation::setConvoNodesContent(std::string &convoNode)
 }
 void Conversation::setNumChoices (int &numChoices)
 {
-	m_numChoices = numChoices;
+  m_numChoices = numChoices;
 }
 //void Conversation::setAffinity(int &affinity, int &increment)
