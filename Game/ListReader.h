@@ -25,7 +25,7 @@ class ListReader{
     Armor** readArmor(std::string fileName);
     Weapon** readWeapons(std::string fileName);    
     Useable** readUseables(std::string fileName);
-    Conversation** readConversation(std::string fileName);
+    //Conversation** readConversation(std::string fileName);
     void menu();
   
     //returns the number on top of the file
@@ -33,7 +33,7 @@ class ListReader{
     const int getNumArmor();
     const int getNumWeapons();
     const int getNumUseables();
-    const int getNumConversations();
+    //const int getNumConversations();
 
   private:
     int num_monsters;
@@ -45,6 +45,6 @@ class ListReader{
     Armor** armor;
     Weapon** weapons;
     Useable** useables;
-    Conversation** conversations;
+    //Conversation** conversations;
 };
 #endif

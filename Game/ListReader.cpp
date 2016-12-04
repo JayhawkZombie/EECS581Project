@@ -1,6 +1,6 @@
 #include "ListReader.h"
 ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0), num_convos(0),
-monsters(NULL), armor(NULL), weapons(NULL), useables(NULL), conversations(NULL)
+monsters(NULL), armor(NULL), weapons(NULL), useables(NULL)/*, conversations(NULL)*/
 {}
 ListReader::~ListReader()
 {
@@ -300,6 +300,7 @@ Useable** ListReader::readUseables(std::string fileName)
   file.close();
   return useables;  
 }
+/*
 Conversation** ListReader::readConversation(std::string fileName)
 {
   std::ifstream file;
@@ -403,6 +404,7 @@ const int ListReader::getNumConversations()
 {
   return num_convos;
 }
+*/
 const int ListReader::getNumMonsters()
 {
   return num_monsters;

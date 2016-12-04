@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 Conversation::Conversation() :
   int[255] m_convoNodes,
   m_userID(""), m_convoID(""), m_content(""), m_choiceID(""),
@@ -150,3 +150,4 @@ void Conversation::setNumChoices (int &numChoices)
 }
 //void Conversation::setAffinity(int &affinity, int &increment)
 >>>>>>> 8a177ff422a139281db20e70d60a6288cee9d93b
+*/

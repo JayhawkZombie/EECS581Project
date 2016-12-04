@@ -1,3 +1,4 @@
+/*
 #ifndef CONVERSATION_H
 #define CONVERSATION_H
 #include <string>
@@ -37,3 +38,5 @@ private:
 };
 
 #endif
+
+*/
