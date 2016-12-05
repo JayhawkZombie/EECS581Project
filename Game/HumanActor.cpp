@@ -23,6 +23,7 @@ HumanActor::~HumanActor()
 
 
 //virtual methods
+/*
 bool HumanActor::takeDamage(const Damage recieved)
 {
 	Damage* incurred = new Damage(recieved, m_defense);
@@ -64,8 +65,8 @@ bool HumanActor::takeDamage(const Damage recieved)
 	}
 	delete incurred;
 	return(isAlive());
-}
-
+}*/
+/*
 Damage HumanActor::baseDamage()
 {
 	Damage* base= new Damage();
@@ -185,8 +186,8 @@ Damage HumanActor::baseDamage()
 		base->content[7] = (int)(getLevel() + 50) * 4 * magMultiplier;
 	}
 	return *(base);
-}
-
+}*/
+/*
 void HumanActor::LevelUp()
 {
 	double balance;
@@ -356,6 +357,7 @@ void HumanActor::gainExp(int gain)
 	}
 
 }
+*/
 //getters
 
 Damage HumanActor::getDefense()

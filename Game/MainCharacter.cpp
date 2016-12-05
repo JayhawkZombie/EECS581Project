@@ -42,7 +42,7 @@ int MainCharacter::getAffinity(int index)
 	{
 		return m_affinity[index];
 	}
-}
+}/*
 void HumanActor::LevelUp()
 {
 	double balance;
@@ -189,9 +189,14 @@ void HumanActor::LevelUp()
 		setMpCur(getMpCur() + 4 * mpMultiplier);
 		setMpCur(getMpMax() + 4 * mpMultiplier);
 	}
-}
+}*/
 
-void MainCharacter::Levelup()//fix this later
+/*void MainCharacter::Levelup()//fix this later
 {
 	//TODO Fix this later
 }
+void MainCharacter::gainExp(int gain)
+{
+	return;
+}
+*/
