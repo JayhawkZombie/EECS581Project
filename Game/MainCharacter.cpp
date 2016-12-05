@@ -42,7 +42,19 @@ int MainCharacter::getAffinity(int index)
 	{
 		return m_affinity[index];
 	}
-}/*
+}
+void MainCharacter::printAffinities()
+{
+	std::cout << "fire:    " << m_affinity[0] << "\n";
+	std::cout << "water:   " << m_affinity[1] << "\n"; 
+	std::cout << "earth:   " << m_affinity[2] << "\n";
+	std::cout << "air:     " << m_affinity[3] << "\n";
+	std::cout << "light:   " << m_affinity[4] << "\n";
+	std::cout << "dark:    " << m_affinity[5] << "\n";
+}
+
+
+/*
 void HumanActor::LevelUp()
 {
 	double balance;
