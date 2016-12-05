@@ -1,13 +1,14 @@
 #include "Conversation.h"
 Conversation::Conversation()
 {
+  m_character = NULL;
 	m_currentConvoNodes = 0;
 	for (int i = 0; i < 255; i++)
 	{
 		m_convoNodes[i] = "";
 		m_convoNodesContent[i] = "";
 	}
-	//  std::shared_ptr<int> m_convoNodes;
+	//std::shared_ptr<int> m_convoNodes;
 	m_userID = "";
 	m_convoID = "";
 	m_content = "";
@@ -43,7 +44,7 @@ const std::string Conversation::getContent()
 	return m_content;
 }
 //const int Conversation::getAffinity()
-//int?
+
 const std::string Conversation::getChoiceID()
 {
 	return m_choiceID;
@@ -70,7 +71,6 @@ void Conversation::setConvoNodes(std::string &convoNode)
 {
 	m_convoNodes[m_currentConvoNodes] = convoNode;
 	m_currentConvoNodes++;
-
 }
 void Conversation::setConvoNodesContent(std::string &convoNode)
 {
@@ -80,4 +80,10 @@ void Conversation::setNumChoices(int &numChoices)
 {
 	m_numChoices = numChoices;
 }
-//void Conversation::setAffinity(int &affinity, int &increment)
+void Conversation::setCharacter(MainCharacter* character)
+{
+  m_character = character;
+}
+void Conversation::setAffinity(int &affinity, int &increment)
+{
+}
