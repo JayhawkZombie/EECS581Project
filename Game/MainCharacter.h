@@ -11,6 +11,9 @@ public:
 
 private:
 	int m_affinity[6];
+	virtual bool TakeDamage(const Damage recieved);
+	virtual void Levelup();
+	virtual bool gainExp();
 };
 
 #endif

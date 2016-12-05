@@ -300,8 +300,7 @@ Useable** ListReader::readUseables(std::string fileName)
   file.close();
   return useables;  
 }
-/*
-Conversation** ListReader::readConversation(std::string fileName)
+Conversation** ListReader::readConversation(std::string fileName, MainCharacter mchar)
 {
   std::ifstream file;
   file.open(fileName);
@@ -404,7 +403,7 @@ const int ListReader::getNumConversations()
 {
   return num_convos;
 }
-*/
+
 const int ListReader::getNumMonsters()
 {
   return num_monsters;
