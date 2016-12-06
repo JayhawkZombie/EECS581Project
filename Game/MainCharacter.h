@@ -8,6 +8,7 @@ public:
 	~MainCharacter();
 	void IncrementAffinity(int index, int value);
 	int getAffinity(int index);
+	void printAffinities();
 
 private:
 	int m_affinity[6];
