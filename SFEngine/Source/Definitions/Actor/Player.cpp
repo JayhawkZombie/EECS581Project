@@ -7,14 +7,14 @@ namespace Engine
     : GenericActor(texfile, texID)
   {
 
-    TestShape.setFillColor(sf::Color::Black);
+    TestShape.setFillColor(sf::Color::White);
 
     Position = sf::Vector2f(250, 250);
     ActorBox.Position = Position;
     ActorBox.Size = sf::Vector2f(50, 75);
 
-    //TestShape.setPosition(Position);
-    //TestShape.setSize(sf::Vector2f(50, 75));
+    TestShape.setPosition(Position);
+    TestShape.setSize(sf::Vector2f(50, 75));
     Velocity = sf::Vector2f(0, 0);
     Handler.BindCallback(Events::KeyPressed,
                          [this](const sf::Keyboard::Key &key)
@@ -30,8 +30,8 @@ namespace Engine
 
   Player::Player()
   {
-    TestShape.setFillColor(sf::Color::Black);
-
+    TestShape.setFillColor(sf::Color::White);
+    
     Position = sf::Vector2f(250.f, 250.f);
     ActorBox.Position = Position;
     ActorBox.Size = sf::Vector2f(50.f, 75.f);
@@ -51,6 +51,33 @@ namespace Engine
 
   }
 
+  void Player::KeyRightPressed()
+  {
+
+  }
+
+  void Player::KeyUpPressed()
+  {
+
+  }
+
+  void Player::KeyDownPressed()
+  {
+
+  }
+
+  void Player::KeyLeftPressed()
+  {
+
+  }
+
+  void Player::ForcePosition(float x, float y)
+  {
+    Sprite.setPosition({ x, y });
+    TestShape.setPosition({ x,y });
+    std::cerr << "Position forced to: " << x << ", " << y << std::endl;
+  }
+
   void Player::SerializeOut(std::ostream &out)
   {
 
@@ -65,7 +92,7 @@ namespace Engine
 
   void Player::Render()
   {
-    /*
+    
     if (RenderOutlined) {
       TestShape.setOutlineThickness(2);
       TestShape.setOutlineColor(sf::Color::Red);
@@ -74,7 +101,10 @@ namespace Engine
       Render::RenderShape(&TestShape);
       TestShape.setOutlineThickness(0);
       TestShape.setOutlineColor(sf::Color::Transparent);
-    } */
+    }
+    else {
+      Render::RenderShape(&TestShape);
+    }
   }
 
   void Player::OnShutDown()

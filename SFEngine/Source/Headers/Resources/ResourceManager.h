@@ -35,6 +35,8 @@ namespace Engine
       void RequestFragmentShaderChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Shader>, const std::string &ID)> callback);
       void RequestFontChunk(std::vector<DoubleStringPair> Info, std::function<void(std::shared_ptr<sf::Font>, const std::string &ID)> callback);
 
+      void GiveTexture(const std::string &ID, std::shared_ptr<sf::Texture> tex);
+
       void LoadAudio(const std::string &FilePath, const std::string &ID, bool playAfterLoading);
       void PlayAudio(const std::string &ID, bool loop);
       void PauseAudio(const std::string &ID);

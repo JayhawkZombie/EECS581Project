@@ -6,14 +6,29 @@ namespace Engine
   namespace Factory
   {
 
-    std::shared_ptr<GenericActor> CreateGenericActor(ActorInfo *info, std::ifstream &infile, chaiscript::ChaiScript *engine)
+    std::shared_ptr<Engine::GenericActor> GenericActor(ActorInfo *info, std::ifstream &infile, chaiscript::ChaiScript *engine)
     {
-      std::shared_ptr<GenericActor> Actor(new GenericActor(info->TexturePath, info->TextureID));
+      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor);
+
+      
+      return Actor;
+    }
+
+    std::shared_ptr<Engine::GenericActor> GenericActor(const Engine::GenericActor &actor)
+    {
+      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor);
+
+      return Actor;
+    }
+
+    std::shared_ptr<Engine::GenericActor> Actor(ActorInfo *info, std::ifstream &infile, chaiscript::ChaiScript *engine)
+    {
+      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor(info->TexturePath, info->TextureID));
       Actor->CurrentPhysicsState = info->ActorState;
 
       chaiscript::ModulePtr mptr(new chaiscript::Module);
-      chaiscript::utility::add_class<GenericActor>(*mptr, info->ID,
-      { chaiscript::constructor<GenericActor()>() },
+      chaiscript::utility::add_class<Engine::GenericActor>(*mptr, info->ID,
+      { chaiscript::constructor<Engine::GenericActor()>() },
       { {chaiscript::fun(&GenericActor::GetActorPosition), "GetPosition"},
       {chaiscript::fun(&GenericActor::GetID), "GetID"},
       {chaiscript::fun(&GenericActor::SetID), "SetID"}
@@ -24,36 +39,45 @@ namespace Engine
       return Actor;
     }
 
-    std::shared_ptr<GenericActor> CreateActor(std::string ID)
+    std::shared_ptr<Engine::GenericActor> Actor(std::string ID)
     {
-      std::shared_ptr<GenericActor> Actor(new GenericActor);
+      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor);
       Actor->SetID(ID);
       return Actor;
     }
 
-    std::shared_ptr<Animation> CreateAnimation(AnimationInfo *info, chaiscript::ChaiScript *engine)
+    std::shared_ptr<Engine::Animation> Animation(AnimationInfo *info, chaiscript::ChaiScript *engine)
     {
-      std::shared_ptr<Animation> Ani(new Animation);
-      
-      for (std::size_t i = 0; i < info->NumberFrames; ++i) {
-        Ani->AddFrame(info->Frames[i]);
-      }
-      Ani->SetFrameTime(info->Duration / info->NumberFrames);
-      ResourceManager->RequestTexture(info->TexturePath, info->TextureID,
-                                      [Ani](std::shared_ptr<sf::Texture> t, const std::string &s)
-                                      {
-                                        Ani->SetSpriteSheet(t, s);
-                                      }
-      );
+      std::shared_ptr<Engine::Animation> Anim(new Engine::Animation);
 
-      return Ani;
+      return Anim;
     }
 
-    std::shared_ptr<Animation> CreateAnimation(std::string ID)
+    std::shared_ptr<Engine::Animation> Animation(std::string ID)
     {
-      std::shared_ptr<Animation> Ani(new Animation);
-      Ani->SetID(ID);
-      return Ani;
+      std::shared_ptr<Engine::Animation> Anim(new Engine::Animation);
+
+      return Anim;
+    }
+
+    std::shared_ptr<Engine::LevelTile> Tile(const Engine::LevelTile &tile)
+    {
+      std::shared_ptr<Engine::LevelTile> Tile(new Engine::LevelTile);
+
+      Tile->SetID(tile.GetID());
+      Tile->SetISAnimated(tile.GetIsAnimated());
+      Tile->SetIsTraversible(tile.GetIsTraversible());
+      Tile->SetTextureFrameIndices(tile.GetFrameIndices());
+      Tile->SetTileSheet(tile.GetTileSheet());
+
+      return Tile;
+    }
+
+    std::shared_ptr<Engine::LevelTile> Tile(std::string ID)
+    {
+      std::shared_ptr<Engine::LevelTile> Tile(new Engine::LevelTile);
+      Tile->SetID(ID);
+      return Tile;
     }
   }
 }

@@ -6,46 +6,47 @@
 #include "../Actor/Player.h"
 #include "../Lights/GenericLightSource.h"
 #include "../Lights/GlobalLightSource.h"
+#include "../Utils/SpriteSheet.h"
+
 
 namespace Engine
 {
 
-  class LevelTile
+  class LevelTile : public LevelObject
   {
   public:
-    LevelTile(const std::string &ID, std::shared_ptr<sf::Texture> texture, bool animated, std::vector<sf::IntRect> Frames, sf::Vector2f size, sf::Vector2f pos, double duation = 0);
+    LevelTile();
     ~LevelTile();
 
+    void Render();
+    void TickUpdate(const double &delta);
+    void OnShutDown();
+    void SerializeOut(std::ostream &out);
 
-    virtual void TickUpdate(const double &delta);
-    virtual void Render(sf::RenderTexture *texture);
+    void SetISAnimated(bool anim);
+    void SetIsTraversible(bool trav);
+    void SetTextureFrameIndices(std::vector<std::size_t> frames);
+    std::vector<std::size_t> GetFrameIndices() const;
 
-    void CreateSprite();
-    void SetPosition(const sf::Vector2f &pos);
-    void SetSize(const sf::Vector2f &size);
-    void Scale(const sf::Vector2f &scale);
-    void SetAnimationDuration(const double &dur);
-    void SetTextureFrames(const std::vector<sf::IntRect> &rect);
-    void SetTexture(std::shared_ptr<sf::Texture> tex);
-    void SetID(const std::string &ID);
-    sf::Sprite* GetSpritePtr();
+    void SetTileSheet(std::shared_ptr<SpriteSheet> sheet);
+    std::shared_ptr<SpriteSheet> GetTileSheet() const;
+
+    bool GetIsAnimated() const;
+    bool GetIsTraversible() const;
 
   private:
-    std::shared_ptr<sf::Texture> Texture;
-    double AnimationDuration;
-    std::vector<sf::IntRect> TextureFrames;
-    std::string ID;
-    sf::Sprite TilesSprite;
-    
-    sf::Vector2f Position;
-    sf::Vector2f Size;
+    std::shared_ptr<SpriteSheet> TileSheet;
+    std::vector<std::size_t> FrameIndices;
 
     bool IsAnimated;
-    double CurrentFrameDuration;
-    double AnimationFrameDelta;
+    bool IsTraversible;
+    double AnimationDuration;
+    double FrameTime;
+    double CurrentAnimationDuration;
     std::size_t CurrentFrame;
+    std::string LayoutID;
   };
-
+  
 }
 
 

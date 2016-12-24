@@ -6,9 +6,9 @@ namespace Engine
 
   LevelLoader::LevelLoader()
   {
-    LayoutIDToTileID = new std::map<std::string, std::string>;
-    TileIDs = new std::vector<std::string>;
-    TileIDToTexture = new std::map<std::string, std::shared_ptr<sf::Texture>>;
+    //LayoutIDToTileID = new std::map<std::string, std::string>;
+    //TileIDs = new std::vector<std::string>;
+    //TileIDToTexture = new std::map<std::string, std::shared_ptr<sf::Texture>>;
     Lock = new std::mutex;
     FailedToLoad = false;
   }
@@ -17,16 +17,14 @@ namespace Engine
   {
     JoinThread();
 
-    delete LayoutIDToTileID;
-    delete TileIDs;
-    delete TileIDToTexture;
+    //delete LayoutIDToTileID;
+    //delete TileIDs;
+    //delete TileIDToTexture;
     delete Lock;
   }
 
   void LevelLoader::Load(const std::string &lvlfile)
   {
-    LevelFile = lvlfile;
-
     LoadLevelInformation(lvlfile);
   }
 
@@ -58,13 +56,16 @@ namespace Engine
     std::cerr << "Failure loading level. Able to read up to: " << infile.tellg() << std::endl;
 
     Lock->lock();
-    TileIDs->clear();
-    LayoutIDToTileID->clear();
+    //TileIDs->clear();
+    //LayoutIDToTileID->clear();
 
-    for (auto & tex : *TileIDToTexture)
-      tex.second.reset();
+    //for (auto & tex : *TileIDToTexture)
+    //  tex.second.reset();
 
-    TileIDToTexture->clear();
+    //TileIDToTexture->clear();
+    delete[] Tiles;
+    TilePairs.clear();
+    PairTexts.clear();
     Lock->unlock();
 
     infile.clear();
@@ -78,18 +79,34 @@ namespace Engine
       return;
     }
 
-    //Get the config info for the entire level
-    ShadersEnabled = Util::GetBooleanConfig("Config", "ShadersEnabled", true, LevelFile, infile);
-    NumLayers = Util::GetUnsignedIntConfig("Config", "NumLayers", 1, LevelFile, infile);
-    LevelSizeX = Util::GetUnsignedIntConfig("Config", "LevelSizeX", 1, LevelFile, infile);
-    LevelSizeY = Util::GetUnsignedIntConfig("Config", "LevelSizeY", 1, LevelFile, infile);
-    TileSize = Util::GetUnsignedIntConfig("Config", "TileSize", 1, LevelFile, infile);
-    TilesAcross = Util::GetUnsignedIntConfig("Config", "TilesAcross", 1, LevelFile, infile);
-    StartingView = Util::GetFloatRectConfig("Config", "StartingView", sf::FloatRect(), LevelFile, infile);
+    //Get the width and height of the level
+    LevelWidth = Util::GetUnsignedIntConfig("Config", "LevelWidth", 0, LevelFile, infile);
+    LevelHeight = Util::GetUnsignedIntConfig("Config", "LevelHeight", 0, LevelFile, infile);
 
-    Scale.x = WindowSize.x / (TileSize * TilesAcross);
-    Scale.y = WindowSize.y / (TileSize * TilesAcross);
+    //Get the height and width of the tiles
+    TileWidth = Util::GetUnsignedIntConfig("Config", "TileWidth", 0, LevelFile, infile);
+    TileHeight = Util::GetUnsignedIntConfig("Config", "TileHeight", 0, LevelFile, infile);
 
+    //Divide the level into tiles
+    NumTilesWide = LevelWidth;
+    NumTilesHigh = LevelHeight;
+
+    //Create a temporary storage for the tiles
+    //Allocate in 1D array for speed
+    Tiles = new std::shared_ptr<Engine::LevelTile>[NumTilesWide * NumTilesHigh];
+
+    //Create the blank tiles
+    for (std::size_t y = 0; y < NumTilesHigh; ++y) {
+
+      for (std::size_t x = 0; x < NumTilesWide; ++x) {
+
+        Tiles[y * NumTilesWide + x] = Factory::Tile();
+
+      }
+
+    }
+    
+    //Load the rest of the information
     LoadTileInfo(infile);
     LoadLayerInfo(infile);
     LoadLayoutInfo(infile);
@@ -106,196 +123,117 @@ namespace Engine
 
   void LevelLoader::LoadTileInfo(std::ifstream &infile)
   {
-    //Regexs to use for parsing
-    static std::regex_iterator<std::string::iterator> reg_end;
-    static std::string Pair("(<[^>]*>)");
-    static std::string PairPieces("(([^\\W,]+)(?=,)[\\W])*([\\w]+)");
-
-    NumTiles = Util::GetUnsignedIntConfig("Tiles", "NumTiles", 1, LevelFile, infile);
-    std::string braced = Util::GetBracedConfig("Tiles", "Tiles", "{}", LevelFile, infile);
-
     try
     {
-      static std::regex PairsText(Pair);
-      static std::regex PairsPiecesMatch(PairPieces);
+    //Regexs to use for parsing
+      static std::regex_iterator<std::string::iterator> reg_end;
+      static std::string Pair("(<[^>]*>)");
+      static std::regex PairRegex(Pair);
+      static std::string PairPieces("<(\\w*),( ?\\w*)>");
+      static std::regex PairPiecesRegex(PairPieces);
 
-      std::regex_iterator<std::string::iterator> reg_iter(braced.begin(), braced.end(), PairsText);
-      std::regex_iterator<std::string::iterator> RegEnd;
+      //Need to get the information about each of the tiles
+      std::string TilesPairList = Util::GetBracedConfig("Config", "Tiles", "{}", LevelFile, infile);
+      TilesPairList.erase(TilesPairList.begin() + 0);
+      TilesPairList.erase(TilesPairList.end() - 1);
 
-      while (reg_iter != RegEnd) {
-        std::string str(reg_iter->str());
+      //So first push each of the pairs back as strings "<..., ...>"
+      std::regex_iterator<std::string::iterator> reg_iter(TilesPairList.begin(), TilesPairList.end(), PairRegex);
+      while (reg_iter != reg_end) {
+        PairTexts.push_back(reg_iter->str());
+        ++reg_iter;
+      }
 
-        std::regex_iterator<std::string::iterator> pieces(str.begin(), str.end(), PairsPiecesMatch);
+      //Then parse each string and create a pair for it
+      TilePairs.resize(PairTexts.size());
 
-        //There should always be an even number of these
-        //They look like <LayoutID, TileID>
-        if (pieces->size() % 2 != 0) {
-          std::cerr << "Error: Invalid number of items found when parsing string tile info" << std::endl;
-          return;
+      //Each of those pairs should be unique, so there should be exactly that many tiles
+      NumTiles = TilePairs.size();
+
+      std::smatch match;
+
+      for (auto & pair : PairTexts) {
+
+        if (!std::regex_search(pair, match, PairPiecesRegex)) {
+          std::string message = "Error parsing tile information. Unable to parse pair <*,*>. Problematic Text: \"" + pair + "\"\n";
+          throw std::runtime_error(message);
         }
 
-        while (pieces != RegEnd) {
-          //First (layout ID)
-          std::string p1 = pieces->str();
-          ++pieces;
-          //Second(tile ID)
-          std::string p2 = pieces->str();
-          ++pieces;
-
-          (*LayoutIDToTileID)[p1] = p2;
+        /**
+         * 3 because match 0 will be the entire string
+         * match 1 will be the first item
+         * match 2 will be the second item
+         *   if there are more than 3 matches, something went wrong
+         */
+        if (!(match.size() == 3)) {
+          std::string message = "Error parsing tile information. Did not find 3 elements in match. Found " + std::to_string(match.size()) + ". Problematic text: \"" + pair + "\"\n";
+          throw std::runtime_error(message);
         }
 
-        reg_iter++;
-      } //end while
-      
+        std::string pair_first = match[1].str();
+        std::string pair_second = match[2].str();
+
+        TilePairs.push_back({ pair_first, pair_second });
+      }
     }
-    catch (std::exception &e)
+    catch (std::runtime_error &e)
     {
-      std::cerr << "Error: " << e.what() << std::endl;
+      std::cerr << "Level loading failure. Message: " << e.what() << std::endl;
       LoadFailure(infile);
-      return;
     }
-    LoadTilesData(infile);
+
   }
 
   void LevelLoader::LoadTilesData(std::ifstream &infile)
   {
-    std::size_t pos = 0;
-    std::regex_iterator<std::string::iterator> regend;
-    for (auto & pair : *LayoutIDToTileID) {
-      std::string Tag = pair.second;
-      std::string LayoutID = pair.first;
 
-      std::string FilePath = Util::GetStringConfig(Tag, "FilePath", "", LevelFile, infile);
-      bool _trav = Util::GetBooleanConfig(Tag, "Traversable", false, LevelFile, infile);
-      bool _anim = Util::GetBooleanConfig(Tag, "Animated", false, LevelFile, infile);
-      std::size_t _framecnt = Util::GetUnsignedIntConfig(Tag, "NumFrames", 1, LevelFile, infile);
-      std::string FrameList = Util::GetBracedConfig(Tag, "Frames", "{}", LevelFile, infile);
+    std::regex vecreg("([0-9]+)");
+    std::regex_iterator<std::string::iterator> RegEnd;
 
-      TileInfos.push_back({});
+    std::string category{ "" };
+    bool trav{ false }, anim{ false };
+    std::vector<std::size_t> frames;
 
-      TileInfos[pos].FilePath = FilePath;
-      TileInfos[pos].TileID = Tag;
-      TileInfos[pos].LayoutID = LayoutID;
-      TileInfos[pos].Tranversible = _trav;
-      TileInfos[pos].IsAnimated = _anim;
+    //For each of the tiles that we have, we need to load the data for it
+    for (std::size_t i = 0; i < NumTiles; ++i) {
+      category = TilePairs[i].second;
 
-      TileInformation.emplace(
-        std::piecewise_construct,
-        std::make_tuple(Tag),
-        std::make_tuple(TileInfos[pos])
-      );
+      //First get whether it is traversible/animated
+      trav = Util::GetBooleanConfig(category, "IsTraversible", trav, LevelFile, infile);
+      anim = Util::GetBooleanConfig(category, "IsAnimated", anim, LevelFile, infile);
 
-      try
-      {
-        std::string vecstr("([0-9]+)");
-        std::regex vecreg(vecstr);
+      //Now get the frames out of the tile sheet that will be used for the tile
+      std::string framestring = Util::GetStringConfig(category, "Frames", "", LevelFile, infile);
+      
+      //Get the mathces out of the string #,#,#,...
+      std::regex_iterator<std::string::iterator> reg_iter(framestring.begin(), framestring.end(), vecreg);
+      std::stringstream SS;
+      while (reg_iter != RegEnd) {
+        SS.clear();
+        SS << reg_iter->str();
+        std::size_t frame;
+        SS >> frame;
 
-        if (!_anim) {
-          //only one item should be in that list
-          std::regex_iterator<std::string::iterator> iter(FrameList.begin(), FrameList.end(), vecreg);
-          sf::IntRect rect;
-
-          while (iter != regend) {
-            rect.left = std::stoul(iter->str());
-            rect.top = std::stoul(iter->str());
-            rect.width = std::stoul(iter->str());
-            rect.height = std::stoul(iter->str());
-            ++iter;
-          }
-
-          TileInfos[pos].TextureRect = rect;
-        } //if animated
-        else {
-          std::regex_iterator<std::string::iterator> iter(FrameList.begin(), FrameList.end(), vecreg);
-          sf::IntRect rect;
-
-          //Every 4 of these should equate to a vector
-          while (iter != regend) {
-            rect.left = std::stoul(iter->str()); ++iter;
-            rect.top = std::stoul(iter->str()); ++iter;
-            rect.width = std::stoul(iter->str()); ++iter;
-            rect.height = std::stoul(iter->str()); ++iter;
-
-            TileInfos[pos].Frames.push_back(rect);
-          }
-        } //else (from if animated)
-        ++pos;
+        frames.push_back(frame);
       }
-      catch (std::exception &e)
-      {
-        std::cerr << "Error parsing tile data: " << e.what() << std::endl;
-        LoadFailure(infile);
-        return;
-      }
+
+
     }
+    
   }
 
   void LevelLoader::LoadLayoutInfo(std::ifstream &infile)
   {
-    std::string LayerTag{ "" };
 
-    for (std::size_t layer = 0; layer < NumLayers; ++layer) {
-      std::cerr << "Loading level layer: " << layer << std::endl;
-      LayerTag = "Layer" + std::to_string(layer);
-
-      LayersInfo.push_back({});
-      LayersInfo[layer].Height = Util::GetUnsignedIntConfig(LayerTag, "Height", 1, LevelFile, infile);
-      LayersInfo[layer].Width = Util::GetUnsignedIntConfig(LayerTag, "Width", 1, LevelFile, infile);
-      LayersInfo[layer].RawLayout = Util::GetBracedConfig(LayerTag, "TileLayout", "{}", LevelFile, infile);
-    }
   }
 
   void LevelLoader::RequestLevelData()
   {
-    for (auto & tile : TileInfos) {
-      ResourceManager->RequestTexture(tile.FilePath, tile.TileID,
-                                      [this](std::shared_ptr<sf::Texture> t, const std::string &s)
-      {
-        if (this->TileIDToTexture->find(s) == TileIDToTexture->end()) {
-          (*this->TileIDToTexture).operator[](s) = t; //Because the syntax doesn't want to work, so screw it
-          this->NumTexturesReceived++;
-        }
-          
-      }
-      );
-    }
+    
   }
 
   void LevelLoader::FormalizeLayerLayouts()
   {
-    /*
-      Take the layer from looking like "T T O L O WLF S S F S QW TR W Q F G"
-      to looking like
-      T T O L WLF
-      S S F S QW 
-      ...
-    */
-
-    for (std::size_t i = 0; i < NumLayers; ++i) {
-      std::stringstream SS(LayersInfo[i].RawLayout);
-
-      std::string temp;
-
-      std::vector<std::string> V;
-      V.resize(LayersInfo[i].Width);
-      LayersInfo[i].FormalLayout.reserve(LayersInfo[i].Height);
-
-      //Gotta fix this
-      int x = 0, y = 0;
-      while (SS >> temp) {
-        V.push_back(temp);
-        ++x;
-
-      if (x >= LayersInfo[i].Width) {
-        x = 0;
-        ++y;
-        LayersInfo[i].FormalLayout.push_back(V);
-      }
-      }
-
-
-    }
 
   }
 
@@ -306,81 +244,7 @@ namespace Engine
 
   void LevelLoader::SetLevelData()
   {
-    while (NumTexturesReceived < NumTiles) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
 
-    for (auto & tile : TileInfos) {
-      auto it = TileIDToTexture->find(tile.TileID);
-      if (it != TileIDToTexture->end()) {
-        tile.Texture = (*TileIDToTexture)[tile.TileID];
-      }
-    }
-
-    for (std::size_t i = 0; i < NumLayers; ++i) {
-      Layers.push_back(std::shared_ptr<Engine::LoaderLayer>(new Engine::LoaderLayer));
-
-      //Eww, why? Maybe reconsider this...
-      Layers[i]->Tiles = std::shared_ptr<std::vector<std::vector<LevelTileResource>>>(new std::vector<std::vector<LevelTileResource>>);
-      Layers[i]->Tiles->resize(NumTiles);
-
-      std::string TileLayoutID, TileID;
-
-      std::vector<LevelTileResource> tilevector;
-
-      tilevector.resize(NumTiles);
-      //Oh no
-      for (std::size_t y = 0; y < LayersInfo[i].Height; ++y) {
-        //Clear the vector (but keep the pre-allocated memory space)
-        tilevector.clear();
-
-        for (std::size_t x = 0; x < LayersInfo[i].Width; ++x) {
-          //Get the LayoutID and use that to get the TileID (so we can get the texture from the manager)
-          TileLayoutID = LayersInfo[i].FormalLayout[y][x];
-          TileID = (*LayoutIDToTileID)[TileLayoutID];
-
-          //UGH, oh god it looks so horrible
-          //IF the we were able to find the tile in our known tiles, then we can create the renderable tile
-          auto it = TileInformation.find(TileID);
-          if (it != TileInformation.end()) {
-
-            LevelTileResource tile(new LevelTile{ 
-              it->second.TileID, 
-              it->second.Texture, 
-              it->second.IsAnimated, 
-              it->second.Frames, 
-              sf::Vector2f(TileSize, TileSize), 
-              sf::Vector2f(TileSize * x, TileSize * y), 
-              it->second.AnimationDuration }
-            );
-
-            //Set the attributes
-            //tile->SetAnimationDuration(it->second.AnimationDuration);
-            //tile->SetID(it->second.TileID); 
-            //tile->SetPosition(sf::Vector2f(TileSize * x, TileSize *y));
-            //tile->SetTexture(it->second.Texture);
-            //tile->SetTextureFrames(it->second.Frames);
-            //tile->CreateSprite();
-
-            tilevector.push_back(tile);
-            //I'm so sorry
-            //auto ptr = Layers[i]->Tiles.get();
-            //(*ptr)[y][x]->SetAnimationDuration(it->second.AnimationDuration);
-            //(*ptr)[y][x]->SetID(it->second.TileID);
-            //(*ptr)[y][x]->SetPosition(sf::Vector2f(TileSize * x, TileSize * y));
-            //(*ptr)[y][x]->SetSize(sf::Vector2f(TileSize, TileSize));
-            //(*ptr)[y][x]->SetTexture(it->second.Texture);
-            //(*ptr)[y][x]->SetTextureFrames(it->second.Frames);
-            //(*ptr)[y][x]->CreateSprite();
-          } //if (it != TileInformation.end())
-        } //for x = 0 -> Width
-
-        //Add the vector of tiles for the current row to the Tiles for the layer
-        Layers[i]->Tiles->push_back(tilevector);
-      } //For y = 0 -> Height
-    }
-
-    IsDoneSettingData = true;
   }
 
   void LevelLoader::LoadLayerData(std::ifstream &infile)
@@ -411,53 +275,12 @@ namespace Engine
   void LevelLoader::DebugPrintData()
   {
 
-    std::cerr << "Level data loaded: \n";
-    std::cerr << "NumLayers: " << NumLayers << "\n";
-    std::cerr << "NumTiles: " << NumTiles << "\n";
-    std::cerr << "LevelSize: " << LevelSizeX << " by " << LevelSizeY << std::endl;
 
-    for (auto & layer : LayersInfo) {
-      std::cerr << "\tLayer: \n";
-
-      for (int x = 0; x < LevelSizeX; ++x) {
-        std::cerr << "\t";
-        for (int y = 0; y < LevelSizeY; ++y) {
-          std::cerr << layer.FormalLayout[y][x] << " ";
-        }
-        std::cerr << std::endl;
-      }
-
-    }
-
-    std::cerr << "Tile Data: \n";
-
-    for (auto & tile : TileInformation) {
-      std::cerr << "TileID: " << tile.second.TileID << "\n";
-      std::cerr << "LayoutID: " << tile.second.LayoutID << "\n";
-      std::cerr << "Animated: " << (tile.second.IsAnimated ? "True" : "False") << "\n";
-      std::cerr << "Traversible: " << (tile.second.Tranversible ? "True" : "False") << "\n";
-      std::cerr << "Frames: ";
-      for (auto & frame : tile.second.Frames)
-        std::cerr << "(" << frame.left << ", " << frame.top << ", " << frame.width << ", " << frame.height << ") ";
-    }
 
   }
 
   void LevelLoader::TestRender()
   {
-    if (!IsDoneSettingData)
-      return;
-
-    for (auto & layer : Layers) {
-      
-      for (auto i = 0; i < LayersInfo[0].Height; ++i) {
-        for (auto j = 0; j < LayersInfo[0].Width; ++j) {
-          
-          Render::RenderSprite((*layer->Tiles)[i][j]->GetSpritePtr());
-
-        }
-      }
-
-    }
+    
   }
 }

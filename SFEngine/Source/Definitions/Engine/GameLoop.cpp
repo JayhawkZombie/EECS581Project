@@ -54,8 +54,7 @@ namespace Engine
     Button->SetSize(sf::Vector2f(200, 75));
 
     Button->OnMouseRelease = [this, Button](const sf::Vector2i &pos, const sf::Mouse::Button &b)
-    { //this->Levels[0]->LoadLevel();
-      //this->Levels[0]->JoinLoaderThread();
+    { 
       Button->OnMouseRelease = [](const sf::Vector2i &pos, const sf::Mouse::Button &b) {}; //Unbind behavior, prevent extra loads
     };
 
@@ -65,22 +64,30 @@ namespace Engine
     EngineUIController.Show();
     //EngineUIController.ShowBoundsRect();
 
-    LoadingAnimation[0].Play();
-   // LoadingAnimation[0].TickUpdate(0.f);
-    LoadingAnimation[1].Play();
-   // LoadingAnimation[1].TickUpdate(0.f);
+    for (int i = 0; i < 6; ++i)
+      LoadingAnimation[i].Play();
+    
 
     LevelLoader loader;
-    loader.Load("./SFEngine/Samples/Maps/MultiLayerForestSmall.ini");
+    loader.Load("./SFEngine/Samples/Maps/MultiLayerForest.ini");
+
+	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyDownPressed)), "KeyDownPressed");
+	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyUpPressed)), "KeyUpPressed");
+	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyRightPressed)), "KeyRightPressed");
+	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyLeftPressed)), "KeyLeftPressed");
+    (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)(float, float)>(&Player::ForcePosition)), "ForcePosition");
+    (*ScriptEngine).add(chaiscript::fun(static_cast<float(Player::*)()>(&Player::GetPositionX)), "GetPositionX");
+    (*ScriptEngine).add(chaiscript::fun(static_cast<float(Player::*)()>(&Player::GetPositionY)), "GetPositionY");
+
+	  (*ScriptEngine).add_global(chaiscript::var(&TestPlayer), "MainPlayer");
+
+    (*ScriptEngine).eval_file("./SFEngine/Samples/Scripts/MainActorScript.chai");
 
     Window->clear();
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       try
       {
-        if (loader.DoneLoading())
-          loader.JoinThread();
-
         CurrentFrameStart = std::chrono::high_resolution_clock::now();
         TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
         LastFrameStart = std::chrono::high_resolution_clock::now();
@@ -91,32 +98,28 @@ namespace Engine
           EngineUIController.TickUpdate(TickDelta);
         //Call "update" on items
 
-        LoadingAnimation[0].TickUpdate(TickDelta);
-
+        for (int i = 0; i < 6; ++i)
+          LoadingAnimation[i].TickUpdate(TickDelta);
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
         currentRenderWindow->clear(sf::Color::Black);
         Render::ClearRender();
 
-        LoadingAnimation[0].Render();
-        loader.TestRender();
+        //LoadingAnimation[0].Render();
 
         if (EngineUIController.IsShown())
           EngineUIController.Render();
         //Render start
 
+        for (int i = 0; i < 6; ++i)
+          LoadingAnimation[i].Render();
+        
+        TestPlayer.Render();
+
         txt.setString("Test String: Elapsed Tick Time: " + std::to_string(TickDelta));
-        ResourcePoolSizes[0].setString("Texure Pooling: " + std::to_string(ResourceManager->GetSizeOfTexturePool()) + " bytes");
-        ResourcePoolSizes[1].setString("Font   Pooling: " + std::to_string(ResourceManager->GetSizeOfFontPool()) + " bytes");
-        ResourcePoolSizes[2].setString("FSH    Pooling: " + std::to_string(ResourceManager->GetSizeOfFragmentShaderPool()) + " bytes");
-        ResourcePoolSizes[3].setString("VSH    Pooling: " + std::to_string(ResourceManager->GetSizeOfVertexShaderPool()) + " bytes");
 
         Render::RenderText(&txt);
-        Render::RenderText(&ResourcePoolSizes[0]);
-        Render::RenderText(&ResourcePoolSizes[1]);
-        Render::RenderText(&ResourcePoolSizes[2]);
-        Render::RenderText(&ResourcePoolSizes[3]);
 
         Render();
 

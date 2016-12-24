@@ -51,7 +51,7 @@ namespace Engine
   }
   void Animation::TickUpdate(const double& delta)
   {
-    if (!m_isPaused)
+    if (!m_isPaused && m_isRendered)
     {
       m_currentTime += delta;
       // if current time is bigger then the frame time advance one frame
@@ -62,7 +62,8 @@ namespace Engine
         m_currentTime = 0;
 
         m_currentFrame += 1;
-        m_currentFrame %= m_frames.size();
+        if (m_currentFrame >= m_frames.size())
+          m_currentFrame = 0;
 
         //auto frame = m_frames[m_currentFrame];
 
@@ -79,10 +80,10 @@ namespace Engine
 
         //}
         // set the current frame, not reseting the time
+        if (m_frames.size() > 0)
+          sprite.setTextureRect(m_frames[m_currentFrame]);
       }
     }
-
-    sprite.setTextureRect(m_frames[m_currentFrame]);
   }
   void Animation::OnShutDown() {}
 

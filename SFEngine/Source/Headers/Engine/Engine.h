@@ -23,6 +23,7 @@ namespace Engine
   public:
     SFEngine();
     SFEngine(const SFEngine &) = delete; //No copy constructor allowed
+    SFEngine(const SFEngine &&) = delete;
     ~SFEngine();
 
     UINT32 Go(int argc, char **argv);
@@ -30,10 +31,14 @@ namespace Engine
     UINT32 Startup();
     void HandleEngineCrash();
   private:
+    void BindScripts();
+
     UINT32 Shutdown();
     UINT32 GameLoop();
 
     Animation LoadingAnimation[6];
+
+	  Player TestPlayer;
 
     chaiscript::ChaiScript *ScriptEngine;
     chaiscript::ModulePtr EngineModule;

@@ -175,6 +175,17 @@ namespace Engine
       StorageAccessLock->unlock();
     }
 
+    void ResourceManager::GiveTexture(const std::string &ID, std::shared_ptr<sf::Texture> tex)
+    {
+      StorageAccessLock->lock();
+      Textures->emplace(
+        std::piecewise_construct,
+        std::make_tuple(ID),
+        std::make_tuple(tex)
+      );
+      StorageAccessLock->unlock();
+    }
+
     void ResourceManager::RequestTexture(const std::string &Filepath, const std::string &ID, std::function<void(std::shared_ptr<sf::Texture>, const std::string &ID)> callback)
     {
       DoubleStringPair pair(Filepath, ID);

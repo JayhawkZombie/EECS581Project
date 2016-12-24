@@ -16,6 +16,21 @@ namespace Engine
     );
   }
 
+  void GenericActor::BindScriptMethods(chaiscript::ModulePtr mptr)
+  {
+    //UGHSDJLGHSD LJHFSDLFHS DLFH SDF
+    //It's SO UGLY!
+    chaiscript::utility::add_class<Engine::GenericActor>(*mptr, "GenericActor",
+    { chaiscript::constructor<Engine::GenericActor()>() },
+    { {
+      chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetID)), "SetID"},
+      {chaiscript::fun(static_cast<std::string(GenericActor::*)(void) const>(&GenericActor::GetID)), "GetID" },
+      {chaiscript::fun(static_cast<const sf::Vector2f &(GenericActor::*)(void) const>(&GenericActor::GetActorPosition)), "GetPosition"},
+      {chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorPosition)), "SetPosition"}
+      }
+    );
+  }
+
   GenericActor::GenericActor()
   {
 

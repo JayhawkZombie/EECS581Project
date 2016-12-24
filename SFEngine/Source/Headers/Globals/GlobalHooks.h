@@ -8,6 +8,7 @@ namespace Engine
 {
   extern sf::RenderWindow *currentRenderWindow;
   extern std::shared_ptr<Resource::ResourceManager> ResourceManager;
+  extern std::shared_ptr<sf::Texture> DefaultTexture;
   extern sf::Vector2f WindowSize;
 
   class BaseUIElement;

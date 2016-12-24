@@ -24,6 +24,8 @@ namespace Engine
     friend class Level;
     TYPEDEF_PARENT_CLASS(Engine::LevelObject);
 
+    static void BindScriptMethods(chaiscript::ModulePtr module);
+
     GenericActor();
     GenericActor(const std::string &texfile, const std::string &texID);
     GenericActor(const GenericActor &actor);

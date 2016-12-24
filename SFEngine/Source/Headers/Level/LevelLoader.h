@@ -3,53 +3,31 @@
 
 
 #include "../BasicIncludes.h"
+#include "../Globals/GlobalHooks.h"
 #include "LevelObject.h"
 #include "../Actor/Player.h"
 #include "LevelTile.h"
 #include "../Lights/GenericLightSource.h"
 #include "../Lights/GlobalLightSource.h"
 
+#include "../Physics/QuadTree.h"
+#include "../Factory/Factory.h"
 
 
 namespace Engine
 {
 
-  typedef std::shared_ptr<LevelTile> LevelTileResource;
-  typedef std::shared_ptr<GenericActor> LevelActorResource;
-  typedef std::shared_ptr<GenericLightSource> LevelLightResource;
-  typedef std::shared_ptr<LevelObject> LevelObjectResource;
+  struct LoaderLayer {
+    QuadTree ObjectTree;
 
-  struct LoaderLayer
-  {
-    std::shared_ptr<std::vector<std::vector<LevelTileResource>>> Tiles;
-    std::shared_ptr<std::vector<LevelActorResource>> Actors;
-    std::shared_ptr<std::vector<LevelLightResource>> Lights;
-    std::shared_ptr<std::vector<LevelObjectResource>> Objects;
   };
 
-  struct LoaderTileInfo
-  {
-    LoaderTileInfo()
-      : TileID(""), LayoutID(""), FilePath(""), Frames({}), TextureRect({}), Texture({}), Tranversible(false), IsAnimated(false), AnimationDuration(0.f)
-    {}
-    LoaderTileInfo(const LoaderTileInfo &info)
-      : TileID(info.TileID), LayoutID(info.LayoutID), FilePath(info.FilePath), Frames(info.Frames), TextureRect(info.TextureRect),
-      Texture(info.Texture), Tranversible(info.Tranversible), IsAnimated(info.IsAnimated), AnimationDuration(info.AnimationDuration)
-    {}
-    std::string TileID;
-    std::string FilePath;
-    std::vector<sf::IntRect> Frames;
-    sf::IntRect TextureRect;
-    std::shared_ptr<sf::Texture> Texture;
-    std::string LayoutID;
-    bool Tranversible;
-    bool IsAnimated;
-    double AnimationDuration;
+  struct TestLayer {
+    std::vector<std::vector<std::shared_ptr<LevelTile>>> Tiles;
   };
 
   struct LayerInfo
   {
-    std::size_t Height, Width;
     std::string RawLayout;
     std::vector<std::vector<std::string>> FormalLayout;
   };
@@ -68,23 +46,32 @@ namespace Engine
   private:
     std::thread LOADER_THREAD;
     std::mutex *Lock;
-    std::map<std::string, std::string> *LayoutIDToTileID;
-    std::vector<std::string> *TileIDs;
-    std::map<std::string, std::shared_ptr<sf::Texture>> *TileIDToTexture;
     bool FailedToLoad;
     bool IsDoneSettingData = false;
 
-    //ConfigInfo
-    bool ShadersEnabled;
-    std::size_t NumLayers, LevelSizeX, LevelSizeY, TileSize, TilesAcross;
-    std::size_t NumTiles, NumTexturesReceived;
-    sf::Vector2f Scale;
-    sf::FloatRect StartingView;
     std::string LevelFile;
-    std::map<std::string, LoaderTileInfo> TileInformation;
-    std::vector<LoaderTileInfo> TileInfos;
-    std::vector<LayerInfo> LayersInfo;
-    std::vector<std::shared_ptr<LoaderLayer>> Layers;
+    std::string TileSheetPath;
+
+    std::size_t LevelHeight, LevelWidth;
+    std::size_t NumTiles, TileHeight, TileWidth;
+    std::size_t NumTilesWide, NumTilesHigh;
+
+    std::shared_ptr<Engine::LevelTile> *Tiles;
+    std::vector<DoubleStringPair> TilePairs;
+    std::vector<std::string> PairTexts;
+
+    //std::string TileSheetPath;
+    //std::size_t LevelWidth, LevelHeight;
+    //std::size_t NumTiles, NumTextures, NumLayers;
+    //std::size_t TileSizeX, TileSizeY;
+    //std::vector<std::pair<std::string, std::string>> TileLayoutPairs;
+    //std::string LevelFile;
+    //std::shared_ptr<sf::Texture> TileTexturesheet;
+    //std::vector<LayerInfo> Layers;
+    //std::vector<TestLayer> TestLayers;
+
+    //std::vector<std::shared_ptr<LevelTile>> Tiles;
+    //std::map<std::string, std::shared_ptr<Engine::LevelTile>> LayoutMap;
 
     void DebugPrintData();
 

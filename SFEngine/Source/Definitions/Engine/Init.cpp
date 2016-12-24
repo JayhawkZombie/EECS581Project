@@ -10,27 +10,36 @@ namespace Engine
     }
 
     std::cerr << "Starting resource manager" << std::endl;
-    ResourceManager = std::shared_ptr<Resource::ResourceManager>(new Resource::ResourceManager);
+    ResourceManager = std::shared_ptr<Resource::ResourceManager>(new Resource::ResourceManager); 
     ResourceManager->Start();
+    DefaultTexture = std::shared_ptr<sf::Texture>(new sf::Texture);
+    DefaultTexture->loadFromFile("./SFEngine/Samples/Textures/DefaultTexture.png");
 
-    LoadingAnimation[0].RequestSpriteSheet("./SFEngine/Samples/Animations/torchsheet.png", "EngineLoadingWhite");
+    int __width;
 
-    std::stringstream SS;
-    std::ifstream _in("./SFEngine/Samples/Animations/torchsheet.txt");
-    std::string dump1, dump2, left, top, width, height;
-    std::vector<sf::IntRect> Frames;
-    if (_in) {
-      while (_in >> dump1 && _in >> dump2) {
-        _in >> left >> top >> width >> height;
+    for (int i = 0; i < 6; ++i) {
 
-        LoadingAnimation[0].AddFrame({
-          std::stoi(left), std::stoi(top), std::stoi(width), std::stoi(height)
-        });
+      LoadingAnimation[i].RequestSpriteSheet("./SFEngine/Samples/Animations/torchsheet.png", "EngineLoadingWhite" + std::to_string(i));
 
+      std::stringstream SS;
+      std::ifstream _in("./SFEngine/Samples/Animations/torchsheet.txt");
+      std::string dump1, dump2, left, top, width, height;
+      std::vector<sf::IntRect> Frames;
+      if (_in) {
+        while (_in >> dump1 && _in >> dump2) {
+          
+          _in >> left >> top >> width >> height;
+          __width = std::stoi(width);
+          LoadingAnimation[i].AddFrame({
+            std::stoi(left), std::stoi(top), std::stoi(width), std::stoi(height)
+          });
+
+        }
       }
+      LoadingAnimation[i].SetFrameTime(30);
+      LoadingAnimation[i].SetPosition({ (float)__width * i, 400 });
+
     }
-    LoadingAnimation[0].SetFrameTime(50); 
-    LoadingAnimation[0].SetPosition({ 600,600 });
 
 
 

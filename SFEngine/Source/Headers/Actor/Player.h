@@ -21,6 +21,18 @@ namespace Engine
     virtual void OnShutDown() override;
     virtual void SerializeOut(std::ostream &out) override;
 
+	  virtual void KeyRightPressed();
+	  virtual void KeyUpPressed();
+	  virtual void KeyDownPressed();
+	  virtual void KeyLeftPressed();
+	  virtual void ForcePosition(float x, float y);
+    virtual float GetPositionX() {
+      return Sprite.getPosition().x;
+    }
+    virtual float GetPositionY() {
+      return Sprite.getPosition().y;
+    }
+
     virtual bool WantsInputEvent(const Events &evnt) const override;
 
     virtual void MoveTo(const sf::Vector2f &pos);

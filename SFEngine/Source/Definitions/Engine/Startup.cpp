@@ -8,6 +8,7 @@ namespace Engine
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
     MaximumWindowView = Window->getDefaultView();
     Window->setKeyRepeatEnabled(false);
+    Window->setVerticalSyncEnabled(true);
     currentRenderWindow = Window;
 
     RenderSettings.texture = new sf::RenderTexture;
@@ -129,16 +130,7 @@ namespace Engine
 
     //Add the engine class to the script engine
     chaiscript::ModulePtr __mptr(new chaiscript::Module);
-    chaiscript::utility::add_class<Engine::SFEngine>(*__mptr, "Engine",
-    { chaiscript::constructor<Engine::SFEngine()>() },
-    { {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetAALevel)), "SetAALevel"},
-    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetBrightness)), "SetBrightness"},
-    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetContrast)), "SetContrast"},
-    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetFramerateLimit)), "SetFramerateLimit"},
-    {chaiscript::fun(static_cast<void(SFEngine::*)(unsigned int)>(&SFEngine::SetGamma)), "SetGamma"},
-    {chaiscript::fun(static_cast<void(SFEngine::*)(std::string)> (&SFEngine::LoadLevel)), "LoadLevel"},
-    {chaiscript::fun(static_cast<void(SFEngine::*)(std::string)>(&SFEngine::SwitchToLevel)), "SwitchToLevel"} }
-    );
+    GenericActor::BindScriptMethods(__mptr);
 
     //Bind the exposed engine apis to chaiscript
     EngineLoadingText.setString("Binding APIs to Chaiscript...");
@@ -146,13 +138,7 @@ namespace Engine
     Window->draw(EngineLoadingText);
     Window->display();
 
-    EngineModule = chaiscript::ModulePtr(new chaiscript::Module);
-    EngineModule->add(chaiscript::fun(&SFEngine::SetBrightness, this), "SetBrightness");
-    EngineModule->add(chaiscript::fun(&SFEngine::SetAALevel, this), "SetAALevel");
-    EngineModule->add(chaiscript::fun(&SFEngine::SetContrast, this), "SetContrast");
-    EngineModule->add(chaiscript::fun(&SFEngine::SetGamma, this), "SetGamma");
-
-    ScriptEngine->add(EngineModule);
+    BindScripts();
 
     EngineLoadingText.setString("Loading...");
     Window->draw(EngineLogoSprite);

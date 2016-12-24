@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_2_4_1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -96,7 +96,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_2_4_1\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -195,6 +195,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Physics\Collision.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Physics.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsState.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\QuadTree.h" />
     <ClInclude Include="SFEngine\Source\Headers\Render\Render.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
     <ClInclude Include="SFEngine\Source\Headers\Shaders\Shader.h" />
@@ -211,8 +212,10 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\Mat2D.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\NullType.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\ReadIni.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\SpriteSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\String.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\StringMap.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\TextReader.h" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_defines.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_stdlib.hpp" />
@@ -268,6 +271,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineBindScripts.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineCrashRecovery.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine_ExposedScriptMethods.cpp" />
@@ -311,6 +315,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Physics\InitialPhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Physics.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsState.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Physics\QuadTree.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Render\Render.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManager.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
@@ -326,7 +331,9 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIUtils.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Convert.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\ReadIni.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Utils\SpriteSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\String.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
     <ClCompile Include="SFEngine\Source\main.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\UnitTesting\Catch.hpp" />
   </ItemGroup>
@@ -342,13 +349,16 @@
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Diagrams\Engine\ClassDiagram.emf" />
     <None Include="Game\GameSetup.chai" />
     <None Include="SFEngine\Config\Engine.ini" />
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
+    <None Include="SFEngine\Samples\Maps\MultiLayerForest.ini" />
     <None Include="SFEngine\Samples\Scripts\EngineEventTests.chai" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForestSmall.ini" />
     <None Include="SFEngine\Samples\Maps\testforest.ini" />
     <None Include="SFEngine\Samples\Maps\testmap.ini" />
+    <None Include="SFEngine\Samples\Scripts\MainActorScript.chai" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBG.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.xcf" />
