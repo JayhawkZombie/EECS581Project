@@ -1,6 +1,6 @@
 #include "ListReader.h"
 ListReader::ListReader() : num_monsters(0), num_armor(0), num_weapons(0), num_useables(0), num_convos(0),
-monsters(NULL), armor(NULL), weapons(NULL), useables(NULL)/*, conversations(NULL)*/
+monsters(NULL), armor(NULL), weapons(NULL), useables(NULL), conversations(NULL)
 {}
 ListReader::~ListReader()
 {
@@ -13,7 +13,7 @@ ListReader::~ListReader()
     delete monsters;
     monsters = NULL;
   }
-  //repeat for rest
+  //repeat for rest, not done
     
 }
 /***
@@ -385,24 +385,53 @@ Conversation** ListReader::readConversation(std::string fileName, MainCharacter 
   file.close();
   return conversations;
 }
+//MENU 
 void ListReader::menu()
 {
-  int menuChoice = 0;
-  int current = 0;
-  bool Out = true;
+  //if readConversations("") hasn't been declared with a working text file, exit
+  if (conversations == NULL)
+  {
+    std::cout << "NO CONVERSATIONS PASSED IN. EXITING.\n";
+    return;
+  }
+  //variables
+  int menuChoice = 0; //user input
+  int current = 0; //current conversation node
+  int previous = 0; //previous conversation node
+  bool Out = true; //exit condition, if menuChoice = 999 then exit
+  //main loop
   while (Out)
   {
+    //prints out the current conversation node
     std::cout << "\nEnter 999 to Exit";
     std::cout << "\nConversation with: " << conversations[current]->getUserID();
     std::cout << "\nConversation Node ID: " << conversations[current]->getConvoID();
     std::cout << "\nNumber of responses: " << conversations[current]->getNumChoices();
+    //checks/prints the conversation node's choices
     for (int k = 0; k < conversations[current]->getNumChoices(); k++)
     {
       std::cout << "\nChoice " << k << ": " << conversations[current]->getConvoNodes(k);
       std::cout << "\n\t" << conversations[current]->getConvoNodesContent(k);
     }
-    std::cout << "\nChoose a number: (start at 0): ";
+    //allowing user input to go to the next node
+    std::cout << "\nChoose a number: (start at 0, 999 is exit, -1 is previous): ";
     std::cin >> menuChoice;
+    //repeating the steps above but with the previous conversation node
+    if (menuChoice == -1)
+    {
+      current = previous;
+      std::cout << "\nConversation with: " << conversations[current]->getUserID();
+      std::cout << "\nConversation Node ID: " << conversations[current]->getConvoID();
+      std::cout << "\nNumber of responses: " << conversations[current]->getNumChoices();
+      for (int k = 0; k < conversations[current]->getNumChoices(); k++)
+      {
+        std::cout << "\nChoice " << k << ": " << conversations[current]->getConvoNodes(k);
+        std::cout << "\n\t" << conversations[current]->getConvoNodesContent(k);
+      }
+      std::cout << "\nChoose a number: (start at 0, 999 is exit, previous is unreachable): ";
+      std::cin >> menuChoice;
+    }
+    //break loop
     if (menuChoice == 999)
     {
       Out = false;
@@ -415,10 +444,16 @@ void ListReader::menu()
     //   std::cout << conversations[0]->getConvoNodes(0); //no, tell him i'm sleeping
     ****/
 
+    //switches to the new conversation node to be read in
     for (int k = 0; k < num_convos; k++)
     {
+      //basically say you chose sleepingResponse in the previous section
+      //then sleepingResponse (its own ID, with its own possible responses) == sleepingResponse (its ID in the current conversation's possible choices)
+      //and switches the conversation node/tree
       if (conversations[k]->getConvoID() == conversations[current]->getConvoNodes(menuChoice))
       {
+        //sets the previous to the current before switching to the new conversation node
+        previous = current;
         current = k;
         std::cout << "\nYou chose: " << conversations[current]->getConvoID();
         std::cout << "\n\t" << conversations[current]->getContent();
