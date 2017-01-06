@@ -34,7 +34,8 @@ namespace Engine
     virtual void TickUpdate(const double &delta) override;
     virtual void Render() override;
     virtual void OnShutDown() override;
-    virtual void SerializeOut(std::ostream &out) override;
+    virtual void SerializeOut(std::ofstream &out) override;
+    virtual void SerializeIn(std::ifstream &in) override;
 
     virtual bool WantsInputEvent(const Events &evnt) const;
 

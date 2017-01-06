@@ -17,9 +17,25 @@ namespace Engine
     Handler.ftnCallback_WindowResized = [this]() {};
   }
 
-  void BaseEngineInterface::SerializeOut(std::ostream &out)
+  void BaseEngineInterface::SerializeOut(std::ofstream &out)
   {
+    //need to write the item ID to the binary file
+    //first write how many characters are in the ID
+    std::size_t count = ItemID.size();
+    out.write((char *)(&count), sizeof(std::size_t));
 
+    //then write out the id itself
+    out.write(ItemID.c_str(), count);
+  }
+
+  void BaseEngineInterface::SerializeIn(std::ifstream &in)
+  {
+    //need to read the item ID from the binary file
+    std::size_t strl{ 0 };
+    in.read((char *)(&strl), sizeof(std::size_t));
+
+    if (strl >= ItemID.max_size())
+      throw std::runtime_error("ItemID exceeds maximum length");
   }
 
   BaseEngineInterface::BaseEngineInterface(const BaseEngineInterface &b)

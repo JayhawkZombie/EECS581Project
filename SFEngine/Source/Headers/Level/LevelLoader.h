@@ -32,6 +32,8 @@ namespace Engine
     std::vector<std::vector<std::string>> FormalLayout;
   };
 
+  class Level;
+
   class LevelLoader
   {
   public:
@@ -43,12 +45,16 @@ namespace Engine
     void TestRender();
     bool DoneLoading() const;
 
+    void SetLevel(Level *lvl);
+
   private:
     std::thread LOADER_THREAD;
     std::mutex *Lock;
     bool FailedToLoad;
     bool IsDoneSettingData = false;
+    bool ReadyToTest = false;
 
+    Level *lvl;
     std::string LevelFile;
     std::string TileSheetPath;
 
@@ -60,18 +66,9 @@ namespace Engine
     std::vector<DoubleStringPair> TilePairs;
     std::vector<std::string> PairTexts;
 
-    //std::string TileSheetPath;
-    //std::size_t LevelWidth, LevelHeight;
-    //std::size_t NumTiles, NumTextures, NumLayers;
-    //std::size_t TileSizeX, TileSizeY;
-    //std::vector<std::pair<std::string, std::string>> TileLayoutPairs;
-    //std::string LevelFile;
-    //std::shared_ptr<sf::Texture> TileTexturesheet;
-    //std::vector<LayerInfo> Layers;
-    //std::vector<TestLayer> TestLayers;
-
-    //std::vector<std::shared_ptr<LevelTile>> Tiles;
-    //std::map<std::string, std::shared_ptr<Engine::LevelTile>> LayoutMap;
+    std::vector<std::shared_ptr<Engine::LevelTile>> BaseTiles;
+    SharedTexture TileSheet;
+    std::shared_ptr<SpriteSheet> TileSpriteSheet;
 
     void DebugPrintData();
 

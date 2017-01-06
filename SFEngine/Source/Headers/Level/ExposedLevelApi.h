@@ -3,13 +3,11 @@
 
 #include "../BasicIncludes.h"
 #include "Level.h"
-#include "LevelEnvironment.h"
 
 namespace Engine
 {
 
   Level *Api_CurrentLevel = nullptr;
-  LevelEnvironment *Api_CurrentEnvironment = nullptr;
 
   void SetCurrentLevel(Level *lvl);
   void BindLevelMethods(chaiscript::ChaiScript *Engine);

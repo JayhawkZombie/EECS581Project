@@ -4,15 +4,12 @@
 #include "../BasicIncludes.h"
 #include <math.h>
 #include "../Utils/ListTemplates.h"
-#include "../Level/LevelEnvironment.h"
 
 namespace Engine
 {
 
   namespace Physics
   {
-
-    void InitialPhysicsState(LevelEnvironment &env);
 
   }
 

@@ -9,7 +9,6 @@ namespace Engine
     std::cerr << "Handling engine crash" << std::endl;
 
     for (auto & level : Levels) {
-      level->JoinLoaderThread();
       level->OnShutDown();
     }
   }

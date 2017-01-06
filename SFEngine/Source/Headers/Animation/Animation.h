@@ -29,7 +29,8 @@ namespace Engine
     void SetPosition(float x, float y);
     void SetPosition(const sf::Vector2f &pos);
     void SetFrameTime(double fTime);
-    virtual void SerializeOut(std::ostream &out);
+    virtual void SerializeOut(std::ofstream &out) override;
+    virtual void SerializeIn(std::ifstream &in) override;
     sf::Sprite* GetSprite();
     //OLD
     friend class SFEngine;

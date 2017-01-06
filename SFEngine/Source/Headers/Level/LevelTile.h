@@ -16,25 +16,15 @@ namespace Engine
   {
   public:
     LevelTile();
+    LevelTile(const LevelTile &other);
     ~LevelTile();
 
     void Render();
     void TickUpdate(const double &delta);
     void OnShutDown();
-    void SerializeOut(std::ostream &out);
+    virtual void SerializeOut(std::ofstream &out) override;
+    virtual void SerializeIn(std::ifstream &in) override;
 
-    void SetISAnimated(bool anim);
-    void SetIsTraversible(bool trav);
-    void SetTextureFrameIndices(std::vector<std::size_t> frames);
-    std::vector<std::size_t> GetFrameIndices() const;
-
-    void SetTileSheet(std::shared_ptr<SpriteSheet> sheet);
-    std::shared_ptr<SpriteSheet> GetTileSheet() const;
-
-    bool GetIsAnimated() const;
-    bool GetIsTraversible() const;
-
-  private:
     std::shared_ptr<SpriteSheet> TileSheet;
     std::vector<std::size_t> FrameIndices;
 

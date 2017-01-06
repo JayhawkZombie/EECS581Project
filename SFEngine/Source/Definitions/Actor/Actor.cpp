@@ -86,7 +86,12 @@ namespace Engine
 
   }
 
-  void GenericActor::SerializeOut(std::ostream &out)
+  void GenericActor::SerializeOut(std::ofstream &out)
+  {
+
+  }
+
+  void GenericActor::SerializeIn(std::ifstream &in)
   {
 
   }

@@ -8,8 +8,7 @@ namespace Engine
     for (int i = 0; i < argc; i++) {
       std::cout << "\t" << i << ": " << argv[i] << std::endl;
     }
-
-    std::cerr << "Starting resource manager" << std::endl;
+    
     ResourceManager = std::shared_ptr<Resource::ResourceManager>(new Resource::ResourceManager); 
     ResourceManager->Start();
     DefaultTexture = std::shared_ptr<sf::Texture>(new sf::Texture);
@@ -19,10 +18,10 @@ namespace Engine
 
     for (int i = 0; i < 6; ++i) {
 
-      LoadingAnimation[i].RequestSpriteSheet("./SFEngine/Samples/Animations/torchsheet.png", "EngineLoadingWhite" + std::to_string(i));
+      LoadingAnimation[i].RequestSpriteSheet("./SFEngine/Samples/Animations/hyponosheet.png", "EngineLoadingWhite" + std::to_string(i));
 
       std::stringstream SS;
-      std::ifstream _in("./SFEngine/Samples/Animations/torchsheet.txt");
+      std::ifstream _in("./SFEngine/Samples/Animations/hypnosheet.txt");
       std::string dump1, dump2, left, top, width, height;
       std::vector<sf::IntRect> Frames;
       if (_in) {

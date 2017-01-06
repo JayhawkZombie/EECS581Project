@@ -82,7 +82,9 @@ namespace Engine
     virtual void TickUpdate(const double &delta) override;
     virtual void Render() override;
     virtual void OnShutDown() override;
-    virtual void SerializeOut(std::ostream &out) override;
+    virtual void SerializeOut(std::ofstream &out) override;
+    virtual void SerializeIn(std::ifstream &in) override;
+    void SetPosition(const sf::Vector2f &pos);
 
     virtual OverlapAction OnActorOverlap(GenericActor *actor);
     virtual bool DoTestCollisions() const;
@@ -90,7 +92,6 @@ namespace Engine
 
   protected:
     CollisionBox Collsion;
-    sf::FloatRect LevelArea;
 
     CollisionBox GlobalCollisionBox;
 

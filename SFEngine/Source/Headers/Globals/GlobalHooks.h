@@ -13,6 +13,8 @@ namespace Engine
 
   class BaseUIElement;
 
+  extern void SetKeyRepeatEnabled(bool);
+
 }
 
 #endif

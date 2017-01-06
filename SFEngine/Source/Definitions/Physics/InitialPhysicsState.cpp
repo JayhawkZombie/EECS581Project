@@ -6,11 +6,6 @@ namespace Engine
   namespace Physics
   {
 
-    void InitialPhysicsState(LevelEnvironment &env)
-    {
-
-    }
-
   }
 
 }

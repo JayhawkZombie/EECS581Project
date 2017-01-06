@@ -4,21 +4,17 @@ namespace Engine
 {
   void Level::Render()
   {
-    ResourceLock->lock();
+    
+    for (auto & loader : Loaders)
+    {
+      loader->TestRender();
+    }
 
-    if (!ReadyToPlay)
-      RenderLoadingScreen();
-    else
-      RenderRegular();
-
-    ResourceLock->unlock();
   }
 
   void Level::RenderRegular()
   {
-    Environment.DiagnosticText.setFont(*LevelFont);
-    Environment.Render();
-    Render::RenderText(&Environment.DiagnosticText);
+    
   }
 
   void Level::RenderLoadingScreen()

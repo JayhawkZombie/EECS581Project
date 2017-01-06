@@ -78,9 +78,13 @@ namespace Engine
     std::cerr << "Position forced to: " << x << ", " << y << std::endl;
   }
 
-  void Player::SerializeOut(std::ostream &out)
+  void Player::SerializeOut(std::ofstream &out)
   {
 
+  }
+
+  void Player::SerializeIn(std::ifstream & in)
+  {
   }
 
   void Player::TickUpdate(const double &delta)

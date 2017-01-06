@@ -1,4 +1,6 @@
 #include "../../Headers/Level/LevelLoader.h"
+#include "../../Headers/Level/Level.h"
+
 #include <regex>
 
 namespace Engine
@@ -21,6 +23,11 @@ namespace Engine
     //delete TileIDs;
     //delete TileIDToTexture;
     delete Lock;
+  }
+
+  void LevelLoader::SetLevel(Level *l)
+  {
+    lvl = l;
   }
 
   void LevelLoader::Load(const std::string &lvlfile)
@@ -90,6 +97,20 @@ namespace Engine
     //Divide the level into tiles
     NumTilesWide = LevelWidth;
     NumTilesHigh = LevelHeight;
+
+    //Load the tile sheet
+    TileSheetPath = Util::GetStringConfig("Config", "TileSheet", "", LevelFile, infile);
+    TileSheet = std::shared_ptr<sf::Texture>(new sf::Texture);
+    if (!TileSheet->loadFromFile(TileSheetPath)) {
+      std::cerr << "Unable to load tile sheet" << std::endl;
+      throw std::runtime_error("Unable to load tile sheet");
+    }
+
+    ResourceManager->GiveTexture("LevelTileSheet", TileSheet);
+
+    TileSpriteSheet = std::shared_ptr<SpriteSheet>(new SpriteSheet);
+    TileSpriteSheet->SetTexture(TileSheet);
+    TileSpriteSheet->EvenlyDivideFrames(TileWidth, TileHeight);
 
     //Create a temporary storage for the tiles
     //Allocate in 1D array for speed
@@ -175,51 +196,75 @@ namespace Engine
 
         TilePairs.push_back({ pair_first, pair_second });
       }
+
+      LoadTilesData(infile);
     }
     catch (std::runtime_error &e)
     {
       std::cerr << "Level loading failure. Message: " << e.what() << std::endl;
       LoadFailure(infile);
     }
-
+    
   }
 
   void LevelLoader::LoadTilesData(std::ifstream &infile)
   {
 
-    std::regex vecreg("([0-9]+)");
-    std::regex_iterator<std::string::iterator> RegEnd;
+    //std::regex vecreg("([0-9]+)");
+    //std::regex_iterator<std::string::iterator> RegEnd;
 
-    std::string category{ "" };
-    bool trav{ false }, anim{ false };
-    std::vector<std::size_t> frames;
+    //std::string category{ "" };
+    //bool trav{ false }, anim{ false };
+    //std::vector<std::size_t> frames;
 
-    //For each of the tiles that we have, we need to load the data for it
-    for (std::size_t i = 0; i < NumTiles; ++i) {
-      category = TilePairs[i].second;
+    ////For each of the tiles that we have, we need to load the data for it
+    ////Only one for each tile, of course, these are the set of basic tiles and we'll duplicate them
+    ////to create the actual layout
+    //for (std::size_t i = 0; i < NumTiles; ++i) {
+    //  category = TilePairs[i].second;
 
-      //First get whether it is traversible/animated
-      trav = Util::GetBooleanConfig(category, "IsTraversible", trav, LevelFile, infile);
-      anim = Util::GetBooleanConfig(category, "IsAnimated", anim, LevelFile, infile);
+    //  //First get whether it is traversible/animated
+    //  trav = Util::GetBooleanConfig(category, "IsTraversible", trav, LevelFile, infile);
+    //  anim = Util::GetBooleanConfig(category, "IsAnimated", anim, LevelFile, infile);
 
-      //Now get the frames out of the tile sheet that will be used for the tile
-      std::string framestring = Util::GetStringConfig(category, "Frames", "", LevelFile, infile);
-      
-      //Get the mathces out of the string #,#,#,...
-      std::regex_iterator<std::string::iterator> reg_iter(framestring.begin(), framestring.end(), vecreg);
-      std::stringstream SS;
-      while (reg_iter != RegEnd) {
-        SS.clear();
-        SS << reg_iter->str();
-        std::size_t frame;
-        SS >> frame;
+    //  //Now get the frames out of the tile sheet that will be used for the tile
+    //  std::string framestring = Util::GetStringConfig(category, "Frames", "", LevelFile, infile);
+    //  
+    //  //Get the mathces out of the string #,#,#,...
+    //  std::regex_iterator<std::string::iterator> reg_iter(framestring.begin(), framestring.end(), vecreg);
+    //  std::stringstream SS;
+    //  while (reg_iter != RegEnd) {
+    //    SS.clear();
+    //    SS << reg_iter->str();
+    //    std::size_t frame;
+    //    SS >> frame;
 
-        frames.push_back(frame);
-      }
+    //    frames.push_back(frame);
+    //  }
 
-
-    }
+    //  BaseTiles.push_back({ Factory::Tile() });
+    //  BaseTiles.back()->SetISAnimated(anim);
+    //  BaseTiles.back()->SetIsTraversible(trav);
+    //  BaseTiles.back()->SetTextureFrameIndices(frames);
+    //  BaseTiles.back()->SetTileSheet(TileSpriteSheet);
+    //}
     
+    ReadyToTest = true;
+  }
+
+  void LevelLoader::TestRender()
+  {
+    //if (!ReadyToTest)
+    //  return;
+
+    //for (std::size_t i = 0; i < 10; ++i) {
+
+    //  std::shared_ptr<sf::Sprite> spr = BaseTiles[i]->GetTileSheet()->GetSprite(i);
+    //  spr->setPosition(sf::Vector2f(i * 16, i * 16));
+
+    //  Render::RenderSprite(spr.get());
+
+    //}
   }
 
   void LevelLoader::LoadLayoutInfo(std::ifstream &infile)
@@ -277,10 +322,5 @@ namespace Engine
 
 
 
-  }
-
-  void LevelLoader::TestRender()
-  {
-    
   }
 }

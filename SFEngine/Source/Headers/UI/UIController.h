@@ -26,7 +26,8 @@ namespace Engine
       void TickUpdate(const double &delta);
       void Render();
       void OnShutDown();
-      void SerializeOut(std::ostream &out);
+      void SerializeOut(std::ofstream &out);
+      void SerializeIn(std::ifstream &in);
 
       void Show();
       void Hide();

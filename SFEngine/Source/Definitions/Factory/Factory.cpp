@@ -62,13 +62,7 @@ namespace Engine
 
     std::shared_ptr<Engine::LevelTile> Tile(const Engine::LevelTile &tile)
     {
-      std::shared_ptr<Engine::LevelTile> Tile(new Engine::LevelTile);
-
-      Tile->SetID(tile.GetID());
-      Tile->SetISAnimated(tile.GetIsAnimated());
-      Tile->SetIsTraversible(tile.GetIsTraversible());
-      Tile->SetTextureFrameIndices(tile.GetFrameIndices());
-      Tile->SetTileSheet(tile.GetTileSheet());
+      std::shared_ptr<Engine::LevelTile> Tile(new Engine::LevelTile(tile));
 
       return Tile;
     }

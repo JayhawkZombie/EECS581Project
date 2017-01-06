@@ -13,8 +13,12 @@ namespace Engine
     }
   }
 
-  void Animation::SerializeOut(std::ostream &out) {
+  void Animation::SerializeOut(std::ofstream &out) {
 
+  }
+
+  void Animation::SerializeIn(std::ifstream & in)
+  {
   }
 
   void Animation::Pause() {

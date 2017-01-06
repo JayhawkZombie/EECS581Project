@@ -7,7 +7,7 @@ namespace Engine
   {
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
     MaximumWindowView = Window->getDefaultView();
-    Window->setKeyRepeatEnabled(false);
+    Window->setKeyRepeatEnabled(true);
     Window->setVerticalSyncEnabled(true);
     currentRenderWindow = Window;
 
@@ -32,6 +32,9 @@ namespace Engine
     Render::__Set__Window(Window);
     Window->clear(sf::Color::Black);
     Window->display();
+
+    std::cerr << "Core profile settings: " << Window->getSettings().majorVersion << "." << Window->getSettings().minorVersion << std::endl;
+
   }
 
   UINT32 SFEngine::Startup()
@@ -76,12 +79,7 @@ namespace Engine
     else {
       EngineConfig.Window_v2fWindowSize = Util::GetVec2fConfig("Window", "WindowSize", sf::Vector2f(800, 800), "Engine.ini", _IN);
       WindowSize = EngineConfig.Window_v2fWindowSize;
-      std::string bracetxt = Util::GetBracedConfig("Tests", "SampleBrace", "{}", "Engine.ini", _IN);
-      std::cerr << "\n\nBracedText\"" << bracetxt << "\"" << std::endl;
-      auto pair = Util::GetStringPair("Tests", "SamplePair", { "", "" }, "Engine.ini", _IN);
-      std::cerr << "Pair.first = \"" << pair.first << "\", .second = \"" << pair.second << "\"" << std::endl;
       InitialLevel = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", _IN);
-      std::cout << "Initial Level: " << InitialLevel << std::endl;
       RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", _IN);
       RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", _IN);
       RenderSettings.Gamma = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", _IN);
@@ -92,8 +90,23 @@ namespace Engine
       ContextSettings.sRgbCapable = Util::GetBooleanConfig("Render", "bSRGBCapable", true, "Engine.ini", _IN);
       ContextSettings.stencilBits = Util::GetUnsignedIntConfig("Render", "uiStencilBits", 0, "Engine.ini", _IN);
 
-      sf::FloatRect testRect = Util::GetFloatRectConfig("Tests", "SampleRect", sf::FloatRect(), "Engine.ini", _IN);
-      std::cerr << "TestRect: (" << testRect.left << ", " << testRect.top << ", " << testRect.width << ", " << testRect.height << ")" << std::endl;
+      //see if there are any assets that need to be cooked (will not be done like this forever, only for now)
+      bool needconvert = Util::GetBooleanConfig("Etc", "AssetsToCovert", false, "Engine.ini", _IN);
+      std::cerr << "Need to convert assets? " << (needconvert ? "Yes" : "No") << std::endl;
+      std::string assets;
+      if (needconvert) {
+        assets = Util::GetBracedConfig("Etc", "Assets", "{}", "Engine.ini", _IN);
+        assets.erase(assets.begin() + 0); assets.erase(assets.end() - 1);
+
+        std::vector<std::string> ToCovert;
+        std::stringstream stream(assets);
+        std::string holder;
+        while (stream >> holder)
+          ToCovert.push_back(holder);
+
+        for (auto & file : ToCovert)
+          Convert::Level(file);
+      }
 
       _IN.clear();
       _IN.close();
@@ -159,7 +172,7 @@ namespace Engine
     catch (chaiscript::exception::eval_error &e)
     {
       std::cerr << "Script execution error: " << e.what() << std::endl;
-    }    
+    }
 
     return GameLoop();
   }

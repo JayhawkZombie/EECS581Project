@@ -20,12 +20,39 @@ namespace Engine
       spr.reset();
   }
 
+  void SpriteSheet::SerializeIn(std::ifstream &in)
+  {
+
+  }
+
+  void SpriteSheet::SerializeOut(std::ofstream &out)
+  {
+    //write out the texture itself
+    sf::Image image = Texture->copyToImage();
+    Encode::Image(image, out);
+
+    //write out the number of frames in the image
+    std::size_t framecnt{ 0 };
+    framecnt = Frames.size();
+    out.write((char *)(&framecnt), sizeof(framecnt));
+
+    //write out each of the frames
+    for (auto & frame : Frames)
+      Encode::Rect<>(frame, out);
+  }
+
   void SpriteSheet::SetTexture(SharedTexture tex)
   {
     Texture = tex;
 
     TextureHeight = tex->getSize().y;
     TextureWidth = tex->getSize().x;
+  }
+
+  std::shared_ptr<sf::Sprite> SpriteSheet::GetSprite(std::size_t index)
+  {
+    if (index < Sprites.size())
+      return Sprites[index];
   }
 
   SharedTexture SpriteSheet::GetTexture() const

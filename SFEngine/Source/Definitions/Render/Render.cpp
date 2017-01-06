@@ -15,6 +15,7 @@ namespace
   Engine::Render::RenderSettings CoreRenderSettings;
   std::vector<Engine::GenericLightSource> Lights;
   Engine::GlobalLightSource GlobalLight;
+  std::shared_ptr<sf::Mutex> Mutex;
 }
 
 namespace Engine
@@ -72,8 +73,41 @@ namespace Engine
       RenderSFDrawable(drawable, DefaultBounds());
     }
 
+    //void RenderLightingArray(const std::vector<sf::VertexArray> &arr, sf::RenderStates &state)
+    //{
+    //  Mutex->lock();
+
+    //  sf::FloatRect bounds = DefaultBounds();
+
+    //  if (DrawWindow) {
+    //    __Create__ViewPanel(bounds);
+
+    //    ViewPanel = sf::FloatRect(
+    //      bounds.left / WinSize.x,
+    //      bounds.top / WinSize.y,
+    //      bounds.width / WinSize.x,
+    //      bounds.height / WinSize.y
+    //    );
+
+    //    view.reset(bounds);
+    //    view.setViewport(ViewPanel);
+
+    //    CoreRenderSettings.texture->setActive(true);
+    //    CoreRenderSettings.texture->setView(view);
+    //    for (auto & v : arr)
+    //      CoreRenderSettings.texture->draw(v, state);
+
+    //    CoreRenderSettings.texture->setView(CoreRenderSettings.texture->getDefaultView());
+    //  }
+
+    //  Mutex->unlock();
+    //}
+
     void RenderSFDrawable(const sf::Drawable *drawable, const sf::FloatRect &bounds)
     {
+      Mutex->lock();
+
+
       if (DrawWindow) {
         __Create__ViewPanel(bounds);
 
@@ -92,6 +126,29 @@ namespace Engine
         CoreRenderSettings.texture->draw(*drawable);
         CoreRenderSettings.texture->setView(CoreRenderSettings.texture->getDefaultView()); 
       }
+
+      Mutex->unlock();
+    }
+
+    void RenderVertexArray(const sf::VertexArray &arr)
+    {
+      Mutex->lock();
+
+      CoreRenderSettings.texture->setActive(true);
+      CoreRenderSettings.texture->draw(arr);
+
+      Mutex->unlock();
+    }
+
+    void RenderVertexArrayVector(const std::vector<sf::VertexArray>& arr)
+    {
+      Mutex->lock();
+
+      CoreRenderSettings.texture->setActive(true);
+      for (auto & vert : arr)
+        CoreRenderSettings.texture->draw(vert);
+
+      Mutex->unlock();
     }
 
     void ClearRender()
@@ -154,6 +211,8 @@ namespace Engine
 	  void __Set__Render__States(const sf::RenderStates &states)
 	  {
 		  RenderStates = states;
+      if (!Mutex)
+        Mutex = std::shared_ptr<sf::Mutex>(new sf::Mutex);
 	  }
 
     void __Set__Render__Settings(const RenderSettings &settings)

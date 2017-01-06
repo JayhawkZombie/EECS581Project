@@ -2,6 +2,12 @@
 
 #include "../../Headers/Level/LevelLoader.h"
 
+#include <SFML/OpenGL.hpp>
+
+#include "../../Headers/UI/TextInput.h"
+
+#include "../../Headers/Lights/LightingSystem.h"
+
 namespace Engine
 {
 
@@ -41,24 +47,34 @@ namespace Engine
 
     txt.setCharacterSize(20);
     txt.setFillColor(sf::Color::White); //setColor was deprecated, but setFillColor fails
-    sf::Font txtFont;
-    txtFont.loadFromFile("./SFEngine/Samples/Fonts/PressStart2P.ttf");
-    txt.setFont(txtFont);
-    ResourcePoolSizes[0].setFont(txtFont);
-    ResourcePoolSizes[1].setFont(txtFont);
-    ResourcePoolSizes[2].setFont(txtFont);
-    ResourcePoolSizes[3].setFont(txtFont);
+
+    std::shared_ptr<sf::Font> txtFont(new sf::Font);
+
+    txtFont->loadFromFile("./SFEngine/Samples/Fonts/PressStart2P.ttf");
+    txt.setFont(*txtFont);
+    ResourcePoolSizes[0].setFont(*txtFont);
+    ResourcePoolSizes[1].setFont(*txtFont);
+    ResourcePoolSizes[2].setFont(*txtFont);
+    ResourcePoolSizes[3].setFont(*txtFont);
 
     auto Button = UI::ClickButton::Create();
+    Button->SetFont(txtFont, "PressStart2PFont");
     Button->SetPosition(sf::Vector2f(100, 100));
     Button->SetSize(sf::Vector2f(200, 75));
+    Button->SetTextSize(14);
+    Button->SetText("Load TestLevel");
+    std::shared_ptr<Level> MainLevel(new Level);
 
-    Button->OnMouseRelease = [this, Button](const sf::Vector2i &pos, const sf::Mouse::Button &b)
+    Button->OnMouseRelease = [this, Button, MainLevel](const sf::Vector2i &pos, const sf::Mouse::Button &b)
     { 
-      Button->OnMouseRelease = [](const sf::Vector2i &pos, const sf::Mouse::Button &b) {}; //Unbind behavior, prevent extra loads
+      MainLevel->LoadLevel("./SFEngine/Samples/Levels/Graveyard/Graveyard.xml");
     };
 
+    std::shared_ptr<UI::TextInput> input(new UI::TextInput);
+    input->SetFont("./SFEngine/Samples/Fonts/Raleway-Light.ttf");
+
     EngineUIController.AddElement(Button);
+    EngineUIController.AddElement(input);
 
     EngineUIController.SetBounds(sf::FloatRect(0, 0, 800, 300));
     EngineUIController.Show();
@@ -66,22 +82,53 @@ namespace Engine
 
     for (int i = 0; i < 6; ++i)
       LoadingAnimation[i].Play();
-    
-
-    LevelLoader loader;
-    loader.Load("./SFEngine/Samples/Maps/MultiLayerForest.ini");
-
-	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyDownPressed)), "KeyDownPressed");
-	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyUpPressed)), "KeyUpPressed");
-	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyRightPressed)), "KeyRightPressed");
-	  (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)()>(&Player::KeyLeftPressed)), "KeyLeftPressed");
-    (*ScriptEngine).add(chaiscript::fun(static_cast<void(Player::*)(float, float)>(&Player::ForcePosition)), "ForcePosition");
-    (*ScriptEngine).add(chaiscript::fun(static_cast<float(Player::*)()>(&Player::GetPositionX)), "GetPositionX");
-    (*ScriptEngine).add(chaiscript::fun(static_cast<float(Player::*)()>(&Player::GetPositionY)), "GetPositionY");
 
 	  (*ScriptEngine).add_global(chaiscript::var(&TestPlayer), "MainPlayer");
 
-    (*ScriptEngine).eval_file("./SFEngine/Samples/Scripts/MainActorScript.chai");
+    LightSystem TestLightSystem;
+
+    TestLightSystem.window_size_x = Window->getSize().x;
+    TestLightSystem.window_size_y = Window->getSize().y;
+
+    TestLightSystem.AddLight(sf::Vector2f(600, 400), 400, sf::Color::Blue);
+    TestLightSystem.AddLightObject({ 100, 100 }, { 100, 100 }, sf::Color::Red);
+    TestLightSystem.AddLightObject({ 200, 500 }, { 80, 75 }, sf::Color::Red);
+    //TestLightSystem.AddLightObject({ 700, 675 },  { 90, 135 }, sf::Color::Red);
+    
+
+    sf::Shader RadialShader;
+    if (!RadialShader.loadFromFile("./SFEngine/Source/LightingRadialShader.fsh", sf::Shader::Fragment)) {
+
+    }
+
+    sf::Glsl::Vec4 color = sf::Color::White;
+    RadialShader.setUniform("color", color);
+    RadialShader.setUniform("center", sf::Glsl::Vec2{ 400, 400 });
+    RadialShader.setUniform("radius", 400.f);
+    RadialShader.setUniform("expand", 0.f);
+    RadialShader.setUniform("windowHeight", (float)(WindowSize.y));
+
+    sf::CircleShape circle;
+
+    sf::RenderStates LightsState;
+    sf::RenderTexture LightTexture;
+    LightTexture.create(800, 800);
+
+    circle.setRadius(400.f);
+    circle.setOrigin(400.f, 400.f);
+    circle.setPosition(sf::Vector2f(800.f, 800.f) / 2.f);
+    circle.setFillColor(sf::Color::Transparent);
+
+    LightTexture.draw(circle, &RadialShader);
+    LightTexture.display();
+
+    LightsState.texture = &LightTexture.getTexture();
+    LightsState.blendMode = sf::BlendAlpha;
+    
+    TestLightSystem.LightTexture = &LightTexture;
+
+    //TestLightSystem.ComputeRayCasts();
+    TestLightSystem.AdvanceSweep({ 600.f, 400.f }, 400.f); 
 
     Window->clear();
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
@@ -101,10 +148,16 @@ namespace Engine
         for (int i = 0; i < 6; ++i)
           LoadingAnimation[i].TickUpdate(TickDelta);
 
+        MainLevel->TickUpdate(TickDelta);
+        TestLightSystem.RefreshFrame();
+        TestLightSystem.AdvanceSweep(sf::Vector2f(sf::Mouse::getPosition(*currentRenderWindow)), 800.f);
+
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
         currentRenderWindow->clear(sf::Color::Black);
         Render::ClearRender();
+
+        glFlush();
 
         //LoadingAnimation[0].Render();
 
@@ -116,18 +169,26 @@ namespace Engine
           LoadingAnimation[i].Render();
         
         TestPlayer.Render();
+        
+        MainLevel->Render();
+
+        TestLightSystem.Render();
 
         txt.setString("Test String: Elapsed Tick Time: " + std::to_string(TickDelta));
 
         Render::RenderText(&txt);
 
         Render();
-
+        //currentRenderWindow->clear();
+        //TestLightSystem.Render(*currentRenderWindow, LightsState);
+        //currentRenderWindow->display();
       }
       catch (chaiscript::exception::eval_error &e)
       {
         std::cerr << "Script execution error in runtime: " << e.what() << std::endl;
       }
+
+      glFlush();
       currentRenderWindow->display();
       
     }

@@ -17,16 +17,16 @@
 #include "Globals\GlobalHooks.h"
 #include "Utils\ReadIni.h"
 #include "Utils\Convert.h"
+#include "Utils\Encoders.h"
+#include "Utils\Decoders.h"
+#include "Utils\Vec.hpp"
 #include "Render\Render.h"
 
+#include <SFML/OpenGL.hpp>
 
 
 #include <SFML\Graphics.hpp>
 #include <SFML/Audio.hpp>
-
-#include "../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 #define SFENGINE_INTERNAL_DEPRECATED __declspec(deprecated)
 #define SFENGINE_DEPRECATED __declspec(deprecated)

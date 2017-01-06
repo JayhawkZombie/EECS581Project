@@ -17,18 +17,18 @@ namespace Engine
     (*ScriptEngine).eval("Engine_KeyPressed(\"" + KeyToString[k] + "\")");
     std::string command{ "" };
     
-    if (k == sf::Keyboard::Key::Up)
-      command = "Up";
-    else if (k == sf::Keyboard::Key::Down)
-      command = "Down";
-    else if (k == sf::Keyboard::Key::Left)
-      command = "Left";
-    else if (k == sf::Keyboard::Key::Right)
-      command = "Right";
+    //if (k == sf::Keyboard::Key::Up)
+    //  command = "Up";
+    //else if (k == sf::Keyboard::Key::Down)
+    //  command = "Down";
+    //else if (k == sf::Keyboard::Key::Left)
+    //  command = "Left";
+    //else if (k == sf::Keyboard::Key::Right)
+    //  command = "Right";
 
-    if (command != "") {
-      (*ScriptEngine).eval("Key" + command + "Pressed();");
-    }
+    //if (command != "") {
+    //  (*ScriptEngine).eval("Key" + command + "Pressed();");
+    //}
 
     if (k == sf::Keyboard::Escape)
       EngineUIController.ToggleShown();

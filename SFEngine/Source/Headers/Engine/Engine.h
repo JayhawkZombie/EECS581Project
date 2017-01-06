@@ -14,6 +14,12 @@
 #include "../UI/UIController.h"
 #include "../UI/ClickButton.h"
 #include "../Level/Level.h"
+#include "../Logging/Logger.h"
+#include "../Utils/AssetConverters.h" 
+
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 namespace Engine
 {
@@ -32,6 +38,8 @@ namespace Engine
     void HandleEngineCrash();
   private:
     void BindScripts();
+
+    Logger EngineLogger;
 
     UINT32 Shutdown();
     UINT32 GameLoop();
@@ -64,6 +72,7 @@ namespace Engine
 
     sf::Shader *VertexShader;
     sf::Shader *FragmentShader;
+
     sf::RenderStates RenderStates;
     Render::RenderSettings RenderSettings;
     sf::ContextSettings ContextSettings;

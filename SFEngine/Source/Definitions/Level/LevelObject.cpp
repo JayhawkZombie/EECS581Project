@@ -42,9 +42,19 @@ namespace Engine
 
   }
 
-  void LevelObject::SerializeOut(std::ostream &out)
+  void LevelObject::SerializeOut(std::ofstream &out)
   {
 
+  }
+
+  void LevelObject::SerializeIn(std::ifstream &in)
+  {
+
+  }
+
+  void LevelObject::SetPosition(const sf::Vector2f &pos)
+  {
+    CurrentPhysicsState.SetLevelPosition(pos);
   }
 
   OverlapAction LevelObject::OnActorOverlap(GenericActor *actor)

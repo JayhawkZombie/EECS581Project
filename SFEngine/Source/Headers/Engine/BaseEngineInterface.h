@@ -4,6 +4,10 @@
 #include "../BasicIncludes.h"
 #include "../Events/EventHandler.h"
 
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
+
 namespace Engine
 {
   /**
@@ -34,8 +38,10 @@ namespace Engine
     /**
      * Beginning of object serialization
      *   this will be REQUIRED to be overridden by base classes
+     *   if they want to be able to be encoded/decoded
      */
-    virtual void SerializeOut(std::ostream &out) = 0;
+    virtual void SerializeOut(std::ofstream &out) = 0;
+    virtual void SerializeIn(std::ifstream &in) = 0;
 
     EventHandler Handler;
     virtual std::string GetID() const;

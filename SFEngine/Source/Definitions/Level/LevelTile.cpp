@@ -5,8 +5,26 @@ namespace Engine
 
 
   LevelTile::LevelTile()
+    :
+    AnimationDuration(0),
+    CurrentFrame(0),
+    FrameTime(0),
+    CurrentAnimationDuration(0)
   {
     SetID("UnnamedTile");
+  }
+
+  LevelTile::LevelTile(const LevelTile &other)
+    :
+    TileSheet(other.TileSheet),
+    FrameIndices(other.FrameIndices),
+    IsAnimated(other.IsAnimated),
+    IsTraversible(other.IsTraversible),
+    AnimationDuration(other.AnimationDuration),
+    FrameTime(other.FrameTime),
+    LayoutID(other.LayoutID)
+  {
+
   }
 
   LevelTile::~LevelTile()
@@ -29,49 +47,14 @@ namespace Engine
     
   }
 
-  void LevelTile::SerializeOut(std::ostream &out)
+  void LevelTile::SerializeOut(std::ofstream &out)
   {
+    
 
   }
 
-
-  void LevelTile::SetISAnimated(bool anim)
+  void LevelTile::SerializeIn(std::ifstream &in)
   {
-    IsAnimated = anim;
-  }
 
-  void LevelTile::SetIsTraversible(bool trav)
-  {
-    IsTraversible = trav;
-  }
-
-  void LevelTile::SetTextureFrameIndices(std::vector<std::size_t> frames)
-  {
-    FrameIndices = frames;
-  }
-
-  std::vector<std::size_t> LevelTile::GetFrameIndices() const
-  {
-    return FrameIndices;
-  }
-
-  void LevelTile::SetTileSheet(std::shared_ptr<SpriteSheet> sheet)
-  {
-    TileSheet = sheet;
-  }
-
-  std::shared_ptr<SpriteSheet> LevelTile::GetTileSheet() const
-  {
-    return TileSheet;
-  }
-
-  bool LevelTile::GetIsAnimated() const
-  {
-    return IsAnimated;
-  }
-
-  bool LevelTile::GetIsTraversible() const
-  {
-    return IsTraversible;
   }
 }
