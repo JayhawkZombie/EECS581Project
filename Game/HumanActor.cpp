@@ -187,12 +187,12 @@ Damage HumanActor::baseDamage()
 	}
 	return *(base);
 }*/
-/*
-void HumanActor::LevelUp()
+
+void HumanActor::levelUp()
 {
-	double balance;
-	setLevel(getLevel()+1);
-	if (m_numPhysical < 0)
+	double balance;//this is the balance between numPhysical and numMagical - used later on
+	setLevel(getLevel()+1);//increments the level
+	if (m_numPhysical < 0)//sets negative values to zero
 	{
 		m_numPhysical = 0;
 	}
@@ -200,15 +200,17 @@ void HumanActor::LevelUp()
 	{
 		m_numMagical = 0;
 	}
-	if (m_numMagical == 0 && m_numPhysical == 0)
-	{
+	if (m_numMagical == 0 && m_numPhysical == 0)//if both are zero sets balance to .5 to avoid
+	{//divide by zero errors
 		balance = .5;
 	}
-	else
+	else//sets balance to be a double between zero and one
 	{
 		balance = m_numMagical / (m_numMagical + m_numPhysical);
 	}
 
+
+	//sets mp regen based on the number of magical techniques used
 	if (m_numMagical <= 10)
 	{
 		setMpRegen(1);
@@ -258,8 +260,12 @@ void HumanActor::LevelUp()
 		setMpRegen(30);
 	}
 
+	//these mulitpliers are used later to determine how much health/magic the player recieves
+	//upon leveling up- they are based on the balance variable
 	double hpMultiplier;
 	double mpMultiplier;
+
+
 	if (balance <= .2)
 	{
 		hpMultiplier = 1.3;
@@ -285,79 +291,80 @@ void HumanActor::LevelUp()
 		hpMultiplier = .7;
 		mpMultiplier = 1.35;
 	}
+
+	//this block actually distributes the added mp and hp based on the multiplier above
 	if (getLevel() <=5)
 	{
 		setHpCur((int)(getHpCur() + 5 * hpMultiplier));
 		setHpMax((int)(getHpMax() + 5 * hpMultiplier));
-		setMpCur(getMpCur() + 4 * mpMultiplier);
-		setMpMax(getMpMax() + 4 * mpMultiplier);
+		setMpCur((int)(getMpCur() + 4 * mpMultiplier));
+		setMpMax((int)(getMpMax() + 4 * mpMultiplier));
 	}
 	else if (getLevel() <= 10)
 	{
 		setHpCur((int)(getHpCur() + 20 * hpMultiplier));
 		setHpMax((int)(getHpMax() + 20 * hpMultiplier));
-		setMpCur(getMpCur() + 4 * mpMultiplier);
-		setMpMax(getMpMax() + 4 * mpMultiplier);
+		setMpCur((int)(getMpCur() + 4 * mpMultiplier));
+		setMpMax((int)(getMpMax() + 4 * mpMultiplier));
 	}
 	else if (getLevel() <= 20)
 	{
 		setHpCur((int)(getHpCur() + 30 * hpMultiplier));
 		setHpMax((int)(getHpMax() + 30 * hpMultiplier));
-		setMpCur(getMpCur() + 2 * mpMultiplier);
-		setMpMax(getMpMax() + 2 * mpMultiplier);
+		setMpCur((int)(getMpCur() + 2 * mpMultiplier));
+		setMpMax((int)(getMpMax() + 2 * mpMultiplier));
 	}
 	else if (getLevel() <= 30)
 	{
-		setHpCur(((int)getHpCur() + 40 * hpMultiplier));
-		setHpMax(((int)getHpMax() + 40 * hpMultiplier));
-		setMpCur(getMpCur() + 2 * mpMultiplier);
-		setMpMax(getMpMax() + 2 * mpMultiplier);
+		setHpCur((int)(getHpCur() + 40 * hpMultiplier));
+		setHpMax((int)(getHpMax() + 40 * hpMultiplier));
+		setMpCur((int)(getMpCur() + 2 * mpMultiplier));
+		setMpMax((int)(getMpMax() + 2 * mpMultiplier));
 	}
 	else if (getLevel() <= 40)
 	{
-		setHpCur(((int)getHpCur() + 50 * hpMultiplier));
-		setHpMax(((int)getHpMax() + 50 * hpMultiplier));
-		setMpCur(getMpCur() + 3 * mpMultiplier);
-		setMpMax(getMpMax() + 3 * mpMultiplier);
+		setHpCur((int)(getHpCur() + 50 * hpMultiplier));
+		setHpMax((int)(getHpMax() + 50 * hpMultiplier));
+		setMpCur((int)(getMpCur() + 3 * mpMultiplier));
+		setMpMax((int)(getMpMax() + 3 * mpMultiplier));
 	}
 	else if (getLevel() <= 50)
 	{
 		setHpCur((int)(getHpCur() + 60 * hpMultiplier));
 		setHpMax((int)(getHpMax() + 60 * hpMultiplier));
-		setMpCur(getMpCur() + 3 * mpMultiplier);
-		setMpMax(getMpCur() + 3 * mpMultiplier);
+		setMpCur((int)(getMpCur() + 3 * mpMultiplier));
+		setMpMax((int)(getMpCur() + 3 * mpMultiplier));
 	}
 	else
 	{
 		setHpCur((int)(getHpCur() + 70 * hpMultiplier));
 		setHpMax((int)(getHpCur() + 70 * hpMultiplier));
-		setMpCur(getMpCur() + 4 * mpMultiplier);
-		setMpCur(getMpMax() + 4 * mpMultiplier);
+		setMpCur((int)(getMpCur() + 4 * mpMultiplier));
+		setMpCur((int)(getMpMax() + 4 * mpMultiplier));
 	}
 }
 
 void HumanActor::gainExp(int gain)
 {
 	setExp(getExp() + gain);
-	if (getLevel() < 10)
+	if (getLevel() < 10)//if the level is less than ten, the required exp to level up is the level*100 + 1000
 	{
 		while (getExp()> (getLevel() * 100 + 1000))
 		{
-			LevelUp();
+			levelUp();
 			setExp(getExp()-(getLevel()*100 +1000));
 		}
 	}
-	else
+	else//if the level is ten or greater, the required exp to level up has a power function as well
 	{
-		while (getExp() > ((getLevel() * 100 + 1000) + (12 * (pow(getLevel(), 1.65)))))
+		while (getExp() > ((getLevel() * 100 + 1000) + (int)(12 * (pow(getLevel(), 1.65)))))
 		{
-			LevelUp();
-			setExp(getExp() - ((getLevel() * 100 + 1000) + (12 * (pow(getLevel(), 1.65)))));
+			levelUp();
+			setExp(getExp() - ((getLevel() * 100 + 1000) + (int)(12 * (pow(getLevel(), 1.65)))));
 		}
 	}
-
 }
-*/
+
 //getters
 
 Damage HumanActor::getDefense()

@@ -13,7 +13,7 @@ public:
 private:
 	int m_affinity[6];
 //	virtual bool TakeDamage(const Damage recieved);
-//	virtual void Levelup();
+//	virtual void levelUp();
 //	virtual void gainExp(int gain);
 };
 

@@ -6,7 +6,7 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include <Math.h>
-//#include "HumanActor.cpp"
+
 
 class HumanActor: public BattleActor
 {
@@ -18,8 +18,8 @@ public:
 	//virtual methods
 	//virtual bool takeDamage(const Damage recieved);
 	//virtual Damage baseDamage();
-	//virtual void LevelUp();
-	//virtual void gainExp(int gain);
+	virtual void levelUp();
+	virtual void gainExp(int gain);
 
 	//getters
 	Damage getDefense();
