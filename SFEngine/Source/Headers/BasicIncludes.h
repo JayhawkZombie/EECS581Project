@@ -22,11 +22,33 @@
 #include "Utils\Vec.hpp"
 #include "Render\Render.h"
 
+#include "Exceptions\Exceptions.h"
+
 #include <SFML/OpenGL.hpp>
 
 
 #include <SFML\Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#ifdef _MSC_EXTENSIONS
 #define SFENGINE_INTERNAL_DEPRECATED __declspec(deprecated)
 #define SFENGINE_DEPRECATED __declspec(deprecated)
+#define SFENGINE_INLINE __inline
+#define SFENGINE_FORCEINLINE __forceinline
+
+#define ASM __asm
+#define ABSTRACT abstract
+
+#else
+
+
+#define SFENGINE_INTERNAL_DEPRECATED [[deprecated]]
+#define SFENGINE_DEPRECATED [[deprecated]]
+#define SFENGINE_INLINE inline
+#define SFENGINE_FORCEINLINE inline
+
+typedef asm __asm
+#define abstract 
+
+
+#endif

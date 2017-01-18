@@ -16,6 +16,8 @@
 #include "../Level/Level.h"
 #include "../Logging/Logger.h"
 #include "../Utils/AssetConverters.h" 
+#include "../Globals/GlobalHooks.h"
+#include "Editor.h"
 
 #include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
@@ -36,7 +38,18 @@ namespace Engine
     UINT32 Init(int argc, char **argv);
     UINT32 Startup();
     void HandleEngineCrash();
+
+#ifdef WITH_EDITOR
+    //used for editor UI
+    void AddUIElement(std::shared_ptr<Engine::UI::BaseUIElement> element);
+    Editor GameEditor;
+#endif
+
   private:
+    //UI event objects
+    InputEvent UIInputEvent;
+    FocusChangeEvent UIFocusChangeEvent;
+
     void BindScripts();
 
     Logger EngineLogger;

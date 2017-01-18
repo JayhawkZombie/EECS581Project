@@ -12,6 +12,10 @@
 
 namespace Engine
 {
+#ifdef WITH_EDITOR
+  class Editor;
+#endif;
+
   namespace UI
   {
     /**
@@ -23,7 +27,9 @@ namespace Engine
     public:
       friend class UIController;
       friend class SFEngine;
-
+#ifdef WITH_EDITOR
+      friend class Editor;
+#endif
       TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
 
       BaseUIElement();

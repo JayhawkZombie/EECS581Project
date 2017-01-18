@@ -5,7 +5,13 @@ namespace Engine
 
   void SFEngine::InitRenderWindow()
   {
+#ifdef WITH_EDITOR
+    Window = new sf::RenderWindow(sf::VideoMode(1200, 900), "SFEngine Editor", sf::Style::Default, ContextSettings);
+    WindowSize = { 1200.f, 900.f };
+#else
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
+    WindowSize = { EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y };
+#endif
     MaximumWindowView = Window->getDefaultView();
     Window->setKeyRepeatEnabled(true);
     Window->setVerticalSyncEnabled(true);

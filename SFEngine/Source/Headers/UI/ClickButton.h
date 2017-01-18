@@ -5,6 +5,10 @@
 
 namespace Engine
 {
+#ifdef WITH_EDITOR
+  class Editor;
+#endif;
+
   namespace UI
   {
     /**
@@ -15,6 +19,10 @@ namespace Engine
     class ClickButton : public BaseUIElement
     {
     public:
+#ifdef WITH_EDITOR
+      friend class Engine::Editor;
+#endif
+
       static std::shared_ptr<ClickButton> Create();
       TYPEDEF_PARENT_CLASS(Engine::UI::BaseUIElement);
 
