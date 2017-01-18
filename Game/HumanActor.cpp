@@ -23,7 +23,7 @@ HumanActor::~HumanActor()
 
 
 //virtual methods
-/*
+
 bool HumanActor::takeDamage(const Damage recieved)
 {
 	Damage* incurred = new Damage(recieved, m_defense);
@@ -32,41 +32,41 @@ bool HumanActor::takeDamage(const Damage recieved)
 		//handle advantage case
 		if (i == getPrimary())
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[i] * .8);
+			this->setHpCur((int)(getHpCur() - incurred->content[i] * .8));
 		}//handle disadvantage cases
 		else if (getPrimary() == 0 && i == 1)
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[1] * 1.2);
+			this->setHpCur((int)(getHpCur() - incurred->content[1] * 1.2));
 		}
 		else if (getPrimary() == 1 && i == 2)
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[2] * 1.2);
+			this->setHpCur((int)(getHpCur() - incurred->content[2] * 1.2));
 		}
 		else if (getPrimary() == 2 && i == 3)
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[3] * 1.2);
+			this->setHpCur((int)(getHpCur() - incurred->content[3] * 1.2));
 		}
 		else if (getPrimary() == 3 && i == 0)
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[i] * 1.2);
+			this->setHpCur((int)(getHpCur() - incurred->content[i] * 1.2));
 		}
 		else if (getPrimary() == 4 && i == 5)
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[i] * 1.2);
+			this->setHpCur((int)(getHpCur() - incurred->content[i] * 1.2));
 		}
 		else if (getPrimary() == 5 && i == 4)
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[i] * 1.2);
+			this->setHpCur((int)(getHpCur() - incurred->content[i] * 1.2));
 		}
 		else
 		{
-			this->setHpCur((int)getHpCur() - incurred->content[i]* 1.2);
+			this->setHpCur((int)(getHpCur() - incurred->content[i]* 1.2));
 		}
 	}
 	delete incurred;
 	return(isAlive());
-}*/
-/*
+}
+
 Damage HumanActor::baseDamage()
 {
 	Damage* base= new Damage();
@@ -127,66 +127,66 @@ Damage HumanActor::baseDamage()
 	}
 	if (size < 10)
 	{
-		base->content[6] = (int)getLevel()*phyMultiplier;
-		base->content[7] = (int)getLevel()*magMultiplier;
+		base->content[6] = (int)(getLevel()*phyMultiplier);
+		base->content[7] = (int)(getLevel()*magMultiplier);
 	}
 	else if (size < 50)
 	{
-		base->content[6] = (int)(getLevel()+1)*1.2*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 1)*1.2*magMultiplier;
+		base->content[6] = (int)((getLevel()+1)*1.2*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 1)*1.2*magMultiplier);
 	}
 	else if (size < 100)
 	{
-		base->content[6] = (int)(getLevel() + 2)*1.4*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 2)*1.4*magMultiplier;
+		base->content[6] = (int)((getLevel() + 2)*1.4*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 2)*1.4*magMultiplier);
 	}
 	else if (size < 250)
 	{
-		base->content[6] = (int)(getLevel() + 4)*1.6*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 4)*1.6*magMultiplier;
+		base->content[6] = (int)((getLevel() + 4)*1.6*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 4)*1.6*magMultiplier);
 	}
 	else if (size < 500)
 	{
-		base->content[6] = (int)(getLevel() + 6)*1.8*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 6)*1.8*magMultiplier;
+		base->content[6] = (int)((getLevel() + 6)*1.8*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 6)*1.8*magMultiplier);
 	}
 	else if (size < 1000)
 	{
-		base->content[6] = (int)(getLevel()+10)*2*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 10) * 2 * magMultiplier;
+		base->content[6] = (int)((getLevel()+10)*2*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 10) * 2 * magMultiplier);
 	}
 	else if (size < 5000)
 	{
-		base->content[6] = (int)(getLevel()+13)*2.2*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 13)*2.2*magMultiplier;
+		base->content[6] = (int)((getLevel()+13)*2.2*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 13)*2.2*magMultiplier);
 	}
 	else if (size < 10000)
 	{
-		base->content[6] = (int)(getLevel()+17)*2.4*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 17)*2.4*magMultiplier;
+		base->content[6] = (int)((getLevel()+17)*2.4*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 17)*2.4*magMultiplier);
 	}
 	else if (size < 50000)
 	{
-		base->content[6] = (int)(getLevel()+20)*2.6*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 20)*2.6*magMultiplier;
+		base->content[6] = (int)((getLevel()+20)*2.6*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 20)*2.6*magMultiplier);
 	}
 	else if (size < 100000)
 	{
-		base->content[6] = (int)(getLevel()+25)*2.8*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 25)*2.8*magMultiplier;
+		base->content[6] = (int)((getLevel()+25)*2.8*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 25)*2.8*magMultiplier);
 	}
 	else if (size < 500000)
 	{
-		base->content[6] = (int)(getLevel()+35)*3*phyMultiplier;
-		base->content[7] = (int)(getLevel() + 35) * 3 * magMultiplier;
+		base->content[6] = (int)((getLevel()+35)*3*phyMultiplier);
+		base->content[7] = (int)((getLevel() + 35) * 3 * magMultiplier);
 	}
 	else
 	{
-		base->content[6] = (int)(getLevel()+50) * 4 * phyMultiplier;
-		base->content[7] = (int)(getLevel() + 50) * 4 * magMultiplier;
+		base->content[6] = (int)((getLevel()+50) * 4 * phyMultiplier);
+		base->content[7] = (int)((getLevel() + 50) * 4 * magMultiplier);
 	}
 	return *(base);
-}*/
+}
 
 void HumanActor::levelUp()
 {

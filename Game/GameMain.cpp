@@ -18,8 +18,13 @@ int GameMain::run()
 	RPGTest::runTests(true);
 	MainCharacter* mchar = new MainCharacter();
 	ListReader list;
-	list.readConversation("ConvoJohnWakeUp.txt",*(mchar));
+	list.readConversation("Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt",*(mchar));
 	list.menu();
 	delete mchar;
 	return 0;
+}
+
+void GameMain::printAssetStatus()
+{
+
 }

@@ -16,8 +16,8 @@ public:
 	~HumanActor();
 
 	//virtual methods
-	//virtual bool takeDamage(const Damage recieved);
-	//virtual Damage baseDamage();
+	virtual bool takeDamage(const Damage recieved);
+	virtual Damage baseDamage();
 	virtual void levelUp();
 	virtual void gainExp(int gain);
 

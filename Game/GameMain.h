@@ -7,6 +7,7 @@ public:
 	GameMain();
 	~GameMain();
 	static int run();
+	void printAssetStatus();
 };
 
 #endif
