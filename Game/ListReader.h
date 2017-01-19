@@ -48,7 +48,7 @@ class ListReader{
     //returns the number given on top of the file
     //assumes it's the proper number of objects given
     const int getNumMonsters();
-    const int getNumArmor();
+    int getNumArmor()const;
     const int getNumWeapons();
     const int getNumUseables();
     const int getNumConversations();

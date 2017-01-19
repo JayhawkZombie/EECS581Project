@@ -269,6 +269,20 @@ void RPGTest::runTests(bool quiet)
   {
     numTotal++;
   }
+  if (testInventory1(quiet))
+  {
+	  numPassed++;
+	  numTotal++;
+  }
+  else
+  {
+	  numTotal++;
+  }
+  if (testMainCharacter1(quiet))
+  {
+	  numPassed++;
+	  numTotal++;
+  }
 	std::cout << numPassed << "/" << numTotal << "Passed, " << ((double)numPassed / (double)numTotal) * 100 << "%\n";
 
 }
@@ -891,7 +905,7 @@ bool RPGTest::testWeapon4(bool quiet)
   }
   if (!quiet)
   {
-    std::cout << "WeaponTest 4: PASSED/n";
+    std::cout << "WeaponTest 4: PASSED\n";
   }
   delete myWeapon;
   return true;
@@ -931,7 +945,7 @@ bool RPGTest::testUseable1(bool quiet)
     std::cout << "Useable Test 1: PASSED\n";
   }
   delete myUseable;
-  return false;
+  return true;
 }
 
 bool RPGTest::testUseable2(bool quiet)
@@ -981,3 +995,42 @@ bool RPGTest::testSkill1(bool quiet)
   }
 }
 
+bool RPGTest::testInventory1(bool quiet)
+{
+	try
+	{
+		Inventory* myInventory = new Inventory();
+		if (!quiet)
+		{
+			std::cout << "Inventory Test 1: PASSED\n";
+		}
+		return true;
+	}
+	catch (int e)
+	{
+		std::cout << "Error number " << e << "\n";
+		std::cout << "There is an error in the constructor of Inventory";
+		std::cout << "Inventory Test 1: FAILED\n";
+		return false;
+	}
+}
+
+bool RPGTest::testMainCharacter1(bool quiet)
+{
+	try
+	{
+		MainCharacter* myMainCharacter = new MainCharacter();
+		if (!quiet)
+		{
+			std::cout << "Main Character Test1: PASSED\n";
+		}
+		return true;
+	}
+	catch (int e)
+	{
+		std::cout << "Error number " << e << "\n";
+		std::cout << "There is an error in the constructor of Main Character";
+		std::cout << "Main Character Test1: FAILED\n";
+		return false;
+	}
+}

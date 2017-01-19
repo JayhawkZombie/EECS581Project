@@ -472,7 +472,7 @@ const int ListReader::getNumMonsters()
 {
   return num_monsters;
 }  
-const int ListReader::getNumArmor()
+int ListReader::getNumArmor()const
 {
   return num_armor;
 }

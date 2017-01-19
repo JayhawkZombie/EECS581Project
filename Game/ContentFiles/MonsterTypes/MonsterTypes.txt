@@ -6,7 +6,7 @@ A young spirit, made of flame, that hovers above the earth- it casts no shadow, 
 0
 1
 0
-SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet
+SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet.png
 NULL
 NULL
 NULL
@@ -17,7 +17,7 @@ A lesser son of vulcan. though it is fire elemental, it is known for its somber 
 1
 1
 0
-SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet
+SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet.png
 NULL
 NULL
 NULL

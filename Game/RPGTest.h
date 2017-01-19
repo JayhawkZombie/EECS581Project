@@ -10,6 +10,8 @@
 #include "MonsterType.h"
 #include "Useable.h"
 #include "Skill.h"
+#include "Inventory.h"
+#include "MainCharacter.h"
 #include <iostream>
 class RPGTest
 {
@@ -66,6 +68,12 @@ public:
 
 	//Skill tests
     static bool testSkill1(bool quiet);
+
+	//Inventory tests
+	static bool testInventory1(bool quiet);
+
+	//MainCharactertests
+	static bool testMainCharacter1(bool quiet);
 
 };
 #endif
