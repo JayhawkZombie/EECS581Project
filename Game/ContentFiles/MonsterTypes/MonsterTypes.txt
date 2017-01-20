@@ -1,4 +1,4 @@
-38
+41
 
 Flarial
 A young spirit, made of flame, that hovers above the earth- it casts no shadow, as it is a source of light
@@ -7,6 +7,127 @@ A young spirit, made of flame, that hovers above the earth- it casts no shadow, 
 1
 0
 SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet.png
+Pyrus
+Flarpup
+PyroSymbol
+
+Pyrus
+A minor demon holding a blazing sword in either hand
+0
+0
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Pyrus.png
+NULL
+Pyos
+NULL
+
+Flarpup
+A young wolf whos focus is speed
+0
+0
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Flarpup.png
+NULL
+Comet
+NULL
+
+PyroSymbol
+A magical symbol of eternal flame, the PyroSymbol is a floating fire symbol
+0
+0
+2
+2
+SFEngine/Samples/Animations/CharacterAnimations/PyroSymbolMonster.png
+FireOpal
+NULL
+PyroElemental
+
+Pyos
+A flarial made large, the pyros is a ball of flame that crackles with intensity
+0
+0
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Pyros.png
+NULL
+Pyres
+NULL
+
+Comet
+Friction has lit aflame the legs of this flarpup, and magical speed energy surrounds it, enhancing its ability to strike at its prey
+0
+0
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Comet.png
+NULL
+Bolide
+NULL
+
+FireOpal
+When a pyro symbol breaks with tradition and begins to strike physically, its immaterial form hardens and it becomes a fireOpal
+0
+0
+3
+2
+SFEngine/Samples/Animations/CharacterAnimations/FireOpal.png
+NULL
+Ruby
+NULL
+
+PyroElemental
+When a Pyro symbol is strong it attracts other symbols. This one has attracted a pyro symbol, and umbral symbol and a terral symbol, and as a consequence can use Magics associated with those two elements as well
+0
+0
+3
+3
+SFEngine/Samples/Animations/CharacterAnimations/PyroElemental.png
+NULL
+PyroAtronach
+NULL
+
+Pyres
+Fire consumes, and the best days of the Pyres are behind it. Though its surface has never been hotter, the fuel inside is nearly extinguished, as evidenced by its burnt out, dark eyes, which function as windows into the soul of the Pyres. Though its time is nearly up, it has never been stronger, and as a monster based in anger, it intends to go out with violence
+0
+0
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Pyres.png
+NULL
+NULL
+NULL
+
+Bolide
+Consumed by anger the Comet has formed into a Bolide, A huge comet that can never slow down. Its very speed ignites the air, burning all in its path.
+0
+0
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Bolide.png
+NULL
+NULL
+NULL
+
+Ruby
+The fireOpal has hardened and its power has increased tenfold, granting it a brighter sheen and allowing it to cast magic and attack physically with ever more vigor.
+0
+0
+4
+2
+SFEngine/Samples/Animations/CharacterAnimations/Ruby.png
+NULL
+NULL
+NULL
+
+PyroAtronach
+The PyroEelmental has grown and attracted more deferential symbols that allow it to channel all elemental magics, making the Atronach a true master of magic.
+0
+0
+4
+3
+SFEngine/Samples/Animations/CharacterAnimations/PyroAtronach.png
 NULL
 NULL
 NULL
