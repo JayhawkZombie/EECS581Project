@@ -19,6 +19,10 @@ int GameMain::run()
 	MainCharacter* mchar = new MainCharacter();
 	ListReader list;
 	list.readConversation("Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt",*(mchar));
+	/*
+	* int reply;
+	* reply = list.readConversation(...);
+	*/
 	list.menu();
 	delete mchar;
 	return 0;
