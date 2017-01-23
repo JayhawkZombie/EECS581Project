@@ -45,10 +45,28 @@ namespace Engine
     Editor GameEditor;
 #endif
 
+    unsigned int GetCurrentFrameRate() {
+      return FrameRate;
+    }
+
+    bool GetIsFramerateLimited() {
+      return IsFramerateLimited;
+    }
+
+    sf::Vector2u GetCurrentWindowsize() const {
+      if (Window)
+        return Window->getSize();
+      else
+        return{ 0, 0 };
+    }
+
   private:
     //UI event objects
     InputEvent UIInputEvent;
     FocusChangeEvent UIFocusChangeEvent;
+
+    bool IsFramerateLimited = false;
+    unsigned int FrameRate;
 
     void BindScripts();
 

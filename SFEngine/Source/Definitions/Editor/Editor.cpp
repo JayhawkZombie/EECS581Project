@@ -16,6 +16,9 @@ namespace Engine
     EditorModeText.setPosition({ 400, 10 });
     EditorModeText.setString("Editor : Mode <No Selection>");
 
+    TextFont = std::make_shared<sf::Font>();
+    TextFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
+
     PreviewGridInfoText.setFont(EditorFont);
     PreviewGridInfoText.setCharacterSize(6);
     PreviewGridInfoText.setFillColor(sf::Color::White);
@@ -26,47 +29,6 @@ namespace Engine
     sf::Vector2f GridStart = { 0, 40 };
     sf::Vector2f GridCellSize = { 40.f, 40.f };
     sf::Vector2f Pos1, Pos2, Pos3, Pos4;
-
-    for (std::size_t x = 0; x < 30; ++x) {
-      for (std::size_t y = 0; y < 30; ++y) {
-        Pos1 = { GridStart.x + GridCellSize.x * x, GridStart.y + GridCellSize.y * y };
-        Pos2 = { Pos1.x + GridCellSize.x, Pos1.y };
-        Pos3 = { Pos2.x, Pos2.y + GridCellSize.y };
-        Pos4 = { Pos1.x, Pos3.y };
-
-        PreviewGridLines.push_back(sf::VertexArray(sf::Lines, 2));
-        PreviewGridLines.back()[0].position = Pos1; PreviewGridLines.back()[0].color = sf::Color(0, 246, 255, 100);
-        PreviewGridLines.back()[1].position = Pos2; PreviewGridLines.back()[1].color = sf::Color(0, 246, 255, 100);
-
-        PreviewGridLines.push_back(sf::VertexArray(sf::Lines, 2));
-        PreviewGridLines.back()[0].position = Pos2; PreviewGridLines.back()[0].color = sf::Color(0, 246, 255, 100);
-        PreviewGridLines.back()[1].position = Pos3; PreviewGridLines.back()[1].color = sf::Color(0, 246, 255, 100);
-
-        PreviewGridLines.push_back(sf::VertexArray(sf::Lines, 2));
-        PreviewGridLines.back()[0].position = Pos3; PreviewGridLines.back()[0].color = sf::Color(0, 246, 255, 100);
-        PreviewGridLines.back()[1].position = Pos4; PreviewGridLines.back()[1].color = sf::Color(0, 246, 255, 100);
-
-        PreviewGridLines.push_back(sf::VertexArray(sf::Lines, 2));
-        PreviewGridLines.back()[0].position = Pos4; PreviewGridLines.back()[0].color = sf::Color(0, 246, 255, 100);
-        PreviewGridLines.back()[1].position = Pos1; PreviewGridLines.back()[1].color = sf::Color(0, 246, 255, 100);
-      }
-    }
-
-
-    PreviewTexture.create(EditorPreviewSize.x, EditorPreviewSize.y);
-    PreviewTexture.clear(sf::Color::Transparent);
-
-    PreviewShape.setPosition({ 0, 40 });
-    PreviewShape.setTexture(&PreviewTexture.getTexture());
-    PreviewShape.setSize({ (float)EditorPreviewSize.x, (float)EditorPreviewSize.y });
-
-    PreviewShape.setFillColor(sf::Color::Transparent);
-    PreviewShape.setOutlineColor(sf::Color::White);
-    PreviewShape.setOutlineThickness(-2);
-
-    PreviewSprite.setPosition({ 0, 0 });
-    PreviewSprite.setTexture(PreviewTexture.getTexture());
-    PreviewSprite.setTextureRect({ 0, 0, (int)ceil(EditorPreviewSize.x),(int)ceil(EditorPreviewSize.y) });
 
     //set info for tile editing
     TileEditInfo.TileText.setFont(EditorFont);
@@ -84,56 +46,16 @@ namespace Engine
     TileEditInfo.TileSheetSprite.setScale(ScaleFactors);
 
     //get the rect for the tile sheet rect currently selected (default = 0)
-    sf::IntRect rect = TileFrames[TileEditInfo.SheetIndex];
-    TileEditInfo.TileSheetOutline.setPosition({ TileSheetPreviewPosition.x + rect.left * ScaleFactors.x, TileSheetPreviewPosition.y + rect.top * ScaleFactors.y });
-    TileEditInfo.TileSheetOutline.setSize({ (float)rect.width * ScaleFactors.x, (float)rect.height * ScaleFactors.y });
-    TileEditInfo.TileSheetOutline.setFillColor(sf::Color::Transparent);
-    TileEditInfo.TileSheetOutline.setOutlineColor(sf::Color::Blue);
-    TileEditInfo.TileSheetOutline.setOutlineThickness(2);
-    
-    TileEditInfo.TileSheetPreviewSprite.setPosition({ TileSheetPreviewPosition.x, TileSheetPreviewPosition.y + TileSheetPreviewSize.y + 10 });
-    TileEditInfo.TileSheetPreviewSprite.setTexture(TileEditInfo.TileSheet);
-    TileEditInfo.TileSheetPreviewSprite.setTextureRect(TileFrames[TileEditInfo.SheetIndex]);
-
-    //set up the outlines for the frames in the tile sheet
-    /**
-     *  (1)____(2)
-     *  |        |
-     *  |        |
-     *  |(4)__(3)|
-     */
-    sf::IntRect Frame;
-    for (std::size_t i = 0; i < TileFrames.size(); ++i) {
-      TileEditInfo.TileFrameOutlines.push_back(sf::VertexArray(sf::Lines, 2));
-      Frame = TileFrames[i];
-      Pos1 = { TileSheetPreviewPosition.x + Frame.left * ScaleFactors.x, TileSheetPreviewPosition.y + Frame.top * ScaleFactors.y };
-      Pos2 = { Pos1.x + Frame.width * ScaleFactors.x, Pos1.y };
-      Pos3 = { Pos2.x, Pos2.y + Frame.height * ScaleFactors.y };
-      Pos4 = { Pos1.x, Pos3.y };
-
-      TileEditInfo.TileFrameOutlines.back()[0].position = Pos1; //(1)
-      TileEditInfo.TileFrameOutlines.back()[1].position = Pos2; //(2)
-      TileEditInfo.TileFrameOutlines.back()[0].color = sf::Color::Red;
-      TileEditInfo.TileFrameOutlines.back()[1].color = sf::Color::Red;
-
-      TileEditInfo.TileFrameOutlines.push_back(sf::VertexArray(sf::Lines, 2));
-      TileEditInfo.TileFrameOutlines.back()[0].position = Pos2;
-      TileEditInfo.TileFrameOutlines.back()[1].position = Pos3;
-      TileEditInfo.TileFrameOutlines.back()[0].color = sf::Color::Red;
-      TileEditInfo.TileFrameOutlines.back()[1].color = sf::Color::Red;
-
-      TileEditInfo.TileFrameOutlines.push_back(sf::VertexArray(sf::Lines, 2));
-      TileEditInfo.TileFrameOutlines.back()[0].position = Pos3;
-      TileEditInfo.TileFrameOutlines.back()[1].position = Pos4;
-      TileEditInfo.TileFrameOutlines.back()[0].color = sf::Color::Red;
-      TileEditInfo.TileFrameOutlines.back()[1].color = sf::Color::Red;
-
-      TileEditInfo.TileFrameOutlines.push_back(sf::VertexArray(sf::Lines, 2));
-      TileEditInfo.TileFrameOutlines.back()[0].position = Pos4;
-      TileEditInfo.TileFrameOutlines.back()[1].position = Pos1;
-      TileEditInfo.TileFrameOutlines.back()[0].color = sf::Color::Red;
-      TileEditInfo.TileFrameOutlines.back()[1].color = sf::Color::Red;
-    }
+    //sf::IntRect rect = TileFrames[TileEditInfo.SheetIndex];
+    //TileEditInfo.TileSheetOutline.setPosition({ TileSheetPreviewPosition.x + rect.left * ScaleFactors.x, TileSheetPreviewPosition.y + rect.top * ScaleFactors.y });
+    //TileEditInfo.TileSheetOutline.setSize({ (float)rect.width * ScaleFactors.x, (float)rect.height * ScaleFactors.y });
+    //TileEditInfo.TileSheetOutline.setFillColor(sf::Color::Transparent);
+    //TileEditInfo.TileSheetOutline.setOutlineColor(sf::Color::Blue);
+    //TileEditInfo.TileSheetOutline.setOutlineThickness(2);
+    //
+    //TileEditInfo.TileSheetPreviewSprite.setPosition({ TileSheetPreviewPosition.x, TileSheetPreviewPosition.y + TileSheetPreviewSize.y + 10 });
+    //TileEditInfo.TileSheetPreviewSprite.setTexture(TileEditInfo.TileSheet);
+    //TileEditInfo.TileSheetPreviewSprite.setTextureRect(TileFrames[TileEditInfo.SheetIndex]);
 
     UITexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture);
     UITexture->create(1200, 900);
@@ -145,9 +67,11 @@ namespace Engine
     try
     {
       UIHelper = UI::WidgetHelper::Create();
+      UILayer = UI::UILayer::Create();
+      UIHelper->AddUILayer(UILayer);
 
-      TestButton = UI::ClickButtonBase::Create(UIHelper, { 800, 600 }, { 150, 45 });
-      TestButton2 = UI::ClickButtonBase::Create(UIHelper, { 400, 800 }, { 150, 45 });
+      TestButton = UI::ClickButtonBase::Create(UILayer, { 800, 600 }, { 150, 45 });
+      TestButton2 = UI::ClickButtonBase::Create(UILayer, { 400, 800 }, { 150, 45 });
 
       TestButton->ButtonText.setFont(EditorFont);
       TestButton->ButtonText.setCharacterSize(16);
@@ -168,7 +92,7 @@ namespace Engine
         ThisTileDim.height = tile.height;
 
         try {
-          auto _tile = UI::DraggableTile::Create(UIHelper, TilesTexture, tile, { ThisTileDim.left, ThisTileDim.top }, { ThisTileDim.width * ScaleX, ThisTileDim.height * ScaleY });
+          auto _tile = UI::DraggableTile::Create(UILayer, TilesTexture, tile, { ThisTileDim.left, ThisTileDim.top }, { ThisTileDim.width * ScaleX, ThisTileDim.height * ScaleY });
           DragTiles.push_back(_tile);
         }
         catch (ConstructionException &cerr) {
@@ -176,7 +100,13 @@ namespace Engine
         }
       } //for tile : TileFrames
 
-      ObjectList = UI::ListWidget::Create(UIHelper, { 400, 400 }, { 100, 400 });
+      ObjectList = UI::ListWidget::Create(UILayer, TextFont, { 0, 100.f }, { 100, 700.f },
+                                          UI::ButtonPlacement::TopCenter, { 0, 0 }, { 100.f, 15.f });
+      
+      EditOptionsList = UI::ListWidget::Create(UILayer, TextFont, { 0, 0 }, { 1200.f, 80.f },
+                                               UI::ButtonPlacement::BottomCenter, { 0.f, 15.f }, { 100.f, 15.f });
+
+      //auto Label = UI::TextLabel::Create(EditOptionsOpenCloseButton, UI::TextAlignment::CenterJustified, "Close", sf::Color::White, TextFont, 12, { 0, 0, 15, 75 }, { 0, 0 });
 
     }
     catch (std::exception &err)

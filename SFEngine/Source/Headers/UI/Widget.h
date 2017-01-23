@@ -1,6 +1,8 @@
 #ifndef SFENGINE_WIDGET_BASE_H
 #define SFENGINE_WIDGET_BASE_H
 
+#include <memory>
+
 #include "Drawables/Drawables.h"
 #include "Events\Events.h"
 
@@ -8,10 +10,20 @@ namespace Engine
 {
 
 
+#ifdef WIDGET_CONSTRUCT_DEBUG_OUT
+
+#define WIDGET_IDINFO_DEBUG(CLASSNAME, ITEMNAME)\
+std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
+#else
+#define WIDGET_IDINFO_DEBUG(CLASSNAME, ITEMNAME)
+#endif
+
   namespace UI
   {
 
     class WidgetHelper;
+    class UILayer;
+    class TextLabel;
 
     class WidgetBase
     {
@@ -20,10 +32,11 @@ namespace Engine
 
         //this is necessary to be able to delegate the destructor in std::shared_ptr to the widget helper "RequestDelete"
       friend class WidgetHelper; 
+      friend class UILayer;
 
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**
-      static std::shared_ptr<WidgetBase> Create(std::shared_ptr<WidgetHelper> ThisCreator);
+      static std::shared_ptr<WidgetBase> Create(std::shared_ptr<UILayer> ThisLayer);
 
       /**
       * Base level event handlers
@@ -42,6 +55,10 @@ namespace Engine
       virtual void OnDragBegin(const InputEvent &IEvent);
       virtual void OnDragContinue(const InputEvent &IEvent);
       virtual void OnDragEnd(const InputEvent &IEvent);
+
+      virtual void AddTextLabel(std::shared_ptr<TextLabel> Label);
+
+      virtual void Move(const sf::Vector2f &Delta);
 
       virtual void CreateHelper();
 
@@ -63,6 +80,10 @@ namespace Engine
         CanBeDragged = Enabled;
       }
 
+      void SetIsHidden(bool Hidden) {
+        IsHidden = Hidden;
+      }
+
       //All widgets some with SOME basic elements available
       sf::Text ButtonText;
       std::shared_ptr<sf::Font> ButtonFont;
@@ -82,6 +103,22 @@ namespace Engine
       std::function<void(void)> DragEndCB = [this]() {};
       std::function<void(void)> DragContinueCB = [this]() {};
 
+      /**
+      *  The global region in which this widget can be drawn
+      *   and shoud receive events
+      */
+      DrawableQuad GlobalWidgetBounds;
+
+      bool IsInFocus() const {
+        return HasFocus;
+      }
+      bool IsCurrentlyInDrag() const {
+        return IsBeingDragged;
+      }
+      bool CanDrag() const {
+        return CanBeDragged;
+      }
+
       virtual ~WidgetBase();
     protected:
       WidgetBase();
@@ -90,27 +127,26 @@ namespace Engine
       std::shared_ptr<WidgetHelper> Helper; 
 
       //The helper that is containing THIS OBJECT
-      std::shared_ptr<WidgetHelper> Creator; 
+      std::shared_ptr<UILayer> MyLayer;
+      std::shared_ptr<UILayer> ChildLayer;
 
       //32-bit identifier (use current epoch), no 32-bit architectures sorry
       std::uint32_t WidgetID;
       bool IsValid = false; //set to TRUE after the Creator has initialized it
       bool WasInvalidated = false; //set to TRUE if InvalidateWidget() is ever called
       bool CleanedUpAfterInvalidation = false; //Set to TRUE when ForceCleanUp() is called, allowing the widget to clean up after a bad error
-
+      bool IsBeingUpdated = true;
       bool CanBeDragged = false;
       bool IsBeingDragged = false;
       bool HasFocus = false;
-      /**
-      *  The global region in which this widget can be drawn
-      *   and shoud receive events
-      */
-      DrawableQuad GlobalWidgetBounds;
+      bool IsHidden = false;
 
       /**
       * Contain a set of drawable to be rendered to their respective canvases
       */
       std::vector<std::shared_ptr<Drawable>> Drawables;
+
+      std::vector<std::shared_ptr<TextLabel>> TextLabels;
 
       std::vector<std::shared_ptr<WidgetBase>> Children;
 

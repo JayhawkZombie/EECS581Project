@@ -17,6 +17,15 @@ namespace Engine
 STRING##__func__
 
 
+
+#define UNWIND_EXCEPTION_STACK_TRACE(STRING_TARGET,VECTOR_MESSAGES,VECTOR_CAUSES)\
+for(auto & message : VECTOR_MESSAGES){\
+  STRING_TARGET += message;\
+  STRING_TARGET.append('\n');\
+}\
+  
+
+
   enum class ExceptionCause : std::uint32_t
   {
     InitializationError, //Was not able to init properly
@@ -27,6 +36,7 @@ STRING##__func__
     IDGenerationError, //Were not able to generate an ID for this, something has clogged the ID set
     ConstructionError, //Something blew up while trying to construct this
     InvalidContainer, //The container was unable to hold an item that needed it
+    InvalidParameter,
     Unknown, //Undocumented reason, but something threw an exception and didn't provide a known documented cause
   };
 
@@ -42,7 +52,13 @@ STRING##__func__
     virtual ~EngineRuntimeError() throw () {}
 
     virtual const char* what() {
-      return msg_.c_str();
+      std::string exception_trace;
+      for (auto & msg : Messages) {
+        exception_trace += msg;
+        exception_trace.append("\n");
+      }
+      
+      return exception_trace.c_str();
     }
 
     virtual void AddCause(const ExceptionCause &cause) {

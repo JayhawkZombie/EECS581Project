@@ -6,11 +6,11 @@ namespace Engine
 
   namespace UI
   {
-    std::shared_ptr<DraggableTile> DraggableTile::Create(std::shared_ptr<WidgetHelper> ThisCreator, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<DraggableTile> DraggableTile::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
-      if (!ThisCreator || !ThisCreator->CanAcceptWidget()) {
+      if (!ThisLayer || !ThisLayer->CanAcceptWidget()) {
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
-                                     EXCEPTION_MESSAGE("Given WidgetHelper is NULL or cannot accept a widget"));
+                                     EXCEPTION_MESSAGE("Given UILayer is NULL or cannot accept a widget"));
       }
       else if (!Texture) {
         throw InvalidParameter({ ExceptionCause::InvalidObjectUsed },
@@ -21,8 +21,8 @@ namespace Engine
       {
         std::shared_ptr<DraggableTile> Drag(new DraggableTile);
 
-        Drag->Creator = ThisCreator;
-        ThisCreator->RegisterWidget(Drag);
+        Drag->MyLayer = ThisLayer;
+        ThisLayer->RegisterWidget(Drag);
         //Set up the tile
         Drag->Outline.setPosition(Position);
         Drag->Outline.setSize(Size);
@@ -85,6 +85,18 @@ namespace Engine
       CanBeDragged = true; //Enable dragging
     }
 
+    void DraggableTile::Move(const sf::Vector2f &Delta)
+    {
+      DraggableBase::Move(Delta);
+
+      Verts[0].position += Delta;
+      Verts[1].position += Delta;
+      Verts[2].position += Delta;
+      Verts[3].position += Delta;
+
+      Outline.move(Delta);
+    }
+
     void DraggableTile::ConsumeEvent(const InputEvent &IEvent) 
     {
       DraggableBase::ConsumeEvent(IEvent);
@@ -95,12 +107,14 @@ namespace Engine
     {
       DraggableBase::OnFocusGained(FEvent);
 
+      Outline.setFillColor(sf::Color::Red);
     }
 
     void DraggableTile::OnFocusLost(const FocusChangeEvent &FEvent) 
     {
       DraggableBase::OnFocusLost(FEvent);
 
+      Outline.setOutlineColor(sf::Color::Yellow);
     }
 
     void DraggableTile::OnKeyPress(const InputEvent &IEvent) 
@@ -137,6 +151,7 @@ namespace Engine
       DraggableBase::OnMouseOver(IEvent);
 
       Outline.setOutlineColor(sf::Color::Magenta);
+      DEBUG_ONLY std::cerr << "Widget ID : " << WidgetID << " MouseOver" << std::endl;
     }
 
     void DraggableTile::OnMouseLeave(const InputEvent &IEvent) 
@@ -144,6 +159,7 @@ namespace Engine
       DraggableBase::OnMouseLeave(IEvent);
 
       Outline.setOutlineColor(sf::Color::Yellow);
+      DEBUG_ONLY std::cerr << "Widget ID : " << WidgetID << " MouseLeave" << std::endl;
     }
 
     void DraggableTile::OnMouseMove(const InputEvent &IEvent) 
@@ -173,7 +189,7 @@ namespace Engine
 
       sf::Vector2f dMovement = sf::Vector2f{ IEvent.CurrentMousePosition - IEvent.PreviousMousePosition };
       Outline.move(dMovement);
-      
+
       Verts[0].position += dMovement;
       Verts[1].position += dMovement;
       Verts[2].position += dMovement;
@@ -189,10 +205,8 @@ namespace Engine
     void DraggableTile::Render(std::shared_ptr<sf::RenderTexture> &Texture) 
     {
       DraggableBase::Render(Texture);
-
-      Texture->draw(Verts, RenderState);
       Texture->draw(Outline);
-      
+      Texture->draw(Verts, RenderState);
     }
 
   }

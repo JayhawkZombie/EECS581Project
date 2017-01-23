@@ -10,6 +10,18 @@ namespace Engine
   namespace UI
   {
 
+    enum class ButtonPlacement : std::uint32_t
+    {
+      TopLeft = 0,
+      TopCenter,
+      TopRight,
+      LeftCenter,
+      RightCenter,
+      BottomLeft,
+      BottomRight,
+      BottomCenter
+    };
+
     class ButtonBase : public WidgetBase
     {
     public:
@@ -19,7 +31,7 @@ namespace Engine
 
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**
-      static std::shared_ptr<ButtonBase> Create(std::shared_ptr<WidgetHelper> ThisCreator);
+      static std::shared_ptr<ButtonBase> Create(std::shared_ptr<UILayer> ThisLayer);
 
       /**
       * Base level event handlers
@@ -40,6 +52,8 @@ namespace Engine
       virtual void OnDragEnd(const InputEvent &event) override;
       virtual void TickUpdate(const double &delta) override;
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
+
+      virtual void Move(const sf::Vector2f &Delta) override;
 
       virtual ~ButtonBase() = default;
     protected:

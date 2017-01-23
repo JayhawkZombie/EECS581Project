@@ -1,25 +1,18 @@
-#ifndef SFENGINE_UI_DRAGGABLE_TILE_H
-#define SFENGINE_UI_DRAGGABLE_TILE_H
+#ifndef SFENGINE_DRAGGABLE_RECT_H
+#define SFENGINE_DRAGGABLE_RECT_H
 
 #include "DraggableBase.h"
 
 namespace Engine
 {
 
-  //test struct
-  struct TestTile {
-    std::vector<sf::VertexArray> Edges;
-
-    std::shared_ptr<sf::Texture> Texture;
-  };
-
   namespace UI
   {
 
-    class DraggableTile : public DraggableBase
+    class DraggableRect : public DraggableBase
     {
     public:
-      static std::shared_ptr<DraggableTile> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      static std::shared_ptr<DraggableRect> Create(std::shared_ptr<UILayer> ThisLayer, const sf::Vector2f &Position, const sf::Vector2f &Size);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -39,26 +32,19 @@ namespace Engine
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
 
-      TestTile Tile;
-      sf::RectangleShape Outline;
-      std::shared_ptr<sf::Texture> TileTexture;
+      sf::RectangleShape Shape;
 
-      sf::VertexArray Left = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Top = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Right = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Bottom = sf::VertexArray(sf::Lines, 2);
+      std::function<void(const sf::Vector2f &Delta)> OnDragged = [](auto delta) {};
 
-      sf::VertexArray Verts = sf::VertexArray(sf::Quads, 4);
-
-      sf::RenderStates RenderState;
-
-      virtual ~DraggableTile() = default;
+      virtual ~DraggableRect() = default;
     protected:
-      DraggableTile();
+      DraggableRect();
+
     };
 
   }
 
 }
+
 
 #endif

@@ -8,7 +8,7 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<DraggableBase> DraggableBase::Create(std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<DraggableBase> DraggableBase::Create(std::shared_ptr<UILayer> ThisLayer, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       std::shared_ptr<DraggableBase> Widget(new DraggableBase);
 
@@ -19,6 +19,11 @@ namespace Engine
       : WidgetBase()
     {
       CanBeDragged = true;
+    }
+
+    void DraggableBase::Move(const sf::Vector2f &Delta)
+    {
+      WidgetBase::Move(Delta);
     }
 
     void DraggableBase::ConsumeEvent(const InputEvent &IEvent)

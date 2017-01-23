@@ -1,5 +1,6 @@
 #include "../../Headers/UI/Widget.h"
 #include "../../Headers/UI/WIdgetHelper.h"
+#include "../../Headers/UI/Text/TextLabel.h"
 
 #include <random>
 
@@ -22,6 +23,17 @@ namespace Engine
 
     }
 
+    void WidgetBase::Move(const sf::Vector2f &Delta)
+    {
+      GlobalWidgetBounds.MoveRegion(Delta);
+
+      //for (auto & label : TextLabels)
+      //  label->Move(Delta);
+
+      if (ChildLayer)
+        ChildLayer->Move(Delta);
+    }
+
     void WidgetBase::SetUpWidget()
     {
       DEBUG_ONLY std::cerr << "WidgetBase::SetUpWidget()" << std::endl;
@@ -30,17 +42,18 @@ namespace Engine
       //Just ignore and return. Should we throw an exception instead?
       //Someone/something might have already tried to use this...
       if (WidgetID != 0)
-        return;
+        throw InvalidObjectException({ ExceptionCause::InitializationError },
+                                     EXCEPTION_MESSAGE("WidgetID has already been set"));
 
       //This widget should now have a valid Creator set
       //If it isn't what happened?
       //This exceptions shouldn't ever actually happen, but
       //  in the off-chance that a classes uses this and tries to call 
       //  SetUpWidget() any time after the Creator became invalid, then this is bad
-      if (!Creator || !Creator->IsValid())
+      if (!MyLayer || !MyLayer->IsValid())
         throw InvalidObjectException(
           { ExceptionCause::InvalidContainer },
-          EXCEPTION_MESSAGE("Widget does not have a valid Creator set. Is this widget rogue?")
+          EXCEPTION_MESSAGE("Widget layer is null or is not valid. Is this a rogue widget?")
         );
 
       //generate a unique ID based on the current epoch
@@ -51,7 +64,6 @@ namespace Engine
       {
         ItemID = GenerateID();
         WidgetID = ItemID;
-        DEBUG_ONLY std::cerr << "WidgetBase::WidgetID : " << WidgetID << std::endl;
       }
       catch (IDException &err)
       {
@@ -85,14 +97,14 @@ namespace Engine
       return;
     }
 
-    std::shared_ptr<WidgetBase> WidgetBase::Create(std::shared_ptr<WidgetHelper> ThisCreator)
+    std::shared_ptr<WidgetBase> WidgetBase::Create(std::shared_ptr<UILayer> ThisLayer)
     {
       //Throw an excption if ThisCreator isn't valid, or cannot accept another widget for some reason
       //We can't create this, something is wrong with the container. Register ConstructionError since this object did not get constructed properly
-      if (!ThisCreator || !ThisCreator->CanAcceptWidget())
+      if (!ThisLayer || !ThisLayer->CanAcceptWidget())
         throw InvalidObjectException(
           { ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError }, 
-          EXCEPTION_MESSAGE("Created WidgetHelper is invalid or cannot accept any widgets")
+          EXCEPTION_MESSAGE("UILayer is invalid or cannot accept any widgets")
         );
 
       //OK, we can create it
@@ -100,12 +112,13 @@ namespace Engine
 
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**
-      Widget->Creator = ThisCreator; 
+      Widget->MyLayer = ThisLayer; 
 
       //Inform the creator of this new widget
       //This WidgetHelper obejct should make sure that this Widget is properly initialized
       //*****IT SHOULD NOT BE INITIALIZED ANYWHERE ELSE BUT FROM INSIDE THE WIDGET HELPER******
-      ThisCreator->RegisterWidget(Widget);
+      
+      ThisLayer->RegisterWidget(Widget);
 
       return Widget;
     }
@@ -136,7 +149,11 @@ namespace Engine
     }
 
     void WidgetBase::TickUpdate(const double &delta) {}
-    void WidgetBase::Render(std::shared_ptr<sf::RenderTexture> &Texture) {}
+    void WidgetBase::Render(std::shared_ptr<sf::RenderTexture> &Texture) 
+    {
+      for (auto & label : TextLabels)
+        label->Render(Texture);
+    }
 
     void WidgetBase::ConsumeEvent(const InputEvent &IEvent) {}
     void WidgetBase::OnFocusGained(const FocusChangeEvent &FEvent) {}
@@ -168,6 +185,10 @@ namespace Engine
     }
 
     void WidgetBase::OnDragEnd(const InputEvent &IEvent) {}
+    void WidgetBase::AddTextLabel(std::shared_ptr<TextLabel> Label)
+    {
+      TextLabels.push_back(Label);
+    }
   }
 
 }

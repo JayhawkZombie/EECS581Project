@@ -1,25 +1,21 @@
-#ifndef SFENGINE_UI_DRAGGABLE_TILE_H
-#define SFENGINE_UI_DRAGGABLE_TILE_H
+#ifndef SFENGINE_UI_STICKY_BAR_H
+#define SFENGINE_UI_STICKY_BAR_H
 
-#include "DraggableBase.h"
+#include "DraggableRect.h"
 
 namespace Engine
 {
 
-  //test struct
-  struct TestTile {
-    std::vector<sf::VertexArray> Edges;
-
-    std::shared_ptr<sf::Texture> Texture;
-  };
-
   namespace UI
   {
 
-    class DraggableTile : public DraggableBase
+    class UILayer;
+    class WidgetHelper;
+
+    class StickyBar : public WidgetBase
     {
     public:
-      static std::shared_ptr<DraggableTile> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      static std::shared_ptr<StickyBar> Create(std::shared_ptr<UILayer> ThisLayer, const sf::Vector2f &Position, const sf::Vector2f &Size, const sf::Vector2f &VertBarSize, const sf::Vector2f &HorizBarSize, const sf::Vector2f &DragBarSize);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -39,26 +35,37 @@ namespace Engine
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
 
-      TestTile Tile;
-      sf::RectangleShape Outline;
-      std::shared_ptr<sf::Texture> TileTexture;
+      std::function<void(const sf::Vector2f &)> OnScroll = [](const sf::Vector2f &delta) {};
 
-      sf::VertexArray Left = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Top = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Right = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Bottom = sf::VertexArray(sf::Lines, 2);
-
-      sf::VertexArray Verts = sf::VertexArray(sf::Quads, 4);
-
-      sf::RenderStates RenderState;
-
-      virtual ~DraggableTile() = default;
+      virtual ~StickyBar() = default;
     protected:
-      DraggableTile();
+      StickyBar();
+
+      void AlignBar();
+
+      sf::Vector2f LeftBarPosition;
+      sf::Vector2f RightBarPosition;
+      sf::Vector2f DragBarPosition;
+      sf::Vector2f HorizontalBarPosition;
+
+      sf::FloatRect BarBounds;
+
+      sf::RectangleShape LeftVertBar;
+      sf::RectangleShape RightVertBar;
+      sf::RectangleShape HorizontalBar;
+
+      std::shared_ptr<DraggableRect> DragRect;
+
+      sf::Vector2f BarSize;
+      sf::Vector2f HorizontalBarSize;
+      sf::Vector2f DragBarSize;
+
+
     };
 
   }
 
 }
+
 
 #endif

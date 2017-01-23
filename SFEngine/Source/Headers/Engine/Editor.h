@@ -10,7 +10,7 @@
 #include "../Render/Render.h"
 
 #include "../UI/List/List.h"
-
+#include "../UI/Text/TextLabel.h"
 #include "../UI/WIdgetHelper.h"
 #include "../UI/Buttons/ClickButtonBase.h"
 #include "../UI/Draggables/DraggableTile.h"
@@ -105,6 +105,38 @@ namespace Engine
     void HandleTextEntered(const InputEvent &Event);
 
   protected:
+    std::shared_ptr<sf::Font> TextFont;
+
+    //Data for the tile menu on the left
+    std::shared_ptr<UI::ListWidget> TileList;
+    std::shared_ptr<UI::ClickButtonBase> TileListOpenCloseButton;
+
+    std::shared_ptr<UI::ListWidget> EditOptionsList;
+    std::shared_ptr<UI::ClickButtonBase> EditOptionsOpenCloseButton;
+    /**
+    *  _________________________________________________________________
+    *  |                                                               |
+    *  |                                                               |  <-- EditOptionsList
+    *  |_______________________________________________________________|
+    *  |                      |________________| <-- OpenCloseButton
+    *  |
+    *  |
+    *  
+    *  _________________________________________________________________
+    *  |___________| <- TileSelect_OpenCloseButton
+    *  |           |
+    *  |           |
+    *  |           |
+    *  |           |
+    *  |           |
+    *  |           | <-- TileSelectList
+    *  |           |
+    *  |           |
+    *  |           |
+    *  |           |
+    *  |___________|
+    */
+
     //data for visualization
     sf::Font EditorFont;
     sf::Text EditorModeText;
@@ -119,6 +151,7 @@ namespace Engine
     std::shared_ptr<sf::Texture> TilesTexture;
 
     std::shared_ptr<UI::WidgetHelper> UIHelper;
+    std::shared_ptr<UI::UILayer> UILayer;
     sf::Sprite UISprite;
 
     std::shared_ptr<sf::RenderTexture> UITexture;

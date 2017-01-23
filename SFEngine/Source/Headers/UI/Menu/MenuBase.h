@@ -1,25 +1,23 @@
-#ifndef SFENGINE_UI_DRAGGABLE_TILE_H
-#define SFENGINE_UI_DRAGGABLE_TILE_H
+#ifndef SFENGINE_UI_MENU_BASE_H
+#define SFENGINE_UI_MENU_BASE_H
 
-#include "DraggableBase.h"
+#include "../Widget.h"
 
 namespace Engine
 {
 
-  //test struct
-  struct TestTile {
-    std::vector<sf::VertexArray> Edges;
-
-    std::shared_ptr<sf::Texture> Texture;
-  };
-
   namespace UI
   {
+    class UILayer;
+    class WidgetHelper;
 
-    class DraggableTile : public DraggableBase
+    class MenuWidgetBase : public WidgetBase
     {
     public:
-      static std::shared_ptr<DraggableTile> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      friend class UILayer;
+      friend class WidgetHelper;
+
+      static std::shared_ptr<MenuWidgetBase> Create(std::shared_ptr<UILayer> Layer, const sf::Vector2f &Position, const sf::Vector2f &Size);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -37,24 +35,10 @@ namespace Engine
       virtual void OnDragContinue(const InputEvent &IEvent) override;
       virtual void TickUpdate(const double &delta) override;
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
-      virtual void Move(const sf::Vector2f &Delta) override;
 
-      TestTile Tile;
-      sf::RectangleShape Outline;
-      std::shared_ptr<sf::Texture> TileTexture;
-
-      sf::VertexArray Left = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Top = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Right = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Bottom = sf::VertexArray(sf::Lines, 2);
-
-      sf::VertexArray Verts = sf::VertexArray(sf::Quads, 4);
-
-      sf::RenderStates RenderState;
-
-      virtual ~DraggableTile() = default;
+      virtual ~MenuWidgetBase();
     protected:
-      DraggableTile();
+      MenuWidgetBase();
     };
 
   }

@@ -7,6 +7,18 @@ namespace Engine
 {
 
 
+  template<typename _ListType>
+  inline void BringItemToFrontOfContainer(_ListType &ListType, std::size_t Index) {
+    if (Index >= ListType.size())
+      throw std::runtime_error("Index out of bounds of ListType");
+
+    auto ptr = ListType[Index];
+    ListType.erase(ListType.begin() + Index);
+    ListType.insert(ListType.begin() + 0, ptr);
+  }
+
+  
+
   namespace Util
   {
     void Normalize(sf::Vector2f &v);

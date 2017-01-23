@@ -5,8 +5,28 @@
 #include "Events\Events.h"
 #include "../Exceptions/Exceptions.h"
 
+#include "WidgetCollisionHelpers.h"
 #include "../Utils/CollisionHelpers.h"
 #include "Widget.h"
+
+#include <list>
+
+#ifndef REVERSE_ITERATE
+
+#define REVERSE_ITERATE(Member,Varname)\
+for(auto Varname = Member.rbegin(); Varname != Member.rend(); ++Varname)\
+
+#endif
+
+
+#ifndef BRING_TO_FRONT
+
+#define BRING_TO_FRONT(Member,Index)\
+auto ptr = Member[Index];\
+Member.erase(Member.begin() + Index);\
+Member.insert(Member.begin() + 0, ptr);
+
+#endif
 
 namespace Engine
 {
@@ -17,6 +37,66 @@ namespace Engine
 
     
     typedef std::shared_ptr<WidgetBase> SharedWidgetPointer;
+    class WidgetHelper;
+
+    enum class InteractionType : std::uint32_t
+    {
+      NoFocusChange = 0,
+      FocusChange,
+      NoInteraction,
+      BeginDrag,
+      ContinueDrag,
+      EndDrag
+    };
+
+    //Small struct to keep UI layered
+    class UILayer
+    {
+    public:
+      friend class WidgetHelper;
+
+      UILayer() = default;
+      ~UILayer() = default;
+      static std::shared_ptr<UILayer> Create();
+      
+      void TickUpdate(const double &delta);
+      void Render(std::shared_ptr<sf::RenderTexture> &Texture);
+
+      bool CanAcceptWidget() const;
+      bool HandleEvent(const InputEvent &IEvent);
+      bool IsValid() const;
+
+      void Move(const sf::Vector2f &Delta);
+
+      std::uint32_t GetID() const {
+        return LayerID;
+      }
+
+      void RegisterWidget(SharedWidgetPointer Widget);
+
+      std::function<void(std::uint32_t)> LayerRegisterDebugOutputFunction = [](auto t) {};
+
+    protected:
+      void BringItemToFront(std::size_t index);
+
+      std::uint32_t LayerID;
+
+      void BeginWidgetDrag(SharedWidgetPointer Widget, const InputEvent &IEvent);
+      void ContinueWidgetDrag(SharedWidgetPointer Widget, const InputEvent &IEvent);
+      void EndWidgetDrag(SharedWidgetPointer Widget, const InputEvent &IEVent);
+
+      InteractionType TestEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
+      void NonFocusChecks(SharedWidgetPointer Widget, const InputEvent &IEvent); //things like mouse moving off items, etc, but no focus changes
+
+      void SwitchFocusTo(std::vector<SharedWidgetPointer>::iterator it, const InputEvent &IEvent);
+      void RevokeFocus(SharedWidgetPointer Widget, const InputEvent &IEvent);
+
+      std::vector<SharedWidgetPointer> Items;
+      SharedWidgetPointer FocusedItem;
+      bool HasFocus = false;
+      bool IsActive = true;
+      sf::FloatRect GlobalBounds; //The global area you don't want interaction to go outside of
+    };
 
     class WidgetHelper
     {
@@ -25,7 +105,9 @@ namespace Engine
       ~WidgetHelper() = default;
       WidgetHelper() = default;
 
-      void RegisterWidget(std::shared_ptr<WidgetBase> Widget);
+      void AddUILayer();
+      void AddUILayer(std::shared_ptr<UILayer> Layer);
+      void RegisterWidget(std::shared_ptr<WidgetBase> Widget, std::size_t layer = 0);
       void Render(std::shared_ptr<sf::RenderTexture> &Target);
       void TickUpdate(const double &delta);
 
@@ -55,10 +137,22 @@ namespace Engine
       bool ConsumeKeyReleaseEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
 
 
+      std::vector<std::shared_ptr<UILayer>> Layers;
+
+      //New testing methods
+      bool TestEvent(std::size_t layer);
+      void BringToFront(std::size_t layer);
+      static void DoWidgetSetup(SharedWidgetPointer &Widget);
+      
+
+      //std::list<SharedWidgetPointer> UIItems;
+      //std::vector<SharedWidgetPointer> Items;
 
       bool WasInvalidated = true;
 
-      std::map<std::uint32_t, std::shared_ptr<WidgetBase>> RegisteredWidgets;
+      std::list<SharedWidgetPointer>::iterator FocusedItem;
+
+      //std::map<std::uint32_t, std::shared_ptr<WidgetBase>> RegisteredWidgets;
       
       std::shared_ptr<WidgetBase> Focus = nullptr;
 
@@ -102,7 +196,7 @@ namespace Engine
       *  Determine if the event could be consumed by a particular widget
       *    Focused CAN be changed by this method if an event caused the focus to switch
       */
-      static bool TestEvent(SharedWidgetPointer Widget, const InputEvent &IEvent, SharedWidgetPointer Focused);
+      static bool TestEvent(SharedWidgetPointer Item, const InputEvent &IEvent, SharedWidgetPointer &Focused);
 
       /**
       *  Determine if an event began a drag on a Widget (this will give focus to the widget)
@@ -124,7 +218,7 @@ namespace Engine
       *   (1) : Test to see if the focus should be switched from CurrentFocus to Interacted.
       *   (2) : If the focus did in fact change, the appropriate callbacks are called and states changed
       */
-      static void PotentiallySwitchFocus(SharedWidgetPointer Interacted, SharedWidgetPointer Focus, const FocusChangeEvent &FEvent);
+      static void PotentiallySwitchFocus(SharedWidgetPointer Interacted, SharedWidgetPointer &Focus, const FocusChangeEvent &FEvent);
 
       /**
       *  Used to set the widget states for begin dragging and invoke callbacks
@@ -145,6 +239,8 @@ namespace Engine
       *  Used to set the widget states for end dragging and invoke callbacks
       */
       static void EndWidgetDrag(SharedWidgetPointer Interacted, const InputEvent &IEvent);
+
+      
     };
 
 

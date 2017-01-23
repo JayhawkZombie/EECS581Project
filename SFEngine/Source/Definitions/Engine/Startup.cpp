@@ -16,6 +16,7 @@ namespace Engine
     Window->setKeyRepeatEnabled(true);
     Window->setVerticalSyncEnabled(true);
     currentRenderWindow = Window;
+    CurrentEngine = this;
 
     RenderSettings.texture = new sf::RenderTexture;
     RenderSettings.texture->create(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y);

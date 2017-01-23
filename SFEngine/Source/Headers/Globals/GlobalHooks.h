@@ -76,6 +76,18 @@ if(false){
 //remove this to build the engine without debugging output
 #define ENGINE_DEBUG
 
+
+//Remove this to build the engine without the widget construction debugging output
+#define WIDGET_CONSTRUCT_DEBUG_OUT
+
+#ifdef WIDGET_CONSTRUCT_DEBUG_OUT
+#define WIDGET_DEBUG_ONLY
+#else
+#define WIDGET_DEBUG_ONLY ___INTERNAL__COMMENT
+#endif //ifdef WIDGET_CONSTRUCT_DEBUG_OUT
+
+
+
 #ifdef ENGINE_DEBUG
 #define DEBUG_ONLY
 #define DEBUG_ONLY_CODE_BEGIN \
@@ -127,6 +139,9 @@ if (false)\
 typedef ParentClass Super
 
 
+
+//EXTERN DECLARATIONS
+
 namespace Engine
 {
   extern sf::RenderWindow *currentRenderWindow;
@@ -140,6 +155,27 @@ namespace Engine
   extern std::uint32_t GenerateID(); //Use to try to generate a unique ID. This will throw an IDException if it cannot generate one after a set number of attempts
 
   extern std::uint32_t MaxIDGenerationAttempts; //max # of times we will try to generate an ID for an item before giving up - defined in Widget.cpp
+
+  //ENGINE GLOBAL API EXTERNS
+  extern sf::Vector2u GetCurrentWindowSize();
+  
+  extern decltype(auto) GetCurrentOpenGLVersionMajor();
+  extern decltype(auto) GetCurrentOpenGLVersionMinor();
+  extern decltype(auto) GetCurrentAASetting();
+  extern decltype(auto) GetCurrentContextSettings();
+  extern decltype(auto) GetCurrentContext();
+  extern decltype(auto) GetCurrentTexturePoolSize();
+  extern decltype(auto) GetCurrentShaderPoolSize();
+  extern decltype(auto) GetCurrentFramerateSetting();
+
+  extern decltype(auto) GetIsGlobalShadingEnabled();
+  extern decltype(auto) GetIsStaticShadingEnabled();
+  extern decltype(auto) GetIsDynamicShadingEnabled();
+  extern decltype(auto) GetIsStaticShadowingEnabled();
+  extern decltype(auto) GetIsDynamicShadowingEnabled();
+  extern decltype(auto) GetIsMultiThreadedLightingEnabled();
+  extern decltype(auto) GetIsUsingPreComputedLightMaps();
+  extern decltype(auto) GetCanPhysicsApproxCollision();
 
 #ifdef WITH_EDITOR
   class SFEngine;

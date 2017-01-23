@@ -25,8 +25,6 @@ namespace Engine
       DrawView = MakeView(Region);
       DrawQuad.setPosition({ Region.left, Region.top }); 
       DrawQuad.setSize({ Region.width, Region.height });
-
-      DEBUG_ONLY std::cerr << "DrawableQuad::ForceRegion : DrawQuad {" << DrawQuad.getPosition().x << ", " << DrawQuad.getPosition().y << "} x {" << DrawQuad.getGlobalBounds().width << ", " << DrawQuad.getGlobalBounds().height << "}" << std::endl;
     }
 
     

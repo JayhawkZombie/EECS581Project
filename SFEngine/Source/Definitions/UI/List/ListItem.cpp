@@ -7,18 +7,18 @@ namespace Engine
 
   namespace UI
   {
-    std::shared_ptr<ListItem> ListItem::Create(std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<ListItem> ListItem::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       try
       {
         std::shared_ptr<ListItem> Item(new ListItem);
-        ThisHelper->RegisterWidget(Item);
-        Item->Creator = ThisHelper;
+        Item->MyLayer = ThisLayer;
         Item->ParentList = Parent;
 
-        Item->ParentList->AddListItem(Item);
+        ThisLayer->RegisterWidget(Item);
 
-        //the Position is relative to the parent widget
+        //The ListWidget should take care of placing us properly
+        Item->ParentList->AddListItem(Item, Position, Size);
 
         return Item;
       }
@@ -43,7 +43,7 @@ namespace Engine
         Item->CanBeDragged = ToCopy->CanBeDragged;
         Item->Children = ToCopy->Children;
         Item->CleanedUpAfterInvalidation = ToCopy->CleanedUpAfterInvalidation;
-        Item->Creator = ToCopy->Creator;
+        Item->MyLayer = ToCopy->MyLayer;
 
 
         return Item;
@@ -56,6 +56,12 @@ namespace Engine
         throw;
       }
 
+
+    }
+
+    void ListItem::Move(const sf::Vector2f &Delta)
+    {
+      ClickButtonBase::Move(Delta);
 
     }
 
