@@ -43,12 +43,13 @@ class ListReader{
     Weapon** readWeapons(std::string fileName);    
     Useable** readUseables(std::string fileName);
     Conversation** readConversation(std::string fileName, MainCharacter mchar);
-    void menu();
+    //pass back an integer once a conversation is read
+    int menu();
   
     //returns the number given on top of the file
     //assumes it's the proper number of objects given
     const int getNumMonsters();
-    int getNumArmor()const;
+    int getNumArmor() const;
     const int getNumWeapons();
     const int getNumUseables();
     const int getNumConversations();

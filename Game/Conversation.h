@@ -25,6 +25,7 @@ class Conversation
 	  const std::string getContent();
 	  //const int getAffinity(); //int?
 	  const std::string getChoiceID();
+    const int getExitStatus();
 
 	  //setters
 	  void setUserID(std::string &userID);
@@ -36,6 +37,7 @@ class Conversation
 	  void setNumChoices(int &numChoices);
 	  void setCharacter(MainCharacter* character);
 	  void setAffinity(int &affinity, int &increment);
+    void setExitStatus(int &exitStatus);
 	  //affinity, value, check if affinity is greater than the value
 	  //255 max convo nodes in a conversation
   private:
@@ -82,6 +84,9 @@ class Conversation
     //total number of choices from the current node
     //ie. first node, intro, has 4 responses
 	  int m_numChoices;
+
+    //exit status
+    int m_exitStatus;
 };
 
 #endif

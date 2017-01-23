@@ -15,6 +15,7 @@ Conversation::Conversation()
 	m_choiceID = "";
 	m_numNodes = 0;
 	m_numChoices = 0;
+  m_exitStatus = 0;
 }
 Conversation::~Conversation()
 {}
@@ -86,4 +87,12 @@ void Conversation::setCharacter(MainCharacter* character)
 }
 void Conversation::setAffinity(int &affinity, int &increment)
 {
+}
+const int Conversation::getExitStatus()
+{
+  return m_exitStatus;
+}
+void Conversation::setExitStatus(int &exitStatus)
+{
+  m_exitStatus = exitStatus;
 }

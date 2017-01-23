@@ -138,14 +138,18 @@ Armor** ListReader::readArmor(std::string fileName)
     newArmor->setName(line);
 
     file >> intVal;
+    newArmor->setType(intVal);
+
+    std::getline(file,line);
+    std::getline(file,line);
+    newArmor->setTexture(line);
+
+    file >> intVal;
     newArmor->setValue(intVal);
 
     std::getline(file,line);
     std::getline(file,line);
     newArmor->setDescription(line);
-
-    std::getline(file,line);
-    newArmor->setTexture(line);
     
     std::getline(file,line);
     damage = new Damage;
@@ -159,31 +163,7 @@ Armor** ListReader::readArmor(std::string fileName)
       std::getline(file,line);
     }
     newArmor->setDefense(*damage);
-
-    if ( std::regex_search (line,truespace) )
-    {
-      newArmor->setLegs(true);
-    }
-    std::getline(file,line);
-    if ( std::regex_search (line,truespace) )
-    {
-      newArmor->setTorso(true);
-    }
-    std::getline(file,line);
-    if ( std::regex_search (line,truespace) )
-    {
-      newArmor->setArms(true);
-    }
-    std::getline(file,line);
-    if ( std::regex_search (line,truespace) )
-    {
-      newArmor->setHead(true);
-    }
-    std::getline(file,line);
-    if ( std::regex_search (line,truespace) )
-    {
-      newArmor->setRing(true);
-    }
+    
     armor[index] = newArmor;
     index++;
   }
@@ -361,6 +341,11 @@ Conversation** ListReader::readConversation(std::string fileName, MainCharacter 
     newConversation->setContent(line);
     file >> intChoices;
     newConversation->setNumChoices(intChoices);
+    if (newConversation->getNumChoices() == 0)
+    {
+      file >> intIndex;
+      newConversation->setExitStatus(intIndex);
+    }
     std::getline(file, line);
     for (int i = 0; i < intChoices; i++)
     {
@@ -386,13 +371,13 @@ Conversation** ListReader::readConversation(std::string fileName, MainCharacter 
   return conversations;
 }
 //MENU 
-void ListReader::menu()
+int ListReader::menu()
 {
   //if readConversations("") hasn't been declared with a working text file, exit
   if (conversations == NULL)
   {
-    std::cout << "NO CONVERSATIONS PASSED IN. EXITING.\n";
-    return;
+    std::cout << "NO CONVERSATIONS PASSED IN. EXITING. RETURNING -1\n";
+    return -1;
   }
   //variables
   int menuChoice = 0; //user input
@@ -407,6 +392,11 @@ void ListReader::menu()
     std::cout << "\nConversation with: " << conversations[current]->getUserID();
     std::cout << "\nConversation Node ID: " << conversations[current]->getConvoID();
     std::cout << "\nNumber of responses: " << conversations[current]->getNumChoices();
+    if (conversations[current]->getNumChoices() == 0)
+    {
+      std::cout << "\nReturning exit status: " << conversations[current]->getExitStatus();
+      return conversations[current]->getExitStatus();
+    }
     //checks/prints the conversation node's choices
     for (int k = 0; k < conversations[current]->getNumChoices(); k++)
     {
@@ -423,6 +413,7 @@ void ListReader::menu()
       std::cout << "\nConversation with: " << conversations[current]->getUserID();
       std::cout << "\nConversation Node ID: " << conversations[current]->getConvoID();
       std::cout << "\nNumber of responses: " << conversations[current]->getNumChoices();
+      
       for (int k = 0; k < conversations[current]->getNumChoices(); k++)
       {
         std::cout << "\nChoice " << k << ": " << conversations[current]->getConvoNodes(k);
@@ -461,6 +452,7 @@ void ListReader::menu()
       }
     } //end for
   } //end while
+  return 0;
 }
 
 //Return number of items in arrays
