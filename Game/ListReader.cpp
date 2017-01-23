@@ -338,30 +338,34 @@ Conversation** ListReader::readConversation(std::string fileName, MainCharacter 
     //if conversationID doesn't match any previous conversation ID
     newConversation->setConvoID(line);
     std::getline(file, line);
-    newConversation->setContent(line);
-    file >> intChoices;
-    newConversation->setNumChoices(intChoices);
-    if (newConversation->getNumChoices() == 0)
-    {
-      file >> intIndex;
-      newConversation->setExitStatus(intIndex);
-    }
-    std::getline(file, line);
-    for (int i = 0; i < intChoices; i++)
-    {
-      std::getline(file, line);
-      newConversation->setConvoNodesContent(line);
-      std::getline(file, line);
-      while (std::regex_search(line, integers))
-      {
-        intIndex = stoi(line);
-        std::getline(file, line);
-        intVal = stoi(line);
-        //MC->setValue(intIndex, intVal);
-        std::getline(file, line);
-      }
-      newConversation->setConvoNodes(line);
-    }
+	newConversation->setContent(line);
+	file >> intChoices;
+	if (intChoices == 0)
+	{
+		file >> intChoices;
+		newConversation->setExitStatus(intChoices);
+		std::getline(file, line);
+	}
+	else
+	{
+		newConversation->setNumChoices(intChoices);
+		std::getline(file, line);
+		for (int i = 0; i < intChoices; i++)
+		{
+			std::getline(file, line);
+			newConversation->setConvoNodesContent(line);
+			std::getline(file, line);
+			while (std::regex_search(line, integers))
+			{
+				intIndex = stoi(line);
+				std::getline(file, line);
+				intVal = stoi(line);
+				//MC->setValue(intIndex, intVal);
+				std::getline(file, line);
+			}
+			newConversation->setConvoNodes(line);
+		}
+	}
 
     conversations[index] = newConversation;
     index++;
@@ -392,6 +396,7 @@ int ListReader::menu()
     std::cout << "\nConversation with: " << conversations[current]->getUserID();
     std::cout << "\nConversation Node ID: " << conversations[current]->getConvoID();
     std::cout << "\nNumber of responses: " << conversations[current]->getNumChoices();
+
     if (conversations[current]->getNumChoices() == 0)
     {
       std::cout << "\nReturning exit status: " << conversations[current]->getExitStatus();
