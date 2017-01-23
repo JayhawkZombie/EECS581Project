@@ -1,23 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
   <Class Name="Engine::Level">
     <Position X="0.5" Y="9.75" Width="3" />
     <TypeIdentifier>
-      <HashCode>AADABEAGEEAhpAACAAAAoAIEAECAEAiFKBQQQgABBAI=</HashCode>
+      <HashCode>AIKAKhACAMAgIAEAABAAIIEkYgRAMAAl6pABCAw5EAI=</HashCode>
       <FileName>SFEngine\Source\Headers\Level\Level.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::BaseEngineInterface">
-    <Position X="6.5" Y="6" Width="3.5" />
+    <Position X="9.75" Y="6" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAIIAAAgAAAoAAAAQAAAAAAABBAgAAAAAA=</HashCode>
+      <HashCode>AAAIAAAAAAAIIAAAgAAAoAAAAQAAAAAAAhBAgAAAAAA=</HashCode>
       <FileName>SFEngine\Source\Headers\Engine\BaseEngineInterface.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::SFEngine">
-    <Position X="21.75" Y="10.75" Width="7.25" />
+    <Position X="22.5" Y="13" Width="7.25" />
     <TypeIdentifier>
-      <HashCode>AIUAIgIAAAIIAwAAoQAAGQABEIBAIAABABQiCEhIAEA=</HashCode>
+      <HashCode>CIWAIgIACAIIAwCAsYACOQiFEoDAIAkBAByiCEhYAEA=</HashCode>
       <FileName>SFEngine\Source\Headers\Engine\Engine.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -29,35 +29,46 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::Resource::ResourceManager">
-    <Position X="21.75" Y="0.5" Width="7.25" />
+    <Position X="22.5" Y="0.75" Width="7.25" />
     <TypeIdentifier>
-      <HashCode>CBgUBBCABKBAAQDQQIAJGwGBJABASCABAAAQABaIAAg=</HashCode>
+      <HashCode>ChwUBBCgBKBGAQDQQIApmwOBJABASCABBAAQABaIaAg=</HashCode>
       <FileName>SFEngine\Source\Headers\Resources\ResourceManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::UI::BaseUIElement">
     <Position X="4.25" Y="9.75" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAQAIgAAQCAgIECAABAIMABAEBVBAwBUARAgDQoQIBg=</HashCode>
+      <HashCode>AAQAIgAAQCAgIECAABAIMABAEBVBAwBUAxAgDQoQIBg=</HashCode>
       <FileName>SFEngine\Source\Headers\UI\BaseUIElement.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::UI::UIController">
     <Position X="12.75" Y="9.75" Width="3" />
     <TypeIdentifier>
-      <HashCode>BAQBIoCAAAgBIAQAEAAQsAAABQB0AMgIABAABgoAoBA=</HashCode>
+      <HashCode>BAQBIoCAAAgBIAQAEAAQsAAABQB0AMgIAhAABgoAoBA=</HashCode>
       <FileName>SFEngine\Source\Headers\UI\UIController.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::UI::ClickButton">
     <Position X="12.75" Y="18.25" Width="3.25" />
+    <InheritanceLine Type="Engine::UI::BaseUIElement" ManuallyRouted="true">
+      <Path>
+        <Point X="6.125" Y="18.55" />
+        <Point X="6.125" Y="19.668" />
+        <Point X="7.413" Y="19.668" />
+        <Point X="7.413" Y="26.211" />
+        <Point X="16.123" Y="26.211" />
+        <Point X="16.123" Y="22.169" />
+        <Point X="16" Y="22.169" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAYAogAAAgAiIAAAAACKMAAAQAhAAkAMABgIAQgAKLA=</HashCode>
+      <HashCode>AAYAogAAAgAiIAAAAACKMAAAQAhAAkAMAhgIAQgAKLA=</HashCode>
       <FileName>SFEngine\Source\Headers\UI\ClickButton.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::RenderTarget">
-    <Position X="20.5" Y="21.5" Width="3" />
+    <Position X="18" Y="23.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAgAAIAAAAgAAAAAAAAAAABCAAABAAAA=</HashCode>
       <FileName>SFEngine\Source\Headers\UI\RenderTarget.h</FileName>
@@ -66,28 +77,28 @@
   <Class Name="Engine::GenericActor">
     <Position X="8.75" Y="13.25" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAABoAIgAACBIAABADBCCAYQABAEAAAMABA=</HashCode>
+      <HashCode>ABAAEAAAAABBoAIgAACBIAARADBCCAYQAhAEAAAMABA=</HashCode>
       <FileName>SFEngine\Source\Headers\Actor\Actor.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::Player">
     <Position X="8.75" Y="20" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAQAAIAAAAAAAIAAAAAAICAAAABAAAQQAABA=</HashCode>
+      <HashCode>AAAIAAUAASAAIAAAAAAAJAAEEAAICAAAAhAAAQQAABA=</HashCode>
       <FileName>SFEngine\Source\Headers\Actor\Player.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::LevelEnvironment">
     <Position X="0.5" Y="18.25" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>EAAQBEACAACAABAAAAGAAABAAAAAEACAACAgAAAAAAA=</HashCode>
+      <HashCode>EBAQJVAWAgCAIBUEAAOAAQBAbAAAEwCEADAgIggAAQA=</HashCode>
       <FileName>SFEngine\Source\Headers\Level\LevelEnvironment.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::LevelObject">
     <Position X="9" Y="9.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIABAAAAAIAAAAAAAAAABABAAAwAAAAA=</HashCode>
+      <HashCode>AAQAAAIAAAAAIAAAAAAAogAAIAAAAACFAhQAAwAAEAA=</HashCode>
       <FileName>SFEngine\Source\Headers\Level\LevelObject.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -103,6 +114,34 @@
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAA=</HashCode>
       <FileName>SFEngine\Source\Headers\Lights\GlobalLightSource.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="chaiscript::ChaiScript" Collapsed="true">
+    <Position X="30.25" Y="13.25" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="chaiscript::ChaiScript::State" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>SFEngine\ThirdParty\chaiscript\language\chaiscript_engine.hpp</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQDgACEggCgAABgAEEAHIAAAABEaABABBiA0AEgaIAE=</HashCode>
+      <FileName>SFEngine\ThirdParty\chaiscript\language\chaiscript_engine.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::LevelTile">
+    <Position X="4.75" Y="19.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AACIAAAAIAAAoABwAAMIAQAAACEhAgAQIBIAAQAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelTile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::LevelLoader" Collapsed="true">
+    <Position X="4.75" Y="26" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FIQQiAQAAMAiqAAACAAQIIEgAgRAEAIEYoADAAAQABA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="Engine::Config">
@@ -133,13 +172,6 @@
       <FileName>SFEngine\Source\Headers\Level\Layer.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="Engine::LevelEnvironmentEvent">
-    <Position X="0.5" Y="24.75" Width="3" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SFEngine\Source\Headers\Level\LevelEnvironmentEvent.h</FileName>
-    </TypeIdentifier>
-  </Struct>
   <Struct Name="Engine::UserInputEvent">
     <Position X="5" Y="1" Width="3.25" />
     <TypeIdentifier>
@@ -150,7 +182,7 @@
   <Struct Name="Engine::UserKeyPressEvent">
     <Position X="3.5" Y="3.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAACAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAACAAAAAAAAACAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SFEngine\Source\Headers\Level\LevelEventSequences.h</FileName>
     </TypeIdentifier>
   </Struct>
@@ -182,11 +214,81 @@
       <FileName>SFEngine\Source\Headers\Render\Render.h</FileName>
     </TypeIdentifier>
   </Struct>
+  <Struct Name="chaiscript::exception::load_module_error" Collapsed="true">
+    <Position X="30.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\ThirdParty\chaiscript\language\chaiscript_engine.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="chaiscript::detail::Loadable_Module" Collapsed="true">
+    <Position X="32" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQgACAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\ThirdParty\chaiscript\language\chaiscript_engine.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::LoaderLayer" Collapsed="true">
+    <Position X="6.5" Y="27.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAgAAAAAAAAMAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::LoaderTileInfo" Collapsed="true">
+    <Position X="4.75" Y="28.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQJgAAAAAAAACABAAgAQQAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::LayerInfo" Collapsed="true">
+    <Position X="4.75" Y="27.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
+    </TypeIdentifier>
+  </Struct>
   <Typedef Name="DoubleStringPair" Collapsed="true">
     <Position X="16.75" Y="8.75" Width="4" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SFEngine\Source\Headers\Resources\ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="chaiscript::detail::Loadable_Module_Ptr" Collapsed="true">
+    <Position X="30.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\ThirdParty\chaiscript\language\chaiscript_engine.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Engine::LevelTileResource" Collapsed="true">
+    <Position X="6.5" Y="30.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Engine::LevelActorResource" Collapsed="true">
+    <Position X="4.75" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Engine::LevelLightResource" Collapsed="true">
+    <Position X="6.5" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Engine::LevelObjectResource" Collapsed="true">
+    <Position X="4.75" Y="30.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SFEngine\Source\Headers\Level\LevelLoader.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Enum Name="Engine::Error">

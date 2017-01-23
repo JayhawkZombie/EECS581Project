@@ -38,6 +38,10 @@ namespace Engine
     void RenderSFDrawable(const sf::Drawable *drawable);
     void RenderSFDrawable(const sf::Drawable *drawable, const sf::FloatRect &bounds);
 
+    void RenderVertexArrayVector(const std::vector<sf::VertexArray> &arr);
+
+    void RenderVertexArray(const sf::VertexArray &arr);
+
     void SecondPassRender();
     void ClearRender();
 

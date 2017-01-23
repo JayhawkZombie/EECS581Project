@@ -10,9 +10,9 @@ namespace Engine
   //Simulate user pressing a key
   struct UserKeyPressEvent : public GenericEvent {
     UserKeyPressEvent(sf::Keyboard::Key k, std::function<void(sf::Keyboard::Key k)> &cb, const double &duration)
-      : _key(k), CALLBACK(cb), GenericEvent(Events::KeyPressed, duration) 
+      : _key(k), __CALLBACK(cb), GenericEvent(Events::KeyPressed, duration)
     {
-      Trigger = [this]()->void {CALLBACK(_key); };
+      Trigger = [this]()->void {__CALLBACK(_key); };
     }
     UserKeyPressEvent(const UserKeyPressEvent &e) : GenericEvent(e.EventTrigger, e.TotalDuration)
     {
@@ -23,7 +23,7 @@ namespace Engine
       _key = e._key;
     }
 
-    std::function<void(sf::Keyboard::Key k)> CALLBACK;
+    std::function<void(sf::Keyboard::Key k)> __CALLBACK;
     sf::Keyboard::Key _key;
   };
 
@@ -84,7 +84,7 @@ namespace Engine
     UserMouseReleaseEvent(const UserMouseReleaseEvent &e)
       : GenericEvent(e.EventTrigger, e.TotalDuration)
     {
-      Trigger = e.Trigger; 
+      Trigger = e.Trigger;
       TotalDuration = e.TotalDuration;
       EventTrigger = e.EventTrigger;
       Repeat = e.Repeat;

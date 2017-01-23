@@ -32,6 +32,8 @@ namespace Engine
   class EventHandler
   {
   public:
+    friend class BaseEngineInterface;
+
     EventHandler();
     EventHandler(const EventHandler &);
     ~EventHandler();

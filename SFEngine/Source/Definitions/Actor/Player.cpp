@@ -7,7 +7,7 @@ namespace Engine
     : GenericActor(texfile, texID)
   {
 
-    TestShape.setFillColor(sf::Color::Black);
+    TestShape.setFillColor(sf::Color::White);
 
     Position = sf::Vector2f(250, 250);
     ActorBox.Position = Position;
@@ -30,7 +30,7 @@ namespace Engine
 
   Player::Player()
   {
-    TestShape.setFillColor(sf::Color::Black);
+    TestShape.setFillColor(sf::Color::White);
 
     Position = sf::Vector2f(250.f, 250.f);
     ActorBox.Position = Position;
@@ -51,16 +51,64 @@ namespace Engine
 
   }
 
+  void Player::KeyRightPressed()
+  {
+
+  }
+
+  void Player::KeyUpPressed()
+  {
+
+  }
+
+  void Player::KeyDownPressed()
+  {
+
+  }
+
+  void Player::KeyLeftPressed()
+  {
+
+  }
+
+  void Player::ForcePosition(float x, float y)
+  {
+    Sprite.setPosition({ x, y });
+    TestShape.setPosition({ x,y });
+    std::cerr << "Position forced to: " << x << ", " << y << std::endl;
+  }
+
+  void Player::SerializeOut(std::ofstream &out)
+  {
+
+  }
+
+  void Player::SerializeIn(std::ifstream & in)
+  {
+  }
+
   void Player::TickUpdate(const double &delta)
   {
-    TryToMove(Velocity);
-    TestShape.setPosition(Position);
-    TestShape.setSize(sf::Vector2f(50.f, 75.f));
+    //TryToMove(Velocity);
+    //TestShape.setPosition(Position);
+    //TestShape.setSize(sf::Vector2f(50.f, 75.f));
   }
 
   void Player::Render()
   {
-    Render::RenderShape(&TestShape);
+
+    if (RenderOutlined) {
+      TestShape.setOutlineThickness(2);
+      TestShape.setOutlineColor(sf::Color::Red);
+      TestShape.setPosition(CurrentPhysicsState.GetScreenPosition());
+      TestShape.setSize(sf::Vector2f(CurrentPhysicsState.GetBoundingBox().width, CurrentPhysicsState.GetBoundingBox().height));
+      Render::RenderShape(&TestShape);
+      TestShape.setOutlineThickness(0);
+      TestShape.setOutlineColor(sf::Color::Transparent);
+    }
+    else {
+      Render::RenderShape(&TestShape);
+    }
   }
 
   void Player::OnShutDown()
@@ -85,21 +133,22 @@ namespace Engine
   void Player::KeyWasPressed(const sf::Keyboard::Key &k)
   {
     //std::cerr << "Player: KeyWasPressed" << std::endl;
+    /*
     switch (k)
     {
-      case sf::Keyboard::Right:
-        Velocity = sf::Vector2f(0.3f, 0);
-        break;
-      case sf::Keyboard::Left:
-        Velocity = sf::Vector2f(-0.3f, 0);
-        break;
-      case sf::Keyboard::Up:
-        Velocity = sf::Vector2f(0, -0.3f);
-        break;
-      case sf::Keyboard::Down:
-        Velocity = sf::Vector2f(0, 0.3f);
-        break;
-    }
+    case sf::Keyboard::Right:
+    Velocity = sf::Vector2f(0.3f, 0);
+    break;
+    case sf::Keyboard::Left:
+    Velocity = sf::Vector2f(-0.3f, 0);
+    break;
+    case sf::Keyboard::Up:
+    Velocity = sf::Vector2f(0, -0.3f);
+    break;
+    case sf::Keyboard::Down:
+    Velocity = sf::Vector2f(0, 0.3f);
+    break;
+    }*/
   }
 
   void Player::KeyWasReleased(const sf::Keyboard::Key &k)
@@ -124,18 +173,18 @@ namespace Engine
 
   void Player::MoveTo(const sf::Vector2f &pos)
   {
-    Position = pos;
-    TestShape.setPosition(Position);
-    ActorBox.Position = pos;
-    Collsion.Position = pos;
+    //Position = pos;
+    //TestShape.setPosition(Position);
+    //ActorBox.Position = pos;
+    //Collsion.Position = pos;
   }
 
   void Player::TryToMove(const sf::Vector2f &amount)
   {
-    Position += amount;
-    TestShape.setPosition(Position);
-    ActorBox.Position = Position;
-    Collsion.Position += amount;
+    //Position += amount;
+    //TestShape.setPosition(Position);
+    //ActorBox.Position = Position;
+    //Collsion.Position += amount;
   }
 
 }

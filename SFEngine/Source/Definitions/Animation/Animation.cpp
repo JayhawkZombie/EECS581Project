@@ -3,31 +3,7 @@ namespace Engine
 {
   //NEW
   void Animation::Update(double delta) {
-    m_currentTime += delta;
-    // if not paused and we have a valid animation
-    if (!m_isPaused)
-    {
-      // if current time is bigger then the frame time advance one frame
-      if (m_currentTime >= m_frameTime)
-      {
-        // reset time, but keep the remainder
-        m_currentTime = m_currentTime - m_frameTime;
 
-        // get next Frame index
-        if (m_currentFrame + 1 < GetSize())
-          m_currentFrame++;
-        else
-        {
-          // animation has ended
-          m_currentFrame = 0; // reset to start
-
-
-        }
-        // set the current frame, not reseting the time
-        sprite.setTextureRect(m_frames[m_currentFrame]);
-
-      }
-    }
   }
   void Animation::Play() {
     m_isPaused = false;
@@ -36,11 +12,21 @@ namespace Engine
       m_currentFrame = 0;
     }
   }
+
+  void Animation::SerializeOut(std::ofstream &out) {
+
+  }
+
+  void Animation::SerializeIn(std::ifstream & in)
+  {
+  }
+
   void Animation::Pause() {
     m_isPaused = true;
   }
   void Animation::Stop() {
     m_isRendered = false;
+    m_isPaused = true;
   }
   void Animation::Move(float x, float y) {
     sprite.move(x, y);
@@ -63,13 +49,45 @@ namespace Engine
   //OLD
   void Animation::Render() {
     if (m_isRendered) {
-      sprite.setTextureRect(m_frames[m_currentFrame]);
+      //sprite.setTextureRect(m_frames[m_currentFrame]);
       Render::RenderSprite(&sprite);
     }
   }
   void Animation::TickUpdate(const double& delta)
   {
+    if (!m_isPaused && m_isRendered)
+    {
+      m_currentTime += delta;
+      // if current time is bigger then the frame time advance one frame
+      if (m_currentTime >= m_frameTime)
+      {
+        // reset time, but keep the remainder
+        //m_currentTime = m_currentTime - m_frameTime;
+        m_currentTime = 0;
 
+        m_currentFrame += 1;
+        if (m_currentFrame >= m_frames.size())
+          m_currentFrame = 0;
+
+        //auto frame = m_frames[m_currentFrame];
+
+        //std::cerr << "Frame #" << m_currentFrame << " - (" << frame.left << ", " << frame.top << ", " << frame.height << ", " << frame.width << ")" << std::endl;
+
+        // get next Frame index
+        //if (m_currentFrame + 1 < GetSize())
+        //  m_currentFrame++;
+        //else
+        //{
+        //  // animation has ended
+        //  m_currentFrame = 0; // reset to start
+
+
+        //}
+        // set the current frame, not reseting the time
+        if (m_frames.size() > 0)
+          sprite.setTextureRect(m_frames[m_currentFrame]);
+      }
+    }
   }
   void Animation::OnShutDown() {}
 
@@ -80,7 +98,7 @@ namespace Engine
   void Animation::RequestSpriteSheet(const std::string Filepath, const std::string ID) {
     m_texture;
     ResourceManager->RequestTexture(Filepath, ID,
-      [this](std::shared_ptr<sf::Texture> t, const std::string &s) {this->SetSpriteSheet(t, s); }
+                                    [this](std::shared_ptr<sf::Texture> t, const std::string &s) {this->SetSpriteSheet(t, s); }
     );
   }
   void Animation::SetSpriteSheet(std::shared_ptr<sf::Texture> tex, const std::string &ID) {

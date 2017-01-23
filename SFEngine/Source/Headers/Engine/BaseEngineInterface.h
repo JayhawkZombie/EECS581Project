@@ -4,16 +4,22 @@
 #include "../BasicIncludes.h"
 #include "../Events/EventHandler.h"
 
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
+
 namespace Engine
 {
   /**
-   * Necessary forward declaration
-   *  to allow this to be seen by the BaseClass and avoid circular includes
-   *  will work on fixing later and getting GlobalHooks in better shape
-   */
+  * Necessary forward declaration
+  *  to allow this to be seen by the BaseClass and avoid circular includes
+  *  will work on fixing later and getting GlobalHooks in better shape
+  */
   class Level;
   extern std::shared_ptr<Level> CurrentLevel;
 
+#define TYPEDEF_PARENT_CLASS(PARENTCLASS) \
+  typedef PARENTCLASS Super; 
 
 
   class BaseEngineInterface
@@ -21,13 +27,21 @@ namespace Engine
   public:
     BaseEngineInterface();
     BaseEngineInterface(const BaseEngineInterface &b);
-    ~BaseEngineInterface();
+    virtual ~BaseEngineInterface();
 
     virtual void TickUpdate(const double &delta) = 0;
 
     virtual void Render() = 0;
 
     virtual void OnShutDown() = 0;
+
+    /**
+    * Beginning of object serialization
+    *   this will be REQUIRED to be overridden by base classes
+    *   if they want to be able to be encoded/decoded
+    */
+    virtual void SerializeOut(std::ofstream &out) = 0;
+    virtual void SerializeIn(std::ifstream &in) = 0;
 
     EventHandler Handler;
     virtual std::string GetID() const;

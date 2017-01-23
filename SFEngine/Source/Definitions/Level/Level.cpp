@@ -8,54 +8,106 @@ namespace
 namespace Engine
 {
 
-  Level::Level(const std::string &lvl)
-    : LevelFile(lvl), ResourceLock(new std::mutex), ReadyToPlay(false)
-    , LevelSizeX(0), LevelSizeY(0), TileSize(0), TilesAcross(0), TexturesReceived(0)
+  Level::Level()
   {
-    ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", 
-                                 "OpenSansRegular", 
-                                 [this](std::shared_ptr<sf::Font> t, const std::string &s) -> void
-                                 {
-                                   this->LevelFont = t;
-                                   this->LoadingMessageText.setFont(*t);
-                                   this->Environment.DiagnosticText.setFont(*t);
-                                 }
-    
-    );
+
+  }
+
+  Level::Level(const std::string &lvl)
+  {
     Handler.BindCallback(Events::KeyPressed,
 
                          [this](const sf::Keyboard::Key &k) -> void
-                         {
-                           this->HandleKeyPress(k);
-                         }
+    {
+      this->HandleKeyPress(k);
+    }
 
     );
     Handler.BindCallback(Events::KeyReleased,
-                         
-                         [this](const sf::Keyboard::Key &k) ->void
-                         {
-                           this->HandleKeyRelease(k);
-                         }
-    );
 
-    LoadingMessageText.setPosition(sf::Vector2f(400, 400));
-    LoadingMessageText.setCharacterSize(12);
-    LoadingMessageText.setFillColor(sf::Color::White);
-    LoadingMessageText.setString("Loading string");
+                         [this](const sf::Keyboard::Key &k) ->void
+    {
+      this->HandleKeyRelease(k);
+    }
+    );
   }
 
   Level::~Level()
   {
-    if (LOADER.joinable())
-      LOADER.join();
 
-    delete ResourceLock;
   }
 
-  void Level::JoinLoaderThread()
+  void Level::LoadLevel(const std::string &lvlfile)
   {
-    if (LOADER.joinable())
-      LOADER.join();
+    std::ifstream in(lvlfile);
+    if (!in) {
+      std::cerr << "Unable to open level file: " << lvlfile << std::endl;
+      return;
+    }
+
+    in.seekg(0, std::ios::end);
+    auto size = in.tellg();
+
+    in.seekg(std::ios::beg);
+
+    std::vector<char> buffer(size);
+    in.read(&buffer[0], size);
+
+    rapidxml::xml_document<> doc;
+    doc.parse<0>(&buffer[0]);
+
+    //std::cerr << "Text: " << &buffer[0] << std::endl;
+    //need to get the tile sheet path so we can load the texture
+    auto LevelNode = doc.first_node();
+    auto TileSheetNode = LevelNode->first_node("TileSheet");
+    auto TilesNode = TileSheetNode->first_node("Tiles");
+
+    std::string TileSheetPath = TileSheetNode->first_attribute("path")->value();
+    unsigned long TileCount = std::stoul(TilesNode->first_attribute("count")->value());
+    unsigned long TileHeight = std::stoul(TilesNode->first_attribute("tile_height")->value());
+    unsigned long TileWidth = std::stoul(TilesNode->first_attribute("tile_width")->value());
+
+    auto FramesNode = TilesNode->first_node("framedata");
+
+    std::stringstream frames(FramesNode->value());
+    std::vector<sf::FloatRect> FrameVec;
+    sf::FloatRect rect;
+
+    while (frames >> rect.left >> rect.top >> rect.width >> rect.height) {
+      FrameVec.push_back(rect);
+    }
+
+    auto tile_node = TilesNode->first_node("tile");
+
+    //parse the tiles
+    for (auto i = 0ul; i < TileCount; i++) {
+      LevelTile t;
+      t.LayoutID = tile_node->first_attribute("id")->value();
+      t.SetID(tile_node->first_attribute("title")->value());
+      t.IsAnimated = (tile_node->first_attribute("animated")->value() == "true");
+      t.IsTraversible = (tile_node->first_attribute("traversible")->value() == "true");
+
+      Tiles[t.LayoutID] = t;
+      tile_node = tile_node->next_sibling("tile");
+    }
+
+    auto LayoutNode = LevelNode->first_node("Layout");
+    auto LayerNode = LayoutNode->first_node("Layer");
+
+    unsigned long layer_height = std::stoul(LayerNode->first_attribute("height")->value());
+    unsigned long layer_width = std::stoul(LayerNode->first_attribute("width")->value());
+
+    auto layer_tile_node = LayerNode->first_node("tile");
+    while (layer_tile_node) {
+      std::string tile_id = layer_tile_node->first_attribute("id")->value();
+      std::string positions = layer_tile_node->first_attribute("positions")->value();
+
+      std::cerr << "--------------------------------\n";
+      std::cerr << "id: " << tile_id << std::endl;
+      std::cerr << "positions: " << positions << "\n--------------------------------" << std::endl;
+      layer_tile_node = layer_tile_node->next_sibling("tile");
+
+    }
   }
 
   void Level::OnShutDown()
@@ -63,94 +115,8 @@ namespace Engine
 
   }
 
-  /*
-  Level::Level(const std::string &levelFile)
-  {
-    LevelFile = levelFile;
-    Playable = false;
-
-
-    Handler.BindCallback(
-      Events::KeyPressed,
-      [this](const sf::Keyboard::Key &k)
-    {
-      this->HandleKeyEvent(k);
-    }
-    );
-
-    ResourceManager->RequestFont("./SFEngine/Samples/Fonts/OpenSans-Regular.ttf", "./SFEngine/Samples/Fonts/OpenSans-Regular.ttf",
-                                 [this](std::shared_ptr<sf::Font> f, const std::string &s) {this->ReceiveFont(f, s); });
-
-    auto GlobalLight = GlobalLightSource::Create();
-
-    GlobalLight->SetColor(sf::Color::Transparent);
-    GlobalLight->SetIntensity(25);
-
-    Environment.LevelGlobalLight = GlobalLight;
-    Render::AddGlobalLight(*GlobalLight);
-
-    Player *__player = new Player;
-
-    std::shared_ptr<Player> player(__player);
-    player->Collsion.Position = sf::Vector2f(250, 250);
-    player->Collsion.Size = sf::Vector2f(50, 75);
-    player->MoveTo(sf::Vector2f(250, 250));
-
-    player->Collsion.Position = sf::Vector2f(250, 250);
-    player->Collsion.Size = sf::Vector2f(50, 75);
-    player->MoveTo(sf::Vector2f(250, 250));
-
-    Environment.AddActor("MainPlayerActor", player);
-    Environment.SetPlayer(player);
-
-    PlayerActor.Collsion.Position = sf::Vector2f(250, 250);
-    PlayerActor.Collsion.Size = sf::Vector2f(50, 75);
-    PlayerActor.MoveTo(sf::Vector2f(250, 250));
-
-    CollisionBoxes.push_back({});
-    CollisionBoxes.push_back({});
-
-    CollisionBoxes[0].Position = sf::Vector2f(100, 100);
-    CollisionBoxes[0].Size = sf::Vector2f(50, 50);
-
-    CollisionBoxes[1].Position = sf::Vector2f(300, 300);
-    CollisionBoxes[1].Size = sf::Vector2f(150, 100);
-
-    NumGridTextures = 0;
-  }
-
-  Level::~Level()
-  {
-    if (LOADER.joinable())
-      LOADER.join();
-  }
-
-  void Level::ReceiveFont(std::shared_ptr<sf::Font> font, const std::string &ID)
-  {
-    LevelWaitingFont = font;
-    if (font.get()) {
-      LevelWaitingText.setFont(*LevelWaitingFont.get());
-    }
-  }
-
-  void Level::AddActor(const std::string &ID, std::shared_ptr<GenericActor> src)
-  {
-    Environment.AddActor(ID, src);
-  }
-
-  void Level::AddLight(const std::string &ID, std::shared_ptr<GenericLightSource> src)
-  {
-    Environment.AddLight(ID, src);
-  }
-
-  void Level::AddGlobalLight(const std::string &ID, std::shared_ptr<GlobalLightSource> src)
-  {
-    Environment.AddGlobalLight(ID, src);
-  }
-
-  void Level::IsReady() const
+  void Level::HandleWindowResized()
   {
 
   }
-  */
 }

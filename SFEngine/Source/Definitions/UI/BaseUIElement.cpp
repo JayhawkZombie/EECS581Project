@@ -5,6 +5,9 @@ namespace Engine
   namespace UI
   {
     BaseUIElement::BaseUIElement()
+      :
+      ReadyToRender(false),
+      InFocus(false)
     {
       State = DefaultBisetState;
       OnFocusGained = [this](const sf::Vector2i &) {};
@@ -26,6 +29,11 @@ namespace Engine
       for (auto it = RenderTargets.begin(); it != RenderTargets.end(); it++) {
         it->second.Render();
       }
+    }
+
+    void BaseUIElement::SerializeOut(std::ofstream &out)
+    {
+
     }
 
     void BaseUIElement::SetPosition(const sf::Vector2f &v)
@@ -95,6 +103,11 @@ namespace Engine
       }
     }
 
+    void BaseUIElement::SetFont(std::shared_ptr<sf::Font> fnt)
+    {
+      ItemFont = fnt;
+    }
+
     bool BaseUIElement::RespondsTo(const Events &evnt) const
     {
 
@@ -149,6 +162,20 @@ namespace Engine
     void BaseUIElement::HandleKeyRelease(const sf::Keyboard::Key &key)
     {
 
+    }
+
+    void BaseUIElement::HandleTextEntered(const sf::Keyboard::Key &key)
+    {
+
+    }
+
+    void BaseUIElement::MakeRequests()
+    {
+    }
+
+    sf::FloatRect BaseUIElement::GetClickBounds() const
+    {
+      return ClickBounds;
     }
   } //namespace UI
 }

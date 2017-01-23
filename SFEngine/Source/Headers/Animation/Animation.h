@@ -2,15 +2,24 @@
 #define SFENGINE_ANIMATION_H
 
 #include "../BasicIncludes.h"
-#include "../Actor/Actor.h"
+#include "../Engine/BaseEngineInterface.h"
 
 namespace Engine
 {
+
+  struct AnimationInfo
+  {
+    std::string TextureID, TexturePath;
+    std::size_t NumberFrames;
+    double Duration;
+    std::vector<sf::IntRect> Frames;
+  };
+
   class Animation : public BaseEngineInterface
   {
   public:
     //NEW
-    Animation() : m_currentFrame(0), m_currentTime(0), m_frameTime(2), m_isPaused(true), m_isRendered(true) {}
+    Animation() : m_currentFrame(0), m_currentTime(0), m_frameTime(0), m_isPaused(true), m_isRendered(false) {}
     void Update(double deltaTime);
     void Play();
     void Pause();
@@ -20,6 +29,8 @@ namespace Engine
     void SetPosition(float x, float y);
     void SetPosition(const sf::Vector2f &pos);
     void SetFrameTime(double fTime);
+    virtual void SerializeOut(std::ofstream &out) override;
+    virtual void SerializeIn(std::ifstream &in) override;
     sf::Sprite* GetSprite();
     //OLD
     friend class SFEngine;

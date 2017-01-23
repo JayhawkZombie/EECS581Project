@@ -3,22 +3,39 @@
 
 #include "../Engine/BaseEngineInterface.h"
 #include "../Level/LevelObject.h"
+#include "../Physics/PhysicsState.h"
+#include "../Animation/Animation.h"
 
 namespace Engine
 {
+
+  struct ActorInfo
+  {
+    std::map<std::string, std::string> Scripts;
+    PhysicsState ActorState;
+    std::string ID;
+    std::string TextureID, TexturePath;
+    AnimationInfo AnimInfo;
+  };
 
   class GenericActor : public LevelObject
   {
   public:
     friend class Level;
+    TYPEDEF_PARENT_CLASS(Engine::LevelObject);
+
+    static void BindScriptMethods(chaiscript::ModulePtr module);
+
     GenericActor();
     GenericActor(const std::string &texfile, const std::string &texID);
     GenericActor(const GenericActor &actor);
-    ~GenericActor();
+    virtual ~GenericActor();
 
-    virtual void TickUpdate(const double &delta);
-    virtual void Render();
-    virtual void OnShutDown();
+    virtual void TickUpdate(const double &delta) override;
+    virtual void Render() override;
+    virtual void OnShutDown() override;
+    virtual void SerializeOut(std::ofstream &out) override;
+    virtual void SerializeIn(std::ifstream &in) override;
 
     virtual bool WantsInputEvent(const Events &evnt) const;
 
@@ -33,8 +50,11 @@ namespace Engine
     virtual const sf::Vector2f& GetActorAcceleration() const;
 
     virtual void SetTexture(const std::string &texfile, const std::string &texID);
-    
+    virtual void AddAnimation(const std::string &ID, AnimationInfo info);
+
   protected:
+    void __HandleKeyPress(const sf::Keyboard::Key &key);
+
     sf::Vector2f Velocity;
     sf::Vector2f Acceleration;
     sf::Vector2f Position;
@@ -46,6 +66,8 @@ namespace Engine
     std::shared_ptr<sf::Texture> SpriteTexture;
     CollisionBox ActorBox;
     void ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex);
+
+    std::map<std::string, Animation> Animations;
   };
 
 }

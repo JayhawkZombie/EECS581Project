@@ -39,6 +39,15 @@ namespace Engine
 
     }
 
+    void UIController::SerializeOut(std::ofstream &out)
+    {
+
+    }
+
+    void UIController::SerializeIn(std::ifstream & in)
+    {
+    }
+
     void UIController::Render()
     {
       if (!Shown)
@@ -49,9 +58,10 @@ namespace Engine
 
       for (auto & element : Elements) {
         if (element->State.test(Active)) {
-          for (auto & tgt : element->RenderTargets) {
-            tgt.second.Render();
-          }
+          element->Render();
+          //for (auto & tgt : element->RenderTargets) {
+          //  tgt.second.Render();
+          //}
         }
       }
 

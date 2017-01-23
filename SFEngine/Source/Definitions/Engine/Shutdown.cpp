@@ -18,6 +18,11 @@ namespace Engine
     delete FragmentShader;
     delete VertexShader;
 
+    //Destroy the scripting engine
+    if (ScriptEngine) {
+      delete ScriptEngine;
+    }
+
     return Success::GAMELOOP_SUCCESS;
   }
 }
