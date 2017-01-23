@@ -153,13 +153,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Game\Armor.h" />
+    <ClInclude Include="Game\BattleActor.h" />
     <ClInclude Include="Game\Damage.h" />
+    <ClInclude Include="Game\ElementsEnum.h" />
     <ClInclude Include="Game\GameMain.h" />
+    <ClInclude Include="Game\HumanActor.h" />
+    <ClInclude Include="Game\ListReader.h" />
     <ClInclude Include="Game\MonsterType.h" />
     <ClInclude Include="Game\RPGActor.h" />
     <ClInclude Include="Game\RPGItem.h" />
     <ClInclude Include="Game\RPGTest.h" />
+    <ClInclude Include="Game\Skill.h" />
+    <ClInclude Include="Game\SkillSet.h" />
     <ClInclude Include="Game\Tile.h" />
+    <ClInclude Include="Game\Useable.h" />
     <ClInclude Include="Game\Weapon.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
     <ClInclude Include="SFEngine\EngineRequirements.h" />
@@ -290,13 +297,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Armor.cpp" />
+    <ClCompile Include="Game\BattleActor.cpp" />
     <ClCompile Include="Game\Damage.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
+    <ClCompile Include="Game\HumanActor.cpp" />
+    <ClCompile Include="Game\ListReader.cpp" />
     <ClCompile Include="Game\MonsterType.cpp" />
     <ClCompile Include="Game\RPGActor.cpp" />
     <ClCompile Include="Game\RPGItem.cpp" />
     <ClCompile Include="Game\RPGTest.cpp" />
+    <ClCompile Include="Game\Skill.cpp" />
+    <ClCompile Include="Game\SkillSet.cpp" />
     <ClCompile Include="Game\Tile.cpp" />
+    <ClCompile Include="Game\Useable.cpp" />
     <ClCompile Include="Game\Weapon.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\EventHandlerTests.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\ResourceManagerTests.cpp" />
