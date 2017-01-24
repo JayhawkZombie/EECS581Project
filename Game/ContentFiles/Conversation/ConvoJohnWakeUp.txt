@@ -45,7 +45,7 @@ AttitudeCriticismResponse
 Remain Silent
 2
 1
-ExitReply
+ExitReplyQuiet
 
 MorningBirdResponse
 Im surprised you could get up this early, usually you sleep so soundly I'd think you were dead, if I didn't hear you snore
@@ -93,6 +93,7 @@ ExitReplyQuiet
 
 AttitudeCriticismResponse
 You better watch that attitude, or your life's gonna suck
+2
 What do you know about life?
 0
 1

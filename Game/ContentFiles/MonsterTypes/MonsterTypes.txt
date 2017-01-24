@@ -1,4 +1,4 @@
-41
+56
 
 Flarial
 A young spirit, made of flame, that hovers above the earth- it casts no shadow, as it is a source of light
@@ -138,7 +138,73 @@ A lesser son of vulcan. though it is fire elemental, it is known for its somber 
 1
 1
 0
-SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+Crerops
+NULL
+Corynetes
+
+Crerops
+Creops is a man size titan with a face of melting stone. Lava flows from its heart, a furnace controlling the stone and giving it life; its heart is also its weak spot
+0
+1
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Philottus
+NULL
+
+Corynetes
+A floating sphere of lava that glows and pulses from yellow to orange. It has a cracked shell of earth protecting it, within which the core dwells
+0
+1
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Cercyon
+NULL
+
+Philottus
+An eight foot tall Blacksmith with a large hammer. Made of lava and hunks of rock. Dont mess with this guy
+0
+1
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Vulcanous
+NULL
+
+Cercyon
+A floating lavaSnake with an orb at its neck. It would be called a dragon, if it was blue and lived in a boring game universe.
+0
+1
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Vagrus
+NULL
+
+Vulcanous
+A walking collosus of molten iron. Cooled iron plates stick out from the vulnerable molten core within, making the collosus near-impenetrable, except at the joints, which are still molten.
+0
+1
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Vagrus
+An actual lava dragon, snakelike and with wings. A master of magic, it casts both fire and water in tandem
+0
+1
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
 NULL
 NULL
 NULL
@@ -150,10 +216,108 @@ A limbless snake that dwells in hot places, typically deserts or volcanoes. It w
 1
 0
 SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+Raptor
+Winger
+Herbisaur
+
+Raptor
+A small velociraptor that focuses on using teamwork to take its prey down.
+0
+2
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+Tyrant
+NULL
+
+Winger
+A small flying dinosaur that resembles a bat, except for its cone-shaped head.
+0
+2
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+SteelWinger
+NULL
+
+Herbisaur
+Large for an adolescent, the herbisaur is a dinosaur that is slow target- but beefy. Best used as a tank
+0
+2
+2
+2
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+Spikevorsaur
+NULL
+
+Tyrant
+A tyrant is a giant raptor with big teeth and skimpy arms. Think T-Rex
+0
+2
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+GreatWhiteTyrant
+NULL
+
+SteelWinger
+A larger Winger with a steel beak and wings. The winger thought it would be cool to go steel, but it didin't account for the weight, which slows it down and keeps it from flying
+0
+2
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+EdgeWinger
+NULL
+
+Spikevorsaur
+Its like a Stegosaurus but with steel spikes
+0
+2
+3
+2
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+Broncheospikesaur
+NULL
+
+GreatWhiteTyrant
+The Great White Tyrant is a larger version of the tyrant that is as white as bone. It also has long arms with claws now, although why it needs them when it has that huge jaw is anyone's guess
+0
+2
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
 NULL
 NULL
 NULL
 
+EdgeWinger
+The EdgeWinger is and evolved SteelWinger, that shaved off the edges of the steel so that its really sharp- and light enough it can fly again.
+0
+2
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+NULL
+NULL
+
+Broncheospikesaur
+A gigantic spikesaure that has a mass of hp and can taunt all enemies at once, however its physical attack is very weak
+0
+2
+4
+2
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+NULL
+NULL
 Lesser Phoenix
 Not yet brilliant, or aflame like its stronger, larger cousins, the lesser phoenix is known to be a tempermental bird, aggressive and purile
 0

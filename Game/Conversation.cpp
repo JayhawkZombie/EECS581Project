@@ -15,7 +15,7 @@ Conversation::Conversation()
 	m_choiceID = "";
 	m_numNodes = 0;
 	m_numChoices = 0;
-  m_exitStatus = 0;
+    m_exitStatus = 0;
 }
 Conversation::~Conversation()
 {}

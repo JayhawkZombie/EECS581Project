@@ -45,13 +45,6 @@ public:
 	static bool testDamage2(bool quiet);
     
 	//Armor Tests
-	static bool testArmor1(bool quiet);
-    static bool testArmor2(bool queit);
-    static bool testArmor3(bool quiet);
-    static bool testArmor4(bool quiet);
-    static bool testArmor5(bool quiet);
-    static bool testArmor6(bool quiet);
-    static bool testArmor7(bool quiet);
     
 	//Weapon Tests
 	static bool testWeapon1(bool quiet);
