@@ -18,10 +18,10 @@ namespace Engine
     class TextLabel : public WidgetBase
     {
     public:
-      static std::shared_ptr<TextLabel> Create(std::shared_ptr<UILayer> Layer, TextAlignment Align, const std::string &String, const sf::Color &Color, 
+      static std::shared_ptr<TextLabel> Create(std::shared_ptr<UILayer> Layer, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
                                                std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Position);
 
-      static std::shared_ptr<TextLabel> Create(std::shared_ptr<WidgetBase> Widget, TextAlignment Align, const std::string &String, const sf::Color &Color,
+      static std::shared_ptr<TextLabel> Create(std::shared_ptr<WidgetBase> Widget, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
                                                std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Offset);
 
       void SetString(const std::string &String);

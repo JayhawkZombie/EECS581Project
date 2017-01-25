@@ -14,7 +14,7 @@ namespace Engine
       
     }
 
-    std::shared_ptr<ButtonBase> ButtonBase::Create(std::shared_ptr<UILayer> ThisLayer)
+    std::shared_ptr<ButtonBase> ButtonBase::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper)
     {
       if (!ThisLayer || !ThisLayer->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError }, EXCEPTION_MESSAGE("Created WidgetHelper is invalid or cannot accept any widgets"));
@@ -22,6 +22,7 @@ namespace Engine
 
       //Create button
       std::shared_ptr<ButtonBase> Widget(new ButtonBase());
+      Widget->Helper = ThisHelper;
 
       Widget->MyLayer = ThisLayer;
 

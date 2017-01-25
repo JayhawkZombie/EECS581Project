@@ -179,7 +179,7 @@ namespace Engine
       //Widget->GlobalWidgetBounds.MoveRegion(dMovement);
     }
 
-    std::shared_ptr<UILayer> UILayer::Create()
+    std::shared_ptr<UILayer> UILayer::Create(std::shared_ptr<WidgetHelper> ThisHelper)
     {
       auto ptr = std::make_shared<UILayer>();
       ptr->FocusedItem = nullptr;
@@ -291,7 +291,7 @@ namespace Engine
     std::shared_ptr<WidgetHelper> WidgetHelper::Create()
     {
       std::shared_ptr<WidgetHelper> Help = std::make_shared<WidgetHelper>();
-      Help->Layers.insert(Help->Layers.begin() + 0, UILayer::Create());
+      Help->Layers.insert(Help->Layers.begin() + 0, UILayer::Create(Help));
 
       DEBUG_ONLY assert(Help->Layers.front().get());
 
@@ -302,7 +302,7 @@ namespace Engine
 
     void WidgetHelper::AddUILayer()
     {
-      Layers.insert(Layers.begin() + 0, UILayer::Create());
+      Layers.insert(Layers.begin() + 0, UILayer::Create(std::shared_ptr<WidgetHelper>(this)));
       DEBUG_ONLY assert(Layers.front().get());
 
       DEBUG_ONLY std::cerr << "WidgetHelper::AddUILayer() : There are " << Layers.size() << " layers" << std::endl;

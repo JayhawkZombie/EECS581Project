@@ -97,7 +97,7 @@ namespace Engine
       return;
     }
 
-    std::shared_ptr<WidgetBase> WidgetBase::Create(std::shared_ptr<UILayer> ThisLayer)
+    std::shared_ptr<WidgetBase> WidgetBase::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper)
     {
       //Throw an excption if ThisCreator isn't valid, or cannot accept another widget for some reason
       //We can't create this, something is wrong with the container. Register ConstructionError since this object did not get constructed properly

@@ -8,14 +8,14 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<MenuWidgetBase> MenuWidgetBase::Create(std::shared_ptr<UILayer> ThisLayer, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<MenuWidgetBase> MenuWidgetBase::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       if (!ThisLayer || !ThisLayer->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
                                      EXCEPTION_MESSAGE("Layer is NULL or cannot accept a widget"));
 
       std::shared_ptr<MenuWidgetBase> Widget(new MenuWidgetBase);
-
+      Widget->Helper = ThisHelper;
       return Widget;
 
     }

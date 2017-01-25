@@ -159,6 +159,7 @@
     <ClInclude Include="Game\ElementsEnum.h" />
     <ClInclude Include="Game\GameMain.h" />
     <ClInclude Include="Game\HumanActor.h" />
+    <ClInclude Include="Game\Inventory.h" />
     <ClInclude Include="Game\ListReader.h" />
     <ClInclude Include="Game\MainCharacter.h" />
     <ClInclude Include="Game\MonsterType.h" />
@@ -304,6 +305,7 @@
     <ClCompile Include="Game\Damage.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
     <ClCompile Include="Game\HumanActor.cpp" />
+    <ClCompile Include="Game\Inventory.cpp" />
     <ClCompile Include="Game\ListReader.cpp" />
     <ClCompile Include="Game\MainCharacter.cpp" />
     <ClCompile Include="Game\MonsterType.cpp" />

@@ -6,7 +6,7 @@ namespace Engine
 
   namespace UI
   {
-    std::shared_ptr<DraggableTile> DraggableTile::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<DraggableTile> DraggableTile::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       if (!ThisLayer || !ThisLayer->CanAcceptWidget()) {
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
@@ -20,7 +20,7 @@ namespace Engine
       try
       {
         std::shared_ptr<DraggableTile> Drag(new DraggableTile);
-
+        Drag->Helper = ThisHelper;
         Drag->MyLayer = ThisLayer;
         ThisLayer->RegisterWidget(Drag);
         //Set up the tile

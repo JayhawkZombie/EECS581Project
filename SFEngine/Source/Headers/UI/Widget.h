@@ -36,7 +36,7 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
 
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**
-      static std::shared_ptr<WidgetBase> Create(std::shared_ptr<UILayer> ThisLayer);
+      static std::shared_ptr<WidgetBase> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper);
 
       /**
       * Base level event handlers

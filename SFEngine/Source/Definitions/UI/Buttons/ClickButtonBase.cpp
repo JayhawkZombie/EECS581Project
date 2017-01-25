@@ -15,7 +15,7 @@ namespace Engine
       CanBeDragged = true;
     }
 
-    std::shared_ptr<ClickButtonBase> ClickButtonBase::Create(std::shared_ptr<UILayer> ThisLayer, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<ClickButtonBase> ClickButtonBase::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       DEBUG_ONLY std::cerr << "ClickButtonBase::Create" << std::endl;
 
@@ -24,7 +24,7 @@ namespace Engine
                                      EXCEPTION_MESSAGE("Created WidgetHelper is invalid or cannot accept any widgets"));
 
       std::shared_ptr<ClickButtonBase> Widget(new ClickButtonBase());
-
+      Widget->Helper = ThisHelper;
       Widget->MyLayer = ThisLayer;
       ThisLayer->RegisterWidget(Widget);
 

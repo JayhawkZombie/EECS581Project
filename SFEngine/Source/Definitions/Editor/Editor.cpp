@@ -45,18 +45,6 @@ namespace Engine
     TileEditInfo.TileSheetSprite.setPosition({ TileSheetPreviewPosition });
     TileEditInfo.TileSheetSprite.setScale(ScaleFactors);
 
-    //get the rect for the tile sheet rect currently selected (default = 0)
-    //sf::IntRect rect = TileFrames[TileEditInfo.SheetIndex];
-    //TileEditInfo.TileSheetOutline.setPosition({ TileSheetPreviewPosition.x + rect.left * ScaleFactors.x, TileSheetPreviewPosition.y + rect.top * ScaleFactors.y });
-    //TileEditInfo.TileSheetOutline.setSize({ (float)rect.width * ScaleFactors.x, (float)rect.height * ScaleFactors.y });
-    //TileEditInfo.TileSheetOutline.setFillColor(sf::Color::Transparent);
-    //TileEditInfo.TileSheetOutline.setOutlineColor(sf::Color::Blue);
-    //TileEditInfo.TileSheetOutline.setOutlineThickness(2);
-    //
-    //TileEditInfo.TileSheetPreviewSprite.setPosition({ TileSheetPreviewPosition.x, TileSheetPreviewPosition.y + TileSheetPreviewSize.y + 10 });
-    //TileEditInfo.TileSheetPreviewSprite.setTexture(TileEditInfo.TileSheet);
-    //TileEditInfo.TileSheetPreviewSprite.setTextureRect(TileFrames[TileEditInfo.SheetIndex]);
-
     UITexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture);
     UITexture->create(1200, 900);
     UISprite.setTexture(UITexture->getTexture());
@@ -67,11 +55,11 @@ namespace Engine
     try
     {
       UIHelper = UI::WidgetHelper::Create();
-      UILayer = UI::UILayer::Create();
+      UILayer = UI::UILayer::Create(UIHelper);
       UIHelper->AddUILayer(UILayer);
 
-      TestButton = UI::ClickButtonBase::Create(UILayer, { 800, 600 }, { 150, 45 });
-      TestButton2 = UI::ClickButtonBase::Create(UILayer, { 400, 800 }, { 150, 45 });
+      TestButton = UI::ClickButtonBase::Create(UILayer, UIHelper, { 800, 600 }, { 150, 45 });
+      TestButton2 = UI::ClickButtonBase::Create(UILayer, UIHelper, { 400, 800 }, { 150, 45 });
 
       TestButton->ButtonText.setFont(EditorFont);
       TestButton->ButtonText.setCharacterSize(16);
@@ -92,7 +80,7 @@ namespace Engine
         ThisTileDim.height = tile.height;
 
         try {
-          auto _tile = UI::DraggableTile::Create(UILayer, TilesTexture, tile, { ThisTileDim.left, ThisTileDim.top }, { ThisTileDim.width * ScaleX, ThisTileDim.height * ScaleY });
+          auto _tile = UI::DraggableTile::Create(UILayer, UIHelper, TilesTexture, tile, { ThisTileDim.left, ThisTileDim.top }, { ThisTileDim.width * ScaleX, ThisTileDim.height * ScaleY });
           DragTiles.push_back(_tile);
         }
         catch (ConstructionException &cerr) {
@@ -100,10 +88,8 @@ namespace Engine
         }
       } //for tile : TileFrames
 
-      ObjectList = UI::ListWidget::Create(UILayer, TextFont, { 0, 100.f }, { 100, 700.f },
-                                          UI::ButtonPlacement::TopCenter, { 0, 0 }, { 100.f, 15.f });
       
-      EditOptionsList = UI::ListWidget::Create(UILayer, TextFont, { 0, 0 }, { 1200.f, 80.f },
+      EditOptionsList = UI::ListWidget::Create(UILayer, UIHelper, TextFont, { 0, 0 }, { 1200.f, 80.f },
                                                UI::ButtonPlacement::BottomCenter, { 0.f, 15.f }, { 100.f, 15.f });
 
       //auto Label = UI::TextLabel::Create(EditOptionsOpenCloseButton, UI::TextAlignment::CenterJustified, "Close", sf::Color::White, TextFont, 12, { 0, 0, 15, 75 }, { 0, 0 });

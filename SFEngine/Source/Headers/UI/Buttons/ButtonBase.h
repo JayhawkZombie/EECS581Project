@@ -31,7 +31,7 @@ namespace Engine
 
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**
-      static std::shared_ptr<ButtonBase> Create(std::shared_ptr<UILayer> ThisLayer);
+      static std::shared_ptr<ButtonBase> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper);
 
       /**
       * Base level event handlers

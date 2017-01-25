@@ -12,7 +12,7 @@ namespace Engine
     class ClickButtonBase : public ButtonBase
     {
     public:
-      static std::shared_ptr<ClickButtonBase> Create(std::shared_ptr<UILayer> ThisLayer, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      static std::shared_ptr<ClickButtonBase> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;

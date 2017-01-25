@@ -16,7 +16,8 @@
 
 int main(int argc, char **argv)
 {
-  GameMain::run();
+  //Your tests are blocking. Please don't leave them in
+  //GameMain::run();
 
   Engine::SFEngine GameEngine;
   return (GameEngine.Go(argc, argv));

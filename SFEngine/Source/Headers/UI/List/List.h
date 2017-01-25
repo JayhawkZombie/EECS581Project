@@ -19,7 +19,7 @@ namespace Engine
     public:
       friend class ListWidget;
 
-      static std::shared_ptr<ListItem> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      static std::shared_ptr<ListItem> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size);
       static std::shared_ptr<ListItem> Create(std::shared_ptr<ListItem> ToCopy);
 
       virtual void ConsumeEvent(const InputEvent &IEvent);
@@ -57,7 +57,7 @@ namespace Engine
     class ListWidget : public WidgetBase
     {
     public:
-      static std::shared_ptr<ListWidget> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
+      static std::shared_ptr<ListWidget> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
                                                 ButtonPlacement CloseButtonPlacement = ButtonPlacement::TopCenter, const sf::Vector2f ButtonOfffset = { 0, 0 }, const sf::Vector2f &ButtonSize = { 0, 0 });
       virtual void ConsumeEvent(const InputEvent &IEvent);
       virtual void OnFocusGained(const FocusChangeEvent &FEvent);

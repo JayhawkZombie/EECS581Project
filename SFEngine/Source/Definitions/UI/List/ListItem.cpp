@@ -7,14 +7,14 @@ namespace Engine
 
   namespace UI
   {
-    std::shared_ptr<ListItem> ListItem::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<ListItem> ListItem::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       try
       {
         std::shared_ptr<ListItem> Item(new ListItem);
         Item->MyLayer = ThisLayer;
         Item->ParentList = Parent;
-
+        Item->Helper = ThisHelper;
         ThisLayer->RegisterWidget(Item);
 
         //The ListWidget should take care of placing us properly

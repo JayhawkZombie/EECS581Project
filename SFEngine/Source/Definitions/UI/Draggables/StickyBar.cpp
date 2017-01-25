@@ -10,7 +10,7 @@ namespace Engine
 
 
 
-    std::shared_ptr<StickyBar> StickyBar::Create(std::shared_ptr<UILayer> ThisLayer, const sf::Vector2f & Position, 
+    std::shared_ptr<StickyBar> StickyBar::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position,
                                                  const sf::Vector2f & Size, const sf::Vector2f & VertBarSize, const sf::Vector2f & HorizBarSize, const sf::Vector2f &DragBarSize)
     {
       if (!ThisLayer || !ThisLayer->CanAcceptWidget())
@@ -21,15 +21,15 @@ namespace Engine
       {
         std::shared_ptr<StickyBar> Bar(new StickyBar);
         Bar->CanBeDragged = false;
-
-        Bar->ChildLayer = UI::UILayer::Create();
+        Bar->Helper = ThisHelper;
+        Bar->ChildLayer = UI::UILayer::Create(Bar->Helper);
         WIDGET_IDINFO_DEBUG("StickyBar : ChildLayer", Bar->ChildLayer)
 
         Bar->MyLayer = ThisLayer;
         ThisLayer->RegisterWidget(Bar);
         
 
-        Bar->DragRect = DraggableRect::Create(Bar->ChildLayer, Position, DragBarSize);
+        Bar->DragRect = DraggableRect::Create(Bar->ChildLayer, Bar->Helper, Position, DragBarSize);
         Bar->DragRect->SetDraggingEnabled(true);
         Bar->DragRect->Shape.setPosition(Position);
         Bar->DragRect->Shape.setSize(DragBarSize);
@@ -55,6 +55,13 @@ namespace Engine
         Bar->HorizontalBar.setOutlineThickness(-2);
 
         Bar->GlobalWidgetBounds.ForceRegion({ Position.x, Position.y, Size.x, DragBarSize.y });
+
+        Bar->DragRect->OnDragged = 
+          [Bar](auto delta)
+        {
+          Bar->ScrollList(delta);
+        };
+
         return Bar;
       }
       catch (EngineRuntimeError &err)
@@ -153,6 +160,18 @@ namespace Engine
       DragRect->Shape.setPosition({ DragRectBounds.left, DragRectBounds.top });
     }
 
+    void StickyBar::ScrollList(const sf::Vector2f & Delta)
+    {
+      if (IsVertical) {
+        //scroll up/down
+        OnScroll({ 0, Delta.y });
+      }
+      else {
+        //scroll left/right
+        OnScroll({ Delta.x, 0 });
+      }
+    }
+
     void StickyBar::OnDragBegin(const InputEvent & IEvent)
     {
       DragRect->OnDragBegin(IEvent);
@@ -169,7 +188,7 @@ namespace Engine
 
     void StickyBar::OnDragContinue(const InputEvent & IEvent)
     {
-      DragRect->OnDragContinue(IEvent);
+      //DragRect->OnDragContinue(IEvent);
 
       if (OnScroll) {
         sf::Vector2f Delta = static_cast<sf::Vector2f>(IEvent.CurrentMousePosition) - static_cast<sf::Vector2f>(IEvent.PreviousMousePosition);

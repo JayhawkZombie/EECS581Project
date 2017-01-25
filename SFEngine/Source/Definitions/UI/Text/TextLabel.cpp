@@ -8,7 +8,7 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<TextLabel> TextLabel::Create(std::shared_ptr<UILayer> ThisLayer, TextAlignment Align, const std::string & String, 
+    std::shared_ptr<TextLabel> TextLabel::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string & String,
                                                              const sf::Color & Color, std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Position)
     {
       if (!ThisLayer || !ThisLayer->CanAcceptWidget()) 
@@ -19,7 +19,7 @@ namespace Engine
       {
 
         std::shared_ptr<TextLabel> Label(new TextLabel);
-
+        Label->Helper = ThisHelper;
         Label->Alignment = Align;
         Label->Bounds = RenderBounds;
         Label->Font = _Font;
@@ -46,7 +46,7 @@ namespace Engine
       }
     }
 
-    std::shared_ptr<TextLabel> TextLabel::Create(std::shared_ptr<WidgetBase> Widget, TextAlignment Align, const std::string &String, const sf::Color &Color,
+    std::shared_ptr<TextLabel> TextLabel::Create(std::shared_ptr<WidgetBase> Widget, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
                                                  std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Offset)
     {
       if (!Widget)
@@ -56,7 +56,7 @@ namespace Engine
       try
       {
         std::shared_ptr<TextLabel> Label(new TextLabel);
-
+        Label->Helper = ThisHelper;
         Label->Alignment = Align;
         Label->Font = _Font;
         Label->RawString = String;

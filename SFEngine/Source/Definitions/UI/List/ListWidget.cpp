@@ -9,7 +9,7 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<ListWidget> ListWidget::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
+    std::shared_ptr<ListWidget> ListWidget::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
                                                    ButtonPlacement CloseButtonPlacement, const sf::Vector2f CloseButtonOffset, const sf::Vector2f &CloseButtonSize)
     {
       if (!ThisLayer || !ThisLayer->CanAcceptWidget()) 
@@ -19,12 +19,12 @@ namespace Engine
       try
       {
         std::shared_ptr<ListWidget> List(new ListWidget);
-
+        List->Helper = ThisHelper;
         List->MyLayer = ThisLayer;
         ThisLayer->RegisterWidget(List);
 
-        List->ChildLayer = UI::UILayer::Create();
-        List->OptionsLayer = UI::UILayer::Create();
+        List->ChildLayer = UI::UILayer::Create(List->Helper);
+        List->OptionsLayer = UI::UILayer::Create(List->Helper);
 
         List->OptionsLayer->LayerRegisterDebugOutputFunction =
           [List](auto ID)
@@ -99,7 +99,7 @@ namespace Engine
         }
 
 
-        List->OpenCloseButton = UI::ClickButtonBase::Create(List->OptionsLayer, ButtonPosition, ButtonSize);
+        List->OpenCloseButton = UI::ClickButtonBase::Create(List->OptionsLayer, List->Helper, ButtonPosition, ButtonSize);
         List->OpenCloseButton->MouseReleaseCB = [List]() { List->CloseList(); };
         List->OpenCloseButton->SetDraggingEnabled(false);
 
@@ -129,14 +129,14 @@ namespace Engine
 
         //Add some text to the button
         WIDGET_DEBUG_ONLY std::cerr << "ListWidget::Create : Creating OpenCloseButtonText" << std::endl;
-        List->OpenCloseButtonText = UI::TextLabel::Create(List->OpenCloseButton, TextAlignment::CenterJustified, "Close", sf::Color::White, List->ListFont, 12, { 0, 0, 75, 15 }, { 0, 0 });
+        List->OpenCloseButtonText = UI::TextLabel::Create(List->OpenCloseButton, List->Helper, TextAlignment::CenterJustified, "Close", sf::Color::White, List->ListFont, 12, { 0, 0, 75, 15 }, { 0, 0 });
 
         float ScrollBarHeight = 15.f;
         float ScrollVertBarWidth = 3.f;
         float ScrollVertBarHeight = 10.f;
 
         WIDGET_DEBUG_ONLY std::cerr << "Listwidget::Create : Creating ScollingBar" << std::endl;
-        List->ScrollingBar = UI::StickyBar::Create(List->ChildLayer, { Position.x, Position.y + Size.y - ScrollBarHeight }, { Size.x, 35.f }, { ScrollVertBarWidth, ScrollVertBarHeight }, { Size.x, 10.f }, { 50.f, ScrollBarHeight });
+        List->ScrollingBar = UI::StickyBar::Create(List->ChildLayer, List->Helper, { Position.x, Position.y + Size.y - ScrollBarHeight }, { Size.x, 35.f }, { ScrollVertBarWidth, ScrollVertBarHeight }, { Size.x, 10.f }, { 50.f, ScrollBarHeight });
 
         List->ScrollingBar->OnScroll = 
           [List](auto Delta)
@@ -155,21 +155,13 @@ namespace Engine
         List->TestShapes.back().setOutlineColor(sf::Color::White);
         List->TestShapes.back().setOutlineThickness(-1);
 
-        //Pos.x += Size.y + 5.f;
-        //List->TestShapes.push_back(sf::RectangleShape());
-        //List->TestShapes.back().setPosition(Pos);
-        //List->TestShapes.back().setSize(Siz);
-        //List->TestShapes.back().setFillColor(sf::Color(70, 108, 122, 150));
-        //List->TestShapes.back().setOutlineColor(sf::Color::White);
-        //List->TestShapes.back().setOutlineThickness(-1);
-
-        //Pos.x += Size.y + 5.f;
-        //List->TestShapes.push_back(sf::RectangleShape());
-        //List->TestShapes.back().setPosition(Pos);
-        //List->TestShapes.back().setSize(Siz);
-        //List->TestShapes.back().setFillColor(sf::Color(70, 108, 122, 150));
-        //List->TestShapes.back().setOutlineColor(sf::Color::White);
-        //List->TestShapes.back().setOutlineThickness(-1);
+        Pos.x += Size.y + 5.f;
+        List->TestShapes.push_back(sf::RectangleShape());
+        List->TestShapes.back().setPosition(Pos);
+        List->TestShapes.back().setSize(Siz);
+        List->TestShapes.back().setFillColor(sf::Color(70, 108, 122, 150));
+        List->TestShapes.back().setOutlineColor(sf::Color::White);
+        List->TestShapes.back().setOutlineThickness(-1);
 
         return List;
       }
@@ -243,10 +235,8 @@ namespace Engine
 
     void ListWidget::Scroll(const sf::Vector2f & Delta)
     {
-      DEBUG_ONLY std::cerr << "ListWidget::Scroll()" << std::endl;
-
       for (auto & item : TestShapes)
-        item.move({ 5, 5 });
+        item.move(Delta);
     }
 
     void ListWidget::Move(const sf::Vector2f &Delta)

@@ -57,7 +57,7 @@ namespace Engine
 
       UILayer() = default;
       ~UILayer() = default;
-      static std::shared_ptr<UILayer> Create();
+      static std::shared_ptr<UILayer> Create(std::shared_ptr<WidgetHelper> ThisHelper);
       
       void TickUpdate(const double &delta);
       void Render(std::shared_ptr<sf::RenderTexture> &Texture);
@@ -129,6 +129,19 @@ namespace Engine
 
       void RequestDelete(WidgetBase *Base);
 
+      void TakeFocus(WidgetBase *Ptr) {
+        FocusStack.push_back(Ptr);
+      }
+
+      void ReleaseFocus(WidgetBase *Ptr) {
+        if (!Ptr)
+          return;
+
+        auto ptr = std::find(FocusStack.begin(), FocusStack.end(), Ptr);
+        if (ptr != FocusStack.end())
+          FocusStack.erase(ptr);
+      }
+
     protected:
       bool ConsumeMouseMovementEvent(SharedWidgetPointer Widget,  const InputEvent &IEvent);
       bool ConsumeMousePressEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
@@ -136,6 +149,7 @@ namespace Engine
       bool ConsumeKeyPressEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
       bool ConsumeKeyReleaseEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
 
+      std::vector<WidgetBase*> FocusStack; //used for stacking focus requests
 
       std::vector<std::shared_ptr<UILayer>> Layers;
 
