@@ -129,17 +129,24 @@ namespace Engine
 
       void RequestDelete(WidgetBase *Base);
 
-      void TakeFocus(WidgetBase *Ptr) {
+      void TakeFocus(std::shared_ptr<WidgetBase> Ptr) {
+        DEBUG_ONLY std::cerr << "FocusStack : ID " << Ptr->WidgetID << " focus added " << std::endl;
         FocusStack.push_back(Ptr);
       }
 
-      void ReleaseFocus(WidgetBase *Ptr) {
-        if (!Ptr)
+      void ReleaseFocus(std::shared_ptr<WidgetBase> Widget) {
+        if (!Widget)
           return;
 
-        auto ptr = std::find(FocusStack.begin(), FocusStack.end(), Ptr);
-        if (ptr != FocusStack.end())
-          FocusStack.erase(ptr);
+        for (auto it = FocusStack.begin(); it != FocusStack.end(); ++it) {
+          if ((*it)->WidgetID == Widget->WidgetID) {
+            //release this one
+            FocusStack.erase(it);
+            DEBUG_ONLY std::cerr << "FocusStack : ID " << Widget->WidgetID << " focus popped " << std::endl;
+            break;
+          }
+        }
+
       }
 
     protected:
@@ -149,7 +156,7 @@ namespace Engine
       bool ConsumeKeyPressEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
       bool ConsumeKeyReleaseEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
 
-      std::vector<WidgetBase*> FocusStack; //used for stacking focus requests
+      std::vector<std::shared_ptr<WidgetBase>> FocusStack; //used for stacking focus requests
 
       std::vector<std::shared_ptr<UILayer>> Layers;
 

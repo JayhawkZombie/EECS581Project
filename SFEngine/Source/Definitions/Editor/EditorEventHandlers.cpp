@@ -39,7 +39,10 @@ namespace Engine
 
   void Editor::HandleKeyReleased(const InputEvent &Event)
   {
-
+    if (Event.Key == sf::Keyboard::Escape) {
+      DEBUG_ONLY std::cerr << "Editor : Showing Popup" << std::endl;
+      UI::PopupObject::ShowPopup(TestPopup);
+    }
   }
 
   void Editor::HandleTextEntered(const InputEvent &Event)

@@ -14,6 +14,7 @@
 #include "../UI/WIdgetHelper.h"
 #include "../UI/Buttons/ClickButtonBase.h"
 #include "../UI/Draggables/DraggableTile.h"
+#include "../UI/Alerts/PopupObject.h"
 
 namespace Engine
 {
@@ -113,6 +114,8 @@ namespace Engine
 
     std::shared_ptr<UI::ListWidget> EditOptionsList;
     std::shared_ptr<UI::ClickButtonBase> EditOptionsOpenCloseButton;
+
+    std::shared_ptr<UI::PopupObject> TestPopup;
     /**
     *  _________________________________________________________________
     *  |                                                               |

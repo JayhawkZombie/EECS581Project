@@ -123,11 +123,13 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
     protected:
       WidgetBase();
 
-      //THIS OBJECT's helper (can use for child elements to do collision testing for it)
+      //The highest-level UILayer you want to be able to steal focus from
       std::shared_ptr<WidgetHelper> Helper; 
 
       //The helper that is containing THIS OBJECT
       std::shared_ptr<UILayer> MyLayer;
+
+      //The layer you can use to store your own children
       std::shared_ptr<UILayer> ChildLayer;
 
       //32-bit identifier (use current epoch), no 32-bit architectures sorry

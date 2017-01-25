@@ -13,6 +13,7 @@ namespace Engine
     {
       InteractionType Interaction;
       bool Interacted = false;
+
       //Do we have a focused element?
       if (FocusedItem && !FocusedItem->IsHidden) {
         //Do collision tests for the focused element
@@ -360,6 +361,10 @@ namespace Engine
       for (auto it = Layers.rbegin(); it != Layers.rend(); ++it) {
         (*it)->Render(Target);
       }
+
+      if (!FocusStack.empty()) {
+        FocusStack.front()->Render(Target);
+      }
     }
 
     void WidgetHelper::RegisterWidget(std::shared_ptr<WidgetBase> Widget, std::size_t layer)
@@ -477,6 +482,11 @@ namespace Engine
       FEvent.ChangeType = FocusChangeType::UserForced;
       FEvent.CurrentMousePosition = IEvent.CurrentMousePosition;
       FEvent.PreviousMousePosition = IEvent.PreviousMousePosition;
+
+      if (!FocusStack.empty()) {
+        FocusStack.front()->ConsumeEvent(IEvent);
+        return true;
+      }
 
       if (Layers.front()->HandleEvent(IEvent)) {
         //DEBUG_ONLY std::cerr << "Layer.front() handled event" << std::endl;

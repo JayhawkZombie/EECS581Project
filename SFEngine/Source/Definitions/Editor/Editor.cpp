@@ -93,6 +93,7 @@ namespace Engine
                                                UI::ButtonPlacement::BottomCenter, { 0.f, 15.f }, { 100.f, 15.f });
 
       //auto Label = UI::TextLabel::Create(EditOptionsOpenCloseButton, UI::TextAlignment::CenterJustified, "Close", sf::Color::White, TextFont, 12, { 0, 0, 15, 75 }, { 0, 0 });
+      TestPopup = UI::PopupObject::Create(UILayer, UIHelper, { 100, 100 }, { 900, 700 }, TextFont);
 
     }
     catch (std::exception &err)
