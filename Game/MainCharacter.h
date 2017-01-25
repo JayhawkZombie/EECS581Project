@@ -4,14 +4,14 @@
 class MainCharacter : public HumanActor
 {
 public:
-  MainCharacter();
-  ~MainCharacter();
-  void IncrementAffinity(int index, int value);
-  int getAffinity(int index);
-  void printAffinities();
+	MainCharacter();
+	~MainCharacter();
+	void IncrementAffinity(int index, int value);
+	int getAffinity(int index);
+	void printAffinities();
 
 private:
-  int m_affinity[6];
+	int m_affinity[6];
 };
 
 #endif

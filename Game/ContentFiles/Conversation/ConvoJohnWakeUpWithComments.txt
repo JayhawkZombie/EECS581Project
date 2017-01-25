@@ -110,20 +110,24 @@ ExitReplyQuiet
 ExitReplyQuiet
 You've been quiet lately, that's unlike you. Now go help dad before you get in trouble
 0//if there are zero replies possible, exit
+1//this is the exit status, when the conversation terminates, return this value
 
 ExitReplySnore
 Pretty sure thats you little bro, best get up before dad gets mad
 0
+2
 
 ExitReplyWork
 You better, now go help dad, he's got our mouths to feed
 0
+3
 
 ExitReplyMom
 yeah, me too, but its worse for dad, so try to help him out, huh? He's waiting for you
 0
+4
 
 ExitReplyLife
 More than you evidently. Now go help dad before you get in trouble
 0
-
+5

@@ -1,0 +1,47 @@
+Michael
+
+
+intro
+Good to see you again, have you come to learn about the Gods?
+3
+I don't, but my father does. He needs you to say a prayer over my mother's grave, its the anniversary of her death
+5
+1
+dutyResponseExit
+Of course pastor, thank you for the offer.
+4
+1
+godsExplaination1
+The Gods killed my mother, I don't care to know them
+0
+1
+5
+1
+MysteriousWaysResponse
+
+godsExplaination1
+What would you like to know?
+5
+How many are there?
+5
+1
+godsExplaination2
+What happened at the beggining?
+5
+1
+godsExplaination3
+What happens when you die?
+5
+1
+godsExplaination4
+Actually I just need you to preform a rite at my mothers grave for her anniversary
+dutyResponseExit
+
+godsExplaination2
+There are six, and One. The god above who showed Prophet Erebius his light showed us six faces: Anu, the father of light, Ahros the Judge, Velhu the merciful, Sid the compassionate, and Pythion, the Redeemer who was redeemed.
+
+How can there be both six and one?
+dutyResponseExit
+Of Course, your mother. What a tragedy, to be overcome with sickness at such an innocent age. I will of course preform the benediction, thank you for summoning me.
+0
+1

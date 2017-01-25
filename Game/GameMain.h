@@ -11,12 +11,15 @@ public:
 	~GameMain();
 	static int run();
 
-  void Init(std::shared_ptr<Engine::Level> GameLevel);
-  void LoadLevel();
+ // void Init(std::shared_ptr<Engine::Level> GameLevel);
+ // void LoadLevel();
 
 private:
-  std::shared_ptr<Engine::Level> Level;
+//  std::shared_ptr<Engine::Level> Level;
   
+
+	void printAssetStatus();
+
 };
 
 #endif

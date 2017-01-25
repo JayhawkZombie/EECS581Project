@@ -12,10 +12,10 @@ public:
   BattleActor();
   ~BattleActor();
   //functions
-  virtual bool TakeDamage(const Damage recieved) = 0;
-  virtual Damage baseDamage() = 0;
-  virtual bool Levelup() = 0;
-  virtual bool gainExp() = 0;
+ // virtual bool TakeDamage(const Damage recieved) = 0;
+ // virtual Damage baseDamage() = 0;
+  virtual void levelUp() = 0;
+  virtual void gainExp(int gain) = 0;
   virtual bool isAlive() const;
 
   //getters

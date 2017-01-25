@@ -1,4 +1,4 @@
-20
+56
 
 Flarial
 A young spirit, made of flame, that hovers above the earth- it casts no shadow, as it is a source of light
@@ -6,7 +6,128 @@ A young spirit, made of flame, that hovers above the earth- it casts no shadow, 
 0
 1
 0
-SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet
+SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet.png
+Pyrus
+Flarpup
+PyroSymbol
+
+Pyrus
+A minor demon holding a blazing sword in either hand
+0
+0
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Pyrus.png
+NULL
+Pyos
+NULL
+
+Flarpup
+A young wolf whos focus is speed
+0
+0
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Flarpup.png
+NULL
+Comet
+NULL
+
+PyroSymbol
+A magical symbol of eternal flame, the PyroSymbol is a floating fire symbol
+0
+0
+2
+2
+SFEngine/Samples/Animations/CharacterAnimations/PyroSymbolMonster.png
+FireOpal
+NULL
+PyroElemental
+
+Pyos
+A flarial made large, the pyros is a ball of flame that crackles with intensity
+0
+0
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Pyros.png
+NULL
+Pyres
+NULL
+
+Comet
+Friction has lit aflame the legs of this flarpup, and magical speed energy surrounds it, enhancing its ability to strike at its prey
+0
+0
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Comet.png
+NULL
+Bolide
+NULL
+
+FireOpal
+When a pyro symbol breaks with tradition and begins to strike physically, its immaterial form hardens and it becomes a fireOpal
+0
+0
+3
+2
+SFEngine/Samples/Animations/CharacterAnimations/FireOpal.png
+NULL
+Ruby
+NULL
+
+PyroElemental
+When a Pyro symbol is strong it attracts other symbols. This one has attracted a pyro symbol, and umbral symbol and a terral symbol, and as a consequence can use Magics associated with those two elements as well
+0
+0
+3
+3
+SFEngine/Samples/Animations/CharacterAnimations/PyroElemental.png
+NULL
+PyroAtronach
+NULL
+
+Pyres
+Fire consumes, and the best days of the Pyres are behind it. Though its surface has never been hotter, the fuel inside is nearly extinguished, as evidenced by its burnt out, dark eyes, which function as windows into the soul of the Pyres. Though its time is nearly up, it has never been stronger, and as a monster based in anger, it intends to go out with violence
+0
+0
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Pyres.png
+NULL
+NULL
+NULL
+
+Bolide
+Consumed by anger the Comet has formed into a Bolide, A huge comet that can never slow down. Its very speed ignites the air, burning all in its path.
+0
+0
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Bolide.png
+NULL
+NULL
+NULL
+
+Ruby
+The fireOpal has hardened and its power has increased tenfold, granting it a brighter sheen and allowing it to cast magic and attack physically with ever more vigor.
+0
+0
+4
+2
+SFEngine/Samples/Animations/CharacterAnimations/Ruby.png
+NULL
+NULL
+NULL
+
+PyroAtronach
+The PyroEelmental has grown and attracted more deferential symbols that allow it to channel all elemental magics, making the Atronach a true master of magic.
+0
+0
+4
+3
+SFEngine/Samples/Animations/CharacterAnimations/PyroAtronach.png
 NULL
 NULL
 NULL
@@ -17,7 +138,73 @@ A lesser son of vulcan. though it is fire elemental, it is known for its somber 
 1
 1
 0
-SFEngine/Samples/Animations/CharacterAnimations/flarial12FSpriteSheet
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+Crerops
+NULL
+Corynetes
+
+Crerops
+Creops is a man size titan with a face of melting stone. Lava flows from its heart, a furnace controlling the stone and giving it life; its heart is also its weak spot
+0
+1
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Philottus
+NULL
+
+Corynetes
+A floating sphere of lava that glows and pulses from yellow to orange. It has a cracked shell of earth protecting it, within which the core dwells
+0
+1
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Cercyon
+NULL
+
+Philottus
+An eight foot tall Blacksmith with a large hammer. Made of lava and hunks of rock. Dont mess with this guy
+0
+1
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Vulcanous
+NULL
+
+Cercyon
+A floating lavaSnake with an orb at its neck. It would be called a dragon, if it was blue and lived in a boring game universe.
+0
+1
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+Vagrus
+NULL
+
+Vulcanous
+A walking collosus of molten iron. Cooled iron plates stick out from the vulnerable molten core within, making the collosus near-impenetrable, except at the joints, which are still molten.
+0
+1
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Vagrus
+An actual lava dragon, snakelike and with wings. A master of magic, it casts both fire and water in tandem
+0
+1
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Philammon12FSpriteSheet.png
 NULL
 NULL
 NULL
@@ -29,10 +216,108 @@ A limbless snake that dwells in hot places, typically deserts or volcanoes. It w
 1
 0
 SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+Raptor
+Winger
+Herbisaur
+
+Raptor
+A small velociraptor that focuses on using teamwork to take its prey down.
+0
+2
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+Tyrant
+NULL
+
+Winger
+A small flying dinosaur that resembles a bat, except for its cone-shaped head.
+0
+2
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+SteelWinger
+NULL
+
+Herbisaur
+Large for an adolescent, the herbisaur is a dinosaur that is slow target- but beefy. Best used as a tank
+0
+2
+2
+2
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+Spikevorsaur
+NULL
+
+Tyrant
+A tyrant is a giant raptor with big teeth and skimpy arms. Think T-Rex
+0
+2
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+GreatWhiteTyrant
+NULL
+
+SteelWinger
+A larger Winger with a steel beak and wings. The winger thought it would be cool to go steel, but it didin't account for the weight, which slows it down and keeps it from flying
+0
+2
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+EdgeWinger
+NULL
+
+Spikevorsaur
+Its like a Stegosaurus but with steel spikes
+0
+2
+3
+2
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+Broncheospikesaur
+NULL
+
+GreatWhiteTyrant
+The Great White Tyrant is a larger version of the tyrant that is as white as bone. It also has long arms with claws now, although why it needs them when it has that huge jaw is anyone's guess
+0
+2
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
 NULL
 NULL
 NULL
 
+EdgeWinger
+The EdgeWinger is and evolved SteelWinger, that shaved off the edges of the steel so that its really sharp- and light enough it can fly again.
+0
+2
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+NULL
+NULL
+
+Broncheospikesaur
+A gigantic spikesaure that has a mass of hp and can taunt all enemies at once, however its physical attack is very weak
+0
+2
+4
+2
+SFEngine/Samples/Animations/CharacterAnimations/Salamander12FSpriteSheeet.png
+NULL
+NULL
+NULL
 Lesser Phoenix
 Not yet brilliant, or aflame like its stronger, larger cousins, the lesser phoenix is known to be a tempermental bird, aggressive and purile
 0
@@ -216,6 +501,204 @@ A rather large sewer-dwelling rat. It has adapted resistance to poison, as it is
 1
 0
 SFEngine/Samples/Animations/CharacterAnimations/SeweRat12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+Kangarat
+The Kangarat is a small rodent that lives in the desert and can spend its whole life without drinking any water
+3
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Kangarat12FSpriteSheet.png
+NULL
+NULL
+NULL
+
+GullFish
+The first fish a baby gull ever caught is still in its claws. It doesn't intend to eat it though, and the fish and gull have become fast friends
+3
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Gullfish.png
+NULL
+NULL
+NULL
+
+Colour
+The Colour is a baby tropic bird a green head, blue wings and red plumage, it is known for using its bright colors to confuse its enemies and entice its prey
+3
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Colour.png
+NULL
+NULL
+NULL
+
+Flapper
+The Flapper shows a ridiculous amount of leg, especially for this time period. It is very stylish, and has a feather in its headband, even though it already has feathers on its head
+3
+3
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
+NULL
+NULL
+NULL
+
+CockaOne
+The cockaOne is a very young cocka that barely knows how to fly. It is a social animal, and is known for buffing its allies
+3
+4
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/CockaOne.png
+NULL
+NULL
+NULL
+
+FourShadoWing
+The FourShadoWing is a baby bat that casts four shadows instead of one. It is also used by underskilled plot developers who want to blatantly imply future events
+3
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/FourShadoWing.png
+NULL
+NULL
+NULL
+
+FireFaux
+The FireFaux is a baby fox that enjoys soaking in the suns rays. Its also a refrence to an awesome browser
+4
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/FireFaux.png
+NULL
+NULL
+NULL
+
+Lunapup
+The Lunapup is a small wolf born during the full moon. It feels a special connection to the moon, as if when they howl the moon howls back
+4
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Lunapup.png
+NULL
+NULL
+NULL
+
+Escutcheoner
+The Escutcheoner is a baby guardian that holds onto an oversized shield with all of its might to protect those around it
+4
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Escutcheoner.png
+NULL
+NULL
+NULL
+
+DemiAngel
+The DemiAngel is a small angel who left heaven in order to help the world- or its wings were not strong enough to keep it afloat
+4
+3
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/DemiAngel.png
+NULL
+NULL
+NULL
+
+Lumin
+A being of pure light, the lumen is often kept around by adventurers because then they can use their torch-hand for something while dungeon-diving
+4
+4
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
+NULL
+NULL
+NULL
+
+Guilt
+Guilt is a lesser demon - one of the few light-sided demons that makes people desire to right their past wrongs
+4
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Guilt.png
+NULL
+NULL
+NULL
+
+Fiend
+The Fiend is a minor demon, known for its incalculable rage and black horns- it is painful to touch, but excites - touching it elicits a feeling of joy and hunger at bad things to come
+5
+0
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Fiend.png
+NULL
+NULL
+NULL
+
+Stinger
+The Stingser is a small scorpion that stings its enemies when frightened. Its tail drips with poison
+5
+1
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Stinger.png
+NULL
+NULL
+NULL
+
+Stull
+Named for an entrance to hell, this floating skull has glowing green orbs in its eye sockets and feels really creepy to be around
+5
+2
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+NULL
+NULL
+NULL
+
+Maltag
+Have you ever had a really bad day? So bad that even if it was sunny, a small mean cloud was following you and raining on your parade? This is that cloud: a Cirrus with a bad attitude.
+5
+3
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Maltag.png
+NULL
+NULL
+NULL
+
+FallenDemiAngel
+The Fallen DemiAngel is an angel that followed the light bringer when he fell from heaven, it was weak then, and never did regain its strength
+5
+4
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
+NULL
+NULL
+NULL
+
+Umbress
+The umbress appears to be a small floating black flame- that absorbs light instead of casting it - with blue eyes
+5
+5
+1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
 NULL
 NULL
 NULL

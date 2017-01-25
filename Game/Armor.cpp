@@ -8,11 +8,7 @@ Armor::Armor()
   {
     m_defense.content[i] = 0;
   }
-  m_legs = false;
-  m_torso = false;
-  m_arms = false;
-  m_head = false;
-  m_ring = false;
+  m_type = -1;
 }
 
 
@@ -24,53 +20,18 @@ Damage Armor::getDefense()
 {
   return m_defense;
 }
-
-bool Armor::getLegs()
+int Armor::getType()
 {
-  return m_legs;
+	return m_type;
 }
 
-bool Armor::getTorso()
-{
-  return m_torso;
-}
 
-bool Armor::getArms()
-{
-  return m_arms;
-}
-
-bool Armor::getHead()
-{
-  return m_head;
-}
-
-bool Armor::getRing()
-{
-  return m_ring;
-}
 //setters
 void Armor::setDefense(Damage defense)
 {
   m_defense = defense;
 }
-void Armor::setLegs(bool legs)
+void Armor::setType(int type)
 {
-  m_legs = legs;
-}
-void Armor::setTorso(bool torso)
-{
-  m_torso = torso;
-}
-void Armor::setArms(bool arms)
-{
-  m_arms = arms;
-}
-void Armor::setHead(bool head)
-{
-  m_head = head;
-}
-void Armor::setRing(bool ring)
-{
-  m_ring = ring;
+	m_type = type;
 }
