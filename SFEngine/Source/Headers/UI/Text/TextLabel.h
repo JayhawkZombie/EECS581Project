@@ -57,6 +57,10 @@ namespace Engine
 
       virtual void AlignText();
 
+      sf::FloatRect GetTextGlobalBounds() {
+        return RenderString.getGlobalBounds();
+      }
+
       virtual ~TextLabel();
     protected:
       TextLabel();

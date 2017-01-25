@@ -46,11 +46,11 @@ namespace Engine
         Popup->BGRect.setPosition({ 100, 100 });
         Popup->BGRect.setSize({ 900, 700 });
 
-        Popup->OKButton = ClickButtonBase::Create(Popup->ChildLayer, Popup->ChildHelper, Position + sf::Vector2f(100, 0), { 100, 35 });
-        Popup->CancelButton = ClickButtonBase::Create(Popup->ChildLayer, Popup->ChildHelper, Position + sf::Vector2f(300, 0), { 100, 35 });
+        //Popup->OKButton = ClickButtonBase::Create(Popup->ChildLayer, Popup->ChildHelper, Position + sf::Vector2f(100, 0), { 100, 35 });
+        //Popup->CancelButton = ClickButtonBase::Create(Popup->ChildLayer, Popup->ChildHelper, Position + sf::Vector2f(300, 0), { 100, 35 });
 
-        Popup->OKLabel = TextLabel::Create(Popup->OKButton, Popup->ChildHelper, TextAlignment::CenterJustified, "OK", sf::Color::White, _Font, 14, { Position, Size }, { 0, 0 });
-        Popup->CancelLabel = TextLabel::Create(Popup->CancelButton, Popup->ChildHelper, TextAlignment::CenterJustified, "Cancel", sf::Color::White, _Font, 14, { Position, Size }, { 0, 0 });
+        //Popup->OKLabel = TextLabel::Create(Popup->OKButton, Popup->ChildHelper, TextAlignment::CenterJustified, "OK", sf::Color::White, _Font, 14, { Position, Size }, { 0, 0 });
+        //Popup->CancelLabel = TextLabel::Create(Popup->CancelButton, Popup->ChildHelper, TextAlignment::CenterJustified, "Cancel", sf::Color::White, _Font, 14, { Position, Size }, { 0, 0 });
 
         Popup->SampleText.setFont(*(Popup->Font));
         Popup->SampleText.setString("Sample Popup String");
@@ -58,19 +58,19 @@ namespace Engine
         Popup->SampleText.setCharacterSize(24);
         Popup->SampleText.setPosition({ 200, 200 });
 
-        Popup->OKButton->MouseReleaseCB = 
-          [Popup]()
-        {
-          Popup->CloseWasPressed();
-          UI::PopupObject::ClosePopup(Popup);
-        };
+        //Popup->OKButton->MouseReleaseCB = 
+        //  [Popup]()
+        //{
+        //  Popup->CloseWasPressed();
+        //  UI::PopupObject::ClosePopup(Popup);
+        //};
 
-        Popup->CancelButton->MouseReleaseCB = 
-          [Popup]()
-        {
-          Popup->CloseWasPressed();
-          UI::PopupObject::ClosePopup(Popup);
-        };
+        //Popup->CancelButton->MouseReleaseCB = 
+        //  [Popup]()
+        //{
+        //  Popup->CloseWasPressed();
+        //  UI::PopupObject::ClosePopup(Popup);
+        //};
 
         return Popup;
       }
@@ -149,8 +149,8 @@ namespace Engine
       Texture->draw(BGRect);
       Texture->draw(SampleText);
 
-      OKLabel->Render(Texture);
-      CancelLabel->Render(Texture);
+      //OKLabel->Render(Texture);
+      //CancelLabel->Render(Texture);
 
       ChildLayer->Render(Texture);
     }

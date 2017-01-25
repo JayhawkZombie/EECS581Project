@@ -51,11 +51,11 @@ namespace Engine
 
       sf::RectangleShape BGRect;
 
-      std::shared_ptr<ClickButtonBase> OKButton;
-      std::shared_ptr<ClickButtonBase> CancelButton;
+      //std::shared_ptr<ClickButtonBase> OKButton;
+      //std::shared_ptr<ClickButtonBase> CancelButton;
 
-      std::shared_ptr<TextLabel> OKLabel;
-      std::shared_ptr<TextLabel> CancelLabel;
+      //std::shared_ptr<TextLabel> OKLabel;
+      //std::shared_ptr<TextLabel> CancelLabel;
 
       sf::Text SampleText;
 

@@ -16,6 +16,8 @@
 #include "../UI/Draggables/DraggableTile.h"
 #include "../UI/Alerts/PopupObject.h"
 
+#include "../UI/Alerts/Alert.h"
+
 namespace Engine
 {
 
@@ -116,6 +118,7 @@ namespace Engine
     std::shared_ptr<UI::ClickButtonBase> EditOptionsOpenCloseButton;
 
     std::shared_ptr<UI::PopupObject> TestPopup;
+    std::shared_ptr<UI::Alert> Alert;
     /**
     *  _________________________________________________________________
     *  |                                                               |

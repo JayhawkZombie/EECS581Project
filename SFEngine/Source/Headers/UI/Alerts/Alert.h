@@ -9,10 +9,18 @@ namespace Engine
   namespace UI
   {
 
+    static float PaddingLeft = 10.f;
+    static float PaddingTop = 10.f;
+    static float PaddingRight = 10.f;
+    static float PaddingBottom = 5.f;
+    static float PaddingButtonBottom = 5.f;
+
+    
+
     class Alert : public PopupObject
     {
     public:
-      static std::shared_ptr<Alert> Create(std::shared_ptr<WidgetHelper> Helper, std::shared_ptr<UILayer> Layer, const std::string &Message, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position);
+      static std::shared_ptr<Alert> Create(std::shared_ptr<UILayer> Layer, std::shared_ptr<WidgetHelper> Helper, const std::string &Message, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -43,8 +51,11 @@ namespace Engine
 
       std::shared_ptr<ClickButtonBase> AcknowledgeButton;
 
+      std::shared_ptr<sf::Text> AlertMessage;
       std::shared_ptr<sf::Font> Font;
-      sf::Text AlertMessage;
+      std::shared_ptr<TextLabel> AlertText;
+
+      std::shared_ptr<TextLabel> OKText;
 
     };
 

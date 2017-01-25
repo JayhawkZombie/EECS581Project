@@ -95,6 +95,8 @@ namespace Engine
       //auto Label = UI::TextLabel::Create(EditOptionsOpenCloseButton, UI::TextAlignment::CenterJustified, "Close", sf::Color::White, TextFont, 12, { 0, 0, 15, 75 }, { 0, 0 });
       TestPopup = UI::PopupObject::Create(UILayer, UIHelper, { 100, 100 }, { 900, 700 }, TextFont);
 
+      Alert = UI::Alert::Create(UILayer, UIHelper, "SampleAlert!", TextFont, { 100, 100 });
+
     }
     catch (std::exception &err)
     {

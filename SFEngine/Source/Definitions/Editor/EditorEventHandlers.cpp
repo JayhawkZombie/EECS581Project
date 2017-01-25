@@ -41,7 +41,7 @@ namespace Engine
   {
     if (Event.Key == sf::Keyboard::Escape) {
       DEBUG_ONLY std::cerr << "Editor : Showing Popup" << std::endl;
-      UI::PopupObject::ShowPopup(TestPopup);
+      UI::Alert::ShowPopup(Alert);
     }
   }
 
