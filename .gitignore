@@ -5,3 +5,9 @@ Debug/**
 .vs/
 #ignore all assets
 SFEngine/Samples/*/*.ttf
+*.db
+*.opendb
+*.dll
+*.zip
+*.VC.db
+*.filters
