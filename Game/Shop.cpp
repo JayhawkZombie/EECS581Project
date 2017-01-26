@@ -11,7 +11,7 @@ void Shop::Buy()
 {
   displayPlayerInventory();
   displayShopInventory();
-  std::cout << "\Buying; [1] for Useables, [2] for Weapons, [3] for Armor, [-1] to go back to menu: ";
+  std::cout << "\nBuying; [1] for Useables, [2] for Weapons, [3] for Armor, [-1] to go back to menu: ";
 
   int option = 0;
   int amount;
