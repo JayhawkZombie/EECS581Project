@@ -126,6 +126,8 @@ namespace Engine
     std::shared_ptr<UI::MenuWidget> TestMenu;
     std::shared_ptr<UI::MenuScreen> TestScreen;
     std::shared_ptr<UI::MenuScreen> TestScreen2;
+    
+    std::shared_ptr<sf::Font> MenuFont;
 
     //Test screen buttons
     std::shared_ptr<UI::ClickButtonBase> TestScreenButton1;

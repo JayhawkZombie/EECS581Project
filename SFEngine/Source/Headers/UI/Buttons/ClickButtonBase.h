@@ -14,6 +14,9 @@ namespace Engine
     public:
       static std::shared_ptr<ClickButtonBase> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size);
 
+      static void SetFont(std::shared_ptr<ClickButtonBase> Button, std::shared_ptr<sf::Font> Font);
+      static void SetText(std::shared_ptr<ClickButtonBase> Button, const std::string &string, unsigned int size, const sf::Color &Color);
+
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
       virtual void OnFocusLost(const FocusChangeEvent &FEvent) override;

@@ -60,6 +60,7 @@ namespace Engine
         ptr->TopMenu = Menu;
         ptr->Helper = Menu->MenuHelper;
         Menu->Screens[ptr->WidgetID] = Screen;
+        Menu->ScreenStack.push(Screen);
       }
     }
 
@@ -68,18 +69,6 @@ namespace Engine
       auto ptr = Screen.lock();
 
       assert(this && DefaultScreen.lock() && ptr);
-
-      //if (!DefaultScreen.lock()) {
-      //  DefaultScreen = Screen;
-      //}
-
-      //if (ptr) {
-      //  DEBUG_ONLY std::cerr << "MenuWidget::AddScreen Adding Screen" << std::endl;
-      //  ptr->MyLayer = ChildLayer;
-      //  ptr->TopMenu = std::shared_ptr<MenuWidget>(this);
-      //  ptr->Helper = MenuHelper;
-      //  Screens[ptr->WidgetID] = Screen;
-      //}
     }
 
     void MenuWidget::AddScreen(std::weak_ptr<MenuScreen> Screen, std::shared_ptr<MenuWidget> Menu)
@@ -99,6 +88,26 @@ namespace Engine
         Menu->Screens[ptr->WidgetID] = Screen;
       }
 
+    }
+
+    void MenuWidget::SetFont(std::shared_ptr<MenuWidget> Menu, std::shared_ptr<sf::Font> Font)
+    {
+      Menu->MenuFont = Font;
+      Menu->MenuText.setFont(*Font);
+    }
+
+    void MenuWidget::SetTitle(std::shared_ptr<MenuWidget> Menu, const std::string & string, unsigned int size, const sf::Color & Color)
+    {
+      Menu->MenuText.setString(string);
+      Menu->MenuText.setCharacterSize(size);
+      Menu->MenuText.setFillColor(Color);
+
+      //Try to align the text to be centered?
+      sf::FloatRect WidgetBounds = Menu->GlobalWidgetBounds.GlobalBounds;
+      sf::FloatRect TextBounds = Menu->MenuText.getGlobalBounds();
+
+      float xDiff = std::abs(WidgetBounds.width - TextBounds.width);
+      Menu->MenuText.setPosition({ WidgetBounds.left + (xDiff / 2.f), WidgetBounds.height + 10.f });
     }
 
     void MenuWidget::ShowScreen(std::weak_ptr<MenuScreen> Screen)
@@ -183,6 +192,25 @@ namespace Engine
       Screens.clear();
     }
 
+    void MenuWidget::ShowDefaultScreen(std::weak_ptr<MenuWidget> Menu)
+    {
+      auto _Menu = Menu.lock();
+      if (!_Menu)
+        return;
+
+      auto ptr = _Menu->DefaultScreen.lock();
+
+      if (ptr) {
+        auto help = ptr->Helper.lock();
+        if (help) {
+          help->TakeFocus(_Menu);
+          _Menu->_IsInFocus = true;
+        }
+        if (_Menu->ScreenStack.empty())
+          _Menu->ShowScreen(_Menu->DefaultScreen);
+      }
+    }
+
     void MenuWidget::OpenMenu(std::weak_ptr<MenuWidget> Menu)
     {
       auto ptr = Menu.lock();
@@ -191,7 +219,9 @@ namespace Engine
 
       std::weak_ptr<MenuScreen> Default = ptr->DefaultScreen;
       if (Default.lock()) {
-        ptr->ShowScreen(Default);
+        if (ptr->ScreenStack.empty())
+          ptr->ShowScreen(Default);
+
         ptr->Helper.lock()->TakeFocus(Menu);
         ptr->_IsInFocus = true;
       }
@@ -293,14 +323,12 @@ namespace Engine
 
       auto View = MakeView(GlobalWidgetBounds.GlobalBounds);
       Texture->setView(View);
-      
       Texture->draw(TestRect);
-      Texture->draw(TestString);
-
       auto ptr = ScreenStack.top().lock();
       if (ptr) {
         ptr->Render(Texture);
       }
+      Texture->draw(MenuText);
 
       Texture->setView(Texture->getDefaultView());
     }

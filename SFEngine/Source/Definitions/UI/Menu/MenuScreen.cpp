@@ -114,7 +114,6 @@ namespace Engine
     void MenuScreen::Render(std::shared_ptr<sf::RenderTexture> &Texture)
     {
       Texture->draw(TestRect);
-
       ScreenLayer->Render(Texture);
     }
     void MenuScreen::Move(const sf::Vector2f & Delta)

@@ -1,6 +1,6 @@
 #include "../../../Headers/UI/Buttons/ClickButtonBase.h"
 #include "../../../Headers/UI/WIdgetHelper.h"
-
+#include "../../../Headers/UI/Text/TextLabel.h"
 
 namespace Engine
 {
@@ -44,6 +44,19 @@ namespace Engine
       Widget->Drawables.push_back(Quad);
 
       return Widget;
+    }
+
+    void ClickButtonBase::SetFont(std::shared_ptr<ClickButtonBase> Button, std::shared_ptr<sf::Font> Font)
+    {
+      Button->ButtonFont = Font;
+      Button->ButtonText.setFont(*Font);
+    }
+
+    void ClickButtonBase::SetText(std::shared_ptr<ClickButtonBase> Button, const std::string & string, unsigned int size, const sf::Color & Color)
+    {
+      Button->ButtonText.setString(string);
+      Button->ButtonText.setCharacterSize(size);
+      Button->ButtonText.setFillColor(Color);
     }
 
     void ClickButtonBase::Move(const sf::Vector2f &Delta)
@@ -190,6 +203,8 @@ namespace Engine
         item->Render(Texture); 
       Texture->draw(Background);
       Texture->draw(ButtonText);
+      for (auto & label : TextLabels)
+        label->Render(Texture);
     }
 
   }

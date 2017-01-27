@@ -16,13 +16,13 @@ namespace Engine
     class MenuWidget : public WidgetBase
     {
     public:
-      //static std::shared_ptr<MenuWidget> Create(std::shared_ptr<UILayer> TopLayer, std::shared_ptr<WidgetHelper> TopHelper, std::shared_ptr<MenuScreen> FirstScreen, const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Font> _Font);
-
       static std::shared_ptr<MenuWidget> Create(std::shared_ptr<UILayer> TopLayer, std::shared_ptr<WidgetHelper> TopHelper, const sf::Vector2f &Position, const sf::Vector2f &Size);
       void Open();
       static void SetDefaultScreen(std::weak_ptr<MenuScreen> Screen, std::shared_ptr<MenuWidget> Menu);
       void AddScreen(std::weak_ptr<MenuScreen> Screen);
       static void AddScreen(std::weak_ptr<MenuScreen> Screen, std::shared_ptr<MenuWidget> Menu);
+      static void SetFont(std::shared_ptr<MenuWidget> Menu, std::shared_ptr<sf::Font> Font);
+      static void SetTitle(std::shared_ptr<MenuWidget> Menu, const std::string &string, unsigned int size, const sf::Color &Color);
 
       void ShowScreen(std::weak_ptr<MenuScreen> Screen);
       void RemoveScreen(std::weak_ptr<MenuScreen> Screen);
@@ -31,21 +31,13 @@ namespace Engine
       void Hide();
       void Disable();
       void Clear();
-
-      //void ChangeScreenTo(std::shared_ptr<MenuScreen> Screen);
-      //void PopScreen();
-      //void GoToFirst();
-      //void CloseAll();
-
-      //void AddScreen(std::shared_ptr<MenuScreen> Screen);
+      static void ShowDefaultScreen(std::weak_ptr<MenuWidget> Menu);
 
       static void OpenMenu(std::weak_ptr<MenuWidget> Menu);
 
       virtual std::string ClassName() override {
         return "MenuWidget";
       }
-
-      //std::function<void(void)> TestDebugMethod = []() {};
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -80,6 +72,8 @@ namespace Engine
       sf::Vector2f Position;
       sf::Vector2f Size;
 
+      std::shared_ptr<sf::Font> MenuFont;
+      sf::Text MenuText;
       std::shared_ptr<WidgetHelper> MenuHelper;
       std::weak_ptr<MenuScreen> DefaultScreen;
 
