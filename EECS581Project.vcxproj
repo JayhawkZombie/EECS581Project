@@ -153,7 +153,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Game\Armor.h" />
+    <ClInclude Include="Game\Battle.h" />
     <ClInclude Include="Game\BattleActor.h" />
+    <ClInclude Include="Game\Companion.h" />
     <ClInclude Include="Game\Conversation.h" />
     <ClInclude Include="Game\Damage.h" />
     <ClInclude Include="Game\ElementsEnum.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="Game\ListReader.h" />
     <ClInclude Include="Game\MainCharacter.h" />
     <ClInclude Include="Game\MonsterType.h" />
+    <ClInclude Include="Game\Party.h" />
     <ClInclude Include="Game\RPGActor.h" />
     <ClInclude Include="Game\RPGItem.h" />
     <ClInclude Include="Game\RPGTest.h" />
@@ -304,7 +307,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Armor.cpp" />
+    <ClCompile Include="Game\Battle.cpp" />
     <ClCompile Include="Game\BattleActor.cpp" />
+    <ClCompile Include="Game\Companion.cpp" />
     <ClCompile Include="Game\Conversation.cpp" />
     <ClCompile Include="Game\Damage.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
@@ -313,6 +318,7 @@
     <ClCompile Include="Game\ListReader.cpp" />
     <ClCompile Include="Game\MainCharacter.cpp" />
     <ClCompile Include="Game\MonsterType.cpp" />
+    <ClCompile Include="Game\Party.cpp" />
     <ClCompile Include="Game\RPGActor.cpp" />
     <ClCompile Include="Game\RPGItem.cpp" />
     <ClCompile Include="Game\RPGTest.cpp" />
