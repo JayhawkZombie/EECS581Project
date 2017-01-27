@@ -26,7 +26,7 @@ namespace Engine
     void WidgetBase::Move(const sf::Vector2f &Delta)
     {
       GlobalWidgetBounds.MoveRegion(Delta);
-
+      BGRect.move(Delta);
       //for (auto & label : TextLabels)
       //  label->Move(Delta);
 
@@ -218,10 +218,47 @@ namespace Engine
         }
 
         ButtonText.move(sf::Vector2f(dMovement));
+        BGRect.move(static_cast<sf::Vector2f>(dMovement));
       }//if (CanBeDragged)
     }
 
     void WidgetBase::OnDragEnd(const InputEvent &IEvent) {}
+    void WidgetBase::SetBGColor(const sf::Color & Color)
+    {
+      BGRect.setFillColor(Color);
+    }
+    void WidgetBase::SetBGTexture(std::shared_ptr<sf::Texture> Texture)
+    {
+      BGRect.setTexture(Texture.get());
+    }
+    void WidgetBase::SetBGTextureRect(const sf::IntRect & Rect)
+    {
+      BGRect.setTextureRect(Rect);
+    }
+    void WidgetBase::SetBGOutlineColor(const sf::Color & Color)
+    {
+      BGRect.setOutlineColor(Color);
+      BGOutlineColorNormal = Color;
+    }
+    void WidgetBase::SetBGOutlineColorHighlighted(const sf::Color & Color)
+    {
+      BGOutlineColorHighlighted = Color;
+    }
+    void WidgetBase::SetBGOutlineThickness(float thickness)
+    {
+      BGRect.setOutlineThickness(thickness);
+    }
+    void WidgetBase::SetBGPosition(const sf::Vector2f & Position)
+    {
+      BGRect.setPosition(Position);
+    }
+    void WidgetBase::SetBGSize(const sf::Vector2f & Size)
+    {
+      BGRect.setSize(Size);
+    }
+    void WidgetBase::ResetAppearance()
+    {
+    }
     void WidgetBase::AddTextLabel(std::shared_ptr<TextLabel> Label)
     {
       TextLabels.push_back(Label);

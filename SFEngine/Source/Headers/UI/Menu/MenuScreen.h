@@ -67,9 +67,6 @@ namespace Engine
       std::vector<std::weak_ptr<WidgetBase>> Items;
 
       std::weak_ptr<MenuWidget> TopMenu;
-
-      sf::RectangleShape TestRect;
-
     };
 
   }

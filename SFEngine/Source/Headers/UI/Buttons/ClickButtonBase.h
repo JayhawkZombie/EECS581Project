@@ -35,14 +35,13 @@ namespace Engine
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
       virtual void Resize(const sf::Vector2f &Size) override;
+      virtual void ResetAppearance() override;
 
       virtual void SetBGColor(const sf::Color &Color);
 
       virtual ~ClickButtonBase() = default;
     protected:
       ClickButtonBase();
-
-      sf::RectangleShape Background;
 
     };
 

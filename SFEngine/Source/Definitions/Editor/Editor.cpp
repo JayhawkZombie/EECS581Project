@@ -94,32 +94,64 @@ namespace Engine
       TestPopup = UI::PopupObject::Create(UILayer, UIHelper, { 100, 100 }, { 900, 700 }, TextFont);
 
       TestScreen = UI::MenuScreen::Create();
-      TestScreen->TestRect.setFillColor(sf::Color(1, 168, 148));
-      TestScreen->TestRect.setPosition({ 200, 200 });
-      TestScreen->TestRect.setSize({ 500, 500 });
+      TestScreen->SetBGColor(sf::Color(45, 45, 45));
+      TestScreen->SetBGOutlineColor(sf::Color(73, 73, 73));
+      TestScreen->SetBGOutlineThickness(-1);
+      TestScreen->SetBGPosition({ 200, 200 });
+      TestScreen->SetBGSize({ 500, 500 });
+
       TestScreen2 = UI::MenuScreen::Create();
-      TestScreen2->TestRect.setFillColor(sf::Color(1, 76, 168));
-      TestScreen2->TestRect.setPosition({ 200, 200 });
-      TestScreen2->TestRect.setSize({ 500, 500 });
+      TestScreen2->SetBGColor(sf::Color(45, 61, 59));
+      TestScreen2->SetBGOutlineColor(sf::Color(73, 73, 73));
+      TestScreen2->SetBGOutlineThickness(-1);
+      TestScreen2->SetBGPosition({ 200, 200 });
+      TestScreen2->SetBGSize({ 500, 500 });
+
+      TestScreen3 = UI::MenuScreen::Create();
+      TestScreen3->SetBGColor(sf::Color(61, 45, 51));
+      TestScreen3->SetBGOutlineColor(sf::Color(102, 75, 85));
+      TestScreen3->SetBGOutlineThickness(-1);
+      TestScreen3->SetBGPosition({ 200, 200 });
+      TestScreen3->SetBGSize({ 500, 500 });
 
       TestMenu = UI::MenuWidget::Create(UILayer, UIHelper, { 200, 200 }, { 500, 500 });
+      UI::MenuWidget::SetFont(TestMenu, MenuFont);
+      UI::MenuWidget::SetTitle(TestMenu, "Test Menu", 16, sf::Color(140, 0, 51));
 
       assert(TestMenu && TestMenu->Helper.lock() && TestMenu->MyLayer.lock());
       UI::MenuWidget::SetDefaultScreen(TestScreen, TestMenu);
       UI::MenuWidget::AddScreen(TestScreen2, TestMenu);
-      UI::MenuWidget::SetFont(TestMenu, MenuFont);
+      UI::MenuWidget::AddScreen(TestScreen3, TestMenu);
 
       TestScreenButton1 = UI::ClickButtonBase::Create(TestScreen->ScreenLayer, TestScreen->ScreenHelper, { 300, 300 }, { 150, 45 });
+      TestScreenButton1->SetBGOutlineColor(sf::Color(58, 0, 21)); TestScreenButton1->SetBGOutlineColorHighlighted(sf::Color(132, 0, 48));
       TestScreenButton1->MouseReleaseCB = [this]() { this->TestScreen->CloseScreen(); };
-      auto txtlabel1 = UI::TextLabel::Create(TestScreenButton1, TestScreenButton1->Helper, UI::TextAlignment::CenterJustified, "Close Menu", sf::Color(1, 56, 49), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
+      auto txtlabel1 = UI::TextLabel::Create(TestScreenButton1, TestScreenButton1->Helper, UI::TextAlignment::CenterJustified, "Close Menu", sf::Color(63, 0, 23), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
 
       TestScreenButton2 = UI::ClickButtonBase::Create(TestScreen->ScreenLayer, TestScreen->ScreenHelper, { 300, 400 }, { 150, 45 });
+      TestScreenButton2->SetBGOutlineColor(sf::Color(58, 0, 21)); TestScreenButton2->SetBGOutlineColorHighlighted(sf::Color(132, 0, 48));
       TestScreenButton2->MouseReleaseCB = [this]() { this->TestMenu->ShowScreen(this->TestScreen2); };
-      auto txtlabel2 = UI::TextLabel::Create(TestScreenButton2, TestScreenButton1->Helper, UI::TextAlignment::CenterJustified, "Test Screen 2", sf::Color(1, 56, 49), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
+      auto txtlabel2 = UI::TextLabel::Create(TestScreenButton2, TestScreenButton2->Helper, UI::TextAlignment::CenterJustified, "Test Screen 2", sf::Color(63, 0, 23), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
 
       TestScreenButton3 = UI::ClickButtonBase::Create(TestScreen2->ScreenLayer, TestScreen2->ScreenHelper, { 300, 300 }, { 150, 45 });
+      TestScreenButton3->SetBGOutlineColor(sf::Color(58, 0, 21)); TestScreenButton3->SetBGOutlineColorHighlighted(sf::Color(132, 0, 48));
       TestScreenButton3->MouseReleaseCB = [this]() { this->TestScreen2->CloseScreen(); };
-      auto txtlabel3 = UI::TextLabel::Create(TestScreenButton3, TestScreenButton1->Helper, UI::TextAlignment::CenterJustified, "Back", sf::Color(1, 56, 49), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
+      auto txtlabel3 = UI::TextLabel::Create(TestScreenButton3, TestScreenButton3->Helper, UI::TextAlignment::CenterJustified, "Back", sf::Color(63, 0, 23), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
+
+      TestScreenButton4 = UI::ClickButtonBase::Create(TestScreen2->ScreenLayer, TestScreen2->ScreenHelper, { 300, 400 }, { 150, 45 });
+      TestScreenButton4->SetBGOutlineColor(sf::Color(58, 0, 21)); TestScreenButton4->SetBGOutlineColorHighlighted(sf::Color(132, 0, 48));
+      TestScreenButton4->MouseReleaseCB = [this]() { this->TestMenu->ShowScreen(this->TestScreen3); };
+      auto txtlabel4 = UI::TextLabel::Create(TestScreenButton4, TestScreenButton4->Helper, UI::TextAlignment::CenterJustified, "Test Screen 3", sf::Color(63, 0, 23), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
+
+      TestScreenButton5 = UI::ClickButtonBase::Create(TestScreen3->ScreenLayer, TestScreen3->ScreenHelper, { 300, 300 }, { 150, 45 });
+      TestScreenButton5->SetBGOutlineColor(sf::Color(58, 0, 21)); TestScreenButton5->SetBGOutlineColorHighlighted(sf::Color(132, 0, 48));
+      TestScreenButton5->MouseReleaseCB = [this]() { this->TestScreen3->CloseScreen(); };
+      auto txtlabel5 = UI::TextLabel::Create(TestScreenButton5, TestScreenButton5->Helper, UI::TextAlignment::CenterJustified, "Back", sf::Color(63, 0, 23), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
+
+      TestScreenButton6 = UI::ClickButtonBase::Create(TestScreen3->ScreenLayer, TestScreen3->ScreenHelper, { 300, 400 }, { 150, 45 });
+      TestScreenButton6->SetBGOutlineColor(sf::Color(58, 0, 21)); TestScreenButton6->SetBGOutlineColorHighlighted(sf::Color(132, 0, 48));
+      TestScreenButton6->MouseReleaseCB = [this]() { this->TestMenu->CloseMenu(); };
+      auto txtlabel6 = UI::TextLabel::Create(TestScreenButton6, TestScreenButton6->Helper, UI::TextAlignment::CenterJustified, "Close Menu", sf::Color(63, 0, 23), MenuFont, 16, { 0,0,1000,1000 }, { 0,0 });
 
       assert(TestMenu && TestScreen);
     }

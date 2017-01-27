@@ -56,6 +56,18 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       virtual void OnDragContinue(const InputEvent &IEvent);
       virtual void OnDragEnd(const InputEvent &IEvent);
 
+      //Use to change the appearance
+      virtual void SetBGColor(const sf::Color &Color);
+      virtual void SetBGTexture(std::shared_ptr<sf::Texture> Texture);
+      virtual void SetBGTextureRect(const sf::IntRect &Rect);
+      virtual void SetBGOutlineColor(const sf::Color &Color);
+      virtual void SetBGOutlineColorHighlighted(const sf::Color &Color);
+      virtual void SetBGOutlineThickness(float thickness);
+      virtual void SetBGPosition(const sf::Vector2f &Position);
+      virtual void SetBGSize(const sf::Vector2f &Size);
+
+      virtual void ResetAppearance();
+
       virtual std::string ClassName() {
         return "WidgetBase";
       }
@@ -151,6 +163,11 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       bool IsBeingDragged = false;
       bool HasFocus = false;
       bool IsHidden = false;
+
+      sf::RectangleShape BGRect;
+      sf::Color BGColor;
+      sf::Color BGOutlineColorHighlighted;
+      sf::Color BGOutlineColorNormal;
 
       /**
       * Contain a set of drawable to be rendered to their respective canvases

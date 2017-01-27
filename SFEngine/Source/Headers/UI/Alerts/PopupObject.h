@@ -49,14 +49,6 @@ namespace Engine
       std::shared_ptr<WidgetHelper> ChildHelper;
       std::shared_ptr<sf::Font> Font;
 
-      sf::RectangleShape BGRect;
-
-      //std::shared_ptr<ClickButtonBase> OKButton;
-      //std::shared_ptr<ClickButtonBase> CancelButton;
-
-      //std::shared_ptr<TextLabel> OKLabel;
-      //std::shared_ptr<TextLabel> CancelLabel;
-
       sf::Text SampleText;
 
       sf::Vector2f Position;

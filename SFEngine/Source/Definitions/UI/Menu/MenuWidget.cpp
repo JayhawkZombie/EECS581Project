@@ -31,8 +31,8 @@ namespace Engine
 
         Menu->SetUpWidget();
 
-        Menu->TestRect.setPosition(Position);
-        Menu->TestRect.setSize(Size);
+        Menu->BGRect.setPosition(Position);
+        Menu->BGRect.setSize(Size);
         Menu->GlobalWidgetBounds.ForceRegion({ Position, Size });
 
         return Menu;
@@ -276,13 +276,13 @@ namespace Engine
     void MenuWidget::OnMouseOver(const InputEvent & IEvent)
     {
       ConsumeEvent(IEvent);
-      TestRect.setOutlineColor(sf::Color::White);
+      BGRect.setOutlineColor(sf::Color::White);
     }
 
     void MenuWidget::OnMouseLeave(const InputEvent & IEvent)
     {
       ConsumeEvent(IEvent);
-      TestRect.setOutlineColor(sf::Color(135, 0, 130));
+      BGRect.setOutlineColor(sf::Color(135, 0, 130));
     }
 
     void MenuWidget::OnMouseMove(const InputEvent & IEvent)
@@ -323,7 +323,7 @@ namespace Engine
 
       auto View = MakeView(GlobalWidgetBounds.GlobalBounds);
       Texture->setView(View);
-      Texture->draw(TestRect);
+      Texture->draw(BGRect);
       auto ptr = ScreenStack.top().lock();
       if (ptr) {
         ptr->Render(Texture);
@@ -353,7 +353,7 @@ namespace Engine
         _IsInFocus = false;
         DEBUG_ONLY std::cerr << "Closing Menu" << std::endl;
 
-        assert(ScreenStack.size() == 1);
+        //assert(ScreenStack.size() == 1);
       }
     }
 

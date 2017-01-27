@@ -52,6 +52,11 @@ namespace Engine
     void MenuScreen::MakeActive()
     {
       DEBUG_ONLY std::cerr << "Screen : Made Active : Items size: " << Items.size() << std::endl;
+      for (auto & item : Items) {
+        auto ptr = item.lock();
+        if (ptr)
+          ptr->ResetAppearance();
+      }
     }
     void MenuScreen::CloseScreen()
     {
@@ -113,7 +118,7 @@ namespace Engine
     }
     void MenuScreen::Render(std::shared_ptr<sf::RenderTexture> &Texture)
     {
-      Texture->draw(TestRect);
+      Texture->draw(BGRect);
       ScreenLayer->Render(Texture);
     }
     void MenuScreen::Move(const sf::Vector2f & Delta)

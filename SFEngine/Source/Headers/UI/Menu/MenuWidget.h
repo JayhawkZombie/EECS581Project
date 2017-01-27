@@ -64,6 +64,7 @@ namespace Engine
         DEBUG_ONLY std::cerr << "\n\nMenu Widget Being Destroyed\n\n" << std::endl;
 
       }
+      void CloseMenu();
 
     protected:
       MenuWidget() = default;
@@ -78,13 +79,9 @@ namespace Engine
       std::weak_ptr<MenuScreen> DefaultScreen;
 
       sf::Text TestString;
-      void CloseMenu();
-
       std::map<std::uint32_t, std::weak_ptr<MenuScreen>> Screens;
 
       std::stack<std::weak_ptr<MenuScreen>> ScreenStack;
-
-      sf::RectangleShape TestRect;
     };
 
   }

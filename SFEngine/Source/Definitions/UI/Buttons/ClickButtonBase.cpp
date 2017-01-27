@@ -31,11 +31,13 @@ namespace Engine
       assert(Widget->Helper.lock() && Widget->MyLayer.lock());
 
       //OK, gonna set up a base drawable
-      Widget->Background.setFillColor(sf::Color(33, 33, 33, 100));
-      Widget->Background.setPosition(Position);
-      Widget->Background.setSize(Size);
-      Widget->Background.setOutlineColor(sf::Color(66, 66, 66, 100));
-      Widget->Background.setOutlineThickness(-1);
+      Widget->BGRect.setFillColor(sf::Color(33, 33, 33, 100));
+      Widget->BGRect.setPosition(Position);
+      Widget->BGRect.setSize(Size);
+      Widget->BGOutlineColorNormal = sf::Color(66, 66, 66, 100);
+      Widget->BGOutlineColorHighlighted = sf::Color(132, 0, 48, 100);
+      Widget->BGRect.setOutlineColor(Widget->BGOutlineColorNormal);
+      Widget->BGRect.setOutlineThickness(-2);
 
       std::shared_ptr<ColoredQuad> Quad(new ColoredQuad(Position, Size));
 
@@ -62,7 +64,7 @@ namespace Engine
     void ClickButtonBase::Move(const sf::Vector2f &Delta)
     {
       WidgetBase::Move(Delta);
-      Background.move(Delta);
+      BGRect.move(Delta);
 
       for (auto & dr : Drawables) {
         dr->DrawBounds.MoveRegion(Delta);
@@ -73,7 +75,13 @@ namespace Engine
     {
       sf::FloatRect Rect;
 
-      Background.setSize(Size);
+      BGRect.setSize(Size);
+    }
+
+    void ClickButtonBase::ResetAppearance()
+    {
+      BGRect.setOutlineColor(BGOutlineColorNormal);
+      BGRect.setOutlineThickness(-2);
     }
 
     void ClickButtonBase::SetBGColor(const sf::Color & Color)
@@ -143,8 +151,10 @@ namespace Engine
     {
       ButtonBase::OnMouseOver(event);
 
-      Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(sf::Color::Red);
+      Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorHighlighted);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
+
+      BGRect.setOutlineColor(BGOutlineColorHighlighted);
 
       if (MouseOverCB)
         MouseOverCB();
@@ -153,8 +163,10 @@ namespace Engine
     void ClickButtonBase::OnMouseLeave(const InputEvent &event)
     {
       ButtonBase::OnMouseLeave(event);
-      Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(sf::Color::Transparent);
+      Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorNormal);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
+
+      BGRect.setOutlineColor(BGOutlineColorNormal);
 
       if (MouseLeaveCB)
         MouseLeaveCB();
@@ -201,7 +213,7 @@ namespace Engine
     {
       for (auto & item : Drawables)
         item->Render(Texture); 
-      Texture->draw(Background);
+      Texture->draw(BGRect);
       Texture->draw(ButtonText);
       for (auto & label : TextLabels)
         label->Render(Texture);
