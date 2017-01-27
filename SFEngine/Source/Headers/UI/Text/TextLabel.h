@@ -18,10 +18,10 @@ namespace Engine
     class TextLabel : public WidgetBase
     {
     public:
-      static std::shared_ptr<TextLabel> Create(std::shared_ptr<UILayer> Layer, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
+      static std::shared_ptr<TextLabel> Create(std::weak_ptr<UILayer> Layer, std::weak_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
                                                std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Position);
 
-      static std::shared_ptr<TextLabel> Create(std::shared_ptr<WidgetBase> Widget, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
+      static std::shared_ptr<TextLabel> Create(std::weak_ptr<WidgetBase> Widget, std::weak_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
                                                std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Offset);
 
       void SetString(const std::string &String);
@@ -47,6 +47,7 @@ namespace Engine
       virtual void OnDragBegin(const InputEvent &IEvent) override;
       virtual void OnDragContinue(const InputEvent &IEvent) override;
       virtual void OnDragEnd(const InputEvent &IEvent) override;
+      virtual void MoveTo(const sf::FloatRect &Region) override;
 
       virtual void Move(const sf::Vector2f &Delta) override;
 

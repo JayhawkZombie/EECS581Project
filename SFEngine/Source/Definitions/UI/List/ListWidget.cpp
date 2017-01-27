@@ -9,22 +9,24 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<ListWidget> ListWidget::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
+    std::shared_ptr<ListWidget> ListWidget::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
                                                    ButtonPlacement CloseButtonPlacement, const sf::Vector2f CloseButtonOffset, const sf::Vector2f &CloseButtonSize)
     {
-      if (!ThisLayer || !ThisLayer->CanAcceptWidget()) 
+      if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget()) 
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
                                      EXCEPTION_MESSAGE("Given WidgetHelper is NULL or cannot accept a widget"));
 
       try
       {
         std::shared_ptr<ListWidget> List(new ListWidget);
-        List->Helper = ThisHelper;
-        List->MyLayer = ThisLayer;
-        ThisLayer->RegisterWidget(List);
+        List->Helper = ThisHelper.lock();
+        List->MyLayer = ThisLayer.lock();
+        ThisLayer.lock()->RegisterWidget(List);
 
-        List->ChildLayer = UI::UILayer::Create(List->Helper);
-        List->OptionsLayer = UI::UILayer::Create(List->Helper);
+        assert(List->Helper.lock() && List->MyLayer.lock());
+
+        List->ChildLayer = UI::UILayer::Create(List->Helper.lock());
+        List->OptionsLayer = UI::UILayer::Create(List->Helper.lock());
 
         List->OptionsLayer->LayerRegisterDebugOutputFunction =
           [List](auto ID)
@@ -119,6 +121,7 @@ namespace Engine
 
         //just a test appearance
         List->GlobalWidgetBounds.ForceRegion(GlobalBounds);
+        List->OpenRect = GlobalBounds;
 
         //Fudge a fake testing appearance
         List->Outline.setPosition(Position);
@@ -129,7 +132,7 @@ namespace Engine
 
         //Add some text to the button
         WIDGET_DEBUG_ONLY std::cerr << "ListWidget::Create : Creating OpenCloseButtonText" << std::endl;
-        List->OpenCloseButtonText = UI::TextLabel::Create(List->OpenCloseButton, List->Helper, TextAlignment::CenterJustified, "Close", sf::Color::White, List->ListFont, 12, { 0, 0, 75, 15 }, { 0, 0 });
+        List->OpenCloseButtonText = UI::TextLabel::Create(List->OpenCloseButton, List->Helper.lock(), TextAlignment::CenterJustified, "Close", sf::Color::White, List->ListFont, 12, { 0, 0, 75, 15 }, { 0, 0 });
 
         float ScrollBarHeight = 15.f;
         float ScrollVertBarWidth = 3.f;
@@ -214,6 +217,8 @@ namespace Engine
       ScrollingBar->Move(ButtonCloseMove);
       ScrollingBar->SetIsHidden(false);
 
+      GlobalWidgetBounds.ForceRegion(OpenRect);
+
       Hidden = false;
     }
 
@@ -222,6 +227,8 @@ namespace Engine
       //Just hide the widget
       DEBUG_ONLY std::cerr << "Hiding ListWidget" << std::endl;
 
+      OpenRect = GlobalWidgetBounds.GlobalBounds;
+
       OpenCloseButton->MouseReleaseCB = [this]() { this->OpenList(); };
       OpenCloseButton->Move(-ButtonCloseMove);
       OpenCloseButtonText->Move(-ButtonCloseMove);
@@ -229,6 +236,9 @@ namespace Engine
 
       ScrollingBar->Move(-ButtonCloseMove);
       ScrollingBar->SetIsHidden(true);
+
+      auto RECT = OpenCloseButton->GlobalWidgetBounds.GlobalBounds;
+      GlobalWidgetBounds.ForceRegion(RECT);
 
       Hidden = true;
     }

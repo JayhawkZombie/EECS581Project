@@ -20,7 +20,7 @@ namespace Engine
     class Alert : public PopupObject
     {
     public:
-      static std::shared_ptr<Alert> Create(std::shared_ptr<UILayer> Layer, std::shared_ptr<WidgetHelper> Helper, const std::string &Message, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position);
+      static std::shared_ptr<Alert> Create(std::weak_ptr<UILayer> Layer, std::weak_ptr<WidgetHelper> Helper, const std::string &Message, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size, const sf::Vector2f &OKButtonSize);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;

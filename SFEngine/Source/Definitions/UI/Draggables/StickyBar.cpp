@@ -10,10 +10,10 @@ namespace Engine
 
 
 
-    std::shared_ptr<StickyBar> StickyBar::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position,
+    std::shared_ptr<StickyBar> StickyBar::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position,
                                                  const sf::Vector2f & Size, const sf::Vector2f & VertBarSize, const sf::Vector2f & HorizBarSize, const sf::Vector2f &DragBarSize)
     {
-      if (!ThisLayer || !ThisLayer->CanAcceptWidget())
+      if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
                                      EXCEPTION_MESSAGE("Given UILayer is NULL or cannot accept a widget"));
 
@@ -21,13 +21,13 @@ namespace Engine
       {
         std::shared_ptr<StickyBar> Bar(new StickyBar);
         Bar->CanBeDragged = false;
-        Bar->Helper = ThisHelper;
-        Bar->ChildLayer = UI::UILayer::Create(Bar->Helper);
+        Bar->Helper = ThisHelper.lock();
+        Bar->ChildLayer = UI::UILayer::Create(Bar->Helper.lock());
         WIDGET_IDINFO_DEBUG("StickyBar : ChildLayer", Bar->ChildLayer)
 
-        Bar->MyLayer = ThisLayer;
-        ThisLayer->RegisterWidget(Bar);
-        
+        Bar->MyLayer = ThisLayer.lock();
+        ThisLayer.lock()->RegisterWidget(Bar);
+        assert(Bar->Helper.lock() && Bar->MyLayer.lock());
 
         Bar->DragRect = DraggableRect::Create(Bar->ChildLayer, Bar->Helper, Position, DragBarSize);
         Bar->DragRect->SetDraggingEnabled(true);

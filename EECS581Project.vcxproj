@@ -231,6 +231,8 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\ItemMaker.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\KeyTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\List\List.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuScreen.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuWidget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\MouseTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\RenderTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\TextInput.h" />
@@ -396,6 +398,8 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Mat2D.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuBase.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuScreen.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\MouseTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\RenderTarget.cpp" />

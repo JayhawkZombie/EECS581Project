@@ -28,6 +28,16 @@ int GameMain::run()
 	return 0;
 }
 
+void GameMain::TickUpdate(const double &Delta)
+{
+
+}
+
+void GameMain::Render(std::shared_ptr<sf::RenderTexture> Target)
+{
+
+}
+
 /*
 void GameMain::Init(std::shared_ptr<Engine::Level> GameLevel)
 {

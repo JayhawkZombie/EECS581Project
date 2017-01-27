@@ -15,7 +15,7 @@ namespace Engine
     class PopupObject : public WidgetBase
     {
     public:
-      static std::shared_ptr<PopupObject> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> Helper, const sf::Vector2f &Size, const sf::Vector2f &Position, std::shared_ptr<sf::Font> Font);
+      static std::shared_ptr<PopupObject> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> Helper, const sf::Vector2f &Size, const sf::Vector2f &Position, std::shared_ptr<sf::Font> Font);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;

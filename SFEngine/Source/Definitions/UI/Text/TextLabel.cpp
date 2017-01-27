@@ -8,10 +8,10 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<TextLabel> TextLabel::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string & String,
+    std::shared_ptr<TextLabel> TextLabel::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string & String,
                                                              const sf::Color & Color, std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Position)
     {
-      if (!ThisLayer || !ThisLayer->CanAcceptWidget()) 
+      if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget()) 
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
                                      EXCEPTION_MESSAGE("Given WidgetHelper is NULL or cannot accept a widget"));
 
@@ -19,7 +19,7 @@ namespace Engine
       {
 
         std::shared_ptr<TextLabel> Label(new TextLabel);
-        Label->Helper = ThisHelper;
+        Label->Helper = ThisHelper.lock();
         Label->Alignment = Align;
         Label->Bounds = RenderBounds;
         Label->Font = _Font;
@@ -29,11 +29,17 @@ namespace Engine
         Label->RenderString.setCharacterSize(TextSize);
         Label->RenderString.setFillColor(Color);
         Label->TextPosition = Position;
+        if (RenderBounds.width == 0 || RenderBounds.height == 0) {
+          auto frect = Label->RenderString.getGlobalBounds();
+          Label->Bounds = frect;
+        }
 
         Label->RenderString.setPosition(Position);
 
-        ThisLayer->RegisterWidget(Label);
-        Label->MyLayer = ThisLayer;
+        ThisLayer.lock()->RegisterWidget(Label);
+        Label->MyLayer = ThisLayer.lock();
+
+        assert(Label->Helper.lock() && Label->MyLayer.lock());
 
         return Label;
       }
@@ -46,10 +52,10 @@ namespace Engine
       }
     }
 
-    std::shared_ptr<TextLabel> TextLabel::Create(std::shared_ptr<WidgetBase> Widget, std::shared_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
+    std::shared_ptr<TextLabel> TextLabel::Create(std::weak_ptr<WidgetBase> Widget, std::weak_ptr<WidgetHelper> ThisHelper, TextAlignment Align, const std::string &String, const sf::Color &Color,
                                                  std::shared_ptr<sf::Font> _Font, unsigned int TextSize, const sf::FloatRect &RenderBounds, const sf::Vector2f &Offset)
     {
-      if (!Widget)
+      if (!Widget.lock())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
                                      EXCEPTION_MESSAGE("Widget is NULL"));
 
@@ -64,21 +70,23 @@ namespace Engine
         Label->RenderString.setString(String);
         Label->RenderString.setCharacterSize(TextSize);
         Label->RenderString.setFillColor(Color);
-        Label->Parent = Widget;
+        Label->Parent = Widget.lock();
 
         //Need to align the text within the widget
-        sf::Vector2f Pos = { Widget->GlobalWidgetBounds.GlobalBounds.left, Widget->GlobalWidgetBounds.GlobalBounds.top };
+        float xDiff = (Widget.lock()->GlobalWidgetBounds.GlobalBounds.width - Label->RenderString.getGlobalBounds().width) / 2.f;
+        sf::Vector2f Pos = { Widget.lock()->GlobalWidgetBounds.GlobalBounds.left + xDiff, Widget.lock()->GlobalWidgetBounds.GlobalBounds.top };
         Pos += Offset;
 
-        Label->GlobalWidgetBounds.ForceRegion({ Pos.x, Pos.y, RenderBounds.width, RenderBounds.height });
+        Label->MoveTo({ Pos.x, Pos.y, RenderBounds.width, RenderBounds.height });
+        //Label->GlobalWidgetBounds.ForceRegion({ Pos.x, Pos.y, RenderBounds.width, RenderBounds.height });
 
-        Label->Bounds = { Pos.x, Pos.y, RenderBounds.width, RenderBounds.height };
+        //Label->Bounds = { Pos.x, Pos.y, RenderBounds.width, RenderBounds.height };
 
-        Label->TextPosition = Pos;
-        Label->RenderString.setPosition(Pos);
-        Label->AlignText();
+        //Label->TextPosition = Pos;
+        //Label->RenderString.setPosition(Pos);
+        //Label->AlignText();
 
-        Widget->AddTextLabel(Label);
+        Widget.lock()->AddTextLabel(Label);
 
         return Label;
       }
@@ -221,6 +229,14 @@ namespace Engine
     {
     }
 
+    void TextLabel::MoveTo(const sf::FloatRect &Region)
+    {
+      TextPosition = { Region.left, Region.top };
+      RenderString.setPosition(TextPosition);
+      Bounds = Region;
+      GlobalWidgetBounds.ForceRegion(Bounds);
+    }
+
     void TextLabel::Move(const sf::Vector2f & Delta)
     {
       Bounds.left += Delta.x;
@@ -229,7 +245,7 @@ namespace Engine
       GlobalWidgetBounds.MoveRegion(Delta);
 
       AlignText();
-
+      
       RenderString.setPosition(TextPosition);
     }
 

@@ -213,6 +213,13 @@ namespace Engine
 
       try {
         Widget->SetUpWidget();
+
+        //Test to make sure the widget isn't already added (avoid duplication)
+        for (auto & item : Items) {
+          if (item->WidgetID == Widget->WidgetID)
+            return; //already in here
+        }
+
         Items.insert(Items.begin() + 0,  Widget);
 
         DEBUG_ONLY std::cerr << "Layer " << LayerID << " : Widget Registered " << Widget->WidgetID << std::endl;
@@ -224,6 +231,38 @@ namespace Engine
         err.AddCause({ ExceptionCause::IDGenerationError });
         throw;
       }
+    }
+
+    void UILayer::RegisterLayerlessWidget(SharedWidgetPointer Widget)
+    {
+      if (!Widget)
+        throw InvalidObjectException({ ExceptionCause::InvalidObjectUsed },
+                                     EXCEPTION_MESSAGE("Widget is NULL"));
+
+      DEBUG_ONLY std::cerr << "UILayer::RegisterLayerlessWidget : ID " << Widget->WidgetID << std::endl;
+      Items.push_back(Widget);
+    }
+
+    void UILayer::RemoveWidget(SharedWidgetPointer Widget)
+    {
+      //Gotta try to find the widget
+
+      for (auto it = Items.begin(); it != Items.end(); ++it) {
+        if ((*it)->WidgetID == Widget->WidgetID) {
+          DEBUG_ONLY std::cerr << "UILayer::RemoveWidget : Removing ID " << Widget->WidgetID << std::endl;
+          Items.erase(it);
+          return;
+        }
+      }
+
+      throw InvalidParameter({ ExceptionCause::InvalidParameter },
+                             EXCEPTION_MESSAGE("Tried to remove widget, but widget did not exist in container"));
+    }
+
+    void UILayer::ClearAllWidgets()
+    {
+      DEBUG_ONLY std::cerr << "UILayer : WARNING -> CLEARING ALL WIDGETS FROM LAYER" << std::endl;
+      Items.clear();
     }
 
     bool UILayer::CanAcceptWidget() const
@@ -363,7 +402,7 @@ namespace Engine
       }
 
       if (!FocusStack.empty()) {
-        FocusStack.front()->Render(Target);
+        FocusStack.top().lock()->Render(Target);
       }
     }
 
@@ -403,6 +442,10 @@ namespace Engine
       Layers[layer]->Items.push_back(Widget);
 
       DEBUG_ONLY std::cerr << "WidgetHelper::RegisterWidget : Layer " << layer << " has " << Layers[layer]->Items.size() << " registered widgets" << std::endl;
+    }
+
+    void WidgetHelper::RemoveWidget(std::shared_ptr<WidgetBase> Widget)
+    {
     }
 
     void WidgetHelper::BringToFront(std::size_t layer)
@@ -484,7 +527,7 @@ namespace Engine
       FEvent.PreviousMousePosition = IEvent.PreviousMousePosition;
 
       if (!FocusStack.empty()) {
-        FocusStack.front()->ConsumeEvent(IEvent);
+        FocusStack.top().lock()->ConsumeEvent(IEvent);
         return true;
       }
 

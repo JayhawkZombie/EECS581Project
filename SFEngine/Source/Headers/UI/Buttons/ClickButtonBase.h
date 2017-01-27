@@ -12,7 +12,7 @@ namespace Engine
     class ClickButtonBase : public ButtonBase
     {
     public:
-      static std::shared_ptr<ClickButtonBase> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      static std::shared_ptr<ClickButtonBase> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -31,11 +31,15 @@ namespace Engine
       virtual void TickUpdate(const double &delta) override;
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
+      virtual void Resize(const sf::Vector2f &Size) override;
+
+      virtual void SetBGColor(const sf::Color &Color);
 
       virtual ~ClickButtonBase() = default;
     protected:
       ClickButtonBase();
 
+      sf::RectangleShape Background;
 
     };
 

@@ -18,6 +18,7 @@
 #include "../Utils/AssetConverters.h" 
 #include "../Globals/GlobalHooks.h"
 #include "Editor.h"
+#include "../../../../Game/GameMain.h"
 
 #include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
@@ -43,6 +44,7 @@ namespace Engine
     //used for editor UI
     void AddUIElement(std::shared_ptr<Engine::UI::BaseUIElement> element);
     Editor GameEditor;
+    GameMain TestGame;
 #endif
 
     unsigned int GetCurrentFrameRate() {

@@ -36,7 +36,7 @@ namespace Engine
 
     std::uint32_t Tries = 0;
     std::default_random_engine generator;
-    generator.seed(NULL);
+    generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<std::uint32_t> dist(1, std::numeric_limits<std::uint32_t>::max() - 1);
 
     //Try one time to generate an ID

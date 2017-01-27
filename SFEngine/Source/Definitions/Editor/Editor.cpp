@@ -88,15 +88,45 @@ namespace Engine
         }
       } //for tile : TileFrames
 
-      
+
       EditOptionsList = UI::ListWidget::Create(UILayer, UIHelper, TextFont, { 0, 0 }, { 1200.f, 80.f },
                                                UI::ButtonPlacement::BottomCenter, { 0.f, 15.f }, { 100.f, 15.f });
 
       //auto Label = UI::TextLabel::Create(EditOptionsOpenCloseButton, UI::TextAlignment::CenterJustified, "Close", sf::Color::White, TextFont, 12, { 0, 0, 15, 75 }, { 0, 0 });
       TestPopup = UI::PopupObject::Create(UILayer, UIHelper, { 100, 100 }, { 900, 700 }, TextFont);
+      //Alert = UI::Alert::Create(UILayer, UIHelper, "SampleAlert!", TextFont, { 100, 100 }, { 500, 500 }, { 80, 35 });
 
-      Alert = UI::Alert::Create(UILayer, UIHelper, "SampleAlert!", TextFont, { 100, 100 });
 
+      TestScreen = UI::MenuScreen::Create();
+      TestScreen->TestRect.setFillColor(sf::Color(1, 168, 148));
+      TestScreen->TestRect.setPosition({ 200, 200 });
+      TestScreen->TestRect.setSize({ 500, 500 });
+      TestScreen2 = UI::MenuScreen::Create();
+      TestScreen2->TestRect.setFillColor(sf::Color(1, 76, 168));
+      TestScreen2->TestRect.setPosition({ 200, 200 });
+      TestScreen2->TestRect.setSize({ 500, 500 });
+
+      DEBUG_ONLY std::cerr << "\n\nCreating Menu\n\n" << std::endl;
+      TestMenu = UI::MenuWidget::Create(UILayer, UIHelper, { 200, 200 }, { 500, 500 });
+
+      assert(TestMenu && TestMenu->Helper.lock() && TestMenu->MyLayer.lock());
+
+      DEBUG_ONLY std::cerr << "\nSetting Default Screen\n" << std::endl;
+      UI::MenuWidget::SetDefaultScreen(TestScreen, TestMenu);
+      //TestMenu->SetDefaultScreen(TestScreen);
+      UI::MenuWidget::AddScreen(TestScreen2, TestMenu);
+      //TestMenu->AddScreen(TestScreen2);
+
+      TestScreenButton1 = UI::ClickButtonBase::Create(TestScreen->ScreenLayer, TestScreen->ScreenHelper, { 300, 300 }, { 150, 45 });
+      TestScreenButton1->MouseReleaseCB = [this]() { this->TestScreen->CloseScreen(); };
+
+      TestScreenButton2 = UI::ClickButtonBase::Create(TestScreen->ScreenLayer, TestScreen->ScreenHelper, { 300, 400 }, { 150, 45 });
+      TestScreenButton2->MouseReleaseCB = [this]() { this->TestMenu->ShowScreen(this->TestScreen2); };
+
+      TestScreenButton3 = UI::ClickButtonBase::Create(TestScreen2->ScreenLayer, TestScreen2->ScreenHelper, { 300, 300 }, { 150, 45 });
+      TestScreenButton3->MouseReleaseCB = [this]() { this->TestScreen2->CloseScreen(); };
+
+      assert(TestMenu && TestScreen);
     }
     catch (std::exception &err)
     {
@@ -108,7 +138,7 @@ namespace Engine
 
   Editor::~Editor()
   {
-
+    TestMenu->Close();
   }
 
   void Editor::TickUpdate(const double &delta)
@@ -119,7 +149,7 @@ namespace Engine
 
   void Editor::Render()
   {
-    currentRenderWindow->clear(sf::Color::Black);
+    //currentRenderWindow->clear(sf::Color::Black);
     PreviewTexture.clear(sf::Color::Transparent);
     UITexture->clear(sf::Color::Transparent);
 

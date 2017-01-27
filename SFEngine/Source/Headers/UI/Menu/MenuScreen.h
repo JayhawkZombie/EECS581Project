@@ -1,25 +1,40 @@
-#ifndef SFENGINE_UI_DRAGGABLE_TILE_H
-#define SFENGINE_UI_DRAGGABLE_TILE_H
+#ifndef SFENGINE_UI_MENU_TREE_H
+#define SFENGINE_UI_MENU_TREE_H
 
-#include "DraggableBase.h"
+#include "../Widget.h"
+
+#include <stack>
 
 namespace Engine
 {
-
-  //test struct
-  struct TestTile {
-    std::vector<sf::VertexArray> Edges;
-
-    std::shared_ptr<sf::Texture> Texture;
-  };
-
   namespace UI
   {
 
-    class DraggableTile : public DraggableBase
+    class Menu;
+    class MenuWidget;
+
+    class MenuScreen : public WidgetBase
     {
     public:
-      static std::shared_ptr<DraggableTile> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      friend class MenuWidget;
+      EDITOR_FRIEND
+
+      static std::shared_ptr<MenuScreen> Create();
+
+      void AssignToMenu(std::shared_ptr<MenuWidget> Menu);
+
+      void ChangeScreenTo(std::weak_ptr<MenuScreen> ToScreen);
+
+      void AddItem(std::weak_ptr<WidgetBase> Widget);
+
+      void MakeInactive();
+      void MakeActive();
+
+      void CloseScreen();
+
+      virtual std::string ClassName() override {
+        return "MenuScreen";
+      }
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -38,27 +53,27 @@ namespace Engine
       virtual void TickUpdate(const double &delta) override;
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
+      virtual void Resize(const sf::Vector2f &Size) override;
 
-      TestTile Tile;
-      sf::RectangleShape Outline;
-      std::shared_ptr<sf::Texture> TileTexture;
+      virtual ~MenuScreen() = default;
 
-      sf::VertexArray Left = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Top = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Right = sf::VertexArray(sf::Lines, 2);
-      sf::VertexArray Bottom = sf::VertexArray(sf::Lines, 2);
-
-      sf::VertexArray Verts = sf::VertexArray(sf::Quads, 4);
-
-      sf::RenderStates RenderState;
-
-      virtual ~DraggableTile() = default;
+      std::shared_ptr<WidgetHelper> ScreenHelper;
+      std::shared_ptr<UILayer> ScreenLayer;
     protected:
-      DraggableTile();
+      MenuScreen() = default;
+
+      bool IsActive = true;
+
+      std::vector<std::weak_ptr<WidgetBase>> Items;
+
+      std::weak_ptr<MenuWidget> TopMenu;
+
+      sf::RectangleShape TestRect;
+
     };
 
   }
-
 }
+
 
 #endif
