@@ -1,4 +1,4 @@
-56
+320
 
 Flarial
 A young spirit, made of flame, that hovers above the earth- it casts no shadow, as it is a source of light
@@ -868,7 +868,6 @@ SFEngine/Samples/Animations/CharacterAnimations/Cirrus12FSpriteSheet.png
 NULL
 CumuloStratus
 NULL
-
 
 Nimbus
 The nimbus basically looks like a floating turtle with glasses, except the shell is a cloud and the head is yellow with a lame curly loop for hair. Its glasses are black, how they float I don't know
@@ -2102,7 +2101,6 @@ Quartz
 NULL
 Aero Elemental
 
-
 Baldgul
 The Baldgul is a bald eagle that is actually bald. Not white feathers, no feathers
 3
@@ -2154,7 +2152,6 @@ Once famously displayed during the intro of the Colbert Report, the Patriot hawk
 4
 0
 SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
-NULL
 NULL
 NULL
 NULL
@@ -2522,7 +2519,6 @@ NULL
 NULL
 NULL
 
-
 Lona
 Created under the full moon, a lona is a celestial orb of pure lunar energy
 4
@@ -2797,7 +2793,6 @@ SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
 MoonStone
 NULL
 Light Elemental
-
 
 Argenphage
 The Argenphage is a larger phage with silver plates inlaid with complex designs. It is said that their eyes can see the balance of a soul
@@ -3433,7 +3428,9 @@ The Umbral Symbol is a floating symbol in the shape of the blinded eye that cast
 2
 2
 SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+Obsidian
 NULL
+Umbral Elemental
 
 Senistair
 The Senistair is a shadow in the form of a man whose eyeless sockets peer into your soul. It has an inhuman cheshire smile that can only elicit terror
