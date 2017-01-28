@@ -7,24 +7,26 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<DraggableRect> DraggableRect::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position, const sf::Vector2f & Size)
+    std::shared_ptr<DraggableRect> DraggableRect::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position, const sf::Vector2f & Size)
     {
-      if (!ThisLayer || !ThisLayer->CanAcceptWidget()) 
+      if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget()) 
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
                                      EXCEPTION_MESSAGE("Given UILayer is NULL or cannot accept a widget"));
 
       try
       {
         std::shared_ptr<DraggableRect> Rect(new DraggableRect);
-        Rect->Helper = ThisHelper;
+        Rect->Helper = ThisHelper.lock();
         Rect->Shape.setPosition(Position);
         Rect->Shape.setSize(Size);
         Rect->Shape.setFillColor(sf::Color(43, 43, 43, 150));
         Rect->Shape.setOutlineColor(sf::Color(167, 167, 170, 150));
         Rect->Shape.setOutlineThickness(-2);
 
-        Rect->MyLayer = ThisLayer;
-        ThisLayer->RegisterWidget(Rect);
+        Rect->MyLayer = ThisLayer.lock();
+        ThisLayer.lock()->RegisterWidget(Rect);
+
+        assert(Rect->Helper.lock() && Rect->MyLayer.lock());
 
         Rect->CanBeDragged = true;
 

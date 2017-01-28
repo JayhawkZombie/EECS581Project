@@ -9,6 +9,7 @@
 #include "../Utils/CollisionHelpers.h"
 #include "Widget.h"
 
+#include <stack>
 #include <list>
 
 #ifndef REVERSE_ITERATE
@@ -73,6 +74,9 @@ namespace Engine
       }
 
       void RegisterWidget(SharedWidgetPointer Widget);
+      void RegisterLayerlessWidget(SharedWidgetPointer Widget);
+      void RemoveWidget(SharedWidgetPointer Widget);
+      void ClearAllWidgets();
 
       std::function<void(std::uint32_t)> LayerRegisterDebugOutputFunction = [](auto t) {};
 
@@ -102,12 +106,17 @@ namespace Engine
     {
     public:
       static std::shared_ptr<WidgetHelper> Create();
-      ~WidgetHelper() = default;
+      ~WidgetHelper() {
+        while (!FocusStack.empty())
+          FocusStack.pop();
+      }
+
       WidgetHelper() = default;
 
       void AddUILayer();
       void AddUILayer(std::shared_ptr<UILayer> Layer);
       void RegisterWidget(std::shared_ptr<WidgetBase> Widget, std::size_t layer = 0);
+      void RemoveWidget(std::shared_ptr<WidgetBase> Widget);
       void Render(std::shared_ptr<sf::RenderTexture> &Target);
       void TickUpdate(const double &delta);
 
@@ -129,23 +138,32 @@ namespace Engine
 
       void RequestDelete(WidgetBase *Base);
 
-      void TakeFocus(std::shared_ptr<WidgetBase> Ptr) {
-        DEBUG_ONLY std::cerr << "FocusStack : ID " << Ptr->WidgetID << " focus added " << std::endl;
-        FocusStack.push_back(Ptr);
+      void TakeFocus(std::weak_ptr<WidgetBase> Ptr) {
+        auto ptr = Ptr.lock();
+        if (ptr) {
+          DEBUG_ONLY std::cerr << "FocusStack : ID " << ptr->WidgetID << " focus added " << std::endl;
+          FocusStack.push(ptr);
+        }
+
       }
 
-      void ReleaseFocus(std::shared_ptr<WidgetBase> Widget) {
+      void ReleaseTopFocus() {
+        if (FocusStack.size() > 0)
+          FocusStack.pop();
+      }
+
+      void ReleaseFocus(WidgetBase *Widget) {
         if (!Widget)
           return;
 
-        for (auto it = FocusStack.begin(); it != FocusStack.end(); ++it) {
-          if ((*it)->WidgetID == Widget->WidgetID) {
-            //release this one
-            FocusStack.erase(it);
-            DEBUG_ONLY std::cerr << "FocusStack : ID " << Widget->WidgetID << " focus popped " << std::endl;
-            break;
-          }
-        }
+        //for (auto it = FocusStack.begin(); it != FocusStack.end(); ++it) {
+        //  if ((*it)->WidgetID == Widget->WidgetID) {
+        //    //release this one
+        //    FocusStack.erase(it);
+        //    DEBUG_ONLY std::cerr << "FocusStack : ID " << Widget->WidgetID << " focus popped " << std::endl;
+        //    break;
+        //  }
+        //}
 
       }
 
@@ -156,7 +174,8 @@ namespace Engine
       bool ConsumeKeyPressEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
       bool ConsumeKeyReleaseEvent(SharedWidgetPointer Widget, const InputEvent &IEvent);
 
-      std::vector<std::shared_ptr<WidgetBase>> FocusStack; //used for stacking focus requests
+      //std::vector<WidgetBase*> FocusStack; //used for stacking focus requests
+      std::stack<std::weak_ptr<WidgetBase>> FocusStack;
 
       std::vector<std::shared_ptr<UILayer>> Layers;
 
@@ -171,7 +190,7 @@ namespace Engine
 
       bool WasInvalidated = true;
 
-      std::list<SharedWidgetPointer>::iterator FocusedItem;
+      std::list<std::weak_ptr<WidgetBase>>::iterator FocusedItem;
 
       //std::map<std::uint32_t, std::shared_ptr<WidgetBase>> RegisteredWidgets;
       

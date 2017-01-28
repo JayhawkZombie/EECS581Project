@@ -36,7 +36,7 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
 
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**
-      static std::shared_ptr<WidgetBase> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper);
+      static std::shared_ptr<WidgetBase> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper);
 
       /**
       * Base level event handlers
@@ -56,6 +56,24 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       virtual void OnDragContinue(const InputEvent &IEvent);
       virtual void OnDragEnd(const InputEvent &IEvent);
 
+      //Use to change the appearance
+      virtual void SetBGColor(const sf::Color &Color);
+      virtual void SetBGTexture(std::shared_ptr<sf::Texture> Texture);
+      virtual void SetBGTextureRect(const sf::IntRect &Rect);
+      virtual void SetBGOutlineColor(const sf::Color &Color);
+      virtual void SetBGOutlineColorHighlighted(const sf::Color &Color);
+      virtual void SetBGOutlineThickness(float thickness);
+      virtual void SetBGPosition(const sf::Vector2f &Position);
+      virtual void SetBGSize(const sf::Vector2f &Size);
+
+      virtual void ResetAppearance();
+
+      virtual std::string ClassName() {
+        return "WidgetBase";
+      }
+
+      virtual void MoveTo(const sf::FloatRect &Region) {}
+
       virtual void AddTextLabel(std::shared_ptr<TextLabel> Label);
 
       virtual void Move(const sf::Vector2f &Delta);
@@ -66,6 +84,7 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Target);
 
       void SetUpWidget(); //this must always be called immediately after construction
+      void SetUpLayerless(); //Special widgets that do not need a layer above them, like MenuScreen objects
 
       virtual void InvalidateWidget(); //Invalidate this widget. It cannot be used anymore.
       virtual void ForceCleanUp(); //Clean up now, stop whatever you are doing
@@ -83,6 +102,8 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       void SetIsHidden(bool Hidden) {
         IsHidden = Hidden;
       }
+
+      virtual void Resize(const sf::Vector2f &Size);
 
       //All widgets some with SOME basic elements available
       sf::Text ButtonText;
@@ -124,10 +145,10 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       WidgetBase();
 
       //The highest-level UILayer you want to be able to steal focus from
-      std::shared_ptr<WidgetHelper> Helper; 
+      std::weak_ptr<WidgetHelper> Helper; 
 
       //The helper that is containing THIS OBJECT
-      std::shared_ptr<UILayer> MyLayer;
+      std::weak_ptr<UILayer> MyLayer;
 
       //The layer you can use to store your own children
       std::shared_ptr<UILayer> ChildLayer;
@@ -142,6 +163,11 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       bool IsBeingDragged = false;
       bool HasFocus = false;
       bool IsHidden = false;
+
+      sf::RectangleShape BGRect;
+      sf::Color BGColor;
+      sf::Color BGOutlineColorHighlighted;
+      sf::Color BGOutlineColorNormal;
 
       /**
       * Contain a set of drawable to be rendered to their respective canvases

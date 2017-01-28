@@ -11,6 +11,9 @@ public:
 	~GameMain();
 	static int run();
 
+  void TickUpdate(const double &Delta);
+  void Render(std::shared_ptr<sf::RenderTexture> Target);
+
  // void Init(std::shared_ptr<Engine::Level> GameLevel);
  // void LoadLevel();
 

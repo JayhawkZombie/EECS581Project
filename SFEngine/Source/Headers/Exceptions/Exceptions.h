@@ -37,6 +37,7 @@ for(auto & message : VECTOR_MESSAGES){\
     ConstructionError, //Something blew up while trying to construct this
     InvalidContainer, //The container was unable to hold an item that needed it
     InvalidParameter,
+    Catastrophic,
     Unknown, //Undocumented reason, but something threw an exception and didn't provide a known documented cause
   };
 

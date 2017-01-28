@@ -6,9 +6,9 @@ namespace Engine
 
   namespace UI
   {
-    std::shared_ptr<DraggableTile> DraggableTile::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<DraggableTile> DraggableTile::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Texture> Texture, const sf::IntRect &Frame, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
-      if (!ThisLayer || !ThisLayer->CanAcceptWidget()) {
+      if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget()) {
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
                                      EXCEPTION_MESSAGE("Given UILayer is NULL or cannot accept a widget"));
       }
@@ -20,9 +20,11 @@ namespace Engine
       try
       {
         std::shared_ptr<DraggableTile> Drag(new DraggableTile);
-        Drag->Helper = ThisHelper;
-        Drag->MyLayer = ThisLayer;
-        ThisLayer->RegisterWidget(Drag);
+        Drag->Helper = ThisHelper.lock();
+        Drag->MyLayer = ThisLayer.lock();
+        ThisLayer.lock()->RegisterWidget(Drag);
+
+        assert(Drag->Helper.lock() && Drag->MyLayer.lock());
         //Set up the tile
         Drag->Outline.setPosition(Position);
         Drag->Outline.setSize(Size);

@@ -54,34 +54,11 @@ namespace Engine
 
     std::shared_ptr<sf::Font> txtFont(new sf::Font);
 
-    //txtFont->loadFromFile("./SFEngine/Samples/Fonts/PressStart2P.ttf");
-    //txt.setFont(*txtFont);
-    //ResourcePoolSizes[0].setFont(*txtFont);
-    //ResourcePoolSizes[1].setFont(*txtFont);
-    //ResourcePoolSizes[2].setFont(*txtFont);
-    //ResourcePoolSizes[3].setFont(*txtFont);
+    std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
+    GameMainTexture->create(1200, 900);
 
-    //auto Button = UI::ClickButton::Create();
-    //Button->SetFont(txtFont, "PressStart2PFont");
-    //Button->SetPosition(sf::Vector2f(100, 100));
-    //Button->SetSize(sf::Vector2f(200, 75));
-    //Button->SetTextSize(14);
-    //Button->SetText("Load TestLevel");
-
-    //Button->OnMouseRelease = [this, Button, MainLevel](const sf::Vector2i &pos, const sf::Mouse::Button &b)
-    //{ 
-    //  MainLevel->LoadLevel("./SFEngine/Samples/Levels/Graveyard/Graveyard.xml");
-    //};
-
-    //std::shared_ptr<UI::TextInput> input(new UI::TextInput);
-    //input->SetFont("./SFEngine/Samples/Fonts/Raleway-Light.ttf");
-
-    //EngineUIController.AddElement(Button);
-    //EngineUIController.AddElement(input);
-
-    //EngineUIController.SetBounds(sf::FloatRect(0, 0, 800, 300));
-    //EngineUIController.Show();
-    //EngineUIController.ShowBoundsRect();
+    sf::Sprite GameSprite;
+    GameSprite.setTexture(GameMainTexture->getTexture());
 
     for (int i = 0; i < 6; ++i)
       LoadingAnimation[i].Play();
@@ -114,6 +91,7 @@ namespace Engine
         //if we have the editor, update that instead of the main level
 #ifdef WITH_EDITOR
         GameEditor.TickUpdate(TickDelta);
+        TestGame.TickUpdate(TickDelta);
 #else
         MainLevel->TickUpdate(TickDelta);
 #endif
@@ -130,7 +108,12 @@ namespace Engine
         //Render start
 
         //if we have the editor, render that instead of the main level
+        GameMainTexture->clear(sf::Color::Transparent);
+        currentRenderWindow->clear(sf::Color::Transparent);
 #ifdef WITH_EDITOR
+        TestGame.Render(GameMainTexture);
+        GameSprite.setTexture(GameMainTexture->getTexture());
+        currentRenderWindow->draw(GameSprite);
         GameEditor.Render();
 #else
         MainLevel->Render();

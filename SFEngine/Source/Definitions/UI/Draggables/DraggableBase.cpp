@@ -8,10 +8,13 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<DraggableBase> DraggableBase::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<DraggableBase> DraggableBase::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       std::shared_ptr<DraggableBase> Widget(new DraggableBase);
-      Widget->Helper = ThisHelper;
+      Widget->Helper = ThisHelper.lock();
+      Widget->MyLayer = ThisLayer.lock();
+
+      assert(Widget->Helper.lock() && Widget->MyLayer.lock());
       return Widget;
     }
 
@@ -86,24 +89,24 @@ namespace Engine
       WidgetBase::OnDragBegin(IEvent);
 
       //We're being dragged, so we need to take all of our children with us
-      if (Helper)
-        Helper->HandleDragBegin(IEvent);
+      if (Helper.lock())
+        Helper.lock()->HandleDragBegin(IEvent);
     }
 
     void DraggableBase::OnDragEnd(const InputEvent &IEvent)
     {
       WidgetBase::OnDragEnd(IEvent);
 
-      if (Helper)
-        Helper->HandleDragEnd(IEvent);
+      if (Helper.lock())
+        Helper.lock()->HandleDragEnd(IEvent);
     }
 
     void DraggableBase::OnDragContinue(const InputEvent &IEvent)
     {
       WidgetBase::OnDragContinue(IEvent);
 
-      if (Helper)
-        Helper->HandleDragContinue(IEvent);
+      if (Helper.lock())
+        Helper.lock()->HandleDragContinue(IEvent);
     }
 
     void DraggableBase::TickUpdate(const double &delta)

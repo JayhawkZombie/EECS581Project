@@ -9,9 +9,9 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<PopupObject> PopupObject::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> Helper, const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Font> _Font)
+    std::shared_ptr<PopupObject> PopupObject::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> Helper, const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Font> _Font)
     {
-      if (!Helper || !Helper->CanAcceptWidget())
+      if (!Helper.lock() || !Helper.lock()->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer },
                                      EXCEPTION_MESSAGE("Helper is NULL or cannot accept a widget"));
 
@@ -24,11 +24,12 @@ namespace Engine
 
         Popup->CanBeDragged = false;
         Popup->Font = _Font;
-        Popup->Helper = Helper;
+        Popup->Helper = Helper.lock();
         Popup->ChildHelper = WidgetHelper::Create();
         Popup->ChildLayer = UILayer::Create(Popup->ChildHelper);
-        Popup->MyLayer = ThisLayer;
+        Popup->MyLayer = ThisLayer.lock();
 
+        assert(Popup->MyLayer.lock() && Popup->Helper.lock());
         //Normally, we would register this object, but here we aren't going to until we actually steal focus from the helper
         //The UIHelper/Layer normallt does this for us
         try {
@@ -163,14 +164,14 @@ namespace Engine
     {
       DEBUG_ONLY std::cerr << "Popup ID : " << Popup->WidgetID << " Showing" << std::endl;
       Popup->IsOnAlert = true;
-      Popup->Helper->TakeFocus(Popup);
+      Popup->Helper.lock()->TakeFocus(Popup);
     }
 
     void PopupObject::ClosePopup(std::shared_ptr<PopupObject> Popup)
     {
       DEBUG_ONLY std::cerr << "Popup ID : " << Popup->WidgetID << " Closing" << std::endl;
       Popup->IsOnAlert = false;
-      Popup->Helper->ReleaseFocus(Popup);
+      Popup->Helper.lock()->ReleaseTopFocus();
     }
 
     PopupObject::PopupObject()

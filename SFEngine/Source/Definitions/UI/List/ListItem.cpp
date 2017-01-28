@@ -7,18 +7,20 @@ namespace Engine
 
   namespace UI
   {
-    std::shared_ptr<ListItem> ListItem::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, std::shared_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<ListItem> ListItem::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::weak_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
       try
       {
         std::shared_ptr<ListItem> Item(new ListItem);
-        Item->MyLayer = ThisLayer;
-        Item->ParentList = Parent;
-        Item->Helper = ThisHelper;
-        ThisLayer->RegisterWidget(Item);
+        Item->MyLayer = ThisLayer.lock();
+        Item->ParentList = Parent.lock();
+        Item->Helper = ThisHelper.lock();
+        ThisLayer.lock()->RegisterWidget(Item);
+
+        assert(Item->MyLayer.lock() && Item->ParentList.lock() && Item->Helper.lock());
 
         //The ListWidget should take care of placing us properly
-        Item->ParentList->AddListItem(Item, Position, Size);
+        Item->ParentList.lock()->AddListItem(Item, Position, Size);
 
         return Item;
       }
@@ -31,19 +33,19 @@ namespace Engine
       }
     }
 
-    std::shared_ptr<ListItem> ListItem::Create(std::shared_ptr<ListItem> ToCopy)
+    std::shared_ptr<ListItem> ListItem::Create(std::weak_ptr<ListItem> ToCopy)
     {
       try
       {
         std::shared_ptr<ListItem> Item(new ListItem);
 
 
-        Item->ButtonFont = ToCopy->ButtonFont;
-        Item->ButtonText = ToCopy->ButtonText;
-        Item->CanBeDragged = ToCopy->CanBeDragged;
-        Item->Children = ToCopy->Children;
-        Item->CleanedUpAfterInvalidation = ToCopy->CleanedUpAfterInvalidation;
-        Item->MyLayer = ToCopy->MyLayer;
+        Item->ButtonFont = ToCopy.lock()->ButtonFont;
+        Item->ButtonText = ToCopy.lock()->ButtonText;
+        Item->CanBeDragged = ToCopy.lock()->CanBeDragged;
+        Item->Children = ToCopy.lock()->Children;
+        Item->CleanedUpAfterInvalidation = ToCopy.lock()->CleanedUpAfterInvalidation;
+        Item->MyLayer = ToCopy.lock()->MyLayer;
 
 
         return Item;

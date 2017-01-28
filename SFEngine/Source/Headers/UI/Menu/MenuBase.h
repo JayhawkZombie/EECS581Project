@@ -17,7 +17,7 @@ namespace Engine
       friend class UILayer;
       friend class WidgetHelper;
 
-      static std::shared_ptr<MenuWidgetBase> Create(std::shared_ptr<UILayer> Layer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      static std::shared_ptr<MenuWidgetBase> Create(std::weak_ptr<UILayer> Layer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;

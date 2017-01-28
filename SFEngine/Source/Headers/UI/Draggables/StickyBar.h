@@ -15,7 +15,7 @@ namespace Engine
     class StickyBar : public WidgetBase
     {
     public:
-      static std::shared_ptr<StickyBar> Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size, const sf::Vector2f &VertBarSize, const sf::Vector2f &HorizBarSize, const sf::Vector2f &DragBarSize);
+      static std::shared_ptr<StickyBar> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size, const sf::Vector2f &VertBarSize, const sf::Vector2f &HorizBarSize, const sf::Vector2f &DragBarSize);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;

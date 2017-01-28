@@ -18,6 +18,9 @@
 
 #include "../UI/Alerts/Alert.h"
 
+#include "../UI/Menu/MenuWidget.h"
+#include "../UI/Menu/MenuScreen.h"
+
 namespace Engine
 {
 
@@ -119,6 +122,21 @@ namespace Engine
 
     std::shared_ptr<UI::PopupObject> TestPopup;
     std::shared_ptr<UI::Alert> Alert;
+
+    std::shared_ptr<UI::MenuWidget> TestMenu;
+    std::shared_ptr<UI::MenuScreen> TestScreen;
+    std::shared_ptr<UI::MenuScreen> TestScreen2;
+    std::shared_ptr<UI::MenuScreen> TestScreen3;
+    
+    std::shared_ptr<sf::Font> MenuFont;
+
+    //Test screen buttons
+    std::shared_ptr<UI::ClickButtonBase> TestScreenButton1;
+    std::shared_ptr<UI::ClickButtonBase> TestScreenButton2;
+    std::shared_ptr<UI::ClickButtonBase> TestScreenButton3;
+    std::shared_ptr<UI::ClickButtonBase> TestScreenButton4;
+    std::shared_ptr<UI::ClickButtonBase> TestScreenButton5;
+    std::shared_ptr<UI::ClickButtonBase> TestScreenButton6;
     /**
     *  _________________________________________________________________
     *  |                                                               |

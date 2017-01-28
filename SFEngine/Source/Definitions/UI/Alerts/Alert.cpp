@@ -11,13 +11,14 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<Alert> Alert::Create(std::shared_ptr<UILayer> Layer, std::shared_ptr<WidgetHelper> Helper, const std::string &Message, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position)
+    std::shared_ptr<Alert> Alert::Create(std::weak_ptr<UILayer> Layer, std::weak_ptr<WidgetHelper> Helper, const std::string &Message, std::shared_ptr<sf::Font> Font,
+                                         const sf::Vector2f &Position, const sf::Vector2f &Size, const sf::Vector2f &OKButtonSize)
     {
-      if (!Helper || !Helper->CanAcceptWidget())
+      if (!Helper.lock() || !Helper.lock()->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer },
                                      EXCEPTION_MESSAGE("Helper is NULL or cannot accept a widget"));
 
-      if (!Layer || !Layer->CanAcceptWidget())
+      if (!Layer.lock() || !Layer.lock()->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer },
                                      EXCEPTION_MESSAGE("Layer is NULL or cannot accept a widget"));
 
@@ -26,11 +27,12 @@ namespace Engine
       {
         std::shared_ptr<Alert> AL(new Alert);
 
-        AL->Helper = Helper;
+        AL->Helper = Helper.lock();
         AL->ChildHelper = WidgetHelper::Create();
-        AL->ChildLayer = UILayer::Create(AL->Helper);
-        AL->MyLayer = Layer;
+        AL->ChildLayer = UILayer::Create(AL->Helper.lock());
+        AL->MyLayer = Layer.lock();
 
+        assert(AL->MyLayer.lock() && AL->Helper.lock());
         try
         {
           AL->SetUpWidget();
@@ -55,27 +57,35 @@ namespace Engine
         AL->AlertMessage->setString("SampleAlert!");
         AL->AlertMessage->setCharacterSize(14);
 
-        auto Rect = AL->AlertMessage->getGlobalBounds();
+        sf::FloatRect AlertTextRegion = AL->AlertMessage->getGlobalBounds();
+        AL->AcknowledgeButton = UI::ClickButtonBase::Create(AL->ChildLayer, AL->ChildHelper, {Position.x + (Size.x - OKButtonSize.x)/2.f, Position.y + PaddingTop + AlertTextRegion.height + PaddingBottom}, OKButtonSize);
+        AL->AcknowledgeButton->SetBGColor(sf::Color(38, 38, 38));
+        AL->OKText = UI::TextLabel::Create(AL->AcknowledgeButton, AL->ChildHelper, TextAlignment::CenterJustified, "OK", sf::Color::White, Font, 14, { 0,0,0,0 }, { 0,0 });
 
-        sf::Vector2f AlertSize = { 500, 500 };
-        sf::Vector2f ButtonSize = { 100, 40 };
-        sf::FloatRect TotalBounds = { Position, AlertSize };
+        sf::FloatRect OKTextRegion = AL->OKText->GetTextGlobalBounds();
 
-        AL->GlobalWidgetBounds.ForceRegion(TotalBounds);
+        sf::FloatRect TrueRegion =
+        {
+          Position.x, Position.y,
+          PaddingLeft + AlertTextRegion.width + PaddingRight,
+          PaddingTop + AlertTextRegion.height + PaddingBottom + OKTextRegion.height + PaddingButtonBottom
+        };
 
-        auto FRECT = AL->AlertMessage->getGlobalBounds();
-        AL->AlertMessage->setPosition({ (TotalBounds.width - FRECT.width) / 2.f, (TotalBounds.height - FRECT.height) / 2.f });
+        sf::Vector2f OKButtonSize = { OKTextRegion.width + 20.f, OKTextRegion.height + 20.f };
+        sf::Vector2f AlertPosition = { PaddingLeft, PaddingTop };
+        sf::Vector2f OKPosition =
+        {
+          (AlertTextRegion.width - OKButtonSize.x),
+          PaddingTop + AlertTextRegion.height + PaddingBottom
+        };
 
-        //Create OKButton
-        AL->AcknowledgeButton = UI::ClickButtonBase::Create(AL->ChildLayer, AL->ChildHelper, { 200, 450 }, ButtonSize);
+        AL->BGRect.setPosition(Position);
+        AL->BGRect.setSize(Size);
+        AL->BGRect.setFillColor(sf::Color(66, 66, 66));
+        //Center the text on the screen
+        float xDiffLeft = (Size.x - AlertTextRegion.width) / 2.f;
 
-        AL->OKText = TextLabel::Create(AL->AcknowledgeButton, AL->ChildHelper, TextAlignment::CenterJustified, "OK", sf::Color::White, Font, 10, { 0,0,1000,1000 }, { 0,0 });
-        AL->AlertText = TextLabel::Create(AL->AcknowledgeButton, AL->ChildHelper, TextAlignment::CenterJustified, "OK", sf::Color::White, Font, 10, { 0, 0, 1000, 1000 }, { 0, 0 });
-
-        AL->BGRect.setSize({ AlertSize });
-        AL->BGRect.setFillColor(sf::Color(96, 96, 96, 100));
-        AL->BGRect.setOutlineColor(sf::Color::Red);
-        AL->BGRect.setOutlineThickness(-2);
+        AL->AlertMessage->setPosition({ xDiffLeft, Position.y + PaddingTop });
 
         //Close the popup when the user releases the mouse on it
         AL->AcknowledgeButton->MouseReleaseCB =
@@ -164,7 +174,7 @@ namespace Engine
       Texture->draw(BGRect);
 
       Texture->draw(*AlertMessage);
-      AlertText->Render(Texture);
+      //AlertText->Render(Texture);
 
       AcknowledgeButton->Render(Texture);
     }
@@ -177,14 +187,14 @@ namespace Engine
     {
       DEBUG_ONLY std::cerr << "Popup ID : " << Message->WidgetID << " Showing" << std::endl;
       Message->IsOnAlert = true;
-      Message->Helper->TakeFocus(Message);
+      Message->Helper.lock()->TakeFocus(Message);
     }
 
     void Alert::HideAlert(std::shared_ptr<Alert> Message)
     {
       DEBUG_ONLY std::cerr << "Popup ID : " << Message->WidgetID << " Hiding" << std::endl;
       Message->IsOnAlert = false;
-      Message->Helper->ReleaseFocus(Message);
+      Message->Helper.lock()->ReleaseTopFocus();
     }
 
     Alert::~Alert()

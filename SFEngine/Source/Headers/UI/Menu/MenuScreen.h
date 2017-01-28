@@ -1,21 +1,40 @@
-#ifndef SFENGINE_UI_POPUP_OBJECT_H
-#define SFENGINE_UI_POPUP_OBJECT_H
+#ifndef SFENGINE_UI_MENU_TREE_H
+#define SFENGINE_UI_MENU_TREE_H
 
 #include "../Widget.h"
 
+#include <stack>
+
 namespace Engine
 {
-
   namespace UI
   {
-    
-    class ClickButtonBase;
-    class TextLabel;
 
-    class PopupObject : public WidgetBase
+    class Menu;
+    class MenuWidget;
+
+    class MenuScreen : public WidgetBase
     {
     public:
-      static std::shared_ptr<PopupObject> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> Helper, const sf::Vector2f &Size, const sf::Vector2f &Position, std::shared_ptr<sf::Font> Font);
+      friend class MenuWidget;
+      EDITOR_FRIEND
+
+      static std::shared_ptr<MenuScreen> Create();
+
+      void AssignToMenu(std::shared_ptr<MenuWidget> Menu);
+
+      void ChangeScreenTo(std::weak_ptr<MenuScreen> ToScreen);
+
+      void AddItem(std::weak_ptr<WidgetBase> Widget);
+
+      void MakeInactive();
+      void MakeActive();
+
+      void CloseScreen();
+
+      virtual std::string ClassName() override {
+        return "MenuScreen";
+      }
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -34,32 +53,24 @@ namespace Engine
       virtual void TickUpdate(const double &delta) override;
       virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
+      virtual void Resize(const sf::Vector2f &Size) override;
 
-      static void ShowPopup(std::shared_ptr<PopupObject> Popup);
-      static void ClosePopup(std::shared_ptr<PopupObject> Popup);
+      virtual ~MenuScreen() = default;
 
-      ~PopupObject();
+      std::shared_ptr<WidgetHelper> ScreenHelper;
+      std::shared_ptr<UILayer> ScreenLayer;
     protected:
-      PopupObject();
+      MenuScreen() = default;
 
-      bool IsOnAlert = false;
+      bool IsActive = true;
 
-      void CloseWasPressed();
+      std::vector<std::weak_ptr<WidgetBase>> Items;
 
-      std::shared_ptr<WidgetHelper> ChildHelper;
-      std::shared_ptr<sf::Font> Font;
-
-      sf::Text SampleText;
-
-      sf::Vector2f Position;
-      sf::Vector2f Size;
-
-
-
+      std::weak_ptr<MenuWidget> TopMenu;
     };
 
   }
-
 }
+
 
 #endif

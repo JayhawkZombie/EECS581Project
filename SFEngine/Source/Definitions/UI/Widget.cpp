@@ -26,7 +26,7 @@ namespace Engine
     void WidgetBase::Move(const sf::Vector2f &Delta)
     {
       GlobalWidgetBounds.MoveRegion(Delta);
-
+      BGRect.move(Delta);
       //for (auto & label : TextLabels)
       //  label->Move(Delta);
 
@@ -50,10 +50,10 @@ namespace Engine
       //This exceptions shouldn't ever actually happen, but
       //  in the off-chance that a classes uses this and tries to call 
       //  SetUpWidget() any time after the Creator became invalid, then this is bad
-      if (!MyLayer || !MyLayer->IsValid())
+      if (!MyLayer.lock() || !MyLayer.lock()->IsValid())
         throw InvalidObjectException(
           { ExceptionCause::InvalidContainer },
-          EXCEPTION_MESSAGE("Widget layer is null or is not valid. Is this a rogue widget?")
+          EXCEPTION_MESSAGE("Widget layer is null or is not valid. Is this a rogue widget? Class: " + ClassName())
         );
 
       //generate a unique ID based on the current epoch
@@ -67,7 +67,7 @@ namespace Engine
       }
       catch (IDException &err)
       {
-        DEBUG_ONLY std::cerr << "WidgetBase::SetUpWidget() : Failed to generate ID" << std::endl;
+        DEBUG_ONLY std::cerr << "WidgetBase::SetUpWidget() : Failed to generate ID : Class " << ClassName() << std::endl;
 
         //Errrrr, well that sucks
         InvalidationCause = "Unable to generate unique ID";
@@ -76,6 +76,34 @@ namespace Engine
         err.AddMessage(EXCEPTION_MESSAGE("Widget could not generate ID"));
 
         throw; //throw the same exception back up, should be caught by the WidgetHelper
+      }
+    }
+
+    void WidgetBase::SetUpLayerless()
+    {
+      DEBUG_ONLY std::cerr << "WidgetBase::SetUpLayerless()" << std::endl;
+      if (WidgetID != 0)
+        throw InvalidObjectException({ ExceptionCause::InitializationError },
+                                     EXCEPTION_MESSAGE("WidgetID has already been set"));
+
+      if (MyLayer.lock())
+        throw InvalidObjectException({ ExceptionCause::InvalidObjectUsed },
+                                     EXCEPTION_MESSAGE("Widget MyLayer is not NULL, but is required to be NULL"));
+
+      std::uint32_t ID = 0;
+      try
+      {
+        ID = GenerateID();
+        WidgetID = ID;
+
+        DEBUG_ONLY std::cerr << "Layerless ID " << WidgetID << std::endl;
+      }
+      catch (IDException &err)
+      {
+        err.AddCause(ExceptionCause::IDGenerationError);
+        err.AddMessage(EXCEPTION_MESSAGE("Layerless Widget could not generate ID"));
+
+        throw;
       }
     }
 
@@ -97,11 +125,11 @@ namespace Engine
       return;
     }
 
-    std::shared_ptr<WidgetBase> WidgetBase::Create(std::shared_ptr<UILayer> ThisLayer, std::shared_ptr<WidgetHelper> ThisHelper)
+    std::shared_ptr<WidgetBase> WidgetBase::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper)
     {
       //Throw an excption if ThisCreator isn't valid, or cannot accept another widget for some reason
-      //We can't create this, something is wrong with the container. Register ConstructionError since this object did not get constructed properly
-      if (!ThisLayer || !ThisLayer->CanAcceptWidget())
+      //We can't create this, something is wrong with the container. 854 ConstructionError since this object did not get constructed properly
+      if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget())
         throw InvalidObjectException(
           { ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError }, 
           EXCEPTION_MESSAGE("UILayer is invalid or cannot accept any widgets")
@@ -118,14 +146,14 @@ namespace Engine
       //This WidgetHelper obejct should make sure that this Widget is properly initialized
       //*****IT SHOULD NOT BE INITIALIZED ANYWHERE ELSE BUT FROM INSIDE THE WIDGET HELPER******
       
-      ThisLayer->RegisterWidget(Widget);
+      ThisLayer.lock()->RegisterWidget(Widget);
 
       return Widget;
     }
 
     void WidgetBase::CreateHelper()
     {
-      if (Helper)
+      if (Helper.lock())
         return;
 
       Helper = UI::WidgetHelper::Create();
@@ -143,9 +171,18 @@ namespace Engine
 
     void WidgetBase::NotifyHelperOfClose()
     {
-      if (!Helper)
+      if (!Helper.lock())
         throw InvalidObjectException({ ExceptionCause::InvalidObjectUsed },  
                                      EXCEPTION_MESSAGE("Widget helper is NULL - cannot notify of close"));
+    }
+
+    void WidgetBase::Resize(const sf::Vector2f & Size)
+    {
+      auto Rect = GlobalWidgetBounds.GlobalBounds;
+      Rect.width = Size.x;
+      Rect.height = Size.y;
+
+      GlobalWidgetBounds.ForceRegion(Rect);
     }
 
     void WidgetBase::TickUpdate(const double &delta) {}
@@ -181,10 +218,47 @@ namespace Engine
         }
 
         ButtonText.move(sf::Vector2f(dMovement));
+        BGRect.move(static_cast<sf::Vector2f>(dMovement));
       }//if (CanBeDragged)
     }
 
     void WidgetBase::OnDragEnd(const InputEvent &IEvent) {}
+    void WidgetBase::SetBGColor(const sf::Color & Color)
+    {
+      BGRect.setFillColor(Color);
+    }
+    void WidgetBase::SetBGTexture(std::shared_ptr<sf::Texture> Texture)
+    {
+      BGRect.setTexture(Texture.get());
+    }
+    void WidgetBase::SetBGTextureRect(const sf::IntRect & Rect)
+    {
+      BGRect.setTextureRect(Rect);
+    }
+    void WidgetBase::SetBGOutlineColor(const sf::Color & Color)
+    {
+      BGRect.setOutlineColor(Color);
+      BGOutlineColorNormal = Color;
+    }
+    void WidgetBase::SetBGOutlineColorHighlighted(const sf::Color & Color)
+    {
+      BGOutlineColorHighlighted = Color;
+    }
+    void WidgetBase::SetBGOutlineThickness(float thickness)
+    {
+      BGRect.setOutlineThickness(thickness);
+    }
+    void WidgetBase::SetBGPosition(const sf::Vector2f & Position)
+    {
+      BGRect.setPosition(Position);
+    }
+    void WidgetBase::SetBGSize(const sf::Vector2f & Size)
+    {
+      BGRect.setSize(Size);
+    }
+    void WidgetBase::ResetAppearance()
+    {
+    }
     void WidgetBase::AddTextLabel(std::shared_ptr<TextLabel> Label)
     {
       TextLabels.push_back(Label);
