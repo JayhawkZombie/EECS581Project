@@ -3224,6 +3224,72 @@ Named for an entrance to hell, this floating skull has glowing green orbs in its
 1
 0
 SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+Skullsaur
+NULL
+Ghostet
+
+Skullsaur
+The Skullsaur is a undead veloceraptor looking thing that has a badass attack called deathclaw
+5
+2
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+NULL
+Skullclar
+NULL
+
+Ghostet
+The Ghostet is a weak phantom that takes reduced physical damage
+5
+2
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+NULL
+Wraith
+NULL
+
+Skullclar
+The Skullclar is a larger Skullsaur with wings and horns
+5
+2
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+NULL
+Skulltyrant
+NULL
+
+Wraith
+The Phantom is still incorporeal and weilds a curved scepter
+5
+2
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+NULL
+Specter
+NULL
+
+Skulltyrant
+The Skulltyrant is a large undead T-rex. Very Scary
+5
+2
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
+NULL
+NULL
+NULL
+
+Specter
+The Specter can possess an enemy for three turns after which it dies
+5
+2
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Stull.png
 NULL
 NULL
 NULL
@@ -3233,6 +3299,39 @@ Have you ever had a really bad day? So bad that even if it was sunny, a small me
 5
 3
 1
+0
+SFEngine/Samples/Animations/CharacterAnimations/Maltag.png
+NULL
+Thundroar
+NULL
+
+Thundroar
+The Thundroar is a dragonlike snake in the clouds. Lightening storms occur when multiple Thundroars battle in the heavens. It is said that thunder is caused by their roaring
+5
+3
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Maltag.png
+NULL
+Tempestor
+NULL
+
+Tempestor
+The Tempestor is a greater thunder wyvern with wings and rear claws. Its presence will darken the sky and call harsh gales
+5
+3
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Maltag.png
+NULL
+Thundragon
+NULL
+
+Thundragon
+The Thundragon is a fully formed dragon made of clouds. Its breath is a hurricane, its scream a thunderbolt
+5
+3
+4
 0
 SFEngine/Samples/Animations/CharacterAnimations/Maltag.png
 NULL
@@ -3246,16 +3345,179 @@ The Fallen DemiAngel is an angel that followed the light bringer when he fell fr
 1
 0
 SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
+Dark Phage
+NULL
+Fallen HemiAngel
+
+Dark Phage
+The dark phage is a corrupted phage that turned from the service of its creator
+5
+4
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
+NULL
+Black Knight
+NULL
+
+Fallen HemiAngel
+The Fallen HemiAngel has larger wings both turned black
+5
+4
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
+NULL
+Black Knight
+NULL
+
+Black Knight
+The black knight is sheilded in dark plate, that has rituals etched into the steel
+5
+4
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
+NULL
+Avengeant
+NULL
+
+Avengeant
+The Avengeant once served God, but gien will, disagreed with his descision. When he went to resolve the conflict, God couldn't stand being questioned and excommunicated the Avengent, who has hated God and those loyal to him ever since
+5
+4
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
 NULL
 NULL
 NULL
 
 Umbress
-The umbress appears to be a small floating black flame- that absorbs light instead of casting it - with blue eyes
+The umbress appears to bea small floating black flame, with two purple eyes
 5
 5
 1
 0
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+Shadeoss
+Screel
+Umbral Symbol
+
+Shadeoss
+The Shadeoss is strongest in darkness. It appears to be the upper torso of a knight weilding a sword
+5
+5
+2
+0
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+Senistair
+NULL
+
+Screel
+The Screel is a black envy demon, desiring the desiring the form and life of a man. It is still young, so the result is obscene
+5
+5
+2
+1
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+Caecus
+NULL
+
+Umbral Symbol
+The Umbral Symbol is a floating symbol in the shape of the blinded eye that casts basic dark magic
+5
+5
+2
+2
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+
+Senistair
+The Senistair is a shadow in the form of a man whose eyeless sockets peer into your soul. It has an inhuman cheshire smile that can only elicit terror
+5
+5
+3
+0
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+Eye Of Dis
+NULL
+
+Caecus
+The caecus is a shadow warrior with a bandage wrapped around its eyes. It cannot see, but tracks its enemies by listening-often giving it a better picture of reality than sight
+5
+5
+3
+1
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+Mang
+NULL
+
+Obsidian
+Dark as night, and reflective, obsidian is formed by fast cooling lava.
+5
+5
+3
+2
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+Onyx
+NULL
+
+Umbral Elemental
+The Umbral Elemental is a large umbral symbol surrounded by three lesser symbols of other elements. As such, it can cast lesser magics of those elements
+5
+5
+3
+3
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+Umbral Atronach
+NULL
+
+Eye Of Dis
+The Eye of Dis is one of the many eyes of the dark god Dis himself- it can see all aspects of you. Kill it before it speaks, as those that hear its voice turn mad
+5
+5
+4
+0
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+NULL
+NULL
+
+Mang
+Mang appears as an old man with a walking stick. Attack it and see what happens
+5
+5
+4
+1
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+NULL
+NULL
+
+Onyx
+The onyx cosumes the light around it, giving it a halo of shadow
+5
+5
+4
+2
+SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+NULL
+NULL
+NULL
+
+Umbral Atronach
+The Umbral Atronach is a very large umbral symbol surrounded by Elementals representing every element. As such, it can cast greater darkness magics and regular magics of every other element
+5
+5
+4
+3
 SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
 NULL
 NULL
