@@ -633,7 +633,7 @@ A silver Taurus, with a sapphire sphere at its base. Etched on the Sapphire Sphe
 1
 2
 1
-SFEngine/Samples/Animations/CharacterAnimations/Minnow12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/AquaSymbolMonster.png
 Torquoise
 NULL
 Aqua Elemental
@@ -666,7 +666,7 @@ A green-Blue stone formed over the centuries unde the ocean, that channels magic
 1
 3
 2
-SFEngine/Samples/Animations/CharacterAnimations/Minnow12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/Torquoise.png
 NULL
 Sapphire
 NULL
@@ -677,7 +677,7 @@ The Aqua Elemental is a large aqua symbol that has six crystallized water drople
 1
 3
 3
-SFEngine/Samples/Animations/CharacterAnimations/Minnow12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/AquaElemental.png
 NULL
 Aqua Atronach
 NULL
@@ -710,7 +710,7 @@ Gleaming, and hewn from rock far beneath the ocean floor, a Sapphire is a bright
 1
 4
 2
-SFEngine/Samples/Animations/CharacterAnimations/Minnow12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/Sapphire.png
 NULL
 NULL
 NULL
@@ -721,7 +721,7 @@ An Aqua Atronach is a collection of Elementals, a large one in the center with t
 1
 4
 3
-SFEngine/Samples/Animations/CharacterAnimations/Minnow12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/AquaAtronach.png
 NULL
 NULL
 NULL
@@ -1469,7 +1469,7 @@ The Tera Symbol is a green taurus with the earth symbol it its center
 2
 2
 3
-SFEngine/Samples/Animations/CharacterAnimations/Sticket12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/TeraSymbolMonster.png
 Jade
 NULL
 Tera Elemental
@@ -1513,7 +1513,7 @@ Mined deep in the mountains, Jade is a lesser elemental that strikes physically 
 2
 3
 3
-SFEngine/Samples/Animations/CharacterAnimations/Sticket12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/Jade.png
 NULL
 Emerald
 NULL
@@ -1524,7 +1524,7 @@ A large tera symbol surrounded by a dark symbol, a fire symbol and a water symbo
 2
 3
 4
-SFEngine/Samples/Animations/CharacterAnimations/Sticket12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/TeraElemental.png
 NULL
 Tera Atronach
 NULL
@@ -1579,7 +1579,7 @@ A great gem that resembles the great Earth Gem and can channel some of its power
 2
 4
 4
-SFEngine/Samples/Animations/CharacterAnimations/Sticket12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/Emerald.png
 NULL
 NULL
 NULL
@@ -1590,7 +1590,7 @@ A large tera elemental surrounded by the elementals representing all other prima
 2
 4
 5
-SFEngine/Samples/Animations/CharacterAnimations/Sticket12FSpriteSheet.png
+SFEngine/Samples/Animations/CharacterAnimations/EarthAtronach.png
 NULL
 NULL
 NULL
@@ -2096,7 +2096,7 @@ The AeroSymbol is a circle with six points that looks like the aero glyph. The s
 3
 2
 3
-SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
+SFEngine/Samples/Animations/CharacterAnimations/AeroSymbolMonster.png
 Quartz
 NULL
 Aero Elemental
@@ -2129,7 +2129,7 @@ Quartz is mined from high mountains that reach for the heavens, although it is a
 3
 3
 2
-SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
+SFEngine/Samples/Animations/CharacterAnimations/Quartz.png
 NULL
 Topaz
 NULL
@@ -2140,9 +2140,9 @@ The Aero Elemental is a suped up version of the AeroSymbol with more wings etc.
 3
 3
 3
-SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
+SFEngine/Samples/Animations/CharacterAnimations/AeroElemental.png
 NULL
-Air Atronach
+AeroAtronach
 NULL
 
 PatriotHawk
@@ -2173,18 +2173,18 @@ A great elememtal crystal crackling with electric energy, the Topaz is the pinna
 3
 4
 2
-SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
+SFEngine/Samples/Animations/CharacterAnimations/Topaz.png
 NULL
 NULL
 NULL
 
-Air Atronach
+AeroAtronach
 Lightening often surrounds the Air Atronach whenever it is angry. It is surrounded by six elementals, three of which are aero, three of which determine the other types of spells it can cast
 3
 3
 4
 3
-SFEngine/Samples/Animations/CharacterAnimations/Flapper.png
+SFEngine/Samples/Animations/CharacterAnimations/AeroAtronach.png
 NULL
 NULL
 NULL
@@ -2426,7 +2426,7 @@ A Firefaux is a fox that loves sitting in the sun and absorbing rays. It has a y
 0
 2
 0
-SFEngine/Samples/Animations/CharacterAnimations/Tona.png
+SFEngine/Samples/Animations/CharacterAnimations/FireFaux.png
 NULL
 FlareWulf
 NULL
@@ -2789,7 +2789,7 @@ A Light symbol is the embodiment of the symbol of light and can cast lumimagia 1
 4
 2
 2
-SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
+SFEngine/Samples/Animations/CharacterAnimations/LightSymbolMonster.png
 MoonStone
 NULL
 Light Elemental
@@ -2822,7 +2822,7 @@ A white stone that holds pure light energy. As it floats, it is used by adventur
 4
 3
 2
-SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
+SFEngine/Samples/Animations/CharacterAnimations/MoonStone.png
 NULL
 Diamond
 NULL
@@ -2833,7 +2833,7 @@ the light elemental is a large light symbol surrounded by three other symbols, w
 4
 3
 3
-SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
+SFEngine/Samples/Animations/CharacterAnimations/LightElemental.png
 NULL
 Light Atronach
 NULL
@@ -2866,7 +2866,7 @@ Known as the most precious elemental stone, the Diamond has a long history of be
 4
 4
 2
-SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
+SFEngine/Samples/Animations/CharacterAnimations/Diamond.png
 NULL
 NULL
 NULL
@@ -2877,7 +2877,7 @@ The light atronach is an ascendant light elemenal that is surrounded by six symb
 4
 4
 3
-SFEngine/Samples/Animations/CharacterAnimations/Lumin.png
+SFEngine/Samples/Animations/CharacterAnimations/LightAtronach.png
 NULL
 NULL
 NULL
@@ -3427,7 +3427,7 @@ The Umbral Symbol is a floating symbol in the shape of the blinded eye that cast
 5
 2
 2
-SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+SFEngine/Samples/Animations/CharacterAnimations/UmbralSymbolMonster.png
 Obsidian
 NULL
 Umbral Elemental
@@ -3460,7 +3460,7 @@ Dark as night, and reflective, obsidian is formed by fast cooling lava.
 5
 3
 2
-SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+SFEngine/Samples/Animations/CharacterAnimations/Obsidian.png
 NULL
 Onyx
 NULL
@@ -3471,7 +3471,7 @@ The Umbral Elemental is a large umbral symbol surrounded by three lesser symbols
 5
 3
 3
-SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+SFEngine/Samples/Animations/CharacterAnimations/UmbralElemental.png
 NULL
 Umbral Atronach
 NULL
@@ -3504,7 +3504,7 @@ The onyx cosumes the light around it, giving it a halo of shadow
 5
 4
 2
-SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+SFEngine/Samples/Animations/CharacterAnimations/Onyx.png
 NULL
 NULL
 NULL
@@ -3515,7 +3515,7 @@ The Umbral Atronach is a very large umbral symbol surrounded by Elementals repre
 5
 4
 3
-SFEngine/Samples/Animations/CharacterAnimations/Umbress.png
+SFEngine/Samples/Animations/CharacterAnimations/UmbralAtronach.png
 NULL
 NULL
 NULL
