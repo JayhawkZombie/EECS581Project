@@ -186,10 +186,10 @@ namespace Engine
     }
 
     void WidgetBase::TickUpdate(const double &delta) {}
-    void WidgetBase::Render(std::shared_ptr<sf::RenderTexture> &Texture) 
+    void WidgetBase::Render(std::shared_ptr<sf::RenderTexture> Texture) 
     {
-      /*for (auto & label : TextLabels)
-        label->Render(Texture);*/
+      for (auto & label : TextLabels)
+        label->Render(Texture);
     }
 
     void WidgetBase::ConsumeEvent(const InputEvent &IEvent) {}
@@ -257,6 +257,19 @@ namespace Engine
     void WidgetBase::SetBGSize(const sf::Vector2f & Size)
     {
       BGRect.setSize(Size);
+    }
+    void WidgetBase::SetBGColorNormal(const sf::Color & Color)
+    {
+      BGColorNormal = Color;
+      BGRect.setFillColor(Color);
+    }
+    void WidgetBase::SetBGColorHighlighted(const sf::Color & Color)
+    {
+      BGColorHighlighted = Color;
+    }
+    void WidgetBase::SetBGColorPressed(const sf::Color & Color)
+    {
+      BGColorPressed = Color;
     }
     void WidgetBase::ResetAppearance()
     {

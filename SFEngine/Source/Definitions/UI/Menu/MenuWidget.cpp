@@ -1,7 +1,7 @@
 #include "../../../Headers/UI/Menu/MenuWidget.h"
 #include "../../../Headers/UI/Menu/MenuScreen.h"
 #include "../../../Headers/UI/WIdgetHelper.h"
-
+#include "../../../Headers/UI/Theme.h"
 #include <algorithm>
 #include <iterator>
 
@@ -30,7 +30,10 @@ namespace Engine
         assert(Menu->ChildLayer && Menu->MenuHelper);
 
         Menu->SetUpWidget();
-
+        Menu->SetBGColor(DefaultDarkTheme.MenuBackgroundColorNormal);
+        Menu->SetBGColorNormal(DefaultDarkTheme.MenuBackgroundColorNormal);
+        Menu->SetBGColorPressed(DefaultDarkTheme.ButtonColorPressed);
+        Menu->SetBGColorHighlighted(DefaultDarkTheme.ButtonColorHighlighted);
         Menu->BGRect.setPosition(Position);
         Menu->BGRect.setSize(Size);
         Menu->GlobalWidgetBounds.ForceRegion({ Position, Size });
@@ -84,6 +87,8 @@ namespace Engine
       if (ptr) {
         ptr->MyLayer = Menu->ChildLayer;
         ptr->TopMenu = Menu;
+        ptr->SetBGPosition(Menu->Position);
+        ptr->SetBGSize(Menu->Size);
         ptr->Helper = Menu->MenuHelper;
         Menu->Screens[ptr->WidgetID] = Screen;
       }
@@ -316,7 +321,7 @@ namespace Engine
       }
     }
 
-    void MenuWidget::Render(std::shared_ptr<sf::RenderTexture>& Texture)
+    void MenuWidget::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       if (!_IsInFocus)
         return;

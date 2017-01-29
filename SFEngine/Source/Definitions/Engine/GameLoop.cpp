@@ -29,46 +29,39 @@ namespace Engine
 
     sf::Event evnt;
 
-    sf::Text txt;
-    sf::Text ResourcePoolSizes[4];
-    ResourcePoolSizes[0].setCharacterSize(12);
-    ResourcePoolSizes[0].setPosition(sf::Vector2f(10, 30));
-
-    ResourcePoolSizes[1].setCharacterSize(12);
-    ResourcePoolSizes[1].setPosition(sf::Vector2f(10, 50));
-
-    ResourcePoolSizes[2].setCharacterSize(12);
-    ResourcePoolSizes[2].setPosition(sf::Vector2f(10, 70));
-
-    ResourcePoolSizes[3].setCharacterSize(12);
-    ResourcePoolSizes[3].setPosition(sf::Vector2f(10, 90));
-
-    txt.setCharacterSize(20);
-    txt.setFillColor(sf::Color::White); //setColor was deprecated, but setFillColor fails
-
-    std::shared_ptr<sf::Font> txtFont(new sf::Font);
-
     std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
     GameMainTexture->create(1200, 900);
 
     sf::Sprite GameSprite;
     GameSprite.setTexture(GameMainTexture->getTexture());
 
-    for (int i = 0; i < 6; ++i)
-      LoadingAnimation[i].Play();
-
     (*ScriptEngine).add_global(chaiscript::var(&TestPlayer), "MainPlayer");
 
-    currentRenderWindow->setVerticalSyncEnabled(false);
     //if we are launching with the editor, enable the editor
     //otherwise, create a main level and update the level instead of the editor
-#ifdef WITH_EDITOR
-    GameEditor.Render();
-#else
+//#ifdef WITH_EDITOR
+//    GameEditor.Render();
+//#else
+//    std::shared_ptr<Level> MainLevel(new Level);
+//#endif
+
+#ifndef WITH_EDITOR
     std::shared_ptr<Level> MainLevel(new Level);
 #endif
 
-    //Window->clear();
+    sf::RectangleShape Rect;
+    Rect.setPosition({ 100, 100 });
+    Rect.setSize({ 500, 500 });
+    Rect.setFillColor(sf::Color(0, 0, 102));
+
+    Window->clear(sf::Color::Black);
+    std::shared_ptr<sf::RenderTexture> EditorTexture(new sf::RenderTexture);
+    EditorTexture->create(1200, 900);
+    EditorTexture->clear(sf::Color::Transparent);
+
+    sf::Sprite EditorSprite;
+    EditorSprite.setTexture(EditorTexture->getTexture());
+
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       try
@@ -79,8 +72,8 @@ namespace Engine
 
         UpdateStart = std::chrono::high_resolution_clock::now();
 
-        if (EngineUIController.IsShown())
-          EngineUIController.TickUpdate(TickDelta);
+        //if (EngineUIController.IsShown())
+        //  EngineUIController.TickUpdate(TickDelta);
 
         //if we have the editor, update that instead of the main level
 #ifdef WITH_EDITOR
@@ -92,22 +85,30 @@ namespace Engine
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
-        if (EngineUIController.IsShown())
-          EngineUIController.Render();
+        //if (EngineUIController.IsShown())
+        //  EngineUIController.Render();
         //Render start
 
         //if we have the editor, render that instead of the main level
         GameMainTexture->clear(sf::Color::Transparent);
-        currentRenderWindow->clear(sf::Color::Transparent);
+        Window->setActive(true);
+        Window->clear(sf::Color::Black);
+        
+        EditorTexture->clear(sf::Color::Transparent);
+        
 #ifdef WITH_EDITOR
         TestGame.Render(GameMainTexture);
+        GameMainTexture->display();
         GameSprite.setTexture(GameMainTexture->getTexture());
         currentRenderWindow->draw(GameSprite);
-        GameEditor.Render();
+        GameEditor.Render(EditorTexture);
 #else
         MainLevel->Render();
 #endif
 
+        EditorTexture->display();
+        Window->draw(EditorSprite);
+        Window->display();
         //Render();
       }
       catch (chaiscript::exception::eval_error &e)
@@ -119,7 +120,7 @@ namespace Engine
       //currentRenderWindow->display();
 
     }
-    delete RenderSettings.texture;
+    //delete RenderSettings.texture;
     return Shutdown();
   }
 }

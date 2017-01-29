@@ -2,6 +2,7 @@
 #include "../../../Headers/UI/WIdgetHelper.h"
 #include "../../../Headers/UI/Text/TextLabel.h"
 
+#include "../../../Headers/UI/Theme.h"
 namespace Engine
 {
 
@@ -31,12 +32,12 @@ namespace Engine
       assert(Widget->Helper.lock() && Widget->MyLayer.lock());
 
       //OK, gonna set up a base drawable
-      Widget->BGRect.setFillColor(sf::Color(33, 33, 33, 100));
+      Widget->BGRect.setFillColor(DefaultDarkTheme.ButtonColorNormal);
       Widget->BGRect.setPosition(Position);
       Widget->BGRect.setSize(Size);
-      Widget->BGOutlineColorNormal = sf::Color(66, 66, 66, 100);
-      Widget->BGOutlineColorHighlighted = sf::Color(132, 0, 48, 100);
-      Widget->BGRect.setOutlineColor(Widget->BGOutlineColorNormal);
+      Widget->BGOutlineColorNormal = sf::Color(DefaultDarkTheme.ButtonOutlineColorNormal);
+      Widget->BGOutlineColorHighlighted = sf::Color(DefaultDarkTheme.ButtonOutlineColorHighlighted);
+      Widget->BGRect.setOutlineColor(DefaultDarkTheme.ButtonOutlineColorNormal);
       Widget->BGRect.setOutlineThickness(-2);
 
       std::shared_ptr<ColoredQuad> Quad(new ColoredQuad(Position, Size));
@@ -141,8 +142,6 @@ namespace Engine
 
     void ClickButtonBase::OnMousePress(const InputEvent &event)
     {
-      ButtonBase::OnMousePress(event);
-
       BGRect.setFillColor(BGColorPressed);
       
       DEBUG_ONLY std::cerr << "ClickButtonBase::OnMousePress" << std::endl;
@@ -153,14 +152,10 @@ namespace Engine
 
     void ClickButtonBase::OnMouseRelease(const InputEvent &event)
     {
-      ButtonBase::OnMouseRelease(event);
-
       BGRect.setFillColor(BGColorNormal);
 
       if (MouseReleaseCB)
         MouseReleaseCB();
-
-
     }
 
     void ClickButtonBase::OnMouseScroll(const InputEvent &event)
@@ -173,8 +168,8 @@ namespace Engine
       ButtonBase::OnMouseOver(event);
       BGRect.setFillColor(BGColorHighlighted);
 
-      Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorHighlighted);
-      Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
+      //Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorHighlighted);
+      //Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
 
       BGRect.setOutlineColor(BGOutlineColorHighlighted);
 
@@ -233,7 +228,7 @@ namespace Engine
       WidgetBase::TickUpdate(delta);
     }
 
-    void ClickButtonBase::Render(std::shared_ptr<sf::RenderTexture> &Texture)
+    void ClickButtonBase::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       //for (auto & item : Drawables)
       //  item->Render(Texture); 

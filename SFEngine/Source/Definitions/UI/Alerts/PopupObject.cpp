@@ -43,7 +43,7 @@ namespace Engine
           throw;
         }
 
-        Popup->BGRect.setFillColor(sf::Color(96, 96, 96, 100));
+        //Popup->BGRect.setFillColor(sf::Color(96, 96, 96, 100));
         Popup->BGRect.setPosition({ 100, 100 });
         Popup->BGRect.setSize({ 900, 700 });
 
@@ -145,7 +145,7 @@ namespace Engine
     {
     }
 
-    void PopupObject::Render(std::shared_ptr<sf::RenderTexture>& Texture)
+    void PopupObject::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       Texture->draw(BGRect);
       Texture->draw(SampleText);

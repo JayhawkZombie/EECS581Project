@@ -163,7 +163,7 @@ namespace Engine
       Drawable();
       virtual ~Drawable();
       virtual void TickUpdate(const double &Delta) = 0;
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Target);
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Target);
       virtual void Resize(const sf::Vector2f &Size) = 0;
 
       DrawableQuad DrawBounds;
@@ -181,7 +181,7 @@ namespace Engine
       virtual ~ColoredQuad();
 
       virtual void TickUpdate(const double &delta) override;
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Target) override;
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Target) override;
       virtual void Resize(const sf::Vector2f &Size) override;
     };
 
@@ -199,7 +199,7 @@ namespace Engine
       
         virtual ~DrawableText();    
         virtual void TickUpdate(const double &Delta) override;    
-        virtual void Render(std::shared_ptr<sf::RenderTexture> &Target) override;
+        virtual void Render(std::shared_ptr<sf::RenderTexture> Target) override;
         virtual void Resize(const sf::Vector2f &Size) override;
 
       
@@ -219,7 +219,7 @@ namespace Engine
       
       virtual ~TexturedQuad();
       virtual void TickUpdate(const double &Delta) override;
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Target) override;
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Target) override;
       virtual void Resize(const sf::Vector2f &Size) override;
 
       std::shared_ptr<sf::Texture> DrawTexture;

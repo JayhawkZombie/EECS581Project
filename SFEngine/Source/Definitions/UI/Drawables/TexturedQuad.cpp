@@ -24,7 +24,7 @@ namespace Engine
 
     }
 
-    void TexturedQuad::Render(std::shared_ptr<sf::RenderTexture> &Target)
+    void TexturedQuad::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
       //Ensure the view is within the region defined by DrawBounds::GlobalBounds
       ForceWithinRegion(DrawBounds.GlobalBounds, DrawBounds);

@@ -35,7 +35,7 @@ namespace Engine
 
     void ButtonBase::Move(const sf::Vector2f &Delta)
     {
-      
+      WidgetBase::Move(Delta);
     }
 
     void ButtonBase::ConsumeEvent(const InputEvent &event)
@@ -114,7 +114,7 @@ namespace Engine
       WidgetBase::TickUpdate(delta);
     }
 
-    void ButtonBase::Render(std::shared_ptr<sf::RenderTexture> &Texture)
+    void ButtonBase::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       WidgetBase::Render(Texture);
     }

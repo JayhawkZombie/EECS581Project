@@ -22,7 +22,7 @@ namespace Engine
 
     }
 
-    void DrawableText::Render(std::shared_ptr<sf::RenderTexture> &Target)
+    void DrawableText::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
 
     }

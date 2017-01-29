@@ -137,7 +137,7 @@ namespace Engine
     {
     }
 
-    void TextLabel::Render(std::shared_ptr<sf::RenderTexture>& Target)
+    void TextLabel::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
       auto View = MakeView(Bounds);
 

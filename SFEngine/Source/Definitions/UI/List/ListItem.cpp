@@ -148,7 +148,7 @@ namespace Engine
 
     }
 
-    void ListItem::Render(std::shared_ptr<sf::RenderTexture> &Target)
+    void ListItem::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
 
     }

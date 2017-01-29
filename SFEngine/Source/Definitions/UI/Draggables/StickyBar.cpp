@@ -202,7 +202,7 @@ namespace Engine
     {
     }
 
-    void StickyBar::Render(std::shared_ptr<sf::RenderTexture>& Texture)
+    void StickyBar::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       auto View = MakeView(GlobalWidgetBounds.GlobalBounds);
 

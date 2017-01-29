@@ -48,10 +48,13 @@ namespace Engine
 
     UITexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture);
     UITexture->create(1200, 900);
-    UISprite.setTexture(UITexture->getTexture());
+    //UISprite.setTexture(UITexture->getTexture());
 
     TilesTexture = std::make_shared<sf::Texture>();
     TilesTexture->loadFromFile("./SFEngine/Samples/Levels/Graveyard/TileSheetGraveyard.png");
+
+    EditorRenderState.blendMode = sf::BlendAdd;
+    //UISprite.setColor(sf::Color(100, 100, 100));
 
     try
     {
@@ -71,23 +74,23 @@ namespace Engine
       float ScaleX = 400.f / TilesTexture->getSize().x;
       float ScaleY = 400.f / TilesTexture->getSize().y;
 
-      sf::Vector2f TileStart{ 810, 40 };
-      sf::IntRect LastTileDim{ 0,0,0,0 };
-      sf::FloatRect ThisTileDim;
-      for (auto & tile : TileFrames) {
-        ThisTileDim.left = TileStart.x + ScaleX * tile.left;
-        ThisTileDim.top = TileStart.y + ScaleY * tile.top;
-        ThisTileDim.width = tile.width;
-        ThisTileDim.height = tile.height;
+      //sf::Vector2f TileStart{ 810, 40 };
+      //sf::IntRect LastTileDim{ 0,0,0,0 };
+      //sf::FloatRect ThisTileDim;
+      //for (auto & tile : TileFrames) {
+      //  ThisTileDim.left = TileStart.x + ScaleX * tile.left;
+      //  ThisTileDim.top = TileStart.y + ScaleY * tile.top;
+      //  ThisTileDim.width = tile.width;
+      //  ThisTileDim.height = tile.height;
 
-        try {
-          auto _tile = UI::DraggableTile::Create(UILayer, UIHelper, TilesTexture, tile, { ThisTileDim.left, ThisTileDim.top }, { ThisTileDim.width * ScaleX, ThisTileDim.height * ScaleY });
-          DragTiles.push_back(_tile);
-        }
-        catch (ConstructionException &cerr) {
-          std::cerr << "Draggable exception error:\n" << cerr.what() << std::endl;
-        }
-      } //for tile : TileFrames
+      //  try {
+      //    auto _tile = UI::DraggableTile::Create(UILayer, UIHelper, TilesTexture, tile, { ThisTileDim.left, ThisTileDim.top }, { ThisTileDim.width * ScaleX, ThisTileDim.height * ScaleY });
+      //    DragTiles.push_back(_tile);
+      //  }
+      //  catch (ConstructionException &cerr) {
+      //    std::cerr << "Draggable exception error:\n" << cerr.what() << std::endl;
+      //  }
+      //} //for tile : TileFrames
 
 
       //EditOptionsList = UI::ListWidget::Create(UILayer, UIHelper, TextFont, { 0, 0 }, { 1200.f, 80.f },
@@ -155,15 +158,7 @@ namespace Engine
 
       MakeButtonNormal(AllObjectButton, UILayer, UIHelper, sf::Vector2f(10, 10), sf::Vector2f(150, 40), UI::DefaultDarkTheme);
       auto label = UI::TextLabel::Create(AllObjectButton, UIHelper, UI::TextAlignment::CenterJustified, "Add Object", sf::Color(0, 129, 155), MenuFont, 14, { 0,0,1000,1000 }, { 0,0 });
-      AllObjectButton->MousePressCB = [this]() 
-      {
-        //open the object select menu
-        UI::MenuWidget::OpenMenu(this->ObjectSelectMenu);
-      };
-
-      MenuTexture = std::make_shared<sf::Texture>();
-      MenuTexture->loadFromFile("./SFEngine/Samples/Textures/UI/MenuCallAnimation.png");
-
+      MakeMenuButtonOpen(AllObjectButton, ObjectSelectMenu);
 
       TestScreen = UI::MenuScreen::Create();
       TestScreen->SetBGColor(sf::Color(186, 186, 186, 100));
@@ -246,30 +241,9 @@ namespace Engine
     UIHelper->TickUpdate(delta);
   }
 
-  void Editor::Render()
+  void Editor::Render(std::shared_ptr<sf::RenderTexture> Texture)
   {
-    //currentRenderWindow->clear(sf::Color::Black);
-    PreviewTexture.clear(sf::Color::Transparent);
-    UITexture->clear(sf::Color::Black);
-
-
-    UIHelper->Render(UITexture);
-
-
-    //PreviewTexture.display();
-
-    ////draw UI elements
-    //TestButton->Render(UITexture);
-
-    UITexture->display();
-
-    UISprite.setTexture(UITexture->getTexture());
-
-    currentRenderWindow->draw(EditorModeText);
-
-    currentRenderWindow->draw(UISprite);
-
-    currentRenderWindow->display();
+    UIHelper->Render(Texture);
   }
 
 

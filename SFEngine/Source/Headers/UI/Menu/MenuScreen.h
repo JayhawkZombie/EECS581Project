@@ -51,7 +51,7 @@ namespace Engine
       virtual void OnDragEnd(const InputEvent &IEvent) override;
       virtual void OnDragContinue(const InputEvent &IEvent) override;
       virtual void TickUpdate(const double &delta) override;
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
       virtual void Resize(const sf::Vector2f &Size) override;
 

@@ -83,21 +83,6 @@ vec4 invert(vec4 color)
 
 void main()
 {
-  vec4 pixel = brightnessContrast();
-  pixel.rgb = pow(pixel.rgb, vec3(1.0 / GAMMA));
 
-  float I = GLOBAL_LIGHT_INTENSITY / 100;
-  pixel = pixel * I + GLOBAL_LIGHT * I;
-
-  if (POST_PROCESS_EFFECT == 1)
-    pixel = KernelMethod(pixel);
-  else if (POST_PROCESS_EFFECT == 2)
-    pixel = KernelMethod(pixel);
-  else if (POST_PROCESS_EFFECT == 3)
-    pixel = invert(pixel);
-
-  pixel = texture2D(SCENE, gl_TexCoord[0].st);
-  pixel *= gl_Color;
-
-  gl_FragColor = pixel;
+  gl_FragColor = gl_Color;
 }

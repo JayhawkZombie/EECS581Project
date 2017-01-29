@@ -46,5 +46,5 @@ void main()
 {
   color = KernelMethod(color);
 
-  gl_FragColor = color;
+  gl_FragColor = gl_Color;
 }

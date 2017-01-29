@@ -100,7 +100,7 @@ namespace Engine
     ~Editor();
 
     void TickUpdate(const double &delta);
-    void Render();
+    void Render(std::shared_ptr<sf::RenderTexture> Texture);
 
     void HandleMousePressed(const InputEvent &Event);
     void HandleMouseReleased(const InputEvent &Event);
@@ -111,6 +111,9 @@ namespace Engine
     void HandleTextEntered(const InputEvent &Event);
 
   protected:
+    sf::RenderStates EditorRenderState;
+    sf::RectangleShape EditorRect;
+
     //Used for sizing/spacing for different windows sizes
     float TopButtonHeight;
     float TopButtonWidth;

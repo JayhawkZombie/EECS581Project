@@ -38,7 +38,7 @@ namespace Engine
       virtual void OnDragEnd(const InputEvent &IEvent);
 
       virtual void TickUpdate(const double &delta);
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Target);
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Target);
 
       virtual void Move(const sf::Vector2f &Delta) override;
 
@@ -78,7 +78,7 @@ namespace Engine
       virtual void DeleteItem(const std::uint32_t ItemID);
 
       virtual void TickUpdate(const double &delta);
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Target);
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Target);
 
       virtual void Move(const sf::Vector2f &Delta) override;
 

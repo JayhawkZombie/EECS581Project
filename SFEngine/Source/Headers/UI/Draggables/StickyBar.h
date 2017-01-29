@@ -32,7 +32,7 @@ namespace Engine
       virtual void OnDragEnd(const InputEvent &IEvent) override;
       virtual void OnDragContinue(const InputEvent &IEvent) override;
       virtual void TickUpdate(const double &delta) override;
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Texture) override;
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
 
       std::function<void(const sf::Vector2f &)> OnScroll = [](const sf::Vector2f &delta) {};

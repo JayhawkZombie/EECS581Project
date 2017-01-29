@@ -55,7 +55,7 @@ namespace Engine
       virtual void CreateHelper() override;
 
       virtual void TickUpdate(const double &delta) override;
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Target) override;
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Target) override;
 
       virtual void AlignText();
 
