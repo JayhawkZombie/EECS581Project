@@ -12,7 +12,8 @@ namespace Engine
     {
       LeftJustified = 0,
       RightJustified,
-      CenterJustified
+      CenterJustified,
+      TopCenterJustified
     };
 
     class TextLabel : public WidgetBase

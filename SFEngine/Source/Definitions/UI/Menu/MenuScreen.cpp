@@ -51,7 +51,6 @@ namespace Engine
     }
     void MenuScreen::MakeActive()
     {
-      DEBUG_ONLY std::cerr << "Screen : Made Active : Items size: " << Items.size() << std::endl;
       for (auto & item : Items) {
         auto ptr = item.lock();
         if (ptr)

@@ -1,11 +1,7 @@
 #include "../../Headers/Engine/Engine.h"
-
 #include "../../Headers/Level/LevelLoader.h"
-
 #include <SFML/OpenGL.hpp>
-
 #include "../../Headers/UI/TextInput.h"
-
 #include "../../Headers/Lights/LightingSystem.h"
 
 #ifdef WITH_EDITOR
@@ -47,8 +43,6 @@ namespace Engine
     ResourcePoolSizes[3].setCharacterSize(12);
     ResourcePoolSizes[3].setPosition(sf::Vector2f(10, 90));
 
-
-
     txt.setCharacterSize(20);
     txt.setFillColor(sf::Color::White); //setColor was deprecated, but setFillColor fails
 
@@ -65,7 +59,7 @@ namespace Engine
 
     (*ScriptEngine).add_global(chaiscript::var(&TestPlayer), "MainPlayer");
 
-
+    currentRenderWindow->setVerticalSyncEnabled(false);
     //if we are launching with the editor, enable the editor
     //otherwise, create a main level and update the level instead of the editor
 #ifdef WITH_EDITOR
@@ -97,11 +91,6 @@ namespace Engine
 #endif
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
-
-        //currentRenderWindow->clear(sf::Color::Black);
-        //Render::ClearRender();
-
-        //glFlush();
 
         if (EngineUIController.IsShown())
           EngineUIController.Render();

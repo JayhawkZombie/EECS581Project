@@ -12,12 +12,12 @@ namespace Engine
       : ButtonBase()
     {
       //enable dragging for this item
-      CanBeDragged = true;
+      CanBeDragged = false;
     }
 
     std::shared_ptr<ClickButtonBase> ClickButtonBase::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size)
     {
-      DEBUG_ONLY std::cerr << "ClickButtonBase::Create" << std::endl;
+      //DEBUG_ONLY std::cerr << "ClickButtonBase::Create" << std::endl;
 
       if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
@@ -64,7 +64,6 @@ namespace Engine
     void ClickButtonBase::Move(const sf::Vector2f &Delta)
     {
       WidgetBase::Move(Delta);
-      BGRect.move(Delta);
 
       for (auto & dr : Drawables) {
         dr->DrawBounds.MoveRegion(Delta);
@@ -84,8 +83,26 @@ namespace Engine
       BGRect.setOutlineThickness(-2);
     }
 
+    void ClickButtonBase::SetBGColorNormal(const sf::Color & Color)
+    {
+      BGColorNormal = Color;
+    }
+
+    void ClickButtonBase::SetBGColorHighlighted(const sf::Color & Color)
+    {
+      BGColorHighlighted = Color;
+    }
+
+    void ClickButtonBase::SetBGColorPressed(const sf::Color & Color)
+    {
+      BGColorPressed = Color;
+    }
+
     void ClickButtonBase::SetBGColor(const sf::Color & Color)
     {
+      BGColorNormal = Color;
+      BGColor = Color;
+      BGRect.setFillColor(BGColorNormal);
       Drawables[0]->DrawBounds.DrawQuad.setFillColor(Color);
     }
 
@@ -125,6 +142,8 @@ namespace Engine
     void ClickButtonBase::OnMousePress(const InputEvent &event)
     {
       ButtonBase::OnMousePress(event);
+
+      BGRect.setFillColor(BGColorPressed);
       
       DEBUG_ONLY std::cerr << "ClickButtonBase::OnMousePress" << std::endl;
 
@@ -135,6 +154,8 @@ namespace Engine
     void ClickButtonBase::OnMouseRelease(const InputEvent &event)
     {
       ButtonBase::OnMouseRelease(event);
+
+      BGRect.setFillColor(BGColorNormal);
 
       if (MouseReleaseCB)
         MouseReleaseCB();
@@ -150,6 +171,7 @@ namespace Engine
     void ClickButtonBase::OnMouseOver(const InputEvent &event)
     {
       ButtonBase::OnMouseOver(event);
+      BGRect.setFillColor(BGColorHighlighted);
 
       Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorHighlighted);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
@@ -162,6 +184,8 @@ namespace Engine
 
     void ClickButtonBase::OnMouseLeave(const InputEvent &event)
     {
+      BGRect.setFillColor(BGColorNormal);
+
       ButtonBase::OnMouseLeave(event);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorNormal);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
@@ -211,10 +235,10 @@ namespace Engine
 
     void ClickButtonBase::Render(std::shared_ptr<sf::RenderTexture> &Texture)
     {
-      for (auto & item : Drawables)
-        item->Render(Texture); 
+      //for (auto & item : Drawables)
+      //  item->Render(Texture); 
       Texture->draw(BGRect);
-      Texture->draw(ButtonText);
+      //Texture->draw(ButtonText);
       for (auto & label : TextLabels)
         label->Render(Texture);
     }

@@ -92,6 +92,7 @@
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -240,9 +241,11 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\RenderTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\TextInput.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Text\TextLabel.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Theme.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIAttributes.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIController.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\UICreationMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIUtils.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Widget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\WidgetCollisionHelpers.h" />
@@ -300,6 +303,19 @@
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json_wrap.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\utility.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\arcSeg.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\ball.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\ball_go.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineBumper.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineSeg.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegElevator.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegFlip.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegRotate.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegSwing.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\mvHit.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\regPolygon.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\segHit.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\vec2d.h" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml_iterators.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml_print.hpp" />
@@ -334,6 +350,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\Editor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorEventHandlers.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorObjectSpawning.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorSaveLoad.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorTileEditing.cpp" />
@@ -411,6 +428,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\RenderTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\TextInput.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Text\TextLabel.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Theme.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIController.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIControllerHandlers.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIUtils.cpp" />
@@ -428,6 +446,19 @@
     <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Various.cpp" />
     <ClCompile Include="SFEngine\Source\main.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\arcSeg.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\ball.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\ball_go.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineBumper.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineSeg.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegElevator.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegFlip.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegRotate.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegSwing.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\mvHit.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\regPolygon.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\segHit.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\vec2d.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\UnitTesting\Catch.hpp" />
   </ItemGroup>
   <ItemGroup>

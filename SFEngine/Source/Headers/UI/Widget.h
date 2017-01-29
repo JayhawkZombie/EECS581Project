@@ -169,6 +169,11 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       sf::Color BGOutlineColorHighlighted;
       sf::Color BGOutlineColorNormal;
 
+      sf::IntRect NormalTextureRect;
+      sf::IntRect HighlightedTextureRect;
+      sf::RenderStates State;
+      std::shared_ptr<sf::Texture> BGTexture;
+
       /**
       * Contain a set of drawable to be rendered to their respective canvases
       */
