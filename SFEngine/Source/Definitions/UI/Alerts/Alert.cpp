@@ -169,12 +169,12 @@ namespace Engine
     {
     }
 
-    void Alert::Render(std::shared_ptr<sf::RenderTexture>& Texture)
+    void Alert::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       Texture->draw(BGRect);
 
       Texture->draw(*AlertMessage);
-      //AlertText->Render(Texture);
+      AlertText->Render(Texture);
 
       AcknowledgeButton->Render(Texture);
     }

@@ -283,7 +283,7 @@ namespace Engine
       }
     }
 
-    void UILayer::Render(std::shared_ptr<sf::RenderTexture> &Texture)
+    void UILayer::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       for (auto & item : Items) {
         item->Render(Texture);
@@ -393,7 +393,7 @@ namespace Engine
       }
     }
 
-    void WidgetHelper::Render(std::shared_ptr<sf::RenderTexture> &Target)
+    void WidgetHelper::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
       //Render the widgets from back to front
       //  Ugh, why isn't there a reverse range-based for loop?

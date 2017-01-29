@@ -2,6 +2,7 @@
 
 #include "../../../Headers/UI/WidgetHelper.h"
 #include "../../../Headers/UI/Menu/MenuWidget.h"
+#include "../../../Headers/UI/Theme.h"
 
 namespace Engine
 {
@@ -15,6 +16,8 @@ namespace Engine
       Screen->ScreenHelper = WidgetHelper::Create();
       
       Screen->ScreenLayer = UILayer::Create(Screen->ScreenHelper);
+      Screen->SetBGColor(DefaultDarkTheme.MenuBackgroundColorNormal);
+      Screen->SetBGOutlineColor(DefaultDarkTheme.MenuOutlineColorNormal);
       
       try
       {
@@ -115,7 +118,7 @@ namespace Engine
     void MenuScreen::TickUpdate(const double & delta)
     {
     }
-    void MenuScreen::Render(std::shared_ptr<sf::RenderTexture> &Texture)
+    void MenuScreen::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       Texture->draw(BGRect);
       ScreenLayer->Render(Texture);

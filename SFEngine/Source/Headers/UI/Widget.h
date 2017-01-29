@@ -65,6 +65,9 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       virtual void SetBGOutlineThickness(float thickness);
       virtual void SetBGPosition(const sf::Vector2f &Position);
       virtual void SetBGSize(const sf::Vector2f &Size);
+      virtual void SetBGColorNormal(const sf::Color &Color);
+      virtual void SetBGColorHighlighted(const sf::Color &Color);
+      virtual void SetBGColorPressed(const sf::Color &Color);
 
       virtual void ResetAppearance();
 
@@ -81,7 +84,7 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       virtual void CreateHelper();
 
       virtual void TickUpdate(const double &delta);
-      virtual void Render(std::shared_ptr<sf::RenderTexture> &Target);
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Target);
 
       void SetUpWidget(); //this must always be called immediately after construction
       void SetUpLayerless(); //Special widgets that do not need a layer above them, like MenuScreen objects
@@ -168,6 +171,9 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       sf::Color BGColor;
       sf::Color BGOutlineColorHighlighted;
       sf::Color BGOutlineColorNormal;
+      sf::Color BGColorNormal;
+      sf::Color BGColorHighlighted;
+      sf::Color BGColorPressed;
 
       sf::IntRect NormalTextureRect;
       sf::IntRect HighlightedTextureRect;

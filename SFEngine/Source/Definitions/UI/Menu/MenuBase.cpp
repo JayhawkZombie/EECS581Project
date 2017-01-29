@@ -103,7 +103,7 @@ namespace Engine
 
     }
 
-    void MenuWidgetBase::Render(std::shared_ptr<sf::RenderTexture> &Texture)
+    void MenuWidgetBase::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
 
     }

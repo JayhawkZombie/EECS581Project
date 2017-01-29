@@ -33,6 +33,7 @@ namespace Engine
         Drag->GlobalWidgetBounds.ForceRegion({ Position, Size });
 
         Drag->RenderState.texture = Texture.get();
+        Drag->RenderState.blendMode = sf::BlendNone;
 
         float FrameLeft = Position.x;
         float FrameTop = Position.y;
@@ -153,7 +154,6 @@ namespace Engine
       DraggableBase::OnMouseOver(IEvent);
 
       Outline.setOutlineColor(sf::Color::Magenta);
-      DEBUG_ONLY std::cerr << "Widget ID : " << WidgetID << " MouseOver" << std::endl;
     }
 
     void DraggableTile::OnMouseLeave(const InputEvent &IEvent) 
@@ -161,7 +161,6 @@ namespace Engine
       DraggableBase::OnMouseLeave(IEvent);
 
       Outline.setOutlineColor(sf::Color::Yellow);
-      DEBUG_ONLY std::cerr << "Widget ID : " << WidgetID << " MouseLeave" << std::endl;
     }
 
     void DraggableTile::OnMouseMove(const InputEvent &IEvent) 
@@ -204,9 +203,8 @@ namespace Engine
 
     }
 
-    void DraggableTile::Render(std::shared_ptr<sf::RenderTexture> &Texture) 
+    void DraggableTile::Render(std::shared_ptr<sf::RenderTexture> Texture) 
     {
-      DraggableBase::Render(Texture);
       Texture->draw(Outline);
       Texture->draw(Verts, RenderState);
     }

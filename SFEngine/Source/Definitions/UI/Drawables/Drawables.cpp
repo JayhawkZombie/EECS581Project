@@ -54,7 +54,7 @@ namespace Engine
     {}
 
     
-    void Drawable::Render(std::shared_ptr<sf::RenderTexture> &Target)
+    void Drawable::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
       EDITOR_ONLY_CODE_BEGIN
         Target->draw(DrawBounds.TLCorner);

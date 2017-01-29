@@ -44,6 +44,9 @@ BUTTON->MouseReleaseCB = [this](){this->SCREEN->CloseScreen();};
 #define MakeMenuButtonClose(BUTTON, MENU)\
 BUTTON->MouseReleaseCB = [this](){this->MENU->CloseMenu();};
 
+#define MakeMenuButtonOpen(BUTTON, MENU)\
+BUTTON->MouseReleaseCB = [this](){UI::MenuWidget::OpenMenu(this->MENU);};
+
 #define MakeMenuScreenTransition(BUTTON, MENU, TOSCREEN)\
 BUTTON->MouseReleaseCB = [this](){this->MENU->ShowScreen(this->TOSCREEN);};
 

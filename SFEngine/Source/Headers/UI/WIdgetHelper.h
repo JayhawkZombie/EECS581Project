@@ -61,7 +61,7 @@ namespace Engine
       static std::shared_ptr<UILayer> Create(std::shared_ptr<WidgetHelper> ThisHelper);
       
       void TickUpdate(const double &delta);
-      void Render(std::shared_ptr<sf::RenderTexture> &Texture);
+      void Render(std::shared_ptr<sf::RenderTexture> Texture);
 
       bool CanAcceptWidget() const;
       bool HandleEvent(const InputEvent &IEvent);
@@ -117,7 +117,7 @@ namespace Engine
       void AddUILayer(std::shared_ptr<UILayer> Layer);
       void RegisterWidget(std::shared_ptr<WidgetBase> Widget, std::size_t layer = 0);
       void RemoveWidget(std::shared_ptr<WidgetBase> Widget);
-      void Render(std::shared_ptr<sf::RenderTexture> &Target);
+      void Render(std::shared_ptr<sf::RenderTexture> Target);
       void TickUpdate(const double &delta);
 
       //since widgets can ALSO contain a WidgetHelper, we want to be able to pass events from the widget to its helper

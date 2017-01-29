@@ -176,7 +176,7 @@ namespace Engine
     {
     }
 
-    void DraggableRect::Render(std::shared_ptr<sf::RenderTexture>& Texture)
+    void DraggableRect::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       Texture->draw(Shape);
     }

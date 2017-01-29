@@ -114,7 +114,7 @@ namespace Engine
       WidgetBase::TickUpdate(delta);
     }
 
-    void DraggableBase::Render(std::shared_ptr<sf::RenderTexture> &Texture)
+    void DraggableBase::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
       WidgetBase::Render(Texture);
     }

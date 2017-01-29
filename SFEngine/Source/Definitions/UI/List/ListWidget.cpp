@@ -348,7 +348,7 @@ namespace Engine
 
     }
 
-    void ListWidget::Render(std::shared_ptr<sf::RenderTexture> &Target)
+    void ListWidget::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
 
       if (!Hidden) {

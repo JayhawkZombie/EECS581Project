@@ -29,16 +29,16 @@ namespace Engine
 
     }
 
-    void ColoredQuad::Render(std::shared_ptr<sf::RenderTexture> &Target)
+    void ColoredQuad::Render(std::shared_ptr<sf::RenderTexture> Target)
     {
       auto View = MakeView(DrawBounds.GlobalBounds);
       auto OldView = Target->getView();
 
-      //Target->setView(MakeView({ 0, 0, 1200, 900 }));
-      //Target->setView(View);
+      Target->setView(MakeView({ 0, 0, 1200, 900 }));
+      Target->setView(View);
       Target->draw(DrawBounds.DrawQuad);
 
-      //Target->setView(OldView);
+      Target->setView(OldView);
     }
 
     void ColoredQuad::Resize(const sf::Vector2f &Size)

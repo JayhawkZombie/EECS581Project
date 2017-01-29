@@ -6,7 +6,7 @@ namespace Engine
   void SFEngine::InitRenderWindow()
   {
 #ifdef WITH_EDITOR
-    Window = new sf::RenderWindow(sf::VideoMode(1200, 900), "SFEngine Editor", sf::Style::Default, ContextSettings);
+    Window = new sf::RenderWindow(sf::VideoMode(1200, 900), "SFEngine Editor", sf::Style::Default);
     WindowSize = { 1200.f, 900.f };
 #else
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
@@ -14,13 +14,13 @@ namespace Engine
 #endif
     MaximumWindowView = Window->getDefaultView();
     Window->setKeyRepeatEnabled(true);
-    Window->setVerticalSyncEnabled(true);
+    Window->setVerticalSyncEnabled(false);
     currentRenderWindow = Window;
     CurrentEngine = this;
 
-    RenderSettings.texture = new sf::RenderTexture;
-    RenderSettings.texture->create(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y);
-    RenderSettings.texture->setActive(true);
+    //RenderSettings.texture = new sf::RenderTexture;
+    //RenderSettings.texture->create(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y);
+    //RenderSettings.texture->setActive(true);
 
     FragmentShader = new sf::Shader;
     VertexShader = new sf::Shader;
@@ -162,6 +162,7 @@ namespace Engine
 
     BindScripts();
 
+    Window->clear();
     EngineLoadingText.setString("Loading...");
     Window->draw(EngineLogoSprite);
     Window->draw(EngineLoadingText);
@@ -182,7 +183,7 @@ namespace Engine
     {
       std::cerr << "Script execution error: " << e.what() << std::endl;
     }
-
+    Window->clear();
     return GameLoop();
   }
 }
