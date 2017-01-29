@@ -37,11 +37,19 @@ namespace Engine
       virtual void Resize(const sf::Vector2f &Size) override;
       virtual void ResetAppearance() override;
 
+      virtual void SetBGColorNormal(const sf::Color &Color);
+      virtual void SetBGColorHighlighted(const sf::Color &Color);
+      virtual void SetBGColorPressed(const sf::Color &Color);
+
       virtual void SetBGColor(const sf::Color &Color);
 
       virtual ~ClickButtonBase() = default;
     protected:
       ClickButtonBase();
+
+      sf::Color BGColorNormal;
+      sf::Color BGColorHighlighted;
+      sf::Color BGColorPressed;
 
     };
 

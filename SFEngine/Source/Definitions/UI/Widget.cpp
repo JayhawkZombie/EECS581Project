@@ -36,7 +36,7 @@ namespace Engine
 
     void WidgetBase::SetUpWidget()
     {
-      DEBUG_ONLY std::cerr << "WidgetBase::SetUpWidget()" << std::endl;
+      //DEBUG_ONLY std::cerr << "WidgetBase::SetUpWidget()" << std::endl;
 
       //Has this widget already been initialized?
       //Just ignore and return. Should we throw an exception instead?
@@ -188,8 +188,8 @@ namespace Engine
     void WidgetBase::TickUpdate(const double &delta) {}
     void WidgetBase::Render(std::shared_ptr<sf::RenderTexture> &Texture) 
     {
-      for (auto & label : TextLabels)
-        label->Render(Texture);
+      /*for (auto & label : TextLabels)
+        label->Render(Texture);*/
     }
 
     void WidgetBase::ConsumeEvent(const InputEvent &IEvent) {}
@@ -229,7 +229,9 @@ namespace Engine
     }
     void WidgetBase::SetBGTexture(std::shared_ptr<sf::Texture> Texture)
     {
-      BGRect.setTexture(Texture.get());
+      BGTexture = Texture;
+      BGRect.setTexture(BGTexture.get());
+      //State.texture = Texture.get();
     }
     void WidgetBase::SetBGTextureRect(const sf::IntRect & Rect)
     {

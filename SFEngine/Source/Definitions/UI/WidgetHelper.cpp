@@ -135,7 +135,7 @@ namespace Engine
       auto ptr = *it;
 
       if (FocusedItem) {
-        DEBUG_ONLY std::cerr << "Widget " << FocusedItem->WidgetID << " lost focus " << std::endl;
+        ////DEBUG_ONLY std::cerr << "Widget " << FocusedItem->WidgetID << " lost focus " << std::endl;
         FocusedItem->OnFocusLost(FEvent);
         FocusedItem->HasFocus = false;
       }
@@ -154,7 +154,7 @@ namespace Engine
       FocusedItem->OnFocusGained(FEvent);
       FocusedItem->HasFocus = true;
 
-      DEBUG_ONLY std::cerr << "Widget " << FocusedItem->WidgetID << " gained focus " << std::endl;
+      ////DEBUG_ONLY std::cerr << "Widget " << FocusedItem->WidgetID << " gained focus " << std::endl;
     }
 
     void UILayer::BeginWidgetDrag(SharedWidgetPointer Widget, const InputEvent &IEvent)
@@ -195,7 +195,7 @@ namespace Engine
         throw;
       }
 
-      DEBUG_ONLY std::cerr << "UILayer created : ID " << ptr->LayerID << std::endl;
+      //DEBUG_ONLY std::cerr << "UILayer created : ID " << ptr->LayerID << std::endl;
 
       return ptr;
     }
@@ -222,7 +222,7 @@ namespace Engine
 
         Items.insert(Items.begin() + 0,  Widget);
 
-        DEBUG_ONLY std::cerr << "Layer " << LayerID << " : Widget Registered " << Widget->WidgetID << std::endl;
+        //DEBUG_ONLY std::cerr << "Layer " << LayerID << " : Widget Registered " << Widget->WidgetID << std::endl;
 
         if (LayerRegisterDebugOutputFunction)
           LayerRegisterDebugOutputFunction(Widget->WidgetID);
@@ -239,7 +239,7 @@ namespace Engine
         throw InvalidObjectException({ ExceptionCause::InvalidObjectUsed },
                                      EXCEPTION_MESSAGE("Widget is NULL"));
 
-      DEBUG_ONLY std::cerr << "UILayer::RegisterLayerlessWidget : ID " << Widget->WidgetID << std::endl;
+      //DEBUG_ONLY std::cerr << "UILayer::RegisterLayerlessWidget : ID " << Widget->WidgetID << std::endl;
       Items.push_back(Widget);
     }
 
@@ -249,7 +249,7 @@ namespace Engine
 
       for (auto it = Items.begin(); it != Items.end(); ++it) {
         if ((*it)->WidgetID == Widget->WidgetID) {
-          DEBUG_ONLY std::cerr << "UILayer::RemoveWidget : Removing ID " << Widget->WidgetID << std::endl;
+          //DEBUG_ONLY std::cerr << "UILayer::RemoveWidget : Removing ID " << Widget->WidgetID << std::endl;
           Items.erase(it);
           return;
         }
@@ -261,7 +261,7 @@ namespace Engine
 
     void UILayer::ClearAllWidgets()
     {
-      DEBUG_ONLY std::cerr << "UILayer : WARNING -> CLEARING ALL WIDGETS FROM LAYER" << std::endl;
+      //DEBUG_ONLY std::cerr << "UILayer : WARNING -> CLEARING ALL WIDGETS FROM LAYER" << std::endl;
       Items.clear();
     }
 
@@ -333,9 +333,9 @@ namespace Engine
       std::shared_ptr<WidgetHelper> Help = std::make_shared<WidgetHelper>();
       Help->Layers.insert(Help->Layers.begin() + 0, UILayer::Create(Help));
 
-      DEBUG_ONLY assert(Help->Layers.front().get());
+      //DEBUG_ONLY assert(Help->Layers.front().get());
 
-      DEBUG_ONLY std::cerr << "WidgetHelper::Create()" << std::endl;
+      //DEBUG_ONLY std::cerr << "WidgetHelper::Create()" << std::endl;
 
       return Help;
     }
@@ -343,14 +343,14 @@ namespace Engine
     void WidgetHelper::AddUILayer()
     {
       Layers.insert(Layers.begin() + 0, UILayer::Create(std::shared_ptr<WidgetHelper>(this)));
-      DEBUG_ONLY assert(Layers.front().get());
+      //DEBUG_ONLY assert(Layers.front().get());
 
-      DEBUG_ONLY std::cerr << "WidgetHelper::AddUILayer() : There are " << Layers.size() << " layers" << std::endl;
+      //DEBUG_ONLY std::cerr << "WidgetHelper::AddUILayer() : There are " << Layers.size() << " layers" << std::endl;
     }
 
     void WidgetHelper::AddUILayer(std::shared_ptr<UILayer> Layer)
     {
-      DEBUG_ONLY assert(Layer);
+      //DEBUG_ONLY assert(Layer);
       for (auto & layer : Layers)
         layer->HasFocus = false;
 
@@ -362,9 +362,9 @@ namespace Engine
         item->SetUpWidget();
       }
 
-      DEBUG_ONLY assert(Layers.front().get());
+      //DEBUG_ONLY assert(Layers.front().get());
 
-      DEBUG_ONLY std::cerr << "WidgetHelper::AddUILayer() : There are " << Layers.size() << " layers" << std::endl;
+      //DEBUG_ONLY std::cerr << "WidgetHelper::AddUILayer() : There are " << Layers.size() << " layers" << std::endl;
     }
 
     void WidgetHelper::DoWidgetSetup(SharedWidgetPointer &Widget)
@@ -408,7 +408,7 @@ namespace Engine
 
     void WidgetHelper::RegisterWidget(std::shared_ptr<WidgetBase> Widget, std::size_t layer)
     {
-      DEBUG_ONLY std::cerr << "WidgetHelper::RegisterWidget" << std::endl;
+      //DEBUG_ONLY std::cerr << "WidgetHelper::RegisterWidget" << std::endl;
 
       //First, the widget should NOT be initialized yet
       if (Widget->WidgetID != 0) {
@@ -422,7 +422,7 @@ namespace Engine
       //OK, we can try to initialize the widget now
       try {
         Widget->SetUpWidget();
-        DEBUG_ONLY std::cerr << "WidgetHelper::RegisterWidget : Layer : " << layer << " : WidgetID : " << Widget->WidgetID << std::endl;
+        //DEBUG_ONLY std::cerr << "WidgetHelper::RegisterWidget : Layer : " << layer << " : WidgetID : " << Widget->WidgetID << std::endl;
       }
       catch (IDException &err) {
         //UGHHHH WHY
@@ -441,7 +441,7 @@ namespace Engine
 
       Layers[layer]->Items.push_back(Widget);
 
-      DEBUG_ONLY std::cerr << "WidgetHelper::RegisterWidget : Layer " << layer << " has " << Layers[layer]->Items.size() << " registered widgets" << std::endl;
+      //DEBUG_ONLY std::cerr << "WidgetHelper::RegisterWidget : Layer " << layer << " has " << Layers[layer]->Items.size() << " registered widgets" << std::endl;
     }
 
     void WidgetHelper::RemoveWidget(std::shared_ptr<WidgetBase> Widget)
@@ -532,11 +532,11 @@ namespace Engine
       }
 
       if (Layers.front()->HandleEvent(IEvent)) {
-        //DEBUG_ONLY std::cerr << "Layer.front() handled event" << std::endl;
+        ////DEBUG_ONLY std::cerr << "Layer.front() handled event" << std::endl;
         return true;
       }
       else {
-        //DEBUG_ONLY std::cerr << "Layer.front() did not handle event" << std::endl;
+        ////DEBUG_ONLY std::cerr << "Layer.front() did not handle event" << std::endl;
         return false;
       }
 
@@ -641,7 +641,7 @@ namespace Engine
       else if (DidMousePress(Widget, IEvent)) {
         Interacted = true;
         //OK, if Focused is NULL then give this element Focus
-        DEBUG_ONLY std::cerr << "WidgetHelper::TestEvent : MousePressed" << std::endl;
+        //DEBUG_ONLY std::cerr << "WidgetHelper::TestEvent : MousePressed" << std::endl;
         if (!Focused) {
           //Focus switched
           PotentiallySwitchFocus(Widget, Focused, FEvent);
@@ -654,10 +654,10 @@ namespace Engine
         Widget->OnMousePress(IEvent);
       }
       else if (DidMouseRelease(Widget, IEvent)) {
-        DEBUG_ONLY std::cerr << "WidgetHelper::TestEvent : MouseReleased" << std::endl;
+        //DEBUG_ONLY std::cerr << "WidgetHelper::TestEvent : MouseReleased" << std::endl;
         Interacted = true;
         if (Widget->IsBeingDragged && IEvent.MouseButtonWasReleased && (IEvent.Button == sf::Mouse::Button::Left)) {
-          DEBUG_ONLY std::cerr << "Widged End Drag" << std::endl;
+          //DEBUG_ONLY std::cerr << "Widged End Drag" << std::endl;
           EndWidgetDrag(Widget, IEvent);
           Widget->OnDragEnd(IEvent);
         }
@@ -692,7 +692,7 @@ namespace Engine
       }
       //Interacted is not null, CurrentFocus is not null, and the IDs match, so no switch should be made
       else {
-        DEBUG_ONLY std::cerr << "WidgetHelper::PotentiallySwitchFocus : No focus change" << std::endl;
+        //DEBUG_ONLY std::cerr << "WidgetHelper::PotentiallySwitchFocus : No focus change" << std::endl;
       }
     }
 

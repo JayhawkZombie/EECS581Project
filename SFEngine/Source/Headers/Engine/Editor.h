@@ -111,6 +111,40 @@ namespace Engine
     void HandleTextEntered(const InputEvent &Event);
 
   protected:
+    //Used for sizing/spacing for different windows sizes
+    float TopButtonHeight;
+    float TopButtonWidth;
+
+    sf::Color ButtonColorNormal = sf::Color(58, 0, 29);
+    sf::Color ButtonColorHighlighted = sf::Color(86, 0, 43);
+    sf::Color ButtonColorPressed = sf::Color(33, 0, 16);
+    sf::Color ButtonOutlineNormal = sf::Color(0, 59, 127);
+    sf::Color ButtonOutlineHighlighted = sf::Color(0, 40, 86);
+    sf::Color ButtonOutlinePressed = sf::Color(0, 84, 181);
+
+    std::shared_ptr<UI::ClickButtonBase> AllObjectButton;
+    std::shared_ptr<UI::MenuWidget> ObjectSelectMenu;
+    //Object types screen
+    std::shared_ptr<UI::MenuScreen> ObjectSelectTypeScreen;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_PhysicsObjectButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_LightObjectButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_EffectObjectButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_CancelButton;
+
+    std::shared_ptr<UI::MenuScreen> ObjectSelectPhysicsObjectScreen;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_BackToSelectTypeButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_BallButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_SquareButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_RectButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_TriangleButton;
+    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_5PolyButton;
+
+    std::shared_ptr<UI::MenuScreen> ObjectSelectLightObjectScreen;
+    std::shared_ptr<UI::ClickButtonBase> LightSelect_CancelButton;
+
+    std::shared_ptr<UI::MenuScreen> ObjectSelectEffectObjectScreen;
+    std::shared_ptr<UI::ClickButtonBase> EffectSelect_CancelButton;
+
     std::shared_ptr<sf::Font> TextFont;
 
     //Data for the tile menu on the left
@@ -137,6 +171,14 @@ namespace Engine
     std::shared_ptr<UI::ClickButtonBase> TestScreenButton4;
     std::shared_ptr<UI::ClickButtonBase> TestScreenButton5;
     std::shared_ptr<UI::ClickButtonBase> TestScreenButton6;
+
+    std::shared_ptr<sf::Texture> MenuTexture;
+
+    //Methods for spawning in new object
+    void SpawnBall(const sf::Vector2f &Position);
+    void SpawnSquare(const sf::Vector2f &Position);
+    void SpawnRect(const sf::Vector2f &Position);
+
     /**
     *  _________________________________________________________________
     *  |                                                               |
