@@ -59,7 +59,7 @@ namespace Engine
     //set up the physics environment
     AssignBoundaries(900, 1200);
     Gravity.x = 0.f;
-    Gravity.y = 0.1f;
+    Gravity.y = 0.09f;
     SetGravity(&Gravity);
 
     //test segments
@@ -275,13 +275,13 @@ namespace Engine
 
   void Editor::TickUpdate(const double &delta)
   {
-    static float update_delta = 6.66667f;
+    static float update_delta = 16.66667f;
     static float update_current = 0.f;
 
     update_current += delta;
 
     if (update_current >= update_delta) {
-      UpdatePhysics(TestObjects, Segments, 1);
+      UpdatePhysics(TestObjects, Segments, 2);
       update_current = 0.f;
     }
 
