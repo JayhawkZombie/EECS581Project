@@ -1,7 +1,7 @@
 #include "lineSegElevator.h"
 #include "mvHit.h"
 
-lineSegElevator::lineSegElevator( std::ifstream& fin ): lineSeg(fin)
+lineSegElevator::lineSegElevator( std::stringstream& fin ): lineSeg(fin)
 {
     fin >> vel.x >> vel.y;
     fin >> sMin >> sMax;
@@ -11,7 +11,7 @@ lineSegElevator::lineSegElevator( std::ifstream& fin ): lineSeg(fin)
     set_dn();
 }
 
-void lineSegElevator::init( std::ifstream& fin )
+void lineSegElevator::init( std::stringstream& fin )
 {
     lineSeg::init( fin );// base overload
     fin >> vel.x >> vel.y;

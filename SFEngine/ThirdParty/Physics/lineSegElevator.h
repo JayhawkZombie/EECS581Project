@@ -1,6 +1,6 @@
 #ifndef LINESEGELEVATOR_H_INCLUDED
 #define LINESEGELEVATOR_H_INCLUDED
-
+#include <sstream>
 #include "lineSeg.h"
 
 class lineSegElevator : public lineSeg
@@ -24,10 +24,10 @@ class lineSegElevator : public lineSeg
 
     // funcs
     lineSegElevator(): lineSeg(){}// don't use a default constructed lineSeg
-    lineSegElevator( std::ifstream& fin );
+    lineSegElevator( std::stringstream& fin );
 
     virtual ~lineSegElevator() {}
-    virtual void init( std::ifstream& fin );
+    virtual void init( std::stringstream& fin );
     virtual void to_file( std::ofstream& fout );
 
     virtual void setPosition( vec2d );// to update iPos

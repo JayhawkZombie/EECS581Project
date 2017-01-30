@@ -24,7 +24,6 @@ namespace Engine
     std::shared_ptr<Engine::GenericActor> Actor(ActorInfo *info, std::ifstream &infile, chaiscript::ChaiScript *engine)
     {
       std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor(info->TexturePath, info->TextureID));
-      Actor->CurrentPhysicsState = info->ActorState;
 
       chaiscript::ModulePtr mptr(new chaiscript::Module);
       chaiscript::utility::add_class<Engine::GenericActor>(*mptr, info->ID,

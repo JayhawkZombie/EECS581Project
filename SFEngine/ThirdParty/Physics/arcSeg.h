@@ -1,6 +1,6 @@
 #ifndef ARCSEG_H_INCLUDED
 #define ARCSEG_H_INCLUDED
-
+#include <sstream>
 #include "segHit.h"
 
 class arcSeg : public segHit
@@ -11,8 +11,8 @@ class arcSeg : public segHit
     sf::Vertex Q[20];// draw arc as a lineStrip
 
     arcSeg(){}// don't use a default constructed lineSeg
-    arcSeg( std::ifstream& fin );
-    virtual void init( std::ifstream& fin );
+    arcSeg( std::stringstream& fin );
+    virtual void init( std::stringstream& fin );
     virtual void to_file( std::ofstream& fout );
     virtual ~arcSeg();
     virtual void setPosition( vec2d Pos );

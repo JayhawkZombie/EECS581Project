@@ -12,11 +12,7 @@ namespace Engine
 
   PhysicsState::PhysicsState(const PhysicsState &state)
   {
-    LevelPosition = state.LevelPosition;
-    ScreenPosition = state.ScreenPosition;
-    Acceleration = state.Acceleration;
-    Velocity = state.Velocity;
-    BoundingBox = state.BoundingBox;
+    
   }
 
   PhysicsState::~PhysicsState()
@@ -26,11 +22,7 @@ namespace Engine
 
   void PhysicsState::RetrieveState(GenericActor *actor)
   {
-    LevelPosition = actor->CurrentPhysicsState.LevelPosition;
-    ScreenPosition = actor->CurrentPhysicsState.ScreenPosition;
-    Acceleration = actor->CurrentPhysicsState.Acceleration;
-    Velocity = actor->CurrentPhysicsState.Velocity;
-    BoundingBox = actor->CurrentPhysicsState.BoundingBox;
+    
   }
 
   sf::Vector2f PhysicsState::GetLevelPosition() const

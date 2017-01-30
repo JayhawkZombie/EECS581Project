@@ -1,6 +1,6 @@
 #ifndef LINEBUMPER_H_INCLUDED
 #define LINEBUMPER_H_INCLUDED
-
+#include <sstream>
 #include "lineSeg.h"
 
 class lineBumper : public lineSeg
@@ -16,11 +16,11 @@ class lineBumper : public lineSeg
     int bumpSteps = 3, bumpIdx = 0;
 
     lineBumper(): lineSeg(){}// don't use a default constructed lineSeg
-    lineBumper( std::ifstream& fin );
+    lineBumper( std::stringstream& fin );
 //    lineSegTranslate( vec2d A, vec2d B, float RotVel, sf::Color clr );
 
     virtual ~lineBumper() {}
-    virtual void init( std::ifstream& fin );
+    virtual void init( std::stringstream& fin );
     virtual void to_file( std::ofstream& fout );
 
     virtual void update();

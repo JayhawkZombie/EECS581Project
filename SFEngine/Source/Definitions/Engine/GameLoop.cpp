@@ -26,7 +26,7 @@ namespace Engine
     std::chrono::high_resolution_clock::time_point RenderEnd;
 
     double TickDelta;
-
+    Window->setVerticalSyncEnabled(true);
     sf::Event evnt;
 
     std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
@@ -62,6 +62,8 @@ namespace Engine
     sf::Sprite EditorSprite;
     EditorSprite.setTexture(EditorTexture->getTexture());
 
+    Window->setVerticalSyncEnabled(true);
+    Window->setFramerateLimit(60);
     while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       try
@@ -91,8 +93,8 @@ namespace Engine
 
         //if we have the editor, render that instead of the main level
         GameMainTexture->clear(sf::Color::Transparent);
-        Window->setActive(true);
-        Window->clear(sf::Color::Black);
+        //Window->setActive(true);
+        Window->clear(sf::Color::White);
         
         EditorTexture->clear(sf::Color::Transparent);
         

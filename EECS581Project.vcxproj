@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{95C45AA1-ACC4-4925-BD8F-51999F4BF7F0}</ProjectGuid>
+    <ProjectGuid>{87F72D0D-0935-4DF9-A2E4-8DF5A21C5F18}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EECS581Project</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -179,6 +179,8 @@
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\Alert.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\PopupObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableRect.h" />
@@ -303,9 +305,12 @@
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json_wrap.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\utility.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\PhysicsEngine.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\arcSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\ball.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\ball_go.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\block.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\decayPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineBumper.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegElevator.h" />
@@ -313,6 +318,7 @@
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegRotate.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegSwing.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\mvHit.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\polyHitFuncs.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\regPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\segHit.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\vec2d.h" />
@@ -378,6 +384,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Layer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelCollision.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEditorMethods.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventHandling.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventSequences.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoader.cpp" />
@@ -395,6 +402,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collision.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\InitialPhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Physics.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\QuadTree.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Render\Render.cpp" />
@@ -449,6 +457,8 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\arcSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\ball.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\ball_go.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\block.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\decayPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineBumper.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegElevator.cpp" />
@@ -456,6 +466,7 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegRotate.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegSwing.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\mvHit.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\polyHitFuncs.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\regPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\segHit.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\vec2d.cpp" />

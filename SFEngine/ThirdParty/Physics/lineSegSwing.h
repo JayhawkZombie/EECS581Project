@@ -1,29 +1,31 @@
 #ifndef LINESEGSWING_H_INCLUDED
 #define LINESEGSWING_H_INCLUDED
 
+#include <sstream>
+
 #include "lineSegRotate.h"
 
-class lineSegSwing: public lineSegRotate
+class lineSegSwing : public lineSegRotate
 {
-    public:
-    // inherited data members
-//    vec2d pos, L, N;
-//    sf::Vertex vtx[2];
-//    float rotVel;
-    float m;// mass
-    vec2d grav;// gravity
+public:
+  // inherited data members
+  //    vec2d pos, L, N;
+  //    sf::Vertex vtx[2];
+  //    float rotVel;
+  float m;// mass
+  vec2d grav;// gravity
 
-    lineSegSwing(): lineSegRotate(){}// don't use a default constructed lineSeg
-    lineSegSwing( std::ifstream& fin );
+  lineSegSwing() : lineSegRotate() {}// don't use a default constructed lineSeg
+  lineSegSwing(std::stringstream& fin);
 
-    virtual ~lineSegSwing() {}
-    virtual void init( std::ifstream& fin );
-    virtual void to_file( std::ofstream& fout );
+  virtual ~lineSegSwing() {}
+  virtual void init(std::stringstream& fin);
+  virtual void to_file(std::ofstream& fout);
 
-    virtual void update();
-    virtual bool hit( mvHit& mh );
+  virtual void update();
+  virtual bool hit(mvHit& mh);
 
-//    virtual bool hit( ball& rB );
+  //    virtual bool hit( ball& rB );
 };
 
 #endif // LINESEGSWING_H_INCLUDED

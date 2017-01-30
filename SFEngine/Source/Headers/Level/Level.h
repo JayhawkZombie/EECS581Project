@@ -8,9 +8,12 @@
 #include "LevelEventSequences.h"
 #include "../Events/EventSequence.h"
 #include "../Actor/Player.h"
+#include "../Actor/Actor.h"
 #include "../Lights/GlobalLightSource.h"
 #include "../Physics/Physics.h"
 #include "LevelLoader.h"
+#include "../Lights/LightingSystem.h"
+#include "../Lights/LightObject.h"
 
 #include "../../../ThirdParty/rapidxml-1.13/rapidxml.hpp"
 #include "../../../ThirdParty/rapidxml-1.13/rapidxml_iterators.hpp"
@@ -38,6 +41,12 @@ namespace Engine
     void OnShutDown() override;
     void SerializeOut(std::ofstream &out) override;
     void SerializeIn(std::ifstream &in) override;
+
+#ifdef WITH_EDITOR
+    void SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f &Position);
+    void SpawnObject(std::shared_ptr<LevelObject> Object, const sf::Vector2f &Position);
+    void SpawnLight(std::shared_ptr<LightObject> Light, const sf::Vector2f &Position);
+#endif
 
     void HandleKeyPress(const sf::Keyboard::Key &key);
     void HandleKeyRelease(const sf::Keyboard::Key &key);

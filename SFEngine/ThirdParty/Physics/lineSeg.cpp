@@ -1,11 +1,11 @@
 #include "lineSeg.h"
 #include "mvHit.h"
 
-lineSeg::lineSeg( std::ifstream& fin ): segHit() { init(fin); }
+lineSeg::lineSeg( std::stringstream& fin ): segHit() { init(fin); }
 
 lineSeg::~lineSeg(){}
 
-void lineSeg::init( std::ifstream& fin )
+void lineSeg::init( std::stringstream& fin )
 {
 //    unsigned int r,g,b;
 //    fin >> pos.x >> pos.y;
@@ -15,7 +15,7 @@ void lineSeg::init( std::ifstream& fin )
 //    fin >> r >> g >> b;
 //    vtx[0].color.r = r; vtx[0].color.g = g; vtx[0].color.b = b;
     vtx[0].color.r = 0; vtx[0].color.g = 255; vtx[0].color.b = 0;
-//    std::cout << pos.x << ' ' << pos.y << ' ' << L.x << ' ' << L.y << ' ' << r << ' ' << g << ' ' << b << '\n';
+//    //std::cout << pos.x << ' ' << pos.y << ' ' << L.x << ' ' << L.y << ' ' << r << ' ' << g << ' ' << b << '\n';
     vtx[1].color = vtx[0].color;
     vtx[0].position.x = pos.x; vtx[0].position.y = pos.y;
     vtx[1].position.x = pos.x + L.x; vtx[1].position.y = pos.y + L.y;

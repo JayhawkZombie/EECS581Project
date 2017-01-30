@@ -38,6 +38,13 @@ for(auto & message : VECTOR_MESSAGES){\
     InvalidContainer, //The container was unable to hold an item that needed it
     InvalidParameter,
     Catastrophic,
+    PhysicsInitInvalidData,
+    PhysicsInitError,
+    PhysicsUnknown,
+    DataFormatError,
+    DataParseError,
+    StreamError,
+    StreamFailure,
     Unknown, //Undocumented reason, but something threw an exception and didn't provide a known documented cause
   };
 
@@ -72,6 +79,48 @@ for(auto & message : VECTOR_MESSAGES){\
     std::string msg_;
     std::vector<ExceptionCause> Causes = { ExceptionCause::Unknown };
     std::vector<std::string> Messages = {};
+  };
+
+  class FormattingError : public EngineRuntimeError
+  {
+  public:
+    explicit FormattingError(const std::vector<ExceptionCause> &causes, const char *message)
+      : EngineRuntimeError(causes, message) {}
+    explicit FormattingError(const std::vector<ExceptionCause> &causes, const std::string &string)
+      : EngineRuntimeError(causes, string) {}
+    virtual ~FormattingError() throw () {}
+
+    virtual const char* what() {
+      return msg_.c_str();
+    }
+  };
+
+  class StreamException : public EngineRuntimeError
+  {
+  public:
+    explicit StreamException(const std::vector<ExceptionCause> &causes, const char *message)
+      : EngineRuntimeError(causes, message) {}
+    explicit StreamException(const std::vector<ExceptionCause> &causes, const std::string &string)
+      : EngineRuntimeError(causes, string) {}
+    virtual ~StreamException() throw () {}
+
+    virtual const char* what() {
+      return msg_.c_str();
+    }
+  };
+
+  class PhysicsInterfaceException : public EngineRuntimeError
+  {
+  public:
+    explicit PhysicsInterfaceException(const std::vector<ExceptionCause> &causes, const char *message)
+      : EngineRuntimeError(causes, message) {}
+    explicit PhysicsInterfaceException(const std::vector<ExceptionCause> &causes, const std::string &string)
+      : EngineRuntimeError(causes, string) {}
+    virtual ~PhysicsInterfaceException() throw () {}
+
+    virtual const char* what() {
+      return msg_.c_str();
+    }
   };
 
 

@@ -8,9 +8,9 @@ bool ball::hit( mvHit& mh ) { return mh.hit( *static_cast<ball*>(this) ); }
 
 ball::ball() {}// default
 
-ball::ball( std::ifstream& fin ) { init(fin); }// from file data
+ball::ball( std::stringstream& fin ) { init(fin); }// from file data
 
-void ball::init( std::ifstream& fin )// from file data
+void ball::init( std::stringstream& fin )// from file data
 {
     fin >> pos.x >> pos.y >> v.x >> v.y >> r;
     fin >> m >> Cr;// new
@@ -20,7 +20,7 @@ void ball::init( std::ifstream& fin )// from file data
     img.setPosition(pos.x, pos.y);
     img.setFillColor( sf::Color(red,g,b) );
     img.setOrigin( r,r );
-//    std::cout << "ball.v = " << v.mag() << '\n';
+//    //std::cout << "ball.v = " << v.mag() << '\n';
 }
 
 void ball::respond( float dV, bool isFric )// assumes velocity components are T(x) and N(y) to obstacle

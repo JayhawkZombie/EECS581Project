@@ -1,34 +1,38 @@
 #include "segHit.h"
 #include "mvHit.h"
 
-segHit::segHit( std::ifstream& fin ) { init(fin); }
-
-void segHit::init( std::ifstream& fin )
-{
- //   fin >> testEnd1 >> testEnd2;
-    fin >> pos.x >> pos.y;
-    testEnd1 = testEnd2 = true;
+segHit::segHit(std::stringstream& fin) {
+  init(fin);
 }
 
-void segHit::to_file( std::ofstream& fout )
+void segHit::init(std::stringstream& fin)
 {
-    fout << ( testEnd1 ? '1' : '0' ) << ' ' << ( testEnd2 ? '1' : '0' ) << '\n';
-    fout << pos.x << ' ' << pos.y;
+  //   fin >> testEnd1 >> testEnd2;
+  fin >> pos.x >> pos.y;
+  testEnd1 = testEnd2 = true;
 }
 
-void segHit::update() { return; }
-
-bool segHit::hit( mvHit& mh )
+void segHit::to_file(std::ofstream& fout)
 {
-    vec2d Pimp, Nh;
-    float dSep;
+  fout << (testEnd1 ? '1' : '0') << ' ' << (testEnd2 ? '1' : '0') << '\n';
+  fout << pos.x << ' ' << pos.y;
+}
 
-    if( is_onMe( mh, Pimp, Nh, dSep ) )
-    {
-        mh.bounce( Cf, Nh, friction_on );// velocity response
-        mh.setPosition( mh.pos + Nh*dSep );// position change response
-        return true;
-    }
+void segHit::update() {
+  return;
+}
 
-    return false;
+bool segHit::hit(mvHit& mh)
+{
+  vec2d Pimp, Nh;
+  float dSep;
+
+  if (is_onMe(mh, Pimp, Nh, dSep))
+  {
+    mh.bounce(Cf, Nh, friction_on);// velocity response
+    mh.setPosition(mh.pos + Nh*dSep);// position change response
+    return true;
+  }
+
+  return false;
 }

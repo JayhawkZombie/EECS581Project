@@ -27,14 +27,7 @@ namespace Engine
 
   void LevelObject::Render()
   {
-    /*
-    if (RenderOutlined) {
-    sf::RectangleShape shape;
-    shape.setFillColor(sf::Color::Transparent);
-    shape.setOutlineThickness(2);
-    shape.setOutlineColor(sf::Color::Black);
-    shape.setPosition(this->CurrentPhysicsState.GetScreenPosition());
-    }*/
+    
   }
 
   void LevelObject::OnShutDown()
@@ -54,27 +47,15 @@ namespace Engine
 
   void LevelObject::SetPosition(const sf::Vector2f &pos)
   {
-    CurrentPhysicsState.SetLevelPosition(pos);
+    
   }
 
-  OverlapAction LevelObject::OnActorOverlap(GenericActor *actor)
+  void LevelObject::UpdateMesh()
   {
-    return OverlapAction::DISALLOW_ACTOR_OVERLAP;
   }
 
-  void LevelObject::CollisionUpdate(const sf::Vector2f &movement)
+  void LevelObject::UpdateSegments()
   {
-
-  }
-
-  bool LevelObject::DoTestCollisions() const
-  {
-    return TestingCollisions;
-  }
-
-  bool LevelObject::DoesAllowActorOverlap() const
-  {
-    return AllowsActorOverlap;
   }
 
 }

@@ -61,10 +61,13 @@ namespace Engine
     sf::Vector2f Size;
     sf::Sprite Sprite;
 
+    float WindowWidth;
+    float WindowHeight;
+
     sf::RectangleShape ActorRectangle;
 
     std::shared_ptr<sf::Texture> SpriteTexture;
-    CollisionBox ActorBox;
+    
     void ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex);
 
     std::map<std::string, Animation> Animations;

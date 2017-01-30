@@ -1,6 +1,6 @@
 #ifndef BALL_H_INCLUDED
 #define BALL_H_INCLUDED
-
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
@@ -15,10 +15,10 @@ class ball : public mvHit
     float r;// radius
     sf::CircleShape img;// image
 
-    ball( std::ifstream& fin );
+    ball( std::stringstream& fin );
     ball();
     virtual ~ball() {}
-    virtual void init( std::ifstream& fin );
+    virtual void init( std::stringstream& fin );
 
     virtual void update();
     virtual void draw( sf::RenderWindow& rRW )const;
