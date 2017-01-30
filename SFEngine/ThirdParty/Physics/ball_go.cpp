@@ -1,11 +1,11 @@
 #include "ball_go.h"
 
-ball_go::ball_go( std::ifstream& fin )// from file data
+ball_go::ball_go( std::stringstream& fin )// from file data
 {
   init(fin);
 }
 
-void ball_go::init( std::ifstream& fin )// from file data
+void ball_go::init( std::stringstream& fin )// from file data
 {
     ball::init(fin);
  //   fin >> maxVel;// >> maxAcc;

@@ -1,6 +1,6 @@
 #ifndef LINESEGFLIP_H_INCLUDED
 #define LINESEGFLIP_H_INCLUDED
-
+#include <sstream>
 #include "lineSegRotate.h"
 
 class lineSegFlip : public lineSegRotate
@@ -12,10 +12,10 @@ class lineSegFlip : public lineSegRotate
     bool isUp;
 
     lineSegFlip(): lineSegRotate() {}
-    lineSegFlip( std::ifstream& fin );
+    lineSegFlip( std::stringstream& fin );
 
     virtual ~lineSegFlip() {}
-    virtual void init( std::ifstream& fin );
+    virtual void init( std::stringstream& fin );
 
     virtual void update();
     virtual void to_file( std::ofstream& fout );

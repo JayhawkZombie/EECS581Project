@@ -59,5 +59,9 @@ namespace Engine
 
   }
 
+  void Editor::HandleWindowResized(const sf::Vector2u & NewWindowSize)
+  {
+  }
+
 
 }

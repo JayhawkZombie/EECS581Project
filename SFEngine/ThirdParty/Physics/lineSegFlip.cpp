@@ -1,6 +1,6 @@
 #include "lineSegFlip.h"
 
-lineSegFlip::lineSegFlip( std::ifstream& fin ): lineSegRotate(fin)
+lineSegFlip::lineSegFlip( std::stringstream& fin ): lineSegRotate(fin)
 {
     float angle = 0.0f;
     fin >> angle;
@@ -12,7 +12,7 @@ lineSegFlip::lineSegFlip( std::ifstream& fin ): lineSegRotate(fin)
     isUp = false;
 }
 
-void lineSegFlip::init( std::ifstream& fin )
+void lineSegFlip::init( std::stringstream& fin )
 {
     lineSegRotate::init(fin);
     float angle = 0.0f;

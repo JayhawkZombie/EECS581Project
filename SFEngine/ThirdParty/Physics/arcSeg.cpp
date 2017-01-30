@@ -1,9 +1,9 @@
 #include "arcSeg.h"
 #include "mvHit.h"
 
-arcSeg::arcSeg( std::ifstream& fin ) { init(fin); }
+arcSeg::arcSeg( std::stringstream& fin ) { init(fin); }
 
-void arcSeg::init( std::ifstream& fin )
+void arcSeg::init( std::stringstream& fin )
 {
  //   fin >> testEnd1 >> testEnd2;
     fin >> s[0].x >> s[0].y;
@@ -19,13 +19,13 @@ void arcSeg::init( std::ifstream& fin )
     arc *= 0.5f;
     float hfArcMag = arc.mag();
     pos = s[0] + arc + arc.get_LH_norm()*sqrtf( R*R - hfArcMag*hfArcMag );
-    std::cout << "pos at: " << pos.x << ", " << pos.y << '\n';
+    ////std::cout << "pos at: " << pos.x << ", " << pos.y << '\n';
  //   vec2d R0 = s[0] - pos;
     s[0] -= pos;
     s[1] -= pos;
  //   float angle = acosf( R0.dot(s[1]-pos)/(R*R) );
     float angle = acosf( s[0].dot(s[1])/(R*R) );
-    std::cout << "angle = " << angle << '\n';
+    //std::cout << "angle = " << angle << '\n';
     float dA = angle/19.0f;
     for( unsigned int i=0; i<20 ; ++i )
     {

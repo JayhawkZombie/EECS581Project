@@ -1,18 +1,18 @@
 #include "lineBumper.h"
 #include "mvHit.h"
 
-lineBumper::lineBumper( std::ifstream& fin )
+lineBumper::lineBumper( std::stringstream& fin )
 {
     init(fin);
 }
 
-void lineBumper::init( std::ifstream& fin )
+void lineBumper::init( std::stringstream& fin )
 {
     lineSeg::init( fin );// base overload
     float magV;
     fin >> magV >> bumpSteps;
     vel = N*magV;
-    std::cerr << "lineBumper: vel.x = " << vel.x << "  vel.y = " << vel.y << '\n';
+    //std::cerr << "lineBumper: vel.x = " << vel.x << "  vel.y = " << vel.y << '\n';
 }
 
 void lineBumper::to_file( std::ofstream& fout )

@@ -56,6 +56,22 @@ namespace Engine
     EditorRenderState.blendMode = sf::BlendAdd;
     //UISprite.setColor(sf::Color(100, 100, 100));
 
+    //set up the physics environment
+    AssignBoundaries(900, 1200);
+    Gravity.x = 0.f;
+    Gravity.y = 0.09f;
+    SetGravity(&Gravity);
+
+    //test segments
+    testsegment = BuildSegmentMesh('L', { 400, 900 }, { 500, 1100 });
+    Segments.push_back(testsegment);
+
+    auto poly = BuildPolygonMesh(4, 25.f, 0.f, { 400, 0 }, { 0,0 }, 1.f, 0.5f, sf::Color::Red);
+    TestObjects.push_back(poly);
+
+    //testball = BuildBallMesh('G', { 500, 0 }, { 0,0 }, 2.5, 3.f, 0.8f, sf::Color(250, 0, 255));
+    //TestObjects.push_back(testball);
+
     try
     {
       UIHelper = UI::WidgetHelper::Create();
@@ -159,6 +175,28 @@ namespace Engine
       MakeButtonNormal(AllObjectButton, UILayer, UIHelper, sf::Vector2f(10, 10), sf::Vector2f(150, 40), UI::DefaultDarkTheme);
       auto label = UI::TextLabel::Create(AllObjectButton, UIHelper, UI::TextAlignment::CenterJustified, "Add Object", sf::Color(0, 129, 155), MenuFont, 14, { 0,0,1000,1000 }, { 0,0 });
       MakeMenuButtonOpen(AllObjectButton, ObjectSelectMenu);
+      
+      ////Bind spawning behavior
+      ObjectSelect_BallButton->MouseReleaseCB =
+        [this]()
+      {
+        //this->ObjectSelectMenu->CloseMenu();
+        this->SpawnBall(sf::Vector2f(400, 50));
+      };
+
+      ObjectSelect_SquareButton->MouseReleaseCB =
+        [this]()
+      {
+        //this->ObjectSelectMenu->CloseMenu();
+        this->SpawnSquare(sf::Vector2f(300, 50));
+      };
+
+      ObjectSelect_TriangleButton->MouseReleaseCB = 
+        [this]()
+      {
+        //this->ObjectSelectMenu->CloseMenu();
+        this->SpawnTriangle(sf::Vector2f(150, 50));
+      };
 
       TestScreen = UI::MenuScreen::Create();
       TestScreen->SetBGColor(sf::Color(186, 186, 186, 100));
@@ -237,6 +275,15 @@ namespace Engine
 
   void Editor::TickUpdate(const double &delta)
   {
+    static float update_delta = 16.66667f;
+    static float update_current = 0.f;
+
+    update_current += delta;
+
+    if (update_current >= update_delta) {
+      UpdatePhysics(TestObjects, Segments, 2);
+      update_current = 0.f;
+    }
 
     UIHelper->TickUpdate(delta);
   }
@@ -244,6 +291,20 @@ namespace Engine
   void Editor::Render(std::shared_ptr<sf::RenderTexture> Texture)
   {
     UIHelper->Render(Texture);
+    
+    sf::VertexArray Varr = sf::VertexArray(sf::Lines, 2);
+
+    for (auto & seg : Segments) {
+      seg->draw(*currentRenderWindow);
+    }
+
+    sf::CircleShape circle;
+
+    for (auto & obj : TestObjects) {
+      obj->draw(*currentRenderWindow);
+    }
+
+
   }
 
 

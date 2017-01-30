@@ -1,12 +1,12 @@
 #include "lineSegRotate.h"
 #include "mvHit.h"
 
-lineSegRotate::lineSegRotate( std::ifstream& fin ): lineSeg(fin)
+lineSegRotate::lineSegRotate( std::stringstream& fin ): lineSeg(fin)
 {
     fin >> rotVel;
 }
 
-void lineSegRotate::init( std::ifstream& fin )
+void lineSegRotate::init( std::stringstream& fin )
 {
     lineSeg::init( fin );// base overload
     fin >> rotVel;

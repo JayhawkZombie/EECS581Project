@@ -1,6 +1,6 @@
 #ifndef LINESEG_H_INCLUDED
 #define LINESEG_H_INCLUDED
-
+#include <sstream>
 #include "segHit.h"
 
 class lineSeg: public segHit
@@ -11,9 +11,9 @@ class lineSeg: public segHit
 
     // funcs
     lineSeg(){}// don't use a default constructed lineSeg
-    lineSeg( std::ifstream& fin );
+    lineSeg( std::stringstream& fin );
     virtual ~lineSeg();
-    virtual void init( std::ifstream& fin );
+    virtual void init( std::stringstream& fin );
     virtual void to_file( std::ofstream& fout );
     virtual void draw( sf::RenderWindow& rRW )const { rRW.draw(vtx, 2, sf::Lines); }
     virtual void setPosition( vec2d );

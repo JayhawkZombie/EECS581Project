@@ -8,6 +8,10 @@ namespace Engine
 
     WindowSize = sf::Vector2f(wsize.x, wsize.y);
 
+#ifdef WITH_EDITOR
+    GameEditor.HandleWindowResized(wsize);
+#endif
+
     for (auto & lvl : Levels) {
       lvl->HandleWindowResized();
     }

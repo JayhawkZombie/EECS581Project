@@ -21,6 +21,8 @@
 #include "../UI/Menu/MenuWidget.h"
 #include "../UI/Menu/MenuScreen.h"
 
+#include "../../../ThirdParty/PhysicsEngine.h"
+
 namespace Engine
 {
 
@@ -110,6 +112,8 @@ namespace Engine
     void HandleKeyReleased(const InputEvent &Event);
     void HandleTextEntered(const InputEvent &Event);
 
+    void HandleWindowResized(const sf::Vector2u &NewWindowSize);
+
   protected:
     sf::RenderStates EditorRenderState;
     sf::RectangleShape EditorRect;
@@ -181,7 +185,14 @@ namespace Engine
     void SpawnBall(const sf::Vector2f &Position);
     void SpawnSquare(const sf::Vector2f &Position);
     void SpawnRect(const sf::Vector2f &Position);
+    void SpawnTriangle(const sf::Vector2f &Position);
 
+    vec2d Gravity;
+    std::vector<BaseMeshPtr> TestObjects;
+    std::vector<SegmentPtr> Segments;
+
+    BaseMeshPtr testball;
+    SegmentPtr testsegment;
     /**
     *  _________________________________________________________________
     *  |                                                               |
