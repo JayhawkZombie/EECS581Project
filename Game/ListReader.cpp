@@ -54,6 +54,7 @@ MonsterType** ListReader::readMonsters(std::string fileName)
   //Temporary types that will pass in data
   std::string line;
   int intVal;
+  std::getline(file, line);
 
   //Main loop for passing in monster data
   //Assumes completed monster descriptions. (might break if they aren't?)
@@ -64,7 +65,7 @@ MonsterType** ListReader::readMonsters(std::string fileName)
     newMonster = new MonsterType;
 
     //Reading in data given how it looks like you're formatting the text files
-    std::getline(file,line);
+ //   std::getline(file,line);
     std::getline(file,line);
     std::getline(file,line); //Gets the monster name here
     newMonster->setName(line); //Sets the monster name
