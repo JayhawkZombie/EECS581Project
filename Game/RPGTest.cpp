@@ -220,6 +220,32 @@ void RPGTest::runTests(bool quiet)
 	  numPassed++;
 	  numTotal++;
   }
+  else
+  {
+	  numTotal++;
+  }
+  /*
+  if (testGameMain1(quiet))
+  {
+	  numPassed++;
+  }
+  numTotal++;
+  if (testGameMain2(quiet))
+  {
+	  numPassed++;
+  }
+  numTotal++;
+  if (testGameMain3(quiet))
+  {
+	  numPassed++;
+  }
+  numTotal++;
+  if (testGameMain4(quiet))
+  {
+	  numPassed++;
+  }
+  */
+  numTotal++;
 	std::cout << numPassed << "/" << numTotal << "Passed, " << ((double)numPassed / (double)numTotal) * 100 << "%\n";
 
 }
@@ -771,8 +797,185 @@ bool RPGTest::testMainCharacter1(bool quiet)
 	catch (int e)
 	{
 		std::cout << "Error number " << e << "\n";
-		std::cout << "There is an error in the constructor of Main Character";
+		std::cout << "There is an error in the constructor of Main Character\n";
 		std::cout << "Main Character Test1: FAILED\n";
 		return false;
 	}
 }
+/*
+bool RPGTest::testGameMain1(bool quiet)
+{
+	try
+	{
+		GameMain* myGameMain = new GameMain();
+		if (sizeof(myGameMain->MonsterArray) != 6)
+		{
+			//delete myGameMain;
+			std::cout << "Bounds of first dimension of Monster array was: " << sizeof(myGameMain->MonsterArray) << " expected: 6\nGame Main Test 1: FAILED";
+			delete myGameMain;
+			return false;
+		}
+	}
+	catch (int e)
+	{
+		std::cout << "Error number " << e << "\n";
+		std::cout << "There is an error in the constructor of GameMain\n";
+		std::cout << "Game Main test 1: FAILED\n";
+		return false;
+	}
+	if (!quiet)
+	{
+		std::cout << "Game Main test 1: PASSED\n";
+	}
+	return true;
+}
+
+bool RPGTest::testGameMain2(bool quiet)
+{
+	try
+	{
+		bool result = true;
+		GameMain* myGameMain = new GameMain();
+		if (sizeof(myGameMain->MonsterArray) != 6)
+		{
+			//delete myGameMain;
+			//std::cout << "Bounds of first dimension of Monster array was: " << sizeof(myGameMain->MonsterArray) << " expected: 6\nGame Main Test 1: FAILED";
+			delete myGameMain;
+			return false;
+		}
+		for (int i = 0; i < 6; i++)
+		{
+			if (sizeof(myGameMain->MonsterArray[i]) != 6)
+			{
+				std::cout << "Bounds of second dimension of Monster array dimension " << i << " was " << sizeof(myGameMain->MonsterArray[i]) << " expected: 6\n";
+				result = false;
+			}
+		}
+		if (result && !quiet)
+		{
+			std::cout << "Game Main test 2: PASSED\n";
+		}
+		delete myGameMain;
+		return result;
+	}
+	catch (int e)
+	{
+		std::cout << "Error number " << e << "\n";
+		std::cout << "There is an error in the constructor of GameMain\n";
+		std::cout << "Game Main test 2: FAILED\n";
+		return false;
+	}
+}
+
+bool RPGTest::testGameMain3(bool quiet)
+{
+	try
+	{
+		if ((!testGameMain1(true)) || (!testGameMain2(true)))//if one or two fails we shouldn't even try 3
+		{
+			std::cout << "Game Main test 3: FAILED\n";
+			return false;
+		}
+		GameMain* myGameMain = new GameMain();
+		bool result = true;
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				if (sizeof(myGameMain->MonsterArray[i][j]) != 5)
+				{
+					std::cout << "Bounds of third dimension of Monster Array for first index " << i << " second index " << j << " was " << sizeof(myGameMain->MonsterArray[i][j]) << " expected: 5\n";
+					result = false;
+				}
+			}
+		}
+		if (result && !quiet)
+		{
+			std::cout << "Game Main test 3: PASSED\n";
+		}
+
+		if (!result)
+		{
+			std::cout << "Game Main test 4: FAILED\n";
+		}
+		return result;
+	}
+	catch (int e)
+	{
+		std::cout << "Error number " << e << "\n";
+		std::cout << "There is an error in the constructor of GameMain\n";
+		std::cout << "Game Main test 3: FAILED\n";
+		return false;
+	}
+}
+
+bool RPGTest::testGameMain4(bool quiet)
+{
+	try
+	{
+//		if (!(testGameMain1(true) && testGameMain2(true) && testGameMain3(true)))
+//		{
+//			std::cout << "Game Main test 4 failed\n";
+//			return false;
+//		}
+		GameMain* myGameMain = new GameMain();
+		int arrayLookup;
+		bool result = true;
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				for (int k = 1; k < 5; k++)
+				{
+					if (k == 1 && (i != 2) && (j != 2))
+					{
+						arrayLookup = 1;
+					}
+					else if (k == 1 && i == 2 && j == 2)
+					{
+						arrayLookup = 3;
+					}
+					else if ((i == 1 && j == 1) || (i == 2 && j == 5) || (i == 5 && j == 3) || (i == 5 && j == 4)
+					{
+						arrayLookup = 1;
+					}
+					for (int el = 0; el < arrayLookup; el++)
+					{
+						if (myGameMain->MonsterArray[i][j][k][el]->getPrimary() != i)
+						{
+							std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] primary Element mismatch. Actual: ";
+							std::cout << myGameMain->MonsterArray[i][j][k][el]->getPrimary() << " Expected: " << i << "\n";
+							result = false;
+						}
+						if (myGameMain->MonsterArray[i][j][k][el]->getSecondary() != j)
+						{
+							std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] Secondary Element mismatch. Actual: ";
+							std::cout << myGameMain->MonsterArray[i][j][k][el]->getSecondary() << " Expected: " << j << "\n";
+							result = false;
+						}
+						if (myGameMain->MonsterArray[i][j][k][el]->getEvolutionStage() != k)
+						{
+							std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] Evolution Stage mismatch. Actual: ";
+							std::cout << myGameMain->MonsterArray[i][j][k][el]->getEvolutionStage() << " Expected: " << k << "\n";
+							result = false;
+						}
+						if (myGameMain->MonsterArray[i][j][k][el]->getEvolutionType() != el)
+						{
+							std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] Evolution Type mismatch. Actual: ";
+							std::cout << myGameMain->MonsterArray[i][j][k][el]->getEvolutionType() << " Expected: " << el << "\n";
+						}
+					}
+				}
+			}
+		}
+
+	}
+	catch (int e)
+	{
+		std::cout << "Error number " << e << "\n";
+		std::cout << "There is an error in the constructor of GameMain\n";
+		std::cout << "Game Main test 3: FAILED\n";
+		return false;
+	}
+}
+*/

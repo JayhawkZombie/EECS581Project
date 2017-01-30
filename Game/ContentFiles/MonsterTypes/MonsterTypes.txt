@@ -1,4 +1,4 @@
-320
+319
 
 Flarial
 A young spirit, made of flame, that hovers above the earth- it casts no shadow, as it is a source of light
@@ -3344,23 +3344,12 @@ Dark Phage
 NULL
 Fallen HemiAngel
 
-Dark Phage
-The dark phage is a corrupted phage that turned from the service of its creator
-5
-4
-2
-0
-SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
-NULL
-Black Knight
-NULL
-
 Fallen HemiAngel
 The Fallen HemiAngel has larger wings both turned black
 5
 4
 2
-1
+0
 SFEngine/Samples/Animations/CharacterAnimations/FallenDemiAngel.png
 NULL
 Black Knight

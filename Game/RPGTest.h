@@ -12,6 +12,7 @@
 #include "Skill.h"
 #include "Inventory.h"
 #include "MainCharacter.h"
+#include "GameMain.h"
 #include <iostream>
 class RPGTest
 {
@@ -67,6 +68,12 @@ public:
 
 	//MainCharactertests
 	static bool testMainCharacter1(bool quiet);
+
+	//GameMainTests
+	//static bool testGameMain1(bool quiet);
+	//static bool testGameMain2(bool quiet);
+	//static bool testGameMain3(bool quiet);
+	//static bool testGameMain4(bool quiet);
 
 };
 #endif
