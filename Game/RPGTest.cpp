@@ -224,12 +224,12 @@ void RPGTest::runTests(bool quiet)
   {
 	  numTotal++;
   }
-  /*
   if (testGameMain1(quiet))
   {
 	  numPassed++;
   }
   numTotal++;
+  /*
   if (testGameMain2(quiet))
   {
 	  numPassed++;
@@ -801,6 +801,161 @@ bool RPGTest::testMainCharacter1(bool quiet)
 		std::cout << "Main Character Test1: FAILED\n";
 		return false;
 	}
+}
+
+bool RPGTest::testGameMain1(bool quiet)
+{
+	std::cout << "GOT HERE\n";
+	std::map<int, std::map<int, std::map< int, int>>> SizeLookup;
+
+	std::map<int, int> TreeType1;
+	TreeType1[1] = 1;
+	TreeType1[2] = 1;
+	TreeType1[3] = 1;
+	TreeType1[4] = 1;
+
+	std::map<int, int> TreeType2;
+	TreeType2[1] = 1;
+	TreeType2[2] = 2;
+	TreeType2[3] = 2;
+	TreeType2[4] = 2;
+
+	std::map<int, int> TreeType3;
+	TreeType3[1] = 1;
+	TreeType3[2] = 3;
+	TreeType3[3] = 3;
+	TreeType3[4] = 3;
+
+	std::map<int, int> TreeType4;
+	TreeType4[1] = 1;
+	TreeType4[2] = 3;
+	TreeType4[3] = 4;
+	TreeType4[4] = 4;
+
+	std::map<int, int> TreeType5;
+	TreeType5[1] = 3;
+	TreeType5[2] = 4;
+	TreeType5[3] = 5;
+	TreeType5[4] = 6;
+
+	SizeLookup[0][0] = TreeType4;
+	SizeLookup[0][1] = TreeType2;
+	SizeLookup[0][2] = TreeType3;
+	SizeLookup[0][3] = TreeType2;
+	SizeLookup[0][4] = TreeType2;
+	SizeLookup[0][5] = TreeType2;
+
+	SizeLookup[1][0] = TreeType1;
+	SizeLookup[1][1] = TreeType4;
+	SizeLookup[1][2] = TreeType3;
+	SizeLookup[1][3] = TreeType3;
+	SizeLookup[1][4] = TreeType4;
+	SizeLookup[1][5] = TreeType4;
+
+	SizeLookup[2][0] = TreeType3;
+	SizeLookup[2][1] = TreeType2;
+	SizeLookup[2][2] = TreeType5;
+	SizeLookup[2][3] = TreeType2;
+	SizeLookup[2][4] = TreeType2;
+	SizeLookup[2][5] = TreeType1;
+
+	SizeLookup[3][0] = TreeType3;
+	SizeLookup[3][1] = TreeType2;
+	SizeLookup[3][2] = TreeType2;
+	SizeLookup[3][3] = TreeType4;
+	SizeLookup[3][4] = TreeType3;
+	SizeLookup[3][5] = TreeType3;
+
+	SizeLookup[4][0] = TreeType3;
+	SizeLookup[4][1] = TreeType2;
+	SizeLookup[4][2] = TreeType2;
+	SizeLookup[4][3] = TreeType2;
+	SizeLookup[4][4] = TreeType4;
+	SizeLookup[4][5] = TreeType3;
+
+	SizeLookup[5][0] = TreeType3;
+	SizeLookup[5][1] = TreeType3;
+	SizeLookup[5][2] = TreeType2;
+	SizeLookup[5][3] = TreeType1;
+	SizeLookup[5][4] = TreeType1;
+	SizeLookup[5][5] = TreeType4;
+
+	ListReader list;
+	MonsterType** myArray = list.readMonsters("Game/ContentFiles/MonsterTypes/MonsterTypes.txt");
+	//GameMain* myGameMain = new GameMain();
+	std::map<int, std::map< int, std::map<int, std::map<int, MonsterType*>>>> MonsterArray = GameMain::Monsters(myArray);
+	if (MonsterArray[0][0][1][0] == nullptr)
+	{
+		std::cout << "NULLPTR? HOW?" << "\n";
+	}
+
+/*
+	if (MonsterArray[0][0][1][0] = myArray[0])
+	{
+		std::cout << "Why is there a problem?";
+	}*/
+	//std::cout << myArray[0]->getPrimary() << "\n";
+	//std::cout << MonsterArray[0][0][1][0]->getPrimary();
+	bool result = true;
+	int input;
+	int count = 0;
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			for (int k = 1;  k < 5; k++)
+			{
+				for (int el = 0; el < SizeLookup[i][j][k]; el++)
+				{
+					//std::cout << "i:" << i << " j:" << j << " k: " << k << " el:" << el << "\n";
+
+					if (count%5 == 4)
+					{
+						//std::cin >> input;
+					}
+					if (MonsterArray[i][j][k][el] != myArray[count])
+					{
+						std::cout << "count: " << count << "does not match\n";
+						result = false;
+					}
+					count++;
+					if (MonsterArray[i][j][k][el]->getPrimary() != i)
+					{
+						std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] primary Element mismatch. Actual: ";
+						std::cout << MonsterArray[i][j][k][el]->getPrimary() << " Expected: " << i << "\n";
+						result = false;
+					}
+					if (MonsterArray[i][j][k][el]->getSecondary() != j)
+					{
+						std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] Secondary Element mismatch. Actual: ";
+						std::cout << MonsterArray[i][j][k][el]->getSecondary() << " Expected: " << j << "\n";
+						result = false;
+					}
+					if (MonsterArray[i][j][k][el]->getEvolutionStage() != k)
+					{
+						std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] Evolution Stage mismatch. Actual: ";
+						std::cout << MonsterArray[i][j][k][el]->getEvolutionStage() << " Expected: " << k << "\n";
+						result = false;
+					}
+					if (MonsterArray[i][j][k][el]->getEvolutionType() != el)
+					{
+						std::cout << "MonsterArray[" << i << "][" << j << "][" << k << "][" << el << "] Evolution Type mismatch. Actual: ";
+						std::cout << MonsterArray[i][j][k][el]->getEvolutionType() << " Expected: " << el << "\n";
+						result = false;
+					}
+				}
+			}
+		}
+	}
+	if (result && !quiet)
+	{
+		std::cout << "Test Game Main 1: PASSED\n";
+	}
+	if (!result)
+	{
+		std::cout << "Test Game Main 1: FAILED\n";
+	}
+	return result;
 }
 /*
 bool RPGTest::testGameMain1(bool quiet)

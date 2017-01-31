@@ -18,6 +18,15 @@ enum class Type : std::uint32_t
 	Count
 };
 
+enum class age : std::uint32_t
+{
+	a = 0,
+	b = 1,
+	c = 2,
+	d = 3,
+	e = 4,
+};
+
 struct MonsterTree
 {
 	int TreeType;
@@ -39,9 +48,10 @@ public:
     void TickUpdate(const double &Delta);
     void Render(std::shared_ptr<sf::RenderTexture> Target);
 	static std::map<int, std::map<int, std::string>> Symbols();
-	MonsterType*** returnTree(int primary, int secondary);
+	static std::map<int, std::map<int, std::map<int, std::map<int, MonsterType*>>>> Monsters(MonsterType** myArray);
+	//static MonsterType*** returnTree(int primary, int secondary);
     std::map<Type, std::map<Type, MonsterTree>> m_MonsterMap;
-	MonsterType***** MonsterArray;
+	//MonsterType***** MonsterArray;
 
 private:
 //  std::shared_ptr<Engine::Level> Level;
