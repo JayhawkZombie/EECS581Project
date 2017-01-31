@@ -8,7 +8,7 @@ namespace Engine
     std::cerr << "Spawn object at: " << Position.x << ", " << Position.y << std::endl;
 
 
-    auto Ball = BuildBallMesh('B', Position, { 0,0 }, 40, 1.f, 0.8, sf::Color::Black);
+    auto Ball = BuildBallMesh('B', Position, { 0,0 }, 40, 1.f, 0.8, sf::Color::Green);
     TestObjects.push_back(Ball);
 
     //std::cerr << "Ball pos: " << Ball->pos.x << ", " << Ball->pos.y << std::endl;
@@ -25,13 +25,19 @@ namespace Engine
 
   void Editor::SpawnTriangle(const sf::Vector2f & Position)
   {
-    auto tri = BuildPolygonMesh(3, 15.f, 0.f, { 400, 0 }, { 0,0 }, 1.f, 0.5f, sf::Color::Blue);
+    auto tri = BuildPolygonMesh(3, 15.f, 0.f, { 400, 0 }, { 0,0 }, 1.f, 0.5f, sf::Color::White);
     TestObjects.push_back(tri);
+  }
+
+  void Editor::Spawn5Poly(const sf::Vector2f & Position)
+  {
+    auto poly = BuildPolygonMesh(5, 15.f, 0.f, { 400, 0 }, { 0,0 }, 1.f, 0.5f, sf::Color(127, 0, 130));
+    TestObjects.push_back(poly);
   }
 
   void Editor::SpawnSquare(const sf::Vector2f &Position)
   {
-    auto poly = BuildPolygonMesh(4, 15.f, 0.f, { 400, 0 }, { 0,0 }, 1.f, 0.5f, sf::Color::Blue);
+    auto poly = BuildPolygonMesh(4, 15.f, 0.f, { 400, 0 }, { 0,0 }, 1.f, 0.5f, sf::Color::White);
     TestObjects.push_back(poly);
   }
 

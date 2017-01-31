@@ -17,6 +17,13 @@ namespace Engine
       //Do we have a focused element?
       if (FocusedItem && !FocusedItem->IsHidden) {
         //Do collision tests for the focused element
+
+        //First check to see if the event was TextEntered
+        if (IEvent.TextWasEntered && FocusedItem->WantsTextEnteredEvent()) {
+          FocusedItem->OnTextEntered(IEvent);
+          return true;
+        }
+
         Interaction = TestEvent(FocusedItem, IEvent);
         if (Interaction == InteractionType::FocusChange)
           RevokeFocus(FocusedItem, IEvent);
@@ -221,6 +228,7 @@ namespace Engine
         }
 
         Items.insert(Items.begin() + 0,  Widget);
+        Widget->SelfWeakPtr = Widget;
 
         //DEBUG_ONLY std::cerr << "Layer " << LayerID << " : Widget Registered " << Widget->WidgetID << std::endl;
 
@@ -278,8 +286,9 @@ namespace Engine
     void UILayer::TickUpdate(const double &delta)
     {
       for (auto & item : Items) {
-        if (item->IsBeingUpdated)
-          item->TickUpdate(delta);
+        item->TickUpdate(delta);
+        //if (item->IsBeingUpdated)
+        //  item->TickUpdate(delta);
       }
     }
 
@@ -387,9 +396,16 @@ namespace Engine
 
     void WidgetHelper::TickUpdate(const double &delta)
     {
+      std::uint32_t fid = 0;
+
+      if (!FocusStack.empty()) {
+        FocusStack.top().lock()->TickUpdate(delta);
+        fid = FocusStack.top().lock()->WidgetID;
+      }
       //shorthand of : for(auto layer = Layers.rbegin(); layer != Layers.rend(); ++layer)
       for (auto & it : Layers) {
-        (*it).TickUpdate(delta);
+        if ((*it).GetID() != fid)
+          (*it).TickUpdate(delta);
       }
     }
 
@@ -527,8 +543,20 @@ namespace Engine
       FEvent.PreviousMousePosition = IEvent.PreviousMousePosition;
 
       if (!FocusStack.empty()) {
-        FocusStack.top().lock()->ConsumeEvent(IEvent);
-        return true;
+        if (IEvent.MouseButtonWasPressed && !DidMousePress(FocusStack.top().lock(), IEvent)) {
+          FocusChangeEvent FEvent;
+          FEvent.CurrentMousePosition = IEvent.CurrentMousePosition;
+          FEvent.PreviousMousePosition = IEvent.PreviousMousePosition;
+          FEvent.ChangeType = FocusChangeType::ItemForced;
+
+          FocusStack.top().lock()->OnFocusLost(FEvent);
+          FocusStack.pop();
+          return true;
+        }
+        else {
+          FocusStack.top().lock()->ConsumeEvent(IEvent);
+          return true;
+        }
       }
 
       if (Layers.front()->HandleEvent(IEvent)) {

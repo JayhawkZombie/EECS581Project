@@ -49,7 +49,7 @@ namespace Engine
       virtual void OnDragContinue(const InputEvent &IEvent) override;
       virtual void OnDragEnd(const InputEvent &IEvent) override;
       virtual void MoveTo(const sf::FloatRect &Region) override;
-
+      virtual void SetPosition(const sf::Vector2f &Position);
       virtual void Move(const sf::Vector2f &Delta) override;
 
       virtual void CreateHelper() override;

@@ -39,6 +39,7 @@ namespace Engine
     
     typedef std::shared_ptr<WidgetBase> SharedWidgetPointer;
     class WidgetHelper;
+    class IntSpinner;
 
     enum class InteractionType : std::uint32_t
     {
@@ -55,6 +56,7 @@ namespace Engine
     {
     public:
       friend class WidgetHelper;
+      friend class IntSpinner;
 
       UILayer() = default;
       ~UILayer() = default;

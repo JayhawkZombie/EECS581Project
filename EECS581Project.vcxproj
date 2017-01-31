@@ -170,6 +170,7 @@
     <ClInclude Include="Game\RPGActor.h" />
     <ClInclude Include="Game\RPGItem.h" />
     <ClInclude Include="Game\RPGTest.h" />
+    <ClInclude Include="Game\Shop.h" />
     <ClInclude Include="Game\Skill.h" />
     <ClInclude Include="Game\SkillSet.h" />
     <ClInclude Include="Game\Tile.h" />
@@ -179,12 +180,16 @@
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\Alert.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\PopupObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableRect.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\StickyBar.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Input\NumericComboBox.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Input\Spinner.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Input\TextInput.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ClickButtonBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableBase.h" />
@@ -241,13 +246,14 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuWidget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\MouseTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\RenderTarget.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\TextInput.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Text\TextLabel.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Theme.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Toggles\SimpleToggle.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIAttributes.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIController.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UICreationMacros.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\UIIconSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIUtils.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Widget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\WidgetCollisionHelpers.h" />
@@ -344,6 +350,7 @@
     <ClCompile Include="Game\RPGActor.cpp" />
     <ClCompile Include="Game\RPGItem.cpp" />
     <ClCompile Include="Game\RPGTest.cpp" />
+    <ClCompile Include="Game\Shop.cpp" />
     <ClCompile Include="Game\Skill.cpp" />
     <ClCompile Include="Game\SkillSet.cpp" />
     <ClCompile Include="Game\Tile.cpp" />
@@ -422,6 +429,10 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\TexturedQuad.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\Drawables.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\DrawableText.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\ComboBox.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\NumericComboBox.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\Spinner.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\TextInput.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\KeyTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\List.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\ListElement.cpp" />
@@ -434,11 +445,12 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\MouseTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\RenderTarget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\TextInput.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Text\TextLabel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Theme.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Toggles\SimpleToggle.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIController.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIControllerHandlers.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\UIIconSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIUtils.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Widget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\WidgetCollisionHelpers.cpp" />
@@ -473,21 +485,37 @@
     <ClCompile Include="SFEngine\ThirdParty\UnitTesting\Catch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Font Include="SFEngine\Samples\Fonts\ABSTRACT.TTF" />
+    <Font Include="SFEngine\Samples\Fonts\adventpro-medium.ttf" />
     <Font Include="SFEngine\Samples\Fonts\Dense-Regular.otf" />
+    <Font Include="SFEngine\Samples\Fonts\MarvelRegular.ttf" />
     <Font Include="SFEngine\Samples\Fonts\OpenSans-Regular.ttf" />
+    <Font Include="SFEngine\Samples\Fonts\PressStart2P.ttf" />
     <Font Include="SFEngine\Samples\Fonts\Raleway-Light.ttf" />
     <Font Include="SFEngine\Samples\Fonts\Raleway-Regular.ttf" />
+    <Font Include="SFEngine\Source\CoreFiles\Fonts\ABSTRACT.TTF" />
+    <Font Include="SFEngine\Source\CoreFiles\Fonts\Dense-Regular.otf" />
+    <Font Include="SFEngine\Source\CoreFiles\Fonts\Marvel-Regular.ttf" />
+    <Font Include="SFEngine\Source\CoreFiles\Fonts\Raleway-Light.ttf" />
+    <Font Include="SFEngine\Source\CoreFiles\Fonts\Raleway-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="SFEngine\Samples\Fonts\AbstractBitmap18.png" />
+    <Image Include="SFEngine\Samples\Fonts\AbstractBitmap30.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBG.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.png" />
+    <Image Include="SFEngine\Source\CoreFiles\Textures\Icons\ui_icons_dark.png" />
+    <Image Include="SFEngine\Source\CoreFiles\Textures\Icons\ui_icons_grey.png" />
+    <Image Include="SFEngine\Source\CoreFiles\Textures\Icons\ui_icons_light.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagrams\Engine\ClassDiagram.emf" />
     <None Include="Game\GameSetup.chai" />
     <None Include="SFEngine\Config\Engine.ini" />
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
+    <None Include="SFEngine\Samples\Fonts\AbstractBitmap.xcf" />
+    <None Include="SFEngine\Samples\Fonts\AbstractBitmap_30.xcf" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForest.ini" />
     <None Include="SFEngine\Samples\Maps\NewLevelFormat.ini" />
     <None Include="SFEngine\Samples\Scripts\EngineEventTests.chai" />
@@ -509,6 +537,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SFEngine\Samples\Levels\Graveyard\Graveyard.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SFEngine\Source\CoreFiles\Textures\Icons\Icons.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

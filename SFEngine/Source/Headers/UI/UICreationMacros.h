@@ -5,8 +5,8 @@
 namespace Engine
 {
 
-#define MakeButtonNormal(BUTTON, LAYER, HELPER, POSITION, _SIZE, THEME)\
-BUTTON = Engine::UI::ClickButtonBase::Create(LAYER, HELPER, POSITION, _SIZE);\
+#define MakeButtonNormal(BUTTON, LAYER, HELPER, POSITION, _SIZE, THEME, TEXTURE)\
+BUTTON = Engine::UI::ClickButtonBase::Create(LAYER, HELPER, POSITION, _SIZE, TEXTURE);\
 BUTTON->SetBGColor(THEME.ButtonColorNormal);\
 BUTTON->SetBGColorHighlighted(THEME.ButtonColorHighlighted);\
 BUTTON->SetBGColorPressed(THEME.ButtonColorPressed);\
@@ -29,8 +29,8 @@ SCREEN->SetBGColor(THEME.MenuBackgroundColorNormal);\
 SCREEN->SetBGPosition(MENU##ScreenPosition);\
 SCREEN->SetBGSize(MENU##ScreenSize);\
 
-#define MakeMenuScreenButtonNormal(BUTTON, SCREEN, MENU, POSITION, THEME, __TEXT__, __FONT__)\
-BUTTON = Engine::UI::ClickButtonBase::Create(SCREEN->ScreenLayer, SCREEN->ScreenHelper, POSITION, THEME.ButtonSizeNormal);\
+#define MakeMenuScreenButtonNormal(BUTTON, SCREEN, MENU, POSITION, THEME, __TEXT__, __FONT__, TEXTURE)\
+BUTTON = Engine::UI::ClickButtonBase::Create(SCREEN->ScreenLayer, SCREEN->ScreenHelper, POSITION, THEME.ButtonSizeNormal, TEXTURE);\
 BUTTON->SetBGColor(THEME.ButtonColorNormal);\
 BUTTON->SetBGColorHighlighted(THEME.ButtonColorHighlighted);\
 BUTTON->SetBGColorPressed(THEME.ButtonColorPressed);\

@@ -47,6 +47,7 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       virtual void OnKeyPress(const InputEvent &IEvent);
       virtual void OnKeyRelease(const InputEvent &IEvent);
       virtual void OnMousePress(const InputEvent &IEvent);
+      virtual void OnTextEntered(const InputEvent &IEvent);
       virtual void OnMouseRelease(const InputEvent &IEvent);
       virtual void OnMouseScroll(const InputEvent &IEvent);
       virtual void OnMouseOver(const InputEvent &IEvent);
@@ -106,6 +107,18 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
         IsHidden = Hidden;
       }
 
+      sf::Vector2f GetPosition() const {
+        return Position;
+      }
+
+      sf::Vector2f GetSize() const {
+        return Size;
+      }
+
+      virtual bool WantsTextEnteredEvent() const {
+        return false;
+      }
+
       virtual void Resize(const sf::Vector2f &Size);
 
       //All widgets some with SOME basic elements available
@@ -143,12 +156,19 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
         return CanBeDragged;
       }
 
+      void SetIconSheet(std::shared_ptr<sf::Texture> IconSheet) {
+        IconSheetTexture = IconSheet;
+      }
+
       virtual ~WidgetBase();
     protected:
       WidgetBase();
 
+      std::weak_ptr<WidgetBase> SelfWeakPtr;
+
       //The highest-level UILayer you want to be able to steal focus from
       std::weak_ptr<WidgetHelper> Helper; 
+      std::shared_ptr<WidgetHelper> ChildHelper;
 
       //The helper that is containing THIS OBJECT
       std::weak_ptr<UILayer> MyLayer;
@@ -166,6 +186,8 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       bool IsBeingDragged = false;
       bool HasFocus = false;
       bool IsHidden = false;
+      sf::IntRect IconSheetFrame;
+      std::shared_ptr<sf::Texture> IconSheetTexture;
 
       sf::RectangleShape BGRect;
       sf::Color BGColor;
@@ -179,6 +201,9 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       sf::IntRect HighlightedTextureRect;
       sf::RenderStates State;
       std::shared_ptr<sf::Texture> BGTexture;
+
+      sf::Vector2f Position;
+      sf::Vector2f Size;
 
       /**
       * Contain a set of drawable to be rendered to their respective canvases

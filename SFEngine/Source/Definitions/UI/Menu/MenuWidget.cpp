@@ -25,6 +25,8 @@ namespace Engine
         Menu->ChildLayer = UILayer::Create(Menu->MenuHelper);
         Menu->MyLayer = TopLayer;
         Menu->Helper = TopHelper;
+        auto view = MakeView({ 0,0,0,Size.y });
+        Menu->TransitioningViewRect = { 0,0,0,Size.y };
 
         assert(Menu->MyLayer.lock() && Menu->Helper.lock());
         assert(Menu->ChildLayer && Menu->MenuHelper);
@@ -37,7 +39,9 @@ namespace Engine
         Menu->BGRect.setPosition(Position);
         Menu->BGRect.setSize(Size);
         Menu->GlobalWidgetBounds.ForceRegion({ Position, Size });
-
+        Menu->IsBeingUpdated = true;
+        Menu->MenuTexture = std::make_shared<sf::RenderTexture>();
+        Menu->MenuTexture->create(1200, 900);
         return Menu;
       }
       catch (EngineRuntimeError &err)
@@ -221,6 +225,8 @@ namespace Engine
       auto ptr = Menu.lock();
 
       assert(ptr);
+      ptr->IsTransitioning = true;
+      ptr->CurrentTime = 0.f;
 
       std::weak_ptr<MenuScreen> Default = ptr->DefaultScreen;
       if (Default.lock()) {
@@ -315,6 +321,17 @@ namespace Engine
       assert(!ScreenStack.empty());
 
       auto ptr = ScreenStack.top().lock();
+      
+      if (IsTransitioning) {
+        CurrentTime += 10.f;
+        if (CurrentTime >= TransitionTime) {
+          IsTransitioning = false;
+          TransitioningViewRect = GlobalWidgetBounds.GlobalBounds;
+        }
+        else {
+          TransitioningViewRect.width = GlobalWidgetBounds.GlobalBounds.width * (CurrentTime / TransitionTime);
+        }
+      }
 
       if (ptr) {
         ptr->TickUpdate(delta);
@@ -325,17 +342,27 @@ namespace Engine
     {
       if (!_IsInFocus)
         return;
+      MenuTexture->clear(sf::Color::Transparent);
 
-      auto View = MakeView(GlobalWidgetBounds.GlobalBounds);
-      Texture->setView(View);
-      Texture->draw(BGRect);
+      auto View = MakeView(TransitioningViewRect);
+
+      //MenuTexture->setView(View);
+      MenuTexture->draw(BGRect);
       auto ptr = ScreenStack.top().lock();
       if (ptr) {
-        ptr->Render(Texture);
+        ptr->Render(MenuTexture);
       }
-      Texture->draw(MenuText);
+      MenuTexture->draw(MenuText);
 
-      Texture->setView(Texture->getDefaultView());
+      //MenuTexture->setView(MenuTexture->getDefaultView());
+      MenuTexture->display();
+
+      MenuSprite.setTexture(MenuTexture->getTexture());
+      
+      auto oldview = Texture->getView();
+      Texture->setView(View);
+      Texture->draw(MenuSprite);
+      Texture->setView(oldview);
     }
 
     void MenuWidget::Move(const sf::Vector2f & Delta)
@@ -355,6 +382,8 @@ namespace Engine
       auto ptr = Helper.lock();
       if (ptr) {
         ptr->ReleaseTopFocus();
+        IsTransitioning = false;
+        CurrentTime = 0.f;
         _IsInFocus = false;
         DEBUG_ONLY std::cerr << "Closing Menu" << std::endl;
 

@@ -5,8 +5,12 @@ namespace Engine
 
   void SFEngine::InitRenderWindow()
   {
+    sf::ContextSettings csettings;
+
+    csettings.antialiasingLevel = 8;
+    
 #ifdef WITH_EDITOR
-    Window = new sf::RenderWindow(sf::VideoMode(1200, 900), "SFEngine Editor", sf::Style::Default);
+    Window = new sf::RenderWindow(sf::VideoMode(1200, 900), "SFEngine Editor", sf::Style::Default, csettings);
     WindowSize = { 1200.f, 900.f };
 #else
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
@@ -77,6 +81,8 @@ namespace Engine
 
     Handler.BindCallback(Events::KeyReleased,
                          [this](const sf::Keyboard::Key &k) {this->HandleKeyRelease(k); });
+
+    Handler.BindTextEnterHandler([this](const sf::Uint32 &unicode) {this->HandleTextEntered(unicode); });
 
     std::ifstream _IN("SFEngine/Config/Engine.ini");
     if (_IN.fail()) {

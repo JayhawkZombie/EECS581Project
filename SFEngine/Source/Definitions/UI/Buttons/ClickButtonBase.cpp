@@ -16,7 +16,7 @@ namespace Engine
       CanBeDragged = false;
     }
 
-    std::shared_ptr<ClickButtonBase> ClickButtonBase::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    std::shared_ptr<ClickButtonBase> ClickButtonBase::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Texture> OverlayTexture)
     {
       //DEBUG_ONLY std::cerr << "ClickButtonBase::Create" << std::endl;
 
@@ -31,14 +31,33 @@ namespace Engine
 
       assert(Widget->Helper.lock() && Widget->MyLayer.lock());
 
-      //OK, gonna set up a base drawable
-      Widget->BGRect.setFillColor(DefaultDarkTheme.ButtonColorNormal);
-      Widget->BGRect.setPosition(Position);
-      Widget->BGRect.setSize(Size);
-      Widget->BGOutlineColorNormal = sf::Color(DefaultDarkTheme.ButtonOutlineColorNormal);
-      Widget->BGOutlineColorHighlighted = sf::Color(DefaultDarkTheme.ButtonOutlineColorHighlighted);
-      Widget->BGRect.setOutlineColor(DefaultDarkTheme.ButtonOutlineColorNormal);
-      Widget->BGRect.setOutlineThickness(-2);
+      //button overlay textures not working
+      if (false) {
+        Widget->BGRect.setPosition(Position);
+        Widget->BGRect.setSize(Size);
+        Widget->BGRect.setFillColor(sf::Color::Transparent);
+        Widget->BGRect.setTexture(OverlayTexture.get());
+        Widget->BGRect.setTextureRect(DefaultDarkTheme.ButtonOverlayNormal);
+        Widget->Overlay = OverlayTexture;
+        Widget->OverlayNormalRect = DefaultDarkTheme.ButtonOverlayNormal;
+        Widget->OverlayHighlightedRect = DefaultDarkTheme.ButtonOverlayHighlighted;
+        Widget->OverlayPressedRect = DefaultDarkTheme.ButtonOverlayPressed;
+
+      }
+      else {
+        //OK, gonna set up a base drawable
+        Widget->BGColorNormal = DefaultDarkTheme.ButtonColorNormal;
+        Widget->BGColorHighlighted = DefaultDarkTheme.ButtonColorHighlighted;
+        Widget->BGColorPressed = DefaultDarkTheme.ButtonColorPressed;
+
+        Widget->BGRect.setFillColor(DefaultDarkTheme.ButtonColorNormal);
+        Widget->BGRect.setPosition(Position);
+        Widget->BGRect.setSize(Size);
+        Widget->BGOutlineColorNormal = sf::Color(DefaultDarkTheme.ButtonOutlineColorNormal);
+        Widget->BGOutlineColorHighlighted = sf::Color(DefaultDarkTheme.ButtonOutlineColorHighlighted);
+        Widget->BGRect.setOutlineColor(DefaultDarkTheme.ButtonOutlineColorNormal);
+        Widget->BGRect.setOutlineThickness(-1);
+      }
 
       std::shared_ptr<ColoredQuad> Quad(new ColoredQuad(Position, Size));
 
@@ -82,6 +101,38 @@ namespace Engine
     {
       BGRect.setOutlineColor(BGOutlineColorNormal);
       BGRect.setOutlineThickness(-2);
+    }
+
+    void ClickButtonBase::SetTexture(std::shared_ptr<sf::Texture> Texture)
+    {
+      BGTexture = Texture;
+      BGRect.setTexture(Texture.get());
+    }
+
+    void ClickButtonBase::SetTextureRect(sf::IntRect & Rect)
+    {
+      BGRect.setTextureRect(Rect);
+      BGTextureRect = Rect;
+    }
+
+    void ClickButtonBase::SetOverlayTexture(std::shared_ptr<sf::Texture> Texture)
+    {
+      Overlay = Texture;
+    }
+
+    void ClickButtonBase::SetOverlayHighlightedTextureRect(const sf::IntRect & Rect)
+    {
+      OverlayHighlightedRect = Rect;
+    }
+
+    void ClickButtonBase::SetOverlayPressedTextureRect(const sf::IntRect & Rect)
+    {
+      OverlayPressedRect = Rect;
+    }
+
+    void ClickButtonBase::SetOverlayNormalTextureRect(const sf::IntRect & Rect)
+    {
+      OverlayNormalRect = Rect;
     }
 
     void ClickButtonBase::SetBGColorNormal(const sf::Color & Color)
@@ -142,8 +193,8 @@ namespace Engine
 
     void ClickButtonBase::OnMousePress(const InputEvent &event)
     {
-      BGRect.setFillColor(BGColorPressed);
-      
+      //BGRect.setFillColor(BGColorPressed);
+      BGRect.setTextureRect(OverlayPressedRect);
       DEBUG_ONLY std::cerr << "ClickButtonBase::OnMousePress" << std::endl;
 
       if (MousePressCB)
@@ -153,7 +204,7 @@ namespace Engine
     void ClickButtonBase::OnMouseRelease(const InputEvent &event)
     {
       BGRect.setFillColor(BGColorNormal);
-
+      //BGRect.setTextureRect(OverlayNormalRect);
       if (MouseReleaseCB)
         MouseReleaseCB();
     }
@@ -167,7 +218,7 @@ namespace Engine
     {
       ButtonBase::OnMouseOver(event);
       BGRect.setFillColor(BGColorHighlighted);
-
+      //BGRect.setTextureRect(OverlayHighlightedRect);
       //Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorHighlighted);
       //Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
 
@@ -180,7 +231,7 @@ namespace Engine
     void ClickButtonBase::OnMouseLeave(const InputEvent &event)
     {
       BGRect.setFillColor(BGColorNormal);
-
+      //BGRect.setTextureRect(OverlayNormalRect);
       ButtonBase::OnMouseLeave(event);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorNormal);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
@@ -233,6 +284,9 @@ namespace Engine
       //for (auto & item : Drawables)
       //  item->Render(Texture); 
       Texture->draw(BGRect);
+      if (DrawTextureAndBG)
+        Texture->draw(IconShape);
+
       //Texture->draw(ButtonText);
       for (auto & label : TextLabels)
         label->Render(Texture);

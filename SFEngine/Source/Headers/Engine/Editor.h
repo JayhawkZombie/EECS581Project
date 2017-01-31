@@ -22,6 +22,10 @@
 #include "../UI/Menu/MenuScreen.h"
 
 #include "../../../ThirdParty/PhysicsEngine.h"
+#include "../UI/Input/NumericComboBox.h"
+#include "../UI/Toggles/SimpleToggle.h"
+#include "../UI/Input/TextInput.h"
+#include "../UI/Input/Spinner.h"
 
 namespace Engine
 {
@@ -122,6 +126,17 @@ namespace Engine
     float TopButtonHeight;
     float TopButtonWidth;
 
+    //Icon sheet
+    std::shared_ptr<sf::Texture> IconSheet;
+
+    //Check options
+    std::shared_ptr<UI::SimpleToggle> EnablePhysicsToggle;
+    bool EnabledPhysics = true;
+    std::shared_ptr<UI::NumericComboBox> PhysicsTicksBox;
+    std::shared_ptr<UI::ClickButtonBase> EraseObjectsButton;
+    std::shared_ptr<UI::TextInput> TestInput;
+    std::shared_ptr<UI::IntSpinner> TestSpinner;
+
     sf::Color ButtonColorNormal = sf::Color(58, 0, 29);
     sf::Color ButtonColorHighlighted = sf::Color(86, 0, 43);
     sf::Color ButtonColorPressed = sf::Color(33, 0, 16);
@@ -153,6 +168,7 @@ namespace Engine
     std::shared_ptr<UI::ClickButtonBase> EffectSelect_CancelButton;
 
     std::shared_ptr<sf::Font> TextFont;
+    std::shared_ptr<sf::Texture> ButtonOverlayTexture;
 
     //Data for the tile menu on the left
     std::shared_ptr<UI::ListWidget> TileList;
@@ -186,6 +202,7 @@ namespace Engine
     void SpawnSquare(const sf::Vector2f &Position);
     void SpawnRect(const sf::Vector2f &Position);
     void SpawnTriangle(const sf::Vector2f &Position);
+    void Spawn5Poly(const sf::Vector2f &Position);
 
     vec2d Gravity;
     std::vector<BaseMeshPtr> TestObjects;

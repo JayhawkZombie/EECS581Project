@@ -10,7 +10,7 @@ namespace Engine
   {
 
     std::shared_ptr<ListWidget> ListWidget::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
-                                                   ButtonPlacement CloseButtonPlacement, const sf::Vector2f CloseButtonOffset, const sf::Vector2f &CloseButtonSize)
+                                                   ButtonPlacement CloseButtonPlacement, const sf::Vector2f CloseButtonOffset, const sf::Vector2f &CloseButtonSize, std::shared_ptr<sf::Texture> Tex)
     {
       if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget()) 
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
@@ -101,7 +101,7 @@ namespace Engine
         }
 
 
-        List->OpenCloseButton = UI::ClickButtonBase::Create(List->OptionsLayer, List->Helper, ButtonPosition, ButtonSize);
+        List->OpenCloseButton = UI::ClickButtonBase::Create(List->OptionsLayer, List->Helper, ButtonPosition, ButtonSize, List->ButtonOverlayTexture);
         List->OpenCloseButton->MouseReleaseCB = [List]() { List->CloseList(); };
         List->OpenCloseButton->SetDraggingEnabled(false);
 

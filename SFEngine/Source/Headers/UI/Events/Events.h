@@ -34,6 +34,7 @@ namespace Engine
         MouseScrollDown, //Scrolling a mouse wheel down
         KeyboardPress, //Pressing a key on the keyboard
         KeyboardRelease, //Releasing a key on the keyboard
+        TextEntered,
         Unknown
     };
 
@@ -88,6 +89,10 @@ namespace Engine
       bool KeyWasPressed = false;
       bool KeyWasReleased = false;
       bool KeyRepeat = false;
+
+      bool TextWasEntered = false;
+      
+      sf::Uint32 TextUnicode;
 
       sf::Keyboard::Key Key;
       sf::Mouse::Button Button;

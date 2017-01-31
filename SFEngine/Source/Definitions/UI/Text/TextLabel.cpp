@@ -74,7 +74,8 @@ namespace Engine
 
         //Need to align the text within the widget
         float xDiff = (Widget.lock()->GlobalWidgetBounds.GlobalBounds.width - Label->RenderString.getGlobalBounds().width) / 2.f;
-        sf::Vector2f Pos = { Widget.lock()->GlobalWidgetBounds.GlobalBounds.left + xDiff, Widget.lock()->GlobalWidgetBounds.GlobalBounds.top };
+        float yDiff = (Widget.lock()->GlobalWidgetBounds.GlobalBounds.height - Label->RenderString.getGlobalBounds().height) / 2.f;
+        sf::Vector2f Pos = { Widget.lock()->GlobalWidgetBounds.GlobalBounds.left + xDiff, Widget.lock()->GlobalWidgetBounds.GlobalBounds.top + yDiff };
         Pos += Offset;
 
         Label->MoveTo({ Pos.x, Pos.y, RenderBounds.width, RenderBounds.height });
@@ -234,6 +235,17 @@ namespace Engine
       TextPosition = { Region.left, Region.top };
       RenderString.setPosition(TextPosition);
       Bounds = Region;
+      GlobalWidgetBounds.ForceRegion(Bounds);
+    }
+
+    void TextLabel::SetPosition(const sf::Vector2f & Position)
+    {
+      TextPosition = Position;
+      RenderString.setPosition(Position);
+
+      Bounds.left = Position.x;
+      Bounds.top = Position.y;
+
       GlobalWidgetBounds.ForceRegion(Bounds);
     }
 

@@ -198,6 +198,9 @@ namespace Engine
     void WidgetBase::OnKeyPress(const InputEvent &IEvent) {}
     void WidgetBase::OnKeyRelease(const InputEvent &IEvent) {}
     void WidgetBase::OnMousePress(const InputEvent &IEvent) {}
+    void WidgetBase::OnTextEntered(const InputEvent & IEvent)
+    {
+    }
     void WidgetBase::OnMouseRelease(const InputEvent &IEvent) {}
     void WidgetBase::OnMouseScroll(const InputEvent &IEvent) {}
     void WidgetBase::OnMouseOver(const InputEvent &IEvent) {}

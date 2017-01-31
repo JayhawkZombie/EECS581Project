@@ -6,7 +6,7 @@ namespace Engine
   {
     ftnCallback_KeyPress = [this](const sf::Keyboard::Key &k) {};
     ftnCallback_KeyRelease = [this](const sf::Keyboard::Key &k) {};
-    ftnCallback_TextEntered = [this](const sf::Keyboard::Key &k) {};
+    ftnCallback_TextEntered = [this](const sf::Uint32 &) {};
     ftnCallback_MouseExit = [this](const sf::Vector2i &v) {};
     ftnCallback_MouseOver = [this](const sf::Vector2i &v) {};
     ftnCallback_MouseMovement = [this](const sf::Vector2i &v) {};
@@ -113,6 +113,11 @@ namespace Engine
     }
   }
 
+  void EventHandler::BindTextEnterHandler(std::function<void(const sf::Uint32&)> ftn)
+  {
+    ftnCallback_TextEntered = std::bind(ftn, std::placeholders::_1);
+  }
+
   bool EventHandler::PollEvents(sf::RenderWindow *win, sf::Event &evnt, const bool &makeCallbacks)
   {
     v2iMousePosArg = sf::Mouse::getPosition(*currentRenderWindow);
@@ -122,6 +127,8 @@ namespace Engine
         {
           case sf::Event::EventType::Closed:
             ftnCallback_WindowClosed(); return true;
+          case sf::Event::TextEntered:
+            ftnCallback_TextEntered(evnt.text.unicode); break;
           case sf::Event::MouseButtonPressed:
             ftnCallback_MousePress(v2iMousePosArg, evnt.mouseButton.button); break;
           case sf::Event::MouseButtonReleased:
@@ -132,6 +139,7 @@ namespace Engine
             ftnCallback_KeyPress(evnt.key.code); break;
           case sf::Event::KeyReleased:
             ftnCallback_KeyRelease(evnt.key.code); break;
+
         }
       }
     }

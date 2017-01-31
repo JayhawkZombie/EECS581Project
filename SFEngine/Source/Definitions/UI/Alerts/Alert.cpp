@@ -58,7 +58,7 @@ namespace Engine
         AL->AlertMessage->setCharacterSize(14);
 
         sf::FloatRect AlertTextRegion = AL->AlertMessage->getGlobalBounds();
-        AL->AcknowledgeButton = UI::ClickButtonBase::Create(AL->ChildLayer, AL->ChildHelper, {Position.x + (Size.x - OKButtonSize.x)/2.f, Position.y + PaddingTop + AlertTextRegion.height + PaddingBottom}, OKButtonSize);
+        AL->AcknowledgeButton = UI::ClickButtonBase::Create(AL->ChildLayer, AL->ChildHelper, {Position.x + (Size.x - OKButtonSize.x)/2.f, Position.y + PaddingTop + AlertTextRegion.height + PaddingBottom}, OKButtonSize, nullptr);
         AL->AcknowledgeButton->SetBGColor(sf::Color(38, 38, 38));
         AL->OKText = UI::TextLabel::Create(AL->AcknowledgeButton, AL->ChildHelper, TextAlignment::CenterJustified, "OK", sf::Color::White, Font, 14, { 0,0,0,0 }, { 0,0 });
 

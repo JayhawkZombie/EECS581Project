@@ -12,12 +12,30 @@ std::map<sf::Keyboard::Key, std::string> KeyToString = {
 namespace Engine
 {
 
+  void SFEngine::HandleTextEntered(const sf::Uint32 &unicode)
+  {
+    UIInputEvent.Key = sf::Keyboard::Unknown;
+    UIInputEvent.TextUnicode = unicode;
+    UIInputEvent.TextWasEntered = true;
+    UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
+    UIInputEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
+    UIInputEvent.MouseButtonWasPressed = false;
+    UIInputEvent.MouseButtonWasReleased = false;
+    UIInputEvent.EventType = InputEventType::TextEntered;
+    UIInputEvent.KeyRepeat = false;
+    UIInputEvent.KeyWasPressed = false;
+    UIInputEvent.KeyWasReleased = false;
+
+#ifdef WITH_EDITOR
+    GameEditor.HandleTextEntered(UIInputEvent);
+#endif
+  }
+
   void SFEngine::HandleKeyPress(const sf::Keyboard::Key &k)
   {
-    (*ScriptEngine).eval("Engine_KeyPressed(\"" + KeyToString[k] + "\")");
-    std::string command{ "" };
-
     UIInputEvent.Key = k;
+    UIInputEvent.TextUnicode = 0;
+    UIInputEvent.TextWasEntered = false;
     UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
     UIInputEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
     UIInputEvent.MouseButtonWasPressed = false;
@@ -48,6 +66,8 @@ namespace Engine
     EngineUIController.Handler.HandleKeyRelease(k);
 
     UIInputEvent.Key = k;
+    UIInputEvent.TextUnicode = 0;
+    UIInputEvent.TextWasEntered = false;
     UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
     UIInputEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
     UIInputEvent.MouseButtonWasPressed = false;
