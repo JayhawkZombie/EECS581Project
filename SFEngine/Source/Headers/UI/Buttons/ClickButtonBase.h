@@ -51,13 +51,32 @@ namespace Engine
 
       virtual void SetBGColor(const sf::Color &Color);
 
+      virtual void SetDrawTextureAndBG(bool b) {
+        DrawTextureAndBG = b;
+        if (b) {
+          IconShape.setPosition(Position);
+          IconShape.setSize(Size);
+        }
+      }
+      virtual void SetIconTexture(std::shared_ptr<sf::Texture> Texture) {
+        IconTexture = Texture;
+        IconShape.setTexture(Texture.get());
+      }
+      virtual void SetIconTextureRect(sf::IntRect Rect) {
+        IconShape.setTextureRect(Rect);
+      }
+
       virtual ~ClickButtonBase() = default;
     protected:
       ClickButtonBase();
 
       std::shared_ptr<sf::Texture> BGTexture;
       std::shared_ptr<sf::Texture> Overlay;
+      std::shared_ptr<sf::Texture> IconTexture;
       sf::IntRect BGTextureRect;
+      sf::RectangleShape IconShape;
+
+      bool DrawTextureAndBG;
       
       sf::IntRect OverlayNormalRect;
       sf::IntRect OverlayHighlightedRect;

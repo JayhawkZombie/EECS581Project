@@ -396,12 +396,16 @@ namespace Engine
 
     void WidgetHelper::TickUpdate(const double &delta)
     {
+      std::uint32_t fid = 0;
+
       if (!FocusStack.empty()) {
         FocusStack.top().lock()->TickUpdate(delta);
+        fid = FocusStack.top().lock()->WidgetID;
       }
       //shorthand of : for(auto layer = Layers.rbegin(); layer != Layers.rend(); ++layer)
       for (auto & it : Layers) {
-        (*it).TickUpdate(delta);
+        if ((*it).GetID() != fid)
+          (*it).TickUpdate(delta);
       }
     }
 

@@ -67,6 +67,12 @@ namespace Engine
         return true;
       }
 
+      virtual void SetString(const std::string &string) {
+        RawString = string;
+        RenderString.setString(string);
+        AlignText();
+      }
+
       void AlignText();
 
       virtual ~TextInput() = default;

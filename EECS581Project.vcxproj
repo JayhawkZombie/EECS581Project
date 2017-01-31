@@ -188,6 +188,7 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableRect.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\StickyBar.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\NumericComboBox.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Input\Spinner.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\TextInput.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ClickButtonBase.h" />
@@ -430,6 +431,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\DrawableText.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\ComboBox.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\NumericComboBox.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\Spinner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\TextInput.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\KeyTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\List.cpp" />

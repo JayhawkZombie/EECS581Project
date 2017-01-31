@@ -284,6 +284,9 @@ namespace Engine
       //for (auto & item : Drawables)
       //  item->Render(Texture); 
       Texture->draw(BGRect);
+      if (DrawTextureAndBG)
+        Texture->draw(IconShape);
+
       //Texture->draw(ButtonText);
       for (auto & label : TextLabels)
         label->Render(Texture);

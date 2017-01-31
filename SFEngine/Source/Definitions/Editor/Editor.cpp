@@ -129,6 +129,8 @@ namespace Engine
 
       TestInput = UI::TextInput::Create(UILayer, UIHelper, { 500, 40 }, { 200, 30 }, MenuFont, "DefText");
 
+      TestSpinner = UI::IntSpinner::Create(UILayer, UIHelper, { 500, 80 }, { 200, 30 }, MenuFont, IconSheet);
+
       EnablePhysicsToggle->CheckedCB = [this]() {this->EnabledPhysics = true; };
       EnablePhysicsToggle->UnCheckedCB = [this]() {this->EnabledPhysics = false; };
 

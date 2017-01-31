@@ -25,6 +25,8 @@
 #include "../UI/Input/NumericComboBox.h"
 #include "../UI/Toggles/SimpleToggle.h"
 #include "../UI/Input/TextInput.h"
+#include "../UI/Input/Spinner.h"
+
 namespace Engine
 {
 
@@ -133,6 +135,7 @@ namespace Engine
     std::shared_ptr<UI::NumericComboBox> PhysicsTicksBox;
     std::shared_ptr<UI::ClickButtonBase> EraseObjectsButton;
     std::shared_ptr<UI::TextInput> TestInput;
+    std::shared_ptr<UI::IntSpinner> TestSpinner;
 
     sf::Color ButtonColorNormal = sf::Color(58, 0, 29);
     sf::Color ButtonColorHighlighted = sf::Color(86, 0, 43);
