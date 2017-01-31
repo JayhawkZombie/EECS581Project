@@ -49,6 +49,12 @@ namespace Engine
       TextAlignment ButtonTextAlignment; 
       TextAlignment WidgetTextAlignment; 
       TextAlignment MenuTextAlignment;
+
+      sf::Color CheckBoxBackgroundColor;
+      sf::Vector2f CheckBoxSize;
+
+      sf::Color TextInputBackgroundColor;
+      unsigned int TextInputPadding;
     };
 
     extern Theme DefaultDarkTheme;

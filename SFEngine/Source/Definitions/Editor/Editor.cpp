@@ -1,12 +1,18 @@
 #include "../../Headers/Engine/Editor.h"
 #include "../../Headers/UI/Theme.h"
 #include "../../Headers/UI/UICreationMacros.h"
+#include "../../Headers/UI/UIIconSheet.h"
 
 namespace Engine
 {
 
   Editor::Editor()
   {
+    //Load the icon sheet
+    UI::LoadIconSheet("./SFEngine/Source/CoreFiles/Textures/Icons/Icons.txt");
+    IconSheet = std::make_shared<sf::Texture>();
+    IconSheet->loadFromFile("./SFEngine/Source/CoreFiles/Textures/Icons/ui_icons_grey.png");
+
     EditorFont.loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
     EditorModeText.setFont(EditorFont);
     EditorModeText.setCharacterSize(8);
@@ -15,7 +21,7 @@ namespace Engine
     EditorModeText.setString("Editor : Mode <No Selection>");
 
     MenuFont = std::make_shared<sf::Font>();
-    MenuFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Marvel-Regular.ttf");
+    MenuFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/exo/Exo-Regular.otf");
 
     TextFont = std::make_shared<sf::Font>();
     TextFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
@@ -48,13 +54,11 @@ namespace Engine
 
     UITexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture);
     UITexture->create(1200, 900);
-    //UISprite.setTexture(UITexture->getTexture());
 
     TilesTexture = std::make_shared<sf::Texture>();
     TilesTexture->loadFromFile("./SFEngine/Samples/Levels/Graveyard/TileSheetGraveyard.png");
 
     EditorRenderState.blendMode = sf::BlendAdd;
-    //UISprite.setColor(sf::Color(100, 100, 100));
 
     //set up the physics environment
     AssignBoundaries(900, 1200);
@@ -114,6 +118,17 @@ namespace Engine
 
       //TestPopup = UI::PopupObject::Create(UILayer, UIHelper, { 100, 100 }, { 900, 700 }, TextFont);
 
+      EnablePhysicsToggle = UI::SimpleToggle::Create(UILayer, UIHelper, { 300, 40 }, { 20, 20 }, { 15, 15 }, IconSheet, "boxchecked_medium", "boxunchecked_medium", true);
+      auto Label = UI::TextLabel::Create(EnablePhysicsToggle, UIHelper, UI::TextAlignment::CenterJustified, "Physics", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeMedium, { 0,0,1200,900 }, { 0,0 });
+      //EnablePhysicsToggle->AlignTextLabel();
+
+      //PhysicsTicksBox = UI::NumericComboBox::Create(UILayer, UIHelper, { 500, 40 }, { 100, 40 }, { 40,20 }, 5, 60, MenuFont, IconSheet);
+
+      TestInput = UI::TextInput::Create(UILayer, UIHelper, { 500, 40 }, { 200, 30 }, MenuFont, "DefText");
+
+      EnablePhysicsToggle->CheckedCB = [this]() {this->EnabledPhysics = true; };
+      EnablePhysicsToggle->UnCheckedCB = [this]() {this->EnabledPhysics = false; };
+
       sf::Vector2f ObjectSelectMenuPosition = { 100, 100 };
       sf::Vector2f ObjectSelectMenuSize = { 200, 400 };
       sf::Vector2f ObjectSelectMenuScreenPosition = { 100, 100 };
@@ -172,8 +187,18 @@ namespace Engine
 
       //SelectPhysicsObject Screen
 
+
+
+      MakeButtonNormal(EraseObjectsButton, UILayer, UIHelper, sf::Vector2f(10, 70), sf::Vector2f(150, 40), UI::DefaultDarkTheme);
+      auto erase_label = UI::TextLabel::Create(EraseObjectsButton, UIHelper, UI::TextAlignment::CenterJustified, "Erase All", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0,0,1000,1000 }, { 0,0 });
+      EraseObjectsButton->MouseReleaseCB = 
+        [this]()
+      {
+        this->TestObjects.clear();
+      };
+
       MakeButtonNormal(AllObjectButton, UILayer, UIHelper, sf::Vector2f(10, 10), sf::Vector2f(150, 40), UI::DefaultDarkTheme);
-      auto label = UI::TextLabel::Create(AllObjectButton, UIHelper, UI::TextAlignment::CenterJustified, "Add Object", sf::Color(0, 129, 155), MenuFont, 14, { 0,0,1000,1000 }, { 0,0 });
+      auto label = UI::TextLabel::Create(AllObjectButton, UIHelper, UI::TextAlignment::CenterJustified, "Add Object", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0,0,1000,1000 }, { 0,0 });
       MakeMenuButtonOpen(AllObjectButton, ObjectSelectMenu);
       
       ////Bind spawning behavior
@@ -182,6 +207,12 @@ namespace Engine
       {
         //this->ObjectSelectMenu->CloseMenu();
         this->SpawnBall(sf::Vector2f(400, 50));
+      };
+
+      ObjectSelect_5PolyButton->MouseReleaseCB = 
+        [this]()
+      {
+        this->Spawn5Poly(sf::Vector2f(400, 50));
       };
 
       ObjectSelect_SquareButton->MouseReleaseCB =
@@ -280,7 +311,7 @@ namespace Engine
 
     update_current += delta;
 
-    if (update_current >= update_delta) {
+    if (EnabledPhysics && TestObjects.size() > 0 && update_current >= update_delta) {
       UpdatePhysics(TestObjects, Segments, 2);
       update_current = 0.f;
     }

@@ -1,7 +1,6 @@
 #include "../../Headers/Engine/Engine.h"
 #include "../../Headers/Level/LevelLoader.h"
 #include <SFML/OpenGL.hpp>
-#include "../../Headers/UI/TextInput.h"
 #include "../../Headers/Lights/LightingSystem.h"
 
 #ifdef WITH_EDITOR
@@ -94,7 +93,7 @@ namespace Engine
         //if we have the editor, render that instead of the main level
         GameMainTexture->clear(sf::Color::Transparent);
         //Window->setActive(true);
-        Window->clear(sf::Color::White);
+        Window->clear(sf::Color::Black);
         
         EditorTexture->clear(sf::Color::Transparent);
         

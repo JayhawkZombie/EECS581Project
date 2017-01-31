@@ -37,6 +37,9 @@ namespace Engine
       virtual void Resize(const sf::Vector2f &Size) override;
       virtual void ResetAppearance() override;
 
+      virtual void SetTexture(std::shared_ptr<sf::Texture> Texture);
+      virtual void SetTextureRect(sf::IntRect &Rect);
+
       virtual void SetBGColorNormal(const sf::Color &Color);
       virtual void SetBGColorHighlighted(const sf::Color &Color);
       virtual void SetBGColorPressed(const sf::Color &Color);
@@ -47,7 +50,8 @@ namespace Engine
     protected:
       ClickButtonBase();
 
-
+      std::shared_ptr<sf::Texture> BGTexture;
+      sf::IntRect BGTextureRect;
 
     };
 

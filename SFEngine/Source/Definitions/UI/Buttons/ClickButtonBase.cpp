@@ -38,7 +38,7 @@ namespace Engine
       Widget->BGOutlineColorNormal = sf::Color(DefaultDarkTheme.ButtonOutlineColorNormal);
       Widget->BGOutlineColorHighlighted = sf::Color(DefaultDarkTheme.ButtonOutlineColorHighlighted);
       Widget->BGRect.setOutlineColor(DefaultDarkTheme.ButtonOutlineColorNormal);
-      Widget->BGRect.setOutlineThickness(-2);
+      Widget->BGRect.setOutlineThickness(-1);
 
       std::shared_ptr<ColoredQuad> Quad(new ColoredQuad(Position, Size));
 
@@ -82,6 +82,18 @@ namespace Engine
     {
       BGRect.setOutlineColor(BGOutlineColorNormal);
       BGRect.setOutlineThickness(-2);
+    }
+
+    void ClickButtonBase::SetTexture(std::shared_ptr<sf::Texture> Texture)
+    {
+      BGTexture = Texture;
+      BGRect.setTexture(Texture.get());
+    }
+
+    void ClickButtonBase::SetTextureRect(sf::IntRect & Rect)
+    {
+      BGRect.setTextureRect(Rect);
+      BGTextureRect = Rect;
     }
 
     void ClickButtonBase::SetBGColorNormal(const sf::Color & Color)

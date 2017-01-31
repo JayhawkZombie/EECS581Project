@@ -46,17 +46,17 @@ namespace Engine
     }
     else {
       if (UIHelper->ConsumeEvent(Event)) {
-        DEBUG_ONLY std::cerr << "UIHelper consumed event" << std::endl;
+
       }
       else {
-        DEBUG_ONLY std::cerr << "No item consumed event" << std::endl;
+
       }
     }
   }
 
   void Editor::HandleTextEntered(const InputEvent &Event)
   {
-
+    UIHelper->ConsumeEvent(Event);
   }
 
   void Editor::HandleWindowResized(const sf::Vector2u & NewWindowSize)

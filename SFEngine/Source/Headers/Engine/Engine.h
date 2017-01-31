@@ -132,6 +132,9 @@ namespace Engine
     void HandleWindowClosed();
     std::function<void(void)> Callback_HandleWindowClosed;
 
+    void HandleTextEntered(const sf::Uint32 &unicode);
+    std::function<void(const sf::Uint32 &unicode)> Callback_HandleTextEntered;
+
     void HandleWindowResized();
     std::function<void(void)> Callback_HandleWindowResized;
 

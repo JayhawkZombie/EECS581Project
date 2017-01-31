@@ -42,6 +42,7 @@ namespace Engine
     void BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftn);
     void BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> ftn);
     void BindCallback(const Events &type, std::function<void(void)> ftn);
+    void BindTextEnterHandler(std::function<void(const sf::Uint32 &)> ftn);
 
     bool PollEvents(sf::RenderWindow *win, sf::Event &evnt, const bool &makeCallbacks);
 
@@ -70,7 +71,7 @@ namespace Engine
     std::function<void(const sf::Vector2i &)> ftnCallback_MouseScroll;
     std::function<void(const sf::Keyboard::Key &)> ftnCallback_KeyPress;
     std::function<void(const sf::Keyboard::Key &)> ftnCallback_KeyRelease;
-    std::function<void(const sf::Keyboard::Key &)> ftnCallback_TextEntered;
+    std::function<void(const sf::Uint32 &)> ftnCallback_TextEntered;
 
     std::function<void(void)> ftnCallback_WindowClosed;
     std::function<void(void)> ftnCallback_WindowResized;
