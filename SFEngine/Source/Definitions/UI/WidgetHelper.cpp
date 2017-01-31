@@ -286,8 +286,9 @@ namespace Engine
     void UILayer::TickUpdate(const double &delta)
     {
       for (auto & item : Items) {
-        if (item->IsBeingUpdated)
-          item->TickUpdate(delta);
+        item->TickUpdate(delta);
+        //if (item->IsBeingUpdated)
+        //  item->TickUpdate(delta);
       }
     }
 
@@ -395,6 +396,9 @@ namespace Engine
 
     void WidgetHelper::TickUpdate(const double &delta)
     {
+      if (!FocusStack.empty()) {
+        FocusStack.top().lock()->TickUpdate(delta);
+      }
       //shorthand of : for(auto layer = Layers.rbegin(); layer != Layers.rend(); ++layer)
       for (auto & it : Layers) {
         (*it).TickUpdate(delta);

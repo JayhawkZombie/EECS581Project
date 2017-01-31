@@ -22,52 +22,52 @@ namespace Engine
 
         std::shared_ptr<NumericComboBox> Box(new NumericComboBox);
 
-        Box->Helper = ThisHelper.lock();
-        Box->MyLayer = ThisLayer.lock();
-        ThisLayer.lock()->RegisterWidget(Box);
+        //Box->Helper = ThisHelper.lock();
+        //Box->MyLayer = ThisLayer.lock();
+        //ThisLayer.lock()->RegisterWidget(Box);
 
-        Box->Font = _Font;
-        Box->ChildHelper = WidgetHelper::Create();
-        Box->ChildLayer = UILayer::Create(Box->ChildHelper);
-        Box->ValueDelta = Delta;
-        Box->CurrentValue = InitialValue;
-        Box->ValueText->SetString(std::to_string(InitialValue));
+        //Box->Font = _Font;
+        //Box->ChildHelper = WidgetHelper::Create();
+        //Box->ChildLayer = UILayer::Create(Box->ChildHelper);
+        //Box->ValueDelta = Delta;
+        //Box->CurrentValue = InitialValue;
+        //Box->ValueText->SetString(std::to_string(InitialValue));
 
-        //Create the text label
-        Box->ValueText = TextLabel::Create(Box, Box->ChildHelper, TextAlignment::CenterJustified, std::to_string(InitialValue), DefaultDarkTheme.TextColorNormal, _Font, DefaultDarkTheme.TextSizeMedium, { 0,0,1200,900 }, { 0,0 });
+        ////Create the text label
+        //Box->ValueText = TextLabel::Create(Box, Box->ChildHelper, TextAlignment::CenterJustified, std::to_string(InitialValue), DefaultDarkTheme.TextColorNormal, _Font, DefaultDarkTheme.TextSizeMedium, { 0,0,1200,900 }, { 0,0 });
 
-        //Create our bounds
-        sf::FloatRect TextRegion = { Position.x, Position.y, TextAreaSize.x, TextAreaSize.y };
-        sf::FloatRect ButtonsRegion = { TextRegion.left + TextRegion.width, TextRegion.top, ButtonsSize.x, ButtonsSize.y };
-        sf::FloatRect TotalRegion = { TextRegion.left, TextRegion.top, TextRegion.width + ButtonsRegion.width, std::max(TextRegion.height, ButtonsRegion.height) };
+        ////Create our bounds
+        //sf::FloatRect TextRegion = { Position.x, Position.y, TextAreaSize.x, TextAreaSize.y };
+        //sf::FloatRect ButtonsRegion = { TextRegion.left + TextRegion.width, TextRegion.top, ButtonsSize.x, ButtonsSize.y };
+        //sf::FloatRect TotalRegion = { TextRegion.left, TextRegion.top, TextRegion.width + ButtonsRegion.width, std::max(TextRegion.height, ButtonsRegion.height) };
 
-        Box->ValueText->MoveTo(TextRegion);
-        Box->SetBGColorNormal(DefaultDarkTheme.TextInputBackgroundColor);
+        //Box->ValueText->MoveTo(TextRegion);
+        //Box->SetBGColorNormal(DefaultDarkTheme.TextInputBackgroundColor);
 
-        Box->UpButton = ClickButtonBase::Create(Box->ChildLayer, Box->ChildHelper, { Position.x + TextAreaSize.x, Position.y }, { ButtonsSize.x, ButtonsSize.y / 2.f });
-        Box->DownButton = ClickButtonBase::Create(Box->ChildLayer, Box->ChildHelper, { Position.x + TextAreaSize.x, Position.y + (ButtonsSize.y / 2.f) }, { ButtonsSize.x, ButtonsSize.y / 2.f });
-        Box->UpButton->MouseReleaseCB = [Box]() { Box->OnUpButtonReleased(); };
-        Box->DownButton->MouseReleaseCB = [Box]() { Box->OnDownButtonReleased(); };
-        Box->UpButton->MousePressCB = [Box]() {Box->OnUpButtonPressed(); };
-        Box->DownButton->MousePressCB = [Box]() {Box->OnDownButtonPressed(); };
+        //Box->UpButton = ClickButtonBase::Create(Box->ChildLayer, Box->ChildHelper, { Position.x + TextAreaSize.x, Position.y }, { ButtonsSize.x, ButtonsSize.y / 2.f });
+        //Box->DownButton = ClickButtonBase::Create(Box->ChildLayer, Box->ChildHelper, { Position.x + TextAreaSize.x, Position.y + (ButtonsSize.y / 2.f) }, { ButtonsSize.x, ButtonsSize.y / 2.f });
+        //Box->UpButton->MouseReleaseCB = [Box]() { Box->OnUpButtonReleased(); };
+        //Box->DownButton->MouseReleaseCB = [Box]() { Box->OnDownButtonReleased(); };
+        //Box->UpButton->MousePressCB = [Box]() {Box->OnUpButtonPressed(); };
+        //Box->DownButton->MousePressCB = [Box]() {Box->OnDownButtonPressed(); };
 
-        Box->UpButton->SetTexture(IconTexture);
-        Box->UpButton->SetTextureRect(IconSheetRects["uparrow_medium"]);
-        Box->UpButton->SetBGColorNormal(DefaultDarkTheme.ButtonColorNormal);
-        Box->UpButton->SetBGColorHighlighted(DefaultDarkTheme.ButtonColorHighlighted);
+        //Box->UpButton->SetTexture(IconTexture);
+        //Box->UpButton->SetTextureRect(IconSheetRects["uparrow_medium"]);
+        //Box->UpButton->SetBGColorNormal(DefaultDarkTheme.ButtonColorNormal);
+        //Box->UpButton->SetBGColorHighlighted(DefaultDarkTheme.ButtonColorHighlighted);
 
-        Box->DownButton->SetTexture(IconTexture);
-        Box->DownButton->SetTextureRect(IconSheetRects["downarrow_medium"]);
-        Box->DownButton->SetBGColorNormal(DefaultDarkTheme.ButtonColorNormal);
-        Box->DownButton->SetBGColorHighlighted(DefaultDarkTheme.ButtonColorHighlighted);
+        //Box->DownButton->SetTexture(IconTexture);
+        //Box->DownButton->SetTextureRect(IconSheetRects["downarrow_medium"]);
+        //Box->DownButton->SetBGColorNormal(DefaultDarkTheme.ButtonColorNormal);
+        //Box->DownButton->SetBGColorHighlighted(DefaultDarkTheme.ButtonColorHighlighted);
 
-        Box->SetBGColorNormal(DefaultDarkTheme.TextInputBackgroundColor);
-        Box->SetBGColorHighlighted(DefaultDarkTheme.TextInputBackgroundColor);
-        Box->SetBGColorPressed(DefaultDarkTheme.TextInputBackgroundColor);
-        Box->SetBGOutlineColor(DefaultDarkTheme.ButtonOutlineColorNormal);
-        Box->SetBGOutlineColorHighlighted(DefaultDarkTheme.ButtonOutlineColorHighlighted);
-        Box->SetBGPosition(Position);
-        Box->SetBGSize({ TextAreaSize.x + ButtonsSize.x, TextAreaSize.y });
+        //Box->SetBGColorNormal(DefaultDarkTheme.TextInputBackgroundColor);
+        //Box->SetBGColorHighlighted(DefaultDarkTheme.TextInputBackgroundColor);
+        //Box->SetBGColorPressed(DefaultDarkTheme.TextInputBackgroundColor);
+        //Box->SetBGOutlineColor(DefaultDarkTheme.ButtonOutlineColorNormal);
+        //Box->SetBGOutlineColorHighlighted(DefaultDarkTheme.ButtonOutlineColorHighlighted);
+        //Box->SetBGPosition(Position);
+        //Box->SetBGSize({ TextAreaSize.x + ButtonsSize.x, TextAreaSize.y });
 
         return Box;
       }

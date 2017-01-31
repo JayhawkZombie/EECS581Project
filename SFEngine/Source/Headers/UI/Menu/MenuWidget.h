@@ -70,6 +70,15 @@ namespace Engine
       MenuWidget() = default;
       bool _IsInFocus = false;
 
+      std::shared_ptr<sf::RenderTexture> MenuTexture;
+      sf::Sprite MenuSprite;
+
+      float TransitionTime = 100.f;
+      float CurrentTime = 0.f;
+      bool IsTransitioning = false;
+      sf::View TransitioningView;
+      sf::FloatRect TransitioningViewRect;
+
       sf::Vector2f Position;
       sf::Vector2f Size;
 

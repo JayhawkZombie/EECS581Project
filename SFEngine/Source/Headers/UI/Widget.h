@@ -107,6 +107,13 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
         IsHidden = Hidden;
       }
 
+      sf::Vector2f GetPosition() const {
+        return Position;
+      }
+
+      sf::Vector2f GetSize() const {
+        return Size;
+      }
 
       virtual bool WantsTextEnteredEvent() const {
         return false;

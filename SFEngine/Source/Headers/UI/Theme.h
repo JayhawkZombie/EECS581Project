@@ -55,6 +55,10 @@ namespace Engine
 
       sf::Color TextInputBackgroundColor;
       unsigned int TextInputPadding;
+
+      sf::IntRect ButtonOverlayNormal;
+      sf::IntRect ButtonOverlayHighlighted;
+      sf::IntRect ButtonOverlayPressed;
     };
 
     extern Theme DefaultDarkTheme;

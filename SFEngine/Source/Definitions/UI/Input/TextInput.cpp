@@ -43,7 +43,7 @@ namespace Engine
         Input->BGColor = DefaultDarkTheme.ButtonColorNormal;
         Input->BGColorHighlighted = DefaultDarkTheme.ButtonColorHighlighted;
         Input->BGColorPressed = DefaultDarkTheme.ButtonColorPressed;
-        Input-> BGColorNormal = DefaultDarkTheme.ButtonColorNormal;
+        Input->BGColorNormal = DefaultDarkTheme.ButtonColorNormal;
         Input->BGColorHighlighted = DefaultDarkTheme.ButtonColorHighlighted;
         Input->BGColorPressed = DefaultDarkTheme.ButtonColorPressed;
         Input->BGRect.setFillColor(DefaultDarkTheme.ButtonColorNormal);

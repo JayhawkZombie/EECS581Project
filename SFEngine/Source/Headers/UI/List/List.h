@@ -58,7 +58,7 @@ namespace Engine
     {
     public:
       static std::shared_ptr<ListWidget> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
-                                                ButtonPlacement CloseButtonPlacement = ButtonPlacement::TopCenter, const sf::Vector2f ButtonOfffset = { 0, 0 }, const sf::Vector2f &ButtonSize = { 0, 0 });
+                                                ButtonPlacement CloseButtonPlacement = ButtonPlacement::TopCenter, const sf::Vector2f ButtonOfffset = { 0, 0 }, const sf::Vector2f &ButtonSize = { 0, 0 }, std::shared_ptr<sf::Texture> Tex = nullptr);
       virtual void ConsumeEvent(const InputEvent &IEvent);
       virtual void OnFocusGained(const FocusChangeEvent &FEvent);
       virtual void OnFocusLost(const FocusChangeEvent &FEvent);
@@ -94,6 +94,7 @@ namespace Engine
       sf::FloatRect OpenRect = { 0,0,0,0 };
 
       std::shared_ptr<StickyBar> ScrollingBar;
+      std::shared_ptr<sf::Texture> ButtonOverlayTexture;
 
       //test items
       std::vector<sf::RectangleShape> TestShapes;

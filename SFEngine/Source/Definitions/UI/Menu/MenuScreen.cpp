@@ -60,6 +60,10 @@ namespace Engine
           ptr->ResetAppearance();
       }
     }
+    void MenuScreen::CenterElement()
+    {
+
+    }
     void MenuScreen::CloseScreen()
     {
       auto ptr = TopMenu.lock();

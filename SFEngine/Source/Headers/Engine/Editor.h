@@ -165,6 +165,7 @@ namespace Engine
     std::shared_ptr<UI::ClickButtonBase> EffectSelect_CancelButton;
 
     std::shared_ptr<sf::Font> TextFont;
+    std::shared_ptr<sf::Texture> ButtonOverlayTexture;
 
     //Data for the tile menu on the left
     std::shared_ptr<UI::ListWidget> TileList;

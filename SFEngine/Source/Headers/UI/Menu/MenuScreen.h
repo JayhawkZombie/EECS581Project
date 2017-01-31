@@ -29,7 +29,7 @@ namespace Engine
 
       void MakeInactive();
       void MakeActive();
-
+      void CenterElement();
       void CloseScreen();
 
       virtual std::string ClassName() override {
