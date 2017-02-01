@@ -47,7 +47,7 @@ namespace Engine
         Spinner->UpButton->SetTextureRect(IconSheetRects["uparrow_medium"]);
 
         Spinner->DownButton->SetTexture(IconTexture);
-        Spinner->DownButton->SetTextureRect(IconSheetRects["uparrow_medium"]);
+        Spinner->DownButton->SetTextureRect(IconSheetRects["downarrow_medium"]);
         Spinner->GlobalWidgetBounds.ForceRegion({ Position.x, Position.y, TextSize.x + 20, TextSize.y });
         Spinner->UpButton->MouseReleaseCB =
           [Spinner]()
@@ -58,6 +58,12 @@ namespace Engine
           [Spinner]()
         {
           Spinner->ChangeData(-1);
+        };
+
+        Spinner->InputArea->TextEnteredCB =
+          [Spinner]()
+        {
+          Spinner->ValueChanged(Spinner->InputArea->GetString());
         };
 
         return Spinner;
@@ -164,6 +170,19 @@ namespace Engine
       Data += delta;
       InputArea->SetString(std::to_string(Data));
 
+    }
+
+    void IntSpinner::ValueChanged(const std::string & data)
+    {
+      if (data.find_first_not_of("-0123456789") != std::string::npos) {
+        //invalid data
+        //Mark it as invalid, change the text to RED
+        InputArea->SetTextColor(sf::Color::Red);
+      }
+      else {
+        InputArea->SetTextColor(DefaultDarkTheme.TextColorNormal);
+        Data = std::stol(data);
+      }
     }
 
   }

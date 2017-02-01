@@ -1,25 +1,27 @@
 #ifndef LINESEG_H_INCLUDED
 #define LINESEG_H_INCLUDED
-#include <sstream>
+
 #include "segHit.h"
 
-class lineSeg: public segHit
+class lineSeg : public segHit
 {
-    public:
-    vec2d L, N;
-    sf::Vertex vtx[2];
+public:
+  vec2d L, N;
+  sf::Vertex vtx[2];
 
-    // funcs
-    lineSeg(){}// don't use a default constructed lineSeg
-    lineSeg( std::stringstream& fin );
-    virtual ~lineSeg();
-    virtual void init( std::stringstream& fin );
-    virtual void to_file( std::ofstream& fout );
-    virtual void draw( sf::RenderWindow& rRW )const { rRW.draw(vtx, 2, sf::Lines); }
-    virtual void setPosition( vec2d );
+  // funcs
+  lineSeg() {}// don't use a default constructed lineSeg
+  lineSeg(std::istream& fin);
+  virtual ~lineSeg();
+  virtual void init(std::istream& fin);
+  virtual void to_file(std::ofstream& fout);
+  virtual void draw(sf::RenderWindow& rRW)const {
+    rRW.draw(vtx, 2, sf::Lines);
+  }
+  virtual void setPosition(vec2d);
 
- //   virtual bool hit( mvHit& mh );
-    bool is_onMe( const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen )const;
+  //   virtual bool hit( mvHit& mh );
+  bool is_onMe(const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen)const;
 };
 
 //sf::Vector2f& operator=( sf::Vector2f sfPos, vec2d pos ) { sfPos.x += pos.x; sfPos.y += pos.y; return sfPos; }

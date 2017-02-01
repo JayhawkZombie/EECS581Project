@@ -63,6 +63,8 @@ namespace Engine
 
       virtual void SetBGColor(const sf::Color &Color);
 
+      std::function<void(void)> TextEnteredCB = []() {};
+
       virtual bool WantsTextEnteredEvent() const {
         return true;
       }
@@ -71,6 +73,14 @@ namespace Engine
         RawString = string;
         RenderString.setString(string);
         AlignText();
+      }
+
+      virtual std::string GetString() const {
+        return RawString;
+      }
+
+      virtual void SetTextColor(const sf::Color &Color) {
+        RenderString.setFillColor(Color);
       }
 
       void AlignText();

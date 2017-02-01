@@ -20,7 +20,7 @@ namespace Engine
         assert(Item->MyLayer.lock() && Item->ParentList.lock() && Item->Helper.lock());
 
         //The ListWidget should take care of placing us properly
-        Item->ParentList.lock()->AddListItem(Item, Position, Size);
+        //Item->ParentList.lock()->AddListItem(Item, Position, Size);
 
         return Item;
       }

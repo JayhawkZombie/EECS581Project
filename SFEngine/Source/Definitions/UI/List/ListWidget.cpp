@@ -2,6 +2,7 @@
 
 #include "../../../Headers/UI/WIdgetHelper.h"
 #include "../../../Headers/UI/Text/TextLabel.h"
+#include "../../../Headers/UI/Theme.h"
 
 namespace Engine
 {
@@ -9,8 +10,7 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<ListWidget> ListWidget::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
-                                                   ButtonPlacement CloseButtonPlacement, const sf::Vector2f CloseButtonOffset, const sf::Vector2f &CloseButtonSize, std::shared_ptr<sf::Texture> Tex)
+    std::shared_ptr<ListWidget> ListWidget::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size, const sf::Vector2f &ItemSize)
     {
       if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget()) 
         throw InvalidObjectException({ ExceptionCause::InvalidContainer, ExceptionCause::ConstructionError },
@@ -27,7 +27,8 @@ namespace Engine
 
         List->ChildLayer = UI::UILayer::Create(List->Helper.lock());
         List->OptionsLayer = UI::UILayer::Create(List->Helper.lock());
-
+        List->Position = Position;
+        List->Size = Size;
         List->OptionsLayer->LayerRegisterDebugOutputFunction =
           [List](auto ID)
         {
@@ -35,75 +36,13 @@ namespace Engine
         };
 
         List->ListSize = Size;
-
+        List->ItemFont = Font;
         //Create the open/close button
         //and initially set the button to "close" the list
         //  whenever it opens, it'll switch the callback to close it. Whenever it gets closed, it'll switch to
         //  have the CB open it instead
         sf::Vector2f ButtonPosition;
         sf::Vector2f ButtonSize;
-
-        float xDiff = Size.x - CloseButtonSize.x;
-        float yDiff = Size.y - CloseButtonSize.y;
-        /**
-        *             TopCenter
-        *   ______________________________
-        *  |           |______|           |
-        *  |            ______            |
-        *  |___________|______|___________|
-        *            BottomCenter
-        *
-        */
-
-        switch (CloseButtonPlacement)
-        {
-
-          case ButtonPlacement::TopLeft:
-            ButtonPosition = Position + CloseButtonOffset;
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { 0, 0 };
-            break;
-          case ButtonPlacement::BottomLeft:
-            ButtonPosition = { Position.x + CloseButtonOffset.x, Position.y + Size.y + CloseButtonOffset.y - CloseButtonSize.y };
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { 0, 0 };
-            break;
-          case ButtonPlacement::LeftCenter:
-            ButtonPosition = { Position.x + CloseButtonOffset.x, Position.y + yDiff / 2.f + CloseButtonOffset.y };
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { 0, 0 };
-            break;
-          case ButtonPlacement::RightCenter:
-            ButtonPosition = { Position.x + Size.x - CloseButtonSize.x + CloseButtonOffset.x, Position.y + yDiff / 2.f + CloseButtonOffset.y };
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { Size.x / 2.f, 0 };
-            break;
-          case ButtonPlacement::BottomCenter:
-            ButtonPosition = { Position.x + xDiff / 2.f + CloseButtonOffset.x, Position.y + Size.y - CloseButtonSize.y + CloseButtonOffset.y };
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { 0, Size.y };
-            break;
-          case ButtonPlacement::BottomRight:
-            ButtonPosition = { Position.x + Size.x - CloseButtonSize.x + CloseButtonOffset.x, Position.y + Size.y - CloseButtonSize.y + CloseButtonOffset.y };
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { Size.x, 0 };
-            break;
-          case ButtonPlacement::TopCenter:
-            ButtonPosition = { Position.x + xDiff / 2.f + CloseButtonOffset.x, Position.y + CloseButtonOffset.y };
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { Size.x / 2.f, 0 };
-            break;
-          case ButtonPlacement::TopRight:
-            ButtonPosition = { Position.x + Size.x - CloseButtonSize.x + CloseButtonOffset.x, Position.y + CloseButtonOffset.y };
-            ButtonSize = CloseButtonSize;
-            List->ButtonCloseMove = { Size.x, 0 };
-            break;
-        }
-
-
-        List->OpenCloseButton = UI::ClickButtonBase::Create(List->OptionsLayer, List->Helper, ButtonPosition, ButtonSize, List->ButtonOverlayTexture);
-        List->OpenCloseButton->MouseReleaseCB = [List]() { List->CloseList(); };
-        List->OpenCloseButton->SetDraggingEnabled(false);
 
         //auto Button = UI::ClickButtonBase::Create(List->OptionsLayer, { Position.x, Position.y }, { Size.x, 15 });
         //Button->MouseReleaseCB = [List]() {List->CloseList(); };
@@ -132,7 +71,6 @@ namespace Engine
 
         //Add some text to the button
         WIDGET_DEBUG_ONLY std::cerr << "ListWidget::Create : Creating OpenCloseButtonText" << std::endl;
-        List->OpenCloseButtonText = UI::TextLabel::Create(List->OpenCloseButton, List->Helper.lock(), TextAlignment::CenterJustified, "Close", sf::Color::White, List->ListFont, 12, { 0, 0, 75, 15 }, { 0, 0 });
 
         float ScrollBarHeight = 15.f;
         float ScrollVertBarWidth = 3.f;
@@ -178,22 +116,22 @@ namespace Engine
 
     }
 
-    void ListWidget::AddListItem(std::shared_ptr<ListItem> Item, const sf::Vector2f &Position, const sf::Vector2f &Size)
+    void ListWidget::AddListItem(const std::string &String, const sf::Color &NormalBGColor)
     {
 
       //the position is relative to the upper left-hand corner of ourselves
       sf::Vector2f RealPos = { GlobalWidgetBounds.GlobalBounds.left + Position.x, GlobalWidgetBounds.GlobalBounds.top + Position.y };
       
+      auto Item = UI::ClickButtonBase::Create(OptionsLayer, Helper.lock(), { Position.x, OccupiedSpace.top + OccupiedSpace.height + 3 }, ListItemSize, nullptr);
+      auto label = UI::TextLabel::Create(Item, Helper.lock(), TextAlignment::CenterJustified, String, DefaultDarkTheme.TextColorNormal, ItemFont, DefaultDarkTheme.TextSizeSmall, { 0,0,1000,1000 }, { 0,0 });
       //Force the widget to exist within this space
       Item->GlobalWidgetBounds.ForceRegion({ RealPos, Size });
 
-      //Make test appearance for it
-      Item->Outline.setPosition(RealPos);
-      Item->Outline.setSize(Size);
-      Item->Outline.setFillColor(sf::Color::Transparent);
-      Item->Outline.setOutlineColor(sf::Color::Red);
-      Item->Outline.setOutlineThickness(-2);
+      auto bounds = Item->GlobalWidgetBounds.GlobalBounds;
+      OccupiedSpace.height += 3 + ListItemSize.y;
 
+      Items.push_back(Item);
+      //Make test appearance for it
       ChildLayer->RegisterWidget(Item);
 
       //Items.push_back(Item);
@@ -207,12 +145,6 @@ namespace Engine
     void ListWidget::OpenList()
     {
       DEBUG_ONLY std::cerr << "Showing ListWidget" << std::endl;
-
-      OpenCloseButton->MouseReleaseCB = [this]() { this->CloseList(); };
-
-      OpenCloseButton->Move(ButtonCloseMove);
-      OpenCloseButtonText->Move(ButtonCloseMove);
-      OpenCloseButtonText->SetString("Close");
 
       ScrollingBar->Move(ButtonCloseMove);
       ScrollingBar->SetIsHidden(false);
@@ -229,16 +161,8 @@ namespace Engine
 
       OpenRect = GlobalWidgetBounds.GlobalBounds;
 
-      OpenCloseButton->MouseReleaseCB = [this]() { this->OpenList(); };
-      OpenCloseButton->Move(-ButtonCloseMove);
-      OpenCloseButtonText->Move(-ButtonCloseMove);
-      OpenCloseButtonText->SetString("Open");
-
       ScrollingBar->Move(-ButtonCloseMove);
       ScrollingBar->SetIsHidden(true);
-
-      auto RECT = OpenCloseButton->GlobalWidgetBounds.GlobalBounds;
-      GlobalWidgetBounds.ForceRegion(RECT);
 
       Hidden = true;
     }
@@ -371,8 +295,6 @@ namespace Engine
       }
 
       OptionsLayer->Render(Target);
-      
-      OpenCloseButtonText->Render(Target);
     }
 
   }

@@ -1,8 +1,6 @@
 #ifndef LINESEGSWING_H_INCLUDED
 #define LINESEGSWING_H_INCLUDED
 
-#include <sstream>
-
 #include "lineSegRotate.h"
 
 class lineSegSwing : public lineSegRotate
@@ -16,10 +14,10 @@ public:
   vec2d grav;// gravity
 
   lineSegSwing() : lineSegRotate() {}// don't use a default constructed lineSeg
-  lineSegSwing(std::stringstream& fin);
+  lineSegSwing(std::istream& fin);
 
   virtual ~lineSegSwing() {}
-  virtual void init(std::stringstream& fin);
+  virtual void init(std::istream& fin);
   virtual void to_file(std::ofstream& fout);
 
   virtual void update();

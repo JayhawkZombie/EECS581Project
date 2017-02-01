@@ -238,6 +238,9 @@ namespace Engine
           AlignText();
         }
       }
+
+      if (TextEnteredCB)
+        TextEnteredCB();
     }
 
     void TextInput::SetTexture(std::shared_ptr<sf::Texture> Texture)

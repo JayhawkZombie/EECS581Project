@@ -19,12 +19,10 @@ bool hit(regPolygon& rpg, const lineSeg& Lseg)
 
   //   bool Hit = false;
   if (rpg.hit(Lseg.pos)) {
-    //std::cerr << "Hit 1\n"; 
-    return true;
+    //std::cerr << "Hit 1\n"; return true;
   }
   else if (rpg.hit(Lseg.pos + Lseg.L)) {
-    //std::cerr << "Hit 2\n"; 
-    return true;
+    //std::cerr << "Hit 2\n"; return true;
   }
   else if (h < rpg.r)// collide
   {
@@ -52,7 +50,7 @@ bool hit(regPolygon& rpg, const lineSeg& Lseg)
           rpg.respond(dV, Lseg.friction_on);
           rpg.v.y *= -rpg.Cr;
           rpg.v = rpg.v.from_base(T);
-          //    //std::cout << "h1 = " << h1 << '\n';
+          //    std::cout << "h1 = " << h1 << '\n';
           rpg.setPosition(Lseg.pos + T*d - N*(P.dot(N) + h1));
           return true;
         }

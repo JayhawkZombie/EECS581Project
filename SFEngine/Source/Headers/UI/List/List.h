@@ -57,8 +57,7 @@ namespace Engine
     class ListWidget : public WidgetBase
     {
     public:
-      static std::shared_ptr<ListWidget> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
-                                                ButtonPlacement CloseButtonPlacement = ButtonPlacement::TopCenter, const sf::Vector2f ButtonOfffset = { 0, 0 }, const sf::Vector2f &ButtonSize = { 0, 0 }, std::shared_ptr<sf::Texture> Tex = nullptr);
+      static std::shared_ptr<ListWidget> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size, const sf::Vector2f &ItemSize);
       virtual void ConsumeEvent(const InputEvent &IEvent);
       virtual void OnFocusGained(const FocusChangeEvent &FEvent);
       virtual void OnFocusLost(const FocusChangeEvent &FEvent);
@@ -74,7 +73,7 @@ namespace Engine
       virtual void OnDragContinue(const InputEvent &IEvent);
       virtual void OnDragEnd(const InputEvent &IEvent);
 
-      virtual void AddListItem(std::shared_ptr<ListItem> Item, const sf::Vector2f &Position, const sf::Vector2f &Size);
+      virtual void AddListItem(const std::string &String, const sf::Color &NormalBGColor);
       virtual void DeleteItem(const std::uint32_t ItemID);
 
       virtual void TickUpdate(const double &delta);
@@ -93,9 +92,11 @@ namespace Engine
 
       sf::FloatRect OpenRect = { 0,0,0,0 };
 
+      sf::FloatRect OccupiedSpace = { 0,0,0,0 };
       std::shared_ptr<StickyBar> ScrollingBar;
       std::shared_ptr<sf::Texture> ButtonOverlayTexture;
-
+      std::shared_ptr<sf::Font> ItemFont;
+      sf::Vector2f ListItemSize;
       //test items
       std::vector<sf::RectangleShape> TestShapes;
 
@@ -108,11 +109,8 @@ namespace Engine
 
       std::shared_ptr<sf::Font> ListFont;
 
-      std::shared_ptr<TextLabel> OpenCloseButtonText;
-      std::shared_ptr<ClickButtonBase> OpenCloseButton;
-      sf::Vector2f OpenCloseButtonOffset = { 0, 0 };
       sf::RectangleShape Outline;
-      std::vector<std::shared_ptr<ListItem>> Items;
+      std::vector<std::shared_ptr<ClickButtonBase>> Items;
 
       //Keep track of what the offset is that the list is scrolled by
       sf::Vector2u ListScrollOffset = sf::Vector2u{ 0, 0 };

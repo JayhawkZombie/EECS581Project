@@ -38,8 +38,8 @@ namespace Engine
       {sf::Color(79, 79, 79)}, //ButtonOutlineColorPressed
       {sf::Color(142, 142, 142)}, //ButtonOutlineColorDisabled
 
-      {sf::Color(40, 40, 40, 100)}, //MenuBackgroundColorNormal
-      {sf::Color(56, 0, 9, 100)}, //MenuBackgroundColorDisabled
+      {sf::Color(40, 40, 40, 150)}, //MenuBackgroundColorNormal
+      {sf::Color(56, 0, 9, 150)}, //MenuBackgroundColorDisabled
 
       {sf::Color(56, 56, 56, 100)}, //MenuOutlineColorNormal
       {sf::Color(0, 0, 0, 100)}, //MenuOutlineColorDisabled

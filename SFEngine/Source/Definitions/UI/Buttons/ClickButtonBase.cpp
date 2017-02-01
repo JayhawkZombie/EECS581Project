@@ -193,8 +193,8 @@ namespace Engine
 
     void ClickButtonBase::OnMousePress(const InputEvent &event)
     {
-      //BGRect.setFillColor(BGColorPressed);
-      BGRect.setTextureRect(OverlayPressedRect);
+      BGRect.setFillColor(BGColorPressed);
+      //BGRect.setTextureRect(OverlayPressedRect);
       DEBUG_ONLY std::cerr << "ClickButtonBase::OnMousePress" << std::endl;
 
       if (MousePressCB)

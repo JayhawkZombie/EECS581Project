@@ -1,10 +1,10 @@
 #include "block.h"
 
-block::block(std::stringstream& fin) {
+block::block(std::istream& fin) {
   init(fin);
 }// from file data
 
-void block::init(std::stringstream& fin)// from file data
+void block::init(std::istream& fin)// from file data
 {
   nSides = 4;
   fin >> W >> H;

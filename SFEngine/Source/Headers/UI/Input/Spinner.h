@@ -45,6 +45,8 @@ namespace Engine
       bool CanInteract = false;
       IntSpinner() = default;
 
+      void ValueChanged(const std::string &data);
+
       std::shared_ptr<TextInput> InputArea;
       std::shared_ptr<ClickButtonBase> UpButton;
       std::shared_ptr<ClickButtonBase> DownButton;

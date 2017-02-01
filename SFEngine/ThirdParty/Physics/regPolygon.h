@@ -1,13 +1,11 @@
 #ifndef REGPOLYGON_H_INCLUDED
 #define REGPOLYGON_H_INCLUDED
 
-#include <sstream>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <fstream>
-#include "vec2d.h"
+//#include "vec2d.h"
 //#include "ball.h"
 #include "mvHit.h"
 
@@ -19,10 +17,10 @@ public:
   std::vector<vec2d> ptVec;// official
   std::vector<sf::Vertex> vtxVec;// visual
 
-  regPolygon(std::stringstream& fin);
+  regPolygon(std::istream& fin);
   regPolygon();
   virtual ~regPolygon() {}
-  virtual void init(std::stringstream& fin);
+  virtual void init(std::istream& fin);
 
   virtual void update();
   virtual void draw(sf::RenderWindow& rRW)const;
@@ -39,6 +37,7 @@ public:
   virtual bool is_inMe(const lineSeg& LS, vec2d& Pimp, vec2d& Nh, float& dSep)const;// detailed collision detection
   virtual bool is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)const;// code goes here. Impact point is written.
   virtual bool is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response
+  bool is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response toward ctr
 
   float project(vec2d vUnit)const;// max projection along vUnit
 
