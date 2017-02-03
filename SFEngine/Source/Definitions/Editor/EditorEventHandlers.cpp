@@ -42,7 +42,7 @@ namespace Engine
     if (Event.Key == sf::Keyboard::Escape) {
       DEBUG_ONLY std::cerr << "Editor : Showing Popup" << std::endl;
       //UI::Alert::ShowPopup(Alert);
-      UI::MenuWidget::OpenMenu(TestMenu);
+      //UI::MenuWidget::OpenMenu(TestMenu);
     }
     else {
       if (UIHelper->ConsumeEvent(Event)) {

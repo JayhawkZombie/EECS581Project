@@ -66,7 +66,7 @@ namespace Engine
     //TestShape.setSize(sf::Vector2f(50.f, 75.f));
   }
 
-  void Player::Render()
+  void Player::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
 
     

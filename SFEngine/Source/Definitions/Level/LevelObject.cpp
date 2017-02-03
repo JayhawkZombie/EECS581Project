@@ -25,7 +25,7 @@ namespace Engine
 
   }
 
-  void LevelObject::Render()
+  void LevelObject::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
     
   }

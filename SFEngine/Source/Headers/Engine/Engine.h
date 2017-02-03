@@ -11,8 +11,6 @@
 #include "ReturnValues.h"
 #include "../Events/EventHandler.h"
 #include "../Animation/Animation.h"
-#include "../UI/UIController.h"
-#include "../UI/ClickButton.h"
 #include "../Level/Level.h"
 #include "../Logging/Logger.h"
 #include "../Utils/AssetConverters.h" 
@@ -116,7 +114,6 @@ namespace Engine
     sf::RenderWindow *Window;
 
     EventHandler Handler;
-    UI::UIController EngineUIController;
     BaseEngineInterface *testAnimaiton;
 
     /**

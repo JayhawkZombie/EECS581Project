@@ -2,13 +2,8 @@
 
 namespace Engine
 {
-  void Level::Render()
+  void Level::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
-
-    for (auto & loader : Loaders)
-    {
-      loader->TestRender();
-    }
 
   }
 

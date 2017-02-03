@@ -1,8 +1,6 @@
 #ifndef MVHIT_H_INCLUDED
 #define MVHIT_H_INCLUDED
 
-#include <sstream>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
@@ -26,12 +24,12 @@ public:
   bool is_free = true;// new functionality: mvHits as fixed obstacles to other mvHits
 
                       // funcs
-  mvHit(std::stringstream& fin) {
+  mvHit(std::istream& fin) {
     init(fin);
   }
   mvHit() {}
   virtual ~mvHit() {}
-  virtual void init(std::stringstream& fin);
+  virtual void init(std::istream& fin);
 
   virtual void update() = 0;
   virtual void draw(sf::RenderWindow& rRW)const = 0;

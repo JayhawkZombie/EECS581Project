@@ -3,7 +3,7 @@
 
 #include "../Widget.h"
 #include "../Buttons/ClickButtonBase.h"
-
+#include "../Theme.h"
 #include "../Draggables/StickyBar.h"
 
 namespace Engine
@@ -11,115 +11,69 @@ namespace Engine
 
   namespace UI
   {
-    class ListWidget;
     class ClickButtonBase;
 
-    class ListItem : public ClickButtonBase
-    {
-    public:
-      friend class ListWidget;
-
-      static std::shared_ptr<ListItem> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::weak_ptr<ListWidget> Parent, const sf::Vector2f &Position, const sf::Vector2f &Size);
-      static std::shared_ptr<ListItem> Create(std::weak_ptr<ListItem> ToCopy);
-
-      virtual void ConsumeEvent(const InputEvent &IEvent);
-      virtual void OnFocusGained(const FocusChangeEvent &FEvent);
-      virtual void OnFocusLost(const FocusChangeEvent &FEvent);
-      virtual void OnKeyPress(const InputEvent &IEvent);
-      virtual void OnKeyRelease(const InputEvent &IEvent);
-      virtual void OnMousePress(const InputEvent &IEvent);
-      virtual void OnMouseRelease(const InputEvent &IEvent);
-      virtual void OnMouseScroll(const InputEvent &IEvent);
-      virtual void OnMouseOver(const InputEvent &IEvent);
-      virtual void OnMouseLeave(const InputEvent &IEvent);
-      virtual void OnMouseMove(const InputEvent &IEvent);
-      virtual void OnDragBegin(const InputEvent &IEvent);
-      virtual void OnDragContinue(const InputEvent &IEvent);
-      virtual void OnDragEnd(const InputEvent &IEvent);
-
-      virtual void TickUpdate(const double &delta);
-      virtual void Render(std::shared_ptr<sf::RenderTexture> Target);
-
-      virtual void Move(const sf::Vector2f &Delta) override;
-
-      virtual ~ListItem() = default;
-    protected:
-      ListItem();
-
-      sf::RectangleShape Outline;
-
-      std::weak_ptr<ListWidget> ParentList;
-    };
-
-
-    
+    constexpr std::uint32_t InitReserveRenTexHeight = 1000U;
 
     class ListWidget : public WidgetBase
     {
     public:
-      static std::shared_ptr<ListWidget> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, std::shared_ptr<sf::Font> Font, const sf::Vector2f &Position, const sf::Vector2f &Size,
-                                                ButtonPlacement CloseButtonPlacement = ButtonPlacement::TopCenter, const sf::Vector2f ButtonOfffset = { 0, 0 }, const sf::Vector2f &ButtonSize = { 0, 0 }, std::shared_ptr<sf::Texture> Tex = nullptr);
-      virtual void ConsumeEvent(const InputEvent &IEvent);
-      virtual void OnFocusGained(const FocusChangeEvent &FEvent);
-      virtual void OnFocusLost(const FocusChangeEvent &FEvent);
-      virtual void OnKeyPress(const InputEvent &IEvent);
-      virtual void OnKeyRelease(const InputEvent &IEvent);
-      virtual void OnMousePress(const InputEvent &IEvent);
-      virtual void OnMouseRelease(const InputEvent &IEvent);
-      virtual void OnMouseScroll(const InputEvent &IEvent);
-      virtual void OnMouseOver(const InputEvent &IEvent);
-      virtual void OnMouseLeave(const InputEvent &IEvent);
-      virtual void OnMouseMove(const InputEvent &IEvent);
-      virtual void OnDragBegin(const InputEvent &IEvent);
-      virtual void OnDragContinue(const InputEvent &IEvent);
-      virtual void OnDragEnd(const InputEvent &IEvent);
+      static std::shared_ptr<ListWidget> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size, const Theme &theme);
 
-      virtual void AddListItem(std::shared_ptr<ListItem> Item, const sf::Vector2f &Position, const sf::Vector2f &Size);
-      virtual void DeleteItem(const std::uint32_t ItemID);
-
-      virtual void TickUpdate(const double &delta);
-      virtual void Render(std::shared_ptr<sf::RenderTexture> Target);
-
+      virtual void ConsumeEvent(const InputEvent &IEvent) override;
+      virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
+      virtual void OnFocusLost(const FocusChangeEvent &FEvent) override;
+      virtual void OnKeyPress(const InputEvent &IEvent) override;
+      virtual void OnKeyRelease(const InputEvent &IEvent) override;
+      virtual void OnMousePress(const InputEvent &IEvent) override;
+      virtual void OnMouseRelease(const InputEvent &IEvent) override;
+      virtual void OnMouseScroll(const InputEvent &IEvent) override;
+      virtual void OnMouseOver(const InputEvent &IEvent) override;
+      virtual void OnMouseLeave(const InputEvent &IEvent) override;
+      virtual void OnMouseMove(const InputEvent &IEvent) override;
+      virtual void OnDragBegin(const InputEvent &IEvent) override;
+      virtual void OnDragEnd(const InputEvent &IEvent) override;
+      virtual void OnDragContinue(const InputEvent &IEvent) override;
+      virtual void TickUpdate(const double &delta) override;
+      virtual void Render(std::shared_ptr<sf::RenderTexture> Texture) override;
       virtual void Move(const sf::Vector2f &Delta) override;
+      virtual void Resize(const sf::Vector2f &Size) override;
+      virtual void ResetAppearance() override;
+      virtual void AddItem(std::shared_ptr<WidgetBase> Widget);
+      virtual std::size_t GetNumberOfItems() const {
+        return Items.size();
+      }
 
-      virtual void OpenList();
-      virtual void CloseList();
+      virtual std::int32_t GetCurrentlySelectedIndex() const {
+        return CurrentlySelected;
+      }
 
-      virtual void Scroll(const sf::Vector2f &Delta);
+      virtual void ScrollUpOne();
+      virtual void ScrollDownOne();
+      //virtual void ScrollToTop();
+      //virtual void ScrollToBottom();
 
       virtual ~ListWidget() = default;
     protected:
-      ListWidget();
+      ListWidget() = default;
+      std::shared_ptr<UILayer> ButtonsLayer;
+      std::shared_ptr<sf::RenderTexture> ItemsTexture;
+      sf::Sprite ItemsSprite;
 
-      sf::FloatRect OpenRect = { 0,0,0,0 };
-
-      std::shared_ptr<StickyBar> ScrollingBar;
-      std::shared_ptr<sf::Texture> ButtonOverlayTexture;
-
-      //test items
-      std::vector<sf::RectangleShape> TestShapes;
-
-      //An extra layer
-      std::shared_ptr<UILayer> OptionsLayer; //for stuff like the close button, etc
-      bool Hidden = false;
-
-      sf::Vector2f ListSize = { 0, 0 };
-      sf::Vector2f ButtonCloseMove = { 0, 0 };
-
-      std::shared_ptr<sf::Font> ListFont;
-
-      std::shared_ptr<TextLabel> OpenCloseButtonText;
-      std::shared_ptr<ClickButtonBase> OpenCloseButton;
-      sf::Vector2f OpenCloseButtonOffset = { 0, 0 };
-      sf::RectangleShape Outline;
-      std::vector<std::shared_ptr<ListItem>> Items;
-
-      //Keep track of what the offset is that the list is scrolled by
-      sf::Vector2u ListScrollOffset = sf::Vector2u{ 0, 0 };
-
-      //We will just scroll the TextureRect as the list is scrolled, and adjust the offset
-      //to get to what the mouse pos should be and do collision testing with that
-      sf::IntRect WidgetTextureRect;
+      //We keep a button on top of this item and use those to intercept collisions
+      //We will render the items list, but won't do collisions with it UNLESS the button that occupies the same space
+      //detects the hit
+      std::shared_ptr<ClickButtonBase> ItemButtons;
+      std::vector<std::shared_ptr<WidgetBase>> Items;
+      sf::FloatRect TotalVisibleArea = { 0, 0, 0, 0 };
+      sf::FloatRect TotalRegion = { 0, 0, 0, 0 };
+      sf::IntRect CurrentTextureView = { 0, 0, 0, 0 };
+      std::int32_t CurrentlySelected = -1;
+      std::uint32_t TopItem = 0;
+      std::uint32_t BottomItem = 0;
+      bool IsScrolled = false;
+      bool ItemIsSelected = 0;
+      sf::Vector2f ScrollOffset = { 0, 0 };
     };
 
   }

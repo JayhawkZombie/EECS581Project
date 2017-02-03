@@ -3,7 +3,6 @@
 
 
 #include "../Engine/BaseEngineInterface.h"
-#include "Layer.h"
 #include "LevelObject.h"
 #include "LevelEventSequences.h"
 #include "../Events/EventSequence.h"
@@ -24,6 +23,28 @@ class GameMain;
 namespace Engine
 {
 
+  class Layer : public BaseEngineInterface
+  {
+  public:
+    Layer();
+    Layer(const Layer &) = delete;
+    ~Layer();
+
+    void TickUpdate(const double &delta) override;
+    void Render(std::shared_ptr<sf::RenderTarget> Target) override;
+    void OnShutDown() override;
+    void SerializeOut(std::ofstream &out) override;
+    void SerializeIn(std::ifstream &in) override;
+
+  protected:
+    std::shared_ptr<sf::Texture> TileTexture;
+    std::vector<sf::VertexArray> TileVertices;
+
+    std::vector<std::shared_ptr<LevelObject>> Objects;
+    std::vector<std::shared_ptr<GenericLightSource>> Lights;
+    std::vector<std::shared_ptr<GenericActor>> Actors;
+  };
+
   class Level : public BaseEngineInterface
   {
 
@@ -37,16 +58,14 @@ namespace Engine
     ~Level();
 
     void TickUpdate(const double &delta) override;
-    void Render() override;
+    void Render(std::shared_ptr<sf::RenderTarget> Target) override;
     void OnShutDown() override;
     void SerializeOut(std::ofstream &out) override;
     void SerializeIn(std::ifstream &in) override;
 
-#ifdef WITH_EDITOR
     void SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f &Position);
     void SpawnObject(std::shared_ptr<LevelObject> Object, const sf::Vector2f &Position);
     void SpawnLight(std::shared_ptr<LightObject> Light, const sf::Vector2f &Position);
-#endif
 
     void HandleKeyPress(const sf::Keyboard::Key &key);
     void HandleKeyRelease(const sf::Keyboard::Key &key);
@@ -58,12 +77,8 @@ namespace Engine
     void RenderRegular();
     void RenderLoadingScreen();
 
-    std::vector<std::shared_ptr<LevelLoader>> Loaders;
-
     std::map<std::string, LevelTile> Tiles;
-
-
-
+    bool ShowGridLines = false;
   };
 
 }

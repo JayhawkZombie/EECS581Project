@@ -34,10 +34,8 @@ namespace Engine
         Spinner->ChildLayer = UILayer::Create(Spinner->ChildHelper);
 
         Spinner->InputArea = TextInput::Create(Spinner->ChildLayer, Spinner->ChildHelper, Position, TextSize, _Font, "0");
-        Spinner->UpButton = ClickButtonBase::Create(ThisLayer.lock(), ThisHelper.lock(), { Position.x + TextSize.x, Position.y }, { (TextSize.y / 2.f), (TextSize.y / 2.f) }, nullptr);
-        Spinner->DownButton = ClickButtonBase::Create(ThisLayer.lock(), ThisHelper.lock(), { Position.x + TextSize.x, Position.y + (TextSize.y / 2.f) }, { (TextSize.y / 2.f), (TextSize.y / 2.f) }, nullptr);
-        Spinner->UpButton->GlobalWidgetBounds.GlobalBounds = { Position.x + TextSize.x , Position.y, (TextSize.y / 2.f), (TextSize.y / 2.f) };
-        Spinner->DownButton->GlobalWidgetBounds.GlobalBounds = { Position.x + TextSize.x , Position.y + (TextSize.y / 2.f), (TextSize.y / 2.f), (TextSize.y / 2.f) };
+        Spinner->UpButton = ClickButtonBase::Create(Spinner->ChildLayer, Spinner->ChildHelper, { Position.x + TextSize.x, Position.y }, { (TextSize.y), (TextSize.y / 2.f) }, nullptr);
+        Spinner->DownButton = ClickButtonBase::Create(Spinner->ChildLayer, Spinner->ChildHelper, { Position.x + TextSize.x, Position.y + (TextSize.y / 2.f)}, { (TextSize.y), (TextSize.y / 2.f) }, nullptr);
         Spinner->BGColor = DefaultDarkTheme.ButtonColorNormal;        Spinner->BGColorPressed = DefaultDarkTheme.ButtonColorPressed;
 
         Spinner->BGColorNormal = DefaultDarkTheme.ButtonColorNormal;
@@ -47,8 +45,14 @@ namespace Engine
         Spinner->UpButton->SetTextureRect(IconSheetRects["uparrow_medium"]);
 
         Spinner->DownButton->SetTexture(IconTexture);
-        Spinner->DownButton->SetTextureRect(IconSheetRects["uparrow_medium"]);
+        Spinner->DownButton->SetTextureRect(IconSheetRects["downarrow_medium"]);
         Spinner->GlobalWidgetBounds.ForceRegion({ Position.x, Position.y, TextSize.x + 20, TextSize.y });
+        Spinner->UpButton->MouseOverCB = 
+          [Spinner]()
+        {
+          std::cerr << "SpinnerUp Moused Over" << std::endl;
+        };
+
         Spinner->UpButton->MouseReleaseCB =
           [Spinner]()
         {
@@ -58,6 +62,12 @@ namespace Engine
           [Spinner]()
         {
           Spinner->ChangeData(-1);
+        };
+
+        Spinner->InputArea->TextEnteredCB =
+          [Spinner]()
+        {
+          Spinner->ValueChanged(Spinner->InputArea->GetString());
         };
 
         return Spinner;
@@ -98,7 +108,7 @@ namespace Engine
 
     void IntSpinner::OnMousePress(const InputEvent & IEvent)
     {
-      //ConsumeEvent(IEvent);
+      ConsumeEvent(IEvent);
     }
 
     void IntSpinner::OnMouseRelease(const InputEvent & IEvent)
@@ -163,7 +173,21 @@ namespace Engine
     {
       Data += delta;
       InputArea->SetString(std::to_string(Data));
+      std::cerr << "Changed data to : " << Data << std::endl;
+    }
 
+    void IntSpinner::ValueChanged(const std::string & data)
+    {
+      if (data.find_first_not_of("-0123456789") != std::string::npos) {
+        //invalid data
+        //Mark it as invalid, change the text to RED
+        InputArea->SetTextColor(sf::Color::Red);
+      }
+      else if (data.length() > 0) {
+        InputArea->SetTextColor(DefaultDarkTheme.TextColorNormal);
+        Data = std::stol(data);
+        std::cerr << "Data : " << Data << std::endl;
+      }
     }
 
   }

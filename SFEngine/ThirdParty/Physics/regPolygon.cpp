@@ -17,11 +17,11 @@ bool regPolygon::hit(mvHit& mh)
 
 regPolygon::regPolygon() {}// default
 
-regPolygon::regPolygon(std::stringstream& fin) {
+regPolygon::regPolygon(std::istream& fin) {
   init(fin);
 }// from file data
 
-void regPolygon::init(std::stringstream& fin)// from file data
+void regPolygon::init(std::istream& fin)// from file data
 {
   float iAngle = 0.0f;
   fin >> nSides >> r >> iAngle;
@@ -157,6 +157,85 @@ bool regPolygon::hit(const vec2d& pt)
   return false;
 }
 
+bool regPolygon::hit(regPolygon& rpg)
+{
+  bool Hit = false;
+  vec2d sep, N;
+  float a;
+
+  for (auto& P : rpg.ptVec)
+    //        if( is_inMe( P + rpg.pos, sep, N, a ) )
+    if (is_inMe(P + rpg.pos, rpg.pos - pos, sep, N, a))
+    {
+      Hit = true;
+      break;
+    }
+
+  if (!Hit)
+    for (auto& P : ptVec)
+      //            if( rpg.is_inMe( P + pos, sep, N, a ) )
+      if (rpg.is_inMe(P + pos, pos - rpg.pos, sep, N, a))
+      {
+        N *= -1.0f;
+        Hit = true;
+        break;
+      }
+
+  if (Hit)
+  {
+    static int cnt = 0;
+    //std::cerr << "\n rpg vs rpg. cnt = " << ++cnt;
+    if (is_free && rpg.is_free)// both are free to move
+    {
+      float Mtot = rpg.m + m;
+      vec2d Vcm = (rpg.v*rpg.m + v*m) / (Mtot);
+      rpg.v -= Vcm;
+      v -= Vcm;
+      v = v.to_base(N);
+      rpg.v = rpg.v.to_base(N);
+      if (rpg.v.x > 0.0f && v.x < 0.0f)
+      {
+        //         impact(rpg);
+        //         rpg.impact( *this );
+        rpg.v.x *= -rpg.Cr;
+        v.x *= -rpg.Cr;
+      }
+
+      v = v.from_base(N);
+      rpg.v = rpg.v.from_base(N);
+      rpg.v += Vcm;
+      v += Vcm;
+
+      // position correction
+      rpg.pos -= (a*m / Mtot)*N;
+      pos += (a*rpg.m / Mtot)*N;
+
+      setPosition(pos);
+      rpg.setPosition(rpg.pos);
+
+      return true;
+    }
+    // one ball is not free
+    regPolygon& polyFree = is_free ? *this : rpg;
+    regPolygon& polyFixed = is_free ? rpg : *this;// must be other ball
+                                                  // N must point from fixed to free
+                                                  //   N = polyFree.pos - polyFixed.pos; N /= N.mag();// unit length needed
+    if (&polyFree == &rpg) N *= -1.0f;
+
+    polyFree.v = polyFree.v.to_base(N);
+    //        if( polyFree.v.x < 0.0f ){ impact(rpg); polyFree.v.x *= -Cr; }
+    if (polyFree.v.x < 0.0f) polyFree.v.x *= -Cr;
+    polyFree.v = polyFree.v.from_base(N);
+    // correct over penetration. Move apart
+    polyFree.pos += a*N;// preserves position of center of mass
+    polyFree.setPosition(polyFree.pos);
+
+    return true;
+  }
+
+  return false;
+}
+
 bool regPolygon::hit(ball& rB)
 {
   vec2d Pimp;
@@ -247,15 +326,13 @@ bool regPolygon::is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const// wri
 
     float cross0 = sep.cross(ptVec[i]);
     float cross1 = sep.cross(*ppt_1);
-    if (cross0 == 0.0f) {
-      N = ptVec[i]; N /= N.mag(); break;
-    }
+    //       if( cross0 == 0.0f ) { N = ptVec[i]; N /= N.mag(); break; }
 
     if (cross0 < 0.0f && cross1 > 0.0f)// correct? i just right
     {
       pPt0 = &(ptVec[i]);
       pPt1 = ppt_1;
-      //     std::cout << "i = " << i << '\n';
+      //std::cerr << "i = " << i << '\n';
       break;
     }
   }
@@ -278,6 +355,60 @@ bool regPolygon::is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const// wri
       dSep = u.dot(N);
       return true;
     }
+  }
+
+  return false;
+}
+
+bool regPolygon::is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)const// writes qtys needed for collision response toward ctr
+{
+  sep = pt - pos;
+  float sepMag = sep.mag();
+  if (sepMag > r) return false;
+
+  // find which vtx the ctr is between
+  const vec2d *pPt0 = nullptr, *pPt1 = nullptr;
+  const vec2d* ppt_1 = nullptr;
+  //   vec2d N;
+  size_t i = 0;
+
+  for (i = 0; i< ptVec.size(); ++i)
+  {
+    ppt_1 = &(ptVec[0]);
+    if (i < ptVec.size() - 1) ppt_1 = &(ptVec[i + 1]);
+
+    if ((sep - ptVec[i]).cross(*ppt_1 - ptVec[i]) > 0.0f) return false;// pt is outside of polygon
+
+    float cross0 = ctr.cross(ptVec[i]);
+    float cross1 = ctr.cross(*ppt_1);
+
+    if (cross0 < 0.0f && cross1 > 0.0f)// correct? i just right
+    {
+      pPt0 = &(ptVec[i]);
+      pPt1 = ppt_1;
+      //std::cerr << "i = " << i << '\n';
+      //    break;
+    }
+  }
+
+  if (pPt0 && pPt1)// wedge found
+  {
+    // verify hit
+    vec2d u = sep - *pPt0;
+    //    float cross0 = u.cross( *pPt0*-1.0f );
+    //    float cross1 = u.cross( *pPt1 - *pPt0 );
+
+    //    if( (cross0 > 0.0f && cross1 < 0.0f) )// nailed it !?!
+    //   {
+    // hit
+    //    std::cout << "i = " << i << '\n';
+    N = *pPt0 + *pPt1;
+    N /= N.mag();
+    N *= -1.0f;// new
+    sep = pt;// new
+    dSep = u.dot(N);
+    return true;
+    //   }
   }
 
   return false;
@@ -341,78 +472,6 @@ bool regPolygon::inCircle(vec2d ctr, float R, vec2d& Pimp)const
       //  //std::cerr << "face hit\n";
       return true;
     }
-  }
-
-  return false;
-}
-
-bool regPolygon::hit(regPolygon& rpg)
-{
-  bool Hit = false;
-  vec2d sep, N;
-  float a;
-
-  for (auto& P : rpg.ptVec)
-    if (is_inMe(P + rpg.pos, sep, N, a))
-    {
-      Hit = true;
-      break;
-    }
-
-  if (!Hit)
-    for (auto& P : ptVec)
-      if (rpg.is_inMe(P + pos, sep, N, a))
-      {
-        N *= -1.0f;
-        Hit = true;
-        break;
-      }
-
-  if (Hit)
-  {
-    //std::cerr << "\n rpg vs rpg";
-    if (is_free && rpg.is_free)// both are free to move
-    {
-      float Mtot = rpg.m + m;
-      vec2d Vcm = (rpg.v*rpg.m + v*m) / (Mtot);
-      rpg.v -= Vcm;
-      v -= Vcm;
-      v = v.to_base(N);
-      rpg.v = rpg.v.to_base(N);
-      if (rpg.v.x > 0.0f && v.x < 0.0f)
-      {
-        //         impact(rpg);
-        //         rpg.impact( *this );
-        rpg.v.x *= -rpg.Cr;
-        v.x *= -rpg.Cr;
-      }
-
-      v = v.from_base(N);
-      rpg.v = rpg.v.from_base(N);
-      rpg.v += Vcm;
-      v += Vcm;
-
-      // position correction
-      rpg.pos -= (a*m / Mtot)*N;
-      pos += (a*rpg.m / Mtot)*N;
-
-      return true;
-    }
-    // one ball is not free
-    regPolygon& polyFree = is_free ? *this : rpg;
-    regPolygon& polyFixed = is_free ? rpg : *this;// must be other ball
-                                                  // N must point from fixed to free
-                                                  //   N = polyFree.pos - polyFixed.pos; N /= N.mag();// unit length needed
-    if (&polyFree == &rpg) N *= -1.0f;
-
-    polyFree.v = polyFree.v.to_base(N);
-    //        if( polyFree.v.x < 0.0f ){ impact(rpg); polyFree.v.x *= -Cr; }
-    if (polyFree.v.x < 0.0f) polyFree.v.x *= -Cr;
-    polyFree.v = polyFree.v.from_base(N);
-    // correct over penetration. Move apart
-    polyFree.pos += a*N;// preserves position of center of mass
-
-    return true;
   }
 
   return false;

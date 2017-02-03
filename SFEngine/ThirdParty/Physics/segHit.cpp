@@ -1,11 +1,11 @@
 #include "segHit.h"
 #include "mvHit.h"
 
-segHit::segHit(std::stringstream& fin) {
+segHit::segHit(std::istream& fin) {
   init(fin);
 }
 
-void segHit::init(std::stringstream& fin)
+void segHit::init(std::istream& fin)
 {
   //   fin >> testEnd1 >> testEnd2;
   fin >> pos.x >> pos.y;

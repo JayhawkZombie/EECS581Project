@@ -59,6 +59,14 @@ namespace Engine
       sf::IntRect ButtonOverlayNormal;
       sf::IntRect ButtonOverlayHighlighted;
       sf::IntRect ButtonOverlayPressed;
+
+      sf::Color ListBackgroundColorNormal;
+      sf::Color ListOutlineColorNormal;
+      sf::Color ListOutlineColorHighlighted;
+
+      sf::Vector2f ButtonSizeThin;
+      sf::Vector2f ToolBarButtonSize;
+      sf::Vector2f ToolBarDropDownButtonSize;
     };
 
     extern Theme DefaultDarkTheme;

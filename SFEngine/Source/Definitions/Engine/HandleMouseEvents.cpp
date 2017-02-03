@@ -5,8 +5,6 @@ namespace Engine
 
   void SFEngine::HandleMouseMovement(const sf::Vector2i &mousePos)
   {
-    EngineUIController.Handler.HandleMouseMovement(mousePos);
-
     UIInputEvent.Key = sf::Keyboard::Unknown;
     UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
     UIInputEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
@@ -41,8 +39,6 @@ namespace Engine
 #ifdef WITH_EDITOR
     GameEditor.HandleMousePressed(UIInputEvent);
 #endif
-
-    EngineUIController.Handler.HandleMousePress(v, b);
   }
 
   void SFEngine::HandleMouseRelease(const sf::Vector2i &v, const sf::Mouse::Button &b)
@@ -63,7 +59,5 @@ namespace Engine
 #ifdef WITH_EDITOR
     GameEditor.HandleMouseReleased(UIInputEvent);
 #endif
-
-    EngineUIController.Handler.HandleMouseRelease(v, b);
   }
 }

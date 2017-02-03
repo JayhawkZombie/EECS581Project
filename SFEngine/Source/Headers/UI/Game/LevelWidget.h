@@ -1,7 +1,14 @@
-#ifndef SFENGINE_UI_SPINNER_H
-#define SFENGINE_UI_SPINNER_H
+#ifndef SFENGINE_UI_LEVEL_WIDGET_H
+#define SFENGINE_UI_LEVEL_WIDGET_H
 
-#include "TextInput.h"
+#include "../../Globals/GlobalHooks.h"
+
+//Obviously, we only want to compile this in if we are building the engine with the editor
+#ifdef WITH_EDITOR
+
+#include "../../Level/Level.h"
+#include "../Widget.h"
+#include "../Text/TextLabel.h"
 
 namespace Engine
 {
@@ -9,10 +16,17 @@ namespace Engine
   namespace UI
   {
 
-    class IntSpinner : public WidgetBase
+    class UILayer;
+    class WidgetHelper;
+
+    class LevelWidget : public WidgetBase
     {
     public:
-      static std::shared_ptr<IntSpinner> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Font> _Font, std::shared_ptr<sf::Texture> IconTexture);
+      static std::shared_ptr<LevelWidget> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Font> _Font);
+
+      void GenerateEmptyLevel(std::uint32_t NumTilesWide, std::uint32_t NumTilesHigh);
+      void ShowGridLines(bool show);
+
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -34,30 +48,25 @@ namespace Engine
       virtual void Resize(const sf::Vector2f &Size) override;
       virtual void ResetAppearance() override;
 
-      virtual void ChangeData(std::int32_t delta);
 
-      std::int32_t GetValue() const {
-        return Data;
-      }
-
-      virtual ~IntSpinner() = default;
+      ~LevelWidget() = default;
     protected:
-      bool CanInteract = false;
-      IntSpinner() = default;
+      LevelWidget();
 
-      void ValueChanged(const std::string &data);
+      bool IsShowingGridlines;
 
-      std::shared_ptr<TextInput> InputArea;
-      std::shared_ptr<ClickButtonBase> UpButton;
-      std::shared_ptr<ClickButtonBase> DownButton;
+      //sizes in terms of the number of tiles
+      std::uint32_t LevelWidth = 0;
+      std::_Uint2_t LevelHeight = 0;
+      std::shared_ptr<Level> Level;
 
-      std::int32_t Data = 0;
-
-      std::shared_ptr<sf::Font> DataFont;
+      std::shared_ptr<sf::Font> Font;
     };
 
   }
 
 }
+
+#endif
 
 #endif

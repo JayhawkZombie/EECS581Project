@@ -47,10 +47,10 @@ namespace Engine
     return &sprite;
   }
   //OLD
-  void Animation::Render() {
+  void Animation::Render(std::shared_ptr<sf::RenderTarget> Target) {
     if (m_isRendered) {
       //sprite.setTextureRect(m_frames[m_currentFrame]);
-      Render::RenderSprite(&sprite);
+      Target->draw(sprite);
     }
   }
   void Animation::TickUpdate(const double& delta)

@@ -24,7 +24,7 @@ namespace Engine
     */
     Theme DefaultDarkTheme{
       {50, 15}, //ButtonSizeSmall
-      {150, 40}, //ButtonSizeNormal
+      {100, 35}, //ButtonSizeNormal
       {75, 35}, //ButtonSizeMedium
       {200, 75}, //ButtonSizeLarge
 
@@ -38,10 +38,10 @@ namespace Engine
       {sf::Color(79, 79, 79)}, //ButtonOutlineColorPressed
       {sf::Color(142, 142, 142)}, //ButtonOutlineColorDisabled
 
-      {sf::Color(40, 40, 40, 100)}, //MenuBackgroundColorNormal
-      {sf::Color(56, 0, 9, 100)}, //MenuBackgroundColorDisabled
+      {sf::Color(40, 40, 40, 200)}, //MenuBackgroundColorNormal
+      {sf::Color(56, 0, 9, 200)}, //MenuBackgroundColorDisabled
 
-      {sf::Color(56, 56, 56, 100)}, //MenuOutlineColorNormal
+      {sf::Color(56, 56, 56, 200)}, //MenuOutlineColorNormal
       {sf::Color(0, 0, 0, 100)}, //MenuOutlineColorDisabled
 
       {sf::Color(40, 40, 40)}, //WidgetBackgroundColorNormal
@@ -51,7 +51,7 @@ namespace Engine
       {sf::Color(63, 45, 53)}, //TextColorDisabled
       {sf::Color(124, 0, 16)}, //TextColorError
 
-      10, //TextSizeSmall
+      12, //TextSizeSmall
       14, //TextSizeNormal
       18, //TextSizeMedium
       22, //TextSizeLarge
@@ -68,7 +68,15 @@ namespace Engine
 
       sf::IntRect(0, 161, 400, 160), //ButtonOverlayNormal
       sf::IntRect(0, 0, 400, 160), //ButtonOverlayHighlighted
-      sf::IntRect(0, 322, 400, 160) //ButtonOVerlayPressed
+      sf::IntRect(0, 322, 400, 160), //ButtonOVerlayPressed
+
+      sf::Color(123, 123, 123, 200), //ListBackgroundColorNormal
+      sf::Color(132, 132, 132, 150), //ListOutlineColorNormal
+      sf::Color(173, 173, 173, 150), //ListOutlineColorHighlighted
+
+      sf::Vector2f(200, 25), //ButtonSizeThin
+      sf::Vector2f(70, 25), //ToolBarButtonSize
+      sf::Vector2f(100, 15) //ToolBarDropDownButtonSize
     };
 
   }

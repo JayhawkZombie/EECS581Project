@@ -63,8 +63,6 @@ namespace Engine
 
   void SFEngine::HandleKeyRelease(const sf::Keyboard::Key &k)
   {
-    EngineUIController.Handler.HandleKeyRelease(k);
-
     UIInputEvent.Key = k;
     UIInputEvent.TextUnicode = 0;
     UIInputEvent.TextWasEntered = false;

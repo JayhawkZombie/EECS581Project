@@ -5,6 +5,22 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="DevDebug|Win32">
+      <Configuration>DevDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DevDebug|x64">
+      <Configuration>DevDebug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DevOptimized|Win32">
+      <Configuration>DevOptimized</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DevOptimized|x64">
+      <Configuration>DevOptimized</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -31,6 +47,12 @@
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -44,12 +66,24 @@
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DevDebug|x64'">
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -59,10 +93,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -72,7 +112,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,13 +132,64 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <OpenMPSupport>true</OpenMPSupport>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <StringPooling>true</StringPooling>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Full</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <OpenMPSupport>true</OpenMPSupport>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <StringPooling>true</StringPooling>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,17 +198,21 @@
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -152,6 +253,47 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+    <ClCompile>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+    <ClCompile>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+    <ClCompile>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <Optimization>Full</Optimization>
+      <StringPooling>true</StringPooling>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Game\Armor.h" />
     <ClInclude Include="Game\Battle.h" />
@@ -180,6 +322,7 @@
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Game\LevelWidget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -212,7 +355,6 @@
     <ClInclude Include="SFEngine\Source\Headers\Factory\Factory.h" />
     <ClInclude Include="SFEngine\Source\Headers\Globals\GlobalHooks.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\ExposedLevelApi.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Level\Layer.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\Level.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEventSequences.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelLoader.h" />
@@ -232,26 +374,19 @@
     <ClInclude Include="SFEngine\Source\Headers\Render\Render.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
     <ClInclude Include="SFEngine\Source\Headers\Shaders\Shader.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\BaseUIElement.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ButtonBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\ClickButton.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\CreationMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Drawables\Drawables.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\EventDelegateMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\Exceptions\Exceptions.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\ItemMaker.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\KeyTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\List\List.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuScreen.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuWidget.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\MouseTarget.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\RenderTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Text\TextLabel.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Theme.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Toggles\SimpleToggle.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\UIAttributes.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\UIController.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UICreationMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIIconSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIUtils.h" />
@@ -362,6 +497,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\Editor.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorCreateMenus.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorEventHandlers.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorObjectSpawning.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorSaveLoad.cpp" />
@@ -417,10 +553,8 @@
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\Alert.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\PopupObject.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\BaseUIElement.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Buttons\ButtonBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Buttons\ClickButtonBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\ClickButton.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableRect.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableTile.cpp" />
@@ -429,27 +563,22 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\TexturedQuad.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\Drawables.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\DrawableText.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Game\LevelWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\ComboBox.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\NumericComboBox.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\Spinner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\TextInput.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\KeyTarget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\List.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\ListElement.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListItem.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Mat2D.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuScreen.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuWidget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\MouseTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\RenderTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Text\TextLabel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Theme.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Toggles\SimpleToggle.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\UIController.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\UIControllerHandlers.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIIconSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIUtils.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Widget.cpp" />
@@ -502,6 +631,9 @@
   <ItemGroup>
     <Image Include="SFEngine\Samples\Fonts\AbstractBitmap18.png" />
     <Image Include="SFEngine\Samples\Fonts\AbstractBitmap30.png" />
+    <Image Include="SFEngine\Samples\Logos\SFEngineLogo.png" />
+    <Image Include="SFEngine\Samples\Logos\SFEngineLogo_Dark_Flame_Analogized.png" />
+    <Image Include="SFEngine\Samples\Logos\SFEngineLogo_Flame.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBG.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.png" />
@@ -516,6 +648,9 @@
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
     <None Include="SFEngine\Samples\Fonts\AbstractBitmap.xcf" />
     <None Include="SFEngine\Samples\Fonts\AbstractBitmap_30.xcf" />
+    <None Include="SFEngine\Samples\Logos\SFEngineLogo.xcf" />
+    <None Include="SFEngine\Samples\Logos\SFEngineLogo_Dark_Flame_Analogized.xcf" />
+    <None Include="SFEngine\Samples\Logos\SFEngineLogo_Flame.xcf" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForest.ini" />
     <None Include="SFEngine\Samples\Maps\NewLevelFormat.ini" />
     <None Include="SFEngine\Samples\Scripts\EngineEventTests.chai" />

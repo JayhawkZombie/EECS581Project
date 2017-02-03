@@ -4,7 +4,7 @@ float mvHit::wdwW, mvHit::wdwH;
 float mvHit::wdwCf = 0.0f;// friction coeff
 vec2d* mvHit::pGravity = nullptr;
 
-void mvHit::init(std::stringstream& fin)
+void mvHit::init(std::istream& fin)
 {
   fin >> pos.x >> pos.y >> v.x >> v.y;
   fin >> m >> Cr;

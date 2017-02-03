@@ -84,10 +84,6 @@ namespace Engine
     void ClickButtonBase::Move(const sf::Vector2f &Delta)
     {
       WidgetBase::Move(Delta);
-
-      for (auto & dr : Drawables) {
-        dr->DrawBounds.MoveRegion(Delta);
-      }
     }
 
     void ClickButtonBase::Resize(const sf::Vector2f & Size)
@@ -193,8 +189,8 @@ namespace Engine
 
     void ClickButtonBase::OnMousePress(const InputEvent &event)
     {
-      //BGRect.setFillColor(BGColorPressed);
-      BGRect.setTextureRect(OverlayPressedRect);
+      BGRect.setFillColor(BGColorPressed);
+      //BGRect.setTextureRect(OverlayPressedRect);
       DEBUG_ONLY std::cerr << "ClickButtonBase::OnMousePress" << std::endl;
 
       if (MousePressCB)

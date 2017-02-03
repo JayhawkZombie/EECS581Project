@@ -1,12 +1,12 @@
 #include "lineSegSwing.h"
 #include "mvHit.h"
 
-lineSegSwing::lineSegSwing(std::stringstream& fin) : lineSegRotate(fin)
+lineSegSwing::lineSegSwing(std::istream& fin) : lineSegRotate(fin)
 {
   fin >> m;// >> grav.x >> grav.y;
 }
 
-void lineSegSwing::init(std::stringstream& fin)
+void lineSegSwing::init(std::istream& fin)
 {
   lineSegRotate::init(fin);// base overload
   fin >> m;// >> grav.x >> grav.y;

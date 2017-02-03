@@ -8,8 +8,6 @@ namespace Engine
     for (auto & lvl : Levels)
       lvl->OnShutDown();
 
-    EngineUIController.OnShutDown();
-
     delete Window;
 
     currentRenderWindow = nullptr;

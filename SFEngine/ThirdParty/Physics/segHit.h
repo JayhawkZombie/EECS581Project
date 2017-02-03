@@ -1,8 +1,6 @@
 #ifndef SEGHIT_H_INCLUDED
 #define SEGHIT_H_INCLUDED
 
-#include <sstream>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
@@ -10,7 +8,6 @@
 #include "vec2d.h"
 
 class mvHit;
-
 
 class segHit
 {
@@ -22,9 +19,9 @@ public:
   bool friction_on = false;
 
   segHit() {}
-  segHit(std::stringstream& fin);
+  segHit(std::istream& fin);
   virtual ~segHit() {}
-  virtual void init(std::stringstream& fin);
+  virtual void init(std::istream& fin);
   virtual void to_file(std::ofstream& fout);
   virtual void setPosition(vec2d) = 0;
   virtual vec2d getPosition()const {
@@ -37,4 +34,5 @@ public:
   virtual bool hit(mvHit&);//
   virtual bool is_onMe(const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen)const = 0;
 };
+
 #endif // SEGHIT_H_INCLUDED

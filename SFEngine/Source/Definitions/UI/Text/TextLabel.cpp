@@ -79,7 +79,8 @@ namespace Engine
         Pos += Offset;
 
         Label->MoveTo({ Pos.x, Pos.y, RenderBounds.width, RenderBounds.height });
-        //Label->GlobalWidgetBounds.ForceRegion({ Pos.x, Pos.y, RenderBounds.width, RenderBounds.height });
+        
+        //Label->GlobalWidgetBounds.ForceRegion({ Pos.x, Pos.y, Label->GlobalWidgetBounds.GlobalBounds.width, Label->GlobalWidgetBounds.GlobalBounds.height });
 
         //Label->Bounds = { Pos.x, Pos.y, RenderBounds.width, RenderBounds.height };
 
@@ -251,6 +252,8 @@ namespace Engine
 
     void TextLabel::Move(const sf::Vector2f & Delta)
     {
+      WidgetBase::Move(Delta);
+
       Bounds.left += Delta.x;
       Bounds.top += Delta.y;
       TextPosition += Delta;

@@ -82,7 +82,7 @@ namespace Engine
 
   }
 
-  void GenericActor::Render()
+  void GenericActor::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
     
   }

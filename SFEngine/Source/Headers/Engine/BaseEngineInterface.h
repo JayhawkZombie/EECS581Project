@@ -31,7 +31,7 @@ namespace Engine
 
     virtual void TickUpdate(const double &delta) = 0;
 
-    virtual void Render() = 0;
+    virtual void Render(std::shared_ptr<sf::RenderTarget> Target) = 0;
 
     virtual void OnShutDown() = 0;
 

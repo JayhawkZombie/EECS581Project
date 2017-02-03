@@ -32,7 +32,7 @@ namespace Engine
     virtual ~GenericActor();
 
     virtual void TickUpdate(const double &delta) override;
-    virtual void Render() override;
+    virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
     virtual void OnShutDown() override;
     virtual void SerializeOut(std::ofstream &out) override;
     virtual void SerializeIn(std::ifstream &in) override;

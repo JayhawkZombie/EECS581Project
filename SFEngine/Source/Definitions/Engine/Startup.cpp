@@ -6,12 +6,12 @@ namespace Engine
   void SFEngine::InitRenderWindow()
   {
     sf::ContextSettings csettings;
-
+   
     csettings.antialiasingLevel = 8;
     
 #ifdef WITH_EDITOR
-    Window = new sf::RenderWindow(sf::VideoMode(1200, 900), "SFEngine Editor", sf::Style::Default, csettings);
-    WindowSize = { 1200.f, 900.f };
+    Window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "SFEngine Editor", sf::Style::Fullscreen | sf::Style::Titlebar, csettings);
+    WindowSize = static_cast<sf::Vector2f>(Window->getSize());
 #else
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
     WindowSize = { EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y };
@@ -45,7 +45,7 @@ namespace Engine
     Window->display();
 
     std::cerr << "Core profile settings: " << Window->getSettings().majorVersion << "." << Window->getSettings().minorVersion << std::endl;
-
+    std::cerr << "Created Window Size  : " << Window->getSize().x << ", " << Window->getSize().y << std::endl;
   }
 
   UINT32 SFEngine::Startup()
@@ -91,7 +91,7 @@ namespace Engine
     }
     else {
       EngineConfig.Window_v2fWindowSize = Util::GetVec2fConfig("Window", "WindowSize", sf::Vector2f(800, 800), "Engine.ini", _IN);
-      WindowSize = EngineConfig.Window_v2fWindowSize;
+      //WindowSize = EngineConfig.Window_v2fWindowSize;
       InitialLevel = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", _IN);
       RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", _IN);
       RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", _IN);

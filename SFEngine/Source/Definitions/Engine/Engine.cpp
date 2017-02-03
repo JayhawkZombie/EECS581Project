@@ -27,7 +27,7 @@ namespace Engine
 
   void SFEngine::AddUIElement(std::shared_ptr<Engine::UI::BaseUIElement> element)
   {
-    EngineUIController.AddElement(element);
+    
   }
 
 #endif

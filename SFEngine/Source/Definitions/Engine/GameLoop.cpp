@@ -29,7 +29,7 @@ namespace Engine
     sf::Event evnt;
 
     std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
-    GameMainTexture->create(1200, 900);
+    GameMainTexture->create(WindowSize.x, WindowSize.y);
 
     sf::Sprite GameSprite;
     GameSprite.setTexture(GameMainTexture->getTexture());
@@ -44,10 +44,6 @@ namespace Engine
 //    std::shared_ptr<Level> MainLevel(new Level);
 //#endif
 
-#ifndef WITH_EDITOR
-    std::shared_ptr<Level> MainLevel(new Level);
-#endif
-
     sf::RectangleShape Rect;
     Rect.setPosition({ 100, 100 });
     Rect.setSize({ 500, 500 });
@@ -55,7 +51,7 @@ namespace Engine
 
     Window->clear(sf::Color::Black);
     std::shared_ptr<sf::RenderTexture> EditorTexture(new sf::RenderTexture);
-    EditorTexture->create(1200, 900);
+    EditorTexture->create(WindowSize.x, WindowSize.y);
     EditorTexture->clear(sf::Color::Transparent);
 
     sf::Sprite EditorSprite;
@@ -63,8 +59,23 @@ namespace Engine
 
     Window->setVerticalSyncEnabled(true);
     Window->setFramerateLimit(60);
-    while (!Handler.PollEvents(currentRenderWindow, evnt, true)) {
+    bool Closed = false;
+
+#ifdef WITH_EDITOR
+    GameEditor.PreLoopSetup();
+    GameEditor.CreateMenus();
+#else
+    std::shared_ptr<Level> MainLevel(new Level);
+#endif
+
+#ifdef WITH_EDITOR
+    while (!FlagForClose && currentRenderWindow && currentRenderWindow->isOpen()) {
+#else
+    while (currentRenderWindow && currentRenderWindow->isOpen()) {
+#endif
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
+      Closed = Handler.PollEvents(currentRenderWindow, evnt, true);
+
       try
       {
         CurrentFrameStart = std::chrono::high_resolution_clock::now();
@@ -72,9 +83,6 @@ namespace Engine
         LastFrameStart = std::chrono::high_resolution_clock::now();
 
         UpdateStart = std::chrono::high_resolution_clock::now();
-
-        //if (EngineUIController.IsShown())
-        //  EngineUIController.TickUpdate(TickDelta);
 
         //if we have the editor, update that instead of the main level
 #ifdef WITH_EDITOR
@@ -85,9 +93,6 @@ namespace Engine
 #endif
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
-
-        //if (EngineUIController.IsShown())
-        //  EngineUIController.Render();
         //Render start
 
         //if we have the editor, render that instead of the main level

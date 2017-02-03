@@ -21,6 +21,17 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
   namespace UI
   {
 
+    enum class Transition : std::uint32_t
+    {
+      None = 1 << 0,
+      ExpandRight = 1 << 1,
+      ExpandLeft = 1 << 2,
+      ExpandUp = 1 << 3,
+      ExpandDown = 1 << 4,
+      FadeIn = 1 << 5,
+      FadeOut = 1 << 6
+    };
+
     class WidgetHelper;
     class UILayer;
     class TextLabel;
@@ -76,6 +87,14 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
         return "WidgetBase";
       }
 
+      void ChangeHelper(std::weak_ptr<WidgetHelper> ThisHelper) {
+        Helper = ThisHelper;
+      }
+
+      void ChangeLayer(std::weak_ptr<UILayer> ThisLayer) {
+        MyLayer = ThisLayer;
+      }
+      
       virtual void MoveTo(const sf::FloatRect &Region) {}
 
       virtual void AddTextLabel(std::shared_ptr<TextLabel> Label);
