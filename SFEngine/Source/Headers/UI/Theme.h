@@ -65,6 +65,8 @@ namespace Engine
       sf::Color ListOutlineColorHighlighted;
 
       sf::Vector2f ButtonSizeThin;
+      sf::Vector2f ToolBarButtonSize;
+      sf::Vector2f ToolBarDropDownButtonSize;
     };
 
     extern Theme DefaultDarkTheme;

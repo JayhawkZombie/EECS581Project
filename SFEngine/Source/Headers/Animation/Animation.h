@@ -40,7 +40,7 @@ namespace Engine
     std::shared_ptr<sf::Texture> GetSpriteSheet() const;
     std::size_t GetSize() const;
     const sf::IntRect& GetFrame(std::size_t n) const;
-    void Render();
+    void Render(std::shared_ptr<sf::RenderTarget> Target);
     void TickUpdate(const double& delta);
     void OnShutDown();
   private:

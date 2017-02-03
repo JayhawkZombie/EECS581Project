@@ -41,7 +41,7 @@ namespace Engine
         Menu->GlobalWidgetBounds.ForceRegion({ Position, Size });
         Menu->IsBeingUpdated = true;
         Menu->MenuTexture = std::make_shared<sf::RenderTexture>();
-        Menu->MenuTexture->create(1200, 900);
+        Menu->MenuTexture->create(WindowSize.x, WindowSize.y);
         return Menu;
       }
       catch (EngineRuntimeError &err)

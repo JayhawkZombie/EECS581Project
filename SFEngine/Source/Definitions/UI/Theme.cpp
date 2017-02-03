@@ -74,7 +74,9 @@ namespace Engine
       sf::Color(132, 132, 132, 150), //ListOutlineColorNormal
       sf::Color(173, 173, 173, 150), //ListOutlineColorHighlighted
 
-      sf::Vector2f(200, 25) //ButtonSizeThin
+      sf::Vector2f(200, 25), //ButtonSizeThin
+      sf::Vector2f(70, 25), //ToolBarButtonSize
+      sf::Vector2f(100, 15) //ToolBarDropDownButtonSize
     };
 
   }

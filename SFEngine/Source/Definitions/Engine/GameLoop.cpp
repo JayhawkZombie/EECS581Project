@@ -84,9 +84,6 @@ namespace Engine
 
         UpdateStart = std::chrono::high_resolution_clock::now();
 
-        //if (EngineUIController.IsShown())
-        //  EngineUIController.TickUpdate(TickDelta);
-
         //if we have the editor, update that instead of the main level
 #ifdef WITH_EDITOR
         GameEditor.TickUpdate(TickDelta);
@@ -96,9 +93,6 @@ namespace Engine
 #endif
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
-
-        //if (EngineUIController.IsShown())
-        //  EngineUIController.Render();
         //Render start
 
         //if we have the editor, render that instead of the main level

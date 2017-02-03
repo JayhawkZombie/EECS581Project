@@ -86,7 +86,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
@@ -180,6 +180,7 @@
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Game\LevelWidget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -212,7 +213,6 @@
     <ClInclude Include="SFEngine\Source\Headers\Factory\Factory.h" />
     <ClInclude Include="SFEngine\Source\Headers\Globals\GlobalHooks.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\ExposedLevelApi.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Level\Layer.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\Level.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEventSequences.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelLoader.h" />
@@ -232,26 +232,19 @@
     <ClInclude Include="SFEngine\Source\Headers\Render\Render.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
     <ClInclude Include="SFEngine\Source\Headers\Shaders\Shader.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\BaseUIElement.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ButtonBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\ClickButton.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\CreationMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Drawables\Drawables.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\EventDelegateMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\Exceptions\Exceptions.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\ItemMaker.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\KeyTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\List\List.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuScreen.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuWidget.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\MouseTarget.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\RenderTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Text\TextLabel.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Theme.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Toggles\SimpleToggle.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\UIAttributes.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\UIController.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UICreationMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIIconSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIUtils.h" />
@@ -418,10 +411,8 @@
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\Alert.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\PopupObject.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\BaseUIElement.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Buttons\ButtonBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Buttons\ClickButtonBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\ClickButton.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableRect.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableTile.cpp" />
@@ -435,22 +426,16 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\Spinner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\TextInput.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\KeyTarget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\List.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\ListElement.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListItem.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Mat2D.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuScreen.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuWidget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\MouseTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\RenderTarget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Text\TextLabel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Theme.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Toggles\SimpleToggle.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\UIController.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\UIControllerHandlers.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIIconSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIUtils.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Widget.cpp" />

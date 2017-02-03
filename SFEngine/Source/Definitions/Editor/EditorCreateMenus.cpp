@@ -50,7 +50,7 @@ namespace Engine
       //TestPopup = UI::PopupObject::Create(UILayer, UIHelper, { 100, 100 }, { 900, 700 }, TextFont);
 
       EnablePhysicsToggle = UI::SimpleToggle::Create(UILayer, UIHelper, { 300, 80 }, { 20, 20 }, { 15, 15 }, IconSheet, "boxchecked_medium", "boxunchecked_medium", true);
-      auto Label = UI::TextLabel::Create(EnablePhysicsToggle, UIHelper, UI::TextAlignment::CenterJustified, "physics", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeMedium, { 0,0,1200,900 }, { 0,0 });
+      auto Label = UI::TextLabel::Create(EnablePhysicsToggle, UIHelper, UI::TextAlignment::CenterJustified, "physics", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeMedium, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });
 
       //TestList = UI::ListWidget::Create(UILayer, UIHelper, { 400, 200 }, { 200, 400 }, UI::DefaultDarkTheme);
       //MakeButtonWithText(TestListUpButton, UILayer, UIHelper, sf::Vector2f(610, 210), sf::Vector2f(150, 35), "scroll up", MenuFont, UI::DefaultDarkTheme);
@@ -90,7 +90,7 @@ namespace Engine
       EnablePhysicsToggle->CheckedCB = [this]() {this->EnabledPhysics = true; };
       EnablePhysicsToggle->UnCheckedCB = [this]() {this->EnabledPhysics = false; };
 
-      MakeButtonWithText(CloseButton, UILayer, UIHelper, sf::Vector2f(1700, 10), sf::Vector2f(50, 15), "close", MenuFont, UI::DefaultDarkTheme);
+      MakeButtonWithText(CloseButton, UILayer, UIHelper, sf::Vector2f(1700, 10), UI::DefaultDarkTheme.ToolBarButtonSize, "close", MenuFont, UI::DefaultDarkTheme);
       CloseButton->MouseReleaseCB =
         []()
       {
@@ -180,7 +180,7 @@ namespace Engine
                                                       UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeMedium, { 0,0,1000,1000 }, { 0,0 });
 
       MakeButtonNormal(AddTileButton, UILayer, UIHelper, sf::Vector2f(10, 130), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
-      auto add_tile_label = UI::TextLabel::Create(AddTileButton, UIHelper, UI::TextAlignment::CenterJustified, "add tile", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0,0,1000,1000 }, { 0,0 });
+      auto add_tile_label = UI::TextLabel::Create(AddTileButton, UIHelper, UI::TextAlignment::CenterJustified, "add tile", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });
       AddTileButton->MouseReleaseCB =
         [this]()
       {
@@ -220,7 +220,7 @@ namespace Engine
 
       //button on main screen to open the menu
       MakeButtonNormal(AddClassButton, UILayer, UIHelper, sf::Vector2f(10, 180), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
-      auto __cancel_text = UI::TextLabel::Create(AddClassButton, UIHelper, UI::TextAlignment::CenterJustified, "add class", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0,0,1000,1000 }, { 0,0 });
+      auto __cancel_text = UI::TextLabel::Create(AddClassButton, UIHelper, UI::TextAlignment::CenterJustified, "add class", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });
       AddClassButton->MouseReleaseCB =
         [this]()
       {
@@ -247,7 +247,7 @@ namespace Engine
       MakeMenu(TestMenus, UILayer, UIHelper);
       MakeMenuDefaultScreen(TestSelectScreen, UI::DefaultDarkTheme, TestMenus);
       MakeButtonNormal(OpenTestMenusButton, UILayer, UIHelper, sf::Vector2f(180, 10), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
-      auto test_menus_label = UI::TextLabel::Create(OpenTestMenusButton, UIHelper, UI::TextAlignment::CenterJustified, "<test menus>", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0,0,1000,1000 }, { 0,0 });
+      auto test_menus_label = UI::TextLabel::Create(OpenTestMenusButton, UIHelper, UI::TextAlignment::CenterJustified, "<test menus>", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });
       OpenTestMenusButton->MouseReleaseCB =
         [this]()
       {
@@ -287,7 +287,7 @@ namespace Engine
 
 
       MakeButtonNormal(EraseObjectsButton, UILayer, UIHelper, sf::Vector2f(10, 70), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
-      auto erase_label = UI::TextLabel::Create(EraseObjectsButton, UIHelper, UI::TextAlignment::CenterJustified, "erase all", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0,0,1000,1000 }, { 0,0 });
+      auto erase_label = UI::TextLabel::Create(EraseObjectsButton, UIHelper, UI::TextAlignment::CenterJustified, "erase all", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });
       EraseObjectsButton->MouseReleaseCB =
         [this]()
       {
@@ -295,7 +295,7 @@ namespace Engine
       };
 
       MakeButtonNormal(AllObjectButton, UILayer, UIHelper, sf::Vector2f(10, 10), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
-      auto label = UI::TextLabel::Create(AllObjectButton, UIHelper, UI::TextAlignment::CenterJustified, "add object", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0,0,1000,1000 }, { 0,0 });
+      auto label = UI::TextLabel::Create(AllObjectButton, UIHelper, UI::TextAlignment::CenterJustified, "add object", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });
       MakeMenuButtonOpen(AllObjectButton, ObjectSelectMenu);
 
       ////Bind spawning behavior

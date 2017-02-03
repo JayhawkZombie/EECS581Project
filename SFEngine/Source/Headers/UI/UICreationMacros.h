@@ -37,7 +37,7 @@ SCREEN->SetBGPosition(MENU##ScreenPosition);\
 SCREEN->SetBGSize(MENU##ScreenSize);\
 
 #define MakeButtonWithText(BUTTON, LAYER, HELPER, POSITION, _SIZE, __TEXT__, __FONT__, THEME)\
-BUTTON = Engine::UI::ClickButtonBase::Create(LAYER, HELPER, POSITION, THEME.ButtonSizeThin, nullptr);\
+BUTTON = Engine::UI::ClickButtonBase::Create(LAYER, HELPER, POSITION, _SIZE, nullptr);\
 BUTTON->SetBGColor(THEME.ButtonColorNormal);\
 BUTTON->SetBGColorHighlighted(THEME.ButtonColorHighlighted);\
 BUTTON->SetBGColorPressed(THEME.ButtonColorPressed);\
