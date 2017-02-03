@@ -77,10 +77,8 @@ namespace Engine
     void RenderRegular();
     void RenderLoadingScreen();
 
-    std::vector<std::shared_ptr<LevelLoader>> Loaders;
-
     std::map<std::string, LevelTile> Tiles;
-
+    bool ShowGridLines = false;
   };
 
 }
