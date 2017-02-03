@@ -515,41 +515,69 @@ std::map<int, std::map<int, std::map<int, int>>> GameMain::numStagesLookup()
 
 int GameMain::run()
 {
-	Armor::makeGenericList();
-	ListReader list;
-	MonsterType** myArray = list.readMonsters("Game/ContentFiles/MonsterTypes/MonsterTypes.txt");
+	int choice;
+
+	while (true)
+	{
+		std::cout << "What would you like to do?\n";
+		std::cout << "1) reWrite Armor Content\n";
+		std::cout << "2) Print all the Monsters\n";
+		std::cout << "3) Run Bestiary Simulator\n";
+		std::cout << "4) Run Tests\n";
+		std::cout << "5) Exit\n";
+		std::cin >> choice;
+		if (choice == 1)
+		{
+			Armor::makeGenericList();
+		}
+		else if (choice == 2)
+		{
+			ListReader list;
+			MonsterType** myArray = list.readMonsters("Game/ContentFiles/MonsterTypes/MonsterTypes.txt");
+			for (int i = 0; i<319; i++)
+			{
+				std::cout << "Index:            " << i << "\n";
+				std::cout << "Name:             " << myArray[i]->getName() << "\n";
+				std::cout << "Description:      " << myArray[i]->getDescription() << "\n";
+				std::cout << "PrimaryElement:   " << myArray[i]->getPrimary() << "\n";
+				std::cout << "SecondaryElement: " << myArray[i]->getSecondary() << "\n";
+				std::cout << "EvolutionStage:   " << myArray[i]->getEvolutionStage() << "\n";
+				std::cout << "EvolutionType:    " << myArray[i]->getEvolutionType() << "\n";
+				std::cout << "Texture:          " << myArray[i]->getTexture() << "\n";
+				//		std::cout << "PhysicalEvolution:" << myArray[i]->getPhysicalEvolution() << "\n";
+				//		std::cout << "BalancedEvolution:" << myArray[i]->getBalancedEvolution() << "\n";
+				//		std::cout << "MagicalEvolution: " << myArray[i]->getMagicalEvolution() << "\n";
+
+				std::cout << "\n\n";
+			}
+		}
+		else if (choice == 3)
+		{
+			BestiaryConsole::run();
+		}
+		else if (choice == 4)
+		{
+			RPGTest::runTests(true);
+		}
+		else if (choice == 5)
+		{
+			return 0;
+		}
+	}
+
+
+	/*
 	Armor** myArmors = list.readArmor("Game/ContentFiles/Generic/GenericArmor.txt");
 	for (int i = 0; i < 72; i++)
 	{
 		std::cout << myArmors[i]->getName() << "\n";
 		std::cout << myArmors[i]->getDescription() << "\n\n";
-	}
+	}*/
 	//std::map<int, std::map<int, std::map<int, std::map<int,int>>>> lookup = indexLookup(myArray);
-	std::cout << "ITS WORKING!\n";
-	BestiaryConsole::run();
+	//std::cout << "ITS WORKING!\n";
 
-	
-	for (int i = 0; i<319; i++)
-	{
-		std::cout << "Index:            " << i << "\n";
-		std::cout << "Name:             " << myArray[i]->getName() << "\n";
-		std::cout << "Description:      " << myArray[i]->getDescription() << "\n";
-		std::cout << "PrimaryElement:   " << myArray[i]->getPrimary() << "\n";
-		std::cout << "SecondaryElement: " << myArray[i]->getSecondary() << "\n";
-		std::cout << "EvolutionStage:   " << myArray[i]->getEvolutionStage() << "\n";
-		std::cout << "EvolutionType:    " << myArray[i]->getEvolutionType() << "\n";
-		std::cout << "Texture:          " << myArray[i]->getTexture() << "\n";
-		//		std::cout << "PhysicalEvolution:" << myArray[i]->getPhysicalEvolution() << "\n";
-		//		std::cout << "BalancedEvolution:" << myArray[i]->getBalancedEvolution() << "\n";
-		//		std::cout << "MagicalEvolution: " << myArray[i]->getMagicalEvolution() << "\n";
-
-		std::cout << "\n\n";
-	}
-	//std::cout << "King Ratte:" << lookup[5][1][4][1] << "\n";
-	
-	RPGTest::runTests(true);
-	MainCharacter* mchar = new MainCharacter();
-	list.readConversation("Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt",*(mchar));
+//	MainCharacter* mchar = new MainCharacter();
+//	list.readConversation("Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt",*(mchar));
 	//MonsterType** myArray = list.readMonsters("Game/ContentFiles/MonsterTypes/MonsterTypes.txt");
 	//std::cout << "Myarray's length " << sizeof(myArray) << "\n";
 	
@@ -578,9 +606,9 @@ int GameMain::run()
 	* int reply;
 	* reply = list.readConversation(...);
 	*/
-	list.menu();
-	delete mchar;
-	return 0;
+//	list.menu();
+//	delete mchar;
+//	return 0;
 }
 
 std::map<int, std::string> GameMain::ElementNames()
