@@ -59,6 +59,12 @@ namespace Engine
       sf::IntRect ButtonOverlayNormal;
       sf::IntRect ButtonOverlayHighlighted;
       sf::IntRect ButtonOverlayPressed;
+
+      sf::Color ListBackgroundColorNormal;
+      sf::Color ListOutlineColorNormal;
+      sf::Color ListOutlineColorHighlighted;
+
+      sf::Vector2f ButtonSizeThin;
     };
 
     extern Theme DefaultDarkTheme;

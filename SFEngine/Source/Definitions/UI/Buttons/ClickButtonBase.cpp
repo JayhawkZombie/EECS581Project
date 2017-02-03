@@ -84,10 +84,6 @@ namespace Engine
     void ClickButtonBase::Move(const sf::Vector2f &Delta)
     {
       WidgetBase::Move(Delta);
-
-      for (auto & dr : Drawables) {
-        dr->DrawBounds.MoveRegion(Delta);
-      }
     }
 
     void ClickButtonBase::Resize(const sf::Vector2f & Size)

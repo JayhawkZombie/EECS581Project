@@ -180,7 +180,7 @@ namespace Engine
 #ifdef WITH_EDITOR
   class SFEngine;
   extern SFEngine *CurrentEngine;
-
+  extern bool FlagForClose;
   namespace UI {
     class BaseUIElement;
   };
@@ -191,5 +191,20 @@ namespace Engine
   extern void SetKeyRepeatEnabled(bool);
 
 }
+
+//This is pretty hacky, and will be changed later
+// Just used to flag that we need to close down (since we can't use a close button when in fullscreen mode)
+
+
+#define __TO_FLOAT__(VAR)\
+static_cast<float>(VAR)
+#define __TO_INT__(VAR)\
+static_cast<int>(VAR)
+#define __INT_FROM_FLOAT__(VAR)\
+static_cast<int>(std::round(VAR))
+#define __UINT_FROM_FLOAT__(VAR)\
+static_cast<std::uint32_t>(std::round(VAR))
+
+
 
 #endif

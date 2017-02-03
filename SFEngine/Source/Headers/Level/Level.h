@@ -42,11 +42,9 @@ namespace Engine
     void SerializeOut(std::ofstream &out) override;
     void SerializeIn(std::ifstream &in) override;
 
-#ifdef WITH_EDITOR
     void SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f &Position);
     void SpawnObject(std::shared_ptr<LevelObject> Object, const sf::Vector2f &Position);
     void SpawnLight(std::shared_ptr<LightObject> Light, const sf::Vector2f &Position);
-#endif
 
     void HandleKeyPress(const sf::Keyboard::Key &key);
     void HandleKeyRelease(const sf::Keyboard::Key &key);
@@ -61,8 +59,6 @@ namespace Engine
     std::vector<std::shared_ptr<LevelLoader>> Loaders;
 
     std::map<std::string, LevelTile> Tiles;
-
-
 
   };
 

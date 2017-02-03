@@ -84,6 +84,7 @@ namespace Engine
       }
 
       void AlignText();
+      virtual void AddTextLabel(std::shared_ptr<TextLabel> Label);
 
       virtual ~TextInput() = default;
     protected:

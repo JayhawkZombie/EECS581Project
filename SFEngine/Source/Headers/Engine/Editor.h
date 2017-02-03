@@ -27,6 +27,8 @@
 #include "../UI/Input/TextInput.h"
 #include "../UI/Input/Spinner.h"
 
+#include "../UI/UICreationMacros.h"
+
 namespace Engine
 {
 
@@ -108,6 +110,8 @@ namespace Engine
     void TickUpdate(const double &delta);
     void Render(std::shared_ptr<sf::RenderTexture> Texture);
 
+    void PreLoopSetup();
+
     void HandleMousePressed(const InputEvent &Event);
     void HandleMouseReleased(const InputEvent &Event);
     void HandleMouseMoved(const InputEvent &Event);
@@ -115,6 +119,8 @@ namespace Engine
     void HandleKeyPressed(const InputEvent &Event);
     void HandleKeyReleased(const InputEvent &Event);
     void HandleTextEntered(const InputEvent &Event);
+
+    void CreateMenus();
 
     void HandleWindowResized(const sf::Vector2u &NewWindowSize);
 
@@ -129,6 +135,9 @@ namespace Engine
     //Icon sheet
     std::shared_ptr<sf::Texture> IconSheet;
 
+    //Close button
+    std::shared_ptr<UI::ClickButtonBase> CloseButton;
+
     //Check options
     std::shared_ptr<UI::SimpleToggle> EnablePhysicsToggle;
     bool EnabledPhysics = true;
@@ -136,6 +145,82 @@ namespace Engine
     std::shared_ptr<UI::ClickButtonBase> EraseObjectsButton;
     std::shared_ptr<UI::TextInput> TestInput;
     std::shared_ptr<UI::IntSpinner> TestSpinner;
+
+    //test list widget
+    std::shared_ptr<UI::ListWidget> TestList;
+    std::shared_ptr<UI::ClickButtonBase> TestListUpButton;
+    std::shared_ptr<UI::ClickButtonBase> TestListDownButton;
+
+    //Tile editing menu
+    std::shared_ptr<UI::MenuWidget> AddTileMenu;
+    std::shared_ptr<UI::MenuScreen> AddTileScreen;
+    std::shared_ptr<UI::TextInput> AddTileTextureInput;
+    std::shared_ptr<UI::TextInput> AddTileFrameLeftInput;
+    std::shared_ptr<UI::TextInput> AddTileFrameTopInput;
+    std::shared_ptr<UI::TextInput> AddTileFrameWidthInput;
+    std::shared_ptr<UI::TextInput> AddTileFrameHeightInput;
+    std::shared_ptr<UI::ClickButtonBase> AddTileSaveButton;
+    std::shared_ptr<UI::ClickButtonBase> AddTileCancelButton;
+    std::shared_ptr<UI::SimpleToggle> AddTileIsAnimatedToggle;
+    std::shared_ptr<UI::ClickButtonBase> AddTileButton;
+
+    //AddClass Menu
+    std::shared_ptr<UI::MenuWidget> AddClassMenu;
+    std::shared_ptr<UI::MenuScreen> AddClassSelectScreen;
+    std::shared_ptr<UI::ClickButtonBase> AddClassAddActorButton;
+    std::shared_ptr<UI::ClickButtonBase> AddClassAddObjectButton;
+    std::shared_ptr<UI::ClickButtonBase> AddClassAddLightButton;
+    std::shared_ptr<UI::ClickButtonBase> AddClassAddEffectButton;
+    std::shared_ptr<UI::ClickButtonBase> AddClassAddCancelButton;
+
+    std::shared_ptr<UI::ClickButtonBase> AddClassButton;
+
+    std::shared_ptr<UI::MenuScreen> AddActorClassScreen;
+    std::shared_ptr<UI::ClickButtonBase> AddActorClassCancelButton;
+
+    std::shared_ptr<UI::MenuScreen> AddObjectClassScreen;
+    std::shared_ptr<UI::ClickButtonBase> AddObjectClassCancelButton;
+
+    std::shared_ptr<UI::MenuScreen> AddLightClassScreen;
+    std::shared_ptr<UI::ClickButtonBase> AddLightClassCancelButton;
+
+    std::shared_ptr<UI::MenuScreen> AddEffectClassScreen;
+    std::shared_ptr<UI::ClickButtonBase> AddEffectClassCancelButton;
+
+    //TestMenu
+    UIMenu TestMenus;
+    UIMenuScreen TestSelectScreen;
+    UIButton OpenTestMenusButton; //for opening the menu from the main screen
+    UIButton TestSelectEditAnimationButton;
+    UIButton TestSelectCancelButton;
+
+    //Edit animation menu
+    UIMenu EditAnimationMenu;
+    UIMenuScreen EditAnimationScreen;
+    UITextInput EditAnimationFileInput;
+    UIButton EditAnimationFileLoadButton;
+    UIIntSpinner EditAnimationFrameCountSpinner;
+    UIIntSpinner EditAnimationFrameSizeXSpinner;
+    UIIntSpinner EditAnimationFrameSizeYSpinner;
+    UIIntSpinner EditAnimationFrameSpeedSpinner;
+    UIIntSpinner EditAnimationEditFrameLeftSpinner;
+    UIIntSpinner EditAnimationEditFrameTopSpinner;
+    UIIntSpinner EditAnimationEditFrameWidthSpinner;
+    UIIntSpinner EditAnimationEditFrameHeightSpinner;
+
+    UIButton EditAnimationPauseAnimationButton;
+    UIButton EditAnimationStepForwardButton;
+    UIButton EditAnimationStepBackButton;
+
+    UIButton EditAnimationTexturePreviewFillinButton;
+    UIButton EditAnimationAnimationPreviewFillinButton;
+
+    UIButton EditAnimationCancelButton;
+    UIButton EditAnimationSaveButton;
+
+    UIButton EditAnimationButton;
+
+
 
     sf::Color ButtonColorNormal = sf::Color(58, 0, 29);
     sf::Color ButtonColorHighlighted = sf::Color(86, 0, 43);
@@ -176,15 +261,6 @@ namespace Engine
 
     std::shared_ptr<UI::ListWidget> EditOptionsList;
     std::shared_ptr<UI::ClickButtonBase> EditOptionsOpenCloseButton;
-
-    std::shared_ptr<UI::PopupObject> TestPopup;
-    std::shared_ptr<UI::Alert> Alert;
-
-    std::shared_ptr<UI::MenuWidget> TestMenu;
-    std::shared_ptr<UI::MenuScreen> TestScreen;
-    std::shared_ptr<UI::MenuScreen> TestScreen2;
-    std::shared_ptr<UI::MenuScreen> TestScreen3;
-    
     std::shared_ptr<sf::Font> MenuFont;
 
     //Test screen buttons

@@ -362,6 +362,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\Editor.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorCreateMenus.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorEventHandlers.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorObjectSpawning.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorSaveLoad.cpp" />

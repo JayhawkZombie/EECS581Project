@@ -90,43 +90,44 @@ namespace Engine
       if (Widget->IsHidden)
         return Interaction;
 
+      //Pressing changes focus
+      if (DidMousePress(Widget, IEvent)) {
+        Widget->OnMousePress(IEvent);
+        //But we should only signal a change of focus if the user didn't press on a given element already
+        return (Interaction = (Widget->HasFocus ?
+                               InteractionType::NoFocusChange : InteractionType::FocusChange));
+      }
+      if (DidMouseRelease(Widget, IEvent)) {
+        Widget->OnMouseRelease(IEvent);
+        return (Interaction = InteractionType::NoFocusChange);
+      }
+
       if (DidMouseMove(Widget, IEvent)) {
         Widget->OnMouseMove(IEvent);
-        Interaction = InteractionType::NoFocusChange;
+        return (Interaction = InteractionType::NoFocusChange);
       }
       if (DidMouseOver(Widget, IEvent)) {
         Widget->OnMouseOver(IEvent);
-        Interaction = InteractionType::NoFocusChange;
+        return (Interaction = InteractionType::NoFocusChange);
       }
       if (DidMouseLeave(Widget, IEvent)) {
         Widget->OnMouseLeave(IEvent);
-        Interaction = InteractionType::NoFocusChange;
-      }
-      //Pressing changes focus
-      else if (DidMousePress(Widget, IEvent)) {
-        Widget->OnMousePress(IEvent);
-        //But we should only signal a change of focus if the user didn't press on a given element already
-        Interaction = (Widget->HasFocus ? 
-                       InteractionType::NoFocusChange : InteractionType::FocusChange);
-      }
-      else if (DidMouseRelease(Widget, IEvent)) {
-        Widget->OnMouseRelease(IEvent);
-        Interaction = InteractionType::NoFocusChange;
+        return (Interaction = InteractionType::NoFocusChange);
       }
       if (DidBeginDrag(Widget, IEvent)) {
         Widget->OnDragBegin(IEvent);
         BeginWidgetDrag(Widget, IEvent);
-        Interaction = InteractionType::BeginDrag;
+        return (Interaction = InteractionType::BeginDrag);
       }
-      else if (DidContinueDrag(Widget, IEvent)) {
+      if (DidContinueDrag(Widget, IEvent)) {
         Widget->OnDragContinue(IEvent);
         ContinueWidgetDrag(Widget, IEvent);
-        Interaction = InteractionType::ContinueDrag;
+        return (Interaction = InteractionType::ContinueDrag);
       }
-      else if (DidEndDrag(Widget, IEvent)) {
+      if (DidEndDrag(Widget, IEvent)) {
         Widget->OnDragEnd(IEvent);
         EndWidgetDrag(Widget, IEvent);
-        Interaction = InteractionType::EndDrag;
+        return (Interaction = InteractionType::EndDrag);
       }
 
       return Interaction;
@@ -239,6 +240,19 @@ namespace Engine
         err.AddCause({ ExceptionCause::IDGenerationError });
         throw;
       }
+    }
+
+    void UILayer::RegisterPremadeWidget(SharedWidgetPointer Widget)
+    {
+      if (!Widget) {
+        throw NullPointerException({ ExceptionCause::NullPointer }, EXCEPTION_MESSAGE("Widget is NULL"));
+      }
+
+      Items.insert(Items.begin() + 0, Widget);
+      Widget->SelfWeakPtr = Widget;
+
+      if (LayerRegisterDebugOutputFunction)
+        LayerRegisterDebugOutputFunction(Widget->WidgetID);
     }
 
     void UILayer::RegisterLayerlessWidget(SharedWidgetPointer Widget)

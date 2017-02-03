@@ -27,8 +27,12 @@ namespace Engine
     {
       GlobalWidgetBounds.MoveRegion(Delta);
       BGRect.move(Delta);
-      //for (auto & label : TextLabels)
-      //  label->Move(Delta);
+      for (auto & label : TextLabels)
+        label->Move(Delta);
+
+      for (auto & dr : Drawables) {
+        dr->DrawBounds.MoveRegion(Delta);
+      }
 
       if (ChildLayer)
         ChildLayer->Move(Delta);
@@ -81,7 +85,7 @@ namespace Engine
 
     void WidgetBase::SetUpLayerless()
     {
-      DEBUG_ONLY std::cerr << "WidgetBase::SetUpLayerless()" << std::endl;
+      //DEBUG_ONLY std::cerr << "WidgetBase::SetUpLayerless()" << std::endl;
       if (WidgetID != 0)
         throw InvalidObjectException({ ExceptionCause::InitializationError },
                                      EXCEPTION_MESSAGE("WidgetID has already been set"));
@@ -96,7 +100,7 @@ namespace Engine
         ID = GenerateID();
         WidgetID = ID;
 
-        DEBUG_ONLY std::cerr << "Layerless ID " << WidgetID << std::endl;
+        //DEBUG_ONLY std::cerr << "Layerless ID " << WidgetID << std::endl;
       }
       catch (IDException &err)
       {

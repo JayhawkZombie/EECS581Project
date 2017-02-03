@@ -117,8 +117,30 @@ namespace Engine
       //AlignY
       float posY = Position.y + (yDiff / 2.f);
       auto pos = RenderString.getPosition();
-
+      GlobalWidgetBounds.ForceRegion(PaddedBounds);
       RenderString.setPosition({ pos.x, AlignedYPos });
+    }
+
+    void TextInput::AddTextLabel(std::shared_ptr<TextLabel> Label)
+    {
+      //figure out what the new bounds would need to be
+      sf::FloatRect Bounds = GlobalWidgetBounds.GlobalBounds;
+      sf::FloatRect TextBounds = Label->GetTextGlobalBounds();
+      float xDiff = std::abs(Bounds.width - TextBounds.width);
+      float yDiff = std::abs(Bounds.height - TextBounds.height);
+
+      sf::FloatRect NewBounds =
+      {
+        Bounds.left - TextBounds.width - 10, Bounds.top, Bounds.width + TextBounds.width, Bounds.height
+      };
+
+      sf::Vector2f LabelPosDelta = { Bounds.left - (Bounds.left - TextBounds.width - 10), Bounds.top };
+
+      Label->SetPosition({ Position.x - TextBounds.width - 10, Position.y + (yDiff / 2.f) });
+
+      Label->GlobalWidgetBounds.ForceRegion(TextBounds);
+      //GlobalWidgetBounds.ForceRegion(NewBounds);
+      TextLabels.push_back(Label);
     }
 
     void TextInput::ConsumeEvent(const InputEvent & IEvent)
@@ -209,6 +231,8 @@ namespace Engine
       Texture->setView(oldview);
 
       Texture->draw(BoundsRect);
+
+      WidgetBase::Render(Texture);
     }
 
     void TextInput::Move(const sf::Vector2f & Delta)

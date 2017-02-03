@@ -76,6 +76,9 @@ namespace Engine
       }
 
       void RegisterWidget(SharedWidgetPointer Widget);
+
+      void RegisterPremadeWidget(SharedWidgetPointer Widget);
+
       void RegisterLayerlessWidget(SharedWidgetPointer Widget);
       void RemoveWidget(SharedWidgetPointer Widget);
       void ClearAllWidgets();
