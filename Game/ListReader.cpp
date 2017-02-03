@@ -148,6 +148,12 @@ Armor** ListReader::readArmor(std::string fileName)
     file >> intVal;
     newArmor->setValue(intVal);
 
+	//austins' mess up attempt to add a levelRequirement starts here
+	file >> intVal;
+	newArmor->setRequiredLevel(intVal);
+
+	//and ends here
+
     std::getline(file,line);
     std::getline(file,line);
     newArmor->setDescription(line);

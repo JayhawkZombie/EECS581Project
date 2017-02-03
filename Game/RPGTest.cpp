@@ -805,7 +805,7 @@ bool RPGTest::testMainCharacter1(bool quiet)
 
 bool RPGTest::testGameMain1(bool quiet)
 {
-	std::cout << "GOT HERE\n";
+	//std::cout << "GOT HERE\n";
 	std::map<int, std::map<int, std::map< int, int>>> SizeLookup;
 
 	std::map<int, int> TreeType1;
@@ -957,6 +957,9 @@ bool RPGTest::testGameMain1(bool quiet)
 	}
 	return result;
 }
+
+
+
 /*
 bool RPGTest::testGameMain1(bool quiet)
 {

@@ -1,6 +1,6 @@
 #ifndef RPG_ITEM_H
 #define RPG_ITEM_H
-
+#include <map>
 #include <string>
 class RPGItem
 {
@@ -12,18 +12,22 @@ public:
 	//Getters-Setters
 	std::string getName() const;
 	std::string getDescription() const;
-  std::string getTexture() const;
+    std::string getTexture() const;
 	int getValue() const;
 	int getId() const;
 
 	void setName(std::string name);
 	void setDescription(std::string description);
-  void setTexture(std::string texture);
+    void setTexture(std::string texture);
 	void setValue(int value);
 	void setId(int id);
 
 	//Other Methods
-//	void InitializeRPGItem();
+	static std::map<int, std::map<int, std::string>> TierNames();
+	static std::map<int, int> tierValues();
+	static std::map<int, int> tierBaseLevel();
+	
+	//	void InitializeRPGItem();
 //	static int HowMany();//returns the number of items
 //	static RPGItem* get();//returns a pointer to the
 	//base of the array of length Num() that holds 
