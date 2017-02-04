@@ -113,7 +113,7 @@ bool Inventory::incrementWeapons(int index, int delta)
 	{
 		return false;
 	}
-	m_armorCount[index] += delta;
+	m_weaponCount[index] += delta;
 	return true;
 }
 
@@ -127,6 +127,6 @@ bool Inventory::incrementUseables(int index, int delta)
 	{
 		return false;
 	}
-	m_armorCount[index] += delta;
+	m_useableCount[index] += delta;
 	return true;
 }
