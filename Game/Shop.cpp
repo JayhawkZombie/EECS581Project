@@ -180,7 +180,7 @@ void Shop::displayPlayerInventory()
   Armor** armor = NULL;
   Weapon** weapon = NULL;
 
-  useable = reader.readUseables("useable.txt");
+
   /*
   useable = reader.readUseables("Game/ContentFiles/useable.txt");
   armor = reader.readArmor("Game/ContentFiles/armor.txt");
@@ -273,7 +273,7 @@ void Shop::displayShopInventory()
   Armor** armor = NULL;
   Weapon** weapon = NULL;
 
-  useable = reader.readUseables("useable.txt");
+
   /*
   useable = reader.readUseables("Game/ContentFiles/useable.txt");
   armor = reader.readArmor("Game/ContentFiles/armor.txt");
@@ -368,7 +368,6 @@ bool Shop::sellItem(int itemIndex, int itemType, int amount)
   Armor** armor = NULL;
   Weapon** weapon = NULL;
 
-  useable = reader.readUseables("useable.txt");
   /*
   useable = reader.readUseables("Game/ContentFiles/useable.txt");
   armor = reader.readArmor("Game/ContentFiles/armor.txt");
@@ -426,7 +425,7 @@ bool Shop::buyItem(int itemIndex, int itemType, int amount)
   Armor** armor = NULL;
   Weapon** weapon = NULL;
 
-  useable = reader.readUseables("useable.txt");
+
   /*
   useable = reader.readUseables("Game/ContentFiles/useable.txt");
   armor = reader.readArmor("Game/ContentFiles/armor.txt");
