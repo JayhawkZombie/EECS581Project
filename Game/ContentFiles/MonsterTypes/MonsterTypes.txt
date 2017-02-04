@@ -632,7 +632,7 @@ A silver Taurus, with a sapphire sphere at its base. Etched on the Sapphire Sphe
 1
 1
 2
-1
+2
 SFEngine/Samples/Animations/CharacterAnimations/AquaSymbolMonster.png
 Torquoise
 NULL
@@ -2095,7 +2095,7 @@ The AeroSymbol is a circle with six points that looks like the aero glyph. The s
 3
 3
 2
-3
+2
 SFEngine/Samples/Animations/CharacterAnimations/AeroSymbolMonster.png
 Quartz
 NULL
@@ -2337,7 +2337,7 @@ The Rationowl is a thinker and percieves its enemies weaknesses before it strike
 3
 5
 2
-1
+2
 SFEngine/Samples/Animations/CharacterAnimations/FourShadoWing.png
 NULL
 Wisowl
@@ -2403,7 +2403,7 @@ The Knowlowlegabel knows only that it does not know. It can cast logical contrad
 3
 5
 4
-1
+2
 SFEngine/Samples/Animations/CharacterAnimations/FourShadoWing.png
 NULL
 NULL
@@ -3183,7 +3183,7 @@ Queen B
 Queen B is the younger sister of Queen A, however when they were in a beauty pagent, everyone chose Queen B, so she became the dominant Queen. She can summon Stingers to the empty allied positions
 5
 1
-3
+4
 0
 SFEngine/Samples/Animations/CharacterAnimations/Stinger.png
 NULL
@@ -3194,7 +3194,7 @@ King Rattle
 King Rattle has a large Rattle on the end of its tail. Not like a snakes, like a babies rattle, but really large. It also has a crown. Its scales are brown and it is very large
 5
 1
-3
+4
 1
 SFEngine/Samples/Animations/CharacterAnimations/Stinger.png
 NULL
@@ -3205,7 +3205,7 @@ Red Widow
 The Red Widow has gotten over her husbands death. The hourglass has turned black, and the rest of her has turned red. This color, and the scent given off from her hide, attracts insects to their doom. Her bright color does as well
 5
 1
-3
+4
 2
 SFEngine/Samples/Animations/CharacterAnimations/Stinger.png
 NULL

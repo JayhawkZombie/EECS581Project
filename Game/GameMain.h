@@ -35,19 +35,18 @@ public:
 	GameMain();
 	~GameMain();
 	static int run();
+	static std::map<int, std::string> ElementNames();
 	static std::map<int, std::map<int, std::string>> SubElementNames();
     void TickUpdate(const double &Delta);
     void Render(std::shared_ptr<sf::RenderTexture> Target);
 	static std::map<int, std::map<int, std::string>> Symbols();
-	MonsterType*** returnTree(int primary, int secondary);
+	static std::map<int, std::map<int, std::map<int, std::map<int, MonsterType*>>>> Monsters(MonsterType** myArray);
+	static std::map<int, std::map<int, std::map<int, std::map<int, int>>>> indexLookup(MonsterType** myArray);
+	static std::map<int, std::map<int, std::map<int, int>>> numStagesLookup();
+
     std::map<Type, std::map<Type, MonsterTree>> m_MonsterMap;
-	MonsterType***** MonsterArray;
 
 private:
-//  std::shared_ptr<Engine::Level> Level;
-  
-
-//	void printAssetStatus();
 
 };
 
