@@ -295,6 +295,7 @@
     <ClInclude Include="Game\Armor.h" />
     <ClInclude Include="Game\Battle.h" />
     <ClInclude Include="Game\BattleActor.h" />
+    <ClInclude Include="Game\BestiaryConsole.h" />
     <ClInclude Include="Game\Companion.h" />
     <ClInclude Include="Game\Conversation.h" />
     <ClInclude Include="Game\Damage.h" />
@@ -470,6 +471,7 @@
     <ClCompile Include="Game\Armor.cpp" />
     <ClCompile Include="Game\Battle.cpp" />
     <ClCompile Include="Game\BattleActor.cpp" />
+    <ClCompile Include="Game\BestiaryConsole.cpp" />
     <ClCompile Include="Game\Companion.cpp" />
     <ClCompile Include="Game\Conversation.cpp" />
     <ClCompile Include="Game\Damage.cpp" />
