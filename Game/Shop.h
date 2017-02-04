@@ -5,7 +5,7 @@
 #include <array>
 #include <iostream>
 
-class Shop : public Inventory
+class Shop
 {
 public:
   Shop(Inventory* playerInventory, Inventory* shopInventory);
