@@ -12,7 +12,8 @@ namespace Engine
     class IntSpinner : public WidgetBase
     {
     public:
-      static std::shared_ptr<IntSpinner> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Font> _Font, std::shared_ptr<sf::Texture> IconTexture);
+      static std::shared_ptr<IntSpinner> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, 
+                                                const sf::Vector2f &Position, const sf::Vector2f &Size, std::shared_ptr<sf::Font> _Font, std::shared_ptr<sf::Texture> IconTexture, std::uint32_t initval = 0);
 
       virtual void ConsumeEvent(const InputEvent &IEvent) override;
       virtual void OnFocusGained(const FocusChangeEvent &FEvent) override;
@@ -35,6 +36,11 @@ namespace Engine
       virtual void ResetAppearance() override;
 
       virtual void ChangeData(std::int32_t delta);
+
+      std::function<void(void)> ValueChangedCB = []() {};
+
+      std::function<void(void)> ValueIncreasedCB = []() {};
+      std::function<void(void)> ValueDecreasedCB = []() {};
 
       std::int32_t GetValue() const {
         return Data;

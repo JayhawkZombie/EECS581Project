@@ -240,10 +240,10 @@ namespace Engine
       MakeMenuScreenButtonBack(AddEffectClassCancelButton, AddEffectClassScreen);
 
       //Create the TestingMenus
-      sf::Vector2f TestMenusPosition = { 200, 200 };
-      sf::Vector2f TestMenusSize = { 400, 400 };
-      sf::Vector2f TestMenusScreenPosition = { 200, 200 };
-      sf::Vector2f TestMenusScreenSize = { 400, 400 };
+      sf::Vector2f TestMenusPosition = { 400, 100 };
+      sf::Vector2f TestMenusSize = { 500, 500 };
+      sf::Vector2f TestMenusScreenPosition = { 400, 100 };
+      sf::Vector2f TestMenusScreenSize = { 500, 500 };
       MakeMenu(TestMenus, UILayer, UIHelper);
       MakeMenuDefaultScreen(TestSelectScreen, UI::DefaultDarkTheme, TestMenus);
       MakeButtonNormal(OpenTestMenusButton, UILayer, UIHelper, sf::Vector2f(180, 10), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
@@ -254,37 +254,14 @@ namespace Engine
         UI::MenuWidget::OpenMenu(this->TestMenus);
       };
 
-      //create the editing stuff inside the edit animation menu
-      MakeMenuScreen(EditAnimationScreen, UI::DefaultDarkTheme, TestMenus);
-      AddMenuScreen(TestMenus, EditAnimationScreen);
-
       MakeMenuScreenButtonNormal(TestSelectCancelButton, TestSelectScreen, TestMenus, sf::Vector2f(210, 260), UI::DefaultDarkTheme, "cancel", MenuFont, nullptr);
       MakeMenuButtonClose(TestSelectCancelButton, TestMenus);
 
-      MakeMenuScreenButtonNormal(TestSelectEditAnimationButton, TestSelectScreen, TestMenus, sf::Vector2f(210, 210), UI::DefaultDarkTheme, "edit animation", MenuFont, nullptr);
-      MakeMenuScreenTransition(TestSelectEditAnimationButton, TestMenus, EditAnimationScreen);
 
-      ////create the actual editing menu
-      MakeMenuScreenButtonNormal(EditAnimationSaveButton, EditAnimationScreen, TestMenus, sf::Vector2f(210, 560), UI::DefaultDarkTheme, "save(and back)", MenuFont, nullptr);
-      MakeMenuScreenButtonBack(EditAnimationSaveButton, TestSelectScreen);
 
-      EditAnimationFileInput = UI::TextInput::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 210, 210 }, { 200, 30 }, MenuFont, "texture path");
-      MakeMenuScreenButtonNormal(EditAnimationFileLoadButton, EditAnimationScreen, TestMenus, sf::Vector2f(460, 210), UI::DefaultDarkTheme, "load", MenuFont, nullptr);
-      ////load texture
+      AnimMenu.ConstructMenu(TestMenus, TestSelectScreen, sf::Vector2f(400, 400), UI::DefaultDarkTheme, MenuFont, TestMenusPosition, TestMenusScreenSize, TestSelectEditAnimationButton, IconSheet);
 
-      MakeMenuScreenButtonNormal(EditAnimationTexturePreviewFillinButton, EditAnimationScreen, TestMenus, sf::Vector2f(210, 250), UI::DefaultDarkTheme, "Preview", MenuFont, nullptr);
-      MakeMenuScreenButtonNormal(EditAnimationAnimationPreviewFillinButton, EditAnimationScreen, TestMenus, sf::Vector2f(210, 510), UI::DefaultDarkTheme, "Anim Preview", MenuFont, nullptr);
-
-      EditAnimationFrameCountSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 450 }, { 60, 30 }, MenuFont, IconSheet);
-      auto _frame_cnt_label = UI::TextLabel::Create(EditAnimationFrameCountSpinner, EditAnimationFrameCountSpinner->Helper, UI::TextAlignment::CenterJustified, "# frames", UI::DefaultDarkTheme.TextColorNormal,
-                                                    MenuFont, UI::DefaultDarkTheme.TextSizeNormal, EditAnimationFrameCountSpinner->GlobalWidgetBounds.GlobalBounds, { 0,0 });
-
-      EditAnimationFrameSizeXSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 490 }, { 60, 30 }, MenuFont, IconSheet);
-      auto _frame_size_x_label = UI::TextLabel::Create(EditAnimationFrameSizeXSpinner, EditAnimationFrameSizeXSpinner->Helper, UI::TextAlignment::CenterJustified, "FrameSizeX", UI::DefaultDarkTheme.TextColorNormal,
-                                                       MenuFont, UI::DefaultDarkTheme.TextSizeNormal, EditAnimationFrameSizeXSpinner->GlobalWidgetBounds.GlobalBounds, { 0,0 });
-      EditAnimationFrameSizeYSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 530 }, { 60, 30 }, MenuFont, IconSheet);
-      EditAnimationFrameSpeedSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 570 }, { 60, 30 }, MenuFont, IconSheet);
-
+      LevelView = UI::LevelWidget::Create(UILayer, UIHelper, { 360, 100 }, { 1200, 600 }, MenuFont);
 
       MakeButtonNormal(EraseObjectsButton, UILayer, UIHelper, sf::Vector2f(10, 70), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
       auto erase_label = UI::TextLabel::Create(EraseObjectsButton, UIHelper, UI::TextAlignment::CenterJustified, "erase all", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });

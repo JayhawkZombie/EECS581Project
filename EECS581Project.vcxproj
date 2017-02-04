@@ -132,26 +132,25 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Full</Optimization>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <OpenMPSupport>true</OpenMPSupport>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <StringPooling>true</StringPooling>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevOptimized|Win32'">
@@ -159,26 +158,25 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Full</Optimization>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <OpenMPSupport>true</OpenMPSupport>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <StringPooling>true</StringPooling>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -277,21 +275,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
     <ClCompile>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
     <ClCompile>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
-      <Optimization>Full</Optimization>
       <StringPooling>true</StringPooling>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -333,6 +330,7 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\NumericComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\Spinner.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\TextInput.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\EditAnimationMenu.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ClickButtonBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableBase.h" />
@@ -379,10 +377,10 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\Drawables\Drawables.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\EventDelegateMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\Exceptions\Exceptions.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\KeyTarget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\List\List.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuScreen.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuWidget.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\ObjectView.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Text\TextLabel.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Theme.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Toggles\SimpleToggle.h" />
@@ -572,10 +570,12 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListItem.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Mat2D.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\EditAnimationMenu.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuScreen.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\UI\ObjectView.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Text\TextLabel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Theme.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Toggles\SimpleToggle.cpp" />

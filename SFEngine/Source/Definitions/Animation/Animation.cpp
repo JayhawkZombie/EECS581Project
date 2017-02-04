@@ -36,12 +36,23 @@ namespace Engine
   }
   void Animation::SetPosition(float x, float y) {
     sprite.setPosition(x, y);
+    AnimRect.setPosition({ x, y });
   }
   void Animation::SetPosition(const sf::Vector2f &pos) {
     sprite.setPosition(pos);
+    AnimRect.setPosition(pos);
+  }
+  void Animation::SetSize(const sf::Vector2f & size)
+  {
+    m_size = size;
+    AnimRect.setSize(size);
   }
   void Animation::SetFrameTime(double fTime) {
     m_frameTime = fTime;
+  }
+  void Animation::ResetFrames()
+  {
+    m_frames.clear();
   }
   sf::Sprite* Animation::GetSprite() {
     return &sprite;
@@ -50,7 +61,8 @@ namespace Engine
   void Animation::Render(std::shared_ptr<sf::RenderTarget> Target) {
     if (m_isRendered) {
       //sprite.setTextureRect(m_frames[m_currentFrame]);
-      Target->draw(sprite);
+      //Target->draw(sprite);
+      Target->draw(AnimRect);
     }
   }
   void Animation::TickUpdate(const double& delta)
@@ -85,7 +97,7 @@ namespace Engine
         //}
         // set the current frame, not reseting the time
         if (m_frames.size() > 0)
-          sprite.setTextureRect(m_frames[m_currentFrame]);
+          AnimRect.setTextureRect(m_frames[m_currentFrame]);
       }
     }
   }
@@ -103,6 +115,7 @@ namespace Engine
   }
   void Animation::SetSpriteSheet(std::shared_ptr<sf::Texture> tex, const std::string &ID) {
     sprite.setTexture(*tex.get());
+    AnimRect.setTexture(tex.get());
     m_texture = tex;
   }
 

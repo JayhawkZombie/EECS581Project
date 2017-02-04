@@ -36,6 +36,9 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
     class UILayer;
     class TextLabel;
 
+    struct EditAnimationMenu;
+
+
     class WidgetBase
     {
     public:
@@ -44,6 +47,7 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
         //this is necessary to be able to delegate the destructor in std::shared_ptr to the widget helper "RequestDelete"
       friend class WidgetHelper; 
       friend class UILayer;
+      friend struct EditAnimationMenu;
 
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**

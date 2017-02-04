@@ -28,7 +28,9 @@ namespace Engine
     void Move(const sf::Vector2f &pos);
     void SetPosition(float x, float y);
     void SetPosition(const sf::Vector2f &pos);
+    void SetSize(const sf::Vector2f &size);
     void SetFrameTime(double fTime);
+    void ResetFrames();
     virtual void SerializeOut(std::ofstream &out) override;
     virtual void SerializeIn(std::ifstream &in) override;
     sf::Sprite* GetSprite();
@@ -47,11 +49,13 @@ namespace Engine
     bool m_isPaused;
     bool m_isRendered;
     int m_currentFrame;
+    sf::Vector2f m_size;
     double m_currentTime;
     double m_frameTime;
     std::vector<sf::IntRect> m_frames;
     std::shared_ptr<sf::Texture> m_texture;
     sf::Sprite sprite;
+    sf::RectangleShape AnimRect;
   };
 }
 #endif // SFENGINE_ANIMATION_H#pragma once

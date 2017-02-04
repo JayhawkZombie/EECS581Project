@@ -121,6 +121,7 @@ namespace Engine
     }
     void MenuScreen::TickUpdate(const double & delta)
     {
+      ScreenLayer->TickUpdate(delta);
     }
     void MenuScreen::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {

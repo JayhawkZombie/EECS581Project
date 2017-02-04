@@ -29,6 +29,13 @@
 
 #include "../UI/UICreationMacros.h"
 
+#include "../UI/ObjectView.h"
+#include "../UI/Game/LevelWidget.h"
+
+
+//includes for our custom menus
+#include "../UI/Menu/EditAnimationMenu.h"
+
 namespace Engine
 {
 
@@ -132,6 +139,8 @@ namespace Engine
     float TopButtonHeight;
     float TopButtonWidth;
 
+    std::shared_ptr<UI::LevelWidget> LevelView;
+
     //Icon sheet
     std::shared_ptr<sf::Texture> IconSheet;
 
@@ -194,31 +203,38 @@ namespace Engine
     UIButton TestSelectEditAnimationButton;
     UIButton TestSelectCancelButton;
 
-    //Edit animation menu
-    UIMenu EditAnimationMenu;
-    UIMenuScreen EditAnimationScreen;
-    UITextInput EditAnimationFileInput;
-    UIButton EditAnimationFileLoadButton;
-    UIIntSpinner EditAnimationFrameCountSpinner;
-    UIIntSpinner EditAnimationFrameSizeXSpinner;
-    UIIntSpinner EditAnimationFrameSizeYSpinner;
-    UIIntSpinner EditAnimationFrameSpeedSpinner;
-    UIIntSpinner EditAnimationEditFrameLeftSpinner;
-    UIIntSpinner EditAnimationEditFrameTopSpinner;
-    UIIntSpinner EditAnimationEditFrameWidthSpinner;
-    UIIntSpinner EditAnimationEditFrameHeightSpinner;
 
-    UIButton EditAnimationPauseAnimationButton;
-    UIButton EditAnimationStepForwardButton;
-    UIButton EditAnimationStepBackButton;
+    UI::EditAnimationMenu AnimMenu;
 
-    UIButton EditAnimationTexturePreviewFillinButton;
-    UIButton EditAnimationAnimationPreviewFillinButton;
+    std::shared_ptr<UI::ObjectView> TestObjectView;
+    std::shared_ptr<Animation> TestAnimation;
+    std::shared_ptr<sf::Texture> TestAnimationTexture;
 
-    UIButton EditAnimationCancelButton;
-    UIButton EditAnimationSaveButton;
+    ////Edit animation menu
+    //UIMenu EditAnimationMenu;
+    //UIMenuScreen EditAnimationScreen;
+    //UITextInput EditAnimationFileInput;
+    //UIButton EditAnimationFileLoadButton;
+    //UIIntSpinner EditAnimationFrameCountSpinner;
+    //UIIntSpinner EditAnimationFrameSizeXSpinner;
+    //UIIntSpinner EditAnimationFrameSizeYSpinner;
+    //UIIntSpinner EditAnimationFrameSpeedSpinner;
+    //UIIntSpinner EditAnimationEditFrameLeftSpinner;
+    //UIIntSpinner EditAnimationEditFrameTopSpinner;
+    //UIIntSpinner EditAnimationEditFrameWidthSpinner;
+    //UIIntSpinner EditAnimationEditFrameHeightSpinner;
 
-    UIButton EditAnimationButton;
+    //UIButton EditAnimationPauseAnimationButton;
+    //UIButton EditAnimationStepForwardButton;
+    //UIButton EditAnimationStepBackButton;
+
+    //UIButton EditAnimationTexturePreviewFillinButton;
+    //UIButton EditAnimationAnimationPreviewFillinButton;
+
+    //UIButton EditAnimationCancelButton;
+    //UIButton EditAnimationSaveButton;
+
+    //UIButton EditAnimationButton;
 
 
 
