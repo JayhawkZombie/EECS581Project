@@ -5,7 +5,7 @@
 #include <array>
 #include <iostream>
 
-class Shop : public Inventory
+class Shop
 {
 public:
   Shop(Inventory* playerInventory, Inventory* shopInventory);
@@ -20,10 +20,14 @@ public:
   void Sell();
   //the main shop menu
   void menu();
+  //returns true if there's enough gold for the transaction, false if not
+  bool sellItem(int itemIndex, int itemType, int amount);
+  bool buyItem(int itemIndex, int itemType, int amount);
 
 private:
   Inventory *m_playerInventory;
   Inventory *m_shopInventory;
 
+  bool exitShop;
 };
 #endif /* _SHOP_H */
