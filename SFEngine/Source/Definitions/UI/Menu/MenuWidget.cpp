@@ -183,6 +183,8 @@ namespace Engine
       if (Helper.lock()) {
         (Helper.lock())->ReleaseTopFocus();
         _IsInFocus = false;
+        if (MenuClosedCB)
+          MenuClosedCB();
       }
     }
 
@@ -232,7 +234,8 @@ namespace Engine
       if (Default.lock()) {
         if (ptr->ScreenStack.empty())
           ptr->ShowScreen(Default);
-
+        if (ptr->MenuOpenedCB)
+          ptr->MenuOpenedCB();
         ptr->Helper.lock()->TakeFocus(Menu);
         ptr->_IsInFocus = true;
       }
@@ -257,6 +260,8 @@ namespace Engine
 
     void MenuWidget::OnFocusLost(const FocusChangeEvent & FEvent)
     {
+      if (MenuClosedCB)
+        MenuClosedCB();
     }
 
     void MenuWidget::OnKeyPress(const InputEvent & IEvent)
@@ -385,8 +390,9 @@ namespace Engine
         IsTransitioning = false;
         CurrentTime = 0.f;
         _IsInFocus = false;
+        if (MenuClosedCB)
+          MenuClosedCB();
         DEBUG_ONLY std::cerr << "Closing Menu" << std::endl;
-
         //assert(ScreenStack.size() == 1);
       }
     }

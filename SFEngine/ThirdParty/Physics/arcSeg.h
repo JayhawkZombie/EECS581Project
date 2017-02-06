@@ -17,7 +17,7 @@ public:
   virtual ~arcSeg();
   virtual void setPosition(vec2d Pos);
 
-  virtual void draw(sf::RenderWindow& rRW)const {
+  virtual void draw(sf::RenderTarget& rRW)const override {
     rRW.draw(Q, 20, sf::LinesStrip);
   }
   //   virtual bool hit( mvHit& );

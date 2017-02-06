@@ -143,9 +143,9 @@ namespace Engine
     {
       auto View = MakeView(Bounds);
 
-      Target->setView(View);
+      //Target->setView(View);
       Target->draw(RenderString);
-      Target->setView(Target->getDefaultView());
+      //Target->setView(Target->getDefaultView());
     }
 
     void TextLabel::SetString(const std::string & String)

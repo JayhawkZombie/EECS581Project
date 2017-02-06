@@ -38,11 +38,11 @@ namespace Engine
       {sf::Color(79, 79, 79)}, //ButtonOutlineColorPressed
       {sf::Color(142, 142, 142)}, //ButtonOutlineColorDisabled
 
-      {sf::Color(40, 40, 40, 200)}, //MenuBackgroundColorNormal
-      {sf::Color(56, 0, 9, 200)}, //MenuBackgroundColorDisabled
+      {sf::Color(40, 40, 40)}, //MenuBackgroundColorNormal
+      {sf::Color(56, 0, 9)}, //MenuBackgroundColorDisabled
 
-      {sf::Color(56, 56, 56, 200)}, //MenuOutlineColorNormal
-      {sf::Color(0, 0, 0, 100)}, //MenuOutlineColorDisabled
+      {sf::Color(56, 56, 56)}, //MenuOutlineColorNormal
+      {sf::Color(0, 0, 0)}, //MenuOutlineColorDisabled
 
       {sf::Color(40, 40, 40)}, //WidgetBackgroundColorNormal
       {sf::Color(0, 27, 38)}, //WidgetBackgroundColorDisabled

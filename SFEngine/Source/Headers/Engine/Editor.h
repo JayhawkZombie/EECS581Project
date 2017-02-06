@@ -30,8 +30,6 @@
 #include "../UI/UICreationMacros.h"
 
 #include "../UI/ObjectView.h"
-#include "../UI/Game/LevelWidget.h"
-
 
 //includes for our custom menus
 #include "../UI/Menu/EditAnimationMenu.h"
@@ -49,6 +47,14 @@ namespace Engine
     Animation,
     Particle,
     None
+  };
+
+  enum class CurrentMode : std::uint32_t
+  {
+    None,
+    AddingObject,
+    EditingObject,
+    MovingObject
   };
 
   struct TileInfo {
@@ -135,9 +141,16 @@ namespace Engine
     sf::RenderStates EditorRenderState;
     sf::RectangleShape EditorRect;
 
+
+    std::shared_ptr<Level> EditLevel;
+
+    std::shared_ptr<UI::ListWidget> TestListWidget;
+
     //Used for sizing/spacing for different windows sizes
     float TopButtonHeight;
     float TopButtonWidth;
+
+    bool IsUpdateLevelEnabled = true;
 
     std::shared_ptr<UI::LevelWidget> LevelView;
 
@@ -210,32 +223,6 @@ namespace Engine
     std::shared_ptr<Animation> TestAnimation;
     std::shared_ptr<sf::Texture> TestAnimationTexture;
 
-    ////Edit animation menu
-    //UIMenu EditAnimationMenu;
-    //UIMenuScreen EditAnimationScreen;
-    //UITextInput EditAnimationFileInput;
-    //UIButton EditAnimationFileLoadButton;
-    //UIIntSpinner EditAnimationFrameCountSpinner;
-    //UIIntSpinner EditAnimationFrameSizeXSpinner;
-    //UIIntSpinner EditAnimationFrameSizeYSpinner;
-    //UIIntSpinner EditAnimationFrameSpeedSpinner;
-    //UIIntSpinner EditAnimationEditFrameLeftSpinner;
-    //UIIntSpinner EditAnimationEditFrameTopSpinner;
-    //UIIntSpinner EditAnimationEditFrameWidthSpinner;
-    //UIIntSpinner EditAnimationEditFrameHeightSpinner;
-
-    //UIButton EditAnimationPauseAnimationButton;
-    //UIButton EditAnimationStepForwardButton;
-    //UIButton EditAnimationStepBackButton;
-
-    //UIButton EditAnimationTexturePreviewFillinButton;
-    //UIButton EditAnimationAnimationPreviewFillinButton;
-
-    //UIButton EditAnimationCancelButton;
-    //UIButton EditAnimationSaveButton;
-
-    //UIButton EditAnimationButton;
-
 
 
     sf::Color ButtonColorNormal = sf::Color(58, 0, 29);
@@ -300,52 +287,16 @@ namespace Engine
     std::vector<BaseMeshPtr> TestObjects;
     std::vector<SegmentPtr> Segments;
 
-    BaseMeshPtr testball;
-    SegmentPtr testsegment;
-    /**
-    *  _________________________________________________________________
-    *  |                                                               |
-    *  |                                                               |  <-- EditOptionsList
-    *  |_______________________________________________________________|
-    *  |                      |________________| <-- OpenCloseButton
-    *  |
-    *  |
-    *  
-    *  _________________________________________________________________
-    *  |___________| <- TileSelect_OpenCloseButton
-    *  |           |
-    *  |           |
-    *  |           |
-    *  |           |
-    *  |           |
-    *  |           | <-- TileSelectList
-    *  |           |
-    *  |           |
-    *  |           |
-    *  |           |
-    *  |___________|
-    */
-
     //data for visualization
     sf::Font EditorFont;
     sf::Text EditorModeText;
     sf::Text PreviewGridInfoText;
-    std::vector<sf::VertexArray> PreviewGridLines;
-
-    //the lists needed for editing
-    std::shared_ptr<UI::ListWidget> ObjectList;
-
-    //Tiles for dragging into the level
-    std::vector<std::shared_ptr<UI::DraggableTile>> DragTiles;
-    std::shared_ptr<sf::Texture> TilesTexture;
 
     std::shared_ptr<UI::WidgetHelper> UIHelper;
     std::shared_ptr<UI::UILayer> UILayer;
     sf::Sprite UISprite;
 
     std::shared_ptr<sf::RenderTexture> UITexture;
-    std::shared_ptr<UI::ClickButtonBase> TestButton;
-    std::shared_ptr<UI::ClickButtonBase> TestButton2;
 
 
     //the preview will be drawn to a render texture a forced to render in this 

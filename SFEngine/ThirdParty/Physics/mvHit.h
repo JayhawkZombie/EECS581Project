@@ -32,7 +32,7 @@ public:
   virtual void init(std::istream& fin);
 
   virtual void update() = 0;
-  virtual void draw(sf::RenderWindow& rRW)const = 0;
+  virtual void draw(sf::RenderTarget& rRW)const = 0;
   virtual void setPosition(vec2d Pos) = 0;
 
   virtual void respond(float dV, bool isFric) = 0;

@@ -188,6 +188,21 @@ namespace Engine
 
     void SimpleToggle::ResetAppearance()
     {
+      BGRect.setFillColor(BGColorNormal);
+      BGRect.setOutlineColor(BGOutlineColorNormal);
+
+      if (IsDefaultChecked) {
+        IsChecked = true;
+        std::cerr << "CheckBox::IsChecked = true" << std::endl;
+        BGRect.setFillColor(BGColorNormal);
+        Check.setTextureRect(FrameOn);
+      }
+      else {
+        IsChecked = false;
+        std::cerr << "CheckBox::IsChecked = false" << std::endl;
+        BGRect.setFillColor(BGColorNormal);
+        Check.setTextureRect(FrameOff);
+      }
     }
 
     void SimpleToggle::SetBGColorNormal(const sf::Color & Color)

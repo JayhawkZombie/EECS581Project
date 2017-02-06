@@ -320,7 +320,6 @@
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Game\LevelWidget.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -563,7 +562,6 @@
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\TexturedQuad.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\Drawables.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\DrawableText.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Game\LevelWidget.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\ComboBox.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\NumericComboBox.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Input\Spinner.cpp" />
@@ -668,7 +666,9 @@
     <None Include="SFEngine\Source\CoreScript.chai" />
     <None Include="SFEngine\Source\CoreVertexShader.vsh" />
     <None Include="SFEngine\Source\Definitions\Actor\CoreActorScript.chai" />
-    <None Include="SFEngine\Source\Definitions\Physics\ClassDiagram.cd" />
+    <None Include="Diagrams\Engine\ClassDiagram.cd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="SFEngine\Source\LightingRadialShader.fsh" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
   </ItemGroup>

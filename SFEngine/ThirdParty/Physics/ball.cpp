@@ -89,7 +89,7 @@ void ball::update()// virtual
   img.setPosition(pos.x, pos.y);
 }
 
-void ball::draw(sf::RenderWindow& rRW)const {
+void ball::draw(sf::RenderTarget& rRW)const {
   rRW.draw(img);
 }
 
