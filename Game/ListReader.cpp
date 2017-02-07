@@ -190,6 +190,8 @@ Weapon** ListReader::readWeapons(std::string fileName)
   //assumes the file size is on top of the data
   file >> num_weapons;
   
+//  std::cout << "NumWeapons: " << num_weapons << "\n";
+
   weapons = new Weapon*[num_weapons];
   Weapon* newWeapon;
   Damage* damage;
@@ -210,7 +212,44 @@ Weapon** ListReader::readWeapons(std::string fileName)
 
     std::getline(file,line);
     newWeapon->setName(line);
+//	std::cout << "Name: " << line << "\n";
+	std::getline(file, line);
+	
+	try
+	{
+		newWeapon->setNumHands(std::stoi(line));
+//		std::cout << "NumHands: " << std::stoi(line) << "\n";
+	}
+	catch(int e)
+	{
+//		std::cout << "error with stoi" << "\n";
+	}
+	std::getline(file, line);
+	newWeapon->setTexture(line);
+//	std::cout << "Texture: " << line << "\n";
 
+	try
+	{
+		std::getline(file, line);
+		newWeapon->setValue(std::stoi(line));
+//		std::cout << "Value: " << line << "\n";
+
+		std::getline(file, line);
+		newWeapon->setRequiredLevel(std::stoi(line));
+//		std::cout << "RequiredLevel: " << line << "\n";
+	}
+	catch (int e)
+	{
+		std::cout << "Error with stoi in ListReader readWeapons";
+	}
+
+	std::getline(file, line);
+	newWeapon->setDescription(line);
+//	std::cout << "Description: " << line << "\n";
+
+
+
+	/*
     file >> intVal;
     newWeapon->setValue(intVal);
 
@@ -220,16 +259,26 @@ Weapon** ListReader::readWeapons(std::string fileName)
 
     std::getline(file,line);
     newWeapon->setTexture(line);
-    
+    */
     std::getline(file,line);
     damage = new Damage;
+	
     while ( std::regex_search (line,integers) )
     {  
+		//std::getline(file, line);
       intIndex = stoi (line);
       std::getline(file,line);
-      intVal = stoi (line);
-      damage->setValue(intIndex,intVal);
+	  try
+	  {
+		  intVal = stoi(line);
+		  damage->setValue(intIndex, intVal);
+	//	  std::cout << "Damage set Index:" << intIndex << " Value " << intVal << "\n";
+	  }
+	  catch (int e)
+	  {
+		  std::cout << "Exeption thrown number " << e << "\n";
 
+	  }
       std::getline(file,line);
     }
     newWeapon->setAddedDamage(*damage);
@@ -238,11 +287,12 @@ Weapon** ListReader::readWeapons(std::string fileName)
     {
       newWeapon->setRightHand(true);
     }
-    std::getline(file,line);
+   // std::getline(file,line);
     if ( std::regex_search (line,truespace) )
     {
       newWeapon->setLeftHand(true);
     }
+	//std::getline(file, line);
     
     
     weapons[index] = newWeapon;

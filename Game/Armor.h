@@ -24,7 +24,7 @@ public:
   static std::map<int, std::string> ArmorTypeNames();
   static std::map<int, std::map<int, std::string>> ArmorDescriptions();
   static std::map<int, std::string> genericTextureLocations();
-  
+  int getRequiredLevel();
 
 private:
   Damage m_defense;

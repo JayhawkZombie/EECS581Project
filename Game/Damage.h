@@ -3,6 +3,7 @@
 #ifndef DAMAGE_H
 #define DAMAGE_H
 #include <iostream>
+#include <map>
 #include "ElementsEnum.h"
 class Damage
 {
@@ -15,6 +16,7 @@ public:
   int content[31];//feeling risky, making public to save time
   static int size;
   void setValue(int index, int value);
+  static std::map<int, std::string> DamageTypesByIndex();
 };
 
 #endif

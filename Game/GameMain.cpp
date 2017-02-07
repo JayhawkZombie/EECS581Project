@@ -4,6 +4,7 @@
 #include <map>
 #include "ListReader.h"
 #include "MainCharacter.h"
+#include "Reliquary.h"
 #include "BestiaryConsole.h"
 GameMain::GameMain()
 {}
@@ -520,11 +521,13 @@ int GameMain::run()
 	while (true)
 	{
 		std::cout << "What would you like to do?\n";
-		std::cout << "1) reWrite Armor Content\n";
+		std::cout << "1) rewrite Armor Content\n";
 		std::cout << "2) Print all the Monsters\n";
 		std::cout << "3) Run Bestiary Simulator\n";
 		std::cout << "4) Run Tests\n";
-		std::cout << "5) Exit\n";
+		std::cout << "5) rewrite Weapon Content\n";
+		std::cout << "6) Peruse Reliquary\n";
+		std::cout << "7) Exit\n";
 		std::cin >> choice;
 		if (choice == 1)
 		{
@@ -561,7 +564,19 @@ int GameMain::run()
 		}
 		else if (choice == 5)
 		{
+			Weapon::makeGenericWeaponList();
+		}
+		else if (choice == 6)
+		{
+			Reliquary::run();
+		}
+		else if (choice == 7)
+		{
 			return 0;
+		}
+		else
+		{
+			std::cout << "Sorry we didn't understand your input\n";
 		}
 	}
 

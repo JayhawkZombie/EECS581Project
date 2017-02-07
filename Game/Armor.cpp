@@ -85,7 +85,10 @@ int Armor::getType()
 {
 	return m_type;
 }
-
+int Armor::getRequiredLevel()
+{
+	return m_requiredLevel;
+}
 
 //setters
 void Armor::setDefense(Damage defense)

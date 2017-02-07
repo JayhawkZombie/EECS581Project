@@ -3,6 +3,8 @@
 
 #include "../SFEngine/Source/Headers/BasicIncludes.h"
 #include "../SFEngine/Source/Headers/Level/Level.h"
+
+#include "ListReader.h"
 #include <vector>
 #include <map>
 #include "MonsterType.h"

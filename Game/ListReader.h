@@ -12,6 +12,8 @@
 //extra libraries for reading in the text files or seperating functions
 #include <ctype.h>
 #include <fstream>
+#include <iostream>
+#include <string>
 #include <sstream>
 #include <stdlib.h>
 #include <regex>
