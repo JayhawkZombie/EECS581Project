@@ -321,7 +321,9 @@ Useable** ListReader::readUseables(std::string fileName)
   std::string line;
   int intVal;
   int intIndex;
-
+	
+  std::getline(file,line);
+  std::getline(file,line);
   //accounting for whitespace on the end of the line
   std::regex integers("[[:digit:]]+");
   std::regex truespace("(true)");
@@ -330,9 +332,11 @@ Useable** ListReader::readUseables(std::string fileName)
   {
     newUseable = new Useable;
 
-    std::getline(file,line);
     newUseable->setName(line);
-
+	  
+    std::getline(file,line);
+    newUseable->setTexture(line);
+	  
     file >> intVal;
     newUseable->setValue(intVal);
 
@@ -340,9 +344,6 @@ Useable** ListReader::readUseables(std::string fileName)
     std::getline(file,line);
     newUseable->setDescription(line);
 
-    std::getline(file,line);
-    newUseable->setTexture(line);
-    
     std::getline(file,line);
 
     damage = new Damage;

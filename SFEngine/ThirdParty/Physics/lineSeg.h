@@ -15,7 +15,7 @@ public:
   virtual ~lineSeg();
   virtual void init(std::istream& fin);
   virtual void to_file(std::ofstream& fout);
-  virtual void draw(sf::RenderWindow& rRW)const {
+  virtual void draw(sf::RenderTarget& rRW)const override{
     rRW.draw(vtx, 2, sf::Lines);
   }
   virtual void setPosition(vec2d);

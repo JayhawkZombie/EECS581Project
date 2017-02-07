@@ -58,6 +58,9 @@ namespace Engine
       virtual void Move(const sf::Vector2f &Delta) override;
       virtual void Resize(const sf::Vector2f &Size) override;
 
+      std::function<void(void)> MenuClosedCB = []() {};
+      std::function<void(void)> MenuOpenedCB = []() {};
+
       void IntakeEvent(const InputEvent &IEvent);
 
       virtual ~MenuWidget() {

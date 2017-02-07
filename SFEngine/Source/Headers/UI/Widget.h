@@ -36,6 +36,11 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
     class UILayer;
     class TextLabel;
 
+#ifdef WITH_EDITOR
+    struct EditAnimationMenu;
+    class LevelWidget;
+
+#endif
     class WidgetBase
     {
     public:
@@ -45,6 +50,10 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       friend class WidgetHelper; 
       friend class UILayer;
 
+#ifdef WITH_EDITOR
+      friend struct EditAnimationMenu;
+      friend class LevelWidget;
+#endif
       //assign the WidgetHelper that created this object
       //widgets CANNOT be created without this **ie DO NOT create a class that constructs the widget without this**
       static std::shared_ptr<WidgetBase> Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper);
@@ -179,14 +188,8 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
         IconSheetTexture = IconSheet;
       }
 
-      virtual ~WidgetBase();
-    protected:
-      WidgetBase();
-
-      std::weak_ptr<WidgetBase> SelfWeakPtr;
-
       //The highest-level UILayer you want to be able to steal focus from
-      std::weak_ptr<WidgetHelper> Helper; 
+      std::weak_ptr<WidgetHelper> Helper;
       std::shared_ptr<WidgetHelper> ChildHelper;
 
       //The helper that is containing THIS OBJECT
@@ -195,6 +198,11 @@ std::cerr << CLASSNAME << " ID " << ITEMNAME->GetID() << std::endl;
       //The layer you can use to store your own children
       std::shared_ptr<UILayer> ChildLayer;
 
+      virtual ~WidgetBase();
+    protected:
+      WidgetBase();
+
+      std::weak_ptr<WidgetBase> SelfWeakPtr;
       //32-bit identifier (use current epoch), no 32-bit architectures sorry
       std::uint32_t WidgetID;
       bool IsValid = false; //set to TRUE after the Creator has initialized it

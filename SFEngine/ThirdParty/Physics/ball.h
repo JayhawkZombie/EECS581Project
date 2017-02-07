@@ -21,7 +21,7 @@ public:
   virtual void init(std::istream& fin);
 
   virtual void update();
-  virtual void draw(sf::RenderWindow& rRW)const;
+  virtual void draw(sf::RenderTarget& rRW)const override;
   virtual void setPosition(vec2d Pos);
   virtual void respond(float dV, bool isFric);
   virtual bool hit(const vec2d& pt);

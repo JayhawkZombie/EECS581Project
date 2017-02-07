@@ -11,82 +11,8 @@ namespace Engine
       UILayer = UI::UILayer::Create(UIHelper);
       UIHelper->AddUILayer(UILayer);
 
-      TestButton = UI::ClickButtonBase::Create(UILayer, UIHelper, { 800, 600 }, { 150, 45 }, ButtonOverlayTexture);
-      TestButton2 = UI::ClickButtonBase::Create(UILayer, UIHelper, { 400, 800 }, { 150, 45 }, ButtonOverlayTexture);
-
-      TestButton->ButtonText.setFont(EditorFont);
-      TestButton->ButtonText.setCharacterSize(16);
-      TestButton->ButtonText.setString("TestButton");
-      TestButton->ButtonText.setFillColor(sf::Color::White);
-      TestButton->ButtonText.setPosition({ 820, 820 });
-
-      float ScaleX = 400.f / TilesTexture->getSize().x;
-      float ScaleY = 400.f / TilesTexture->getSize().y;
-
-      //sf::Vector2f TileStart{ 810, 40 };
-      //sf::IntRect LastTileDim{ 0,0,0,0 };
-      //sf::FloatRect ThisTileDim;
-      //for (auto & tile : TileFrames) {
-      //  ThisTileDim.left = TileStart.x + ScaleX * tile.left;
-      //  ThisTileDim.top = TileStart.y + ScaleY * tile.top;
-      //  ThisTileDim.width = tile.width;
-      //  ThisTileDim.height = tile.height;
-
-      //  try {
-      //    auto _tile = UI::DraggableTile::Create(UILayer, UIHelper, TilesTexture, tile, { ThisTileDim.left, ThisTileDim.top }, { ThisTileDim.width * ScaleX, ThisTileDim.height * ScaleY });
-      //    DragTiles.push_back(_tile);
-      //  }
-      //  catch (ConstructionException &cerr) {
-      //    std::cerr << "Draggable exception error:\n" << cerr.what() << std::endl;
-      //  }
-      //} //for tile : TileFrames
-
-
-      //EditOptionsList = UI::ListWidget::Create(UILayer, UIHelper, TextFont, { 0, 0 }, { 1200.f, 80.f },
-      //                                         UI::ButtonPlacement::BottomCenter, { 0.f, 15.f }, { 100.f, 15.f });
-
-      //EditOptionsList = UI::ListWidget::Create(UILayer, UIHelper, MenuFont, { 10, 400 }, { 200, 400 }, { 200, 40 });
-
-      //TestPopup = UI::PopupObject::Create(UILayer, UIHelper, { 100, 100 }, { 900, 700 }, TextFont);
-
       EnablePhysicsToggle = UI::SimpleToggle::Create(UILayer, UIHelper, { 300, 80 }, { 20, 20 }, { 15, 15 }, IconSheet, "boxchecked_medium", "boxunchecked_medium", true);
       auto Label = UI::TextLabel::Create(EnablePhysicsToggle, UIHelper, UI::TextAlignment::CenterJustified, "physics", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeMedium, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });
-
-      //TestList = UI::ListWidget::Create(UILayer, UIHelper, { 400, 200 }, { 200, 400 }, UI::DefaultDarkTheme);
-      //MakeButtonWithText(TestListUpButton, UILayer, UIHelper, sf::Vector2f(610, 210), sf::Vector2f(150, 35), "scroll up", MenuFont, UI::DefaultDarkTheme);
-      //MakeButtonWithText(TestListDownButton, UILayer, UIHelper, sf::Vector2f(610, 460), sf::Vector2f(150, 35), "scroll up", MenuFont, UI::DefaultDarkTheme);
-
-      //TestListUpButton->MouseReleaseCB = 
-      //  [this]()
-      //{
-      //  this->TestList->ScrollUpOne();
-      //};
-      //TestListDownButton->MouseReleaseCB =
-      //  [this]()
-      //{
-      //  this->TestList->ScrollDownOne();
-      //};
-
-      //for (std::size_t i = 0; i < 20; ++i) {
-      //  auto btn = UI::ClickButtonBase::Create(TestList->ChildLayer, TestList->ChildHelper, { 400,200 + 25 * __TO_FLOAT__(i) }, { 200,25 }, nullptr);
-      //  auto __btnlabel = UI::TextLabel::Create(btn, UIHelper, UI::TextAlignment::CenterJustified, "TestListElement " + std::to_string(i), UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeSmall, btn->GlobalWidgetBounds.GlobalBounds, { 0,0 });
-      //}
-
-      //auto btn = UI::ClickButtonBase::Create(TestList->ChildLayer, TestList->ChildHelper, { 400,400 }, { 200,25 }, nullptr);
-      //auto __btnlabel = UI::TextLabel::Create(btn, UIHelper, UI::TextAlignment::CenterJustified, "TestListElement", UI::DefaultDarkTheme.TextColorNormal, MenuFont, UI::DefaultDarkTheme.TextSizeSmall, btn->GlobalWidgetBounds.GlobalBounds, { 0,0 });
-      ////TestList->AddItem(btn);
-      //auto tstbtn = UI::ClickButtonBase::Create(TestList->ChildLayer, TestList->ChildHelper, { 500, 500 }, UI::DefaultDarkTheme.ButtonSizeNormal, nullptr);
-
-      //assert(TestList && TestList->ChildLayer && TestList->ChildHelper);
-
-      //EnablePhysicsToggle->AlignTextLabel();
-
-      //PhysicsTicksBox = UI::NumericComboBox::Create(UILayer, UIHelper, { 500, 40 }, { 100, 40 }, { 40,20 }, 5, 60, MenuFont, IconSheet);
-
-      TestInput = UI::TextInput::Create(UILayer, UIHelper, { 500, 40 }, { 200, 30 }, MenuFont, "default text");
-
-      TestSpinner = UI::IntSpinner::Create(UILayer, UIHelper, { 500, 80 }, { 200, 30 }, MenuFont, IconSheet);
-
       EnablePhysicsToggle->CheckedCB = [this]() {this->EnabledPhysics = true; };
       EnablePhysicsToggle->UnCheckedCB = [this]() {this->EnabledPhysics = false; };
 
@@ -229,7 +155,7 @@ namespace Engine
 
       MakeMenuScreenButtonNormal(AddActorClassCancelButton, AddActorClassScreen, AddClassMenu, sf::Vector2f(10, 10), UI::DefaultDarkTheme, "back", MenuFont, nullptr);
       MakeMenuScreenButtonBack(AddActorClassCancelButton, AddActorClassScreen);
-
+       
       MakeMenuScreenButtonNormal(AddObjectClassCancelButton, AddObjectClassScreen, AddClassMenu, sf::Vector2f(10, 10), UI::DefaultDarkTheme, "back", MenuFont, nullptr);
       MakeMenuScreenButtonBack(AddObjectClassCancelButton, AddObjectClassScreen);
 
@@ -240,10 +166,10 @@ namespace Engine
       MakeMenuScreenButtonBack(AddEffectClassCancelButton, AddEffectClassScreen);
 
       //Create the TestingMenus
-      sf::Vector2f TestMenusPosition = { 200, 200 };
-      sf::Vector2f TestMenusSize = { 400, 400 };
-      sf::Vector2f TestMenusScreenPosition = { 200, 200 };
-      sf::Vector2f TestMenusScreenSize = { 400, 400 };
+      sf::Vector2f TestMenusPosition = { 400, 100 };
+      sf::Vector2f TestMenusSize = { 500, 500 };
+      sf::Vector2f TestMenusScreenPosition = { 400, 100 };
+      sf::Vector2f TestMenusScreenSize = { 500, 500 };
       MakeMenu(TestMenus, UILayer, UIHelper);
       MakeMenuDefaultScreen(TestSelectScreen, UI::DefaultDarkTheme, TestMenus);
       MakeButtonNormal(OpenTestMenusButton, UILayer, UIHelper, sf::Vector2f(180, 10), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
@@ -254,37 +180,14 @@ namespace Engine
         UI::MenuWidget::OpenMenu(this->TestMenus);
       };
 
-      //create the editing stuff inside the edit animation menu
-      MakeMenuScreen(EditAnimationScreen, UI::DefaultDarkTheme, TestMenus);
-      AddMenuScreen(TestMenus, EditAnimationScreen);
-
       MakeMenuScreenButtonNormal(TestSelectCancelButton, TestSelectScreen, TestMenus, sf::Vector2f(210, 260), UI::DefaultDarkTheme, "cancel", MenuFont, nullptr);
       MakeMenuButtonClose(TestSelectCancelButton, TestMenus);
 
-      MakeMenuScreenButtonNormal(TestSelectEditAnimationButton, TestSelectScreen, TestMenus, sf::Vector2f(210, 210), UI::DefaultDarkTheme, "edit animation", MenuFont, nullptr);
-      MakeMenuScreenTransition(TestSelectEditAnimationButton, TestMenus, EditAnimationScreen);
 
-      ////create the actual editing menu
-      MakeMenuScreenButtonNormal(EditAnimationSaveButton, EditAnimationScreen, TestMenus, sf::Vector2f(210, 560), UI::DefaultDarkTheme, "save(and back)", MenuFont, nullptr);
-      MakeMenuScreenButtonBack(EditAnimationSaveButton, TestSelectScreen);
 
-      EditAnimationFileInput = UI::TextInput::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 210, 210 }, { 200, 30 }, MenuFont, "texture path");
-      MakeMenuScreenButtonNormal(EditAnimationFileLoadButton, EditAnimationScreen, TestMenus, sf::Vector2f(460, 210), UI::DefaultDarkTheme, "load", MenuFont, nullptr);
-      ////load texture
+      AnimMenu.ConstructMenu(TestMenus, TestSelectScreen, sf::Vector2f(400, 400), UI::DefaultDarkTheme, MenuFont, TestMenusPosition, TestMenusScreenSize, TestSelectEditAnimationButton, IconSheet);
 
-      MakeMenuScreenButtonNormal(EditAnimationTexturePreviewFillinButton, EditAnimationScreen, TestMenus, sf::Vector2f(210, 250), UI::DefaultDarkTheme, "Preview", MenuFont, nullptr);
-      MakeMenuScreenButtonNormal(EditAnimationAnimationPreviewFillinButton, EditAnimationScreen, TestMenus, sf::Vector2f(210, 510), UI::DefaultDarkTheme, "Anim Preview", MenuFont, nullptr);
-
-      EditAnimationFrameCountSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 450 }, { 60, 30 }, MenuFont, IconSheet);
-      auto _frame_cnt_label = UI::TextLabel::Create(EditAnimationFrameCountSpinner, EditAnimationFrameCountSpinner->Helper, UI::TextAlignment::CenterJustified, "# frames", UI::DefaultDarkTheme.TextColorNormal,
-                                                    MenuFont, UI::DefaultDarkTheme.TextSizeNormal, EditAnimationFrameCountSpinner->GlobalWidgetBounds.GlobalBounds, { 0,0 });
-
-      EditAnimationFrameSizeXSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 490 }, { 60, 30 }, MenuFont, IconSheet);
-      auto _frame_size_x_label = UI::TextLabel::Create(EditAnimationFrameSizeXSpinner, EditAnimationFrameSizeXSpinner->Helper, UI::TextAlignment::CenterJustified, "FrameSizeX", UI::DefaultDarkTheme.TextColorNormal,
-                                                       MenuFont, UI::DefaultDarkTheme.TextSizeNormal, EditAnimationFrameSizeXSpinner->GlobalWidgetBounds.GlobalBounds, { 0,0 });
-      EditAnimationFrameSizeYSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 530 }, { 60, 30 }, MenuFont, IconSheet);
-      EditAnimationFrameSpeedSpinner = UI::IntSpinner::Create(EditAnimationScreen->ScreenLayer, EditAnimationScreen->ScreenHelper, { 410, 570 }, { 60, 30 }, MenuFont, IconSheet);
-
+      TestListWidget = UI::ListWidget::Create(UILayer, UIHelper, { 500,500 }, { 200, 25 }, { 200, 500 }, { 200, 15 }, MenuFont, IconSheet, UI::DefaultDarkTheme);
 
       MakeButtonNormal(EraseObjectsButton, UILayer, UIHelper, sf::Vector2f(10, 70), sf::Vector2f(150, 40), UI::DefaultDarkTheme, ButtonOverlayTexture);
       auto erase_label = UI::TextLabel::Create(EraseObjectsButton, UIHelper, UI::TextAlignment::CenterJustified, "erase all", sf::Color(0, 129, 155), MenuFont, UI::DefaultDarkTheme.TextSizeNormal, { 0, 0, WindowSize.x, WindowSize.y }, { 0,0 });

@@ -11,6 +11,8 @@ namespace Engine
 #define UITextInput std::shared_ptr<UI::TextInput>
 #define UIIntSpinner std::shared_ptr<UI::IntSpinner>
 #define UITextLabel std::shared_ptr<UI::TextLabel>
+#define UIToggle std::shared_ptr<UI::SimpleToggle>
+#define UIObjectView std::shared_ptr<UI::ObjectView>
 
 #define MakeButtonNormal(BUTTON, LAYER, HELPER, POSITION, _SIZE, THEME, TEXTURE)\
 BUTTON = Engine::UI::ClickButtonBase::Create(LAYER, HELPER, POSITION, _SIZE, TEXTURE);\
@@ -65,6 +67,12 @@ BUTTON->MouseReleaseCB = [this](){UI::MenuWidget::OpenMenu(this->MENU);};
 
 #define MakeMenuScreenTransition(BUTTON, MENU, TOSCREEN)\
 BUTTON->MouseReleaseCB = [this](){this->MENU->ShowScreen(this->TOSCREEN);};
+
+#define MakeMenuScreenTransition__Struct(BUTTON, MENU, TOSCREEN)\
+BUTTON->MouseReleaseCB = [MENU, this](){MENU->ShowScreen(this->TOSCREEN);};
+
+#define MakeMenuScreenButtonBack__Struct(BUTTON, SCREEN)\
+BUTTON->MouseReleaseCB = [this, SCREEN](){SCREEN->CloseScreen();};
 
 }
 

@@ -162,15 +162,11 @@ namespace Engine
     void ClickButtonBase::OnFocusGained(const FocusChangeEvent &event)
     {
       ButtonBase::OnFocusGained(event);
-
-      DEBUG_ONLY std::cerr << "ClickButtonBase::OnFocusGained" << std::endl;
     }
 
     void ClickButtonBase::OnFocusLost(const FocusChangeEvent &event)
     {
       ButtonBase::OnFocusLost(event);
-
-      DEBUG_ONLY std::cerr << "ClickButtonBase::OnFocusLost" << std::endl;
     }
 
     void ClickButtonBase::OnKeyPress(const InputEvent &event)
@@ -190,8 +186,6 @@ namespace Engine
     void ClickButtonBase::OnMousePress(const InputEvent &event)
     {
       BGRect.setFillColor(BGColorPressed);
-      //BGRect.setTextureRect(OverlayPressedRect);
-      DEBUG_ONLY std::cerr << "ClickButtonBase::OnMousePress" << std::endl;
 
       if (MousePressCB)
         MousePressCB();
@@ -200,7 +194,6 @@ namespace Engine
     void ClickButtonBase::OnMouseRelease(const InputEvent &event)
     {
       BGRect.setFillColor(BGColorNormal);
-      //BGRect.setTextureRect(OverlayNormalRect);
       if (MouseReleaseCB)
         MouseReleaseCB();
     }
@@ -214,9 +207,6 @@ namespace Engine
     {
       ButtonBase::OnMouseOver(event);
       BGRect.setFillColor(BGColorHighlighted);
-      //BGRect.setTextureRect(OverlayHighlightedRect);
-      //Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorHighlighted);
-      //Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);
 
       BGRect.setOutlineColor(BGOutlineColorHighlighted);
 
@@ -227,7 +217,6 @@ namespace Engine
     void ClickButtonBase::OnMouseLeave(const InputEvent &event)
     {
       BGRect.setFillColor(BGColorNormal);
-      //BGRect.setTextureRect(OverlayNormalRect);
       ButtonBase::OnMouseLeave(event);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineColor(BGOutlineColorNormal);
       Drawables[0]->DrawBounds.DrawQuad.setOutlineThickness(-2);

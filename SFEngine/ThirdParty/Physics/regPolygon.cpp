@@ -131,7 +131,7 @@ void regPolygon::update()
   return;
 }
 
-void regPolygon::draw(sf::RenderWindow& rRW)const {
+void regPolygon::draw(sf::RenderTarget& rRW)const {
   rRW.draw(&(vtxVec[0]), vtxVec.size(), sf::LinesStrip);
 }
 

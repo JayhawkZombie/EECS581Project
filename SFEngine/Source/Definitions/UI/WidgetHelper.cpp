@@ -195,6 +195,7 @@ namespace Engine
 
       try {
         ptr->LayerID = GenerateID();
+        ThisHelper->AddUILayer(ptr);
       }
       catch (IDException &err) {
         err.AddCause({ ExceptionCause::ConstructionError });

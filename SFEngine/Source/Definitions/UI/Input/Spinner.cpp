@@ -13,7 +13,7 @@ namespace Engine
 
 
     std::shared_ptr<IntSpinner> IntSpinner::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position, 
-                                                   const sf::Vector2f & TextSize, std::shared_ptr<sf::Font> _Font, std::shared_ptr<sf::Texture> IconTexture)
+                                                   const sf::Vector2f & TextSize, std::shared_ptr<sf::Font> _Font, std::shared_ptr<sf::Texture> IconTexture, std::uint32_t initval)
     {
       if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer }, EXCEPTION_MESSAGE("Layer is NULL or cannot accept a widget"));
@@ -43,7 +43,8 @@ namespace Engine
 
         Spinner->UpButton->SetTexture(IconTexture);
         Spinner->UpButton->SetTextureRect(IconSheetRects["uparrow_medium"]);
-
+        Spinner->Data = initval;
+        
         Spinner->DownButton->SetTexture(IconTexture);
         Spinner->DownButton->SetTextureRect(IconSheetRects["downarrow_medium"]);
         Spinner->GlobalWidgetBounds.ForceRegion({ Position.x, Position.y, TextSize.x + 20, TextSize.y });
@@ -154,6 +155,7 @@ namespace Engine
 
     void IntSpinner::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {
+      WidgetBase::Render(Texture);
       ChildLayer->Render(Texture);
     }
 
@@ -174,6 +176,8 @@ namespace Engine
       Data += delta;
       InputArea->SetString(std::to_string(Data));
       std::cerr << "Changed data to : " << Data << std::endl;
+      if (ValueChangedCB)
+        ValueChangedCB();
     }
 
     void IntSpinner::ValueChanged(const std::string & data)
@@ -187,6 +191,9 @@ namespace Engine
         InputArea->SetTextColor(DefaultDarkTheme.TextColorNormal);
         Data = std::stol(data);
         std::cerr << "Data : " << Data << std::endl;
+
+        if (ValueChangedCB)
+          ValueChangedCB();
       }
     }
 

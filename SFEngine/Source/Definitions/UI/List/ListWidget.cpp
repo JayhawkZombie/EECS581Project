@@ -2,7 +2,7 @@
 
 #include "../../../Headers/UI/Text/TextLabel.h"
 #include "../../../Headers/UI/Theme.h"
-
+#include "../../../Headers/UI/UICreationMacros.h"
 #include "../../../Headers/UI/WIdgetHelper.h"
 namespace Engine
 {
@@ -10,7 +10,9 @@ namespace Engine
   namespace UI
   {
 
-    std::shared_ptr<ListWidget> ListWidget::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position, const sf::Vector2f & Size, const Theme & theme)
+    std::shared_ptr<ListWidget> ListWidget::Create(std::weak_ptr<UILayer> ThisLayer, std::weak_ptr<WidgetHelper> ThisHelper, const sf::Vector2f & Position, 
+                                                   const sf::Vector2f & Size, const sf::Vector2f &MaxDropdownSize, const sf::Vector2f &ItemSize, std::shared_ptr<sf::Font> _Font, 
+                                                   std::shared_ptr<sf::Texture> Icons, const Theme & theme)
     {
       if (!ThisLayer.lock() || !ThisLayer.lock()->CanAcceptWidget())
         throw InvalidObjectException({ ExceptionCause::InvalidContainer }, EXCEPTION_MESSAGE("Layer is NULL or cannot accept a widget"));
@@ -34,9 +36,16 @@ namespace Engine
         assert(List->ChildHelper && List->ChildLayer);
         assert(List->ButtonsLayer);
 
-        List->CurrentTextureView = { 0, 0, __INT_FROM_FLOAT__(Size.x), __INT_FROM_FLOAT__(Size.y)};
-        List->TotalVisibleArea = { 0, 0, __TO_FLOAT__(Size.x), __TO_FLOAT__(Size.y) }; 
-        
+        List->DropDownButton = UI::SimpleToggle::Create(ThisLayer, ThisHelper, { Position.x + Size.x, Position.y }, 
+        { Size.y, Size.y }, { Size.y, Size.y }, Icons, "uparrow_medium", "downarrow_medium", false);
+        List->ListItemSize.x = Size.x + ItemSize.x;
+        List->ListItemSize.y = ItemSize.y;
+        List->ListSize.y = 0;
+        List->DropDownButton->CheckedCB = [List]() {List->OpenList(); };
+        List->DropDownButton->UnCheckedCB = [List]() {List->CloseList(); };
+        List->CurrentTextureView.width = __TO_INT__(Size.x);
+        List->MaximumDropdownSize = MaxDropdownSize;
+        //List->ListItemSize = ItemSize;
         List->SetBGColorNormal(theme.ButtonColorNormal);
         List->SetBGColorHighlighted(theme.ButtonColorHighlighted);
         List->SetBGColorPressed(theme.ButtonColorPressed);
@@ -45,18 +54,23 @@ namespace Engine
         List->SetBGOutlineColorHighlighted(theme.ButtonOutlineColorHighlighted);
         List->SetBGOutlineThickness(-1);
         List->ItemsTexture = std::make_shared<sf::RenderTexture>();
-        List->ItemsTexture->create(__INT_FROM_FLOAT__(Size.x), __INT_FROM_FLOAT__(Size.y));
+        List->ItemsTexture->create(__INT_FROM_FLOAT__(MaxDropdownSize.x), __INT_FROM_FLOAT__(MaxDropdownSize.y));
         List->ItemsSprite.setTexture(List->ItemsTexture->getTexture());
+        List->ItemsSprite.setPosition({ Position.x, Position.y + Size.y });
         List->ChildHelper = WidgetHelper::Create();
         List->ChildLayer = UILayer::Create(List->ChildHelper);
-
+        List->Size = Size;
+        List->Position = Position;
         List->BGRect.setFillColor(theme.ButtonColorNormal);
         List->BGRect.setOutlineColor(theme.ButtonOutlineColorNormal);
         List->BGRect.setOutlineThickness(-1);
         List->BGRect.setPosition(Position);
         List->BGRect.setSize(Size);
-
         List->GlobalWidgetBounds.ForceRegion({ Position, Size });
+
+        List->AddItem("TestItem");
+        List->AddItem("TestItem2");
+        List->AddItem("TestItem3");
 
         return List;
       }
@@ -71,9 +85,10 @@ namespace Engine
 
     void ListWidget::ConsumeEvent(const InputEvent & IEvent)
     {
-      //ButtonsLayer->HandleEvent(IEvent);
-      //std::cerr << "\n\nListWidget::ConsumEvent\n\n" << std::endl;
-      if (ChildLayer->HandleEvent(IEvent)) {
+      auto copy = IEvent;
+      copy.CurrentMousePosition = IEvent.CurrentMousePosition - static_cast<sf::Vector2i>(sf::Vector2f{ Position.x, Position.y + Size.y });
+      copy.PreviousMousePosition = IEvent.PreviousMousePosition - static_cast<sf::Vector2i>(sf::Vector2f{ Position.x, Position.y + Size.y });
+      if (IsOpen && ChildLayer->HandleEvent(copy)) {
 
       }
       else {
@@ -154,11 +169,18 @@ namespace Engine
 
     void ListWidget::Render(std::shared_ptr<sf::RenderTexture> Texture)
     {  
+      static sf::IntRect ChildView = { 0,0,0,0 };
       Texture->draw(BGRect);
       /*for (auto & item : Items) {
         item->Render(Texture);
       }*/
-      ChildLayer->Render(Texture);
+      if (IsOpen) {
+        ItemsTexture->clear(sf::Color::Transparent);
+        ChildLayer->Render(ItemsTexture);
+        ItemsTexture->display();
+        ItemsSprite.setTextureRect(CurrentTextureView);
+        Texture->draw(ItemsSprite);
+      }
       //ButtonsLayer->Render(Texture);
       //Texture->draw(ItemsSprite);
     }
@@ -175,11 +197,46 @@ namespace Engine
     {
     }
 
-    void ListWidget::AddItem(std::shared_ptr<WidgetBase> Widget)
+    void ListWidget::AddItem(const std::string &ItemText)
     {
-      Widget->ChangeHelper(ChildHelper);
+      std::shared_ptr<ClickButtonBase> ButtonToAdd;
+      sf::Vector2f pos = { 0, ListSize.y };
+
+      MakeButtonWithText(ButtonToAdd, ChildLayer, ChildHelper, pos, ListItemSize, ItemText, TextFont, UI::DefaultDarkTheme);
+      auto label = UI::TextLabel::Create(ButtonToAdd, Helper, TextAlignment::CenterJustified, ItemText, UI::DefaultDarkTheme.TextColorNormal, 
+                                         TextFont, UI::DefaultDarkTheme.TextSizeSmall, { 0,0,WindowSize.x, WindowSize.y }, { 0,0 });
+      ButtonToAdd->SetBGColor(sf::Color(96, 96, 96));
+      ButtonToAdd->SetBGColorNormal(sf::Color(96, 96, 96));
+      ButtonToAdd->SetBGColorHighlighted(sf::Color(64, 86, 122));
+      ButtonToAdd->SetBGColorPressed(sf::Color(36, 49, 71));
+      Items.push_back(ButtonToAdd);
+
+      ListSize.y += ListItemSize.y;
+      CurrentTextureView.width = Size.x;
+      if (ListSize.y < MaximumDropdownSize.y) {
+        CurrentTextureView.height = __TO_INT__(ListSize.y);
+      }
+
+      std::cerr << "Added button at : " << pos.x << ", " << pos.y << std::endl;
+      std::cerr << "ButtonSize: " << ListItemSize.x << " " << ListItemSize.y << std::endl;
+      std::cerr << "ListSize: " << ListSize.x << ", " << ListSize.y << std::endl;
+      std::cerr << "CurrentListView: " << CurrentTextureView.left << " " << CurrentTextureView.top << " " << CurrentTextureView.width << " " << CurrentTextureView.height << std::endl;
+      /*Widget->ChangeHelper(ChildHelper);
       Widget->ChangeLayer(ChildLayer);
-      BottomItem++;
+
+      auto size = Widget->GetSize();
+      auto pos = Widget->GetPosition();
+
+      sf::Vector2f toPos = { Position.x, Position.y + ListSize.y };
+      auto pdiff = toPos - pos;
+      ListSize.y += size.y;
+      Items.push_back(Widget);
+      Widget->Move(pdiff);
+      if (ListSize.y < MaximumDropdownSize.y) {
+        CurrentTextureView.height = __INT_FROM_FLOAT__(ListSize.y);
+      }
+      ItemsTexture->create(static_cast<unsigned int>(std::ceil(ListSize.x)), static_cast<unsigned int>(std::ceil(ListSize.y)));*/
+
   //    float texSizeDiff = TotalRegion.height + Widget->GlobalWidgetBounds.GlobalBounds.height;
   //    sf::FloatRect __bounds = Widget->GlobalWidgetBounds.GlobalBounds;
   //    std::uint32_t NewTexWidth = __UINT_FROM_FLOAT__(Size.x);
@@ -214,24 +271,10 @@ namespace Engine
 
       float deltaY = 25.f;
 
-      ChildLayer->Move({ 0, deltaY });
-
-      CurrentTextureView.top += deltaY;
+      if (CurrentTextureView.top > 0) {
+        CurrentTextureView.top += std::min(__TO_FLOAT__(CurrentTextureView.top), deltaY);
+      }
     }
-
-    //void ListWidget::ScrollToTop()
-    //{
-    //  ScrollOffset = { 0, 0 };
-    //  TopItem = 0;
-    //  CurrentTextureView = { 0, 0, __INT_FROM_FLOAT__(Size.x), __INT_FROM_FLOAT__(Size.y) };
-    //}
-
-    //void ListWidget::ScrollToBottom()
-    //{
-    //  //We have moved the entirty of the way down (so the height of the TotalRegion - the list's height
-    //  ScrollOffset.y = TotalRegion.height - Size.y;
-
-    //}
 
     void ListWidget::ScrollDownOne()
     {
@@ -239,18 +282,28 @@ namespace Engine
 
       float deltaY = 25.f;
 
-      ChildLayer->Move({ 0, -deltaY });
+      float fromBottom = __TO_FLOAT__(CurrentTextureView.top + CurrentTextureView.height) - (ListSize.y);
+      if (fromBottom > 0) {
+        CurrentTextureView.top -= std::min(fromBottom, deltaY);
+      }
+    }
 
-      CurrentTextureView.top += deltaY;
+    void ListWidget::OpenList()
+    {
+      IsOpen = true;
+      sf::FloatRect Bounds =
+      {
+        Position.x, Position.y,
+        Size.x,
+        Size.y + ListSize.y
+      };
+      GlobalWidgetBounds.ForceRegion(Bounds);
+    }
 
-      //if (TopItem < Items.size() && BottomItem < Items.size() - 1) {
-      //  TopItem++;
-      //  BottomItem++;
-      //  float deltaY = Items[TopItem]->GlobalWidgetBounds.GlobalBounds.height;
-
-      //  for (auto & item : Items)
-      //    item->Move({ 0, -deltaY });
-      //}
+    void ListWidget::CloseList()
+    {
+      IsOpen = false;
+      GlobalWidgetBounds.ForceRegion({ Position, Size });
     }
 
   }

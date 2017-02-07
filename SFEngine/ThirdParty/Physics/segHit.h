@@ -28,7 +28,7 @@ public:
     return pos;
   }
 
-  virtual void draw(sf::RenderWindow&)const = 0;
+  virtual void draw(sf::RenderTarget&)const = 0;
   virtual void update();// added so lineRotateSeg has in interface
 
   virtual bool hit(mvHit&);//

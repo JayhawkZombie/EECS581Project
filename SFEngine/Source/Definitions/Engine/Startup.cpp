@@ -128,7 +128,7 @@ namespace Engine
     InitRenderWindow();
     std::cerr << "Initialized RenderWindow" << std::endl;
 
-    if (!EngineLogoTexture.loadFromFile("./SFEngine/Samples/Textures/Logos/SFEngineLogoLarge_ExtraFlame_Analogized.png")) {
+    if (!EngineLogoTexture.loadFromFile("./SFEngine/Samples/Logos/SFEngineLogoLarge.png")) {
       std::cerr << "Unable to load EngineLogo texture" << std::endl;
     }
     else {
