@@ -29,12 +29,12 @@ namespace Engine
     sf::Event evnt;
 
     std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
-    GameMainTexture->create(WindowSize.x, WindowSize.y);
+    GameMainTexture->create(static_cast<unsigned int>(std::ceil(WindowSize.x)), static_cast<unsigned int>(std::ceil(WindowSize.y)));
 
     sf::Sprite GameSprite;
     GameSprite.setTexture(GameMainTexture->getTexture());
 
-    (*ScriptEngine).add_global(chaiscript::var(&TestPlayer), "MainPlayer");
+    //(*ScriptEngine).add_global(chaiscript::var(&TestPlayer), "MainPlayer");
 
     //if we are launching with the editor, enable the editor
     //otherwise, create a main level and update the level instead of the editor
@@ -51,7 +51,7 @@ namespace Engine
 
     Window->clear(sf::Color::Black);
     std::shared_ptr<sf::RenderTexture> EditorTexture(new sf::RenderTexture);
-    EditorTexture->create(WindowSize.x, WindowSize.y);
+    EditorTexture->create(static_cast<unsigned int>(std::ceil(WindowSize.x)), static_cast<unsigned int>(std::ceil(WindowSize.y)));
     EditorTexture->clear(sf::Color::Transparent);
 
     sf::Sprite EditorSprite;
@@ -63,7 +63,7 @@ namespace Engine
 
 #ifdef WITH_EDITOR
     GameEditor.PreLoopSetup();
-    GameEditor.CreateMenus();
+    GameEditor.CreateGUIMenus();
 #else
     std::shared_ptr<Level> MainLevel(new Level);
 #endif
@@ -97,7 +97,6 @@ namespace Engine
 
         //if we have the editor, render that instead of the main level
         GameMainTexture->clear(sf::Color::Transparent);
-        //Window->setActive(true);
         Window->clear(sf::Color::Black);
         
         EditorTexture->clear(sf::Color::Transparent);
@@ -114,6 +113,7 @@ namespace Engine
 
         EditorTexture->display();
         Window->draw(EditorSprite);
+        GUI->draw();
         Window->display();
         //Render();
       }

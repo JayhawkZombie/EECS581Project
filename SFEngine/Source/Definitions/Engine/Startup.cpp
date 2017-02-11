@@ -8,7 +8,9 @@ namespace Engine
     sf::ContextSettings csettings;
    
     csettings.antialiasingLevel = 8;
-    
+    if (currentRenderWindow)
+      delete currentRenderWindow;
+
 #ifdef WITH_EDITOR
     Window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "SFEngine Editor", sf::Style::Fullscreen | sf::Style::Titlebar, csettings);
     WindowSize = static_cast<sf::Vector2f>(Window->getSize());
@@ -17,7 +19,7 @@ namespace Engine
     WindowSize = { EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y };
 #endif
     MaximumWindowView = Window->getDefaultView();
-    Window->setKeyRepeatEnabled(true);
+    Window->setKeyRepeatEnabled(false);
     Window->setVerticalSyncEnabled(false);
     currentRenderWindow = Window;
     CurrentEngine = this;
@@ -127,6 +129,12 @@ namespace Engine
 
     InitRenderWindow();
     std::cerr << "Initialized RenderWindow" << std::endl;
+    //Create the GUI window immediately
+    GUI = std::make_shared<tgui::Gui>(*currentRenderWindow);
+    std::cerr << "Created GUI" << std::endl;
+
+    tgui::ToolTip::setTimeToDisplay(sf::milliseconds(300));
+
 
     if (!EngineLogoTexture.loadFromFile("./SFEngine/Samples/Logos/SFEngineLogoLarge.png")) {
       std::cerr << "Unable to load EngineLogo texture" << std::endl;

@@ -23,8 +23,6 @@ namespace Engine
 
   void SFEngine::HandleMousePress(const sf::Vector2i &v, const sf::Mouse::Button &b)
   {
-    std::cerr << "[ENGINE]: Mouse pressed!" << std::endl;
-
     UIInputEvent.Key = sf::Keyboard::Unknown;
     UIInputEvent.Button = b;
     UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
@@ -43,8 +41,6 @@ namespace Engine
 
   void SFEngine::HandleMouseRelease(const sf::Vector2i &v, const sf::Mouse::Button &b)
   {
-    std::cerr << "[ENGINE]: Mouse released!" << std::endl;
-
     UIInputEvent.Key = sf::Keyboard::Unknown;
     UIInputEvent.Button = b;
     UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;

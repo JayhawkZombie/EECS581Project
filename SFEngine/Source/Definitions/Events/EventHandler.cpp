@@ -122,24 +122,29 @@ namespace Engine
   {
     v2iMousePosArg = sf::Mouse::getPosition(*currentRenderWindow);
     while (win->pollEvent(evnt)) {
-      if (makeCallbacks) {
-        switch (evnt.type)
-        {
-          case sf::Event::EventType::Closed:
-            ftnCallback_WindowClosed(); return true;
-          case sf::Event::TextEntered:
-            ftnCallback_TextEntered(evnt.text.unicode); break;
-          case sf::Event::MouseButtonPressed:
-            ftnCallback_MousePress(v2iMousePosArg, evnt.mouseButton.button); break;
-          case sf::Event::MouseButtonReleased:
-            ftnCallback_MouseRelease(v2iMousePosArg, evnt.mouseButton.button); break;
-          case sf::Event::MouseMoved:
-            ftnCallback_MouseMovement(v2iMousePosArg); break;
-          case sf::Event::KeyPressed:
-            ftnCallback_KeyPress(evnt.key.code); break;
-          case sf::Event::KeyReleased:
-            ftnCallback_KeyRelease(evnt.key.code); break;
+      if (GUI->handleEvent(evnt)) {
 
+      }
+      else {
+        if (makeCallbacks) {
+          switch (evnt.type)
+          {
+            case sf::Event::EventType::Closed:
+              ftnCallback_WindowClosed(); return true;
+            case sf::Event::KeyPressed:
+              ftnCallback_KeyPress(evnt.key.code); return false;
+            case sf::Event::KeyReleased:
+              ftnCallback_KeyRelease(evnt.key.code); return false;
+            case sf::Event::TextEntered:
+              ftnCallback_TextEntered(evnt.text.unicode); return false;
+            case sf::Event::MouseButtonPressed:
+              ftnCallback_MousePress(v2iMousePosArg, evnt.mouseButton.button); return false;
+            case sf::Event::MouseButtonReleased:
+              ftnCallback_MouseRelease(v2iMousePosArg, evnt.mouseButton.button); return false;
+            case sf::Event::MouseMoved:
+              ftnCallback_MouseMovement(v2iMousePosArg); return false;
+
+          }
         }
       }
     }

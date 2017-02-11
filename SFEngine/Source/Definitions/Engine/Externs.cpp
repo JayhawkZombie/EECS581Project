@@ -12,6 +12,8 @@ namespace Engine
 
   std::unordered_set<std::uint32_t> UsedIDs;
 
+  std::shared_ptr<tgui::Gui> GUI;
+
   void SetKeyRepeatEnabled(bool enabled)
   {
     if (currentRenderWindow)
@@ -36,7 +38,7 @@ namespace Engine
 
     std::uint32_t Tries = 0;
     std::default_random_engine generator;
-    generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
+    generator.seed(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
     std::uniform_int_distribution<std::uint32_t> dist(1, std::numeric_limits<std::uint32_t>::max() - 1);
 
     //Try one time to generate an ID
@@ -186,6 +188,181 @@ namespace Engine
   decltype(auto) GetCanPhysicsApproxCollision()
   {
     return true;
+  }
+
+  void AddScriptGlobal()
+  {
+  }
+
+  void SerializeString(const std::string & string, std::ofstream & out)
+  {
+    std::size_t len = string.length();
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+
+    out.write((char *)(&len), sizeof(std::size_t));
+    out.write(string.c_str(), len);
+  }
+
+  void SerializeInt32(const std::int32_t & value, std::ofstream & out)
+  {
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+    out.write((char *)(&value), sizeof(std::int32_t));
+  }
+
+  void SerializeFloat(const float & value, std::ofstream & out)
+  {
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+    out.write((char *)(&value), sizeof(float));
+  }
+
+  void SerializeUint32(const std::uint32_t &value, std::ofstream & out)
+  {
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+    out.write((char *)(&value), sizeof(float));
+  }
+
+  void SerializeSizet(const std::size_t & value, std::ofstream & out)
+  {
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+    out.write((char *)(&value), sizeof(std::size_t));
+  }
+
+  void SerializeInt64(const std::int64_t & value, std::ofstream & out)
+  {
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+    out.write((char *)(&value), sizeof(std::int64_t));
+  }
+
+  void SerializeUint64(const std::uint64_t & value, std::ofstream & out)
+  {
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+    out.write((char *)(&value), sizeof(std::uint64_t));
+  }
+
+  void SerializeChar(const char & c, std::ofstream & out)
+  {
+    if (!out)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ofstream in fail state"));
+    out.write((char *)(&c), sizeof(char));
+  }
+
+  void DeserializeString(std::string & string, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    std::size_t len = 0;
+    in.read((char *)(&len), sizeof(std::size_t));
+    //For somewhat obvious reasons, we'll do a check to make sure the lenght is less than ~500k
+    if (len > 500'000)
+      throw FormattingError({ ExceptionCause::DataFormatError }, EXCEPTION_MESSAGE("Value too large - data assumed to be corrupt"));
+
+    string.clear();
+    string.resize(len);
+    in.read(&(string[0]), len);
+  }
+
+  void DeserializeInt32(std::int32_t & value, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    std::int32_t val = 0;
+    in.read((char *)(&val), sizeof(std::int32_t));
+
+    value = val;
+  }
+
+  void DeserializeFloat(float & value, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    float val = 0.f;
+    in.read((char *)(&val), sizeof(float));
+
+    value = val;
+  }
+
+  void DeserializeUint32(std::uint32_t & value, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    std::uint32_t val = 0;
+    in.read((char *)(&val), sizeof(std::uint32_t));
+    value = val;
+  }
+
+  void DeserializeSizet(std::size_t & value, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    std::size_t val = 0;
+    in.read((char *)(&val), sizeof(std::size_t));
+    value = val;
+  }
+
+  void DeserializeInt64(std::int64_t & value, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    std::int64_t val = 0;
+    in.read((char *)(&val), sizeof(std::int64_t));
+    value = val;
+  }
+
+  void DeserializeUint64(std::uint64_t & value, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    std::uint64_t val = 0;
+    in.read((char *)(&val), sizeof(std::uint64_t));
+    value = val;
+  }
+
+  void DeserializeChar(char & c, std::ifstream & in)
+  {
+    if (!in)
+      throw StreamException({ ExceptionCause::StreamError }, EXCEPTION_MESSAGE("ifstream in fail state"));
+
+    char _c = '\0';
+    in.read((char *)(&_c), sizeof(char));
+    c = _c;
+  }
+
+  void MessageAlert(const std::string & message)
+  {
+    tgui::MessageBox::Ptr mbox = std::make_shared<tgui::MessageBox>();
+    mbox->setText(message);
+    mbox->setSize({ 400, 400 });
+    
+    float xDiff = WindowSize.x - 400.f;
+    float yDiff = WindowSize.y - 400.f;
+
+    mbox->setPosition({ xDiff / 2.f, yDiff / 2.f });
+
+    tgui::Button::Ptr btn = std::make_shared<tgui::Button>();
+    btn->setText("OK");
+    btn->setPosition({ 180, 350 });
+    mbox->add(btn);
+
+    GUI->add(mbox, "errorAlert");
+    GUI->focusWidget(mbox);
+    mbox->showWithEffect(tgui::ShowAnimationType::Scale, sf::milliseconds(150));
+
+    mbox->connect("closed", [mbox]() { mbox->hide(); GUI->remove(mbox); });
+    btn->connect("clicked", [mbox]() { mbox->hide(); GUI->remove(mbox); });
   }
 
   //if the editor is being used, link to the current engine and allow access to the global UI handler

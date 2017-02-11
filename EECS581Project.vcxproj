@@ -133,7 +133,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -148,8 +148,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\TGUI\lib\Debug;C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;tgui-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -159,7 +159,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\sfgui\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -285,7 +285,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\sfgui\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
@@ -322,6 +322,11 @@
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\CreateNewProject.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProject.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProjectFile.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\FileBrowser.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\TileSheetEditor.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -333,6 +338,7 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\Spinner.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\TextInput.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\EditAnimationMenu.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\EditTilesMenu.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ClickButtonBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableBase.h" />
@@ -499,6 +505,11 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\CreateNewProject.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorLoadProject.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProjectFile.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\FileBrowser.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\TileSheetEditor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\Editor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorCreateMenus.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorEventHandlers.cpp" />
@@ -539,6 +550,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeIn.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeOut.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelTile.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelTileSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelUpdate.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GenericLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GlobalLightSource.cpp" />
@@ -638,6 +650,7 @@
     <Image Include="SFEngine\Samples\Logos\SFEngineLogo.png" />
     <Image Include="SFEngine\Samples\Logos\SFEngineLogo_Dark_Flame_Analogized.png" />
     <Image Include="SFEngine\Samples\Logos\SFEngineLogo_Flame.png" />
+    <Image Include="SFEngine\Samples\Textures\DefaultTexture.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBG.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.png" />
     <Image Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.png" />
@@ -662,6 +675,7 @@
     <None Include="SFEngine\Samples\Maps\testforest.ini" />
     <None Include="SFEngine\Samples\Maps\testmap.ini" />
     <None Include="SFEngine\Samples\Scripts\MainActorScript.chai" />
+    <None Include="SFEngine\Samples\Scripts\TestEditorScript.chai" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBG.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.xcf" />

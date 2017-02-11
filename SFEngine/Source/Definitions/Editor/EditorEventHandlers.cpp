@@ -8,14 +8,14 @@ namespace Engine
   {
     //DEBUG_ONLY std::cerr << "Editor::HandleMousePressed" << std::endl;
 
-    UIHelper->ConsumeEvent(Event);
+    //UIHelper->ConsumeEvent(Event);
   }
 
   void Editor::HandleMouseReleased(const InputEvent &Event)
   {
     //DEBUG_ONLY std::cerr << "Editor::HandleMouseReleased" << std::endl;
 
-    UIHelper->ConsumeEvent(Event);
+    //UIHelper->ConsumeEvent(Event);
   }
 
   void Editor::HandleMouseMoved(const InputEvent &Event)
@@ -23,7 +23,7 @@ namespace Engine
     //Let's see if the mouse is over any of our elements
     //DEBUG_ONLY std::cerr << "Editor::HandleMouseMoved" << std::endl;
 
-    UIHelper->ConsumeEvent(Event);
+    //UIHelper->ConsumeEvent(Event);
 
   }
 
@@ -34,29 +34,40 @@ namespace Engine
 
   void Editor::HandleKeyPressed(const InputEvent &Event)
   {
+    /*if (UIHelper->ConsumeEvent(Event)) {
 
+    }
+    else {
+      if (Event.KeyWasPressed) {
+        sf::String key;
+        key += Event.TextUnicode;
+        if (Event.Key == sf::Keyboard::Space) {
+          EditorScriptEngine->eval("SpacePressed();");
+        }
+      }
+    }*/
   }
 
   void Editor::HandleKeyReleased(const InputEvent &Event)
   {
-    if (Event.Key == sf::Keyboard::Escape) {
-      DEBUG_ONLY std::cerr << "Editor : Showing Popup" << std::endl;
-      //UI::Alert::ShowPopup(Alert);
-      //UI::MenuWidget::OpenMenu(TestMenu);
-    }
-    else {
-      if (UIHelper->ConsumeEvent(Event)) {
+    //if (Event.Key == sf::Keyboard::Escape) {
+    //  DEBUG_ONLY std::cerr << "Editor : Showing Popup" << std::endl;
+    //  //UI::Alert::ShowPopup(Alert);
+    //  //UI::MenuWidget::OpenMenu(TestMenu);
+    //}
+    //else {
+    //  if (UIHelper->ConsumeEvent(Event)) {
 
-      }
-      else {
-
-      }
-    }
+    //  }
+    //  else {
+    //    
+    //  }
+    //}
   }
 
   void Editor::HandleTextEntered(const InputEvent &Event)
   {
-    UIHelper->ConsumeEvent(Event);
+    //UIHelper->ConsumeEvent(Event);
   }
 
   void Editor::HandleWindowResized(const sf::Vector2u & NewWindowSize)

@@ -5,8 +5,11 @@
 #include <algorithm>
 #include <unordered_set>
 #include "../Resources/ResourceManager.h"
+#include <TGUI\TGUI.hpp>
 
 
+const std::string EngineVersionString{ "0.0.1" };
+const std::string EditorVersionString{ "0.0.1.B-fIncomplete" };
 
 //remove this to launch the engine without editing tools
 #define WITH_EDITOR
@@ -177,6 +180,30 @@ namespace Engine
   extern decltype(auto) GetIsUsingPreComputedLightMaps();
   extern decltype(auto) GetCanPhysicsApproxCollision();
 
+  extern void AddScriptGlobal();
+
+  //Some methods to use to serialize assets - put here so they can be globally accessible to anything that needs that
+  void SerializeString(const std::string &string, std::ofstream &out);
+  void SerializeInt32(const std::int32_t &value, std::ofstream &out);
+  void SerializeFloat(const float &value, std::ofstream &out);
+  void SerializeUint32(const std::uint32_t &value, std::ofstream &out);
+  void SerializeSizet(const std::size_t &value, std::ofstream &out);
+  void SerializeInt64(const std::int64_t &value, std::ofstream &out);
+  void SerializeUint64(const std::uint64_t &value, std::ofstream &out);
+  void SerializeChar(const char &c, std::ofstream &out);
+
+  //Corresponding methods to deserialize
+  void DeserializeString(std::string &string, std::ifstream &out);
+  void DeserializeInt32(std::int32_t &value, std::ifstream &out);
+  void DeserializeFloat(float &value, std::ifstream &out);
+  void DeserializeUint32(std::uint32_t &value, std::ifstream &out);
+  void DeserializeSizet(std::size_t &value, std::ifstream &out);
+  void DeserializeInt64(std::int64_t &value, std::ifstream &out);
+  void DeserializeUint64(std::uint64_t &value, std::ifstream &out);
+  void DeserializeChar(char &c, std::ifstream &out);
+
+  void MessageAlert(const std::string &message);
+
 #ifdef WITH_EDITOR
   class SFEngine;
   extern SFEngine *CurrentEngine;
@@ -190,6 +217,7 @@ namespace Engine
 
   extern void SetKeyRepeatEnabled(bool);
 
+  extern std::shared_ptr<tgui::Gui> GUI;
 }
 
 //This is pretty hacky, and will be changed later

@@ -3,7 +3,7 @@
 
 #include "../BasicIncludes.h"
 #include "../Engine/BaseEngineInterface.h"
-
+#include "../Animation/Animation.h"
 #include "../Physics/Mesh.h"
 #include "../../../ThirdParty/PhysicsEngine.h"
 
@@ -49,6 +49,12 @@ namespace Engine
 
     std::shared_ptr<PhysicsEngineBaseMeshType> ObjectMesh;
     std::shared_ptr<PhysicsEngineSegmentType> ObjectSegments;
+
+    std::shared_ptr<sf::Texture> Texture;
+    sf::IntRect TextureRect;
+    sf::RectangleShape ObjectRect;
+    //Objects can be animated
+    std::map<std::string, std::shared_ptr<Animation>> Animations;
 
     bool AllowsActorOverlap; //if false, then actors will never be allowed to cross over this object
     bool RenderOutlined;

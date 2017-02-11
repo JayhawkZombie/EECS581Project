@@ -5,11 +5,12 @@ namespace Engine
   void Animation::Update(double delta) {
 
   }
-  void Animation::Play() {
+  void Animation::Play(bool loop, bool notifycomplete) {
     m_isPaused = false;
     if (!m_isRendered) {
       m_isRendered = true;
       m_currentFrame = 0;
+      m_loop = loop;
     }
   }
 
@@ -27,6 +28,9 @@ namespace Engine
   void Animation::Stop() {
     m_isRendered = false;
     m_isPaused = true;
+    m_currentFrame = 0;
+    if (m_notifyComplete)
+      AnimationComplete();
   }
   void Animation::Move(float x, float y) {
     sprite.move(x, y);
@@ -78,8 +82,12 @@ namespace Engine
         m_currentTime = 0;
 
         m_currentFrame += 1;
-        if (m_currentFrame >= m_frames.size())
-          m_currentFrame = 0;
+        if (m_currentFrame >= m_frames.size()) {
+          if (m_loop)
+            m_currentFrame = 0;
+          else
+            Stop();
+        }
 
         //auto frame = m_frames[m_currentFrame];
 
@@ -96,7 +104,7 @@ namespace Engine
 
         //}
         // set the current frame, not reseting the time
-        if (m_frames.size() > 0)
+        else if (m_frames.size() > 0)
           AnimRect.setTextureRect(m_frames[m_currentFrame]);
       }
     }

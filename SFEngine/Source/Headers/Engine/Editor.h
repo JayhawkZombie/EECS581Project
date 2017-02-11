@@ -30,13 +30,23 @@
 #include "../UI/UICreationMacros.h"
 
 #include "../UI/ObjectView.h"
-
+#include "../Editor/EditorProject.h"
 //includes for our custom menus
 #include "../UI/Menu/EditAnimationMenu.h"
+#include <fstream>
+#include <map>
+
+
+
+
+
+//TGUI elements
+#include "../Editor/TileSheetEditor.h"
+#include "../Editor/CreateNewProject.h"
+#include "../Editor/EditorProject.h"
 
 namespace Engine
 {
-
 
   enum class EditingMode : std::uint32_t
   {
@@ -134,13 +144,44 @@ namespace Engine
     void HandleTextEntered(const InputEvent &Event);
 
     void CreateMenus();
+    void CreateGUIMenus();
+
+    void LoadProject(const std::string &ProjectPath);
 
     void HandleWindowResized(const sf::Vector2u &NewWindowSize);
-
+    void BindEditorMethods(chaiscript::ModulePtr mptr);
   protected:
+    void MenuBarItemSelected(std::vector<sf::String> vec);
+    void ShutDownEditor();
+    void OpenTilesheetViewer();
+    void OpenProjectCreator();
+
+    EditorProject Project;
+
+    std::map<std::string, std::shared_ptr<TileSheet>> TIleSheets;
+
+    //TGUI elements
+    tgui::Font TestTGUIFont;
+    tgui::Theme::Ptr UIThemePtr;
+
+    std::shared_ptr<TileSheetEditor> EditTilesWindow;
+    std::shared_ptr<NewProjectCreator> ProjectCreator;
+
+#ifdef MessageBox
+#undef MessageBox //WTF seriously? WTF is defining MessageBoxW as MessageBox? That is stupid, GTFO
+#endif
+
+    tgui::MessageBox::Ptr QuitMessageBox;
+
     sf::RenderStates EditorRenderState;
     sf::RectangleShape EditorRect;
 
+    chaiscript::ChaiScript *EditorScriptEngine;
+
+    //Test actor, just for testing
+    GenericActor TestActor;
+    std::shared_ptr<sf::Texture> TestActorSpriteSheet;
+    std::shared_ptr<Animation> TestAnimation;
 
     std::shared_ptr<Level> EditLevel;
 
@@ -220,7 +261,7 @@ namespace Engine
     UI::EditAnimationMenu AnimMenu;
 
     std::shared_ptr<UI::ObjectView> TestObjectView;
-    std::shared_ptr<Animation> TestAnimation;
+    std::shared_ptr<Animation> TestActorAnimation;
     std::shared_ptr<sf::Texture> TestAnimationTexture;
 
 
