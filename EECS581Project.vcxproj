@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{87F72D0D-0935-4DF9-A2E4-8DF5A21C5F18}</ProjectGuid>
+    <ProjectGuid>{95C45AA1-ACC4-4925-BD8F-51999F4BF7F0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EECS581Project</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -305,8 +305,10 @@
     <ClInclude Include="Game\Inventory.h" />
     <ClInclude Include="Game\ListReader.h" />
     <ClInclude Include="Game\MainCharacter.h" />
+    <ClInclude Include="Game\Monster.h" />
     <ClInclude Include="Game\MonsterType.h" />
     <ClInclude Include="Game\Party.h" />
+    <ClInclude Include="Game\Reliquary.h" />
     <ClInclude Include="Game\RPGActor.h" />
     <ClInclude Include="Game\RPGItem.h" />
     <ClInclude Include="Game\RPGTest.h" />
@@ -479,8 +481,10 @@
     <ClCompile Include="Game\Inventory.cpp" />
     <ClCompile Include="Game\ListReader.cpp" />
     <ClCompile Include="Game\MainCharacter.cpp" />
+    <ClCompile Include="Game\Monster.cpp" />
     <ClCompile Include="Game\MonsterType.cpp" />
     <ClCompile Include="Game\Party.cpp" />
+    <ClCompile Include="Game\Reliquary.cpp" />
     <ClCompile Include="Game\RPGActor.cpp" />
     <ClCompile Include="Game\RPGItem.cpp" />
     <ClCompile Include="Game\RPGTest.cpp" />
