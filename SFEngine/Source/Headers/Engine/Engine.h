@@ -22,6 +22,9 @@
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
+
+#include <TGUI/TGUI.hpp>
+
 namespace Engine
 {
 

@@ -45,6 +45,10 @@ for(auto & message : VECTOR_MESSAGES){\
     DataParseError,
     StreamError,
     StreamFailure,
+    InvalidValue,
+    ValueTooLarge,
+    ValueTooSmall,
+    ValueNaN,
     Unknown, //Undocumented reason, but something threw an exception and didn't provide a known documented cause
   };
 
@@ -144,6 +148,21 @@ for(auto & message : VECTOR_MESSAGES){\
 
     std::string msg_;
     
+  };
+
+  class ValueException : public EngineRuntimeError
+  {
+  public:
+    explicit ValueException(const std::vector<ExceptionCause> &causes, const char *message)
+      : EngineRuntimeError(causes, message) {}
+    explicit ValueException(const std::vector<ExceptionCause> &causes, const std::string &string)
+      : EngineRuntimeError(causes, string) {}
+    virtual ~ValueException() throw () {}
+
+    virtual const char* what() {
+      return msg_.c_str();
+    }
+
   };
 
   //Throw this exception if a nullptr is given as a parameter and it is a function that should NEVER be given a nullptr

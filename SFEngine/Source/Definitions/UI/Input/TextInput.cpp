@@ -154,14 +154,14 @@ namespace Engine
     {
       ClickButtonBase::OnFocusGained(FEvent);
 
-      SetKeyRepeatEnabled(true);
+      //SetKeyRepeatEnabled(true);
     }
 
     void TextInput::OnFocusLost(const FocusChangeEvent & FEvent)
     {
       ClickButtonBase::OnFocusLost(FEvent);
 
-      SetKeyRepeatEnabled(false);
+      //SetKeyRepeatEnabled(false);
     }
 
     void TextInput::OnKeyPress(const InputEvent & IEvent)

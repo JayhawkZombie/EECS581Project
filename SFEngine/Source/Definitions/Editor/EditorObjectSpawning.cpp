@@ -8,7 +8,7 @@ namespace Engine
     std::cerr << "Spawn object at: " << Position.x << ", " << Position.y << std::endl;
 
 
-    auto Ball = BuildBallMesh('B', Position, { 0,0 }, 40, 1.f, 0.8, sf::Color::Green);
+    auto Ball = BuildBallMesh('B', Position, { 0,0 }, 40, 1.f, 0.8f, sf::Color::Green);
     TestObjects.push_back(Ball);
 
     //std::cerr << "Ball pos: " << Ball->pos.x << ", " << Ball->pos.y << std::endl;

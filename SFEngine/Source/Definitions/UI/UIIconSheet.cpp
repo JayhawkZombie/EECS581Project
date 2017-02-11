@@ -28,8 +28,6 @@ namespace Engine
 
       while (in >> icon_) {
         in >> discard >> left >> top >> width >> height;
-
-        std::cerr << icon_ << " -> { " << left << ", " << top << ", " << width << ", " << height << " }" << std::endl;
         IconSheetRects[icon_] = sf::IntRect(left, top, width, height);
       }
       in.close();

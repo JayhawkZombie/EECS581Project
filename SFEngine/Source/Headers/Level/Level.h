@@ -27,6 +27,17 @@ namespace Engine
   class Editor;
 #endif
 
+  const std::uint32_t MaxTilesPerSheet = 1000;
+
+  struct TileSheet
+  {
+    static std::shared_ptr<TileSheet> Decode(std::ifstream &in);
+    std::shared_ptr<sf::Texture> Sheet;
+    std::map<std::string, sf::VertexArray> Tiles;
+    sf::VertexArray RenderedVerts;
+    void GenerateBlankSheet(float SizeX, float SizeY, float CellSizeX, float CellSizeY);
+  };
+
   struct TileGrid
   {
 #ifdef WITH_EDITOR

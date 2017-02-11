@@ -21,7 +21,7 @@ namespace Engine
     //NEW
     Animation() : m_currentFrame(0), m_currentTime(0), m_frameTime(0), m_isPaused(true), m_isRendered(false) {}
     void Update(double deltaTime);
-    void Play();
+    void Play(bool loop = true, bool notifycomplete = false);
     void Pause();
     void Stop();
     void Move(float x, float y);
@@ -45,7 +45,12 @@ namespace Engine
     void Render(std::shared_ptr<sf::RenderTarget> Target);
     void TickUpdate(const double& delta);
     void OnShutDown();
+
+    std::function<void(void)> AnimationComplete = []() {};
+
   private:
+    bool m_loop = true;
+    bool m_notifyComplete = false;
     bool m_isPaused;
     bool m_isRendered;
     int m_currentFrame;

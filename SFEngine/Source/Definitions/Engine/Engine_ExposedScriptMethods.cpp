@@ -21,12 +21,12 @@ namespace Engine
 
   void SFEngine::SetBrightness(unsigned int level)
   {
-    RenderSettings.Brightness = level;
+    RenderSettings.Brightness = static_cast<float>(level);
   }
 
   void SFEngine::SetGamma(unsigned int level)
   {
-    RenderSettings.Gamma = level;
+    RenderSettings.Gamma = static_cast<float>(level);
   }
 
   void SFEngine::SetTimeScale(float amount)
@@ -36,7 +36,7 @@ namespace Engine
 
   void SFEngine::SetContrast(unsigned int level)
   {
-    RenderSettings.Contrast = level;
+    RenderSettings.Contrast = static_cast<float>(level);
   }
 
 
