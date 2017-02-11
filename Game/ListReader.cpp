@@ -215,21 +215,21 @@ Weapon** ListReader::readWeapons(std::string fileName)
 //	std::cout << "Name: " << line << "\n";
 	std::getline(file, line);
 	
-	try
-	{
+//	try
+//	{
 		newWeapon->setNumHands(std::stoi(line));
 //		std::cout << "NumHands: " << std::stoi(line) << "\n";
-	}
-	catch(int e)
-	{
+//	}
+//	catch(int e)
+//	{
 //		std::cout << "error with stoi" << "\n";
-	}
+//	}
 	std::getline(file, line);
 	newWeapon->setTexture(line);
 //	std::cout << "Texture: " << line << "\n";
 
-	try
-	{
+//	try
+//	{
 		std::getline(file, line);
 		newWeapon->setValue(std::stoi(line));
 //		std::cout << "Value: " << line << "\n";
@@ -237,11 +237,11 @@ Weapon** ListReader::readWeapons(std::string fileName)
 		std::getline(file, line);
 		newWeapon->setRequiredLevel(std::stoi(line));
 //		std::cout << "RequiredLevel: " << line << "\n";
-	}
-	catch (int e)
-	{
+//	}
+//	catch (int e)
+//	{
 		std::cout << "Error with stoi in ListReader readWeapons";
-	}
+//	}
 
 	std::getline(file, line);
 	newWeapon->setDescription(line);
@@ -268,17 +268,17 @@ Weapon** ListReader::readWeapons(std::string fileName)
 		//std::getline(file, line);
       intIndex = stoi (line);
       std::getline(file,line);
-	  try
-	  {
+//	  try
+//	  {
 		  intVal = stoi(line);
 		  damage->setValue(intIndex, intVal);
 	//	  std::cout << "Damage set Index:" << intIndex << " Value " << intVal << "\n";
-	  }
-	  catch (int e)
-	  {
-		  std::cout << "Exeption thrown number " << e << "\n";
+//	  }
+//	  catch (int e)
+//	  {
+//		  std::cout << "Exeption thrown number " << e << "\n";
 
-	  }
+//	  }
       std::getline(file,line);
     }
     newWeapon->setAddedDamage(*damage);

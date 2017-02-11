@@ -464,7 +464,7 @@ void Reliquary::displayArmor(int tier, int type)
 	{
 		std::cout << "Head\n";
 	}
-	else if (myArray[tier * 12 + type]->getType() == 3);
+	else if (myArray[tier * 12 + type]->getType() == 3)
 	{
 		std::cout << "Hands\n";
 	}
