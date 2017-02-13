@@ -327,6 +327,12 @@
     <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProjectFile.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\FileBrowser.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\TileSheetEditor.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\EffectBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\FastShot.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\ProjectileBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -507,6 +513,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\CreateNewProject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorLoadProject.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProjectFile.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\FileBrowser.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\TileSheetEditor.cpp" />
@@ -557,6 +564,9 @@
     <ClCompile Include="SFEngine\Source\Definitions\Lights\LightingSystem.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\LightObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Logging\Logger.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\ProjectileBase.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\ShotBase.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\SpellBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collision.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\InitialPhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Physics.cpp" />

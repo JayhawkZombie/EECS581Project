@@ -32,7 +32,7 @@ namespace Engine
     virtual void OnShutDown() override;
     virtual void SerializeOut(std::ofstream &out) override;
     virtual void SerializeIn(std::ifstream &in) override;
-    void SetPosition(const sf::Vector2f &pos);
+    virtual void SetPosition(const sf::Vector2f &pos);
 
     virtual PhysicsEngineBaseMeshType* GetMesh() const {
       return ObjectMesh.get();

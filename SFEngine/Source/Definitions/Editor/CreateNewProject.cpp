@@ -96,28 +96,6 @@ namespace Engine
       return;
     }
 
-    ProjectFileTag Tag = ProjectFileTag::Beginning;
-    //serialize the current time stamp
-    SerializeUint64(Tag, out); //write the tag
-    std::uint64_t timestamp = std::chrono::system_clock::now().time_since_epoch().count();
-    SerializeUint64(timestamp, out);
-
-    //write out the file path for extra checking
-    Tag = ProjectFileTag::PathCheck;
-    SerializeUint64(Tag, out);
-    SerializeString(path, out);
-
-    //serialize the engine version
-    Tag = ProjectFileTag::EngineVersion;
-    SerializeUint64(Tag, out);
-    SerializeString(EngineVersionString, out);
-
-    Tag = ProjectFileTag::EOFMarker;
-    SerializeUint64(Tag, out);
-
-    //Serialize the EOF marker, mark the end of the project file
-    SerializeUint32(EOFMarker, out);
-
     out.close();
     Close();
 

@@ -25,7 +25,10 @@ namespace Engine
     TextureDataBegin = (1 << 10),
     TextureDataEnd = (1 << 11),
     CollisionDataBegin = (1 << 12),
-    CollisionDataEnd = (1 << 13)
+    CollisionDataEnd = (1 << 13),
+    TileSheetBeginning = (1 << 14),
+    TileSheetEnd = (1 << 15),
+    TileSheetCount = (1 << 16),
   };
 
   enum SettingsTag
@@ -66,7 +69,8 @@ namespace Engine
     std::string ProjectName;
     std::uint64_t ProjectVersion;
     std::vector<ProjectFileTileStruct> Tiles;
-    
+
+        
   };
 
 }

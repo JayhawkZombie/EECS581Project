@@ -25,6 +25,10 @@ namespace Engine
     IconSheet = std::make_shared<sf::Texture>();
     IconSheet->loadFromFile("./SFEngine/Source/CoreFiles/Textures/Icons/ui_icons_light.png");
 
+    IconsTexture.load("./SFEngine/Source/CoreFiles/Textures/Icons/ui_icons_light.png");
+    ForArrorMediumTexture = IconsTexture;
+    BackArrowMediumTexture = IconsTexture;
+
     EditorFont.loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
     EditorModeText.setFont(EditorFont);
     EditorModeText.setCharacterSize(8);
@@ -67,6 +71,7 @@ namespace Engine
   Editor::~Editor()
   {
     //TestMenu->Close();
+    //GUI->remove(SideTabPanel);
   }
 
   void Editor::TickUpdate(const double &delta)
@@ -129,10 +134,15 @@ namespace Engine
   void Editor::BindEditorMethods(chaiscript::ModulePtr mptr)
   {
     GenericActor::BindScriptMethods(mptr);
+
+    //bind the method that allows a message to pop up on screen
+    
+    mptr->add(chaiscript::fun(&MessageAlert), "ShowAlertMessage");
   }
 
   void Editor::MenuBarItemSelected(std::vector<sf::String> vec)
   {
+    MenuBar->moveToFront();
     if (vec[0].toAnsiString() == "file") {
       //do "file" stuff
       if (vec[1].toAnsiString() == "exit")
@@ -160,6 +170,101 @@ namespace Engine
   {
     ProjectCreator = std::make_shared<NewProjectCreator>();
     ProjectCreator->Open(UIThemePtr);
+  }
+
+  void Editor::SelectLevelTab()
+  {
+    LevelPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    LevelPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    if (AnimationPanel->isVisible())
+      AnimationPanel->hide();
+    else if (GUIPanel->isVisible())
+      GUIPanel->hide();
+    else if (ActorsPanel->isVisible())
+      ActorsPanel->hide();
+    else if (MusicPanel->isVisible())
+      MusicPanel->hide();
+  }
+
+  void Editor::ExpandLevelPanel()
+  {
+  }
+
+  void Editor::SelectAnimationTab()
+  {
+    AnimationPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    AnimationPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    if (LevelPanel->isVisible())
+      LevelPanel->hide();
+    else if (GUIPanel->isVisible())
+      GUIPanel->hide();
+    else if (ActorsPanel->isVisible())
+      ActorsPanel->hide();
+    else if (MusicPanel->isVisible())
+      MusicPanel->hide();
+  }
+
+  void Editor::ExpandAnimationPanel()
+  {
+  }
+
+  void Editor::SelectGUITab()
+  {
+    GUIPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    GUIPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    if (AnimationPanel->isVisible())
+      AnimationPanel->hide();
+    else if (LevelPanel->isVisible())
+      LevelPanel->hide();
+    else if (ActorsPanel->isVisible())
+      ActorsPanel->hide();
+    else if (MusicPanel->isVisible())
+      MusicPanel->hide();
+  }
+
+  void Editor::ExpandGUIPanel()
+  {
+  }
+
+  void Editor::SelectActorsTab()
+  {
+    ActorsPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    ActorsPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    if (AnimationPanel->isVisible())
+      AnimationPanel->hide();
+    else if (GUIPanel->isVisible())
+      GUIPanel->hide();
+    else if (LevelPanel->isVisible())
+      LevelPanel->hide();
+    else if (MusicPanel->isVisible())
+      MusicPanel->hide();
+  }
+
+  void Editor::ExpandActorsPanel()
+  {
+  }
+
+  void Editor::SelectMusicTab()
+  {
+    MusicPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    MusicPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    if (AnimationPanel->isVisible())
+      AnimationPanel->hide();
+    else if (GUIPanel->isVisible())
+      GUIPanel->hide();
+    else if (ActorsPanel->isVisible())
+      ActorsPanel->hide();
+    else if (LevelPanel->isVisible())
+      LevelPanel->hide();
+  }
+
+  void Editor::ExpandMusicPanel()
+  {
+  }
+
+  void Editor::HideSideTabPanel()
+  {
+    
   }
 
 
