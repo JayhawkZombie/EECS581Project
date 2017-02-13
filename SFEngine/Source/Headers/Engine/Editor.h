@@ -22,17 +22,9 @@
 #include "../UI/Menu/MenuScreen.h"
 
 #include "../../../ThirdParty/PhysicsEngine.h"
-#include "../UI/Input/NumericComboBox.h"
-#include "../UI/Toggles/SimpleToggle.h"
-#include "../UI/Input/TextInput.h"
-#include "../UI/Input/Spinner.h"
-
-#include "../UI/UICreationMacros.h"
-
 #include "../UI/ObjectView.h"
 #include "../Editor/EditorProject.h"
-//includes for our custom menus
-#include "../UI/Menu/EditAnimationMenu.h"
+#include "../UI/UIIconSheet.h"
 #include <fstream>
 #include <map>
 
@@ -156,19 +148,71 @@ namespace Engine
     void OpenTilesheetViewer();
     void OpenProjectCreator();
 
+    void SelectLevelTab();
+    void ExpandLevelPanel();
+
+    void SelectAnimationTab();
+    void ExpandAnimationPanel();
+    
+    void SelectGUITab();
+    void ExpandGUIPanel();
+    
+    void SelectActorsTab();
+    void ExpandActorsPanel();
+    
+    void SelectMusicTab();
+    void ExpandMusicPanel();
+    
+    void HideSideTabPanel();
+
     EditorProject Project;
 
     std::map<std::string, std::shared_ptr<TileSheet>> TIleSheets;
 
+    tgui::MenuBar::Ptr MenuBar;
+
     //TGUI elements
     tgui::Font TestTGUIFont;
     tgui::Theme::Ptr UIThemePtr;
+    tgui::Panel::Ptr SideTabPanel;
+    tgui::Button::Ptr LevelTab;
+    tgui::Button::Ptr AnimationTab;
+    tgui::Button::Ptr GUITab;
+    tgui::Button::Ptr ActorsTab;
+    tgui::Button::Ptr MusicTab;
+    tgui::Button::Ptr HideTabPanel;
+
+    //wtf, TGUI
+    tgui::Texture IconsTexture;
+    //one texture for each icon? Whhhyyyyyyyyyyy?
+    tgui::Texture BackArrowMediumTexture;
+    tgui::Texture ForArrorMediumTexture;
+
+    tgui::Panel::Ptr LevelPanel;
+    tgui::SpinButton::Ptr LevelPanelLayerSpinner;
+    tgui::Button::Ptr LevelPanelTilesButton;
+    tgui::Button::Ptr LevelPanelObjectsButton;
+    tgui::Button::Ptr LevelPanelActorsButton;
+    tgui::Button::Ptr LevelPanelMusicButton;
+    tgui::Button::Ptr LevelPanelExpandButton;
+
+    tgui::Panel::Ptr AnimationPanel;
+    tgui::Button::Ptr AnimationPanelExpandButton;
+
+    tgui::Panel::Ptr GUIPanel;
+    tgui::Button::Ptr GUIPanelExpandButton;
+
+    tgui::Panel::Ptr ActorsPanel;
+    tgui::Button::Ptr ActorsPanelExpandButton;
+
+    tgui::Panel::Ptr MusicPanel;
+    tgui::Button::Ptr MusicPanelExpandButton;
 
     std::shared_ptr<TileSheetEditor> EditTilesWindow;
     std::shared_ptr<NewProjectCreator> ProjectCreator;
 
 #ifdef MessageBox
-#undef MessageBox //WTF seriously? WTF is defining MessageBoxW as MessageBox? That is stupid, GTFO
+#undef MessageBox //WTF seriously? WTF is defining MessageBoxW as MessageBox? That is stupid, GTFO -- WINDOWWWWWWWSSSSS, WWWWWHHHHHYYYYYYYYY???!!!!!!!!!
 #endif
 
     tgui::MessageBox::Ptr QuitMessageBox;
@@ -198,122 +242,10 @@ namespace Engine
     //Icon sheet
     std::shared_ptr<sf::Texture> IconSheet;
 
-    //Close button
-    std::shared_ptr<UI::ClickButtonBase> CloseButton;
-
-    //Check options
-    std::shared_ptr<UI::SimpleToggle> EnablePhysicsToggle;
     bool EnabledPhysics = true;
-    std::shared_ptr<UI::NumericComboBox> PhysicsTicksBox;
-    std::shared_ptr<UI::ClickButtonBase> EraseObjectsButton;
-    std::shared_ptr<UI::TextInput> TestInput;
-    std::shared_ptr<UI::IntSpinner> TestSpinner;
-
-    //test list widget
-    std::shared_ptr<UI::ListWidget> TestList;
-    std::shared_ptr<UI::ClickButtonBase> TestListUpButton;
-    std::shared_ptr<UI::ClickButtonBase> TestListDownButton;
-
-    //Tile editing menu
-    std::shared_ptr<UI::MenuWidget> AddTileMenu;
-    std::shared_ptr<UI::MenuScreen> AddTileScreen;
-    std::shared_ptr<UI::TextInput> AddTileTextureInput;
-    std::shared_ptr<UI::TextInput> AddTileFrameLeftInput;
-    std::shared_ptr<UI::TextInput> AddTileFrameTopInput;
-    std::shared_ptr<UI::TextInput> AddTileFrameWidthInput;
-    std::shared_ptr<UI::TextInput> AddTileFrameHeightInput;
-    std::shared_ptr<UI::ClickButtonBase> AddTileSaveButton;
-    std::shared_ptr<UI::ClickButtonBase> AddTileCancelButton;
-    std::shared_ptr<UI::SimpleToggle> AddTileIsAnimatedToggle;
-    std::shared_ptr<UI::ClickButtonBase> AddTileButton;
-
-    //AddClass Menu
-    std::shared_ptr<UI::MenuWidget> AddClassMenu;
-    std::shared_ptr<UI::MenuScreen> AddClassSelectScreen;
-    std::shared_ptr<UI::ClickButtonBase> AddClassAddActorButton;
-    std::shared_ptr<UI::ClickButtonBase> AddClassAddObjectButton;
-    std::shared_ptr<UI::ClickButtonBase> AddClassAddLightButton;
-    std::shared_ptr<UI::ClickButtonBase> AddClassAddEffectButton;
-    std::shared_ptr<UI::ClickButtonBase> AddClassAddCancelButton;
-
-    std::shared_ptr<UI::ClickButtonBase> AddClassButton;
-
-    std::shared_ptr<UI::MenuScreen> AddActorClassScreen;
-    std::shared_ptr<UI::ClickButtonBase> AddActorClassCancelButton;
-
-    std::shared_ptr<UI::MenuScreen> AddObjectClassScreen;
-    std::shared_ptr<UI::ClickButtonBase> AddObjectClassCancelButton;
-
-    std::shared_ptr<UI::MenuScreen> AddLightClassScreen;
-    std::shared_ptr<UI::ClickButtonBase> AddLightClassCancelButton;
-
-    std::shared_ptr<UI::MenuScreen> AddEffectClassScreen;
-    std::shared_ptr<UI::ClickButtonBase> AddEffectClassCancelButton;
-
-    //TestMenu
-    UIMenu TestMenus;
-    UIMenuScreen TestSelectScreen;
-    UIButton OpenTestMenusButton; //for opening the menu from the main screen
-    UIButton TestSelectEditAnimationButton;
-    UIButton TestSelectCancelButton;
-
-
-    UI::EditAnimationMenu AnimMenu;
-
-    std::shared_ptr<UI::ObjectView> TestObjectView;
-    std::shared_ptr<Animation> TestActorAnimation;
-    std::shared_ptr<sf::Texture> TestAnimationTexture;
-
-
-
-    sf::Color ButtonColorNormal = sf::Color(58, 0, 29);
-    sf::Color ButtonColorHighlighted = sf::Color(86, 0, 43);
-    sf::Color ButtonColorPressed = sf::Color(33, 0, 16);
-    sf::Color ButtonOutlineNormal = sf::Color(0, 59, 127);
-    sf::Color ButtonOutlineHighlighted = sf::Color(0, 40, 86);
-    sf::Color ButtonOutlinePressed = sf::Color(0, 84, 181);
-
-    std::shared_ptr<UI::ClickButtonBase> AllObjectButton;
-    std::shared_ptr<UI::MenuWidget> ObjectSelectMenu;
-    //Object types screen
-    std::shared_ptr<UI::MenuScreen> ObjectSelectTypeScreen;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_PhysicsObjectButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_LightObjectButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_EffectObjectButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelectType_CancelButton;
-
-    std::shared_ptr<UI::MenuScreen> ObjectSelectPhysicsObjectScreen;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_BackToSelectTypeButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_BallButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_SquareButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_RectButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_TriangleButton;
-    std::shared_ptr<UI::ClickButtonBase> ObjectSelect_5PolyButton;
-
-    std::shared_ptr<UI::MenuScreen> ObjectSelectLightObjectScreen;
-    std::shared_ptr<UI::ClickButtonBase> LightSelect_CancelButton;
-
-    std::shared_ptr<UI::MenuScreen> ObjectSelectEffectObjectScreen;
-    std::shared_ptr<UI::ClickButtonBase> EffectSelect_CancelButton;
 
     std::shared_ptr<sf::Font> TextFont;
-    std::shared_ptr<sf::Texture> ButtonOverlayTexture;
-
-    //Data for the tile menu on the left
-    std::shared_ptr<UI::ListWidget> TileList;
-    std::shared_ptr<UI::ClickButtonBase> TileListOpenCloseButton;
-
-    std::shared_ptr<UI::ListWidget> EditOptionsList;
-    std::shared_ptr<UI::ClickButtonBase> EditOptionsOpenCloseButton;
     std::shared_ptr<sf::Font> MenuFont;
-
-    //Test screen buttons
-    std::shared_ptr<UI::ClickButtonBase> TestScreenButton1;
-    std::shared_ptr<UI::ClickButtonBase> TestScreenButton2;
-    std::shared_ptr<UI::ClickButtonBase> TestScreenButton3;
-    std::shared_ptr<UI::ClickButtonBase> TestScreenButton4;
-    std::shared_ptr<UI::ClickButtonBase> TestScreenButton5;
-    std::shared_ptr<UI::ClickButtonBase> TestScreenButton6;
 
     std::shared_ptr<sf::Texture> MenuTexture;
 
@@ -365,8 +297,6 @@ namespace Engine
     //some functions that never change (load/save/etc)
     void SaveToFile(const std::string &file);
     void LoadFromFile(const std::string &file);
-
-
   };
 
 

@@ -1,23 +1,21 @@
-#include "../../Headers/Editor/EditorProjectFile.h"
+#include "../../Headers/Editor/EditorProject.h"
 
 namespace Engine
 {
 
-
-
-  void ProjectFile::Read(const std::string & path)
+  void EditorProject::Read(const std::string & in)
   {
   }
 
-  void ProjectFile::Write(const std::string & path)
+  void EditorProject::Write(const std::string & outfile)
   {
-    std::ofstream out(path);
+    std::ofstream out(outfile);
 
     if (!out) {
       out.clear();
       out.close();
 
-      MessageAlert("Failed to open file: " + path + "\nfor saving project file");
+      MessageAlert("Failed to open file: " + outfile + "\nfor saving project file");
     }
 
     //write the file beg tag
@@ -49,12 +47,23 @@ namespace Engine
 
 
     //start writing out the tile sheets
-    Tag = ProjectFileTag::TileSheetBeginning;
-    SerializeUint64(Tag, out);
 
+    for (auto & sheet : TileSheets) {
+      Tag = ProjectFileTag::TileSheetBeginning;
+      SerializeUint64(Tag, out);
+
+      WriteTileSheet(sheet);
+
+      Tag = ProjectFileTag::TileSheetEnd;
+      SerializeUint64(Tag, out);
+    }
     //done
     out.close();
+  }
 
+  void EditorProject::WriteTileSheet(std::shared_ptr<TileSheet> sheet)
+  {
+    //write out
   }
 
 }
