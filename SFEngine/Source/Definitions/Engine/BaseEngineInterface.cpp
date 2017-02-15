@@ -15,6 +15,17 @@ namespace Engine
     Handler.ftnCallback_TextEntered = [this](auto t) {};
     Handler.ftnCallback_WindowClosed = [this]() {};
     Handler.ftnCallback_WindowResized = [this]() {};
+
+    try
+    {
+      std::uint32_t id = GenerateID();
+      InternalID = id;
+    }
+    catch (IDException &err)
+    {
+      err.AddCause(ExceptionCause::IDGenerationError);
+      err.AddMessage(EXCEPTION_MESSAGE("Failed to generate ID for item"));
+    }
   }
 
   void BaseEngineInterface::SerializeOut(std::ofstream &out)

@@ -3,6 +3,7 @@
 
 #include "../BasicIncludes.h"
 #include "../Events/EventHandler.h"
+#include "../Exceptions/Exceptions.h"
 
 #include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
@@ -46,6 +47,13 @@ namespace Engine
     EventHandler Handler;
     virtual std::string GetID() const;
     virtual void SetID(const std::string &ID);
+
+    virtual std::uint32_t GetInternalID() const {
+      return InternalID;
+    }
+    virtual void SetInternalD(const std::uint32_t &ID) {
+      InternalID = ID;
+    }
   protected:
 
   private:
@@ -55,6 +63,7 @@ namespace Engine
     static void NO_ACTION(BaseEngineInterface *item);
 
     std::string ItemID;
+    std::uint32_t InternalID;
   };
 }
 

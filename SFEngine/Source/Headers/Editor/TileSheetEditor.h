@@ -8,7 +8,6 @@
 namespace Engine
 {
 
-
   class TileSheetEditor
   {
 
@@ -16,7 +15,10 @@ namespace Engine
     TileSheetEditor(std::shared_ptr<tgui::Gui> Gui, tgui::Theme::Ptr ThemePtr);
     ~TileSheetEditor() = default;
 
+    void Create();
+
     void Open();
+    void Open(std::shared_ptr<TileSheet> Sheet);
     void Close();
 
     void LoadTileSheets(std::map<std::string, std::shared_ptr<TileSheet>> Sheets);
@@ -42,52 +44,34 @@ namespace Engine
     void FileSelected(const std::string &file);
     void BrowseForNewSheetTexture();
 
-    std::shared_ptr<FileBrowser> Browser;
+    tgui::Button::Ptr CloseButton;
 
-#ifdef MessageBox //Seriiously, Windows? Is it really necessary to #define away MessageBox? USE A FUCKING NAMESPACE AND TYPEDEF!
-#undef MessageBox
-#endif
-    tgui::ChildWindow::Ptr TileSheetNamePopup;
-    tgui::EditBox::Ptr TileSheetNameEdit;
-    tgui::Button::Ptr TileSheetOKButton;
-    void TileSheetOKClicked();
-    void CreateNewTileSheet(const std::string &ID, const std::string &texturepath);
-
-    tgui::Button::Ptr NewTileSheetButton;
-    //Child window to use
-    tgui::ChildWindow::Ptr EditorWindow;
     tgui::Theme::Ptr Theme;
-    //Data, followed by the UI element holding that data
-    std::string SelectedTileSheet;
-    tgui::ComboBox::Ptr TileSheetCombo;
-    
-    sf::RectangleShape TileSheetRect;
-    sf::RectangleShape SelectedTileRect;
+    tgui::Panel::Ptr EditorPanel;
+    tgui::Label::Ptr PanelLabel;
 
-    std::shared_ptr<tgui::Gui> GUI;
+    tgui::ComboBox::Ptr TileSheetDropDown;
+    tgui::Button::Ptr AddSheetButton;
+    tgui::Button::Ptr RemoveSheetButton;
 
-    void SwitchTabs(tgui::Gui& gui, std::string selectedTab);
-    //tabs
-    tgui::Tab::Ptr TilesTab; tgui::Panel::Ptr TilesPanel;
-    tgui::Tab::Ptr PhysicsTab; tgui::Panel::Ptr PhysicsPanel;
-    tgui::Tab::Ptr LayersTab; tgui::Panel::Ptr LayersPanel;
-    tgui::Tab::Ptr EtcTab; tgui::Panel::Ptr EtcPanel;
+    tgui::Label::Ptr NameInputLabel;
+    tgui::EditBox::Ptr NameInput;
 
-    //Tiles tab
-    tgui::Canvas::Ptr TilesCanvas;
-    tgui::Canvas::Ptr SelectedtileCanvas;
-    tgui::ListBox::Ptr TilesList;
-    tgui::Button::Ptr AddTileButton;
-    tgui::Button::Ptr EditTileButton;
-    tgui::Button::Ptr DeleteTimeButton;
-    tgui::EditBox::Ptr FrameLeftEdit;
-    tgui::EditBox::Ptr FrameTopEdit;
-    tgui::EditBox::Ptr FrameWidthEdit;
-    tgui::EditBox::Ptr FrameHeightEdit;
-    tgui::EditBox::Ptr FrameNameEdit;
-    tgui::Button::Ptr SaveTileButton;
+    tgui::Canvas::Ptr SheetPreview;
 
-    std::map<std::string, std::shared_ptr<TileSheet>> TileSheets;
+    tgui::ComboBox::Ptr TilesDropDown;
+    tgui::Label::Ptr TileNameEditLabel;
+    tgui::EditBox TileNameEdit;
+    tgui::SpinButton::Ptr TilePosXSpinner;
+    tgui::SpinButton::Ptr TilePosYSpinner;
+    tgui::SpinButton::Ptr TileSizeXSpinner;
+    tgui::SpinButton::Ptr TileSizeYSpinner;
+
+    tgui::Canvas::Ptr TilePreview;
+    tgui::CheckBox::Ptr IsAnimated;
+    tgui::CheckBox::Ptr HasCollision;
+
+    tgui::ComboBox::Ptr TileScriptsDropDown;
   };
 
 } 

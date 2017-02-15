@@ -10,9 +10,9 @@ namespace Engine
   bool FlagForClose = false;
 
   Editor::Editor()
+    : EditorScriptEngine{ std::make_shared<chaiscript::ChaiScript>(chaiscript::Std_Lib::library()) }
   {
     std::cerr << "Creating editor script engine" << std::endl;
-    EditorScriptEngine = new chaiscript::ChaiScript(chaiscript::Std_Lib::library());
     SetKeyRepeatEnabled(false);
     std::cerr << "Adding editor methods" << std::endl;
     chaiscript::ModulePtr tptr(new chaiscript::Module);
@@ -65,7 +65,7 @@ namespace Engine
     GenericActor::BuildAnimations("./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.txt", "./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.png", &TestActor);
 
     EditorScriptEngine->add_global(chaiscript::var(&TestActor), "MainPlayer");
-
+    LoadProject("C:\\Projects\\TestProject\\testproject.json");
   }
 
   Editor::~Editor()
@@ -175,8 +175,10 @@ namespace Engine
   void Editor::SelectLevelTab()
   {
     LevelPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
-    LevelPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
-    if (AnimationPanel->isVisible())
+    LevelPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(100));
+    if (TilesPanel->isVisible())
+      TilesPanel->hide();
+    else if (AnimationPanel->isVisible())
       AnimationPanel->hide();
     else if (GUIPanel->isVisible())
       GUIPanel->hide();
@@ -188,14 +190,60 @@ namespace Engine
 
   void Editor::ExpandLevelPanel()
   {
+    LevelPanel->setPosition({ 300.f, MenuBar->getSize().y });
+    LevelPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    LevelPanelExpandButton->disconnectAll();
+    LevelPanelExpandButton->connect("clicked", [this]() {this->ShrinkLevelPanel(); });
+  }
+
+  void Editor::ShrinkLevelPanel()
+  {
+    LevelPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    LevelPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    LevelPanelExpandButton->disconnectAll();
+    LevelPanelExpandButton->connect("clicked", [this]() {this->ExpandLevelPanel(); });
+  }
+
+  void Editor::SelectTilesTab()
+  {
+    TilesPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    TilesPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    if (LevelPanel->isVisible())
+      LevelPanel->hide();
+    else if (AnimationPanel->isVisible())
+      AnimationPanel->hide();
+    else if (GUIPanel->isVisible())
+      GUIPanel->hide();
+    else if (ActorsPanel->isVisible())
+      ActorsPanel->hide();
+    else if (MusicPanel->isVisible())
+      MusicPanel->hide();
+  }
+
+  void Editor::ExpandTilesPanel()
+  {
+    TilesPanel->setPosition({ 300.f, MenuBar->getSize().y });
+    TilesPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    TilesPanelExpandButton->disconnectAll();
+    TilesPanelExpandButton->connect("clicked", [this]() {this->ShrinkTilesPanel(); });
+  }
+
+  void Editor::ShrinkTilesPanel()
+  {
+    TilesPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    TilesPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    TilesPanelExpandButton->disconnectAll();
+    TilesPanelExpandButton->connect("clicked", [this]() {this->ExpandTilesPanel(); });
   }
 
   void Editor::SelectAnimationTab()
   {
     AnimationPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
-    AnimationPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    AnimationPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
     if (LevelPanel->isVisible())
       LevelPanel->hide();
+    else if (TilesPanel->isVisible())
+      TilesPanel->hide();
     else if (GUIPanel->isVisible())
       GUIPanel->hide();
     else if (ActorsPanel->isVisible())
@@ -206,14 +254,28 @@ namespace Engine
 
   void Editor::ExpandAnimationPanel()
   {
+    AnimationPanel->setPosition({ 300.f, MenuBar->getSize().y });
+    AnimationPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    AnimationPanelExpandButton->disconnectAll();
+    AnimationPanelExpandButton->connect("clicked", [this]() {this->ShrinkAnimationPanel(); });
+  }
+
+  void Editor::ShrinkAnimationPanel()
+  {
+    AnimationPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    AnimationPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    AnimationPanelExpandButton->disconnectAll();
+    AnimationPanelExpandButton->connect("clicked", [this]() {this->ExpandAnimationPanel(); });
   }
 
   void Editor::SelectGUITab()
   {
     GUIPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
-    GUIPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    GUIPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
     if (AnimationPanel->isVisible())
       AnimationPanel->hide();
+    else if (TilesPanel->isVisible())
+      TilesPanel->hide();
     else if (LevelPanel->isVisible())
       LevelPanel->hide();
     else if (ActorsPanel->isVisible())
@@ -224,14 +286,28 @@ namespace Engine
 
   void Editor::ExpandGUIPanel()
   {
+    GUIPanel->setPosition({ 300.f, MenuBar->getSize().y });
+    GUIPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    GUIPanelExpandButton->disconnectAll();
+    GUIPanelExpandButton->connect("clicked", [this]() {this->ShrinkGUIPanel(); });
+  }
+
+  void Editor::ShrinkGUIPanel()
+  {
+    GUIPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    GUIPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    GUIPanelExpandButton->disconnectAll();
+    GUIPanelExpandButton->connect("clicked", [this]() {this->ExpandGUIPanel(); });
   }
 
   void Editor::SelectActorsTab()
   {
     ActorsPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
-    ActorsPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    ActorsPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
     if (AnimationPanel->isVisible())
       AnimationPanel->hide();
+    else if (TilesPanel->isVisible())
+      TilesPanel->hide();
     else if (GUIPanel->isVisible())
       GUIPanel->hide();
     else if (LevelPanel->isVisible())
@@ -242,14 +318,28 @@ namespace Engine
 
   void Editor::ExpandActorsPanel()
   {
+    ActorsPanel->setPosition({ 300.f, MenuBar->getSize().y });
+    ActorsPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    ActorsPanelExpandButton->disconnectAll();
+    ActorsPanelExpandButton->connect("clicked", [this]() {this->ShrinkActorsPanel(); });
+  }
+
+  void Editor::ShrinkActorsPanel()
+  {
+    ActorsPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    ActorsPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    ActorsPanelExpandButton->disconnectAll();
+    ActorsPanelExpandButton->connect("clicked", [this]() {this->ExpandActorsPanel(); });
   }
 
   void Editor::SelectMusicTab()
   {
     MusicPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
-    MusicPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(200));
+    MusicPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
     if (AnimationPanel->isVisible())
       AnimationPanel->hide();
+    else if (TilesPanel->isVisible())
+      TilesPanel->hide();
     else if (GUIPanel->isVisible())
       GUIPanel->hide();
     else if (ActorsPanel->isVisible())
@@ -260,6 +350,18 @@ namespace Engine
 
   void Editor::ExpandMusicPanel()
   {
+    MusicPanel->setPosition({ 300.f, MenuBar->getSize().y });
+    MusicPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    MusicPanelExpandButton->disconnectAll();
+    MusicPanelExpandButton->connect("clicked", [this]() {this->ShrinkMusicPanel(); });
+  }
+
+  void Editor::ShrinkMusicPanel()
+  {
+    MusicPanel->setPosition({ WindowSize.x - 300.f, MenuBar->getSize().y });
+    MusicPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
+    MusicPanelExpandButton->disconnectAll();
+    MusicPanelExpandButton->connect("clicked", [this]() {this->ExpandMusicPanel(); });
   }
 
   void Editor::HideSideTabPanel()

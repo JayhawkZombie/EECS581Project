@@ -90,7 +90,7 @@ MessageBox {
 }
 
 Panel {
-    BackgroundColor : rgba(180, 180, 180, 215);
+    BackgroundColor : rgba(51, 51, 51, 215);
 }
 
 ProgressBar {

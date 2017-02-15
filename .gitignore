@@ -1,10 +1,9 @@
 #exclude "Debug" folder
 #keep the vcxproj file, don't get rid of it
-Debug/**
+/Debug/**
 *.sln
 .vs/
 #ignore all assets
-SFEngine/Samples/*/*.ttf
 *.db
 *.opendb
 *.dll

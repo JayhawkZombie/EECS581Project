@@ -1,76 +1,100 @@
-#include "../../Headers/Factory/Factory.h"
+#include "..\..\Headers\Factory\Factory.h"
+#include "../../../ThirdParty/json/json.h"
+#include "../../Headers/Actor/Actor.h"
+#include "../../Headers/Actor/Player.h"
+#include "../../Headers/Animation/Animation.h"
+#include "../../Headers/Level/Level.h"
+#include "../../Headers/Tiles/LevelTile.h"
+#include "../../Headers/Tiles/TileSheet.h"
 
 
 namespace Engine
 {
-  namespace Factory
+
+  std::shared_ptr<Engine::GenericActor> Factory::GenericActor(const Json::Value & jsonobj)
   {
-
-    std::shared_ptr<Engine::GenericActor> GenericActor(ActorInfo *info, std::ifstream &infile, chaiscript::ChaiScript *engine)
+    try
     {
-      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor);
-
-      
-      return Actor;
-    }
-
-    std::shared_ptr<Engine::GenericActor> GenericActor(const Engine::GenericActor &actor)
-    {
-      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor);
+      std::shared_ptr<Engine::GenericActor> Actor = std::make_shared<Engine::GenericActor>();
 
       return Actor;
     }
-
-    std::shared_ptr<Engine::GenericActor> Actor(ActorInfo *info, std::ifstream &infile, chaiscript::ChaiScript *engine)
+    catch (Json::Exception &e)
     {
-      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor(info->TexturePath, info->TextureID));
 
-      chaiscript::ModulePtr mptr(new chaiscript::Module);
-      chaiscript::utility::add_class<Engine::GenericActor>(*mptr, info->ID,
-      { chaiscript::constructor<Engine::GenericActor()>() },
-      { {chaiscript::fun(&GenericActor::GetActorPosition), "GetPosition"},
-      {chaiscript::fun(&GenericActor::GetID), "GetID"},
-      {chaiscript::fun(&GenericActor::SetID), "SetID"}
-      });
-      
-      engine->add(chaiscript::var(std::ref(*Actor)), info->ID);
-
-      return Actor;
-    }
-
-    std::shared_ptr<Engine::GenericActor> Actor(std::string ID)
-    {
-      std::shared_ptr<Engine::GenericActor> Actor(new Engine::GenericActor);
-      Actor->SetID(ID);
-      return Actor;
-    }
-
-    std::shared_ptr<Engine::Animation> Animation(AnimationInfo *info, chaiscript::ChaiScript *engine)
-    {
-      std::shared_ptr<Engine::Animation> Anim(new Engine::Animation);
-
-      return Anim;
-    }
-
-    std::shared_ptr<Engine::Animation> Animation(std::string ID)
-    {
-      std::shared_ptr<Engine::Animation> Anim(new Engine::Animation);
-
-      return Anim;
-    }
-
-    std::shared_ptr<Engine::LevelTile> Tile(const Engine::LevelTile &tile)
-    {
-      std::shared_ptr<Engine::LevelTile> Tile(new Engine::LevelTile(tile));
-
-      return Tile;
-    }
-
-    std::shared_ptr<Engine::LevelTile> Tile(std::string ID)
-    {
-      std::shared_ptr<Engine::LevelTile> Tile(new Engine::LevelTile);
-      Tile->SetID(ID);
-      return Tile;
     }
   }
+
+  std::shared_ptr<Engine::Player> Factory::Player(const Json::Value & jsonobj)
+  {
+    try
+    {
+      std::shared_ptr<Engine::Player> Player = std::make_shared<Engine::Player>();
+
+      return Player;
+    }
+    catch (Json::Exception &e)
+    {
+
+    }
+  }
+
+  std::shared_ptr<Engine::Level> Factory::Level(const Json::Value & jsonobj)
+  {
+    try
+    {
+      std::shared_ptr<Engine::Level> Level = std::make_shared<Engine::Level>();
+
+      return Level;
+    }
+    catch (Json::Exception &e)
+    {
+
+    }
+  }
+
+  std::shared_ptr<Engine::TileSheet> Factory::TileSheet(const Json::Value & jsonobj)
+  {
+    try
+    {
+      std::shared_ptr<Engine::TileSheet> TileSheet = std::make_shared<Engine::TileSheet>();
+
+
+
+      return TileSheet;
+    }
+    catch (Json::Exception &e)
+    {
+
+    }
+  }
+
+  std::shared_ptr<Engine::LevelTile> Factory::Tile(const Json::Value & jsonobj)
+  {
+    try
+    {
+      std::shared_ptr<Engine::LevelTile> LevelTile = std::make_shared<Engine::LevelTile>();
+
+      return LevelTile;
+    }
+    catch (Json::Exception &e)
+    {
+
+    }
+  }
+
+  std::shared_ptr<Engine::Animation> Factory::Animation(const Json::Value & jsonobj)
+  {
+    try
+    {
+      std::shared_ptr<Engine::Animation> Animation = std::make_shared<Engine::Animation>();
+
+      return Animation;
+    }
+    catch (Json::Exception &e)
+    {
+
+    }
+  }
+
 }

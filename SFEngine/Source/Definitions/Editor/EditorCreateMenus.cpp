@@ -5,16 +5,6 @@ namespace Engine
 
   void Editor::CreateMenus()
   {
-    try
-    {
-      UIHelper = UI::WidgetHelper::Create();
-      UILayer = UI::UILayer::Create(UIHelper);
-      UIHelper->AddUILayer(UILayer);      
-    }
-    catch (std::exception &err)
-    {
-      std::cerr << "Fuck: " << err.what() << std::endl;
-    }
   }
 
   void Editor::CreateGUIMenus()
@@ -46,7 +36,7 @@ namespace Engine
     bttn->setPosition({ 15, 50 });
     QuitMessageBox->add(bttn, "ShutDownOK");
 
-    float hToFill = (WindowSize.y - MenuBar->getSize().y) / 6.f;
+    float hToFill = (WindowSize.y - MenuBar->getSize().y) / 7.f;
     float buttonPos = 0.f;
     unsigned int textSize = 18;
 
@@ -62,9 +52,17 @@ namespace Engine
     LevelTab->setPosition({ 0, buttonPos }); buttonPos += hToFill;
     SideTabPanel->add(LevelTab);
 
+    TilesTab = UIThemePtr->load("Button");
+    TilesTab->setText("Tiles");
+    TilesTab->connect("clicked", [this]() { this->SelectTilesTab(); });
+    TilesTab->setSize({ 200.f, hToFill });
+    TilesTab->setTextSize(textSize);
+    TilesTab->setPosition({ 0, buttonPos }); buttonPos += hToFill;
+    SideTabPanel->add(TilesTab);
+
     AnimationTab = UIThemePtr->load("Button");
     AnimationTab->setText("Animation");
-    AnimationTab->connect("clicked", [this]() { this->SelectLevelTab(); });
+    AnimationTab->connect("clicked", [this]() { this->SelectAnimationTab(); });
     AnimationTab->setSize({ 200.f, hToFill });
     AnimationTab->setTextSize(textSize);
     AnimationTab->setPosition({ 0, buttonPos }); buttonPos += hToFill;
@@ -72,7 +70,7 @@ namespace Engine
 
     GUITab = UIThemePtr->load("Button");
     GUITab->setText("GUI");
-    GUITab->connect("clicked", [this]() { this->SelectLevelTab(); });
+    GUITab->connect("clicked", [this]() { this->SelectGUITab(); });
     GUITab->setSize({ 200.f, hToFill });
     GUITab->setTextSize(textSize);
     GUITab->setPosition({ 0, buttonPos }); buttonPos += hToFill;
@@ -80,7 +78,7 @@ namespace Engine
 
     ActorsTab = UIThemePtr->load("Button");
     ActorsTab->setText("Actors");
-    ActorsTab->connect("clicked", [this]() { this->SelectLevelTab(); });
+    ActorsTab->connect("clicked", [this]() { this->SelectActorsTab(); });
     ActorsTab->setSize({ 200.f, hToFill });
     ActorsTab->setTextSize(textSize);
     ActorsTab->setPosition({ 0, buttonPos }); buttonPos += hToFill;
@@ -88,7 +86,7 @@ namespace Engine
 
     MusicTab = UIThemePtr->load("Button");
     MusicTab->setText("Music");
-    MusicTab->connect("clicked", [this]() { this->SelectLevelTab(); });
+    MusicTab->connect("clicked", [this]() { this->SelectMusicTab(); });
     MusicTab->setSize({ 200.f, hToFill });
     MusicTab->setTextSize(textSize);
     MusicTab->setPosition({ 0, buttonPos }); buttonPos += hToFill;
@@ -117,17 +115,48 @@ namespace Engine
     LevelPanel->setSize({ panelSizeX, panelSizeY });
     LevelPanel->hide();
     LevelPanelExpandButton = UIThemePtr->load("Button");
+    LevelPanelLabel = UIThemePtr->load("Label");
+    LevelPanelLabel->setText("Level Panel");
+    LevelPanelLabel->setTextSize(18);
+    auto size = LevelPanelLabel->getSize();
+    float xDiff = 300.f - size.x;
+    LevelPanelLabel->setPosition({ xDiff / 2.f, 10.f });
+    LevelPanel->add(LevelPanelLabel);
     LevelPanelExpandButton->connect("clicked", [this]() -> void { this->ExpandLevelPanel(); });
-    //LevelPanelExpandButton->getRenderer()->setNormalTexture(BackArrowMediumTexture);
     LevelPanelExpandButton->setPosition({ 0, 0 });
     LevelPanelExpandButton->setSize({ 20, 20 });
     LevelPanel->add(LevelPanelExpandButton);
     GUI->add(LevelPanel);
 
+    TilesPanel = UIThemePtr->load("Panel");
+    TilesPanel->setPosition({ panelPosX, panelPosY });
+    TilesPanel->setSize({ panelSizeX, panelSizeY });
+    TilesPanel->hide();
+    TilesPanelExpandButton = UIThemePtr->load("Button");
+    TilesPanelLabel = UIThemePtr->load("Label");
+    TilesPanelLabel->setText("Tiles Panel");
+    TilesPanelLabel->setTextSize(18);
+    size = TilesPanelLabel->getSize();
+    xDiff = 300.f - size.x;
+    TilesPanelLabel->setPosition({ xDiff / 2.f, 10.f });
+    TilesPanel->add(TilesPanelLabel);
+    TilesPanelExpandButton->connect("clicked", [this]() -> void { this->ExpandTilesPanel(); });
+    TilesPanelExpandButton->setPosition({ 0, 0 });
+    TilesPanelExpandButton->setSize({ 20, 20 });
+    TilesPanel->add(TilesPanelExpandButton);
+    GUI->add(TilesPanel);
+
     AnimationPanel = UIThemePtr->load("Panel");
     AnimationPanel->setPosition({ 0, 0 });
     AnimationPanel->setSize({ panelSizeX, panelSizeY });
     AnimationPanel->hide();
+    AnimationPanelLabel = UIThemePtr->load("Label");
+    AnimationPanelLabel->setText("Animation Panel");
+    AnimationPanelLabel->setTextSize(18);
+    size = AnimationPanelLabel->getSize();
+    xDiff = 300.f - size.x;
+    AnimationPanelLabel->setPosition({ xDiff / 2.f, 10.f });
+    AnimationPanel->add(AnimationPanelLabel);
     AnimationPanelExpandButton = UIThemePtr->load("Button");
     AnimationPanelExpandButton->connect("clicked", [this]() -> void { this->ExpandAnimationPanel(); });
     //AnimationPanelExpandButton->getRenderer()->setNormalTexture(BackArrowMediumTexture);
@@ -140,6 +169,13 @@ namespace Engine
     GUIPanel->setPosition({ 0, 0 });
     GUIPanel->setSize({ panelSizeX, panelSizeY });
     GUIPanel->hide();
+    GUIPanelLabel = UIThemePtr->load("Label");
+    GUIPanelLabel->setText("GUI Panel");
+    GUIPanelLabel->setTextSize(18);
+    size = GUIPanelLabel->getSize();
+    xDiff = 300.f - size.x;
+    GUIPanelLabel->setPosition({ xDiff / 2.f, 10.f });
+    GUIPanel->add(GUIPanelLabel);
     GUIPanelExpandButton = UIThemePtr->load("Button");
     GUIPanelExpandButton->connect("clicked", [this]() -> void { this->ExpandGUIPanel(); });
     //GUIPanelExpandButton->getRenderer()->setNormalTexture(BackArrowMediumTexture);
@@ -152,6 +188,13 @@ namespace Engine
     ActorsPanel->setPosition({ 0, 0 });
     ActorsPanel->setSize({ panelSizeX, panelSizeY });
     ActorsPanel->hide();
+    ActorsPanelLabel = UIThemePtr->load("Label");
+    ActorsPanelLabel->setText("Actors Panel");
+    ActorsPanelLabel->setTextSize(18);
+    size = ActorsPanelLabel->getSize();
+    xDiff = 300.f - size.x;
+    ActorsPanelLabel->setPosition({ xDiff / 2.f, 10.f });
+    ActorsPanel->add(ActorsPanelLabel);
     ActorsPanelExpandButton = UIThemePtr->load("Button");
     ActorsPanelExpandButton->connect("clicked", [this]() -> void { this->ExpandActorsPanel(); });
     //ActorsPanelExpandButton->getRenderer()->setNormalTexture(BackArrowMediumTexture);
@@ -164,6 +207,13 @@ namespace Engine
     MusicPanel->setPosition({ 0, 0 });
     MusicPanel->setSize({ panelSizeX, panelSizeY });
     MusicPanel->hide();
+    MusicPanelLabel = UIThemePtr->load("Label");
+    MusicPanelLabel->setText("Music Panel");
+    MusicPanelLabel->setTextSize(18);
+    size = MusicPanelLabel->getSize();
+    xDiff = 300.f - size.x;
+    MusicPanelLabel->setPosition({ xDiff / 2.f, 10.f });
+    MusicPanel->add(MusicPanelLabel);
     MusicPanelExpandButton = UIThemePtr->load("Button");
     MusicPanelExpandButton->connect("clicked", [this]() -> void { this->ExpandMusicPanel(); });
     //MusicPanelExpandButton->getRenderer()->setNormalTexture(BackArrowMediumTexture);

@@ -333,6 +333,8 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Tiles\TileSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -371,7 +373,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelEventSequences.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelLoader.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelObject.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Level\LevelTile.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Tiles\LevelTile.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\NewLevel.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\OtherLightSystem.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GenericLightSource.h" />
@@ -458,6 +460,8 @@
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json_wrap.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\utility.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\json\json-forwards.h" />
+    <ClInclude Include="SFEngine\ThirdParty\json\json.h" />
     <ClInclude Include="SFEngine\ThirdParty\PhysicsEngine.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\arcSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\ball.h" />
@@ -556,7 +560,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeIn.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeOut.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelTile.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Tiles\LevelTile.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelTileSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelUpdate.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GenericLightSource.cpp" />
@@ -576,6 +580,8 @@
     <ClCompile Include="SFEngine\Source\Definitions\Render\Render.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManager.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileGrid.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\Alert.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\PopupObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\Buttons\ButtonBase.cpp" />
@@ -621,6 +627,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Various.cpp" />
     <ClCompile Include="SFEngine\Source\main.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\jsoncpp.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\arcSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\ball.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\ball_go.cpp" />
@@ -680,6 +687,7 @@
     <None Include="SFEngine\Samples\Logos\SFEngineLogo_Flame.xcf" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForest.ini" />
     <None Include="SFEngine\Samples\Maps\NewLevelFormat.ini" />
+    <None Include="SFEngine\Samples\Projects\TestProject\testproject.json" />
     <None Include="SFEngine\Samples\Scripts\EngineEventTests.chai" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForestSmall.ini" />
     <None Include="SFEngine\Samples\Maps\testforest.ini" />

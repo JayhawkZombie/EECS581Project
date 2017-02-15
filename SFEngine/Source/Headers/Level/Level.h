@@ -1,22 +1,11 @@
 #ifndef SFENGINE_OPT_LEVEL_G
 #define SFENGINE_OPT_LEVEL_G
 
-
-#include "../Engine/BaseEngineInterface.h"
-#include "LevelObject.h"
-#include "LevelEventSequences.h"
-#include "../Events/EventSequence.h"
 #include "../Actor/Player.h"
 #include "../Actor/Actor.h"
-#include "../Lights/GlobalLightSource.h"
 #include "../Physics/Physics.h"
-#include "LevelLoader.h"
 #include "../Lights/LightingSystem.h"
-#include "../Lights/LightObject.h"
-
-#include "../../../ThirdParty/rapidxml-1.13/rapidxml.hpp"
-#include "../../../ThirdParty/rapidxml-1.13/rapidxml_iterators.hpp"
-#include "../../../ThirdParty/rapidxml-1.13/rapidxml_utils.hpp"
+#include "../Tiles/TileSheet.h"
 
 class GameMain;
 
@@ -26,26 +15,6 @@ namespace Engine
 #ifdef WITH_EDITOR
   class Editor;
 #endif
-
-  const std::uint32_t MaxTilesPerSheet = 1000;
-
-  struct TileSheet
-  {
-    static std::shared_ptr<TileSheet> Decode(std::ifstream &in);
-    std::shared_ptr<sf::Texture> Sheet;
-    std::map<std::string, sf::VertexArray> Tiles;
-    sf::VertexArray RenderedVerts;
-    void GenerateBlankSheet(float SizeX, float SizeY, float CellSizeX, float CellSizeY);
-  };
-
-  struct TileGrid
-  {
-#ifdef WITH_EDITOR
-    friend class Editor;
-#endif
-    std::shared_ptr<sf::Texture> TileSheet;
-    sf::VertexArray Grid;
-  };
 
   class Layer : public BaseEngineInterface
   {
@@ -67,8 +36,6 @@ namespace Engine
     std::vector<std::shared_ptr<LevelObject>> Objects;
     std::vector<std::shared_ptr<GenericLightSource>> Lights;
     std::vector<std::shared_ptr<GenericActor>> Actors;
-
-    TileGrid Tiles;
   };
 
   class Level : public BaseEngineInterface
@@ -82,6 +49,7 @@ namespace Engine
 
     TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
 
+    Level() = default;
     Level(const sf::Vector2u &LevelSize, const sf::FloatRect &DefaultView, bool showlines = false, const sf::Vector2f &GridSpacing = { 0,0 });
     Level(const std::string &levelFile);
     Level(const Level &) = delete;
@@ -128,7 +96,6 @@ namespace Engine
     vec2d Gravity;
     sf::FloatRect CurrentView;
 
-    std::map<std::string, LevelTile> Tiles;
     bool ShowGridLines = false;
   };
 

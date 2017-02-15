@@ -116,16 +116,16 @@ namespace Engine
     //Allocate in 1D array for speed
     Tiles = new std::shared_ptr<Engine::LevelTile>[NumTilesWide * NumTilesHigh];
 
-    //Create the blank tiles
-    for (std::size_t y = 0; y < NumTilesHigh; ++y) {
+    ////Create the blank tiles
+    //for (std::size_t y = 0; y < NumTilesHigh; ++y) {
 
-      for (std::size_t x = 0; x < NumTilesWide; ++x) {
+    //  for (std::size_t x = 0; x < NumTilesWide; ++x) {
 
-        Tiles[y * NumTilesWide + x] = Factory::Tile();
+    //    Tiles[y * NumTilesWide + x] = Factory::Tile();
 
-      }
+    //  }
 
-    }
+    //}
     
     //Load the rest of the information
     LoadTileInfo(infile);
