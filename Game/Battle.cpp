@@ -197,11 +197,12 @@ int Battle::enemiesTurn()
 
 	}
 
+	return isBattleOver();
 }
 
 BattleActor* Battle::selectTarget(bool whichSide, bool targetsEnemy)
 {
-
+	return nullptr;
 }
 
 BattleActor* Battle::selectCurrent(bool isAlly)
