@@ -6,17 +6,23 @@
 #include "Damage.h"
 #include "Skill.h"
 #include "SkillSet.h"
+#include <map>
+
+
 class BattleActor: public RPGActor
 {
 public:
   BattleActor();
   ~BattleActor();
   //functions
- // virtual bool TakeDamage(const Damage recieved) = 0;
- // virtual Damage baseDamage() = 0;
+  virtual bool takeDamage(const Damage recieved) = 0;
+  virtual Damage baseDamage() = 0;
   virtual void levelUp() = 0;
   virtual void gainExp(int gain) = 0;
   virtual bool isAlive() const;
+  std::map<int, int> ElementDominator();//returns the element dominated by the index
+  std::map<int, int> ElementDominated();//returns the element that dominates the index
+
 
   //getters
   Element getPrimary()const;

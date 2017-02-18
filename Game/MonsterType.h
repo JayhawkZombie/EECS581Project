@@ -2,6 +2,7 @@
 #define MONSTERTYPE_H
 #include <string>
 #include <iostream>
+#include <map>
 class MonsterType{
 
 public:	
@@ -32,7 +33,9 @@ public:
 	void setPhysicalEvolution(MonsterType* physicalEvolution);
 	void setBalancedEvolution(MonsterType* balancedEvolution);
 	void setMagicalEvolution(MonsterType* magicalEvolution);
-	
+	std::map<int, std::map<int, std::map<int, std::map<int, int>>>> getMBPType();
+
+
 private:
 	int m_primary;
 	int m_secondary;
