@@ -42,7 +42,7 @@ namespace Engine
     std::shared_ptr<sf::Texture> Texture;
     std::map<std::string, sf::VertexArray> GenericTiles;
     std::map<std::string, std::shared_ptr<LevelTile>> Tiles;
-
+    sf::RenderStates SheetState;
   };
 
 }

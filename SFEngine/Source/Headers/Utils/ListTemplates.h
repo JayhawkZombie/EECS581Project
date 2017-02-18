@@ -1,8 +1,6 @@
 #ifndef SFENGINE_LIST_TEMPLATES_H
 #define SFENGINE_LIST_TEMPLATES_H
-
-#include <string>
-#include <iostream>
+#include <memory>
 
 namespace Engine
 {
@@ -11,146 +9,167 @@ namespace Engine
 
     template<typename T>
     struct Node {
-      T value;
-      Node<T> *Next;
-      Node<T> *Previous;
-
-      Node(const T &v) : value(v), Next(nullptr) {}
-      Node(const T &v, Node<T> *p) : Previous(p), Next(nullptr), value(v) {}
-
-      inline bool operator==(const Node<T> &other) {
-        return (value == other.value);
+      Node() = default;
+      virtual ~Node() = default;
+      virtual void Destroy() {
+        Value.reset();
+        if (Next)
+          Next->Destroy();
+        Next.reset();
       }
-
-      const T& GetValue() const {
-        return value;
-      }
-
+      bool IsHead = false;
+      bool IsTail = false;
+      bool IsGoingForward = true;
+      std::shared_ptr<Node<T>> Next = nullptr;
+      std::weak_ptr<Node<T>> Previous;
+      std::shared_ptr<T> Value;
+      std::uint32_t Index = 0;
     };
 
-    template<typename T>
-    struct MinimalNode {
-      MinimalNode() : Next(nullptr) {}
-      MinimalNode(const T& v) : value(v), Next(nullptr), Previous(nullptr) {}
-      MinimalNode(const T& v, MinimalNode<T> *p) : value(v), Previous(p), Next(nullptr) {}
-
-      T value;
-      MinimalNode<T> *Next;
-      MinimalNode<T> *Previous;
-    };
-
-    template<typename Item>
-    class LinkedList
+    template<typename T, bool Loop, bool PingPong>
+    class DoublyLinkedList
     {
     public:
-      LinkedList() : Front(nullptr) {}
-      ~LinkedList() {
-        MinimalNode<Item> *Temp = Front;
-
-        while (Temp != nullptr) {
-          Temp = Front;
-          Front = Front->Next;
-          delete Temp;
-        }
+      DoublyLinkedList() {
+        ISLooping = Loop;
+        ISPingPong = PingPong;
+      }
+      ~DoublyLinkedList() {
+        if (Head)
+          Head->Destroy();
       }
 
-      void AddItem(const Item &item) {
-        if (Front == nullptr) {
-          Front = new MinimalNode<Item>(item);
-          Back = Front;
-        }
-        else {
-          Back->Next = new MinimalNode<Item>(item);
-          Back->Previous = Back;
-          Back = Back->Next;
-        }
-      }
-
-    private:
-      MinimalNode<Item> *Front;
-      MinimalNode<Item> *Back;
-    };
-
-
-    template<typename Sequence>
-    class NodeSequence {
-    public:
-      NodeSequence() : Beginning(nullptr), End(nullptr), Current(nullptr), Length(0) {
-        
-      }
-
-      NodeSequence(const NodeSequence<Sequence> &copy) : NodeSequence() {
-        Node<Sequence> *Temp = copy.Beginning;
-        Node<Sequence> _Curr = Beginning;
-
-        while (Temp != nullptr) {
-          AddSequence(Temp->value);
-          Temp = Temp->Next;
-        }
-      }
-
-      NodeSequence<Sequence>& operator=(const NodeSequence &copy) {
-        //Destroy old list
-        Node<Sequence> *Temp = Beginning;
-        while (Temp != nullptr) {
-          Beginning = Temp;
-          Temp = Temp->Next;
-          delete Beginning;
-        }
-
-        Beginning = nullptr;
-        End = nullptr;
-        Length = 0;
-        //Copy list on the right
-        Temp = copy.Beginning;
-        while (Temp != nullptr) {
-          AddSequence(Temp->value);
-          Temp = Temp->Next;
-        }
-
-      }
-
-      void AddSequence(const Sequence &seq) {
-        ++Length;
-        if (Beginning == nullptr) {
-          Beginning = new Node<Sequence>(seq);
-          End = Beginning;
-          Current = Beginning;
+      void InsertBack(std::shared_ptr<T> value) {
+        if (!Tail) {
+          Tail = std::make_shared<Node<T>>();
+          Tail->Value = value;
+          Tail->Index = 0;
+          Head = Tail;
+          Head->IsHead = true;
+          Tail->IsTail = true;
         }
         else {
-          End->Next = new Node<Sequence>(seq, End);
-          End = End->Next;
+          std::shared_ptr<Node<T>> Temp = std::make_shared<Node<T>>();
+          Temp->Value = value;
+          Temp->Previous = Tail;
+          Tail->Next = Temp;
+          Tail->IsTail = false;
+          Tail = Temp;
+          Tail->IsTail = true;
+          Tail->Index = NodeCount;
         }
-          
+
+        NodeCount++;
       }
 
-      bool AdvanceSequence() {
-        return (Current->Next && (Current = Current->Next));
+      void InsertFront(std::shared_ptr<T> value) {
+        if (!Head) {
+          Head = std::make_shared<Node<T>>();
+          Head->Value = value;
+          Head->Index = 0;
+          Tail = Head;
+          Head->IsHead = true;
+          Tail->IsTail = true;
+        }
+        else {
+          std::shared_ptr<Node<T>> Temp = std::make_shared<Node<T>>();
+          Temp->Value = value;
+          Temp->Next = Head;
+          Head->IsHead = false;
+          Head->Previous = Temp;
+          Head = Temp;
+          Head->IsHead = true;
+          Head->Index = NodeCount;
+        }
+
+        NodeCount++;
       }
 
-      const std::size_t& SequenceLength() const {
-        return Length;
+      std::shared_ptr<Node<T>> Advance(std::shared_ptr<Node<T>> node) const {
+        std::shared_ptr<Node<T>> ret = nullptr;
+        if (node->IsGoingForward)
+          ret = AdvanceForward(node);
+        else
+          ret = AdvanceBackward(node);
+
+        return ret;
       }
 
-      Node<Sequence>* GetBeginning() const {
-        return Beginning;
-      }
-      Node<Sequence>* GetEnd() const {
-        return End;
-      }
-      Node<Sequence>* GetCurrent() const {
-        return Current;
+      std::shared_ptr<Node<T>> AdvanceBackward(std::shared_ptr<Node<T>> node) const {
+        std::shared_ptr<Node<T>> ret = nullptr;
+
+        if (node->IsHead) {
+          if (ISLooping) {
+            node->IsGoingForward = true;
+            Tail->IsGoingForward = false;
+            return Tail;
+          }
+          else {
+            ret = node->Next;
+            node->IsGoingForward = true;
+            ret->IsGoingForward = true;
+          }
+        }
+        else {
+          node->IsGoingForward = true;
+          ret = node->Previous.lock();
+          ret->IsGoingForward = false;
+        }
+
+        return ret;
       }
 
-    private:
-      Node<Sequence> *Beginning;
-      Node<Sequence> *End;
-      Node<Sequence> *Current;
-      std::size_t Length;
+      std::shared_ptr<Node<T>> AdvanceForward(std::shared_ptr<Node<T>> node) const {
+        std::shared_ptr<Node<T>> ret = nullptr;
 
+        if (node->IsTail) {
+          if (ISLooping) {
+            node->IsGoingForward = false;
+            Head->IsGoingForward = true;
+            return Head;
+          }
+          else {
+            ret = node->Previous.lock();
+            node->IsGoingForward = true;
+            ret->IsGoingForward = false;
+          }
+        }
+        else {
+          node->IsGoingForward = true;
+          ret = node->Next;
+          ret->IsGoingForward = true;
+        }
+
+        return ret;
+      }
+
+      std::uint32_t GetSize() const {
+        return NodeCount;
+      }
+
+      std::shared_ptr<Node<T>> GetHead() const {
+        return Head;
+      }
+      std::shared_ptr<Node<T>> GetTail() const {
+        return Tail;
+      }
+
+      void MakeLooped(bool b) {
+        ISLooping = b;
+      }
+
+      void MakePingPong(bool b) {
+        ISPingPong = b;
+      }
+
+    protected:
+      std::uint32_t NodeCount = 0;
+      std::shared_ptr<Node<T>> Head = nullptr;
+      std::shared_ptr<Node<T>> Tail = nullptr;
+
+      bool ISLooping = true;
+      bool ISPingPong = false;
     };
-
-
 
   }
 }

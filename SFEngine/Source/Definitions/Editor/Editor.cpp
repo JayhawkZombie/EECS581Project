@@ -42,6 +42,8 @@ namespace Engine
     TextFont = std::make_shared<sf::Font>();
     TextFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
 
+    LoadProject("C:\\Projects\\TestProject\\testproject.json");
+
     PreviewGridInfoText.setFont(EditorFont);
     PreviewGridInfoText.setCharacterSize(6);
     PreviewGridInfoText.setFillColor(sf::Color::White);
@@ -65,33 +67,45 @@ namespace Engine
     GenericActor::BuildAnimations("./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.txt", "./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.png", &TestActor);
 
     EditorScriptEngine->add_global(chaiscript::var(&TestActor), "MainPlayer");
-    LoadProject("C:\\Projects\\TestProject\\testproject.json");
   }
 
   Editor::~Editor()
   {
-    //TestMenu->Close();
-    //GUI->remove(SideTabPanel);
+    Animations.clear();
+    if (CreationThread.joinable())
+      CreationThread.join();
   }
 
   void Editor::TickUpdate(const double &delta)
   {
-    static float update_delta = 16.66667f;
-    static float update_current = 0.f;
+    try
+    {
+      if (Done && !GUIPopulated)
+        PopulateGUI();
 
-    update_current += delta;
 
-    //TestActor.TickUpdate(delta);
-    std::string deltastr = std::to_string(delta);
-    EditorScriptEngine->eval("Update(" + deltastr + ");");
+      static float update_delta = 16.66667f;
+      static float update_current = 0.f;
 
-    if (EnabledPhysics && (TestObjects.size() > 0 || Segments.size() > 0) && update_current >= update_delta) {
-      UpdatePhysics(TestObjects, Segments, 2);
-      update_current = 0.f;
+      update_current += delta;
+      std::string deltastr = std::to_string(delta);
+
+      if (EnabledPhysics && (TestObjects.size() > 0 || Segments.size() > 0) && update_current >= update_delta) {
+        UpdatePhysics(TestObjects, Segments, 2);
+        update_current = 0.f;
+      }
+
+      if (Done && AnimationPanelAnimationViewer->IsOpen()) {
+        AnimationPanelAnimationViewer->TickUpdate(delta);
+      }
+
+      if (IsUpdateLevelEnabled)
+        EditLevel->TickUpdate(delta);
     }
-
-    if (IsUpdateLevelEnabled)
-      EditLevel->TickUpdate(delta);
+    catch (std::exception &err)
+    {
+      std::cerr << "Editor::TickUpdate : exception => " << err.what() << std::endl;
+    }
   }
 
   void Editor::Render(std::shared_ptr<sf::RenderTexture> Texture)
@@ -102,6 +116,10 @@ namespace Engine
 
     for (auto & seg : Segments) {
       seg->draw(*currentRenderWindow);
+    }
+
+    if (Done && AnimationPanelAnimationViewer->IsOpen()) {
+      AnimationPanelAnimationViewer->Render();
     }
 
     sf::CircleShape circle;
@@ -123,12 +141,14 @@ namespace Engine
     Gravity.y = 0.09f;
     SetGravity(&Gravity);
 
-    UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/Black.txt");
+    UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
 
     tgui::Label::Ptr btntooltip = UIThemePtr->load("ToolTip");
     btntooltip->setFont(GUI->getFont());
     btntooltip->setText("tooltip");
     btntooltip->setTextSize(12);
+
+    CreationThread = std::thread([this]()->void {this->CreateGUIMenus(); });
   }
 
   void Editor::BindEditorMethods(chaiscript::ModulePtr mptr)
@@ -234,6 +254,16 @@ namespace Engine
     TilesPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(200));
     TilesPanelExpandButton->disconnectAll();
     TilesPanelExpandButton->connect("clicked", [this]() {this->ExpandTilesPanel(); });
+  }
+
+  void Editor::TileSheetSelected(std::string sheet)
+  {
+
+  }
+
+  void Editor::TileSelected(std::string tile)
+  {
+
   }
 
   void Editor::SelectAnimationTab()

@@ -7,6 +7,9 @@
     },
 
     "Data": {
+      "OtherJSON": [
+        "/Scripts/uiscript.json"
+      ],
       "Textures": [
         {
           "Name": "GraveyardSheet",
@@ -147,7 +150,8 @@
 
       "Scripts": {
         "TileScript": "/Scripts/TileScript.chai",
-        "ActorScript": "/Scripts/ActorScript.chai"
+        "ActorScript": "/Scripts/ActorScript.chai",
+        "UIScript": "/Scripts/UIScript.chai"
       },
 
       "Objects": {

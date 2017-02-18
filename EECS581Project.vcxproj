@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{95C45AA1-ACC4-4925-BD8F-51999F4BF7F0}</ProjectGuid>
+    <ProjectGuid>{87F72D0D-0935-4DF9-A2E4-8DF5A21C5F18}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EECS581Project</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -322,6 +322,7 @@
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\AnimationViewer.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\CreateNewProject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProjectFile.h" />
@@ -515,6 +516,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\AnimationViewer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\CreateNewProject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorLoadProject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProject.cpp" />
@@ -687,7 +689,9 @@
     <None Include="SFEngine\Samples\Logos\SFEngineLogo_Flame.xcf" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForest.ini" />
     <None Include="SFEngine\Samples\Maps\NewLevelFormat.ini" />
+    <None Include="SFEngine\Samples\Projects\TestProject\Scripts\uiscript.chai" />
     <None Include="SFEngine\Samples\Projects\TestProject\testproject.json" />
+    <None Include="SFEngine\Samples\Projects\TestProject\UI.json" />
     <None Include="SFEngine\Samples\Scripts\EngineEventTests.chai" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForestSmall.ini" />
     <None Include="SFEngine\Samples\Maps\testforest.ini" />
@@ -713,6 +717,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SFEngine\Source\CoreFiles\Textures\Icons\Icons.txt" />
+    <Text Include="SFEngine\Source\CoreFiles\UIThemes\UIDark.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

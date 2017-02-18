@@ -80,6 +80,15 @@ for(auto & message : VECTOR_MESSAGES){\
       Messages.push_back(string);
     }
 
+    std::string UnwindTrace() {
+      std::string message = "";
+      for (auto & str : Messages) {
+        message += str + "\n";
+      }
+
+      return message;
+    }
+
     std::string msg_;
     std::vector<ExceptionCause> Causes = { ExceptionCause::Unknown };
     std::vector<std::string> Messages = {};

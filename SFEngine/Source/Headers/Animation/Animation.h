@@ -20,6 +20,7 @@ namespace Engine
   public:
     //NEW
     Animation() : m_currentFrame(0), m_currentTime(0), m_frameTime(0), m_isPaused(true), m_isRendered(false) {}
+    ~Animation();
     void Update(double deltaTime);
     void Play(bool loop = true, bool notifycomplete = false);
     void Pause();
@@ -47,10 +48,23 @@ namespace Engine
     void OnShutDown();
 
     std::function<void(void)> AnimationComplete = []() {};
+    void MakePingPong(bool ping) {
+      m_pingpong = ping;
+      FrameList.MakePingPong(ping);
+    }
 
+    void MakeLooped(bool b) {
+      FrameList.MakeLooped(b);
+      m_loop = b;
+    }
   private:
+    Util::DoublyLinkedList<sf::IntRect, true, false> FrameList;
+    std::shared_ptr<Util::Node<sf::IntRect>> CurrFrame = nullptr;
+
     bool m_loop = true;
     bool m_notifyComplete = false;
+    bool m_pingpong = false;
+    int dir = 1; //1 -> forward, -1 -> backward
     bool m_isPaused;
     bool m_isRendered;
     int m_currentFrame;

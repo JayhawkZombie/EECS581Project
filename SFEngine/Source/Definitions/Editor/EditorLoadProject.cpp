@@ -58,6 +58,7 @@ namespace Engine
       }
       std::cerr << "***********************************************" << std::endl;
       LoadSheets();
+      LoadAnimations();
     }
     catch (Json::Exception &err)
     {
@@ -85,8 +86,6 @@ namespace Engine
     for (auto & sheet : TIleSheets) {
       std::cerr << sheet.first << std::endl;
       std::cerr << "\t->" << std::endl;
-      
-      
 
       for (auto & tile : sheet.second->GetLevelTiles()) {
         std::cerr << "\t\t" << tile.second->Name << std::endl;
@@ -94,6 +93,61 @@ namespace Engine
 
     }
     std::cerr << "***********************************************" << std::endl;
+  }
+
+  void Editor::LoadAnimations()
+  {
+    auto animations = ProjectJson["Project"]["Data"]["Animations"];
+
+    if (animations.isArray()) {
+
+      for (auto & _ : animations)
+        LoadAnimation(_);
+
+    }
+
+    std::cerr << "Animations loaded: " << std::endl;
+
+    for (auto & anim : Animations)
+      std::cerr << "\t" << anim.first << std::endl;
+
+    std::cerr << "***********************************************" << std::endl;
+
+  }
+
+  void Editor::LoadAnimation(const Json::Value & anim)
+  {
+    std::string name = anim["Name"].asString();
+    std::string texture = anim["Texture"].asString();
+    float time = anim["FrameTime"].asFloat();
+    bool pingpong = anim["PingPong"].asBool();
+
+    //Make sure we have a valid texture
+    auto it = Textures.find(texture);
+    if (it == Textures.end()) {
+      std::cerr << "Unable to find texture : " << texture << std::endl;
+      return;
+    }
+
+    auto tex = it->second;
+    std::shared_ptr<Animation> Animation(new Engine::Animation());
+    Animation->SetSpriteSheet(tex, "AnimSheet");
+    Animation->SetFrameTime(time);
+    Animation->MakePingPong(pingpong);
+    //get the frames
+    std::vector<sf::IntRect> Frames = {};
+    auto frames = anim["Frames"];
+    sf::IntRect Rect = {};
+    for (auto & frame : frames) {
+      Rect.left = frame[0].asInt();
+      Rect.top = frame[1].asInt();
+      Rect.width = frame[2].asInt();
+      Rect.height = frame[3].asInt();
+
+      Animation->AddFrame(Rect);
+    }
+    
+    Animations[name] = Animation;
   }
 
   void Editor::LoadSheet(const Json::Value &sheet)
@@ -146,6 +200,16 @@ namespace Engine
 
   void Editor::LoadScripts(chaiscript::ModulePtr ptr)
   {
+  }
+
+  void Editor::PopulateGUI()
+  {
+
+    for (auto & sheet : TIleSheets) {
+      TilesPanelListBox->addItem(sheet.first);
+    }
+
+    GUIPopulated = true;
   }
 
 }
