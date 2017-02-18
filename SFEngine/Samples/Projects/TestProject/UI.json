@@ -1,0 +1,33 @@
+{
+  "UI": {
+    "Elements": [
+      {
+        "Type": "ChildWindow",
+        "Name": "TestWindow",
+        "Script": "testwin.chai",
+        "Size": [ 500, 500 ],
+        "Subelements": [
+          {
+            "Type": "Button",
+            "Text": "TestButton",
+            "Script": "/Scripts/TestButton.chai",
+            "Signals": [
+              {"Clicked": "Clicked();"}
+            ]
+          },
+          {
+            "Type": "ListBox",
+            "Size": [ 200, 400 ],
+            "Script": "/Scripts/TestListBox.chai",
+            "Signals": [
+              {
+                "ItemSelected": "ItemSelected",
+                "DoubleClicked": "DoubleClicked"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

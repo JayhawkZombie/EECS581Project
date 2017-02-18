@@ -1,12 +1,19 @@
 #include "../../Headers/Animation/Animation.h"
 namespace Engine
 {
+  Animation::~Animation()
+  {
+    CurrFrame = FrameList.GetHead();
+    if (CurrFrame)
+      CurrFrame->Destroy();
+  }
   //NEW
   void Animation::Update(double delta) {
 
   }
   void Animation::Play(bool loop, bool notifycomplete) {
     m_isPaused = false;
+    CurrFrame = FrameList.GetHead();
     if (!m_isRendered) {
       m_isRendered = true;
       m_currentFrame = 0;
@@ -79,33 +86,36 @@ namespace Engine
       {
         // reset time, but keep the remainder
         //m_currentTime = m_currentTime - m_frameTime;
-        m_currentTime = 0;
+        m_currentTime -= m_frameTime;
 
         m_currentFrame += 1;
-        if (m_currentFrame >= m_frames.size()) {
-          if (m_loop)
-            m_currentFrame = 0;
-          else
-            Stop();
-        }
+        CurrFrame = FrameList.Advance(CurrFrame);
 
-        //auto frame = m_frames[m_currentFrame];
+        //if (m_currentFrame >= m_frames.size()) {
 
-        //std::cerr << "Frame #" << m_currentFrame << " - (" << frame.left << ", " << frame.top << ", " << frame.height << ", " << frame.width << ")" << std::endl;
-
-        // get next Frame index
-        //if (m_currentFrame + 1 < GetSize())
-        //  m_currentFrame++;
-        //else
-        //{
-        //  // animation has ended
-        //  m_currentFrame = 0; // reset to start
-
-
+        //  if (m_loop)
+        //    m_currentFrame = 0;
+        //  else
+        //    Stop();
         //}
-        // set the current frame, not reseting the time
-        else if (m_frames.size() > 0)
-          AnimRect.setTextureRect(m_frames[m_currentFrame]);
+
+        //if (m_currentFrame >= m_frames.size()) {
+        //  if (m_loop)
+        //    m_currentFrame = 0;
+        //  else
+        //    Stop();
+
+        //  if (m_pingpong)
+        //    dir = -1;
+        //  else
+        //    dir = 1;
+        //}
+        //if (m_currentFrame < 0) {
+        //  m_currentFrame = 0;
+        //  dir = 1;
+        //}
+        AnimRect.setTextureRect(*CurrFrame->Value);
+          //AnimRect.setTextureRect(m_frames[m_currentFrame]);
       }
     }
   }
@@ -114,6 +124,9 @@ namespace Engine
   void Animation::AddFrame(sf::IntRect rect)
   {
     m_frames.push_back(rect);
+    FrameList.InsertFront(std::make_shared<sf::IntRect>(rect));
+    if (!CurrFrame)
+      CurrFrame = FrameList.GetHead();
   }
   void Animation::RequestSpriteSheet(const std::string Filepath, const std::string ID) {
     m_texture;

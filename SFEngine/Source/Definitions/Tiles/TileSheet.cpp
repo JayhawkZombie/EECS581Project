@@ -27,6 +27,7 @@ namespace Engine
 
   void TileSheet::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
+    
   }
 
   void TileSheet::OnShutDown()
@@ -124,6 +125,7 @@ namespace Engine
   void TileSheet::SetTexture(std::shared_ptr<sf::Texture> Tex)
   {
     Texture = Tex;
+    SheetState.texture = Texture.get();
   }
 
   void TileSheet::AddTile(const std::string & str, const sf::IntRect & Rect)

@@ -145,6 +145,31 @@ namespace Engine
     TilesPanelExpandButton->setSize({ 20, 20 });
     TilesPanel->add(TilesPanelExpandButton);
     GUI->add(TilesPanel);
+    /*
+        tgui::ListBox::Ptr TilesPanelListBox;
+    tgui::Button::Ptr TilesPanelAddButton;
+    tgui::Button::Ptr TilesPanelEditButton;
+    tgui::ListBox::Ptr TilesPanelTilesList;
+    tgui::Button::Ptr TilesPanelClearButton;*/
+    TilesPanelListLabel = UIThemePtr->load("Label");
+    TilesPanelListLabel->setText("Sheets:");
+    xDiff = 300.f - TilesPanelListLabel->getSize().x;
+    TilesPanelListLabel->setPosition({ xDiff / 2.f, 100.f });
+    TilesPanelListBox = UIThemePtr->load("ListBox");
+    TilesPanelListBox->setSize({ 200.f, 400.f });
+    TilesPanelListBox->setPosition({ 50.f, 150.f });
+    TilesPanelTilesLabel = UIThemePtr->load("Label");
+    TilesPanelTilesLabel->setText("Tiles:");
+    xDiff = 300.f - TilesPanelTilesLabel->getSize().x;
+    TilesPanelTilesLabel->setPosition({ xDiff / 2.f, 650.f });
+    TilesPanelTilesList = UIThemePtr->load("ListBox");
+    TilesPanelTilesList->setSize({ 200.f, 200.f });
+    TilesPanelTilesList->setPosition({ 50.f, 700.f });
+
+    TilesPanel->add(TilesPanelListLabel);
+    TilesPanel->add(TilesPanelListBox);
+    TilesPanel->add(TilesPanelTilesList);
+    TilesPanel->add(TilesPanelTilesList);
 
     AnimationPanel = UIThemePtr->load("Panel");
     AnimationPanel->setPosition({ 0, 0 });
@@ -163,6 +188,20 @@ namespace Engine
     AnimationPanelExpandButton->setPosition({ 0, 0 });
     AnimationPanelExpandButton->setSize({ 20, 20 });
     AnimationPanel->add(AnimationPanelExpandButton);
+    AnimationPanelAnimationList = UIThemePtr->load("ListBox");
+    AnimationPanelAnimationList->setSize({ 100, 250 });
+    AnimationPanelAnimationList->setPosition({ 50, 150 });
+    for (auto & anim : Animations) {
+      AnimationPanelAnimationList->addItem(anim.first);
+    }
+    AnimationPanelAnimationList->connect("doubleclicked",
+                                         [this](std::string name) -> void
+                                         {
+                                           auto it = this->Animations.find(name);
+                                           if (it != this->Animations.end())
+                                             this->AnimationPanelAnimationViewer->Open(it->second);
+                                         });
+    AnimationPanel->add(AnimationPanelAnimationList);
     GUI->add(AnimationPanel);
 
     GUIPanel = UIThemePtr->load("Panel");
@@ -223,6 +262,7 @@ namespace Engine
     GUI->add(MusicPanel);
 
     EditTilesWindow = std::make_shared<TileSheetEditor>(GUI, UIThemePtr);
+    AnimationPanelAnimationViewer = std::make_shared<AnimationViewer>(UIThemePtr);
   }
 
 }

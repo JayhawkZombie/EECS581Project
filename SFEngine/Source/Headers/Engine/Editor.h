@@ -13,6 +13,7 @@
 #include "../UI/ObjectView.h"
 #include "../Editor/EditorProject.h"
 #include "../UI/UIIconSheet.h"
+#include "../Editor/AnimationViewer.h"
 #include <fstream>
 #include <map>
 //TGUI elements
@@ -163,12 +164,15 @@ namespace Engine
     std::string PROJECT_PATH = { "" };
     void LoadAssets();
     void LoadSheets();
+    void LoadAnimations();
+    void LoadAnimation(const Json::Value &anim);
     void LoadSheet(const Json::Value &sheet);
     void LoadObjects();
     void LoadScripts(chaiscript::ModulePtr ptr);
 
     std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
     std::map<std::string, std::shared_ptr<TileSheet>> TIleSheets;
+    std::map<std::string, std::shared_ptr<Animation>> Animations;
 
     tgui::MenuBar::Ptr MenuBar;
 
@@ -204,10 +208,22 @@ namespace Engine
     tgui::Panel::Ptr TilesPanel;
     tgui::Label::Ptr TilesPanelLabel;
     tgui::Button::Ptr TilesPanelExpandButton;
+    tgui::Label::Ptr TilesPanelListLabel;
+    tgui::ListBox::Ptr TilesPanelListBox;
+    tgui::Button::Ptr TilesPanelAddButton;
+    tgui::Button::Ptr TilesPanelEditButton;
+    tgui::ListBox::Ptr TilesPanelTilesList;
+    tgui::Label::Ptr TilesPanelTilesLabel;
+    tgui::Button::Ptr TilesPanelClearButton;
+    void TileSheetSelected(std::string sheet);
+    void TileSelected(std::string tile);
 
     tgui::Panel::Ptr AnimationPanel;
     tgui::Label::Ptr AnimationPanelLabel;
     tgui::Button::Ptr AnimationPanelExpandButton;
+    std::shared_ptr<AnimationViewer> AnimationPanelAnimationViewer;
+    tgui::Button::Ptr ViewAnimationButton;
+    tgui::ListBox::Ptr AnimationPanelAnimationList;
 
     tgui::Panel::Ptr GUIPanel;
     tgui::Label::Ptr GUIPanelLabel;
