@@ -6,6 +6,7 @@ namespace Engine
     CurrFrame = FrameList.GetHead();
     if (CurrFrame)
       CurrFrame->Destroy();
+    m_texture.reset();
   }
   //NEW
   void Animation::Update(double delta) {
@@ -124,9 +125,9 @@ namespace Engine
   void Animation::AddFrame(sf::IntRect rect)
   {
     m_frames.push_back(rect);
-    FrameList.InsertFront(std::make_shared<sf::IntRect>(rect));
+    FrameList.InsertBack(std::make_shared<sf::IntRect>(rect));
     if (!CurrFrame)
-      CurrFrame = FrameList.GetHead();
+      CurrFrame = FrameList.GetTail();
   }
   void Animation::RequestSpriteSheet(const std::string Filepath, const std::string ID) {
     m_texture;

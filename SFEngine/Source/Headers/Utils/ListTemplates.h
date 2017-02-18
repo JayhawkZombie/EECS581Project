@@ -1,8 +1,5 @@
 #ifndef SFENGINE_LIST_TEMPLATES_H
 #define SFENGINE_LIST_TEMPLATES_H
-
-#include <string>
-#include <iostream>
 #include <memory>
 
 namespace Engine
@@ -40,6 +37,29 @@ namespace Engine
       ~DoublyLinkedList() {
         if (Head)
           Head->Destroy();
+      }
+
+      void InsertBack(std::shared_ptr<T> value) {
+        if (!Tail) {
+          Tail = std::make_shared<Node<T>>();
+          Tail->Value = value;
+          Tail->Index = 0;
+          Head = Tail;
+          Head->IsHead = true;
+          Tail->IsTail = true;
+        }
+        else {
+          std::shared_ptr<Node<T>> Temp = std::make_shared<Node<T>>();
+          Temp->Value = value;
+          Temp->Previous = Tail;
+          Tail->Next = Temp;
+          Tail->IsTail = false;
+          Tail = Temp;
+          Tail->IsTail = true;
+          Tail->Index = NodeCount;
+        }
+
+        NodeCount++;
       }
 
       void InsertFront(std::shared_ptr<T> value) {

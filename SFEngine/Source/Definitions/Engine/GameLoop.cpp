@@ -63,7 +63,6 @@ namespace Engine
 
 #ifdef WITH_EDITOR
     GameEditor.PreLoopSetup();
-    GameEditor.CreateGUIMenus();
 #else
     std::shared_ptr<Level> MainLevel(new Level);
 #endif

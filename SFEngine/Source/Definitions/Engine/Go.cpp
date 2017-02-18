@@ -1,4 +1,5 @@
 #include "../../Headers/Engine/Engine.h"
+#include "../../Headers/Exceptions/Exceptions.h"
 
 Engine::SFEngine *CurrentEngine = nullptr;
 
@@ -29,10 +30,12 @@ namespace Engine
       result = Init(argc, argv);
       return result;
     }
-    catch (std::runtime_error &e)
+    catch (EngineRuntimeError &err)
     {
       std::cerr << "There was a critical error, and it could not be recovered from\n";
-      std::cerr << "The following message was provided: " << e.what() << std::endl;
+      std::string err_string = err.UnwindTrace();
+
+      std::cerr << "The following stack trace was provided: \n\n" << err_string << std::endl;
       return Error::RUNTIME_UNKNOWN_ERROR;
     }
   }

@@ -169,6 +169,7 @@ namespace Engine
     void LoadSheet(const Json::Value &sheet);
     void LoadObjects();
     void LoadScripts(chaiscript::ModulePtr ptr);
+    void PopulateGUI();
 
     std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
     std::map<std::string, std::shared_ptr<TileSheet>> TIleSheets;
@@ -177,6 +178,11 @@ namespace Engine
     tgui::MenuBar::Ptr MenuBar;
 
     std::function<void(float)> FtnPtr;
+
+    tgui::ProgressBar::Ptr CreationProgress;
+    std::thread CreationThread;
+    bool Done = false;
+    bool GUIPopulated = false;
 
     //TGUI elements
     tgui::Font TestTGUIFont;

@@ -71,33 +71,41 @@ namespace Engine
 
   Editor::~Editor()
   {
-    //TestMenu->Close();
-    //GUI->remove(SideTabPanel);
     Animations.clear();
+    if (CreationThread.joinable())
+      CreationThread.join();
   }
 
   void Editor::TickUpdate(const double &delta)
   {
-    static float update_delta = 16.66667f;
-    static float update_current = 0.f;
+    try
+    {
+      if (Done && !GUIPopulated)
+        PopulateGUI();
 
-    update_current += delta;
 
-    //TestActor.TickUpdate(delta);
-    std::string deltastr = std::to_string(delta);
-    EditorScriptEngine->eval("Update(" + deltastr + ");");
+      static float update_delta = 16.66667f;
+      static float update_current = 0.f;
 
-    if (EnabledPhysics && (TestObjects.size() > 0 || Segments.size() > 0) && update_current >= update_delta) {
-      UpdatePhysics(TestObjects, Segments, 2);
-      update_current = 0.f;
+      update_current += delta;
+      std::string deltastr = std::to_string(delta);
+
+      if (EnabledPhysics && (TestObjects.size() > 0 || Segments.size() > 0) && update_current >= update_delta) {
+        UpdatePhysics(TestObjects, Segments, 2);
+        update_current = 0.f;
+      }
+
+      if (Done && AnimationPanelAnimationViewer->IsOpen()) {
+        AnimationPanelAnimationViewer->TickUpdate(delta);
+      }
+
+      if (IsUpdateLevelEnabled)
+        EditLevel->TickUpdate(delta);
     }
-
-    if (AnimationPanelAnimationViewer->IsOpen()) {
-      AnimationPanelAnimationViewer->TickUpdate(delta);
+    catch (std::exception &err)
+    {
+      std::cerr << "Editor::TickUpdate : exception => " << err.what() << std::endl;
     }
-
-    if (IsUpdateLevelEnabled)
-      EditLevel->TickUpdate(delta);
   }
 
   void Editor::Render(std::shared_ptr<sf::RenderTexture> Texture)
@@ -110,7 +118,7 @@ namespace Engine
       seg->draw(*currentRenderWindow);
     }
 
-    if (AnimationPanelAnimationViewer->IsOpen()) {
+    if (Done && AnimationPanelAnimationViewer->IsOpen()) {
       AnimationPanelAnimationViewer->Render();
     }
 
@@ -133,12 +141,14 @@ namespace Engine
     Gravity.y = 0.09f;
     SetGravity(&Gravity);
 
-    UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/Black.txt");
+    UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
 
     tgui::Label::Ptr btntooltip = UIThemePtr->load("ToolTip");
     btntooltip->setFont(GUI->getFont());
     btntooltip->setText("tooltip");
     btntooltip->setTextSize(12);
+
+    CreationThread = std::thread([this]()->void {this->CreateGUIMenus(); });
   }
 
   void Editor::BindEditorMethods(chaiscript::ModulePtr mptr)

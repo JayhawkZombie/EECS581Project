@@ -86,8 +86,6 @@ namespace Engine
     for (auto & sheet : TIleSheets) {
       std::cerr << sheet.first << std::endl;
       std::cerr << "\t->" << std::endl;
-      
-      
 
       for (auto & tile : sheet.second->GetLevelTiles()) {
         std::cerr << "\t\t" << tile.second->Name << std::endl;
@@ -202,6 +200,16 @@ namespace Engine
 
   void Editor::LoadScripts(chaiscript::ModulePtr ptr)
   {
+  }
+
+  void Editor::PopulateGUI()
+  {
+
+    for (auto & sheet : TIleSheets) {
+      TilesPanelListBox->addItem(sheet.first);
+    }
+
+    GUIPopulated = true;
   }
 
 }
