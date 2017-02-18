@@ -16,6 +16,30 @@ bool BattleActor::isAlive()const
   return m_hpCur > 0;
 }
 
+std::map<int, int> BattleActor::ElementDominator()
+{
+	std::map<int, int> dominant;
+	dominant[0] = 3;
+	dominant[1] = 0;
+	dominant[2] = 1;
+	dominant[3] = 2;
+	dominant[4] = 5;
+	dominant[5] = 4;
+	return dominant;
+}
+
+std::map<int, int> BattleActor::ElementDominated()
+{
+	std::map<int, int> dominated;
+	dominated[0] = 1;
+	dominated[1] = 2;
+	dominated[2] = 3;
+	dominated[3] = 0;
+	dominated[4] = 5;
+	dominated[5] = 4;
+	return dominated;
+}
+
 Element BattleActor::getPrimary()const
 {
   return m_primary;

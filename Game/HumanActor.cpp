@@ -70,7 +70,7 @@ bool HumanActor::takeDamage(const Damage recieved)
 Damage HumanActor::baseDamage()
 {
 	Damage* base= new Damage();
-	base->content[getPrimary()] = getLevel() * 3;
+	base->content[getPrimary()] = getLevel() * 1;
 	double balance;
 	double magMultiplier;
 	double phyMultiplier;

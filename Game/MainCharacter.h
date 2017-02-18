@@ -4,6 +4,12 @@
 class MainCharacter : public HumanActor
 {
 public:
+	/*
+	virtual bool takeDamage(const Damage recieved);
+	virtual Damage baseDamage();
+	virtual void levelUp();
+	virtual void gainExp(int gain);
+	*/
 	MainCharacter();
 	~MainCharacter();
 	void IncrementAffinity(int index, int value);

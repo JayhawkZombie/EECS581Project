@@ -14,7 +14,27 @@ MainCharacter::MainCharacter()
 MainCharacter::~MainCharacter()
 {
 }
+/*
+bool MainCharacter::takeDamage(const Damage recieved)
+{
+	HumanActor::takeDamage(recieved);
+}
 
+Damage MainCharacter::baseDamage()
+{
+	return HumanActor::baseDamage();
+}
+
+void MainCharacter::levelUp()
+{
+	HumanActor::levelUp();
+}
+
+void MainCharacter::gainExp(int gain)
+{
+	HumanActor::gainExp(gain);
+}
+*/
 void MainCharacter::IncrementAffinity(int index, int value)
 {
 	if (index < 1 || index>6)//no work done on bad values
