@@ -4,7 +4,6 @@
 #include "../BasicIncludes.h"
 #include "../Engine/BaseEngineInterface.h"
 #include "../Animation/Animation.h"
-#include "../Physics/Mesh.h"
 #include "../../../ThirdParty/PhysicsEngine.h"
 
 namespace Engine

@@ -6,7 +6,7 @@
 #include "../Globals/GlobalHooks.h"
 #include "LevelObject.h"
 #include "../Actor/Player.h"
-#include "LevelTile.h"
+#include "../Tiles/LevelTile.h"
 #include "../Lights/GenericLightSource.h"
 #include "../Lights/GlobalLightSource.h"
 

@@ -5,7 +5,7 @@
 #include "../BasicIncludes.h"
 
 #include "../Utils/Vec.hpp"
-
+#include "GlobalLightSource.h"
 
 #include <vector>
 #include <iostream>

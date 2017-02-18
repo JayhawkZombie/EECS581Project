@@ -13,6 +13,9 @@
 #include <unordered_map>
 #include <bitset>
 
+
+#include "../../ThirdParty/json/json.h"
+
 #include "EngineTypes.h"
 #include "Globals\GlobalHooks.h"
 #include "Utils\ReadIni.h"

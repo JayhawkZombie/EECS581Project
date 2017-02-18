@@ -10,6 +10,7 @@
 
 const std::string EngineVersionString{ "0.0.1" };
 const std::string EditorVersionString{ "0.0.1.B-fIncomplete" };
+const std::string CORE_PATH{ "./SFEngine/Source/CoreFiles/" };
 
 //remove this to launch the engine without editing tools
 #define WITH_EDITOR

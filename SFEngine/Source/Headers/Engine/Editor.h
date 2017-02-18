@@ -9,29 +9,12 @@
 #include "../Animation/Animation.h"
 #include "../Render/Render.h"
 
-#include "../UI/List/List.h"
-#include "../UI/Text/TextLabel.h"
-#include "../UI/WIdgetHelper.h"
-#include "../UI/Buttons/ClickButtonBase.h"
-#include "../UI/Draggables/DraggableTile.h"
-#include "../UI/Alerts/PopupObject.h"
-
-#include "../UI/Alerts/Alert.h"
-
-#include "../UI/Menu/MenuWidget.h"
-#include "../UI/Menu/MenuScreen.h"
-
 #include "../../../ThirdParty/PhysicsEngine.h"
 #include "../UI/ObjectView.h"
 #include "../Editor/EditorProject.h"
 #include "../UI/UIIconSheet.h"
 #include <fstream>
 #include <map>
-
-
-
-
-
 //TGUI elements
 #include "../Editor/TileSheetEditor.h"
 #include "../Editor/CreateNewProject.h"
@@ -150,32 +133,53 @@ namespace Engine
 
     void SelectLevelTab();
     void ExpandLevelPanel();
+    void ShrinkLevelPanel();
+
+    void SelectTilesTab();
+    void ExpandTilesPanel();
+    void ShrinkTilesPanel();
 
     void SelectAnimationTab();
     void ExpandAnimationPanel();
-    
+    void ShrinkAnimationPanel();
+
     void SelectGUITab();
     void ExpandGUIPanel();
+    void ShrinkGUIPanel();
     
     void SelectActorsTab();
     void ExpandActorsPanel();
-    
+    void ShrinkActorsPanel();
+
     void SelectMusicTab();
     void ExpandMusicPanel();
-    
+    void ShrinkMusicPanel();
+
     void HideSideTabPanel();
 
-    EditorProject Project;
+    std::shared_ptr<chaiscript::ChaiScript> EditorScriptEngine;
 
+    Json::Value ProjectJson;
+    std::string PROJECT_PATH = { "" };
+    void LoadAssets();
+    void LoadSheets();
+    void LoadSheet(const Json::Value &sheet);
+    void LoadObjects();
+    void LoadScripts(chaiscript::ModulePtr ptr);
+
+    std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
     std::map<std::string, std::shared_ptr<TileSheet>> TIleSheets;
 
     tgui::MenuBar::Ptr MenuBar;
+
+    std::function<void(float)> FtnPtr;
 
     //TGUI elements
     tgui::Font TestTGUIFont;
     tgui::Theme::Ptr UIThemePtr;
     tgui::Panel::Ptr SideTabPanel;
     tgui::Button::Ptr LevelTab;
+    tgui::Button::Ptr TilesTab;
     tgui::Button::Ptr AnimationTab;
     tgui::Button::Ptr GUITab;
     tgui::Button::Ptr ActorsTab;
@@ -189,6 +193,7 @@ namespace Engine
     tgui::Texture ForArrorMediumTexture;
 
     tgui::Panel::Ptr LevelPanel;
+    tgui::Label::Ptr LevelPanelLabel;
     tgui::SpinButton::Ptr LevelPanelLayerSpinner;
     tgui::Button::Ptr LevelPanelTilesButton;
     tgui::Button::Ptr LevelPanelObjectsButton;
@@ -196,16 +201,24 @@ namespace Engine
     tgui::Button::Ptr LevelPanelMusicButton;
     tgui::Button::Ptr LevelPanelExpandButton;
 
+    tgui::Panel::Ptr TilesPanel;
+    tgui::Label::Ptr TilesPanelLabel;
+    tgui::Button::Ptr TilesPanelExpandButton;
+
     tgui::Panel::Ptr AnimationPanel;
+    tgui::Label::Ptr AnimationPanelLabel;
     tgui::Button::Ptr AnimationPanelExpandButton;
 
     tgui::Panel::Ptr GUIPanel;
+    tgui::Label::Ptr GUIPanelLabel;
     tgui::Button::Ptr GUIPanelExpandButton;
 
     tgui::Panel::Ptr ActorsPanel;
+    tgui::Label::Ptr ActorsPanelLabel;
     tgui::Button::Ptr ActorsPanelExpandButton;
 
     tgui::Panel::Ptr MusicPanel;
+    tgui::Label::Ptr MusicPanelLabel;
     tgui::Button::Ptr MusicPanelExpandButton;
 
     std::shared_ptr<TileSheetEditor> EditTilesWindow;
@@ -220,16 +233,12 @@ namespace Engine
     sf::RenderStates EditorRenderState;
     sf::RectangleShape EditorRect;
 
-    chaiscript::ChaiScript *EditorScriptEngine;
-
     //Test actor, just for testing
     GenericActor TestActor;
     std::shared_ptr<sf::Texture> TestActorSpriteSheet;
     std::shared_ptr<Animation> TestAnimation;
 
     std::shared_ptr<Level> EditLevel;
-
-    std::shared_ptr<UI::ListWidget> TestListWidget;
 
     //Used for sizing/spacing for different windows sizes
     float TopButtonHeight;
