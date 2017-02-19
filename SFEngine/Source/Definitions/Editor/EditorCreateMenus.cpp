@@ -153,6 +153,7 @@ namespace Engine
       TilesPanelListBox = UIThemePtr->load("ListBox");
       TilesPanelListBox->setSize({ 200.f, 400.f });
       TilesPanelListBox->setPosition({ 50.f, 150.f });
+      TilesPanelListBox->connect("doubleclicked", [this](std::string str) -> void { this->TileSheetSelected(str); });
       TilesPanelTilesLabel = UIThemePtr->load("Label");
       TilesPanelTilesLabel->setText("Tiles:");
       xDiff = 300.f - TilesPanelTilesLabel->getSize().x;

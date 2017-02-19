@@ -25,7 +25,7 @@ namespace Engine
     std::chrono::high_resolution_clock::time_point RenderEnd;
 
     double TickDelta;
-    Window->setVerticalSyncEnabled(true);
+    Window->setVerticalSyncEnabled(false);
     sf::Event evnt;
 
     std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
@@ -33,16 +33,6 @@ namespace Engine
 
     sf::Sprite GameSprite;
     GameSprite.setTexture(GameMainTexture->getTexture());
-
-    //(*ScriptEngine).add_global(chaiscript::var(&TestPlayer), "MainPlayer");
-
-    //if we are launching with the editor, enable the editor
-    //otherwise, create a main level and update the level instead of the editor
-//#ifdef WITH_EDITOR
-//    GameEditor.Render();
-//#else
-//    std::shared_ptr<Level> MainLevel(new Level);
-//#endif
 
     sf::RectangleShape Rect;
     Rect.setPosition({ 100, 100 });
@@ -57,8 +47,8 @@ namespace Engine
     sf::Sprite EditorSprite;
     EditorSprite.setTexture(EditorTexture->getTexture());
 
-    Window->setVerticalSyncEnabled(true);
-    Window->setFramerateLimit(60);
+    Window->setVerticalSyncEnabled(false);
+    //Window->setFramerateLimit(60);
     bool Closed = false;
 
 #ifdef WITH_EDITOR
@@ -114,15 +104,11 @@ namespace Engine
         Window->draw(EditorSprite);
         GUI->draw();
         Window->display();
-        //Render();
       }
       catch (chaiscript::exception::eval_error &e)
       {
         std::cerr << "Script execution error in runtime: " << e.what() << std::endl;
       }
-
-      //glFlush();
-      //currentRenderWindow->display();
 
     }
     //delete RenderSettings.texture;

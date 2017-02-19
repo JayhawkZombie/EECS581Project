@@ -45,9 +45,6 @@ namespace Engine
     Render::__Set__Window(Window);
     Window->clear(sf::Color::Black);
     Window->display();
-
-    std::cerr << "Core profile settings: " << Window->getSettings().majorVersion << "." << Window->getSettings().minorVersion << std::endl;
-    std::cerr << "Created Window Size  : " << Window->getSize().x << ", " << Window->getSize().y << std::endl;
   }
 
   UINT32 SFEngine::Startup()
@@ -55,8 +52,6 @@ namespace Engine
     if (!sf::Shader::isAvailable()) {
       return(GL_NO_SHADERS);
     }
-
-    std::cerr << "Binding callbacks" << std::endl;
     Handler.BindCallback(Events::GainedFocus,
                          [this]() {this->HandleWindowGainedFocus(); });
 
@@ -104,25 +99,6 @@ namespace Engine
       ContextSettings.depthBits = Util::GetUnsignedIntConfig("Render", "uiDepthBits", 0, "Engine.ini", _IN);
       ContextSettings.sRgbCapable = Util::GetBooleanConfig("Render", "bSRGBCapable", true, "Engine.ini", _IN);
       ContextSettings.stencilBits = Util::GetUnsignedIntConfig("Render", "uiStencilBits", 0, "Engine.ini", _IN);
-
-      //see if there are any assets that need to be cooked (will not be done like this forever, only for now)
-      bool needconvert = Util::GetBooleanConfig("Etc", "AssetsToCovert", false, "Engine.ini", _IN);
-      std::cerr << "Need to convert assets? " << (needconvert ? "Yes" : "No") << std::endl;
-      std::string assets;
-      if (needconvert) {
-        assets = Util::GetBracedConfig("Etc", "Assets", "{}", "Engine.ini", _IN);
-        assets.erase(assets.begin() + 0); assets.erase(assets.end() - 1);
-
-        std::vector<std::string> ToCovert;
-        std::stringstream stream(assets);
-        std::string holder;
-        while (stream >> holder)
-          ToCovert.push_back(holder);
-
-        for (auto & file : ToCovert)
-          Convert::Level(file);
-      }
-
       _IN.clear();
       _IN.close();
     }
@@ -131,7 +107,6 @@ namespace Engine
     std::cerr << "Initialized RenderWindow" << std::endl;
     //Create the GUI window immediately
     GUI = std::make_shared<tgui::Gui>(*currentRenderWindow);
-    std::cerr << "Created GUI" << std::endl;
 
     tgui::ToolTip::setTimeToDisplay(sf::milliseconds(300));
 

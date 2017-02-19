@@ -42,7 +42,7 @@ namespace Engine
     TextFont = std::make_shared<sf::Font>();
     TextFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
 
-    LoadProject("C:\\Projects\\TestProject\\testproject.json");
+    LoadProject("./Projects/TestProject/testproject.json");
 
     PreviewGridInfoText.setFont(EditorFont);
     PreviewGridInfoText.setCharacterSize(6);
@@ -142,7 +142,7 @@ namespace Engine
     SetGravity(&Gravity);
 
     UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
-
+    currentRenderWindow->setVerticalSyncEnabled(false);
     tgui::Label::Ptr btntooltip = UIThemePtr->load("ToolTip");
     btntooltip->setFont(GUI->getFont());
     btntooltip->setText("tooltip");
@@ -258,6 +258,13 @@ namespace Engine
 
   void Editor::TileSheetSelected(std::string sheet)
   {
+    auto sheetptr = TIleSheets[sheet];
+
+    TilesPanelTilesList->removeAllItems();
+
+    for (auto & tile : sheetptr->GetLevelTiles()) {
+      TilesPanelTilesList->addItem(tile.first);
+    }
 
   }
 

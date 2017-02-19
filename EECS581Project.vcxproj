@@ -532,6 +532,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorTileEditing.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineBindScripts.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineCommandProcessor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineCrashRecovery.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine_ExposedScriptMethods.cpp" />

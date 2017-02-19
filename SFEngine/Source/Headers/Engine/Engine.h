@@ -62,8 +62,12 @@ namespace Engine
       else
         return{ 0, 0 };
     }
-
+    void CommandProcessor(const std::string &command);
   private:
+    void ProcessRenderCommand(const std::string &command);
+    void ProcessImmediateCommand(const std::string &command);
+    void ProcessEventCommand(const std::string &command);
+
     //UI event objects
     InputEvent UIInputEvent;
     FocusChangeEvent UIFocusChangeEvent;
