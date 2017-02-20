@@ -35,6 +35,8 @@ namespace Engine
     sf::VertexArray TilesVertices;
     sf::RenderStates TileRenderState;
     std::shared_ptr<sf::Texture> BGTileTexture;
+    sf::VertexArray TileVerts;
+
     std::vector<std::shared_ptr<LevelTile>> Tiles;
   };
 

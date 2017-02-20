@@ -43,8 +43,24 @@ namespace Engine
 
     virtual void UpdateMesh();
     virtual void UpdateSegments();
+    virtual void SetID(const std::string &ID) override;
+
+    virtual void OnGameStart();
+    virtual void OnGameEnd();
+    virtual void OnKilled();
 
   protected:
+
+    std::string GameStartEvalString;
+    std::string GameEndEvalString;
+    std::string KilledEvalString;
+    std::string UpdateEvalString;
+
+    //Strings for invoking methods
+    static std::string GAME_START_STRING;
+    static std::string GAME_END_STRING;
+    static std::string KILLED_STRING;
+    static std::string UPDATE_STRING;
 
     std::shared_ptr<PhysicsEngineBaseMeshType> ObjectMesh;
     std::shared_ptr<PhysicsEngineSegmentType> ObjectSegments;

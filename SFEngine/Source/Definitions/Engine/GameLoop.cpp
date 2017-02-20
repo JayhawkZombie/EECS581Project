@@ -10,6 +10,11 @@
 namespace Engine
 {
 
+  void func()
+  {
+    std::cerr << "Func called" << std::endl;
+  }
+
   void SomeCallback(std::shared_ptr<sf::Texture> tex, const std::string &ID)
   {
     std::cerr << "<<<<< OOOOOOOH!!!!!" << std::endl;
@@ -34,11 +39,6 @@ namespace Engine
     sf::Sprite GameSprite;
     GameSprite.setTexture(GameMainTexture->getTexture());
 
-    sf::RectangleShape Rect;
-    Rect.setPosition({ 100, 100 });
-    Rect.setSize({ 500, 500 });
-    Rect.setFillColor(sf::Color(0, 0, 102));
-
     Window->clear(sf::Color::Black);
     std::shared_ptr<sf::RenderTexture> EditorTexture(new sf::RenderTexture);
     EditorTexture->create(static_cast<unsigned int>(std::ceil(WindowSize.x)), static_cast<unsigned int>(std::ceil(WindowSize.y)));
@@ -47,9 +47,25 @@ namespace Engine
     sf::Sprite EditorSprite;
     EditorSprite.setTexture(EditorTexture->getTexture());
 
+    tgui::Theme::Ptr theme = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
+
+    EngineScriptConsole = std::make_shared<ScriptConsole>(sf::Vector2f(WindowSize.x, 400), sf::Vector2f(0, (WindowSize.y - 400.f)), theme);
+    EngineScriptConsole->SetInputCallback([this](std::string str) { this->CommandProcessor(str); });
+
+    AddKeyboardShortcut({ sf::Keyboard::LControl, sf::Keyboard::LShift, sf::Keyboard::C },
+                        [this]() { if (this && this->EngineScriptConsole) this->EngineScriptConsole->Open(); });
+
+    chaiscript::ModulePtr mptr = std::make_shared<chaiscript::Module>();
+    ScriptConsole::BindMethods(mptr);
+    ScriptEngine->add(mptr);
+    EngineScriptConsole->AddToModule(mptr, "Console");
+    ScriptEngine->eval_file("./SFEngine/Source/CoreFiles/Scripts/ConsoleFunctions.chai");
     Window->setVerticalSyncEnabled(false);
+    Window->setKeyRepeatEnabled(false);
     //Window->setFramerateLimit(60);
     bool Closed = false;
+
+    ScriptEngine->add(chaiscript::fun(Engine::func), "func");
 
 #ifdef WITH_EDITOR
     GameEditor.PreLoopSetup();

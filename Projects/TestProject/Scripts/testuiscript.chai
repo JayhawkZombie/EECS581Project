@@ -1,0 +1,29 @@
+def OnGameStart()
+{
+  
+}
+
+def OnGameEnd()
+{
+  
+}
+
+def OnKilled()
+{
+  
+}
+
+def Update(double delta)
+{
+  
+}
+
+def Interacted()
+{
+  
+}
+
+def RestoreAttr()
+{
+  
+}

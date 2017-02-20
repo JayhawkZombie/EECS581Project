@@ -167,10 +167,12 @@ namespace Engine
       Json::Value rect;
       std::string tileName{ "" };
       sf::IntRect iRect{ 0, 0, 0, 0 };
+      Json::Value size;
 
       for (auto & frame : sheet_frames) {
         tileName = frame["Name"].asString();
         rect = frame["Rect"];
+        size = frame["Size"];
 
         //there should be 4 items in this array
         if (!rect.isArray())

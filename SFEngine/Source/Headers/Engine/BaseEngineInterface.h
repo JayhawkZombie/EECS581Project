@@ -55,8 +55,6 @@ namespace Engine
       InternalID = ID;
     }
   protected:
-
-  private:
     static void NO_ACTION(BaseEngineInterface *item, const sf::Vector2i &i);
     static void NO_ACTION(BaseEngineInterface *item, const sf::Mouse::Button &);
     static void NO_ACTION(BaseEngineInterface *item, const sf::Keyboard::Key &);

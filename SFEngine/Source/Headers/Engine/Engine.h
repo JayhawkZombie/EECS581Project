@@ -16,8 +16,9 @@
 #include "../Utils/AssetConverters.h" 
 #include "../Globals/GlobalHooks.h"
 #include "Editor.h"
+#include "../Events/UserEvent.h"
 #include "../../../../Game/GameMain.h"
-
+#include "ScriptConsole.h"
 #include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
@@ -67,6 +68,7 @@ namespace Engine
     void ProcessRenderCommand(const std::string &command);
     void ProcessImmediateCommand(const std::string &command);
     void ProcessEventCommand(const std::string &command);
+    std::shared_ptr<ScriptConsole> EngineScriptConsole;
 
     //UI event objects
     InputEvent UIInputEvent;
@@ -86,7 +88,7 @@ namespace Engine
 
 	  Player TestPlayer;
 
-    chaiscript::ChaiScript *ScriptEngine;
+    //chaiscript::ChaiScript *ScriptEngine;
     chaiscript::ModulePtr EngineModule;
     chaiscript::ModulePtr LevelModule;
     //Methods that we will expose to the scripting engine to change engine settings

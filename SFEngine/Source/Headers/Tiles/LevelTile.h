@@ -33,8 +33,12 @@ namespace Engine
     virtual void UpdateSegments();
     virtual TileSheet* GetSheet() const;
     virtual std::weak_ptr<TileGrid> GetGrid() const;
+    virtual void SetSize(const sf::Vector2f &Size);
   
     std::vector<sf::VertexArray> Frames = { sf::VertexArray(sf::Quads, 4) };
+    sf::IntRect TextureRect;
+    sf::RectangleShape TileRect;
+
     std::weak_ptr<TileGrid> Grid;
     TileSheet *Sheet = nullptr;
     std::uint32_t MyCellX = 0, MyCellY = 0;

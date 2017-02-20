@@ -2,10 +2,16 @@
 #define SFENGINE_GLOBAL_HOOKS_H
 
 #include <SFML\Graphics.hpp>
+#ifdef _WINUSER_
+#undef _WINUSER_
+#endif
+
 #include <algorithm>
 #include <unordered_set>
 #include "../Resources/ResourceManager.h"
+#include "../Streams/DataStream.h"
 #include <TGUI\TGUI.hpp>
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 
 
 const std::string EngineVersionString{ "0.0.1" };
@@ -153,7 +159,6 @@ namespace Engine
   extern std::shared_ptr<sf::Texture> DefaultTexture;
   extern sf::Vector2f WindowSize;
   extern std::unordered_set<std::uint32_t> UsedIDs; //IDs that have been used. Can search this to verify an ID has not been used already
-
   extern bool IsIDUsed(const std::uint32_t &ID);
   extern void FreeID(const std::uint32_t &ID); //Make an ID available for use again
   extern std::uint32_t GenerateID(); //Use to try to generate a unique ID. This will throw an IDException if it cannot generate one after a set number of attempts
@@ -181,6 +186,8 @@ namespace Engine
   extern decltype(auto) GetIsUsingPreComputedLightMaps();
   extern decltype(auto) GetCanPhysicsApproxCollision();
 
+  extern void AddKeyboardShortcut(const std::vector<sf::Keyboard::Key> &keys, std::function<void(void)> callback);
+
   extern void AddScriptGlobal();
 
   //Some methods to use to serialize assets - put here so they can be globally accessible to anything that needs that
@@ -204,6 +211,11 @@ namespace Engine
   void DeserializeChar(char &c, std::ifstream &out);
 
   void MessageAlert(const std::string &message);
+  void ConfirmAlert(const std::string &message, std::string OKText = "OK", std::string CancelText = "Cancel", std::function<void(void)> OKcb = []() {}, std::function<void(void)> Cancelcb = []() {});
+
+  class UserEvent;
+  extern DataStream<UserEvent> EngineEventStream;
+  extern chaiscript::ChaiScript *ScriptEngine;
 
 #ifdef WITH_EDITOR
   class SFEngine;

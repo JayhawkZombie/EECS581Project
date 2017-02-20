@@ -6,29 +6,35 @@ namespace Engine
     Syntax:
 
     cmd_string :: comm | null
-    comm       :: tag "::" comm | immed_comm
+    comm       :: tag " " comm | immed_comm
     tag        :: <string>
     comm       :: func_call | assignment
     immed_comm :: Quit | Exit | SimCrash
 
-    eg - Disable VSync
-      cmd("r::disable_vsync");
-       - enable key repeats
-      cmd("e::enable_key_repeat");
+    commands:
+      Core:
+        "Core Quit" - Quit, normal shutdown
+        "Core Shutdown" - Shutdown, do not notify other modules
+        "Core Abort" - Crash
+        "Core Clean" - Clean up, not implemented yet
+
+      Render:
+        "Render EnableVSync" - enable VSync
+        "Render DisableVSyns" - disable VSync
+        "Render EnableShaders" - enable shader
+        "Render DisableShaders" - disable shader
   */
   void SFEngine::CommandProcessor(const std::string &command)
   {
     //first see if there was a tag
-    auto pos = command.find("::");
-    if (pos != std::string::npos) {
-      //we need to get the sub-category and process that command
-      std::string category = command.substr(0, pos);
-      if (category == "r") {
-        ProcessRenderCommand(command.substr(pos + 2));
-      }
-      else if (category == "e") {
-        ProcessEventCommand(command.substr(pos + 2));
-      }
+    std::cerr << "Command received: " << command << std::endl;
+    try
+    {
+      ScriptEngine->eval(command);
+    }
+    catch (chaiscript::exception::eval_error &err)
+    {    
+      EngineScriptConsole->IssueResponse("Eval error : " + std::string(err.what()));
     }
   }
 

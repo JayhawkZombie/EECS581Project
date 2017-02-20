@@ -3,7 +3,7 @@
     "Info": {
       "Name": "SampleProject",
       "Version": "0.1.A",
-      "PROJECT_PATH": "C:\\Projects\\TestProject"
+      "PROJECT_PATH": "./Projects/TestProject/"
     },
 
     "Data": {
@@ -11,6 +11,10 @@
         {
           "Name": "GraveyardSheet",
           "Path": "/Textures/GraveyardSheet.png"
+        },
+        {
+          "Name": "ForestSpriteSheet",
+          "Path": "/Textures/ForestSpriteSheet.png"
         },
         {
           "Name": "ThrusterAnimation",
@@ -36,129 +40,267 @@
 
       "Sheets": [
         {
+          "Name": "ForestSheet",
+          "Sheet": {
+            "Texture": "ForestSpriteSheet",
+            "Frames": [
+              {
+                "Name": "ForestLeftEdge",
+                "Rect": [ 16, 0, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestNoTop",
+                "Rect": [ 0, 0, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "TreeBottom",
+                "Rect": [ 80, 16, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestRightEdge",
+                "Rect": [ 16, 32, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestTopRightEdge",
+                "Rect": [ 0, 32, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "LayeredTree",
+                "Rect": [ 80, 32, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestHorizontalEdge",
+                "Rect": [ 16, 32, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestNoLeft",
+                "Rect": [ 64, 32, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestNoBottom",
+                "Rect": [ 48, 0, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestNoRight",
+                "Rect": [ 48, 16, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "Ground",
+                "Rect": [ 16, 16, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestBottomEdge",
+                "Rect": [ 32, 16, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "TreeTop",
+                "Rect": [ 80, 0, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestVerticalEdge",
+                "Rect": [ 64, 16, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestTopEdge",
+                "Rect": [ 0, 16, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestBottomRightEdge",
+                "Rect": [ 32, 32, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "ForestBottomLeftEdge",
+                "Rect": [ 80, 0, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "Grass1",
+                "Rect": [ 96, 0, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "Grass2",
+                "Rect": [ 96, 16, 16, 16 ],
+                "Size": [ 64, 64 ]
+              },
+              {
+                "Name": "Grass3",
+                "Rect": [ 96, 32, 16, 16 ],
+                "Size": [ 64, 64 ]
+              }
+            ]
+          }
+        },
+        {
           "Name": "GraveyardSheet",
           "Sheet": {
             "Texture": "GraveyardSheet",
             "Frames": [
               {
                 "Name": "ArrowSign",
-                "Rect": [ 0, 756, 86, 87 ]
+                "Rect": [ 0, 756, 86, 87 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Bones1",
-                "Rect": [ 0, 240, 128, 128 ]
+                "Rect": [ 0, 240, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Bones2",
-                "Rect": [ 0, 369, 128, 128 ]
+                "Rect": [ 0, 369, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Bones3",
-                "Rect": [ 129, 240, 128, 128 ]
+                "Rect": [ 129, 240, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Bones4",
-                "Rect": [ 287, 166, 128, 128 ]
+                "Rect": [ 287, 166, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Bush1",
-                "Rect": [ 287, 0, 182, 90 ]
+                "Rect": [ 287, 0, 182, 90 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Bush2",
-                "Rect": [ 258, 475, 100, 64 ]
+                "Rect": [ 258, 475, 100, 64 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Crate",
-                "Rect": [ 129, 498, 106, 106 ]
+                "Rect": [ 129, 498, 106, 106 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "DeadBush",
-                "Rect": [ 287, 91, 132, 74 ]
+                "Rect": [ 287, 91, 132, 74 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Sign",
-                "Rect": [ 129, 605, 91, 93 ]
+                "Rect": [ 129, 605, 91, 93 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Skeleton",
-                "Rect": [ 258, 424, 102, 50 ]
+                "Rect": [ 258, 424, 102, 50 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile1",
-                "Rect": [ 129, 369, 128, 128 ]
+                "Rect": [ 129, 369, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile10",
-                "Rect": [ 258, 295, 128, 128 ]
+                "Rect": [ 258, 295, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile11",
-                "Rect": [ 470, 0, 128, 128 ]
+                "Rect": [ 470, 0, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile12",
-                "Rect": [ 416, 166, 128, 128 ]
+                "Rect": [ 416, 166, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile13",
-                "Rect": [ 599, 0, 128, 128 ]
+                "Rect": [ 599, 0, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile14",
-                "Rect": [ 387, 295, 128, 128 ]
+                "Rect": [ 387, 295, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile15",
-                "Rect": [ 545, 129, 128, 128 ]
+                "Rect": [ 545, 129, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile16",
-                "Rect": [ 728, 0, 128, 128 ]
+                "Rect": [ 728, 0, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile2",
-                "Rect": [ 545, 258, 128, 128 ]
+                "Rect": [ 545, 258, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile3",
-                "Rect": [ 674, 129, 128, 128 ]
+                "Rect": [ 674, 129, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile4",
-                "Rect": [ 857, 0, 128, 128 ]
+                "Rect": [ 857, 0, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile5",
-                "Rect": [ 674, 258, 128, 128 ]
+                "Rect": [ 674, 258, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile6",
-                "Rect": [ 803, 129, 128, 128 ]
+                "Rect": [ 803, 129, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile7",
-                "Rect": [ 803, 258, 128, 128 ]
+                "Rect": [ 803, 258, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile8",
-                "Rect": [ 0, 498, 128, 128 ]
+                "Rect": [ 0, 498, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tile9",
-                "Rect": [ 0, 627, 128, 128 ]
+                "Rect": [ 0, 627, 128, 128 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "TombStone1",
-                "Rect": [ 361, 424, 54, 55 ]
+                "Rect": [ 361, 424, 54, 55 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "TombStone2",
-                "Rect": [ 236, 540, 53, 76 ]
+                "Rect": [ 236, 540, 53, 76 ],
+                "Size": [ 64, 64 ]
               },
               {
                 "Name": "Tree",
-                "Rect": [ 0, 0, 286, 239 ]
+                "Rect": [ 0, 0, 286, 239 ],
+                "Size": [ 64, 64 ]
               }
             ]
           }

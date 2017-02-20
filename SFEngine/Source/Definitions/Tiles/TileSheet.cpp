@@ -140,6 +140,8 @@ namespace Engine
     Tiles[str] = std::make_shared<LevelTile>();
     Tiles[str]->Name = str;
     Tiles[str]->Sheet = this;
+    Tiles[str]->TextureRect = Rect;
+    Tiles[str]->TileRect.setTexture(Texture.get());
     Tiles[str]->Frames.back()[0].texCoords = { static_cast<float>(Rect.left), static_cast<float>(Rect.top) };
     Tiles[str]->Frames.back()[1].texCoords = { static_cast<float>(Rect.left + Rect.width), static_cast<float>(Rect.top) };
     Tiles[str]->Frames.back()[2].texCoords = { static_cast<float>(Rect.left + Rect.width), static_cast<float>(Rect.top + Rect.height) };
