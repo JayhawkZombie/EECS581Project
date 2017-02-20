@@ -19,6 +19,9 @@ namespace Engine
   class Layer : public BaseEngineInterface
   {
   public:
+#ifdef WITH_EDITOR
+    friend class Editor;
+#endif
     Layer();
     Layer(const Layer &) = delete;
     ~Layer();
@@ -87,7 +90,9 @@ namespace Engine
 
     sf::RectangleShape LevelRectangle; //to draw the scene to
     std::shared_ptr<sf::RenderTexture> SceneTarget;
-
+    std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
+    std::map<std::string, std::shared_ptr<TileSheet>> TIleSheets;
+    std::map<std::string, std::shared_ptr<Animation>> Animations;
     sf::Vector2u Size;
     sf::Vector2f GridBlockSize;
     

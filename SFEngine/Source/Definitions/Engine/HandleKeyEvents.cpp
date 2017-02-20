@@ -1,7 +1,50 @@
 #include "../../Headers/Engine/Engine.h"
 
+
+namespace
+{
+  struct KeyboardSC
+  {
+    KeyboardSC() = default;
+    KeyboardSC(const KeyboardSC &other)
+      : Keys(other.Keys), CB(other.CB), WasUsed(other.WasUsed) {}
+
+    std::vector<sf::Keyboard::Key> Keys;
+    std::function<void(void)> CB;
+    bool WasUsed = false;
+  };
+  std::vector<KeyboardSC> KeyboardShortcuts;
+}
+
+
+
 namespace Engine
 {
+
+  void AddKeyboardShortcut(const std::vector<sf::Keyboard::Key> &keys, std::function<void(void)> callback)
+  {
+    KeyboardSC SC;
+    SC.Keys = keys;
+    SC.CB = callback;
+    SC.WasUsed = false;
+    KeyboardShortcuts.push_back(SC);
+  }
+
+  void CheckKeyboardShortcuts()
+  {
+    bool use = true;
+    for (auto SC : KeyboardShortcuts) {
+      for (auto & key : SC.Keys) {
+        if (!sf::Keyboard::isKeyPressed(key)) {
+          SC.WasUsed = false;
+          use = false;
+          break;
+        }
+      }
+      if (use)
+        SC.CB();
+    }
+  }
 
   void SFEngine::HandleTextEntered(const sf::Uint32 &unicode)
   {
@@ -35,6 +78,8 @@ namespace Engine
     UIInputEvent.KeyRepeat = false;
     UIInputEvent.KeyWasPressed = true;
     UIInputEvent.KeyWasReleased = false;
+
+    CheckKeyboardShortcuts();
     
 #ifdef WITH_EDITOR
     GameEditor.HandleKeyPressed(UIInputEvent);
@@ -65,6 +110,8 @@ namespace Engine
     UIInputEvent.KeyRepeat = false;
     UIInputEvent.KeyWasPressed = false;
     UIInputEvent.KeyWasReleased = true;
+
+    //CheckKeyboardShortcuts();
 
 #ifdef WITH_EDITOR
     GameEditor.HandleKeyReleased(UIInputEvent);

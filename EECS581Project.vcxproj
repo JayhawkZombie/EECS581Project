@@ -326,14 +326,18 @@
     <ClInclude Include="SFEngine\Source\Headers\Editor\CreateNewProject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProjectFile.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\EntityCreator.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\FileBrowser.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\TileSheetEditor.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Engine\ScriptConsole.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Events\UserEvent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\EffectBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\FastShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\ProjectileBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
@@ -521,6 +525,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorLoadProject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProjectFile.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Editor\EntityCreator.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\FileBrowser.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\TileSheetEditor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Editor\Editor.cpp" />
@@ -532,6 +537,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorTileEditing.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineBindScripts.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineCommandProcessor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineCrashRecovery.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine_ExposedScriptMethods.cpp" />
@@ -545,6 +551,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Engine\HandleWindowLostFocus.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\HandleWindowResized.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Init.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\ScriptConsole.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Shutdown.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Startup.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Events\EventHandler.cpp" />
@@ -562,6 +569,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeIn.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeOut.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Streams\DataStream.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\LevelTile.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelTileSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelUpdate.cpp" />
@@ -680,6 +688,8 @@
   <ItemGroup>
     <None Include="Diagrams\Engine\ClassDiagram.emf" />
     <None Include="Game\GameSetup.chai" />
+    <None Include="Projects\TestProject\Scripts\testuiscript.chai" />
+    <None Include="Projects\TestProject\testproject.json" />
     <None Include="SFEngine\Config\Engine.ini" />
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
     <None Include="SFEngine\Samples\Fonts\AbstractBitmap.xcf" />
@@ -702,6 +712,7 @@
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGHovered.xcf" />
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.xcf" />
     <None Include="SFEngine\Source\BlurFragmentShader.fsh" />
+    <None Include="SFEngine\Source\CoreFiles\Scripts\ConsoleFunctions.chai" />
     <None Include="SFEngine\Source\CoreFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreScript.chai" />
     <None Include="SFEngine\Source\CoreVertexShader.vsh" />

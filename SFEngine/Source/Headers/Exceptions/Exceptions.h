@@ -2,7 +2,7 @@
 #define SFENGINE_EXCEPTIONS_H
 
 #include <string>
-
+#include <vector>
 #include <stdexcept>
 
 #define EXCEPTION_STRINGIFY(X) #X

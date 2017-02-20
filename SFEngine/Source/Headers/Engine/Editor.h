@@ -1,25 +1,14 @@
 #ifndef SFENGINE_EDITOR_H
 #define SFENGINE_EDITOR_H
 
-#include <SFML/Graphics.hpp>
-
 #include "../BasicIncludes.h"
-
 #include "../Actor/Player.h"
-#include "../Animation/Animation.h"
-#include "../Render/Render.h"
-
 #include "../../../ThirdParty/PhysicsEngine.h"
-#include "../UI/ObjectView.h"
+#include "../UI/Events/Events.h"
 #include "../Editor/EditorProject.h"
 #include "../UI/UIIconSheet.h"
-#include "../Editor/AnimationViewer.h"
-#include <fstream>
-#include <map>
-//TGUI elements
-#include "../Editor/TileSheetEditor.h"
 #include "../Editor/CreateNewProject.h"
-#include "../Editor/EditorProject.h"
+#include "../Editor/EntityCreator.h"
 
 namespace Engine
 {
@@ -99,6 +88,10 @@ namespace Engine
     { 236, 540, 53, 76 },
     { 0, 0, 286, 239 }
   };
+
+  class AnimationViewer;
+  class ObjectViewer;
+  class TileSheetEditor;
 
   class Editor
   {
@@ -184,6 +177,8 @@ namespace Engine
     bool Done = false;
     bool GUIPopulated = false;
 
+    std::shared_ptr<EntityCreator> Creator;
+
     //TGUI elements
     tgui::Font TestTGUIFont;
     tgui::Theme::Ptr UIThemePtr;
@@ -221,6 +216,8 @@ namespace Engine
     tgui::ListBox::Ptr TilesPanelTilesList;
     tgui::Label::Ptr TilesPanelTilesLabel;
     tgui::Button::Ptr TilesPanelClearButton;
+    tgui::Canvas::Ptr TilesPanelTileCanvas;
+    sf::RectangleShape TileSPanelTileCanvasRect;
     void TileSheetSelected(std::string sheet);
     void TileSelected(std::string tile);
 
@@ -246,10 +243,9 @@ namespace Engine
     std::shared_ptr<TileSheetEditor> EditTilesWindow;
     std::shared_ptr<NewProjectCreator> ProjectCreator;
 
-#ifdef MessageBox
-#undef MessageBox //WTF seriously? WTF is defining MessageBoxW as MessageBox? That is stupid, GTFO -- WINDOWWWWWWWSSSSS, WWWWWHHHHHYYYYYYYYY???!!!!!!!!!
+#ifdef MessageBox //Ugh windows, why do you do this crap?
+#undef MessageBox
 #endif
-
     tgui::MessageBox::Ptr QuitMessageBox;
 
     sf::RenderStates EditorRenderState;
@@ -267,8 +263,6 @@ namespace Engine
     float TopButtonWidth;
 
     bool IsUpdateLevelEnabled = true;
-
-    std::shared_ptr<UI::LevelWidget> LevelView;
 
     //Icon sheet
     std::shared_ptr<sf::Texture> IconSheet;
@@ -295,9 +289,6 @@ namespace Engine
     sf::Font EditorFont;
     sf::Text EditorModeText;
     sf::Text PreviewGridInfoText;
-
-    std::shared_ptr<UI::WidgetHelper> UIHelper;
-    std::shared_ptr<UI::UILayer> UILayer;
     sf::Sprite UISprite;
 
     std::shared_ptr<sf::RenderTexture> UITexture;

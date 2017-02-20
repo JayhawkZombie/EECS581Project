@@ -1,4 +1,6 @@
 #include "../../Headers/Engine/Editor.h"
+#include "../../Headers/Editor/AnimationViewer.h"
+#include "../../Headers/Editor/TileSheetEditor.h"
 
 namespace Engine
 {
@@ -25,6 +27,9 @@ namespace Engine
       MenuBar->addMenuItem("add", "object");
       MenuBar->addMenuItem("add", "light");
       MenuBar->addMenuItem("add", "actor");
+      MenuBar->addMenu("view");
+      MenuBar->addMenuItem("view", "creator");
+      MenuBar->addMenuItem("view", "console");
       MenuBar->setPosition({ 0,0 });
       MenuBar->setSize({ WindowSize.x }, { 20 });
       GUI->add(MenuBar);
@@ -146,6 +151,12 @@ namespace Engine
       TilesPanelExpandButton->setSize({ 20, 20 });
       TilesPanel->add(TilesPanelExpandButton);
 
+      TilesPanelTileCanvas = std::make_shared<tgui::Canvas>();
+      TilesPanelTileCanvas->setPosition({ 10, 910 });
+      TilesPanelTileCanvas->setSize({ 100, 100 });
+      TileSPanelTileCanvasRect.setSize({ 100, 100 });
+      TilesPanel->add(TilesPanelTileCanvas);
+
       TilesPanelListLabel = UIThemePtr->load("Label");
       TilesPanelListLabel->setText("Sheets:");
       xDiff = 300.f - TilesPanelListLabel->getSize().x;
@@ -153,6 +164,7 @@ namespace Engine
       TilesPanelListBox = UIThemePtr->load("ListBox");
       TilesPanelListBox->setSize({ 200.f, 400.f });
       TilesPanelListBox->setPosition({ 50.f, 150.f });
+      TilesPanelListBox->connect("doubleclicked", [this](std::string str) -> void { this->TileSheetSelected(str); });
       TilesPanelTilesLabel = UIThemePtr->load("Label");
       TilesPanelTilesLabel->setText("Tiles:");
       xDiff = 300.f - TilesPanelTilesLabel->getSize().x;
@@ -160,6 +172,7 @@ namespace Engine
       TilesPanelTilesList = UIThemePtr->load("ListBox");
       TilesPanelTilesList->setSize({ 200.f, 200.f });
       TilesPanelTilesList->setPosition({ 50.f, 700.f });
+      TilesPanelTilesList->connect("doubleclicked", [this](std::string str) -> void { this->TileSelected(str); });
 
       TilesPanel->add(TilesPanelListLabel);
       TilesPanel->add(TilesPanelListBox);
@@ -256,6 +269,8 @@ namespace Engine
       MusicPanelExpandButton->setSize({ 20, 20 });
       MusicPanel->add(MusicPanelExpandButton);
       GUI->add(MusicPanel);
+
+      Creator = std::make_shared<EntityCreator>(UIThemePtr);
 
       EditTilesWindow = std::make_shared<TileSheetEditor>(GUI, UIThemePtr);
       AnimationPanelAnimationViewer = std::make_shared<AnimationViewer>(UIThemePtr);

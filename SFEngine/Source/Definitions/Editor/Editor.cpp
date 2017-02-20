@@ -3,6 +3,8 @@
 #include "../../Headers/UI/UICreationMacros.h"
 #include "../../Headers/UI/UIIconSheet.h"
 #include "../../Headers/Level/Level.h"
+#include "../../Headers/Editor/AnimationViewer.h"
+#include "../../Headers/Editor/TileSheetEditor.h"
 
 namespace Engine
 {
@@ -42,7 +44,7 @@ namespace Engine
     TextFont = std::make_shared<sf::Font>();
     TextFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
 
-    LoadProject("C:\\Projects\\TestProject\\testproject.json");
+    LoadProject("./Projects/TestProject/testproject.json");
 
     PreviewGridInfoText.setFont(EditorFont);
     PreviewGridInfoText.setCharacterSize(6);
@@ -140,9 +142,9 @@ namespace Engine
     Gravity.x = 0.f;
     Gravity.y = 0.09f;
     SetGravity(&Gravity);
-
+    
     UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
-
+    currentRenderWindow->setVerticalSyncEnabled(false);
     tgui::Label::Ptr btntooltip = UIThemePtr->load("ToolTip");
     btntooltip->setFont(GUI->getFont());
     btntooltip->setText("tooltip");
@@ -172,14 +174,32 @@ namespace Engine
     }
     else if (vec[0].toAnsiString() == "edit") {
       //do edit stuff
-      if (vec[1].toAnsiString() == "tiles")
+      if (vec[1].toAnsiString() == "tiles") {
         EditTilesWindow->Open();
+      }
+      else if (vec[1].toAnsiString() == "items") {
+        Creator->Open();
+      }
+    }
+    else if (vec[0].toAnsiString() == "view") {
+      if (vec[1].toAnsiString() == "creator") {
+        if (Creator->IsOpen())
+          Creator->Close();
+        else
+          Creator->Open();
+      }
+      else if (vec[1].toAnsiString() == "console") {
+
+      }
     }
   }
 
   void Editor::ShutDownEditor()
   {
     FlagForClose = true;
+    Creator.reset();
+    Textures.clear();
+    Animations.clear();
   }
 
   void Editor::OpenTilesheetViewer()
@@ -258,12 +278,26 @@ namespace Engine
 
   void Editor::TileSheetSelected(std::string sheet)
   {
+    auto sheetptr = TIleSheets[sheet];
+    Creator->SetTileSheet(sheetptr);
+
+    TilesPanelTilesList->removeAllItems();
+
+    for (auto & tile : sheetptr->GetLevelTiles()) {
+      TilesPanelTilesList->addItem(tile.first);
+    }
 
   }
 
   void Editor::TileSelected(std::string tile)
   {
+    auto sheet = TIleSheets[TilesPanelListBox->getSelectedItem()];
+    auto _tile = sheet->GetLevelTiles()[tile];
 
+    auto frames = _tile->Frames;
+    auto tile_copy = _tile;
+
+    TilesPanelTileCanvas->draw(tile_copy->Frames[0], sheet->GetTexture().get());
   }
 
   void Editor::SelectAnimationTab()

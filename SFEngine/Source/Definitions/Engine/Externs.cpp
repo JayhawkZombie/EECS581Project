@@ -3,16 +3,24 @@
 
 #include <vector>
 
+
+#ifdef _WINUSER_
+#undef _WINUSER_
+#undef MessageBox
+#endif
+
 namespace Engine
 {
   sf::RenderWindow *currentRenderWindow = nullptr;
   std::shared_ptr<Resource::ResourceManager> ResourceManager;
   sf::Vector2f WindowSize;
   std::shared_ptr<sf::Texture> DefaultTexture;
-
+  chaiscript::ChaiScript *ScriptEngine;
   std::unordered_set<std::uint32_t> UsedIDs;
 
   std::shared_ptr<tgui::Gui> GUI;
+
+  DataStream<UserEvent> EngineEventStream;
 
   void SetKeyRepeatEnabled(bool enabled)
   {
@@ -111,7 +119,7 @@ namespace Engine
   decltype(auto) GetCurrentContextSettings()
   {
     sf::ContextSettings settings;
-    
+
     if (currentRenderWindow) {
       settings = currentRenderWindow->getSettings();
 
@@ -339,6 +347,53 @@ namespace Engine
     char _c = '\0';
     in.read((char *)(&_c), sizeof(char));
     c = _c;
+  }
+
+  void ConfirmAlert(const std::string &message, std::string OKText, std::string CancelText, std::function<void(void)> OKcb, std::function<void(void)> Cancelcb)
+  {
+    tgui::MessageBox::Ptr mbox = std::make_shared<tgui::MessageBox>();
+
+    mbox->setText(message);
+    mbox->setSize({ 400, 400 });
+
+    float xDiff = WindowSize.x - 400.f;
+    float yDiff = WindowSize.x - 400.f;
+
+    float buttonDiffX = 0;
+
+    tgui::Button::Ptr OKButton = std::make_shared<tgui::Button>();
+    tgui::Button::Ptr CancelButton = std::make_shared<tgui::Button>();
+
+    OKButton->setText(OKText);
+    CancelButton->setText(CancelText);
+
+    OKButton->connect("Clicked", [mbox, OKcb]() { 
+      if (OKcb) 
+        OKcb(); 
+      mbox->hide();
+      GUI->remove(mbox);
+    });
+    CancelButton->connect("Clicked", [mbox, Cancelcb]() {
+      if (Cancelcb)
+        Cancelcb();
+      mbox->hide();
+      GUI->remove(mbox);
+    });
+    mbox->connect("Closed", [message, OKText, CancelText, OKcb, Cancelcb] { ConfirmAlert(message, OKText, CancelText, OKcb, Cancelcb); });
+
+    auto OKxSize = OKButton->getSize().x;
+    auto CancelxSize = CancelButton->getSize().x;
+
+    //center the OK button in the left 200px of the message box
+    float OKSizeDiff = 200.f - OKxSize;
+    OKButton->setPosition({ OKSizeDiff / 2.f, 350 });
+
+    float CancelSizeDiff = 200.f - CancelxSize;
+    CancelButton->setPosition({ 200.f + CancelSizeDiff / 2.f, 350 });
+
+    mbox->add(OKButton);
+    mbox->add(CancelButton);
+
   }
 
   void MessageAlert(const std::string & message)

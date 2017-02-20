@@ -55,7 +55,6 @@ namespace Engine
     void HandleKeyPress(const sf::Keyboard::Key &k);
     void HandleKeyRelease(const sf::Keyboard::Key &k);
     void HandleTextEntered(const sf::Keyboard::Key &k);
-
   protected:
     sf::Vector2i v2iMousePosArg;
     sf::Mouse::Button enMouseButtonArg;

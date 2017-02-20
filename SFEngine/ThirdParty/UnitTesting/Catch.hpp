@@ -7325,6 +7325,7 @@ namespace Catch {
 #include <AfxWin.h>
 #else
 #include <windows.h>
+#undef MessageBox
 #endif
 
 namespace Catch {
@@ -8022,6 +8023,7 @@ namespace Catch
 
 #ifdef CATCH_PLATFORM_WINDOWS
 #include <windows.h>
+#undef MessageBox
 #else
 #include <sys/time.h>
 #endif

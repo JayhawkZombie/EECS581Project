@@ -31,6 +31,7 @@ namespace Engine
 
   void LevelTile::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
+    Target->draw(TileRect);
   }
 
   void LevelTile::OnShutDown()
@@ -47,6 +48,7 @@ namespace Engine
 
   void LevelTile::SetPosition(const sf::Vector2f & pos)
   {
+    TileRect.setPosition(pos);
   }
 
   void LevelTile::SetFrames(const sf::VertexArray & vArr, std::uint32_t NumFrames)
@@ -69,6 +71,11 @@ namespace Engine
   std::weak_ptr<TileGrid> LevelTile::GetGrid() const
   {
     return Grid;
+  }
+
+  void LevelTile::SetSize(const sf::Vector2f & Size)
+  {
+    TileRect.setSize(Size);
   }
 
 }
