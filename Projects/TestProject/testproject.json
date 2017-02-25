@@ -38,6 +38,21 @@
         }
       ],
 
+      "Audio": [
+        {
+          "Name": "IllegalityPoint",
+          "Path": "/Audio/IllegalityPoint.ogg"
+        },
+        {
+          "Name": "It's Our Battle",
+          "Path": "/Audio/ItsOurBattle.ogg"
+        },
+        {
+          "Name": "TempleOfTheMystics",
+          "Path": "/Audio/TempleOfTheMystics.ogg"
+        }
+      ],
+
       "Sheets": [
         {
           "Name": "ForestSheet",
@@ -45,104 +60,88 @@
             "Texture": "ForestSpriteSheet",
             "Frames": [
               {
-                "Name": "ForestLeftEdge",
-                "Rect": [ 16, 0, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathUpperLeft",
+                "Rect": [ 0, 0, 16, 16 ]
               },
               {
-                "Name": "ForestNoTop",
-                "Rect": [ 0, 0, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathUpperHorizontal",
+                "Rect": [ 16, 0, 16, 16 ]
               },
               {
-                "Name": "TreeBottom",
-                "Rect": [ 80, 16, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathUpperRight",
+                "Rect": [ 32, 0, 16, 16 ]
               },
               {
-                "Name": "ForestRightEdge",
-                "Rect": [ 16, 32, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathLeftUp",
+                "Rect": [ 0, 16, 16, 16 ]
               },
               {
-                "Name": "ForestTopRightEdge",
-                "Rect": [ 0, 32, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathWithDirt",
+                "Rect": [ 16, 16, 16, 16 ]
               },
               {
-                "Name": "LayeredTree",
-                "Rect": [ 80, 32, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathRightUp",
+                "Rect": [ 32, 16, 16, 16 ]
               },
               {
-                "Name": "ForestHorizontalEdge",
-                "Rect": [ 16, 32, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathLowerLeft",
+                "Rect": [ 0, 32, 16, 16 ]
               },
               {
-                "Name": "ForestNoLeft",
-                "Rect": [ 64, 32, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathLowerHorizontal",
+                "Rect": [ 16, 32, 16, 16 ]
               },
               {
-                "Name": "ForestNoBottom",
-                "Rect": [ 48, 0, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathLowerRight",
+                "Rect": [32, 32, 16, 16]
               },
               {
-                "Name": "ForestNoRight",
-                "Rect": [ 48, 16, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathUpperRounded",
+                "Rect": [ 0, 48, 16, 16 ]
               },
               {
-                "Name": "Ground",
-                "Rect": [ 16, 16, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathLeftRounded",
+                "Rect": [ 16, 48, 16, 16 ]
               },
               {
-                "Name": "ForestBottomEdge",
-                "Rect": [ 32, 16, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "PathRightRounded",
+                "Rect": [ 32, 48, 16, 16 ]
+              },
+              {
+                "Name": "PathLowerRounded",
+                "Rect": [ 0, 64, 16, 16 ]
+              },
+              {
+                "Name": "PathUpSided",
+                "Rect": [ 16, 64, 16, 16 ]
+              },
+              {
+                "Name": "PathHorizontalSided",
+                "Rect": [ 32, 64, 16, 16 ]
               },
               {
                 "Name": "TreeTop",
-                "Rect": [ 80, 0, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Rect": [ 0, 80, 16, 16 ]
               },
               {
-                "Name": "ForestVerticalEdge",
-                "Rect": [ 64, 16, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "TreeNoTop",
+                "Rect": [ 16, 80, 16, 16 ]
               },
               {
-                "Name": "ForestTopEdge",
-                "Rect": [ 0, 16, 16, 16 ],
-                "Size": [ 64, 64 ]
-              },
-              {
-                "Name": "ForestBottomRightEdge",
-                "Rect": [ 32, 32, 16, 16 ],
-                "Size": [ 64, 64 ]
-              },
-              {
-                "Name": "ForestBottomLeftEdge",
-                "Rect": [ 80, 0, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Name": "DoubleTree",
+                "Rect": [ 32, 80, 16, 16 ]
               },
               {
                 "Name": "Grass1",
-                "Rect": [ 96, 0, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Rect": [ 0, 96, 16, 16 ]
               },
               {
                 "Name": "Grass2",
-                "Rect": [ 96, 16, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Rect": [ 16, 96, 16, 16 ]
               },
               {
                 "Name": "Grass3",
-                "Rect": [ 96, 32, 16, 16 ],
-                "Size": [ 64, 64 ]
+                "Rect": [ 32, 96, 16, 16 ]
               }
             ]
           }
@@ -434,7 +433,13 @@
             "bDoRenderOutline": "DebugOnly"
           }
         }
-      }
+      },
+
+      "Levels": [
+        {
+          "Name": "TestLevel"
+        }
+      ]
     }
   }
 }

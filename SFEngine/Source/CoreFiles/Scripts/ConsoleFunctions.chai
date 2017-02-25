@@ -4,3 +4,18 @@ def help()
   printLine("  Console.Close(); - Close console");
   printLine("  Console.Clear(); - Clear console");
 }
+
+def quit()
+{
+  printLine("quit not implemented");
+}
+
+def exit()
+{
+  Console.Close();
+}
+
+def clear()
+{
+  Console.Clear();
+}

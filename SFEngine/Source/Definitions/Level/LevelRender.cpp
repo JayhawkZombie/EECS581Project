@@ -1,28 +1,42 @@
 #include "../../Headers/Level/Level.h"
+#include "../../Headers/Engine/Console.h"
 
 namespace Engine
 {
   void Level::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
-    static sf::IntRect scenerect;
-
-    scenerect.left = static_cast<int>(std::floor(CurrentView.left));
-    scenerect.top = static_cast<int>(std::floor(CurrentView.top));
-    scenerect.width = static_cast<int>(std::ceil(CurrentView.width));
-    scenerect.height = static_cast<int>(std::ceil(CurrentView.height));
-   
-    Target->draw(testrect);
-
-    for (auto & seg : TestSegments)
-      seg->draw(*currentRenderWindow);
-
-    for (auto & hit : TestLevelMeshes)
-      hit->draw(*Target);
-    
     for (auto & arr : GridLines)
       Target->draw(arr);
 
-    Target->draw(LevelRectangle);
+    for (auto & obj : TestObjects)
+      obj->draw(*Target);
+
+    for (auto & seg : TestSegments)
+      seg->draw(*Target);
+
+#ifdef WITH_EDITOR
+    ShowSceneGraph();
+    ShowAssetGraph();
+    ShowGraphicalSettings();
+    ShowSpawner();
+
+    if (ImGui::BeginMainMenuBar()) {
+      if (ImGui::BeginMenu("File")) {
+        if (ImGui::MenuItem("Exit")) {
+          FlagForClose = true;
+        }
+        ImGui::EndMenu();
+      }
+      if (ImGui::BeginMenu("Edit")) {
+        if (ImGui::MenuItem("Something")) {
+
+        }
+        ImGui::EndMenu();
+      }
+      ImGui::EndMainMenuBar();
+    }
+    Console::ShowDebugConsole(NULL);
+#endif
   }
 
   void Level::RenderRegular()

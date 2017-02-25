@@ -14,11 +14,18 @@ public:
 
   block(std::istream& fin);
   block() {}
+  virtual mvHit* clone() const {
+    return new block(*this);
+  }
   virtual ~block() {}
+  virtual const char* myName() const {
+    return "block";
+  }
   virtual void init(std::istream& fin);
   virtual void setRotation(float angle);
   virtual float getRotation()const;
-  virtual bool inCircle(vec2d ctr, float R, vec2d& Pimp)const;
+  //   virtual bool inCircle( vec2d ctr, float R, vec2d& Pimp )const;
+  virtual bool is_inMe(const ball& rB, vec2d& sep, vec2d& N, float& dSep)const;
   // all other inherited functions should do
 };
 

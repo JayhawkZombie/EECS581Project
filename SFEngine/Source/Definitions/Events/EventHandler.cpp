@@ -124,6 +124,8 @@ namespace Engine
   {
     v2iMousePosArg = sf::Mouse::getPosition(*currentRenderWindow);
     while (win->pollEvent(evnt)) {
+      ImGui::SFML::ProcessEvent(evnt);
+
       if (!GUI->handleEvent(evnt) && makeCallbacks) {
         switch (evnt.type)
         {

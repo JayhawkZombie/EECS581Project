@@ -31,15 +31,15 @@ namespace Engine
   //std::shared_ptr<PhysicsEngineBaseMeshType> BuildMesh(std::stringstream &data_stream);
   //std::shared_ptr<PhysicsEngineSegmentType> BuildSegment(std::stringstream &data_stream);
 
-  std::shared_ptr<PhysicsEngineBaseMeshType> BuildBallMesh(char BallType, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color &Color);
-  std::shared_ptr<PhysicsEngineBaseMeshType> BuildPolygonMesh(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color);
-  std::shared_ptr<PhysicsEngineSegmentType> BuildSegmentMesh(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius = -1);
+  BaseMeshPtr BuildBallMesh(char BallType, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color &Color);
+  BaseMeshPtr BuildPolygonMesh(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color);
+  SegmentPtr BuildSegmentMesh(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius = -1);
 
   std::stringstream GetFormattedBallConstructionData(char BallType, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color &Color);
   std::stringstream GetFormattedPolyConstructionData(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color);
   std::stringstream GetFormattedSegmentConstructionData(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius = -1);
 
-  void UpdatePhysics(std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> &Meshes, std::vector<std::shared_ptr<PhysicsEngineSegmentType>> Segments, std::size_t Steps = 1);
+  void UpdatePhysics(std::vector<BaseMeshPtr> &Meshes, std::vector<SegmentPtr> Segments, std::size_t Steps = 1);
   void AssignBoundaries(float WindowHeight, float WindowWidth);
   void SetGravity(vec2d *Gravity);
 }

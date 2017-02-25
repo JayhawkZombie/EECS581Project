@@ -13,6 +13,7 @@ namespace Engine
   {
     try
     {
+      /*
       MenuBar = UIThemePtr->load("MenuBar");
       MenuBar->addMenu("file");
       MenuBar->addMenuItem("file", "new project");
@@ -275,6 +276,7 @@ namespace Engine
       EditTilesWindow = std::make_shared<TileSheetEditor>(GUI, UIThemePtr);
       AnimationPanelAnimationViewer = std::make_shared<AnimationViewer>(UIThemePtr);
       Done = true;
+      */
     }
     catch (EngineRuntimeError &err)
     {

@@ -6,14 +6,7 @@ namespace Engine
 
   GenericActor::GenericActor(const std::string &texfile, const std::string &texID)
   {
-    ResourceManager->RequestTexture(texfile, texID,
-                                    [this](const std::shared_ptr<sf::Texture> t, const std::string &s)->void
-    {this->ReceiveSprite(s, t); }
-    );
-
-    Handler.BindCallback(Events::KeyPressed,
-                         [this](const sf::Keyboard::Key &k) {this->__HandleKeyPress(k); }
-    );
+    
   }
 
   void GenericActor::BuildAnimations(const std::string & filename, const std::string & texturefile, GenericActor * Actor)

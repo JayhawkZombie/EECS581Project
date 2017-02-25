@@ -1,4 +1,5 @@
 #include "block.h"
+#include "ball.h"
 
 block::block(std::istream& fin) {
   init(fin);
@@ -30,7 +31,7 @@ void block::init(std::istream& fin)// from file data
   pt0.x *= -1.0f;
   ptVec.push_back( pt0 ); */
 
-  //std::cerr << "block ctor: nSides=" << nSides << " W = " << W << " H = " << H << '\n';
+  std::cerr << "block ctor: nSides=" << nSides << " W = " << W << " H = " << H << '\n';
 
   float hW = W / 2.0f, hH = H / 2.0f;
   ptVec.push_back(vec2d(-hW, -hH));// up lt
@@ -74,34 +75,27 @@ void block::setRotation(float angle)
   return;
 }
 
-
-bool block::inCircle(vec2d ctr, float R, vec2d& Pimp)const
+bool block::is_inMe(const ball& rB, vec2d& sep, vec2d& N, float& dSep)const
 {
   // crude check for collision. Check distance between centers.
-  float sepSq = (pos - ctr).dot(pos - ctr);
-  if (sepSq > (r + R)*(r + R)) return false;// not touching
+  sep = pos - rB.pos;
+  float sepMag = sep.mag();
+  float sepSq = (pos - rB.pos).dot(pos - rB.pos);
+  if (sepSq > (r + rB.r)*(r + rB.r)) return false;// not touching
 
-                                            // is a point stuck in the ball?
+                                                  // is a point stuck in the ball?
   bool Hit = false;
   size_t i_min = 0;
-  vec2d s = pos + ptVec[0] - ctr;
+  vec2d s = pos + ptVec[0] - rB.pos;
   float sSqMin = s.dot(s);
-  if (sSqMin < R*R)// hit! 1st try too!
-  {
-    Pimp = ctr + s;
-    Hit = true;
-  }
+  if (sSqMin < rB.r*rB.r) Hit = true;// hit! 1st try too!
 
-  // try the other points too
+                                     // try the other points too
   for (size_t i = 1; i<nSides; ++i)
   {
-    s = pos + ptVec[i] - ctr;
+    s = pos + ptVec[i] - rB.pos;
     float sSq = s.dot(s);
-    if (sSq < R*R)// hit!
-    {
-      Pimp = ctr + s;
-      Hit = true;
-    }
+    if (sSq < rB.r*rB.r) Hit = true;// hit!
 
     if (sSq < sSqMin)
     {
@@ -112,8 +106,10 @@ bool block::inCircle(vec2d ctr, float R, vec2d& Pimp)const
 
   if (Hit)
   {
-    Pimp = pos + ptVec[i_min];
-    //     return true;// ?? seems to be ok
+    sep = pos + ptVec[i_min] - rB.pos;
+    sepMag = sep.mag();
+    dSep = rB.r - sepMag;
+    N = sep / sepMag;
   }
 
   const vec2d& P = ptVec[i_min];
@@ -121,7 +117,7 @@ bool block::inCircle(vec2d ctr, float R, vec2d& Pimp)const
   const vec2d& P_next = (i_min + 1 == ptVec.size()) ? ptVec.front() : ptVec[i_min + 1];
   // check for face hit
   vec2d T = P_next - P;
-  vec2d b = pos + P - ctr;
+  vec2d b = pos + P - rB.pos;
   T /= T.mag();
   float bDotT = b.dot(T);
   if (bDotT > 0.0f)
@@ -132,13 +128,85 @@ bool block::inCircle(vec2d ctr, float R, vec2d& Pimp)const
     if (bDotT > 0.0f) return Hit;// neither face is across arc
   }
 
-  Pimp = b - T*bDotT;
+  sep = b - T*bDotT;
+  sepMag = sep.mag();
+  sepSq = sep.dot(sep);
 
-  if (Pimp.dot(Pimp) < R*R)// in circle
+  if (sepSq < rB.r*rB.r)// in circle
   {
-    Pimp += ctr;
+    dSep = rB.r - sepMag;
+    N = sep / sepMag;
     return true;
   }
 
   return false;
 }
+
+/*
+bool block::inCircle( vec2d ctr, float R, vec2d& Pimp )const
+{
+// crude check for collision. Check distance between centers.
+float sepSq = ( pos - ctr ).dot( pos - ctr );
+if( sepSq > (r + R)*(r + R) ) return false;// not touching
+
+// is a point stuck in the ball?
+bool Hit = false;
+size_t i_min = 0;
+vec2d s = pos + ptVec[0] - ctr;
+float sSqMin = s.dot(s);
+if( sSqMin < R*R )// hit! 1st try too!
+{
+Pimp = ctr + s;
+Hit = true;
+}
+
+// try the other points too
+for( size_t i=1; i<nSides; ++i )
+{
+s = pos + ptVec[i] - ctr;
+float sSq = s.dot(s);
+if( sSq < R*R )// hit!
+{
+Pimp = ctr + s;
+Hit = true;
+}
+
+if( sSq < sSqMin )
+{
+i_min = i;
+sSqMin = sSq;
+}
+}
+
+if( Hit )
+{
+Pimp = pos + ptVec[i_min];
+//     return true;// ?? seems to be ok
+}
+
+const vec2d& P = ptVec[i_min];
+const vec2d& P_prev = ( i_min == 0 ) ? ptVec.back() : ptVec[i_min-1];// who loves the ternary operator? I do too!
+const vec2d& P_next = ( i_min + 1 == ptVec.size() ) ? ptVec.front() : ptVec[i_min+1];
+// check for face hit
+vec2d T = P_next - P;
+vec2d b = pos + P - ctr;
+T /= T.mag();
+float bDotT = b.dot(T);
+if( bDotT > 0.0f )
+{
+T = P_prev - P;
+T /= T.mag();
+bDotT = b.dot(T);
+if( bDotT > 0.0f ) return Hit;// neither face is across arc
+}
+
+Pimp = b - T*bDotT;
+
+if( Pimp.dot(Pimp) < R*R  )// in circle
+{
+Pimp += ctr;
+return true;
+}
+
+return false;
+}   */

@@ -1,4 +1,5 @@
 #include "../../Headers/Editor/EntityCreator.h"
+#include "../../Headers/Engine/Editor.h"
 
 namespace Engine
 {
@@ -27,6 +28,18 @@ namespace Engine
     LevelLabel->setPosition({ 10, 10 });
     LevelLabel->setSize({ 380, 20 });
     CreatorWindow->add(LevelLabel);
+
+    PlaceTilesButton = Theme->load("Button");
+    PlaceTilesButton->setPosition({ 280, 230 });
+    PlaceTilesButton->setText("Place tiles");
+    PlaceTilesButton->setSize({ 100, 20 });
+    CreatorWindow->add(PlaceTilesButton);
+
+    DoneButton = Theme->load("Button");
+    DoneButton->setPosition({ 280, 260 });
+    DoneButton->setText("Done");
+    DoneButton->setSize({ 100, 20 });
+    CreatorWindow->add(DoneButton);
 
     MousePosLabel = Theme->load("Label");
     MousePosLabel->setText("Mouse Position:");
@@ -95,6 +108,11 @@ namespace Engine
     return (PlacingObject.get());
   }
 
+  void EntityCreator::SetEditorPtr(Editor * editor)
+  {
+    CurrentEditor = editor;
+  }
+
   void EntityCreator::TickUpdate(const double & delta)
   {
     if (PlacingObject)
@@ -122,6 +140,11 @@ namespace Engine
     return (CreatorWindow && CreatorWindow->isVisible());
   }
 
+  bool EntityCreator::InPlacement() const
+  {
+    return InPlacementMode;
+  }
+
   void EntityCreator::SetTileSheet(std::shared_ptr<Engine::TileSheet> Sheet)
   {
     TileSheet = Sheet;
@@ -144,6 +167,11 @@ namespace Engine
     std::cerr << "Spawning entity!" << std::endl;
   }
 
+  void EntityCreator::SetLevel(std::shared_ptr<Level> lvl)
+  {
+    LevelPtr = lvl;
+  }
+
   void EntityCreator::TileSelected(std::string name)
   {
     auto tile = TileSheet->GetLevelTiles()[name];
@@ -160,6 +188,18 @@ namespace Engine
   void EntityCreator::TileDoubleClicked(std::string name)
   {
     std::cerr << "TO FINISH : IMPLEMENT SPAWNING" << std::endl;
+  }
+
+  void EntityCreator::PlaceTilesButtonClicked()
+  {
+    InPlacementMode = true;
+    CurrentEditor->HidePanels();
+  }
+
+  void EntityCreator::DoneButtonClicked()
+  {
+    InPlacementMode = false;
+    CurrentEditor->ShowPanels();
   }
 
 }

@@ -57,6 +57,16 @@ namespace Engine
       FrameList.MakeLooped(b);
       m_loop = b;
     }
+
+    const sf::RectangleShape& GetRect() const {
+      return AnimRect;
+    }
+    const sf::IntRect& GetCurrentFrame() const {
+      return *(CurrFrame->Value);
+    }
+    bool IsPlaying() const {
+      return (!m_isPaused && m_isRendered);
+    }
   private:
     Util::DoublyLinkedList<sf::IntRect, true, false> FrameList;
     std::shared_ptr<Util::Node<sf::IntRect>> CurrFrame = nullptr;

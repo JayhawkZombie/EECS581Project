@@ -9,9 +9,9 @@ public:
   // inherited data members
   //    vec2d pos, L, N;
   //    sf::Vertex vtx[2];
-  //    float rotVel;
+  static bool gravity_on;
   float m;// mass
-  vec2d grav;// gravity
+  static vec2d grav;// gravity
 
   lineSegSwing() : lineSegRotate() {}// don't use a default constructed lineSeg
   lineSegSwing(std::istream& fin);

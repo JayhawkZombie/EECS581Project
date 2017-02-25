@@ -33,6 +33,30 @@ void lineSeg::to_file(std::ofstream& fout)
   fout << rd << ' ' << gn << ' ' << bu;
 }
 
+lineSeg::lineSeg(float x1, float y1, float x2, float y2, sf::Color clr) {
+  init(x1, y1, x2, y2, clr);
+}
+
+void lineSeg::init(float x1, float y1, float x2, float y2, sf::Color clr)
+{
+  pos.x = x1; pos.y = y1;
+  L.x = x2 - x1;  L.y = y2 - y1;
+  vtx[0].color = vtx[1].color = clr;
+  vtx[0].position.x = x1; vtx[0].position.y = y1;
+  vtx[1].position.x = x2; vtx[1].position.y = y2;
+  N = L.get_LH_norm();
+}
+
+void lineSeg::init(vec2d pt1, vec2d pt2, sf::Color clr)
+{
+  pos = pt1;
+  L = pt2 - pt1;
+  vtx[0].color = vtx[1].color = clr;
+  vtx[0].position.x = pt1.x; vtx[0].position.y = pt1.y;
+  vtx[1].position.x = pt2.x; vtx[1].position.y = pt2.y;
+  N = L.get_LH_norm();
+}
+
 void lineSeg::setPosition(vec2d Pos)
 {
   pos = Pos;

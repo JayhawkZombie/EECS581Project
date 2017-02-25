@@ -16,6 +16,7 @@ namespace Engine
       float Brightness;
       float Contrast;
       float Gamma;
+      sf::Color BGClearColor = sf::Color::Black;
       int PostProcess;
       sf::Color HueShift;
       sf::RenderTexture *texture;

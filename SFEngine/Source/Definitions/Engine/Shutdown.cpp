@@ -4,6 +4,7 @@ namespace Engine
 {
   UINT32 SFEngine::Shutdown()
   {
+    ImGui::SFML::Shutdown();
 
     for (auto & lvl : Levels)
       lvl->OnShutDown();

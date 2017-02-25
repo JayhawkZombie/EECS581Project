@@ -17,6 +17,7 @@ public:
 
   float Cf = 0.5f;// friction coeff
   bool friction_on = false;
+  bool is_hard = true;
 
   segHit() {}
   segHit(std::istream& fin);
@@ -33,6 +34,7 @@ public:
 
   virtual bool hit(mvHit&);//
   virtual bool is_onMe(const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen)const = 0;
+  virtual vec2d getSurfaceNormal(const mvHit& mh)const = 0;
 };
 
 #endif // SEGHIT_H_INCLUDED

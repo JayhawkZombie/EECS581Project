@@ -19,32 +19,53 @@ public:
 
   regPolygon(std::istream& fin);
   regPolygon();
+  virtual mvHit* clone() const {
+    return new regPolygon(*this);
+  }
   virtual ~regPolygon() {}
   virtual void init(std::istream& fin);
+  virtual const char* myName() const {
+    return "regPolygon";
+  }
 
   virtual void update();
-  virtual void draw(sf::RenderTarget& rRW)const override;
+  virtual void draw(sf::RenderTarget& rRW)const;
   virtual void setPosition(vec2d Pos);
 
-  virtual void respond(float dV, bool isFric);
-  virtual void impact(regPolygon& rpg);
+  //   virtual void respond( float dV, bool isFric );
+  //   virtual void impact( regPolygon& rpg );
   virtual bool hit(const vec2d& pt);
 
   virtual bool hit(regPolygon& rpg);
   virtual bool hit(ball& rB);
   virtual bool hit(mvHit&);
 
+  //   virtual void vShift() { return; }
+  //   virtual void vShift_inv() { return; }
+
   virtual bool is_inMe(const lineSeg& LS, vec2d& Pimp, vec2d& Nh, float& dSep)const;// detailed collision detection
   virtual bool is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)const;// code goes here. Impact point is written.
   virtual bool is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response
+
+  bool is_inMe(const regPolygon& rpg, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response
+  virtual bool is_inMe(const ball& rB, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response
   bool is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response toward ctr
+                                                                            //    void handleImpact( mvHit& mh, vec2d sep, vec2d N, float dSep );
 
-  float project(vec2d vUnit)const;// max projection along vUnit
+  virtual float project(vec2d vUnit)const;// max projection along vUnit
 
-  void handleImpact(vec2d ptPos, ball& rB);
-  virtual bool inCircle(vec2d ctr, float R, vec2d& Pimp)const;
+                                          //   void handleImpact( vec2d ptPos, ball& rB );
+                                          //   virtual bool inCircle( vec2d ctr, float R, vec2d& Pimp )const;
   virtual float getRotation()const;
   virtual void setRotation(float angle);
+
+  float getRadius()const {
+    return r;
+  }
+  void setRadius(float R);
+
+  virtual bool Float(vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airDensity, float fluidDensity);
+  virtual bool Float(vec2d Nsurf, float grav_N, float Density);
 };
 
 #endif // REGPOLYGON_H_INCLUDED

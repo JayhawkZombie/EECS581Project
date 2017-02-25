@@ -3,8 +3,10 @@
 #include <SFML/OpenGL.hpp>
 #include "../../Headers/Lights/LightingSystem.h"
 
+
 #ifdef WITH_EDITOR
 #include "../../Headers/Engine/Editor.h"
+#include "../../../ThirdParty/IMGUI/imgui_internal.h"
 #endif
 
 namespace Engine
@@ -30,7 +32,6 @@ namespace Engine
     std::chrono::high_resolution_clock::time_point RenderEnd;
 
     double TickDelta;
-    Window->setVerticalSyncEnabled(false);
     sf::Event evnt;
 
     std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
@@ -68,11 +69,130 @@ namespace Engine
     ScriptEngine->add(chaiscript::fun(Engine::func), "func");
 
 #ifdef WITH_EDITOR
-    GameEditor.PreLoopSetup();
+    //GameEditor.PreLoopSetup();
+    sf::Clock dClock;
+    ImGui::SFML::Init(*currentRenderWindow);
 #else
     std::shared_ptr<Level> MainLevel(new Level);
 #endif
 
+#ifdef WITH_EDITOR
+    //For ImGui
+    ImGuiStyle * style = &ImGui::GetStyle();
+
+    style->WindowPadding = ImVec2(5, 5);
+    style->WindowRounding = 3.0f;
+    style->FramePadding = ImVec2(3, 3);
+    style->FrameRounding = 3.0f;
+    style->ItemSpacing = ImVec2(6, 4);
+    style->ItemInnerSpacing = ImVec2(4, 3);
+    style->IndentSpacing = 25.0f;
+    style->ScrollbarSize = 10.0f;
+    style->ScrollbarRounding = 4.0f;
+    style->GrabMinSize = 5.0f;
+    style->GrabRounding = 3.0f;
+
+    style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
+    style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+    style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.0f);
+    style->Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+    style->Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+    style->Colors[ImGuiCol_Border] = ImVec4(0.40f, 0.40f, 0.4f, 0.48f);
+    style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
+    style->Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+    style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+    style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+    style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.10f, 0.09f, 0.12f, 0.75f);
+    style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
+    style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+    style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+    style->Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+    style->Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+    style->Colors[ImGuiCol_ComboBg] = ImVec4(0.19f, 0.18f, 0.21f, 1.00f);
+    style->Colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+    style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
+    style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+    style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+    style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+    style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
+    style->Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+    style->Colors[ImGuiCol_Column] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_ColumnHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+    style->Colors[ImGuiCol_ColumnActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_ResizeGrip] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+    style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
+    style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
+    style->Colors[ImGuiCol_CloseButton] = ImVec4(0.40f, 0.39f, 0.38f, 0.16f);
+    style->Colors[ImGuiCol_CloseButtonHovered] = ImVec4(0.40f, 0.39f, 0.38f, 0.39f);
+    style->Colors[ImGuiCol_CloseButtonActive] = ImVec4(0.40f, 0.39f, 0.38f, 1.00f);
+    style->Colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+    style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+    style->Colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
+    style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
+    style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
+    style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
+
+    ImGuiIO *io = &ImGui::GetIO();
+    io->Fonts->AddFontFromFileTTF("./SFEngine/Source/CoreFiles/Fonts/open-sans/OpenSans-Light.ttf", 10);
+    io->Fonts->AddFontFromFileTTF("./SFEngine/Source/CoreFiles/Fonts/open-sans/OpenSans-Light.ttf", 12);
+    io->Fonts->AddFontFromFileTTF("./SFEngine/Source/CoreFiles/Fonts/open-sans/OpenSans-Light.ttf", 14);
+    io->Fonts->AddFontFromFileTTF("./SFEngine/Source/CoreFiles/Fonts/open-sans/OpenSans-Light.ttf", 16);
+#endif
+    vec2d Gravity;
+
+    AssignBoundaries(900, 1700);
+    Gravity.x = 0.f;
+    Gravity.y = 0.01f;
+    SetGravity(&Gravity);
+
+    std::shared_ptr<Level> MainLevel = std::make_shared<Level>(sf::Vector2u({ 1700, 900 }), sf::FloatRect(0, 0, 1700, 900), true, sf::Vector2f({ 1700 / 16.f, 900 / 16.f }));
+    MainLevel->LoadLevel("./Projects/TestProject/testproject.json"); //Just for testing for right now
+
+    std::shared_ptr<sf::RenderTexture> LevelTexture = std::make_shared<sf::RenderTexture>();
+    LevelTexture->create(1700, 900);
+    sf::RectangleShape LevelRect;
+    LevelRect.setPosition({ 0, 0 });
+    LevelRect.setSize({ 1700, 900 });
+    LevelRect.setTexture(&(EditorTexture->getTexture()));
+    LevelRect.setTextureRect({ 0, 0, 1700, 900 });
+
+
+
+    //test particles
+    sf::Texture thorTexture;
+    thorTexture.loadFromFile("./SFEngine/Source/CoreFiles/Textures/particle.png");
+    thor::UniversalEmitter emitter;
+    emitter.setEmissionRate(50.f);
+    emitter.setParticleLifetime(sf::seconds(5));
+    emitter.setParticleScale(thor::Distribution<sf::Vector2f>(sf::Vector2f(0.3f, 0.3f)));
+    emitter.setParticlePosition(thor::Distributions::rect({ 1700 / 2.f, 900 / 2.f }, { 1700 / 2.f, 900 / 2.f }));
+    emitter.setParticleRotation(thor::Distributions::uniform(0.f, 360.f));
+
+    thor::ParticleSystem system;
+    system.setTexture(thorTexture);
+    system.addEmitter(thor::refEmitter(emitter));
+
+    thor::ColorGradient gradient;
+    gradient[0.f] = sf::Color(255, 255, 255);
+    gradient[1.f] = sf::Color(211, 211, 211);
+
+
+    thor::ColorAnimation colorizer(gradient);
+    thor::FadeAnimation fader(0.1f, 0.1f);
+
+    system.addAffector(thor::AnimationAffector(colorizer));
+    system.addAffector(thor::AnimationAffector(fader));
+    thor::ForceAffector vField({ 10.f, 50.f });
+
+    system.addAffector(thor::refAffector(vField));
+
+    thor::PolarVector2f vel(200.f, -90.f);
+    bool paused = false;
+    
 #ifdef WITH_EDITOR
     while (!FlagForClose && currentRenderWindow && currentRenderWindow->isOpen()) {
 #else
@@ -80,6 +200,7 @@ namespace Engine
 #endif
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       Closed = Handler.PollEvents(currentRenderWindow, evnt, true);
+      sf::Time fTime = { sf::seconds(0) };
 
       try
       {
@@ -89,36 +210,38 @@ namespace Engine
 
         UpdateStart = std::chrono::high_resolution_clock::now();
 
-        //if we have the editor, update that instead of the main level
-#ifdef WITH_EDITOR
-        GameEditor.TickUpdate(TickDelta);
-        TestGame.TickUpdate(TickDelta);
-#else
+        fTime = dClock.restart();
+
+        ImGui::SFML::Update(*currentRenderWindow, fTime);
+        system.update(fTime);
+
+        //emitter.setParticlePosition(Window->mapPixelToCoords(sf::Mouse::getPosition(*Window)));
+        //emitter.setParticleVelocity(thor::Distributions::deflect(vel, 30.f));
+        
+        
+        //ImGui::ShowTestWindow();
         MainLevel->TickUpdate(TickDelta);
-#endif
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
-        //Render start
 
-        //if we have the editor, render that instead of the main level
-        GameMainTexture->clear(sf::Color::Transparent);
-        Window->clear(sf::Color::Black);
-        
-        EditorTexture->clear(sf::Color::Transparent);
-        
+        Window->clear(EngineRenderSettings.BGClearColor);
+        EditorTexture->clear(EngineRenderSettings.BGClearColor);    
 #ifdef WITH_EDITOR
-        TestGame.Render(GameMainTexture);
-        GameMainTexture->display();
-        GameSprite.setTexture(GameMainTexture->getTexture());
-        currentRenderWindow->draw(GameSprite);
-        GameEditor.Render(EditorTexture);
+        EditorTexture->setActive(true);
+        MainLevel->Render(EditorTexture);
+        EditorTexture->setActive(true);
+        EditorTexture->draw(system);
+        EditorTexture->display();
+
+        Window->setActive(true);
+        Window->draw(LevelRect);
 #else
         MainLevel->Render();
 #endif
+        ImGui::EndFrame();
+        ImGui::Render();
 
-        EditorTexture->display();
-        Window->draw(EditorSprite);
-        GUI->draw();
+        Window->setActive(true);
         Window->display();
       }
       catch (chaiscript::exception::eval_error &e)
@@ -128,6 +251,8 @@ namespace Engine
 
     }
     //delete RenderSettings.texture;
+    EditorTexture.reset();
+    LevelTexture.reset();
     return Shutdown();
   }
 }
