@@ -26,6 +26,8 @@ namespace Engine
     LevelObject(const LevelObject &obj);
     virtual ~LevelObject();
 
+	static void BindScriptMethods(chaiscript::ModulePtr module);
+
     virtual void TickUpdate(const double &delta) override;
     virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
     virtual void OnShutDown() override;
