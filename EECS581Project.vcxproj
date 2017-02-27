@@ -133,7 +133,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -148,8 +148,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\TGUI\lib\Debug;C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;tgui-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\Thor\lib;C:\SFML_FILES\WINDOWS_241\TGUI\lib\Debug;C:\SFML_FILES\WINDOWS_241\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;thor-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;tgui-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -329,6 +329,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Editor\EntityCreator.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\FileBrowser.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\TileSheetEditor.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Engine\Console.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\ScriptConsole.h" />
     <ClInclude Include="SFEngine\Source\Headers\Events\UserEvent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\EffectBase.h" />
@@ -337,6 +338,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
     <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileSheet.h" />
@@ -465,6 +467,14 @@
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\json_wrap.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\utility\utility.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\imconfig-SFML.h" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\imconfig.h" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\imgui-SFML.h" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\imgui.h" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\imgui_internal.h" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\stb_rect_pack.h" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\stb_textedit.h" />
+    <ClInclude Include="SFEngine\ThirdParty\IMGUI\stb_truetype.h" />
     <ClInclude Include="SFEngine\ThirdParty\json\json-forwards.h" />
     <ClInclude Include="SFEngine\ThirdParty\json\json.h" />
     <ClInclude Include="SFEngine\ThirdParty\PhysicsEngine.h" />
@@ -473,6 +483,7 @@
     <ClInclude Include="SFEngine\ThirdParty\Physics\ball_go.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\block.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\decayPolygon.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\expandPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineBumper.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegElevator.h" />
@@ -480,10 +491,12 @@
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegRotate.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegSwing.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\mvHit.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\pipeSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\polyHitFuncs.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\regPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\segHit.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\vec2d.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\waveSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml_iterators.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml_print.hpp" />
@@ -557,6 +570,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Events\EventHandler.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Events\EventSequence.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Factory\Factory.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\AssetGraph.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\ExposedLevelApi.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Layer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
@@ -569,6 +583,10 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeIn.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeOut.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\SceneGraph.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\SceneViewer.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\Settings.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Streams\DataStream.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\LevelTile.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelTileSheet.cpp" />
@@ -637,12 +655,17 @@
     <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Various.cpp" />
     <ClCompile Include="SFEngine\Source\main.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\IMGUI\imgui-SFML.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\IMGUI\imgui.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\IMGUI\imgui_draw.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\jsoncpp.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\arcSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\ball.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\ball_go.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\block.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\decayPolygon.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\expandPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineBumper.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegElevator.cpp" />
@@ -650,10 +673,12 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegRotate.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegSwing.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\mvHit.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\pipeSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\polyHitFuncs.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\regPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\segHit.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\vec2d.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\waveSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\UnitTesting\Catch.hpp" />
   </ItemGroup>
   <ItemGroup>

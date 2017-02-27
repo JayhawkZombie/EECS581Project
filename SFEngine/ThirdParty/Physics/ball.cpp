@@ -29,22 +29,19 @@ void ball::init(std::istream& fin)// from file data
   //    std::cout << "ball.v = " << v.mag() << '\n';
 }
 
-void ball::respond(float dV, bool isFric)// assumes velocity components are T(x) and N(y) to obstacle
+/*
+void ball::respond( float dV, bool isFric )// assumes velocity components are T(x) and N(y) to obstacle
 {
 
-  if (!isFric) return;// no change in x component can occur
-  if (v.y == 0.0f) return;// target speed acheived
-                          // speed needs adjustment
-  if (dV < 0.0f) dV *= -1.0f;// assure dV is positive
-  if (v.y > 0.0f) {
-    v.y -= dV; if (v.y < 0.0f) v.y = 0.0f;
-  }
-  else {
-    v.y += dV; if (v.y > 0.0f) v.y = 0.0f;
-  }
+if( !isFric ) return;// no change in x component can occur
+if( v.y == 0.0f ) return;// target speed acheived
+// speed needs adjustment
+if( dV < 0.0f ) dV *= -1.0f;// assure dV is positive
+if( v.y > 0.0f ){ v.y -= dV; if( v.y < 0.0f ) v.y = 0.0f; }
+else { v.y += dV; if( v.y > 0.0f ) v.y = 0.0f; }
 
-  return;
-}
+return;
+}   */
 
 void ball::update()// virtual
 {
@@ -53,7 +50,6 @@ void ball::update()// virtual
   vec2d N(1.0f, 0.0f);
   bool Hit = false;
 
-  if (pGravity) v += *pGravity;
   pos += v;
 
   if (pos.x < r)
@@ -69,20 +65,21 @@ void ball::update()// virtual
     N.x = -1.0f; N.y = 0.0f;
   }
 
-  if (!Hit)
+  if (Hit) bounce(ball::wdwCf, N, true);
+
+  Hit = false;
+
+  if (!windowTopOpen && pos.y < r)
   {
-    if (pos.y < r)
-    {
-      pos.y = r;
-      Hit = true;
-      N.x = 0.0f; N.y = 1.0f;
-    }
-    else if (pos.y > ball::wdwH - r)
-    {
-      pos.y = ball::wdwH - r;
-      Hit = true;
-      N.x = 0.0f; N.y = -1.0f;
-    }
+    pos.y = r;
+    Hit = true;
+    N.x = 0.0f; N.y = 1.0f;
+  }
+  else if (pos.y > ball::wdwH - r)
+  {
+    pos.y = ball::wdwH - r;
+    Hit = true;
+    N.x = 0.0f; N.y = -1.0f;
   }
 
   if (Hit) bounce(ball::wdwCf, N, true);
@@ -95,103 +92,50 @@ void ball::draw(sf::RenderTarget& rRW)const {
 
 bool ball::hit(ball& rB)
 {
-  float Cf = 0.3f;
-
   // check for collision. Check distance between centers.
   float sepSq = (pos - rB.pos).dot(pos - rB.pos);
   if (sepSq > (r + rB.r)*(r + rB.r)) return false;// not touching
 
-
-                                                  // xform to base set through ball centers
   vec2d sep = rB.pos - pos;// from this center to rB center
   float sepMag = sep.mag();// take the sqrt 1 time
-  vec2d N = sep / sepMag;// unit length. First of local base set. 2nd is LH normal
-
-                         // is either ball fixed?
-  if (is_free && rB.is_free)// both are free to move
-  {
-    float Mtot = m + rB.m;
-    vec2d Vcm = (v*m + rB.v*rB.m) / Mtot;
-    v -= Vcm;
-    rB.v -= Vcm;
-
-    v = v.to_base(-1.0f*N);
-    rB.v = rB.v.to_base(N);
-    // collision response is along line through centers
-    if (v.x < 0.0f) {
-      respond(Cf*v.x*(1.0f + Cr), true); v.x *= -Cr;
-    }
-    if (rB.v.x < 0.0f) {
-      rB.respond(Cf*rB.v.x*(1.0f + Cr), true); rB.v.x *= -Cr;
-    }
-    // transform back
-    v = v.from_base(-1.0f*N);// rotate
-    rB.v = rB.v.from_base(N);
-    v += Vcm;// translate
-    rB.v += Vcm;
-
-    // correct over penetration. Move apart
-    float dSep = r + rB.r - sepMag;// amount of penetration
-    rB.pos += (dSep*m / Mtot)*N;// preserves position of center of mass
-    pos -= (dSep*rB.m / Mtot)*N;// no wrecking energy conservation!
-
-    return true;
-  }
-
-  // one ball is not free
-  ball& ballFree = is_free ? *this : rB;
-  ball& ballFixed = is_free ? rB : *this;// must be other ball
-                                         // N must point from fixed to free
-  N = ballFree.pos - ballFixed.pos; N /= N.mag();// unit length needed
-
-  ballFree.v = ballFree.v.to_base(N);
-  if (ballFree.v.x < 0.0f) {
-    ballFree.respond(Cf*ballFree.v.x*(1.0f + Cr), true); ballFree.v.x *= -Cr;
-  }
-  ballFree.v = ballFree.v.from_base(N);
-  // correct over penetration. Move apart
-  float dSep = r + rB.r - sepMag;// amount of penetration
-  ballFree.pos += dSep*N;// preserves position of center of mass
-
+                           //   vec2d N = -sep/sepMag;// unit length. First of local base set. 2nd is LH normal
+  vec2d N = vec2d(1.0f, 0.0f);// unit length. First of local base set. 2nd is LH normal
+  if (sepMag > 1.0f) N = -sep / sepMag;
+  handleImpact(rB, sep, N, r + rB.r - sepMag);
   return true;
 }
 
-/*
-bool ball::hit( ball& rB )
+//bool ball::Float( vec2d Nsurf, vec2d Npen, float penAmt )
+bool ball::Float(vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airDensity, float fluidDensity)
 {
-// check for collision. Check distance between centers.
-float sepSq = ( pos - rB.pos ).dot( pos - rB.pos );
-if( sepSq > (r + rB.r)*(r + rB.r) ) return false;// not touching
+  float belowSurface = (Npen*penAmt).mag();
+  if (Nsurf.dot(Npen) < 0.0f) belowSurface = 2.0f*r - belowSurface;
 
-// xform velocities to center of mass
-float Mtot = m + rB.m;
-vec2d Vcm = ( v*m + rB.v*rB.m )/Mtot;
-v -= Vcm;
-rB.v -= Vcm;
-// xform to base set through ball centers
-vec2d sep = rB.pos - pos;// from this center to rB center
-float sepMag = sep.mag();// take the sqrt 1 time
-vec2d N = sep/sepMag;// unit length. First of local base set. 2nd is LH normal
-v = v.to_base( N );
-rB.v = rB.v.to_base( N );
-// collision response is along line through centers
-if( v.x > 0.0f ) v.x *= -Cr;
-if( rB.v.x < 0.0f ) rB.v.x *= -Cr;
-// transform back
-v = v.from_base( N );// rotate
-rB.v = rB.v.from_base( N );
-v += Vcm;// translate
-rB.v += Vcm;
+  if (belowSurface > 0.0f && belowSurface < 2.0f*r)// partially immersed
+  {
+    v = v.to_base(Nsurf);
+    //        float Fbuoy = 2.0f*r*belowSurface*pressure;
+    float Fbuoy = 2.0f*r*grav_N*(belowSurface*fluidDensity + (2.0f*r - belowSurface)*airDensity);
+    v.x += Fbuoy / m;
+    //        v.x -= drag*v.x*r*2.0f/m;
+    if (v.x < 0.0f) v.x -= drag*fluidDensity*v.x*r*2.0f / m;
+    v.y -= drag*fluidDensity*v.y*belowSurface / m;
+    v = v.from_base(Nsurf);
+    return true;
+  }
 
-// correct over penetration. Move apart
-float dSep = r + rB.r - sepMag;// amount of penetration
-rB.pos += (dSep*m/Mtot)*N;// preserves position of center of mass
-pos -= (dSep*rB.m/Mtot)*N;// no wrecking energy conservation!
-
-return true;
+  return false;
 }
-*/
 
+bool ball::Float(vec2d Nsurf, float grav_N, float Density)// fully immersed
+{
+  v = v.to_base(Nsurf);
+  float Fbuoy = 3.1416f*r*r*grav_N*Density;
+  v.x += Fbuoy / m;
+  v -= drag*Density*v*r*2.0f / m;
+  v = v.from_base(Nsurf);
+  return true;
+}
 
 bool ball::hit(const vec2d& pt)
 {
@@ -208,25 +152,6 @@ bool ball::hit(const vec2d& pt)
 
   return false;
 }
-
-/*
-bool ball::hit( const vec2d& pt )
-{
-vec2d sep = pt - pos;
-float sepMag = sep.mag();
-if( sepMag > r ) return false;
-sep /= sepMag;// now unit length and suitable as transform base
-
-v = v.to_base(sep);
-if( v.x > 0.0f ) v.x *= -Cr;// reverse component along sep
-v = v.from_base(sep);
-
-// making position correction w/o regard to v.x
-pos -= sep*( r - sepMag );// If it's in, get it out!
-
-return true;
-}   */
-
 
 void ball::setPosition(vec2d Pos)
 {

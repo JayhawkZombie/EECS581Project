@@ -6,14 +6,7 @@ namespace Engine
 
   GenericActor::GenericActor(const std::string &texfile, const std::string &texID)
   {
-    ResourceManager->RequestTexture(texfile, texID,
-                                    [this](const std::shared_ptr<sf::Texture> t, const std::string &s)->void
-    {this->ReceiveSprite(s, t); }
-    );
-
-    Handler.BindCallback(Events::KeyPressed,
-                         [this](const sf::Keyboard::Key &k) {this->__HandleKeyPress(k); }
-    );
+    
   }
 
   void GenericActor::BuildAnimations(const std::string & filename, const std::string & texturefile, GenericActor * Actor)
@@ -51,20 +44,22 @@ namespace Engine
   {
     //UGHSDJLGHSD LJHFSDLFHS DLFH SDF
     //It's SO UGLY!
-    chaiscript::utility::add_class<Engine::GenericActor>(*mptr, "GenericActor",
-    { chaiscript::constructor<Engine::GenericActor()>() },
-    { {
-        chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetID)), "SetID" },
-        { chaiscript::fun(static_cast<std::string(GenericActor::*)(void) const>(&GenericActor::GetID)), "GetID" },
-        { chaiscript::fun(static_cast<const sf::Vector2f &(GenericActor::*)(void) const>(&GenericActor::GetActorPosition)), "GetPosition" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorPosition)), "SetPosition" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(float, float)>(&GenericActor::SetActorPosition)), "SetPosition" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetAnimation)), "SetAnimation" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorAcceleration)), "SetAcceleration" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorVelocity)), "SetVelocity" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::UseTemporaryAnimation)), "AnimateAction" }
-    }
+    chaiscript::utility::add_class<Engine::GenericActor>(
+		*mptr,
+		"GenericActor",
+		{ chaiscript::constructor<Engine::GenericActor()>() },
+		{ {
+			chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetID)), "SetID" },
+			{ chaiscript::fun(static_cast<std::string(GenericActor::*)(void) const>(&GenericActor::GetID)), "GetID" },
+			{ chaiscript::fun(static_cast<const sf::Vector2f &(GenericActor::*)(void) const>(&GenericActor::GetActorPosition)), "GetPosition" },
+			{ chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorPosition)), "SetPosition" },
+			{ chaiscript::fun(static_cast<void(GenericActor::*)(float, float)>(&GenericActor::SetActorPosition)), "SetPosition" },
+			{ chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetAnimation)), "SetAnimation" },
+			{ chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorAcceleration)), "SetAcceleration" },
+			{ chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorVelocity)), "SetVelocity" },
+			{ chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" },
+			{ chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::UseTemporaryAnimation)), "AnimateAction" }
+		}
     );
   }
    

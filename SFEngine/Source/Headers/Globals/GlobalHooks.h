@@ -10,9 +10,15 @@
 #include <unordered_set>
 #include "../Resources/ResourceManager.h"
 #include "../Streams/DataStream.h"
+#include "../Render/Render.h"
 #include <TGUI\TGUI.hpp>
+#include <Thor/Particles.hpp>
+#include <Thor/Animations.hpp>
+#include <Thor/Vectors/PolarVector2.hpp>
+#include <Thor/Math/Distributions.hpp>
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-
+#include "../../../ThirdParty/IMGUI/imgui.h"
+#include "../../../ThirdParty/IMGUI/imgui-SFML.h"
 
 const std::string EngineVersionString{ "0.0.1" };
 const std::string EditorVersionString{ "0.0.1.B-fIncomplete" };
@@ -189,6 +195,9 @@ namespace Engine
   extern void AddKeyboardShortcut(const std::vector<sf::Keyboard::Key> &keys, std::function<void(void)> callback);
 
   extern void AddScriptGlobal();
+  extern Render::RenderSettings EngineRenderSettings;
+
+  //For interacting with the scripting engine
 
   //Some methods to use to serialize assets - put here so they can be globally accessible to anything that needs that
   void SerializeString(const std::string &string, std::ofstream &out);
@@ -212,6 +221,7 @@ namespace Engine
 
   void MessageAlert(const std::string &message);
   void ConfirmAlert(const std::string &message, std::string OKText = "OK", std::string CancelText = "Cancel", std::function<void(void)> OKcb = []() {}, std::function<void(void)> Cancelcb = []() {});
+  void Confirm(const std::string &message);
 
   class UserEvent;
   extern DataStream<UserEvent> EngineEventStream;

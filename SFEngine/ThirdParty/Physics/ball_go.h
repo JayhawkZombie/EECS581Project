@@ -11,7 +11,13 @@ public:
                // functions
   ball_go(std::istream& fin);
   ball_go() {}
+  virtual mvHit* clone() const {
+    return new ball_go(*this);
+  }
   virtual ~ball_go() {}
+  virtual const char* myName() const {
+    return "ball_go";
+  }
 
   virtual void init(std::istream& fin);
   virtual void respond(float dV, bool isFric);

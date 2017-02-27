@@ -5,6 +5,7 @@
 #include "../../Headers/Level/Level.h"
 #include "../../Headers/Editor/AnimationViewer.h"
 #include "../../Headers/Editor/TileSheetEditor.h"
+#include "../../Headers/Engine/Console.h"
 
 namespace Engine
 {
@@ -14,143 +15,147 @@ namespace Engine
   Editor::Editor()
     : EditorScriptEngine{ std::make_shared<chaiscript::ChaiScript>(chaiscript::Std_Lib::library()) }
   {
-    std::cerr << "Creating editor script engine" << std::endl;
-    SetKeyRepeatEnabled(false);
-    std::cerr << "Adding editor methods" << std::endl;
-    chaiscript::ModulePtr tptr(new chaiscript::Module);
-    BindEditorMethods(tptr);
-    EditorScriptEngine->add(tptr);
-    EditorScriptEngine->eval_file("./SFEngine/Samples/Scripts/TestEditorScript.chai");
+    //std::cerr << "Creating editor script engine" << std::endl;
+    //SetKeyRepeatEnabled(false);
+    //std::cerr << "Adding editor methods" << std::endl;
+    //chaiscript::ModulePtr tptr(new chaiscript::Module);
+    //BindEditorMethods(tptr);
+    //EditorScriptEngine->add(tptr);
+    //EditorScriptEngine->eval_file("./SFEngine/Samples/Scripts/TestEditorScript.chai");
 
-    //Load the icon sheet
-    UI::LoadIconSheet("./SFEngine/Source/CoreFiles/Textures/Icons/Icons.txt");
-    IconSheet = std::make_shared<sf::Texture>();
-    IconSheet->loadFromFile("./SFEngine/Source/CoreFiles/Textures/Icons/ui_icons_light.png");
+    ////Load the icon sheet
+    //UI::LoadIconSheet("./SFEngine/Source/CoreFiles/Textures/Icons/Icons.txt");
+    //IconSheet = std::make_shared<sf::Texture>();
+    //IconSheet->loadFromFile("./SFEngine/Source/CoreFiles/Textures/Icons/ui_icons_light.png");
 
-    IconsTexture.load("./SFEngine/Source/CoreFiles/Textures/Icons/ui_icons_light.png");
-    ForArrorMediumTexture = IconsTexture;
-    BackArrowMediumTexture = IconsTexture;
+    //IconsTexture.load("./SFEngine/Source/CoreFiles/Textures/Icons/ui_icons_light.png");
+    //ForArrorMediumTexture = IconsTexture;
+    //BackArrowMediumTexture = IconsTexture;
 
-    EditorFont.loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
-    EditorModeText.setFont(EditorFont);
-    EditorModeText.setCharacterSize(8);
-    EditorModeText.setFillColor(sf::Color::White);
-    EditorModeText.setPosition({ 400, 10 });
-    EditorModeText.setString("Editor : Mode <No Selection>");
+    //EditorFont.loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
+    //EditorModeText.setFont(EditorFont);
+    //EditorModeText.setCharacterSize(8);
+    //EditorModeText.setFillColor(sf::Color::White);
+    //EditorModeText.setPosition({ 400, 10 });
+    //EditorModeText.setString("Editor : Mode <No Selection>");
 
-    MenuFont = std::make_shared<sf::Font>();
-    MenuFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/exo/Exo-Light.otf");
+    //MenuFont = std::make_shared<sf::Font>();
+    //MenuFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/exo/Exo-Light.otf");
 
-    TextFont = std::make_shared<sf::Font>();
-    TextFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
+    //TextFont = std::make_shared<sf::Font>();
+    //TextFont->loadFromFile("./SFEngine/Source/CoreFiles/Fonts/Raleway-Regular.ttf");
 
-    LoadProject("./Projects/TestProject/testproject.json");
+    ////LoadProject("./Projects/TestProject/testproject.json");
 
-    PreviewGridInfoText.setFont(EditorFont);
-    PreviewGridInfoText.setCharacterSize(6);
-    PreviewGridInfoText.setFillColor(sf::Color::White);
-    PreviewGridInfoText.setPosition({ 10, 820 });
-    PreviewGridInfoText.setString("Grid Cell: 40 x 40");
+    //PreviewGridInfoText.setFont(EditorFont);
+    //PreviewGridInfoText.setCharacterSize(6);
+    //PreviewGridInfoText.setFillColor(sf::Color::White);
+    //PreviewGridInfoText.setPosition({ 10, 820 });
+    //PreviewGridInfoText.setString("Grid Cell: 40 x 40");
 
-    UITexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture);
-    UITexture->create(static_cast<unsigned int>(std::ceil(WindowSize.x)), static_cast<unsigned int>(std::ceil(WindowSize.y)));
+    //UITexture = std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture);
+    //UITexture->create(static_cast<unsigned int>(std::ceil(WindowSize.x)), static_cast<unsigned int>(std::ceil(WindowSize.y)));
 
-    EditorRenderState.blendMode = sf::BlendAdd;
-
-    EditLevel = std::make_shared<Level>(sf::Vector2u({ 1920, 1080 }), sf::FloatRect(0, 0, 1920, 1080), true, sf::Vector2f({ 1920 / 16.f,1080 / 16.f }));
+    //EditorRenderState.blendMode = sf::BlendAdd;
 
 
-    TestActorSpriteSheet = std::make_shared<sf::Texture>();
-    if (!TestActorSpriteSheet->loadFromFile("./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.png")) {
-      std::cerr << "Failed to load actor animation sheet" << std::endl;
-      exit(1);
-    }
+    //auto seg = BuildSegmentMesh('L', { 0, 0 }, { 300, 500 });
+    //Segments.push_back(seg);
 
-    GenericActor::BuildAnimations("./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.txt", "./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.png", &TestActor);
+    //auto ball = BuildBallMesh('B', { 100, 100 }, { 0, 0 }, 10.f, 0.1f, 0.3f, sf::Color::White);
+    //TestObjects.push_back(ball);
 
-    EditorScriptEngine->add_global(chaiscript::var(&TestActor), "MainPlayer");
+    //auto ball2 = BuildBallMesh('B', { 300, 100 }, { 0, 0 }, 10.f, 0.1f, 0.2f, sf::Color::White);
+    //TestObjects.push_back(ball2);
+
+    //TestActorSpriteSheet = std::make_shared<sf::Texture>();
+    //if (!TestActorSpriteSheet->loadFromFile("./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.png")) {
+    //  std::cerr << "Failed to load actor animation sheet" << std::endl;
+    //  exit(1);
+    //}
+
+    //GenericActor::BuildAnimations("./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.txt", "./SFEngine/Samples/Actors/ninjagirlnew/Animations/AnimCombined.png", &TestActor);
+
+    //EditorScriptEngine->add_global(chaiscript::var(&TestActor), "MainPlayer");
   }
 
   Editor::~Editor()
   {
-    Animations.clear();
-    if (CreationThread.joinable())
-      CreationThread.join();
   }
 
   void Editor::TickUpdate(const double &delta)
   {
-    try
-    {
-      if (Done && !GUIPopulated)
-        PopulateGUI();
+    //if (FlagForClose)
+    //  return;
 
+    //try
+    //{
 
-      static float update_delta = 16.66667f;
-      static float update_current = 0.f;
+    //  static float update_delta = 16.66667f;
+    //  static float update_current = 0.f;
 
-      update_current += delta;
-      std::string deltastr = std::to_string(delta);
+    //  update_current += delta;
+    //  std::string deltastr = std::to_string(delta);
 
-      if (EnabledPhysics && (TestObjects.size() > 0 || Segments.size() > 0) && update_current >= update_delta) {
-        UpdatePhysics(TestObjects, Segments, 2);
-        update_current = 0.f;
-      }
+    //  if (EnabledPhysics && (TestObjects.size() > 0 || Segments.size() > 0) && update_current >= update_delta) {
+    //    UpdatePhysics(TestObjects, Segments, 2);
+    //    update_current = 0.f;
+    //  }
 
-      if (Done && AnimationPanelAnimationViewer->IsOpen()) {
-        AnimationPanelAnimationViewer->TickUpdate(delta);
-      }
-
-      if (IsUpdateLevelEnabled)
-        EditLevel->TickUpdate(delta);
-    }
-    catch (std::exception &err)
-    {
-      std::cerr << "Editor::TickUpdate : exception => " << err.what() << std::endl;
-    }
+    //  if (IsUpdateLevelEnabled)
+    //    EditLevel->TickUpdate(delta);
+    //}
+    //catch (std::exception &err)
+    //{
+    //  std::cerr << "Editor::TickUpdate : exception => " << err.what() << std::endl;
+    //}
   }
 
   void Editor::Render(std::shared_ptr<sf::RenderTexture> Texture)
   {
-    EditLevel->Render(Texture);
+ /*   if (FlagForClose)
+      return;
+
+    EditLevel->Render(Texture);*/
     
-    sf::VertexArray Varr = sf::VertexArray(sf::Lines, 2);
+    //sf::VertexArray Varr = sf::VertexArray(sf::Lines, 2);
 
-    for (auto & seg : Segments) {
-      seg->draw(*currentRenderWindow);
-    }
+    //for (auto & seg : Segments) {
+    //  seg->draw(*currentRenderWindow);
+    //}
 
-    if (Done && AnimationPanelAnimationViewer->IsOpen()) {
-      AnimationPanelAnimationViewer->Render();
-    }
+    //if (Done && AnimationPanelAnimationViewer->IsOpen()) {
+    //  AnimationPanelAnimationViewer->Render();
+    //}
 
-    sf::CircleShape circle;
+    //sf::CircleShape circle;
 
-    TestActor.Render(Texture);
+    //TestActor.Render(Texture);
 
-    for (auto & obj : TestObjects) {
-      obj->draw(*currentRenderWindow);
-    }
+    //for (auto & obj : TestObjects) {
+    //  obj->draw(*currentRenderWindow);
+    //}
   }
 
   void Editor::PreLoopSetup()
   {
-    //set up the physics environment
-    auto boundaries = WindowSize;
-    std::cerr << "Editor::PreLoopSetup() : Boundaries {" << boundaries.x << ", " << boundaries.y << "}" << std::endl;
-    AssignBoundaries(boundaries.y, boundaries.x);
-    Gravity.x = 0.f;
-    Gravity.y = 0.09f;
-    SetGravity(&Gravity);
-    
-    UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
-    currentRenderWindow->setVerticalSyncEnabled(false);
-    tgui::Label::Ptr btntooltip = UIThemePtr->load("ToolTip");
-    btntooltip->setFont(GUI->getFont());
-    btntooltip->setText("tooltip");
-    btntooltip->setTextSize(12);
+    //EditLevel = std::make_shared<Level>(sf::Vector2u({ 1920, 1080 }), sf::FloatRect(0, 0, 800, 800), true, sf::Vector2f({ 1920 / 16.f,1080 / 16.f }));
+    //EditLevel->LoadLevel("./Projects/TestProject/testproject.json");
 
-    CreationThread = std::thread([this]()->void {this->CreateGUIMenus(); });
+    ////set up the physics environment
+    //auto boundaries = WindowSize;
+    //std::cerr << "Editor::PreLoopSetup() : Boundaries {" << boundaries.x << ", " << boundaries.y << "}" << std::endl;
+    //AssignBoundaries(800.f, 800.f);
+    //Gravity.x = 0.f;
+    //Gravity.y = 0.09f;
+    //SetGravity(&Gravity);
+    //
+    //UIThemePtr = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
+    //currentRenderWindow->setVerticalSyncEnabled(false);
+    //tgui::Label::Ptr btntooltip = UIThemePtr->load("ToolTip");
+    //btntooltip->setFont(GUI->getFont());
+    //btntooltip->setText("tooltip");
+    //btntooltip->setTextSize(12);
   }
 
   void Editor::BindEditorMethods(chaiscript::ModulePtr mptr)
@@ -196,14 +201,25 @@ namespace Engine
 
   void Editor::ShutDownEditor()
   {
+    //Animations.clear();
     FlagForClose = true;
-    Creator.reset();
-    Textures.clear();
-    Animations.clear();
+    //Creator.reset();
+    //Textures.clear();
+    //Animations.clear();
   }
 
   void Editor::OpenTilesheetViewer()
   {
+  }
+
+  void Editor::HidePanels()
+  {
+    SideTabPanel->hideWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(150));
+  }
+
+  void Editor::ShowPanels()
+  {
+    SideTabPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(150));
   }
 
   void Editor::OpenProjectCreator()

@@ -21,9 +21,10 @@ bool decayPolygon::hit(ball& rB)// a ball can split a decayPolygon
 
   bool Hit = regPolygon::hit(rB);
 
-  if (Hit)// bust a piece off?
+  if (Hit && p_mvHitVec)// bust a piece off?
   {
-    float Ek = 0.5f*(m*v.dot(v) + rB.m*rB.v.dot(rB.v));// total kinetic energy
+    //        float Ek = 0.5f*( m*v.dot(v) + rB.m*rB.v.dot(rB.v) );// total kinetic energy
+    float Ek = Ek_Cm(*this, rB);
     regPolygon* pRP = nullptr;// new regPolygon produced in a split
     if (Ek > E_split5 && nSides > 9)      pRP = split_reg(5);
     else if (Ek > E_split4 && nSides > 7) pRP = split_reg(4);
@@ -37,12 +38,13 @@ bool decayPolygon::hit(ball& rB)// a ball can split a decayPolygon
 
 bool decayPolygon::hit(regPolygon& rpg)
 {
-  float Ek = 0.5f*(m*v.dot(v) + rpg.m*rpg.v.dot(rpg.v));// total kinetic energy
+  //    float Ek = 0.5f*( m*v.dot(v) + rpg.m*rpg.v.dot(rpg.v) );// total kinetic energy
+  float Ek = Ek_Cm(*this, rpg);
   bool Hit = regPolygon::hit(rpg);
 
-  if (Hit) //std::cerr << "\n decayPolygon::impact(rpg). E = " << Ek << " rpg.nSides = " << rpg.nSides;
+  //   if( Hit ) std::cerr << "\n decayPolygon::impact(rpg). E = " << Ek << " rpg.nSides = " << rpg.nSides;
 
-  if (Hit && rpg.nSides < 6 && Ek > E_fuse) absorb_reg(rpg);
+  if (Hit && Ek > E_fuse) absorb_reg(rpg);
 
   return Hit;
 }
@@ -92,7 +94,7 @@ regPolygon* decayPolygon::split_reg(size_t n)// returns pointer to new n sided r
   for (size_t i = 0; i<pRP->nSides; ++i)// for the nSides points and the coincident sf::Vertex
   {
     pRP->ptVec.push_back(pt0);
-    //   //std::cerr << "\n pt0.mag() = " << pt0.mag();
+    //   std::cerr << "\n pt0.mag() = " << pt0.mag();
     pRP->vtxVec.push_back(sf::Vertex(sf::Vector2f(pRP->pos.x + pt0.x, pRP->pos.y + pt0.y), vtxClr));
     pt0 = pt0.Rotate(dAngle);
   }
@@ -103,6 +105,7 @@ regPolygon* decayPolygon::split_reg(size_t n)// returns pointer to new n sided r
 
 void decayPolygon::absorb_reg(regPolygon& rpg)
 {
+  if (!p_mvHitVec) return;
   //   mvHit* pMH = nullptr;
   std::vector<mvHit*>& rMHvec = *p_mvHitVec;
   std::vector<mvHit*>::iterator it = rMHvec.begin();
@@ -137,3 +140,20 @@ void decayPolygon::absorb_reg(regPolygon& rpg)
   }
   vtxVec.push_back(sf::Vertex(sf::Vector2f(pos.x + ptVec[0].x, pos.y + ptVec[0].y), vtxClr));
 }
+
+// non members
+/*
+vec2d velCm( const mvHit& A, const mvHit& B )
+{
+return ( A.v*A.m + B.v*B.m )/( A.m + B.m );
+}
+
+float Ek_Cm( const mvHit& A, const mvHit& B )
+{
+vec2d Vcm = velCm( A, B );
+vec2d V = A.v - Vcm;
+float Ek = A.m*V.dot(V);
+V = B.v - Vcm;
+Ek += B.m*V.dot(V);
+return 0.5f*Ek;
+}   */

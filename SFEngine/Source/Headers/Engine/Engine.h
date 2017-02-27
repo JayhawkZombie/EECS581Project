@@ -164,7 +164,6 @@ namespace Engine
 
     void HandleKeyRelease(const sf::Keyboard::Key &k);
     std::function<void(const sf::Keyboard::Key &k)> Callback_HandleKeyRelease;
-    
   };
 
 }

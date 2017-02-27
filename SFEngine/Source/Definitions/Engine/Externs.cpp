@@ -17,7 +17,7 @@ namespace Engine
   std::shared_ptr<sf::Texture> DefaultTexture;
   chaiscript::ChaiScript *ScriptEngine;
   std::unordered_set<std::uint32_t> UsedIDs;
-
+  Render::RenderSettings EngineRenderSettings;
   std::shared_ptr<tgui::Gui> GUI;
 
   DataStream<UserEvent> EngineEventStream;
@@ -394,6 +394,11 @@ namespace Engine
     mbox->add(OKButton);
     mbox->add(CancelButton);
 
+  }
+
+  void Confirm(const std::string & message)
+  {
+    ConfirmAlert(message);
   }
 
   void MessageAlert(const std::string & message)

@@ -15,7 +15,9 @@ namespace Engine
   {
     //DEBUG_ONLY std::cerr << "Editor::HandleMouseReleased" << std::endl;
 
-    //UIHelper->ConsumeEvent(Event);
+    if (Creator && Creator->IsOpen()) {
+
+    }
   }
 
   void Editor::HandleMouseMoved(const InputEvent &Event)

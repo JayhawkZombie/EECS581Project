@@ -5,6 +5,34 @@ arcSeg::arcSeg(std::istream& fin) {
   init(fin);
 }
 
+arcSeg::arcSeg(float x1, float y1, float x2, float y2, float radius, sf::Color clr)
+{
+  s[0].x = x1; s[0].y = y1;
+  s[1].x = x2; s[1].y = y2;
+  R = radius;
+
+  for (unsigned int i = 0; i<20; ++i)Q[i].color = clr;
+
+  vec2d arc = s[1] - s[0];
+  arc *= 0.5f;
+  float hfArcMag = arc.mag();
+  pos = s[0] + arc + arc.get_LH_norm()*sqrtf(R*R - hfArcMag*hfArcMag);
+  //   std::cout << "pos at: " << pos.x << ", " << pos.y << '\n';
+  //   vec2d R0 = s[0] - pos;
+  s[0] -= pos;
+  s[1] -= pos;
+  //   float angle = acosf( R0.dot(s[1]-pos)/(R*R) );
+  float angle = acosf(s[0].dot(s[1]) / (R*R));
+  //   std::cout << "angle = " << angle << '\n';
+  float dA = angle / 19.0f;
+  for (unsigned int i = 0; i<20; ++i)
+  {
+    vec2d vtxPos = pos + s[0].Rotate(-1.0f*(float)i*dA);
+    Q[i].position.x = vtxPos.x;
+    Q[i].position.y = vtxPos.y;
+  }
+}
+
 void arcSeg::init(std::istream& fin)
 {
   //   fin >> testEnd1 >> testEnd2;
@@ -21,13 +49,13 @@ void arcSeg::init(std::istream& fin)
   arc *= 0.5f;
   float hfArcMag = arc.mag();
   pos = s[0] + arc + arc.get_LH_norm()*sqrtf(R*R - hfArcMag*hfArcMag);
-  //std::cout << "pos at: " << pos.x << ", " << pos.y << '\n';
+  std::cout << "pos at: " << pos.x << ", " << pos.y << '\n';
   //   vec2d R0 = s[0] - pos;
   s[0] -= pos;
   s[1] -= pos;
   //   float angle = acosf( R0.dot(s[1]-pos)/(R*R) );
   float angle = acosf(s[0].dot(s[1]) / (R*R));
-  //std::cout << "angle = " << angle << '\n';
+  std::cout << "angle = " << angle << '\n';
   float dA = angle / 19.0f;
   for (unsigned int i = 0; i<20; ++i)
   {
@@ -75,6 +103,12 @@ return false;
 bool arcSeg::is_onMe(const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen)const
 {
   return mh.is_inMe(*static_cast<const arcSeg*>(this), Pimp, Nh, pen);
+}
+
+vec2d arcSeg::getSurfaceNormal(const mvHit& mh)const
+{
+  vec2d sep = mh.pos - pos;
+  return sep / sep.mag();
 }
 
 /*

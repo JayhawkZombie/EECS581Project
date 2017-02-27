@@ -17,13 +17,19 @@ public:
 
   ball(std::istream& fin);
   ball();
+  virtual mvHit* clone() const {
+    return new ball(*this);
+  }
   virtual ~ball() {}
   virtual void init(std::istream& fin);
+  virtual const char* myName() const {
+    return "ball";
+  }
 
   virtual void update();
-  virtual void draw(sf::RenderTarget& rRW)const override;
+  virtual void draw(sf::RenderTarget& rRW)const;
   virtual void setPosition(vec2d Pos);
-  virtual void respond(float dV, bool isFric);
+  //   virtual void respond( float dV, bool isFric );
   virtual bool hit(const vec2d& pt);
   virtual bool hit(ball& rB);
   virtual bool hit(regPolygon& py);// { return py.hit( *static_cast<ball*>(this) ); }
@@ -32,6 +38,12 @@ public:
   virtual bool is_inMe(const lineSeg& LS, vec2d& Pimp, vec2d& Nh, float& dSep)const;// detailed collision detection
   virtual bool is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)const;// code goes here. Impact point is written.
   virtual bool is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response
+
+  virtual bool Float(vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airDensity, float fluidDensity);
+  virtual bool Float(vec2d Nsurf, float grav_N, float Density);
+  virtual float project(vec2d vUnit)const {
+    return r;
+  }// max projection along vUnit
 };
 
 

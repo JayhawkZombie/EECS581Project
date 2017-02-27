@@ -21,6 +21,10 @@ public:
   vec2d operator*(float c)const;
   vec2d operator/(float c)const;
 
+  vec2d operator-() const {
+    return (*this)*-1.0f;
+  }
+
   float mag()const {
     return sqrtf(x*x + y*y);
   }

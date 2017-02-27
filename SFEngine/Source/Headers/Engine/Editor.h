@@ -116,6 +116,8 @@ namespace Engine
     void CreateGUIMenus();
 
     void LoadProject(const std::string &ProjectPath);
+    void HidePanels();
+    void ShowPanels();
 
     void HandleWindowResized(const sf::Vector2u &NewWindowSize);
     void BindEditorMethods(chaiscript::ModulePtr mptr);
@@ -173,7 +175,6 @@ namespace Engine
     std::function<void(float)> FtnPtr;
 
     tgui::ProgressBar::Ptr CreationProgress;
-    std::thread CreationThread;
     bool Done = false;
     bool GUIPopulated = false;
 

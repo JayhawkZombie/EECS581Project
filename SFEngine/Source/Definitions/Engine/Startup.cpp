@@ -12,7 +12,7 @@ namespace Engine
       delete currentRenderWindow;
 
 #ifdef WITH_EDITOR
-    Window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "SFEngine Editor", sf::Style::Fullscreen | sf::Style::Titlebar, csettings);
+    Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine Editor", sf::Style::None | sf::Style::Titlebar, csettings);
     WindowSize = static_cast<sf::Vector2f>(Window->getSize());
 #else
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
@@ -90,10 +90,13 @@ namespace Engine
       EngineConfig.Window_v2fWindowSize = Util::GetVec2fConfig("Window", "WindowSize", sf::Vector2f(800, 800), "Engine.ini", _IN);
       //WindowSize = EngineConfig.Window_v2fWindowSize;
       InitialLevel = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", _IN);
-      RenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", _IN);
-      RenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", _IN);
-      RenderSettings.Gamma = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", _IN);
-      RenderSettings.PostProcess = Util::GetUnsignedIntConfig("Render", "PostProcess", 0, "Engine.ini", _IN);
+      EngineRenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", _IN);
+      EngineRenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", _IN);
+      EngineRenderSettings.Gamma = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", _IN);
+      EngineRenderSettings.PostProcess = Util::GetUnsignedIntConfig("Render", "PostProcess", 0, "Engine.ini", _IN);
+      EngineRenderSettings.BGClearColor.r = Util::GetUnsignedIntConfig("Render", "ClearColor.r", 0, "Engine.ini", _IN);
+      EngineRenderSettings.BGClearColor.g = Util::GetUnsignedIntConfig("Render", "ClearColor.g", 0, "Engine.ini", _IN);
+      EngineRenderSettings.BGClearColor.b = Util::GetUnsignedIntConfig("Render", "ClearColor.b", 0, "Engine.ini", _IN);
 
       ContextSettings.antialiasingLevel = Util::GetUnsignedIntConfig("Render", "uiAALevel", 1, "Engine.ini", _IN);
       ContextSettings.depthBits = Util::GetUnsignedIntConfig("Render", "uiDepthBits", 0, "Engine.ini", _IN);
@@ -173,6 +176,11 @@ namespace Engine
       std::cerr << "Script execution error: " << e.what() << std::endl;
     }
     Window->clear();
+    
+    
+    ScriptEngine->add(chaiscript::fun(&MessageAlert), "Alert");
+    ScriptEngine->add(chaiscript::fun(&Confirm), "Confirm");
+    
     return GameLoop();
   }
 }

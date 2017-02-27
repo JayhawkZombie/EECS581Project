@@ -2,6 +2,12 @@
 #include "../../Headers/Exceptions/Exceptions.h"
 namespace Engine
 {
+
+  namespace
+  {
+    vec2d gravity;
+  }
+
   template<typename T>
   void InsertIntoStream(const T &Data, std::stringstream &data_stream, bool newline = false)
   {
@@ -21,9 +27,9 @@ namespace Engine
   }
 
 
-  std::shared_ptr<PhysicsEngineBaseMeshType> BuildBallMesh(char BallType, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color & Color)
+  BaseMeshPtr BuildBallMesh(char BallType, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color & Color)
   {
-    std::shared_ptr<PhysicsEngineBaseMeshType> Ball;
+    BaseMeshPtr Ball;
 
     std::stringstream data_stream;
     if (BallType != 'G' && BallType != 'B')
@@ -34,16 +40,14 @@ namespace Engine
       //Get the formatted data and try to use it to create a ball
       data_stream = GetFormattedBallConstructionData(BallType, InitialPosition, InitialVelocity, Radius, Mass, CoeffecientOfRest, Color);
 
-      std::cerr << "--- Ball Mesh Data ---" << std::endl;
-      std::cerr << data_stream.str() << std::endl;
-      std::cerr << "----------------------" << std::endl;
+      //std::cerr << "--- Ball Mesh Data ---" << std::endl;
+      //std::cerr << data_stream.str() << std::endl;
+      //std::cerr << "----------------------" << std::endl;
 
       if (BallType == 'G')
-        Ball = std::shared_ptr<PhysicsEngineBaseMeshType>(new ball_go(data_stream));
+        return (std::make_shared<ball_go>(data_stream));
       else
-        Ball = std::shared_ptr<PhysicsEngineBaseMeshType>(new ball(data_stream));
-
-      return Ball;
+        return (std::make_shared<ball>(data_stream));
     }
     catch (EngineRuntimeError &err)
     {
@@ -54,20 +58,16 @@ namespace Engine
     }
   }
 
-  std::shared_ptr<PhysicsEngineBaseMeshType> BuildPolygonMesh(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color)
+  BaseMeshPtr BuildPolygonMesh(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color)
   {
-    std::shared_ptr<PhysicsEngineBaseMeshType> Poly;
-
     try
     {
       std::stringstream data = GetFormattedPolyConstructionData(num_sides, radius, init_rotation, InitialPosition, InitialVelocity, mass, CoeffOfRest, Color);
 
-      std::cerr << "--- Poly Mesh Data ---" << std::endl;
-      std::cerr << data.str() << std::endl;
-      std::cerr << "----------------------" << std::endl;
-
-      Poly = std::shared_ptr<PhysicsEngineBaseMeshType>(new regPolygon(data));
-      return Poly;
+      //std::cerr << "--- Poly Mesh Data ---" << std::endl;
+      //std::cerr << data.str() << std::endl;
+      //std::cerr << "----------------------" << std::endl;
+      return (std::make_shared<regPolygon>(data));
     }
     catch (EngineRuntimeError &err)
     {
@@ -75,15 +75,12 @@ namespace Engine
     }
   }
 
-  std::shared_ptr<PhysicsEngineSegmentType> BuildSegmentMesh(char type, const sf::Vector2i & TopLeftCorner, const sf::Vector2i & BottomRightCorner, float radius)
+  SegmentPtr BuildSegmentMesh(char type, const sf::Vector2i & TopLeftCorner, const sf::Vector2i & BottomRightCorner, float radius)
   {
-    std::shared_ptr<PhysicsEngineSegmentType> Segment;
-
     try
     {
       std::stringstream data = GetFormattedSegmentConstructionData(type, TopLeftCorner, BottomRightCorner, radius);
-      Segment = std::shared_ptr<PhysicsEngineSegmentType>(new lineSeg(data));
-      return Segment;
+      return (std::make_shared<lineSeg>(data));
     }
     catch (EngineRuntimeError &err)
     {
@@ -182,13 +179,13 @@ namespace Engine
   }
 
 
-  void UpdatePhysics(std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> &Meshes, std::vector<std::shared_ptr<PhysicsEngineSegmentType>> Segments, std::size_t Steps)
+  void UpdatePhysics(std::vector<BaseMeshPtr> &Meshes, std::vector<SegmentPtr> Segments, std::size_t Steps)
   {
 
     for (std::size_t _step = 0; _step < Steps; ++_step) {
 
       for (std::size_t i = 0; i < Meshes.size(); ++i) {
-        Meshes[i]->update();
+        Meshes[i]->update(gravity);
       }
 
       //Update segments
@@ -203,7 +200,7 @@ namespace Engine
         }
       }
 
-      for (std::size_t i = 0; i < Meshes.size() - 1; ++i) { 
+      for (std::size_t i = 0; i + 1 < Meshes.size(); ++i) { 
         for (std::size_t j = i + 1; j < Meshes.size(); ++j) {
           Meshes[i]->hit(*Meshes[j]);
         }
@@ -222,7 +219,7 @@ namespace Engine
 
   void SetGravity(vec2d *Gravity)
   {
-    PhysicsEngineBaseMeshType::pGravity = Gravity;
+    gravity = *Gravity;
   }
 
 }

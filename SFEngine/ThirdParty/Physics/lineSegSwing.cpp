@@ -1,6 +1,9 @@
 #include "lineSegSwing.h"
 #include "mvHit.h"
 
+bool lineSegSwing::gravity_on = false;
+vec2d lineSegSwing::grav = vec2d();
+
 lineSegSwing::lineSegSwing(std::istream& fin) : lineSegRotate(fin)
 {
   fin >> m;// >> grav.x >> grav.y;
@@ -25,7 +28,7 @@ void lineSegSwing::to_file(std::ofstream& fout)
 void lineSegSwing::update()
 {
   float I = m*L.dot(L) / 3.0f;
-  if (mvHit::pGravity) rotVel -= mvHit::pGravity->cross(L) / (2.0f*I);
+  if (gravity_on) rotVel -= grav.cross(L) / (2.0f*I);
   // rotate L
   L = L.Rotate(rotVel);
   vtx[1].position.x = pos.x + L.x; vtx[1].position.y = pos.y + L.y;

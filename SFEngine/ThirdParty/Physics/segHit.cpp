@@ -29,8 +29,17 @@ bool segHit::hit(mvHit& mh)
 
   if (is_onMe(mh, Pimp, Nh, dSep))
   {
-    mh.bounce(Cf, Nh, friction_on);// velocity response
-    mh.setPosition(mh.pos + Nh*dSep);// position change response
+    if (is_hard)
+    {
+      mh.bounce(Cf, Nh, friction_on);// velocity response
+      mh.setPosition(mh.pos + Nh*dSep);// position change response
+    }
+    else
+    {
+      float grav_N = 0.02f, airDensity = 0.0004, fluidDensity = 0.04;
+      mh.Float(getSurfaceNormal(mh), Nh, dSep, grav_N, airDensity, fluidDensity);
+    }
+
     return true;
   }
 

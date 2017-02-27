@@ -6,13 +6,31 @@
 
 bool regPolygon::hit(mvHit& mh)
 {
-  if (mh.hit(*static_cast<regPolygon*>(this)))
-  {
-    //std::cerr << "\n rpg.hit(mh) -> mh.hit(rpg)";
-    return true;
-  }
+  return mh.hit(*static_cast<regPolygon*>(this));
+}
 
-  return false;
+bool regPolygon::hit(regPolygon& rpg)
+{
+  bool Hit = false;
+  vec2d sep, N;
+  float a;
+
+  Hit = is_inMe(rpg, sep, N, a);
+  if (Hit) handleImpact(rpg, sep, N, a);
+
+  return Hit;
+}
+
+bool regPolygon::hit(ball& rB)
+{
+  bool Hit = false;
+  vec2d sep, N;
+  float a;
+
+  Hit = is_inMe(rB, sep, N, a);
+  if (Hit) handleImpact(rB, sep, N, a);
+
+  return Hit;
 }
 
 regPolygon::regPolygon() {}// default
@@ -44,27 +62,24 @@ void regPolygon::init(std::istream& fin)// from file data
   vtxVec.push_back(sf::Vertex(sf::Vector2f(pos.x + ptVec[0].x, pos.y + ptVec[0].y), sf::Color(gn, rd, bu)));
 }
 
-void regPolygon::respond(float dV, bool isFric)// assumes velocity components are T(x) and N(y) to obstacle
+/*
+void regPolygon::respond( float dV, bool isFric )// assumes velocity components are T(x) and N(y) to obstacle
 {
-  if (!isFric) return;// no change in x component can occur
-  if (v.y == 0.0f) return;// target speed acheived
-                          // speed needs adjustment
-  if (dV < 0.0f) dV *= -1.0f;// assure dV is positive
-  if (v.y > 0.0f) {
-    v.y -= dV; if (v.y < 0.0f) v.y = 0.0f;
-  }
-  else {
-    v.y += dV; if (v.y > 0.0f) v.y = 0.0f;
-  }
+if( !isFric ) return;// no change in x component can occur
+if( v.y == 0.0f ) return;// target speed acheived
+// speed needs adjustment
+if( dV < 0.0f ) dV *= -1.0f;// assure dV is positive
+if( v.y > 0.0f ){ v.y -= dV; if( v.y < 0.0f ) v.y = 0.0f; }
+else { v.y += dV; if( v.y > 0.0f ) v.y = 0.0f; }
 
-  return;
-}
+return;
+}   */
 
 void regPolygon::update()
 {
   if (!is_free) return;
 
-  if (pGravity) v += *pGravity;
+  //   if( pGravity ) v += *pGravity;
   pos += v;
 
   float dr = 0.0f;
@@ -94,29 +109,29 @@ void regPolygon::update()
     }
   }
 
-  if (!Hit)
+  if (Hit) bounce(regPolygon::wdwCf, N, true);
+  Hit = false;
+
+  if (!windowTopOpen && pos.y < r)
   {
-    if (pos.y < r)
+    N.x = 0.0f; N.y = 1.0f;
+    dr = project(-1.0f*N);
+    if (pos.y < dr)
     {
-      N.x = 0.0f; N.y = 1.0f;
-      dr = project(-1.0f*N);
-      if (pos.y < dr)
-      {
-        pos.y = dr;
-        Hit = true;
-      }
+      pos.y = dr;
+      Hit = true;
     }
-    else if (pos.y > regPolygon::wdwH - r)
+  }
+  else if (pos.y > regPolygon::wdwH - r)
+  {
+    N.x = 0.0f; N.y = -1.0f;
+    dr = project(-1.0f*N);
+    if (pos.y > regPolygon::wdwH - dr)
     {
-      N.x = 0.0f; N.y = -1.0f;
-      dr = project(-1.0f*N);
-      if (pos.y > regPolygon::wdwH - dr)
-      {
-        pos.y = regPolygon::wdwH - dr;
-        Hit = true;
-      }
+      pos.y = regPolygon::wdwH - dr;
+      Hit = true;
     }
-  }// end if( !Hit )
+  }
 
   if (Hit) bounce(regPolygon::wdwCf, N, true);
 
@@ -135,6 +150,44 @@ void regPolygon::draw(sf::RenderTarget& rRW)const {
   rRW.draw(&(vtxVec[0]), vtxVec.size(), sf::LinesStrip);
 }
 
+//bool regPolygon::Float( vec2d Nsurf, vec2d Npen, float penAmt )
+bool regPolygon::Float(vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airDensity, float fluidDensity)
+{
+  float belowSurface = (Npen*penAmt).mag();
+  if (Nsurf.dot(Npen) < 0.0f) belowSurface = 2.0f*r - belowSurface;
+
+  if (belowSurface > 0.0f && belowSurface < 2.0f*r)// partially immersed
+  {
+    v = v.to_base(Nsurf);
+    float Fbuoy = 2.0f*r*grav_N*(belowSurface*fluidDensity + (2.0f*r - belowSurface)*airDensity);
+    v.x += Fbuoy / m;
+    if (v.x < 0.0f) v.x -= drag*fluidDensity*v.x*r*2.0f / m;
+    v.y -= drag*fluidDensity*v.y*belowSurface / m;
+    v = v.from_base(Nsurf);
+    return true;
+
+    /*    v = v.to_base(Nsurf);
+    float Fbuoy = 2.0f*r*belowSurface*pressure;
+    v.x += Fbuoy/m;
+    v.x -= drag*v.x*r*2.0f/m;
+    v.y -= drag*v.y*belowSurface/m;
+    v = v.from_base(Nsurf);
+    return true;    */
+  }
+
+  return false;
+}
+
+bool regPolygon::Float(vec2d Nsurf, float grav_N, float Density)
+{
+  v = v.to_base(Nsurf);
+  float Fbuoy = 3.1416f*r*r*grav_N*Density;
+  v.x += Fbuoy / m;
+  v -= drag*Density*v*r*2.0f / m;
+  v = v.from_base(Nsurf);
+  return true;
+}
+
 bool regPolygon::hit(const vec2d& pt)
 {
   vec2d sep;
@@ -144,7 +197,6 @@ bool regPolygon::hit(const vec2d& pt)
   if (is_inMe(pt, sep, N, a))
   {
     v = v.to_base(N);
-    //        if( v.x > 0.0f )
     if (v.x < 0.0f)
     {
       v.x *= -Cr;
@@ -157,15 +209,14 @@ bool regPolygon::hit(const vec2d& pt)
   return false;
 }
 
-bool regPolygon::hit(regPolygon& rpg)
+
+
+bool regPolygon::is_inMe(const regPolygon& rpg, vec2d& sep, vec2d& N, float& dSep)const
 {
   bool Hit = false;
-  vec2d sep, N;
-  float a;
 
   for (auto& P : rpg.ptVec)
-    //        if( is_inMe( P + rpg.pos, sep, N, a ) )
-    if (is_inMe(P + rpg.pos, rpg.pos - pos, sep, N, a))
+    if (is_inMe(P + rpg.pos, rpg.pos - pos, sep, N, dSep))
     {
       Hit = true;
       break;
@@ -173,138 +224,83 @@ bool regPolygon::hit(regPolygon& rpg)
 
   if (!Hit)
     for (auto& P : ptVec)
-      //            if( rpg.is_inMe( P + pos, sep, N, a ) )
-      if (rpg.is_inMe(P + pos, pos - rpg.pos, sep, N, a))
+      if (rpg.is_inMe(P + pos, pos - rpg.pos, sep, N, dSep))
       {
         N *= -1.0f;
         Hit = true;
         break;
       }
 
-  if (Hit)
+  return Hit;
+}
+
+bool regPolygon::is_inMe(const ball& rB, vec2d& sep, vec2d& N, float& dSep)const
+{
+  // crude check for collision. Check distance between centers.
+  sep = pos - rB.pos;
+  float sepMag = sep.mag();
+  float sepSq = (pos - rB.pos).dot(pos - rB.pos);
+  if (sepSq > (r + rB.r)*(r + rB.r)) return false;// not touching
+
+                                                  // is a point stuck in the ball?
+  const vec2d *pPtMin1 = &(ptVec[0]), *pPtMin2 = &(ptVec[1]);// save the 2 closest in case a face hit test follows
+  float sSqMin1 = (rB.r + 2.0f*r)*(rB.r + 2.0f*r);// highest possible value
+  float sSqMin2 = sSqMin1;
+  bool Hit = false;
+
+  for (const vec2d& P : ptVec)
   {
-    static int cnt = 0;
-    //std::cerr << "\n rpg vs rpg. cnt = " << ++cnt;
-    if (is_free && rpg.is_free)// both are free to move
+    vec2d s = pos + P - rB.pos;
+    sepMag = s.mag();
+    float sSq = s.dot(s);
+    if (sSq < rB.r*rB.r)// hit!
     {
-      float Mtot = rpg.m + m;
-      vec2d Vcm = (rpg.v*rpg.m + v*m) / (Mtot);
-      rpg.v -= Vcm;
-      v -= Vcm;
-      v = v.to_base(N);
-      rpg.v = rpg.v.to_base(N);
-      if (rpg.v.x > 0.0f && v.x < 0.0f)
-      {
-        //         impact(rpg);
-        //         rpg.impact( *this );
-        rpg.v.x *= -rpg.Cr;
-        v.x *= -rpg.Cr;
-      }
+      sep = s;
+      dSep = rB.r - sepMag;
+      N = sep / sepMag;
+      //    std::cerr << "point hit\n";
+      Hit = true;
+    }
 
-      v = v.from_base(N);
-      rpg.v = rpg.v.from_base(N);
-      rpg.v += Vcm;
-      v += Vcm;
+    if (sSq < sSqMin1)
+    {
+      pPtMin2 = pPtMin1;
+      sSqMin2 = sSqMin1;
+      pPtMin1 = &P;
+      sSqMin1 = sSq;
+      //     std::cerr << "new pPtMin1->x = " << pPtMin1->x << '\n';
+      //     std::cerr << "new pPtMin2->x = " << pPtMin2->x << '\n';
+    }
+    else if (sSq < sSqMin2)
+    {
+      pPtMin2 = &P;
+      sSqMin2 = sSq;
+      //     std::cerr << "just new pPtMin2->x = " << pPtMin2->x << '\n';
+    }
+  }
 
-      // position correction
-      rpg.pos -= (a*m / Mtot)*N;
-      pos += (a*rpg.m / Mtot)*N;
+  // perhaps a face to face hit?
+  if (pPtMin1 && pPtMin2)
+  {
+    vec2d T = *pPtMin2 - *pPtMin1;
+    T /= T.mag();
+    vec2d b = *pPtMin1 + pos - rB.pos;
+    float bDotT = b.dot(T);
+    if (bDotT > 0.0f) return Hit;
+    sep = b - T*bDotT;
+    sepMag = sep.mag();
+    sepSq = sep.dot(sep);
 
-      setPosition(pos);
-      rpg.setPosition(rpg.pos);
-
+    if (sepSq < rB.r*rB.r)
+    {
+      //  std::cerr << "face hit\n";
+      dSep = rB.r - sepMag;
+      N = sep / sepMag;
       return true;
     }
-    // one ball is not free
-    regPolygon& polyFree = is_free ? *this : rpg;
-    regPolygon& polyFixed = is_free ? rpg : *this;// must be other ball
-                                                  // N must point from fixed to free
-                                                  //   N = polyFree.pos - polyFixed.pos; N /= N.mag();// unit length needed
-    if (&polyFree == &rpg) N *= -1.0f;
-
-    polyFree.v = polyFree.v.to_base(N);
-    //        if( polyFree.v.x < 0.0f ){ impact(rpg); polyFree.v.x *= -Cr; }
-    if (polyFree.v.x < 0.0f) polyFree.v.x *= -Cr;
-    polyFree.v = polyFree.v.from_base(N);
-    // correct over penetration. Move apart
-    polyFree.pos += a*N;// preserves position of center of mass
-    polyFree.setPosition(polyFree.pos);
-
-    return true;
   }
 
   return false;
-}
-
-bool regPolygon::hit(ball& rB)
-{
-  vec2d Pimp;
-  if (inCircle(rB.pos, rB.r, Pimp))
-  {
-    handleImpact(Pimp, rB);
-    return true;
-  }
-  return false;
-}
-
-void regPolygon::handleImpact(vec2d ptPos, ball& rB)
-{
-  const float myCf = 0.3f;// new!
-
-                          // xform to base set through ball centers
-  vec2d sep = ptPos - rB.pos;// from this center to rB center
-  float magSep = sep.mag();
-  vec2d r_r_base = sep / magSep;// unit length. First of local base set. 2nd is LH normal
-
-  if (is_free && rB.is_free)// both are free to move
-  {
-    // xform velocities to center of mass
-    float Mtot = m + rB.m;
-    vec2d Vcm = (v*m + rB.v*rB.m) / (Mtot);
-    v -= Vcm;
-    rB.v -= Vcm;
-    v = v.to_base(r_r_base);
-    rB.v = rB.v.to_base(-1.0f*r_r_base);
-    // collision response is along line through centers
-    //       if( v.x < 0.0f && rB.v.x > 0.0f )
-    if (v.x < 0.0f && rB.v.x < 0.0f)
-    {
-      respond(myCf*v.x*(1.0f + Cr), true);
-      v.x *= -Cr;
-
-      rB.respond(myCf*rB.v.x*(1.0f + Cr), true);
-      rB.v.x *= -Cr;
-      // correct over penetration. Move apart
-      float dSep = rB.r - magSep;
-      if (dSep > 0.0f)
-      {
-        pos += r_r_base*(rB.m*dSep / Mtot);// preserves c.m. position
-        rB.pos -= r_r_base*(m*dSep / Mtot);// good for energy conservation in a gravity field for example
-      }
-    }
-    // transform back
-    v = v.from_base(r_r_base);// rotate
-    rB.v = rB.v.from_base(-1.0f*r_r_base);
-    v += Vcm;// translate
-    rB.v += Vcm;
-    return;
-  }
-
-  // Only one mvHit is free
-  mvHit& mhFree = is_free ? *static_cast<mvHit*>(this) : *static_cast<mvHit*>(&rB);
-  mvHit& mhFixed = is_free ? *static_cast<mvHit*>(&rB) : *static_cast<mvHit*>(this);
-  // N must point from fixed to free
-  if (&mhFree == &rB) r_r_base *= -1.0f;
-
-  mhFree.v = mhFree.v.to_base(r_r_base);
-  if (mhFree.v.x < 0.0f) {
-    mhFree.respond(myCf*mhFree.v.x*(1.0f + Cr), true); mhFree.v.x *= -Cr;
-  }
-  mhFree.v = mhFree.v.from_base(r_r_base);
-  // correct over penetration. Move apart
-  mhFree.pos += (rB.r - magSep)*r_r_base;
-
-  return;
 }
 
 bool regPolygon::is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const// writes qtys needed for collision response
@@ -332,7 +328,7 @@ bool regPolygon::is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const// wri
     {
       pPt0 = &(ptVec[i]);
       pPt1 = ppt_1;
-      //std::cerr << "i = " << i << '\n';
+      //    std::cerr << "i = " << i << '\n';
       break;
     }
   }
@@ -369,7 +365,6 @@ bool regPolygon::is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)
   // find which vtx the ctr is between
   const vec2d *pPt0 = nullptr, *pPt1 = nullptr;
   const vec2d* ppt_1 = nullptr;
-  //   vec2d N;
   size_t i = 0;
 
   for (i = 0; i< ptVec.size(); ++i)
@@ -386,7 +381,7 @@ bool regPolygon::is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)
     {
       pPt0 = &(ptVec[i]);
       pPt1 = ppt_1;
-      //std::cerr << "i = " << i << '\n';
+      //    std::cerr << "i = " << i << '\n';
       //    break;
     }
   }
@@ -395,12 +390,6 @@ bool regPolygon::is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)
   {
     // verify hit
     vec2d u = sep - *pPt0;
-    //    float cross0 = u.cross( *pPt0*-1.0f );
-    //    float cross1 = u.cross( *pPt1 - *pPt0 );
-
-    //    if( (cross0 > 0.0f && cross1 < 0.0f) )// nailed it !?!
-    //   {
-    // hit
     //    std::cout << "i = " << i << '\n';
     N = *pPt0 + *pPt1;
     N /= N.mag();
@@ -408,78 +397,9 @@ bool regPolygon::is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)
     sep = pt;// new
     dSep = u.dot(N);
     return true;
-    //   }
   }
 
   return false;
-}
-
-bool regPolygon::inCircle(vec2d ctr, float R, vec2d& Pimp)const
-{
-  // crude check for collision. Check distance between centers.
-  float sepSq = (pos - ctr).dot(pos - ctr);
-  if (sepSq > (r + R)*(r + R)) return false;// not touching
-
-                                            // is a point stuck in the ball?
-  const vec2d *pPtMin1 = &(ptVec[0]), *pPtMin2 = &(ptVec[1]);// save the 2 closest in case a face hit test follows
-  float sSqMin1 = (R + 2.0f*r)*(R + 2.0f*r);// highest possible value
-  float sSqMin2 = sSqMin1;
-  bool Hit = false;
-
-  for (const vec2d& P : ptVec)
-  {
-    vec2d s = pos + P - ctr;
-    float sSq = s.dot(s);
-    if (sSq < R*R)// hit!
-    {
-      Pimp = ctr + s;
-      //    //std::cerr << "point hit\n";
-      Hit = true;
-    }
-
-    if (sSq < sSqMin1)
-    {
-      pPtMin2 = pPtMin1;
-      sSqMin2 = sSqMin1;
-      pPtMin1 = &P;
-      sSqMin1 = sSq;
-      //     //std::cerr << "new pPtMin1->x = " << pPtMin1->x << '\n';
-      //     //std::cerr << "new pPtMin2->x = " << pPtMin2->x << '\n';
-    }
-    else if (sSq < sSqMin2)
-    {
-      pPtMin2 = &P;
-      sSqMin2 = sSq;
-      //     //std::cerr << "just new pPtMin2->x = " << pPtMin2->x << '\n';
-    }
-  }
-
-  // perhaps a face to face hit?
-  if (pPtMin1 && pPtMin2)
-  {
-    vec2d T = *pPtMin2 - *pPtMin1;
-    T /= T.mag();
-    vec2d b = *pPtMin1 + pos - ctr;
-    float bDotT = b.dot(T);
-    if (bDotT > 0.0f) return Hit;
-    Pimp = b - T*bDotT;
-    //        sepSq = b.dot(b) - bDotT*bDotT;
-    sepSq = Pimp.dot(Pimp);
-
-    if (sepSq < R*R)
-    {
-      Pimp += ctr;
-      //  //std::cerr << "face hit\n";
-      return true;
-    }
-  }
-
-  return false;
-}
-
-void regPolygon::impact(regPolygon& rpg)
-{
-  return;// no extra impact effect for rpg vs rpg (only vs dpg)
 }
 
 float regPolygon::project(vec2d vUnit)const// max projection along vUnit
@@ -525,6 +445,12 @@ void regPolygon::setRotation(float angle)
     pt0 = pt0.Rotate(dAngle);
   }
   vtxVec.back().position = vtxVec.front().position;
+}
+
+void regPolygon::setRadius(float R)
+{
+  r = R;
+  setRotation(getRotation());
 }
 
 // these replace lineInMe(), arcInMe()s
@@ -705,7 +631,7 @@ bool regPolygon::is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)c
     if (Pimp.dot(Pimp) < AS.R*AS.R && (Pimp.cross(AS.s[0]) > 0.0f && Pimp.cross(AS.s[1]) < 0.0f))// in circle and between ends
     {
       Pimp += AS.pos;
-      //    //std::cerr << "face hit\n";
+      //    std::cerr << "face hit\n";
       // new
       Nh = Pimp - AS.pos; Nh /= Nh.mag();// unit normal
       dSep = AS.R - (Pimp - AS.pos).mag();// amount of penetration
@@ -719,3 +645,286 @@ bool regPolygon::is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)c
 
   return false;
 }
+
+/*
+bool regPolygon::hit( regPolygon& rpg )
+{
+bool Hit = false;
+vec2d sep, N;
+float a;
+
+Hit = is_inMe( rpg, sep, N, a );
+
+**   for( auto& P : rpg.ptVec )
+//        if( is_inMe( P + rpg.pos, sep, N, a ) )
+if( is_inMe( P + rpg.pos, rpg.pos-pos, sep, N, a ) )
+{
+Hit = true;
+break;
+}
+
+if( !Hit )
+for( auto& P : ptVec )
+//            if( rpg.is_inMe( P + pos, sep, N, a ) )
+if( rpg.is_inMe( P + pos, pos-rpg.pos, sep, N, a ) )
+{
+N *= -1.0f;
+Hit = true;
+break;
+}   **
+
+if( Hit )
+{
+//    static int cnt = 0;
+//    std::cerr << "\n rpg vs rpg. cnt = " << ++cnt;
+if( is_free && rpg.is_free )// both are free to move
+{
+float Mtot = rpg.m + m;
+vec2d Vcm = ( rpg.v*rpg.m + v*m )/( Mtot );
+rpg.v -= Vcm;
+v -= Vcm;
+v = v.to_base( N );
+rpg.v = rpg.v.to_base( -N );
+vShift();
+rpg.vShift();
+//            if( rpg.v.x > 0.0f && v.x < 0.0f )
+if( rpg.v.x < 0.0f && v.x < 0.0f )
+{
+//         impact(rpg);
+//         rpg.impact( *this );
+rpg.v.x *= -rpg.Cr;
+v.x *= -rpg.Cr;
+}
+vShift_inv();
+rpg.vShift_inv();
+v = v.from_base( N );
+rpg.v = rpg.v.from_base( -N );
+rpg.v += Vcm;
+v += Vcm;
+
+// position correction
+rpg.pos -= (a*m/Mtot)*N;
+pos += (a*rpg.m/Mtot)*N;
+
+setPosition( pos );
+rpg.setPosition( rpg.pos );
+
+return true;
+}
+// one ball is not free
+regPolygon& polyFree = is_free ? *this : rpg;
+regPolygon& polyFixed = is_free ? rpg : *this;// must be other ball
+// N must point from fixed to free
+//   N = polyFree.pos - polyFixed.pos; N /= N.mag();// unit length needed
+if( &polyFree == &rpg ) N *= -1.0f;
+
+polyFree.v = polyFree.v.to_base( N );
+polyFree.vShift();
+//        if( polyFree.v.x < 0.0f ){ impact(rpg); polyFree.v.x *= -Cr; }
+if( polyFree.v.x < 0.0f ) polyFree.v.x *= -Cr;
+polyFree.vShift_inv();
+polyFree.v = polyFree.v.from_base( N );
+// correct over penetration. Move apart
+polyFree.pos += a*N;// preserves position of center of mass
+polyFree.setPosition( polyFree.pos );
+
+return true;
+}
+
+return false;
+}
+*/
+
+/*
+bool regPolygon::hit( ball& rB )
+{
+vec2d Pimp;
+if( inCircle( rB.pos, rB.r, Pimp ) )
+{
+handleImpact( Pimp, rB );
+return true;
+}
+return false;
+}   */
+
+/*
+void regPolygon::handleImpact( vec2d ptPos, ball& rB )
+{
+const float myCf = 0.3f;// new!
+
+// xform to base set through ball centers
+vec2d sep = ptPos - rB.pos;// from this center to rB center
+float magSep = sep.mag();
+vec2d r_r_base = sep/magSep;// unit length. First of local base set. 2nd is LH normal
+
+if( is_free && rB.is_free )// both are free to move
+{
+// xform velocities to center of mass
+float Mtot = m + rB.m;
+vec2d Vcm = ( v*m + rB.v*rB.m )/( Mtot );
+v -= Vcm;
+rB.v -= Vcm;
+v = v.to_base( r_r_base );
+rB.v = rB.v.to_base( -r_r_base );
+vShift();
+rB.vShift();
+// collision response is along line through centers
+//       if( v.x < 0.0f && rB.v.x > 0.0f )
+if( v.x < 0.0f && rB.v.x < 0.0f )
+{
+respond( myCf*v.x*( 1.0f + Cr ), true );
+v.x *= -Cr;
+
+rB.respond( myCf*rB.v.x*( 1.0f + Cr ), true );
+rB.v.x *= -Cr;
+// correct over penetration. Move apart
+float dSep = rB.r - magSep;
+if( dSep > 0.0f )
+{
+pos += r_r_base*(rB.m*dSep/Mtot);// preserves c.m. position
+rB.pos -= r_r_base*(m*dSep/Mtot);// good for energy conservation in a gravity field for example
+}
+}
+// transform back
+vShift_inv();// new
+rB.vShift_inv();// new
+v = v.from_base( r_r_base );// rotate
+rB.v = rB.v.from_base( -r_r_base );
+v += Vcm;// translate
+rB.v += Vcm;
+return;
+}
+
+// Only one mvHit is free
+mvHit& mhFree = is_free ? *static_cast<mvHit*>(this) : *static_cast<mvHit*>(&rB);
+mvHit& mhFixed = is_free ? *static_cast<mvHit*>(&rB) : *static_cast<mvHit*>(this);
+// N must point from fixed to free
+if( &mhFree == &rB ) r_r_base *= -1.0f;
+
+mhFree.v = mhFree.v.to_base( r_r_base );
+mhFree.vShift();
+if( mhFree.v.x < 0.0f ) { mhFree.respond( myCf*mhFree.v.x*( 1.0f + Cr ), true ); mhFree.v.x *= -Cr; }
+mhFree.vShift_inv();
+mhFree.v = mhFree.v.from_base( r_r_base );
+// correct over penetration. Move apart
+mhFree.pos += (rB.r - magSep)*r_r_base;
+
+return;
+}   */
+
+/*
+bool regPolygon::inCircle( vec2d ctr, float R, vec2d& Pimp )const
+{
+// crude check for collision. Check distance between centers.
+float sepSq = ( pos - ctr ).dot( pos - ctr );
+if( sepSq > (r + R)*(r + R) ) return false;// not touching
+
+// is a point stuck in the ball?
+const vec2d *pPtMin1 = &(ptVec[0]), *pPtMin2 = &(ptVec[1]);// save the 2 closest in case a face hit test follows
+float sSqMin1 = ( R + 2.0f*r )*( R + 2.0f*r );// highest possible value
+float sSqMin2 = sSqMin1;
+bool Hit = false;
+
+for( const vec2d& P : ptVec )
+{
+vec2d s = pos + P - ctr;
+float sSq = s.dot(s);
+if( sSq < R*R )// hit!
+{
+Pimp = ctr + s;
+//    std::cerr << "point hit\n";
+Hit = true;
+}
+
+if( sSq < sSqMin1 )
+{
+pPtMin2 = pPtMin1;
+sSqMin2 = sSqMin1;
+pPtMin1 = &P;
+sSqMin1 = sSq;
+//     std::cerr << "new pPtMin1->x = " << pPtMin1->x << '\n';
+//     std::cerr << "new pPtMin2->x = " << pPtMin2->x << '\n';
+}
+else if( sSq < sSqMin2 )
+{
+pPtMin2 = &P;
+sSqMin2 = sSq;
+//     std::cerr << "just new pPtMin2->x = " << pPtMin2->x << '\n';
+}
+}
+
+// perhaps a face to face hit?
+if( pPtMin1 && pPtMin2 )
+{
+vec2d T = *pPtMin2 - *pPtMin1;
+T /= T.mag();
+vec2d b = *pPtMin1 + pos - ctr;
+float bDotT = b.dot(T);
+if( bDotT > 0.0f ) return Hit;
+Pimp = b - T*bDotT;
+//        sepSq = b.dot(b) - bDotT*bDotT;
+sepSq = Pimp.dot(Pimp);
+
+if( sepSq < R*R )
+{
+Pimp += ctr;
+//  std::cerr << "face hit\n";
+return true;
+}
+}
+
+return false;
+}   */
+
+/*
+void regPolygon::handleImpact( mvHit& mh, vec2d sep, vec2d N, float dSep )
+{
+if( is_free && mh.is_free )// both are free to move
+{
+float Mtot = mh.m + m;
+vec2d Vcm = ( mh.v*mh.m + v*m )/( Mtot );
+mh.v -= Vcm;
+v -= Vcm;
+v = v.to_base( N );
+mh.v = mh.v.to_base( -N );
+vShift();
+mh.vShift();
+if( mh.v.x < 0.0f && v.x < 0.0f )
+{
+mh.v.x *= -mh.Cr;
+v.x *= -mh.Cr;// must be same as above
+}
+vShift_inv();
+mh.vShift_inv();
+v = v.from_base( N );
+mh.v = mh.v.from_base( -N );
+mh.v += Vcm;
+v += Vcm;
+
+// position correction
+mh.pos -= (dSep*m/Mtot)*N;
+pos += (dSep*mh.m/Mtot)*N;
+
+setPosition( pos );
+mh.setPosition( mh.pos );
+
+return;
+}
+// one mvHit is not free
+mvHit& mhFree = is_free ? *static_cast<mvHit*>(this) : mh;
+mvHit& mhFixed = is_free ? mh : *static_cast<mvHit*>(this);
+// N must point from fixed to free
+if( &mhFree == &mh ) N *= -1.0f;
+
+mhFree.v = mhFree.v.to_base( N );
+mhFree.vShift();
+//        if( polyFree.v.x < 0.0f ){ impact(rpg); polyFree.v.x *= -Cr; }
+if( mhFree.v.x < 0.0f ) mhFree.v.x *= -Cr;
+mhFree.vShift_inv();
+mhFree.v = mhFree.v.from_base( N );
+// correct over penetration. Move apart
+mhFree.pos += dSep*N;
+mhFree.setPosition( mhFree.pos );
+
+return;
+}   */

@@ -88,20 +88,57 @@ namespace Engine
     void RenderLoadingScreen();
     void GenerateGrid();
 
+    std::shared_ptr<sf::RenderTexture> SceneTexture;
+
+#ifdef WITH_EDITOR
+    void ShowSceneGraph();
+    void ShowAssetGraph();
+    void ShowGraphicalSettings();
+    void ShowAnimationEditor(const std::string &name);
+    void ShowSpawner();
+    void ShowPhysicsSpawner();
+    void ShowScene(std::shared_ptr<sf::RenderTexture> Texture);
+
+    std::map<std::string, sf::RectangleShape> TextureRectsForAssetGraph;
+    std::map<std::string, std::shared_ptr<Animation>> EditorGraphAnimations;
+#endif
+    void LoadFromFile(const std::string &file);
+    //Methods for spawning in new object
+    void SpawnBall(char BallType, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color & Color);
+    void SpawnSquare(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
+    void SpawnRect(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
+    void SpawnTriangle(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
+    void SpawnNPoly(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
+    bool DoUpdatePhysics = true;
+
+    vec2d Gravity;
+    std::vector<BaseMeshPtr> TestObjects;
+    std::vector<SegmentPtr> Segments;
+
     sf::RectangleShape LevelRectangle; //to draw the scene to
     std::shared_ptr<sf::RenderTexture> SceneTarget;
     std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
-    std::map<std::string, std::shared_ptr<TileSheet>> TIleSheets;
+    std::map<std::string, std::shared_ptr<TileSheet>> TileSheets;
     std::map<std::string, std::shared_ptr<Animation>> Animations;
+    std::map<std::string, std::shared_ptr<sf::SoundBuffer>> SoundBuffers;
+    std::vector<thor::UniversalEmitter> ParticleEmitters;
+
     sf::Vector2u Size;
     sf::Vector2f GridBlockSize;
     
     std::vector<sf::VertexArray> GridLines;
     std::vector<Layer> Layers;
-    vec2d Gravity;
     sf::FloatRect CurrentView;
 
     bool ShowGridLines = false;
+
+    //functions for loading from file
+    void LoadAssets(const Json::Value &value);
+    void LoadAudio(const Json::Value &value);
+    void LoadTextures(const Json::Value &value);
+    void LoadTileSheets(const Json::Value &value);
+    void LoadSheet(const Json::Value &value);
+    void LoadAnimations(const Json::Value &value);
   };
 
 }
