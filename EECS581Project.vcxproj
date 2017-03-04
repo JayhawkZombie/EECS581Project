@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{87F72D0D-0935-4DF9-A2E4-8DF5A21C5F18}</ProjectGuid>
+    <ProjectGuid>{95C45AA1-ACC4-4925-BD8F-51999F4BF7F0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EECS581Project</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -713,6 +713,8 @@
   <ItemGroup>
     <None Include="Diagrams\Engine\ClassDiagram.emf" />
     <None Include="Game\GameSetup.chai" />
+    <None Include="Projects\TestProject\Scripts\RPGActorWalkingAnimationCreate.chai" />
+    <None Include="Projects\TestProject\Scripts\RPGSkillAnimationCreate.chai" />
     <None Include="Projects\TestProject\Scripts\testuiscript.chai" />
     <None Include="Projects\TestProject\testproject.json" />
     <None Include="SFEngine\Config\Engine.ini" />

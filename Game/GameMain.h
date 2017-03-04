@@ -19,7 +19,7 @@ enum class Type : std::uint32_t
 	Dark  = 5,
 	Count
 };
-
+/*
 struct MonsterTree
 {
 	int TreeType;
@@ -27,7 +27,7 @@ struct MonsterTree
 	MonsterTree() = default;
 	MonsterTree(const MonsterTree &copy) : myvec(copy.myvec), TreeType(copy.TreeType) {};
 };
-
+*/
 
 
 
@@ -46,7 +46,7 @@ public:
 	static std::map<int, std::map<int, std::map<int, std::map<int, int>>>> indexLookup(MonsterType** myArray);
 	static std::map<int, std::map<int, std::map<int, int>>> numStagesLookup();
 
-    std::map<Type, std::map<Type, MonsterTree>> m_MonsterMap;
+   // std::map<Type, std::map<Type, MonsterTree>> m_MonsterMap;
 
 private:
 

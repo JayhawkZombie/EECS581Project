@@ -4,6 +4,13 @@
 
 BattleActor::BattleActor()
 {
+	m_level = 1;
+	m_exp = 0;
+	m_hpMax = 20;
+	m_hpCur = 20;
+	m_mpMax = 10;
+	m_mpCur = 10;
+	m_thorns = Damage();
 }
 
 
@@ -40,7 +47,7 @@ std::map<int, int> BattleActor::ElementDominated()
 	return dominated;
 }
 
-Element BattleActor::getPrimary()const
+int BattleActor::getPrimary()const
 {
   return m_primary;
 }
@@ -91,7 +98,7 @@ int BattleActor::getExp()const
 }
 
 //setters
-void BattleActor::setPrimary(Element primary)
+void BattleActor::setPrimary(int primary)
 {
   m_primary = primary;
 }

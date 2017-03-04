@@ -203,6 +203,88 @@ std::map<int, std::map<int, std::map<int, std::map<int, int>>>> MonsterType::get
 
 	return type;
 }
+
+std::map<int, std::map<int, int>> MonsterType::getTreeType()
+{
+	std::map<int, std::map<int, int>> TreeType;
+
+	TreeType[0][0] = 4;
+	TreeType[0][1] = 2;
+	TreeType[0][2] = 3;
+	TreeType[0][3] = 2;
+	TreeType[0][4] = 2;
+	TreeType[0][5] = 2;
+
+	TreeType[1][0] = 1;
+	TreeType[1][1] = 4;
+	TreeType[1][2] = 3;
+	TreeType[1][3] = 3;
+	TreeType[1][4] = 4;
+	TreeType[1][4] = 4;
+
+	TreeType[2][0] = 3;
+	TreeType[2][1] = 2;
+	TreeType[2][2] = 5;
+	TreeType[2][3] = 2;
+	TreeType[2][4] = 2;
+	TreeType[2][5] = 1;
+
+	TreeType[3][0] = 3;
+	TreeType[3][1] = 2;
+	TreeType[3][2] = 2;
+	TreeType[3][3] = 4;
+	TreeType[3][4] = 3;
+	TreeType[3][5] = 3;
+
+	TreeType[4][0] = 3;
+	TreeType[4][1] = 2;
+	TreeType[4][2] = 2;
+	TreeType[4][3] = 2;
+	TreeType[4][4] = 4;
+	TreeType[4][5] = 3;
+
+	TreeType[5][0] = 3;
+	TreeType[5][1] = 3;
+	TreeType[5][2] = 2;
+	TreeType[5][3] = 1;
+	TreeType[5][4] = 1;
+	TreeType[5][5] = 4;
+	
+	return TreeType;
+}
+
+
+//the following three methods are temporary for use by rewriteBestiary
+void MonsterType::setPhysicalEvolutionName(std::string name)
+{
+	m_physicalEvolutionName = name;
+}
+
+void MonsterType::setBalancedEvolutionName(std::string name)
+{
+	m_balancedEvolutionName = name;
+}
+
+void MonsterType::setMagicalEvolutionName(std::string name)
+{
+	m_magicalEvolutionName = name;
+}
+
+void MonsterType::setPhysicalEvolutionIndex(int index)
+{
+	m_physicalEvolutionIndex = index;
+}
+
+void MonsterType::setBalancedEvolutionIndex(int index)
+{
+	m_balancedEvolutionIndex = index;
+}
+
+void MonsterType::setMagicalEvolutionIndex(int index)
+{
+	m_magicalEvolutionIndex = index;
+}
+
 MonsterType* MonsterType::getPhysicalEvolution()
 {
 	return m_physicalEvolution;
@@ -216,3 +298,23 @@ MonsterType* MonsterType::getMagicalEvolution()
 	return m_magicalEvolution;
 }
 
+/* //I think I have a better Idea, but if it doesnt work, I'll do it this way
+void rewriteBestiary()
+{
+	ListReader list;
+	MonsterType** myArray = list.readMonsters2("Game/ContentFiles/MonsterTypes/MonsterTypes.txt");
+	std::map<int, std::map<int, std::map<int, std::map<int, MonsterType*>>>> myMonsters = GameMain::Monsters(myArray);
+	int physicalEvolutionIndexes[319];
+	int balancedEvolutionIndexes[319];
+	int magicalEvolutionIndexes[319];
+
+	for (int i = 0; i < 319; i++)
+	{
+		if (myArray[i]->m_physicalEvolutionName.compare("NULL") == 0)
+		{
+			myArray[i]->setPhysicalEvolutionIndex(-1);//sets
+		}
+	}
+
+}
+*/

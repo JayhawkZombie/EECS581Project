@@ -24,7 +24,9 @@
   Passes all of the objects as pointers to an array
   Returns the array
 */
-class ListReader{
+class ListReader
+{
+
   public:
     //instantiates all of the arrays to NULL and number of objects to 0
     ListReader();
@@ -40,7 +42,7 @@ class ListReader{
     ****/
 
     //reads in all of the file names from a string, reads the file, and passes back an array
-    MonsterType** readMonsters(std::string fileName);
+	MonsterType** readMonsters(std::string fileName);
     Armor** readArmor(std::string fileName);
     Weapon** readWeapons(std::string fileName);    
     Useable** readUseables(std::string fileName);

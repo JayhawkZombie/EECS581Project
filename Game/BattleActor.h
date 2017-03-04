@@ -25,7 +25,7 @@ public:
 
 
   //getters
-  Element getPrimary()const;
+  int getPrimary()const;
   Damage getThorns()const;
   int getHpCur()const;
   int getHpMax()const;
@@ -37,7 +37,7 @@ public:
   int getExp()const;
 
   //setters
-  void setPrimary(Element primary);
+  void setPrimary(int primary);
   void setThorns(Damage thorns);
   void setHpCur(int hpCur);
   void setHpMax(int hpMax);
@@ -50,7 +50,8 @@ public:
 
 
 private:
-  Element m_primary;
+  //Element m_primary;
+	int m_primary;
   Damage m_thorns;
   int m_hpCur;
   int m_hpMax;
