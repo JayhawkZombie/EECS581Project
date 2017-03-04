@@ -39,18 +39,6 @@
       ],
 
       "Audio": [
-        {
-          "Name": "IllegalityPoint",
-          "Path": "/Audio/IllegalityPoint.ogg"
-        },
-        {
-          "Name": "It's Our Battle",
-          "Path": "/Audio/ItsOurBattle.ogg"
-        },
-        {
-          "Name": "TempleOfTheMystics",
-          "Path": "/Audio/TempleOfTheMystics.ogg"
-        }
       ],
 
       "Sheets": [

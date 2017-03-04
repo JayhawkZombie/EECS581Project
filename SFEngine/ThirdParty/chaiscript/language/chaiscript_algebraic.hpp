@@ -1,11 +1,17 @@
 // This file is distributed under the BSD License.
 // See "license.txt" for details.
 // Copyright 2009-2012, Jonathan Turner (jonathan@emptycrate.com)
-// Copyright 2009-2016, Jason Turner (jason@emptycrate.com)
+// Copyright 2009-2017, Jason Turner (jason@emptycrate.com)
 // http://www.chaiscript.com
+
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 
 #ifndef CHAISCRIPT_ALGEBRAIC_HPP_
 #define CHAISCRIPT_ALGEBRAIC_HPP_
+
+#include "../utility/fnv1a.hpp"
 
 #include <string>
 
@@ -13,7 +19,7 @@ namespace chaiscript
 {
 
   struct Operators {
-    enum Opers
+    enum class Opers
     {
       boolean_flag,
       equals, less_than, greater_than, less_than_equal, greater_than_equal, not_equal, 
@@ -31,7 +37,7 @@ namespace chaiscript
     };
 
     static const char *to_string(Opers t_oper) {
-      const char *opers[] = { 
+      static const char *opers[] = { 
         "",
         "==", "<", ">", "<=", ">=", "!=",
         "",
@@ -46,81 +52,53 @@ namespace chaiscript
         "+", "/", "*", "-", "+", "-",
         ""
       };
-      return opers[t_oper];
+      return opers[static_cast<int>(t_oper)];
     }
 
     static Opers to_operator(const std::string &t_str, bool t_is_unary = false)
     {
-      if (t_str == "==")
-      {
-        return equals;
-      } else if (t_str == "<") {
-        return less_than;
-      } else if (t_str == ">") {
-        return greater_than;
-      } else if (t_str == "<=") {
-        return less_than_equal; 
-      } else if (t_str == ">=") {
-        return greater_than_equal;
-      } else if (t_str == "!=") {
-        return not_equal;
-      } else if (t_str == "=") {
-        return assign;
-      } else if (t_str == "++") {
-        return pre_increment;
-      } else if (t_str == "--") {
-        return pre_decrement;
-      } else if (t_str == "*=") {
-        return assign_product;
-      } else if (t_str == "+=") {
-        return assign_sum;
-      } else if (t_str == "-=") {
-        return assign_difference;
-      } else if (t_str == "&=") {
-        return assign_bitwise_and;
-      } else if (t_str == "|=") {
-        return assign_bitwise_or;
-      } else if (t_str == "<<=") {
-        return assign_shift_left;
-      } else if (t_str == ">>=") {
-        return assign_shift_right;
-      } else if (t_str == "%=") {
-        return assign_remainder;
-      } else if (t_str == "^=") {
-        return assign_bitwise_xor;
-      } else if (t_str == "<<") {
-        return shift_left;
-      } else if (t_str == ">>") {
-        return shift_right;
-      } else if (t_str == "%") {
-        return remainder;
-      } else if (t_str == "&") { 
-        return bitwise_and;
-      } else if (t_str == "|") {
-        return bitwise_or;
-      } else if (t_str == "^") {
-        return bitwise_xor;
-      } else if (t_str == "~") {
-        return bitwise_complement;
-      } else if (t_str == "+") {
-        if (t_is_unary) {
-          return unary_plus;
-        } else {
-          return sum;
-        }
-      } else if (t_str == "-") {
-        if (t_is_unary) {
-          return unary_minus;
-        } else {
-          return difference;
-        }
-      } else if (t_str == "/") {
-        return quotient;
-      } else if (t_str == "*") {
-        return product;
-      } else {
-        return invalid;
-      } 
+#ifdef CHAISCRIPT_MSVC
+#pragma warning(push)
+#pragma warning(disable : 4307)
+#endif
+
+      const auto op_hash = utility::fnv1a_32(t_str.c_str());
+      switch (op_hash) {
+        case utility::fnv1a_32("=="): { return Opers::equals; }
+        case utility::fnv1a_32("<"): { return Opers::less_than; }
+        case utility::fnv1a_32(">"): { return Opers::greater_than; }
+        case utility::fnv1a_32("<="): { return Opers::less_than_equal; }
+        case utility::fnv1a_32(">="): { return Opers::greater_than_equal; }
+        case utility::fnv1a_32("!="): { return Opers::not_equal; }
+        case utility::fnv1a_32("="): { return Opers::assign; }
+        case utility::fnv1a_32("++"): { return Opers::pre_increment; }
+        case utility::fnv1a_32("--"): { return Opers::pre_decrement; }
+        case utility::fnv1a_32("*="): { return Opers::assign_product; }
+        case utility::fnv1a_32("+="): { return Opers::assign_sum; }
+        case utility::fnv1a_32("-="): { return Opers::assign_difference; }
+        case utility::fnv1a_32("&="): { return Opers::assign_bitwise_and; }
+        case utility::fnv1a_32("|="): { return Opers::assign_bitwise_or; }
+        case utility::fnv1a_32("<<="): { return Opers::assign_shift_left; }
+        case utility::fnv1a_32(">>="): { return Opers::assign_shift_right; }
+        case utility::fnv1a_32("%="): { return Opers::assign_remainder; }
+        case utility::fnv1a_32("^="): { return Opers::assign_bitwise_xor; }
+        case utility::fnv1a_32("<<"): { return Opers::shift_left; }
+        case utility::fnv1a_32(">>"): { return Opers::shift_right; }
+        case utility::fnv1a_32("%"): { return Opers::remainder; }
+        case utility::fnv1a_32("&"): { return Opers::bitwise_and; }
+        case utility::fnv1a_32("|"): { return Opers::bitwise_or; }
+        case utility::fnv1a_32("^"): { return Opers::bitwise_xor; }
+        case utility::fnv1a_32("~"): { return Opers::bitwise_complement; }
+        case utility::fnv1a_32("+"): { return t_is_unary ? Opers::unary_plus : Opers::sum; }
+        case utility::fnv1a_32("-"): { return t_is_unary ? Opers::unary_minus : Opers::difference; }
+        case utility::fnv1a_32("/"): { return Opers::quotient; }
+        case utility::fnv1a_32("*"): { return Opers::product; }
+        default: { return Opers::invalid; }
+      }
+#ifdef CHAISCRIPT_MSVC
+#pragma warning(pop)
+#endif
+
     }
 
   };

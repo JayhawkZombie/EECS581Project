@@ -4,16 +4,8 @@
 #include "LightObject.h"
 #include "../Utils/RayCast.h"
 
-#include <algorithm>
-#include <cmath>
-#include <math.h>
-#include <SFML/Graphics.hpp>
-#include <chrono>
-
 #define ____PI 3.141592653
 #define COSPIBY4 0.25
-
-const long double PI = 3.141592653589793238L;
 
 namespace Engine
 {
@@ -24,13 +16,7 @@ namespace Engine
 
   float DistanceBetween(const sf::Vector2f &v1, const sf::Vector2f &v2);
 
-  struct Edge {
-    sf::Vector2f Start;
-    sf::Vector2f End;
 
-    sf::Vector2f FakeStart;
-    sf::Vector2f FakeEnd;
-  };
 
   class Light {
   public:
@@ -48,7 +34,7 @@ namespace Engine
     float Radius = 0.f;
     sf::Color Color;
     float Expand = 0.f;
-
+    std::uint32_t ID;
     sf::CircleShape Circle;
   };
 
@@ -57,113 +43,46 @@ namespace Engine
 
 
     LightSystem();
-    ~LightSystem() = default;
-
-
-    void AddLightObject(const LightObject &obj) {
-      Objects.push_back(obj);
-    }
-
-    void AddLightObject(const sf::Vector2f &pos, const sf::Vector2f &size, sf::Color color);
-
+    ~LightSystem();
+    void SetBoundaries(const sf::Vector2f &TopLeft, const sf::Vector2f &TopRight, const sf::Vector2f &BottomRight, const sf::Vector2f &BottomLeft);
+    void AddLightObject(std::shared_ptr<LightObject> Object);
     void AddComplexObject(const std::vector<sf::Vector2f> &positions);
-
-    void Render();
-
-    void Render(sf::RenderTarget &tgt, sf::RenderStates &state);
-
-    void MoveObject(int which, float x_delta, float y_delta)
-    {
-      Objects[which].BlockingShape.move({ x_delta, y_delta });
-
-      //corner segments start at 4
-      int start = (which + 1) * 4;
-
-      Edges[start].End.x += x_delta; Edges[start].Start.x += x_delta;
-      Edges[start].End.y += y_delta; Edges[start].Start.y += y_delta;
-
-      Edges[start + 1].End.x += x_delta; Edges[start + 1].Start.x += x_delta;
-      Edges[start + 1].End.y += y_delta; Edges[start + 1].Start.y += y_delta;
-
-      Edges[start + 2].End.x += x_delta; Edges[start + 2].Start.x += x_delta;
-      Edges[start + 2].End.y += y_delta; Edges[start + 2].Start.y += y_delta;
-
-      Edges[start + 3].End.x += x_delta; Edges[start + 3].Start.x += x_delta;
-      Edges[start + 3].End.y += y_delta; Edges[start + 3].Start.y += y_delta;
-
-      LitTriangles.clear();
-      AdvanceSweep({ 400.f, 400.f }, 400.f);
-    }
-
-    void AddLight(const sf::Vector2f &pt, float atten, sf::Color c);
-
-    void AdvanceSweep(sf::Vector2f LightSource, float attenuation);
-
+    void RenderLightToTexture(std::shared_ptr<Light> light, std::shared_ptr<sf::RenderTexture> Target);
+    void BlurLightTexture(std::shared_ptr<Light> light);
+    void BlendLightMapWithScene(std::shared_ptr<Light> light, std::shared_ptr<sf::RenderTexture> SceneTexture, std::shared_ptr<sf::RenderTexture> OutputTexture);
+    void AddLight(std::shared_ptr<Light> light);
+    void UpdateLight(std::shared_ptr<Light> light);
+    void SweepLight(std::shared_ptr<Light>);
+    void DrawLightMap(std::shared_ptr<Light> light);
     void RefreshFrame()
     {
-      LitTriangles.clear();
+      LightTriangles.clear();
     }
-
-
     //start = starting end of the segment, end = the ending part of it, vector = the vector that *might* be between the two endpoints
     bool CanIntersectSegment(sf::Vector2f start, sf::Vector2f end, sf::Vector2f light_source, sf::Vector2f vector, float rad);
-
     bool FindClosestEdge(sf::Vector2f LightSource, sf::Vector2f Point, float Attenuation, sf::Vector2f &Intersection, int &edge_index);
-
     void DrawLightTexture(std::size_t which);
 
-
-    //data used for visualizing sweeping
-    int EdgeToShow = -1;
-    sf::Vector2f PointHitByRay;
-    sf::VertexArray DrawSegment = sf::VertexArray(sf::Lines, 2);
-    sf::VertexArray DrawLine = sf::VertexArray(sf::Lines, 2);
-    bool draw_hit_segment = false;
-    float theta = 0;
-    float dtheta = 2 * PI / 500;
-    int frame_delta = 0;
-    int breaks_around_circle = 1000;
-    bool DoRefreshFrame = true;
-
-    sf::Vector2f LastEdgeEnd;
-    sf::Vector2f LastEdgePoint;
-
-    //sf::Text FrameDelta;
-    //sf::Text IterationsAroundCircle;
-    //sf::Text SegmentHit;
-    //sf::Text LastHitSegment;
-    //sf::Text StatusText;
-    //sf::Text SecondLightText;
-    //sf::Text ThirdLightText;
-    //sf::Text AttenuationRadius;
-
-    //sf::Text InstructionsText;
-    //sf::Sprite InstructionsSprite;
-    sf::RenderTexture InstructionsTexture;
-    sf::RenderTexture LitTrianglesTexture;
-    sf::Sprite TrianglesSprite;
-
-    sf::Font DrawFont;
-
-    bool advancing = false;
-
+  protected:
+    //Store the edges that cast shadows
     std::vector<Edge> Edges;
-    std::vector<sf::VertexArray> LitTriangles;
+    //Data to store the lights and objects
+    std::unordered_map<std::uint32_t, std::shared_ptr<LightObject>> LightObjects;
+    std::unordered_map<std::uint32_t, std::shared_ptr<Light>> Lights;
+    std::unordered_map<std::uint32_t, std::shared_ptr<sf::RenderTexture>> LightTextures;
+    std::unordered_map<std::uint32_t, std::shared_ptr<sf::RenderTexture>> LightMaps;
 
-    sf::RenderTexture *LightTexture = nullptr;
+    //Data for processing the sweeping ray
+    float THETA;
+    float dTheta = 2 * ____PI / 1024.f;
+    int breaks_around_circle = 1024;
 
-    bool DrawWhiteRays = false;
-    std::vector<sf::VertexArray> Segments;
-
-    std::vector<LightObject> Objects;
-
-    std::vector<Light> Lights;
-    sf::Shader LightShader;
-
-    sf::RectangleShape OverallBounds;
-
-    unsigned int window_size_y;
-    unsigned int window_size_x;
+    //Store the casted light areas
+    sf::RenderStates state;
+    sf::VertexArray LightTriangles;
+    std::unique_ptr<sf::Shader> LightShader;
+    std::unique_ptr<sf::Shader> BlendShader;
+    std::unique_ptr<sf::Shader> BlurShader;
   };
 }
 #endif

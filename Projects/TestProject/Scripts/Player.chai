@@ -1,0 +1,54 @@
+
+class Player
+{
+  var Name
+  var health
+  var stamina
+
+  def Player(name)
+  {
+    this.Name = name
+  }
+
+  def GameStart()
+  {
+    print("Player " + this.Name + " starting")
+  }
+
+}
+
+def Player::Update()
+{
+  
+}
+
+def Player::Killed()
+{
+
+}
+
+def Player::Spawned()
+{
+  
+}
+
+def Player::Respawned()
+{
+  
+}
+
+def Player::Interact()
+{
+  
+}
+
+def Player::GameEnd()
+{
+  
+}
+
+//sample to test adding custom behavior in script
+def Player::Attack()
+{
+  
+}

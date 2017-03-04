@@ -1,4 +1,5 @@
 #include "../../Headers/Actor/Actor.h"
+#include <memory>
 
 namespace Engine
 {
@@ -6,7 +7,7 @@ namespace Engine
 
   GenericActor::GenericActor(const std::string &texfile, const std::string &texID)
   {
-    
+
   }
 
   void GenericActor::BuildAnimations(const std::string & filename, const std::string & texturefile, GenericActor * Actor)
@@ -27,7 +28,7 @@ namespace Engine
     while (in >> animname) {
       in >> numframes >> frametime;
       auto anim = std::make_shared<Animation>();
-      
+
       for (std::size_t i = 0; i < numframes; ++i) {
         in >> left >> top >> width >> height;
         Frame.left = left; Frame.top = top; Frame.width = width; Frame.height = height;
@@ -44,28 +45,24 @@ namespace Engine
   {
     //UGHSDJLGHSD LJHFSDLFHS DLFH SDF
     //It's SO UGLY!
-    chaiscript::utility::add_class<Engine::GenericActor>(
-		*mptr,
-		"GenericActor",
-		{ chaiscript::constructor<Engine::GenericActor()>() },
-		{ {
-			chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetID)), "SetID" },
-			{ chaiscript::fun(static_cast<std::string(GenericActor::*)(void) const>(&GenericActor::GetID)), "GetID" },
-			{ chaiscript::fun(static_cast<const sf::Vector2f &(GenericActor::*)(void) const>(&GenericActor::GetActorPosition)), "GetPosition" },
-			{ chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorPosition)), "SetPosition" },
-			{ chaiscript::fun(static_cast<void(GenericActor::*)(float, float)>(&GenericActor::SetActorPosition)), "SetPosition" },
-			{ chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetAnimation)), "SetAnimation" },
-			{ chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorAcceleration)), "SetAcceleration" },
-			{ chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorVelocity)), "SetVelocity" },
-			{ chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" },
-			{ chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::UseTemporaryAnimation)), "AnimateAction" }
-		}
+    chaiscript::utility::add_class<Engine::GenericActor>(*mptr, "GenericActor",
+    { chaiscript::constructor<Engine::GenericActor()>() },
+    {
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetID)), "SetID" },
+      { chaiscript::fun(static_cast<std::string(GenericActor::*)(void) const>(&GenericActor::GetID)), "GetID" },
+      { chaiscript::fun(static_cast<const sf::Vector2f &(GenericActor::*)(void) const>(&GenericActor::GetActorPosition)), "GetPosition" },
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorPosition)), "SetPosition" },
+      { chaiscript::fun(static_cast<void(GenericActor::*)(float, float)>(&GenericActor::SetActorPosition)), "SetPosition" },
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetAnimation)), "SetAnimation" },
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorAcceleration)), "SetAcceleration" },
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorVelocity)), "SetVelocity" },
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" }
+    }
     );
   }
-   
+
   GenericActor::GenericActor()
   {
-
   }
 
   GenericActor::GenericActor(const GenericActor &actor)
@@ -75,51 +72,17 @@ namespace Engine
 
   void GenericActor::AddAnimation(const std::string &ID, std::shared_ptr<Animation> info)
   {
-    Animations[ID] = info;
+
   }
 
   void GenericActor::SetAnimation(const std::string & ID)
   {
-    if (CurrentAnimation)
-      CurrentAnimation->Stop();
 
-    auto anim = Animations.find(ID);
-    if (anim != Animations.end()) {
-      CurrentAnimation = anim->second.get();
-      CurrentAnimation->Play();
-    }
-  }
-
-  void GenericActor::UseTemporaryAnimation(const std::string & ID)
-  {
-    if (CurrentAnimation) {
-      PreviousAnimation = CurrentAnimation;
-    }
-    auto it = Animations.find(ID);
-    if (it != Animations.end()) {
-      it->second->AnimationComplete = [this]() {this->UsePreviousAnimation(); };
-      it->second->Play(false, true);
-      CurrentAnimation = it->second.get();
-      CurrentAnimation->Play();
-      CurrentAnimation->SetFrameTime(40);
-      CurrentAnimation->SetPosition(Position);
-      CurrentAnimation->SetSize(Size);
-    }
-  }
-
-  void GenericActor::UsePreviousAnimation()
-  {
-    if (PreviousAnimation && CurrentAnimation) {
-      CurrentAnimation->Stop();
-      CurrentAnimation->AnimationComplete = []() {};
-      CurrentAnimation = PreviousAnimation;
-      CurrentAnimation->Play();
-    }
   }
 
   void GenericActor::__HandleKeyPress(const sf::Keyboard::Key &key)
   {
-    
+
   }
 
   void GenericActor::SetTexture(const std::string &texfile, const std::string &texID)
@@ -129,7 +92,7 @@ namespace Engine
 
   void GenericActor::ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex)
   {
-    
+
   }
 
   GenericActor::~GenericActor()
@@ -175,7 +138,7 @@ namespace Engine
   void GenericActor::SetActorPosition(const sf::Vector2f &pos)
   {
     Position = pos;
-    
+
   }
 
   void GenericActor::SetActorPosition(float x, float y)
@@ -186,7 +149,7 @@ namespace Engine
   void GenericActor::SetActorSize(const sf::Vector2f &size)
   {
     Size = size;
-    
+
   }
 
   void GenericActor::SetActorVelocity(const sf::Vector2f &vel)
@@ -201,7 +164,7 @@ namespace Engine
 
   void GenericActor::GenerateActorMesh()
   {
-    CollisionMesh = BuildBallMesh('B', Position, Velocity, static_cast<int>(std::ceil(Size.y / 2.f )), 1, 1, sf::Color::Transparent);
+    CollisionMesh = BuildBallMesh('B', Position, Velocity, static_cast<int>(std::ceil(Size.y / 2.f)), 1, 1, sf::Color::Transparent);
   }
 
   const sf::Vector2f& GenericActor::GetActorPosition() const

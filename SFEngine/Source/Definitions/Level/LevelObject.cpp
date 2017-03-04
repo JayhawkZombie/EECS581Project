@@ -4,12 +4,10 @@
 
 namespace Engine
 {
-  std::string LevelObject::GAME_START_STRING = "OnGameStart";
-  std::string LevelObject::GAME_END_STRING = "OnGameEnd";
-  std::string LevelObject::KILLED_STRING = "OnKilled";
-  std::string LevelObject::UPDATE_STRING = "Update";
-
   LevelObject::LevelObject()
+    :
+    Animations(std::make_shared<thor::AnimationMap<sf::Sprite, std::string>>()),
+    Animator(std::make_shared<thor::Animator<sf::Sprite, std::string>>(*Animations))
   {
 
   }
@@ -76,9 +74,6 @@ namespace Engine
   void LevelObject::SetID(const std::string & ID)
   {
     BaseEngineInterface::SetID(ID);
-
-    GameStartEvalString = ItemID + "." + GAME_START_STRING + "();";
-    GameEndEvalString = ItemID + "." + GAME_END_STRING + "();";
   }
 
   void LevelObject::OnGameStart()

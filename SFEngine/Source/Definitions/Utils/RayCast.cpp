@@ -40,14 +40,14 @@ sf::Vector2f CastRay(const sf::Vector2f &R0, const sf::Vector2f &RA, const sf::V
     system.SolveSystem();
     t = system.e;
     s = system.f;
+
+    float x = R0.x + std::abs(t) * X21;
+    float y = R0.y + std::abs(t) * Y21;
+
+    return sf::Vector2f(x, y);
   }
   catch (std::runtime_error &e)
   {
     std::cerr << "Matrix error: " << e.what() << std::endl;
   }
-
-  float x = R0.x + std::abs(t) * X21;
-  float y = R0.y + std::abs(t) * Y21;
-
-  return sf::Vector2f(x, y);
 }

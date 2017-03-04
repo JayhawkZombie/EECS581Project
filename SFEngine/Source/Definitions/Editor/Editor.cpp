@@ -13,7 +13,7 @@ namespace Engine
   bool FlagForClose = false;
 
   Editor::Editor()
-    : EditorScriptEngine{ std::make_shared<chaiscript::ChaiScript>(chaiscript::Std_Lib::library()) }
+    : EditorScriptEngine{ std::make_shared<chaiscript::ChaiScript>() }
   {
     //std::cerr << "Creating editor script engine" << std::endl;
     //SetKeyRepeatEnabled(false);

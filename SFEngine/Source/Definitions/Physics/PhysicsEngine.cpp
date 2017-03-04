@@ -87,6 +87,64 @@ namespace Engine
       throw;
     }
   }
+  WaveSegmentPtr BuildWaveSegment(char type, const sf::Vector2i & TopLeftCorner, const sf::Vector2i & BottomRightCorner, float radius, bool IsHard, unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight, unsigned int ampLeft, float waveLenLeft, float rFreqLeft, float elev, float airDen, float depth, float fluidDen)
+  {
+    try
+    {
+      std::stringstream data = GetFormattedWaveSegmentConstructionData(type, TopLeftCorner, BottomRightCorner, radius, IsHard, NumWavePts, ampRight, waveLenRight, rFreqRight, ampLeft, waveLenLeft, rFreqLeft, elev, airDen, depth, fluidDen);
+      return (std::make_shared<waveSeg>(data));
+    }
+    catch (EngineRuntimeError &err)
+    {
+      throw;
+    }
+  }
+  std::stringstream GetFormattedWaveSegmentConstructionData(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius, bool IsHard,
+                                                            unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight,
+                                                            unsigned int ampLeft, float waveLenLeft, float rFreqLeft,
+                                                            float elev, float airDen, float depth, float fluidDen)
+  {
+    std::stringstream data;
+
+    try
+    {
+      std::cerr << "Wave construction data: " << std::endl;
+      std::cerr << type << " " << (IsHard ? 1 : 0) << " " << TopLeftCorner.x << " " << TopLeftCorner.y << " " << BottomRightCorner.x << " " << BottomRightCorner.y << std::endl;
+      std::cerr << NumWavePts << " " << ampRight << " " << waveLenRight << " " << rFreqRight << " " << ampLeft << " " << waveLenLeft << " " << rFreqLeft << " " << std::endl;
+      std::cerr << elev << " " << airDen << " " << depth << " " << fluidDen << std::endl;
+
+      //InsertIntoStream<char>(type, data);
+      //InsertIntoStream<int>(0, data);
+      InsertIntoStream<int>(TopLeftCorner.x, data);
+      InsertIntoStream<int>(TopLeftCorner.y, data);
+      InsertIntoStream<int>(BottomRightCorner.x, data);
+      InsertIntoStream<int>(BottomRightCorner.y, data);
+      InsertIntoStream<unsigned int>(NumWavePts, data);
+      InsertIntoStream<float>(ampRight, data);
+      InsertIntoStream<float>(waveLenRight, data);
+      InsertIntoStream<float>(rFreqRight, data);
+      InsertIntoStream<float>(ampLeft, data);
+      InsertIntoStream<float>(waveLenLeft, data);
+      InsertIntoStream<float>(rFreqLeft, data, true);
+      InsertIntoStream<float>(elev, data);
+      InsertIntoStream<float>(airDen, data);
+      InsertIntoStream<float>(depth, data);
+      InsertIntoStream<float>(fluidDen, data);
+
+      std::cerr << "Formatted data: \n*********************************\n" << data.str() << "\n****************************************\n" << std::endl;
+    }
+    catch (StreamException &err)
+    {
+      std::cerr << "StreamExcetion: " << err.what() << std::endl;
+    }
+    catch (FormattingError &ferr)
+    {
+      std::cerr << "Formatting Error: " << ferr.what() << std::endl;
+    }
+
+    return data;
+  }
+
 
   std::stringstream GetFormattedBallConstructionData(char BallType, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color & Color)
   {
@@ -156,7 +214,6 @@ namespace Engine
 
     try
     {
-      InsertIntoStream<char>(type, data);
       InsertIntoStream<int>(TopLeftCorner.x, data);
       InsertIntoStream<int>(TopLeftCorner.y, data);
       InsertIntoStream<int>(BottomRightCorner.x, data);

@@ -5,6 +5,8 @@
 #include "../Engine/BaseEngineInterface.h"
 #include "../Animation/Animation.h"
 #include "../../../ThirdParty/PhysicsEngine.h"
+#include <Thor\Animations.hpp>
+#include <Thor\Time.hpp>
 
 namespace Engine
 {
@@ -51,18 +53,14 @@ namespace Engine
     virtual void OnGameEnd();
     virtual void OnKilled();
 
+    static void AddItemAnimation(std::shared_ptr<LevelObject> Item, const std::string &animName);
+
   protected:
-
-    std::string GameStartEvalString;
-    std::string GameEndEvalString;
-    std::string KilledEvalString;
-    std::string UpdateEvalString;
-
-    //Strings for invoking methods
-    static std::string GAME_START_STRING;
-    static std::string GAME_END_STRING;
-    static std::string KILLED_STRING;
-    static std::string UPDATE_STRING;
+    std::shared_ptr<
+      thor::AnimationMap<sf::Sprite, std::string>> Animations;
+    std::shared_ptr<
+      thor::Animator<sf::Sprite, std::string>> Animator;
+    std::map<std::string, thor::FrameAnimation> FrameAnimations;
 
     std::shared_ptr<PhysicsEngineBaseMeshType> ObjectMesh;
     std::shared_ptr<PhysicsEngineSegmentType> ObjectSegments;
@@ -71,7 +69,7 @@ namespace Engine
     sf::IntRect TextureRect;
     sf::RectangleShape ObjectRect;
     //Objects can be animated
-    std::map<std::string, std::shared_ptr<Animation>> Animations;
+    //std::map<std::string, std::shared_ptr<Animation>> Animations;
 
     bool AllowsActorOverlap; //if false, then actors will never be allowed to cross over this object
     bool RenderOutlined;

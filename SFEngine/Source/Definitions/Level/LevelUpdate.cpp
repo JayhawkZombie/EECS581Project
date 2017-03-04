@@ -13,9 +13,9 @@ namespace Engine
     for (auto & anim : EditorGraphAnimations)
       anim.second->TickUpdate(delta);
 #endif
-    
+
     //Only want to update the physics 60 times per second, since it does not time itself ((((UGH))))
-    if (cumulative > 16.667f && DoUpdatePhysics && TestObjects.size() > 0 && TestSegments.size() > 0) {
+    if (cumulative > updateInterval && DoUpdatePhysics && TestObjects.size() > 0 && TestSegments.size() > 0) {
       cumulative = 0.f;
       UpdatePhysics(TestObjects, TestSegments);
     }

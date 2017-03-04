@@ -11,90 +11,58 @@
 namespace Engine
 {
 
-  std::shared_ptr<Engine::GenericActor> Factory::GenericActor(const Json::Value & jsonobj)
+  std::shared_ptr<GenericActor> MakeActor(std::string Name)
   {
     try
     {
-      std::shared_ptr<Engine::GenericActor> Actor = std::make_shared<Engine::GenericActor>();
+      auto ptr = std::make_shared<GenericActor>();
+      ptr->SetID(Name);
 
-      return Actor;
+      return ptr;
     }
-    catch (Json::Exception &e)
+    catch (EngineRuntimeError &err)
     {
-
+      err.AddCause({ ExceptionCause::ConstructionError });
+      err.AddMessage(EXCEPTION_MESSAGE("Factory failed to construct GenericActor object"));
     }
   }
 
-  std::shared_ptr<Engine::Player> Factory::Player(const Json::Value & jsonobj)
+  std::shared_ptr<thor::ParticleSystem> MakeParticleSystem(std::string Name)
   {
     try
     {
-      std::shared_ptr<Engine::Player> Player = std::make_shared<Engine::Player>();
-
-      return Player;
+      auto ptr = std::make_shared<thor::ParticleSystem>();
+      
+      return ptr;
     }
-    catch (Json::Exception &e)
+    catch (std::exception &err)
     {
-
+      throw;
     }
   }
 
-  std::shared_ptr<Engine::Level> Factory::Level(const Json::Value & jsonobj)
+  std::shared_ptr<thor::FrameAnimation> CreateAnimation(std::shared_ptr<LevelObject> Object, std::string Name)
   {
     try
     {
-      std::shared_ptr<Engine::Level> Level = std::make_shared<Engine::Level>();
+      auto Anim = std::make_shared<thor::FrameAnimation>();
 
-      return Level;
+      return Anim;
     }
-    catch (Json::Exception &e)
+    catch (std::exception &err)
     {
-
+      throw;
     }
   }
 
-  std::shared_ptr<Engine::TileSheet> Factory::TileSheet(const Json::Value & jsonobj)
+  void AddAnimationFrame(std::shared_ptr<thor::FrameAnimation> Anim, float Duration, int left, int top, int height, int width)
   {
-    try
-    {
-      std::shared_ptr<Engine::TileSheet> TileSheet = std::make_shared<Engine::TileSheet>();
 
-
-
-      return TileSheet;
-    }
-    catch (Json::Exception &e)
-    {
-
-    }
   }
 
-  std::shared_ptr<Engine::LevelTile> Factory::Tile(const Json::Value & jsonobj)
+  void AddStaticAnimationFrame(std::shared_ptr<thor::FrameAnimation>, int left, int top, int width, int height)
   {
-    try
-    {
-      std::shared_ptr<Engine::LevelTile> LevelTile = std::make_shared<Engine::LevelTile>();
 
-      return LevelTile;
-    }
-    catch (Json::Exception &e)
-    {
-
-    }
-  }
-
-  std::shared_ptr<Engine::Animation> Factory::Animation(const Json::Value & jsonobj)
-  {
-    try
-    {
-      std::shared_ptr<Engine::Animation> Animation = std::make_shared<Engine::Animation>();
-
-      return Animation;
-    }
-    catch (Json::Exception &e)
-    {
-
-    }
   }
 
 }
