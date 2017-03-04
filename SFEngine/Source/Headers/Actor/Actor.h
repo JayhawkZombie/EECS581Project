@@ -55,7 +55,6 @@ namespace Engine
 
   protected:
     void __HandleKeyPress(const sf::Keyboard::Key &key);
-    Animation *PreviousAnimation = nullptr;
     sf::Vector2f Velocity;
     sf::Vector2f Acceleration;
     sf::Vector2f Position;
