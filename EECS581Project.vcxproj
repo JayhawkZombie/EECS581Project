@@ -133,7 +133,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\aurora\include;C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -320,6 +320,7 @@
     <ClInclude Include="Game\Weapon.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
     <ClInclude Include="SFEngine\EngineRequirements.h" />
+    <ClInclude Include="SFEngine\Source\CoreFiles\Shaders\GlowShader.fsh" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\AnimationViewer.h" />
@@ -382,7 +383,6 @@
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\LevelTile.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\NewLevel.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Level\OtherLightSystem.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GenericLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GlobalLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\LightingSystem.h" />
@@ -431,6 +431,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\Various.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Vec.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_basic.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_defines.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_stdlib.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_threading.hpp" />
@@ -528,6 +529,9 @@
     <ClCompile Include="Game\Tile.cpp" />
     <ClCompile Include="Game\Useable.cpp" />
     <ClCompile Include="Game\Weapon.cpp" />
+    <Text Include="SFEngine\Source\CoreFiles\Scripts\CoreScripts.chai">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="SFEngine\Source\CoreTests\EventHandlerTests.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\ResourceManagerTests.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
@@ -713,6 +717,8 @@
   <ItemGroup>
     <None Include="Diagrams\Engine\ClassDiagram.emf" />
     <None Include="Game\GameSetup.chai" />
+    <None Include="Projects\TestProject\Scripts\Player.chai" />
+    <None Include="Projects\TestProject\Scripts\main.chai" />
     <None Include="Projects\TestProject\Scripts\testuiscript.chai" />
     <None Include="Projects\TestProject\testproject.json" />
     <None Include="SFEngine\Config\Engine.ini" />
@@ -724,9 +730,6 @@
     <None Include="SFEngine\Samples\Logos\SFEngineLogo_Flame.xcf" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForest.ini" />
     <None Include="SFEngine\Samples\Maps\NewLevelFormat.ini" />
-    <None Include="SFEngine\Samples\Projects\TestProject\Scripts\uiscript.chai" />
-    <None Include="SFEngine\Samples\Projects\TestProject\testproject.json" />
-    <None Include="SFEngine\Samples\Projects\TestProject\UI.json" />
     <None Include="SFEngine\Samples\Scripts\EngineEventTests.chai" />
     <None Include="SFEngine\Samples\Maps\MultiLayerForestSmall.ini" />
     <None Include="SFEngine\Samples\Maps\testforest.ini" />
@@ -738,6 +741,11 @@
     <None Include="SFEngine\Samples\Textures\UI\ButtonBGPressed.xcf" />
     <None Include="SFEngine\Source\BlurFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreFiles\Scripts\ConsoleFunctions.chai" />
+    <None Include="SFEngine\Source\CoreFiles\Shaders\BrightPoint.fsh" />
+    <None Include="SFEngine\Source\CoreFiles\Shaders\HorizontalGaussBlur.fsh" />
+    <None Include="SFEngine\Source\CoreFiles\Shaders\LightBlendShader.fsh" />
+    <None Include="SFEngine\Source\CoreFiles\Shaders\LightShader.fsh" />
+    <None Include="SFEngine\Source\CoreFiles\Shaders\VerticalGaussBlur.fsh" />
     <None Include="SFEngine\Source\CoreFragmentShader.fsh" />
     <None Include="SFEngine\Source\CoreScript.chai" />
     <None Include="SFEngine\Source\CoreVertexShader.vsh" />

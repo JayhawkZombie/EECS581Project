@@ -160,38 +160,8 @@ namespace Engine
     LevelRect.setTexture(&(EditorTexture->getTexture()));
     LevelRect.setTextureRect({ 0, 0, 1700, 900 });
 
-
-
-    //test particles
-    sf::Texture thorTexture;
-    thorTexture.loadFromFile("./SFEngine/Source/CoreFiles/Textures/particle.png");
-    thor::UniversalEmitter emitter;
-    emitter.setEmissionRate(50.f);
-    emitter.setParticleLifetime(sf::seconds(5));
-    emitter.setParticleScale(thor::Distribution<sf::Vector2f>(sf::Vector2f(0.3f, 0.3f)));
-    emitter.setParticlePosition(thor::Distributions::rect({ 1700 / 2.f, 900 / 2.f }, { 1700 / 2.f, 900 / 2.f }));
-    emitter.setParticleRotation(thor::Distributions::uniform(0.f, 360.f));
-
-    thor::ParticleSystem system;
-    system.setTexture(thorTexture);
-    system.addEmitter(thor::refEmitter(emitter));
-
-    thor::ColorGradient gradient;
-    gradient[0.f] = sf::Color(255, 255, 255);
-    gradient[1.f] = sf::Color(211, 211, 211);
-
-
-    thor::ColorAnimation colorizer(gradient);
-    thor::FadeAnimation fader(0.1f, 0.1f);
-
-    system.addAffector(thor::AnimationAffector(colorizer));
-    system.addAffector(thor::AnimationAffector(fader));
-    thor::ForceAffector vField({ 10.f, 50.f });
-
-    system.addAffector(thor::refAffector(vField));
-
-    thor::PolarVector2f vel(200.f, -90.f);
-    bool paused = false;
+    ScriptEngine->eval_file("./Projects/TestProject/Scripts/main.chai");
+    ScriptEngine->eval("GameStart();");
     
 #ifdef WITH_EDITOR
     while (!FlagForClose && currentRenderWindow && currentRenderWindow->isOpen()) {
@@ -213,11 +183,6 @@ namespace Engine
         fTime = dClock.restart();
 
         ImGui::SFML::Update(*currentRenderWindow, fTime);
-        system.update(fTime);
-
-        //emitter.setParticlePosition(Window->mapPixelToCoords(sf::Mouse::getPosition(*Window)));
-        //emitter.setParticleVelocity(thor::Distributions::deflect(vel, 30.f));
-        
         
         //ImGui::ShowTestWindow();
         MainLevel->TickUpdate(TickDelta);
@@ -225,12 +190,12 @@ namespace Engine
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
         Window->clear(EngineRenderSettings.BGClearColor);
-        EditorTexture->clear(EngineRenderSettings.BGClearColor);    
+        EditorTexture->clear(EngineRenderSettings.BGClearColor); 
+        
 #ifdef WITH_EDITOR
         EditorTexture->setActive(true);
         MainLevel->Render(EditorTexture);
         EditorTexture->setActive(true);
-        EditorTexture->draw(system);
         EditorTexture->display();
 
         Window->setActive(true);

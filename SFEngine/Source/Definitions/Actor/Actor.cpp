@@ -1,4 +1,5 @@
 #include "../../Headers/Actor/Actor.h"
+#include <memory>
 
 namespace Engine
 {
@@ -46,8 +47,8 @@ namespace Engine
     //It's SO UGLY!
     chaiscript::utility::add_class<Engine::GenericActor>(*mptr, "GenericActor",
     { chaiscript::constructor<Engine::GenericActor()>() },
-    { {
-        chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetID)), "SetID" },
+    { 
+        { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetID)), "SetID" },
         { chaiscript::fun(static_cast<std::string(GenericActor::*)(void) const>(&GenericActor::GetID)), "GetID" },
         { chaiscript::fun(static_cast<const sf::Vector2f &(GenericActor::*)(void) const>(&GenericActor::GetActorPosition)), "GetPosition" },
         { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorPosition)), "SetPosition" },
@@ -55,15 +56,13 @@ namespace Engine
         { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetAnimation)), "SetAnimation" },
         { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorAcceleration)), "SetAcceleration" },
         { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorVelocity)), "SetVelocity" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" },
-        { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::UseTemporaryAnimation)), "AnimateAction" }
+        { chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" }
     }
     );
   }
    
   GenericActor::GenericActor()
   {
-
   }
 
   GenericActor::GenericActor(const GenericActor &actor)
@@ -73,46 +72,12 @@ namespace Engine
 
   void GenericActor::AddAnimation(const std::string &ID, std::shared_ptr<Animation> info)
   {
-    Animations[ID] = info;
+    
   }
 
   void GenericActor::SetAnimation(const std::string & ID)
   {
-    if (CurrentAnimation)
-      CurrentAnimation->Stop();
-
-    auto anim = Animations.find(ID);
-    if (anim != Animations.end()) {
-      CurrentAnimation = anim->second.get();
-      CurrentAnimation->Play();
-    }
-  }
-
-  void GenericActor::UseTemporaryAnimation(const std::string & ID)
-  {
-    if (CurrentAnimation) {
-      PreviousAnimation = CurrentAnimation;
-    }
-    auto it = Animations.find(ID);
-    if (it != Animations.end()) {
-      it->second->AnimationComplete = [this]() {this->UsePreviousAnimation(); };
-      it->second->Play(false, true);
-      CurrentAnimation = it->second.get();
-      CurrentAnimation->Play();
-      CurrentAnimation->SetFrameTime(40);
-      CurrentAnimation->SetPosition(Position);
-      CurrentAnimation->SetSize(Size);
-    }
-  }
-
-  void GenericActor::UsePreviousAnimation()
-  {
-    if (PreviousAnimation && CurrentAnimation) {
-      CurrentAnimation->Stop();
-      CurrentAnimation->AnimationComplete = []() {};
-      CurrentAnimation = PreviousAnimation;
-      CurrentAnimation->Play();
-    }
+    
   }
 
   void GenericActor::__HandleKeyPress(const sf::Keyboard::Key &key)

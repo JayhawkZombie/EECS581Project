@@ -40,6 +40,7 @@ namespace Engine
       pRect.setTextureRect({ 0, 0, 100, 100 });
       created = true;
     }
+    static float drag = 0.5f;
 
     ballTex.setActive(true);
     polyTex.setActive(true);
@@ -48,9 +49,15 @@ namespace Engine
 
     static std::shared_ptr<PhysicsEngineBaseMeshType> Mesh;
 
+    if (ImGui::DragFloat("UpdateInterval", &updateInterval, 1.f, 10.f, 33.f)) {
+
+    }
+
     if (ImGui::CollapsingHeader("Meshes <testing>")) {
       //mesh spawner logic
       ImGui::Separator();
+      ImGui::Indent();
+
       ImGui::Text("Position and Size");
       if (ImGui::InputFloat("PosX", &Pos.x, 5.f, 15.f)) {
         if (Pos.x < 0) Pos.x = 0;
@@ -77,6 +84,12 @@ namespace Engine
       }
       if (ImGui::InputFloat("Gravity X", &gravity.x, 0.01, 0.1)) {
         SetGravity(&gravity);
+        for (auto & item : Segments) {
+          auto ptr = dynamic_cast<waveSeg*>(item.get());
+          if (ptr) {
+            ptr->grav_N = gravity.y;
+          }
+        }
       }
       if (ImGui::InputFloat("Gravity Y", &gravity.y, 0.01, 0.1)) {
         SetGravity(&gravity);
@@ -113,7 +126,7 @@ namespace Engine
       if (ImGui::CollapsingHeader("N-Poly")) {
         Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
 
-        if (ImGui::SliderFloat("Rotation", &rotation, 0, 2 * PI)) {
+        if (ImGui::SliderFloat("Rotation", &rotation, 0, 2 * ____PI)) {
           Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
         }
         if (ImGui::InputInt("Num Sides", &numsides, 1, 5)) {
@@ -132,6 +145,69 @@ namespace Engine
           SpawnNPoly(numsides, radius, rotation, Pos, Vel, mass, coeffRest, color);
         }
       }
+
+      ImGui::Unindent();
+    }
+
+    if (ImGui::CollapsingHeader("Waves")) {
+      if (ImGui::InputFloat("Segment Drag", &drag, 0.05, 0.1)) {
+        mvHit::drag = drag;
+      }
+
+      ImGui::Indent();
+
+      static sf::Vector2i leftCorner{ 0, 0 }, rightCorner{ 0, 0 };
+      static float waveRad = 5;
+      static float ampL{ 0 }, ampR{ 0 }, wvR{ 0 }, wvL{ 0 }, frL{ 0 }, frR{ 0 };
+      static float elev{ 0 }, airDen{ 0 }, fluidDen{ 0 }, depth{ 0 };
+
+      ImGui::Separator();
+      ImGui::Text("Position and Size");
+      if (ImGui::InputInt("Left PosX", &leftCorner.x, 5, 15)) {
+        if (Pos.x < 0) Pos.x = 0;
+      }
+      if (ImGui::InputInt("Left PoxY", &leftCorner.y, 5, 15)) {
+        if (Pos.y < 0) Pos.y = 0;
+      }
+      if (ImGui::InputInt("Right PosX", &rightCorner.x, 5, 15)) {
+        if (Pos.x < 0) Pos.x = 0;
+      }
+      if (ImGui::InputInt("Right PoxY", &rightCorner.y, 5, 15)) {
+        if (Pos.y < 0) Pos.y = 0;
+      }
+      if (ImGui::InputFloat("Radius", &waveRad, 10.f, 20.f)) {
+        if (waveRad < 5.f)
+          waveRad = 5.f;
+      }
+      ImGui::Separator();
+
+      ImGui::Text("Amplitude, Wavelen & Frequency");
+
+      ImGui::Columns(2);
+      ImGui::NewLine();
+      ImGui::DragFloat("Amp", &ampL, 5.f, 0.f, 50.f);
+      ImGui::DragFloat("Wavelen", &wvL, 5.f, 100.f, 1000.f);
+      ImGui::DragFloat("Frequency", &frL, 0.0005, 0.f, 0.05f);
+      ImGui::NextColumn();
+      ImGui::DragFloat("Amp", &ampR, 5.f, 0.f, 50.f);
+      ImGui::DragFloat("Wavelen", &wvR, 5.f, 100.f, 1000.f);
+      ImGui::DragFloat("Frequency", &frR, 0.0005, 0.f, 0.05f);
+
+      ImGui::Columns(1);
+      ImGui::Separator();
+
+      ImGui::Text("Elevation and Density");
+
+      ImGui::InputFloat("Elevation", &elev, 5.f, 15.f);
+      ImGui::InputFloat("Depth", &depth, 5.f, 15.f);
+      ImGui::InputFloat("Air Density", &airDen, 0.00005, 0.0001);
+      ImGui::InputFloat("Fluid Density", &fluidDen, 0.005, 0.001);
+
+      if (ImGui::Button("Spawn")) {
+        SpawnWave('W', leftCorner, rightCorner, radius, false, 300, ampR, wvR, frR, ampL, wvL, frL, elev, airDen, depth, fluidDen);
+      }
+
+      ImGui::Unindent();
     }
 
     if (ImGui::Selectable("Particles <empty>")) {

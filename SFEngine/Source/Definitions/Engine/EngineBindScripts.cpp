@@ -19,6 +19,9 @@ namespace Engine
     GenericActor::BindScriptMethods(__ActorPtr);
     (*ScriptEngine).add(__ActorPtr);
 
+    //Add scripts for constructing objects
+
+
     //Bind Level scripts
 
     //Bind LevelObject scripts
@@ -35,7 +38,64 @@ namespace Engine
     __SFML->add(chaiscript::user_type<sf::Vector2f>(), "Vector2f");
     __SFML->add(chaiscript::user_type<sf::IntRect>(), "IntRect");
     __SFML->add(chaiscript::user_type<sf::FloatRect>(), "FloatRect");
-    __SFML->add(chaiscript::user_type<sf::Keyboard::Key>(), "KeyboardKey");
+    __SFML->add(chaiscript::user_type<sf::Time>(), "SFTime");
+
+
+    chaiscript::utility::add_class<sf::Time>
+      (*__SFML,
+       "SFTime",
+
+       { chaiscript::constructor<sf::Time()>() },
+       {
+         {
+           { chaiscript::fun(&sf::Time::asMicroseconds), "AsMilliseconds" },
+           { chaiscript::fun(&sf::Time::asMicroseconds), "AsMicroseconds" },
+           { chaiscript::fun(&sf::Time::asSeconds), "AsSeconds" }
+         }
+       }
+       );
+    chaiscript::utility::add_class<sf::Clock>
+      (*__SFML,
+       "SFClock",
+       { chaiscript::constructor<sf::Clock()>() },
+       {
+         //Class methods
+         {
+           { chaiscript::fun(&sf::Clock::getElapsedTime), "GetElapsedTime" },
+           { chaiscript::fun(&sf::Clock::restart), "Restart" }
+         } 
+       }
+       );
+    chaiscript::utility::add_class<sf::Color>
+      ( *__SFML,
+       "SFColor",
+       { //Constructors
+         chaiscript::constructor<sf::Color()>(),
+         chaiscript::constructor<sf::Color(const sf::Color &color)>(),
+         chaiscript::constructor<sf::Color(sf::Uint8, sf::Uint8, sf::Uint8, sf::Uint8)>()
+       }, //"methods", but we're really making lambdas to access the class members
+       {
+         {
+           { chaiscript::fun([](const sf::Color &c)->sf::Uint8 { return c.a; }), "a" },
+           { chaiscript::fun([](const sf::Color &c)->sf::Uint8 { return c.r; }), "r" },
+           { chaiscript::fun([](const sf::Color &c)->sf::Uint8 { return c.g; }), "g" },
+           { chaiscript::fun([](const sf::Color &c)->sf::Uint8 { return c.b; }), "b" }
+         }
+       }
+       );
+    
+    chaiscript::utility::add_class<sf::Keyboard::Key>
+      (*__SFML,
+       "sf_Keyboard_Key",
+       {
+         {sf::Keyboard::A, "Key_A"}, {sf::Keyboard::B, "Key_B"}, {sf::Keyboard::C, "Key_C"}, {sf::Keyboard::D, "Key_D"}, {sf::Keyboard::E, "Key_E"},
+         {sf::Keyboard::F, "Key_F"}, {sf::Keyboard::G, "Key_G"}, {sf::Keyboard::H, "Key_H"}, {sf::Keyboard::I, "Key_I"}, {sf::Keyboard::J, "Key_J"},
+         {sf::Keyboard::K, "Key_K"}, {sf::Keyboard::L, "Key_L"}, {sf::Keyboard::M, "Key_M"}, {sf::Keyboard::N, "Key_N"}, {sf::Keyboard::O, "Key_O"},
+         {sf::Keyboard::P, "Key_P"}, {sf::Keyboard::Q, "Key_Q"}, {sf::Keyboard::R, "Key_R"}, {sf::Keyboard::S, "Key_S"}, {sf::Keyboard::T, "Key_T"},
+         {sf::Keyboard::U, "Key_U"}, {sf::Keyboard::V, "Key_V"}, {sf::Keyboard::W, "Key_W"}, {sf::Keyboard::X, "Key_X"}, {sf::Keyboard::Y, "Key_Y"},
+         {sf::Keyboard::Z, "Key_Z"}, {sf::Keyboard::Escape, "Key_Esc"}, {sf::Keyboard::Space, "Key_Space"}, {sf::Keyboard::LShift, "Key_LShift"},
+         {sf::Keyboard::RShift, "Key_RShift"}
+       });
     
 
     (*ScriptEngine).add(__SFML);

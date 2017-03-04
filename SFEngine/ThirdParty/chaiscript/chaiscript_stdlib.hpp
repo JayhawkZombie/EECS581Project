@@ -14,11 +14,17 @@
 #include <vector>
 
 #include "chaiscript_defines.hpp"
-#include "dispatchkit/dispatchkit.hpp"
+#include "language/chaiscript_common.hpp"
+
+#include "dispatchkit/function_call.hpp"
+
+//#include "dispatchkit/dispatchkit.hpp"
+#include "dispatchkit/operators.hpp"
 #include "dispatchkit/bootstrap.hpp"
 #include "dispatchkit/bootstrap_stl.hpp"
-#include "dispatchkit/boxed_value.hpp"
-#include "language/chaiscript_prelude.chai"
+//#include "dispatchkit/boxed_value.hpp"
+#include "language/chaiscript_prelude.hpp"
+#include "dispatchkit/register_function.hpp"
 #include "utility/json_wrap.hpp"
 
 #ifndef CHAISCRIPT_NO_THREADS
@@ -38,21 +44,20 @@ namespace chaiscript
 
       static ModulePtr library()
       {
-        using namespace bootstrap;
+        auto lib = std::make_shared<Module>();
+        bootstrap::Bootstrap::bootstrap(*lib);
 
-        ModulePtr lib = Bootstrap::bootstrap();
-
-        lib->add(standard_library::vector_type<std::vector<Boxed_Value> >("Vector"));
-        lib->add(standard_library::string_type<std::string>("string"));
-        lib->add(standard_library::map_type<std::map<std::string, Boxed_Value> >("Map"));
-        lib->add(standard_library::pair_type<std::pair<Boxed_Value, Boxed_Value > >("Pair"));
+        bootstrap::standard_library::vector_type<std::vector<Boxed_Value> >("Vector", *lib);
+        bootstrap::standard_library::string_type<std::string>("string", *lib);
+        bootstrap::standard_library::map_type<std::map<std::string, Boxed_Value> >("Map", *lib);
+        bootstrap::standard_library::pair_type<std::pair<Boxed_Value, Boxed_Value > >("Pair", *lib);
 
 #ifndef CHAISCRIPT_NO_THREADS
-        lib->add(standard_library::future_type<std::future<chaiscript::Boxed_Value>>("future"));
+        bootstrap::standard_library::future_type<std::future<chaiscript::Boxed_Value>>("future", *lib);
         lib->add(chaiscript::fun([](const std::function<chaiscript::Boxed_Value ()> &t_func){ return std::async(std::launch::async, t_func);}), "async");
 #endif
 
-        lib->add(json_wrap::library());
+        json_wrap::library(*lib);
 
         lib->eval(ChaiScript_Prelude::chaiscript_prelude() /*, "standard prelude"*/ );
 

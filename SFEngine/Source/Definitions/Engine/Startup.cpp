@@ -1,4 +1,5 @@
 #include "../../Headers/Engine/Engine.h"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 namespace Engine
 {
@@ -140,7 +141,7 @@ namespace Engine
     Window->draw(EngineLoadingText);
     Window->display();
 
-    ScriptEngine = new chaiscript::ChaiScript(chaiscript::Std_Lib::library());
+    ScriptEngine = new chaiscript::ChaiScript({}, { "./Projects/TestProject/Scripts/" }, { chaiscript::Options::External_Scripts, chaiscript::Options::Load_Modules });
 
     //Add the engine class to the script engine
     chaiscript::ModulePtr __mptr(new chaiscript::Module);

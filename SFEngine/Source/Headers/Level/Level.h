@@ -49,7 +49,7 @@ namespace Engine
 #ifdef WITH_EDITOR
     friend class Editor;
 #endif
-
+    float updateInterval = 16.667f;
     TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
 
     Level() = default;
@@ -109,11 +109,16 @@ namespace Engine
     void SpawnRect(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
     void SpawnTriangle(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
     void SpawnNPoly(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
+    void SpawnWave(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius, bool IsHard,
+                   unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight,
+                   unsigned int ampLeft, float waveLenLeft, float rFreqLeft,
+                   float elev, float airDen, float depth, float fluidDen);
     bool DoUpdatePhysics = true;
 
     vec2d Gravity;
     std::vector<BaseMeshPtr> TestObjects;
     std::vector<SegmentPtr> Segments;
+    std::vector<WaveSegmentPtr> Waves;
 
     sf::RectangleShape LevelRectangle; //to draw the scene to
     std::shared_ptr<sf::RenderTexture> SceneTarget;
@@ -121,6 +126,11 @@ namespace Engine
     std::map<std::string, std::shared_ptr<TileSheet>> TileSheets;
     std::map<std::string, std::shared_ptr<Animation>> Animations;
     std::map<std::string, std::shared_ptr<sf::SoundBuffer>> SoundBuffers;
+    std::map<std::uint32_t, std::shared_ptr<LightSystem>> LightSystems;
+    std::map<std::uint32_t, std::shared_ptr<Light>> Lights;
+    std::shared_ptr<sf::RenderTexture> LightTexture;
+    std::shared_ptr<sf::RenderTexture> SceneBlendTexture;
+
     std::vector<thor::UniversalEmitter> ParticleEmitters;
 
     sf::Vector2u Size;

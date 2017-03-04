@@ -9,15 +9,6 @@
 namespace Engine
 {
 
-  struct ActorInfo
-  {
-    std::map<std::string, std::string> Scripts;
-    PhysicsState ActorState;
-    std::string ID;
-    std::string TextureID, TexturePath;
-    AnimationInfo AnimInfo;
-  };
-
   class GenericActor : public LevelObject
   {
   public:
@@ -56,8 +47,11 @@ namespace Engine
     virtual void SetTexture(const std::string &texfile, const std::string &texID);
     virtual void AddAnimation(const std::string &ID, std::shared_ptr<Animation> info);
     virtual void SetAnimation(const std::string &ID);
-    virtual void UseTemporaryAnimation(const std::string &ID);
-    virtual void UsePreviousAnimation();
+
+    //Internal methods, each has a corresponding script that will be called
+    void Spawn(const sf::Vector2f &Position);
+    void Respawn(const sf::Vector2f &Position);
+    void Kill();
 
   protected:
     void __HandleKeyPress(const sf::Keyboard::Key &key);

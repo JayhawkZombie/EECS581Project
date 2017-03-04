@@ -1,8 +1,12 @@
 // This file is distributed under the BSD License.
 // See "license.txt" for details.
 // Copyright 2009-2012, Jonathan Turner (jonathan@emptycrate.com)
-// Copyright 2009-2016, Jason Turner (jason@emptycrate.com)
+// Copyright 2009-2017, Jason Turner (jason@emptycrate.com)
 // http://www.chaiscript.com
+
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 
 #ifndef CHAISCRIPT_BOXED_CAST_HELPER_HPP_
 #define CHAISCRIPT_BOXED_CAST_HELPER_HPP_
@@ -25,25 +29,54 @@ namespace chaiscript
     template<typename T>
       T* throw_if_null(T *t)
       {
-        if (t) return t;
+        if (t) { return t; }
         throw std::runtime_error("Attempted to dereference null Boxed_Value");
       }
+
+    template<typename T>
+    static const T *verify_type_no_throw(const Boxed_Value &ob, const std::type_info &ti, const T *ptr) {
+      if (ob.get_type_info() == ti) {
+        return ptr;
+      } else {
+        throw chaiscript::detail::exception::bad_any_cast();
+      }
+    }
+
+    template<typename T>
+    static T *verify_type_no_throw(const Boxed_Value &ob, const std::type_info &ti, T *ptr) {
+      if (!ob.is_const() && ob.get_type_info() == ti) {
+        return ptr;
+      } else {
+        throw chaiscript::detail::exception::bad_any_cast();
+      }
+    }
+
+
+    template<typename T>
+    static const T *verify_type(const Boxed_Value &ob, const std::type_info &ti, const T *ptr) {
+      if (ob.get_type_info().bare_equal_type_info(ti)) {
+        return throw_if_null(ptr);
+      } else {
+        throw chaiscript::detail::exception::bad_any_cast();
+      }
+    }
+
+    template<typename T>
+    static T *verify_type(const Boxed_Value &ob, const std::type_info &ti, T *ptr) {
+      if (!ob.is_const() && ob.get_type_info().bare_equal_type_info(ti)) {
+        return throw_if_null(ptr);
+      } else {
+        throw chaiscript::detail::exception::bad_any_cast();
+      }
+    }
 
     /// Generic Cast_Helper_Inner, for casting to any type
     template<typename Result>
       struct Cast_Helper_Inner
       {
-        typedef typename std::add_const<Result>::type Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static Result cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
-          if (ob.get_type_info().bare_equal_type_info(typeid(Result)))
-          {
-            auto p = throw_if_null(ob.get_const_ptr());
-            return *static_cast<const Result *>(p);
-          } else {
-            throw chaiscript::detail::exception::bad_any_cast();
-          }
+          return *static_cast<const Result *>(verify_type(ob, typeid(Result), ob.get_const_ptr()));
         }
       };
 
@@ -57,15 +90,9 @@ namespace chaiscript
     template<typename Result>
       struct Cast_Helper_Inner<const Result *>
       {
-        typedef const Result * Result_Type;
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static const Result * cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
-          if (ob.get_type_info().bare_equal_type_info(typeid(Result)))
-          {
-            return static_cast<const Result *>(ob.get_const_ptr());
-          } else {
-            throw chaiscript::detail::exception::bad_any_cast();
-          }
+          return static_cast<const Result *>(verify_type_no_throw(ob, typeid(Result), ob.get_const_ptr()));
         }
       };
 
@@ -73,15 +100,9 @@ namespace chaiscript
     template<typename Result>
       struct Cast_Helper_Inner<Result *>
       {
-        typedef Result * Result_Type;
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static Result * cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
-          if (!ob.get_type_info().is_const() && ob.get_type_info() == typeid(Result))
-          {
-            return static_cast<Result *>(ob.get_ptr());
-          } else {
-            throw chaiscript::detail::exception::bad_any_cast();
-          }
+          return static_cast<Result *>(verify_type_no_throw(ob, typeid(Result), ob.get_ptr()));
         }
       };
 
@@ -100,17 +121,9 @@ namespace chaiscript
     template<typename Result>
       struct Cast_Helper_Inner<const Result &>
       {
-        typedef const Result& Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static const Result & cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
-          if (ob.get_type_info().bare_equal_type_info(typeid(Result)))
-          {
-            auto p = throw_if_null(ob.get_const_ptr());
-            return *static_cast<const Result *>(p);
-          } else {
-            throw chaiscript::detail::exception::bad_any_cast();
-          }
+          return *static_cast<const Result *>(verify_type(ob, typeid(Result), ob.get_const_ptr()));
         }
       };
 
@@ -120,26 +133,61 @@ namespace chaiscript
     template<typename Result>
       struct Cast_Helper_Inner<Result &>
       {
-        typedef Result& Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static Result& cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
-          if (!ob.get_type_info().is_const() && ob.get_type_info().bare_equal_type_info(typeid(Result)))
-          {
-            return *(static_cast<Result *>(throw_if_null(ob.get_ptr())));
-          } else {
-            throw chaiscript::detail::exception::bad_any_cast();
-          }
+          return *static_cast<Result *>(verify_type(ob, typeid(Result), ob.get_ptr()));
         }
       };
+
+    /// Cast_Helper_Inner for casting to a && type
+    template<typename Result>
+      struct Cast_Helper_Inner<Result &&>
+      {
+        static Result&& cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        {
+          return std::move(*static_cast<Result *>(verify_type(ob, typeid(Result), ob.get_ptr())));
+        }
+      };
+
+    /// Cast_Helper_Inner for casting to a std::unique_ptr<> && type
+    /// \todo Fix the fact that this has to be in a shared_ptr for now
+    template<typename Result>
+      struct Cast_Helper_Inner<std::unique_ptr<Result> &&>
+      {
+        static std::unique_ptr<Result> &&cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        {
+          return std::move(*(ob.get().cast<std::shared_ptr<std::unique_ptr<Result>>>()));
+        }
+      };
+
+    /// Cast_Helper_Inner for casting to a std::unique_ptr<> & type
+    /// \todo Fix the fact that this has to be in a shared_ptr for now
+    template<typename Result>
+      struct Cast_Helper_Inner<std::unique_ptr<Result> &>
+      {
+        static std::unique_ptr<Result> &cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        {
+          return *(ob.get().cast<std::shared_ptr<std::unique_ptr<Result>>>());
+        }
+      };
+
+    /// Cast_Helper_Inner for casting to a std::unique_ptr<> & type
+    /// \todo Fix the fact that this has to be in a shared_ptr for now
+    template<typename Result>
+      struct Cast_Helper_Inner<const std::unique_ptr<Result> &>
+      {
+        static std::unique_ptr<Result> &cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        {
+          return *(ob.get().cast<std::shared_ptr<std::unique_ptr<Result>>>());
+        }
+      };
+
 
     /// Cast_Helper_Inner for casting to a std::shared_ptr<> type
     template<typename Result>
       struct Cast_Helper_Inner<std::shared_ptr<Result> >
       {
-        typedef std::shared_ptr<Result> Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static auto cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
           return ob.get().cast<std::shared_ptr<Result> >();
         }
@@ -149,9 +197,7 @@ namespace chaiscript
     template<typename Result>
       struct Cast_Helper_Inner<std::shared_ptr<const Result> >
       {
-        typedef std::shared_ptr<const Result> Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static auto cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
           if (!ob.get_type_info().is_const())
           {
@@ -177,10 +223,7 @@ namespace chaiscript
       struct Cast_Helper_Inner<std::shared_ptr<Result> &>
       {
         static_assert(!std::is_const<Result>::value, "Non-const reference to std::shared_ptr<const T> is not supported");
-
-        typedef Boxed_Value::Sentinel<Result> Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static auto cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
           std::shared_ptr<Result> &res = ob.get().cast<std::shared_ptr<Result> >();
           return ob.pointer_sentinel(res);
@@ -204,9 +247,7 @@ namespace chaiscript
     template<>
       struct Cast_Helper_Inner<Boxed_Value>
       {
-        typedef Boxed_Value Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static Boxed_Value cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
           return ob;
         }
@@ -216,9 +257,7 @@ namespace chaiscript
     template<>
       struct Cast_Helper_Inner<Boxed_Value &>
       {
-        typedef std::reference_wrapper<Boxed_Value> Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *)
+        static std::reference_wrapper<Boxed_Value> cast(const Boxed_Value &ob, const Type_Conversions_State *)
         {
           return std::ref(const_cast<Boxed_Value &>(ob));
         }
@@ -272,11 +311,9 @@ namespace chaiscript
     template<typename T>
       struct Cast_Helper
       {
-        typedef typename Cast_Helper_Inner<T>::Result_Type Result_Type;
-
-        static Result_Type cast(const Boxed_Value &ob, const Type_Conversions_State *t_conversions)
+        static decltype(auto) cast(const Boxed_Value &ob, const Type_Conversions_State *t_conversions)
         {
-          return Cast_Helper_Inner<T>::cast(ob, t_conversions);
+          return(Cast_Helper_Inner<T>::cast(ob, t_conversions));
         }
       };
   }

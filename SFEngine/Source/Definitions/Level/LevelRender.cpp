@@ -5,8 +5,12 @@ namespace Engine
 {
   void Level::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
-    for (auto & arr : GridLines)
-      Target->draw(arr);
+    SceneBlendTexture->clear(sf::Color::Transparent);
+
+    if (ShowGridLines) {
+      for (auto & arr : GridLines)
+        Target->draw(arr);
+    }
 
     for (auto & obj : TestObjects)
       obj->draw(*Target);

@@ -35,3 +35,10 @@
     SORT2(Vertices, first, first + 1);
     SORT2(Vertices, first + 1, first + 2);
   }
+
+  namespace Engine
+  {
+
+    
+
+  }

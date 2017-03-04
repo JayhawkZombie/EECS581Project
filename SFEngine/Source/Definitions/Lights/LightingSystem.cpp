@@ -2,162 +2,186 @@
 
 namespace Engine
 {
-  void Normalize(sf::Vector2f &v) {
-    float mag = std::sqrt((v.x * v.x) + (v.y * v.y));
-    v.x /= mag;
-    v.y /= mag;
+
+#define ____PI 3.141592653
+#define COSPIBY4 0.25
+
+#define MAX_CIRCLE_ANGLE 512
+#define HALF_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE >> 1)
+#define QUARTER_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE >> 2)
+#define MASK_MAX_CIRCLE_ANGLE (MAX_CIRCLE_ANGLE - 1)
+#define PI 3.141592653589793238f
+
+#define USE_LOOKUP_TABLE
+
+  float CosineTable[MAX_CIRCLE_ANGLE];
+
+  inline void FtoInt(int *int_ptr, float f) {
+    __asm fld f
+    __asm mov edx, int_ptr
+    __asm FRNDINT
+    __asm fistp dword ptr[edx];
   }
 
-  float Cross2D(const sf::Vector2f &v1, const sf::Vector2f &v2) {
-    return ((v1.x * v2.y) - (v1.y * v2.x));
+  inline float fastcos(float n) {
+    float f = n * HALF_MAX_CIRCLE_ANGLE / PI;
+    int i;
+    FtoInt(&i, f);
+    return(
+      i < 0 ?
+      CosineTable[((-i) + QUARTER_MAX_CIRCLE_ANGLE) & MASK_MAX_CIRCLE_ANGLE] :
+      CosineTable[(i + QUARTER_MAX_CIRCLE_ANGLE) & MASK_MAX_CIRCLE_ANGLE]);
   }
 
-  float DistanceBetween(const sf::Vector2f &v1, const sf::Vector2f &v2) {
-    float x = v1.x - v2.x;
-    float y = v1.y - v2.y;
-
-    return (std::sqrt((x * x) + (y * y)));
+  inline float fastsin(float n) {
+    float f = n * HALF_MAX_CIRCLE_ANGLE / PI;
+    int i;
+    FtoInt(&i, f);
+    return(
+      i < 0 ?
+      CosineTable[(-((-i)&MASK_MAX_CIRCLE_ANGLE)) + MAX_CIRCLE_ANGLE] :
+      CosineTable[i & MASK_MAX_CIRCLE_ANGLE]);
   }
 
   LightSystem::LightSystem()
   {
-    DrawFont.loadFromFile("ABSTRACT.TTF");
-
     Edges.push_back({});
-    Edges.back().Start = { 0, 0 }; Edges.back().End = { 0.f, 800.f };
-
     Edges.push_back({});
-    Edges.back().Start = { 0.f, 800.f }; Edges.back().End = { 800.f, 800.f };
-
     Edges.push_back({});
-    Edges.back().Start = { 800.f, 800.f }; Edges.back().End = { 800.f, 0.f };
-
     Edges.push_back({});
-    Edges.back().Start = { 800.f, 0.f }; Edges.back().End = { 0.f, 0.f };
 
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { 0.f,   0.f };   Segments.back()[1].position = { 0.f,   800.f };
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { 0.f,   800.f }; Segments.back()[1].position = { 800.f, 800.f };
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { 800.f, 800.f }; Segments.back()[1].position = { 0.f,   800.f };
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { 0.f,   800.f }; Segments.back()[1].position = { 0.f,   0.f };
+    //Load the shaders
+    LightShader = std::make_unique<sf::Shader>();
+    LightShader->loadFromFile("./SFEngine/Source/CoreFiles/Shaders/LightShader.fsh", sf::Shader::Fragment);
+
+    BlendShader = std::make_unique<sf::Shader>();
+    BlendShader->loadFromFile("./SFEngine/Source/CoreFiles/Shaders/LightBlendShader.fsh", sf::Shader::Fragment);
+
+#ifdef USE_LOOKUP_TABLE
+    //pre-compute all of our sin/cos values  
+    for (int i = 0; i < MAX_CIRCLE_ANGLE; ++i) {
+      CosineTable[i] = (float)(std::sin((double)i * PI / HALF_MAX_CIRCLE_ANGLE));
+    }
+#endif
   }
 
-  void LightSystem::AddLightObject(const sf::Vector2f &pos, const sf::Vector2f &size, sf::Color color) 
+  LightSystem::~LightSystem()
   {
-    Objects.push_back({});
-    Objects.back().SetPosSize(pos, size);
-    Objects.back().BlockingShape.setFillColor(color);
-
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { pos.x,          pos.y };           Segments.back()[1].position = { pos.x,          pos.y + size.y };
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { pos.x,          pos.y + size.y };  Segments.back()[1].position = { pos.x + size.x, pos.y + size.y };
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { pos.x + size.x, pos.y + size.y };  Segments.back()[1].position = { pos.x + size.x, pos.y };
-    Segments.push_back(sf::VertexArray(sf::Lines, 2)); Segments.back()[0].position = { pos.x + size.x, pos.y };           Segments.back()[1].position = { pos.x,          pos.y };
-
-    Edges.push_back({});
-    Edges.back().Start = { pos.x, pos.y };  Edges.back().End = { pos.x, pos.y + size.y };
-    Edges.back().FakeStart = { pos.x, pos.y }; Edges.back().FakeEnd = { pos.x, pos.y + size.y };
-
-    Edges.push_back({});
-    Edges.back().Start = { pos.x, pos.y + size.y }; Edges.back().End = { pos.x + size.x, pos.y + size.y };
-    Edges.back().FakeStart = { pos.x, pos.y + size.y }; Edges.back().FakeEnd = { pos.x + size.x, pos.y + size.y };
-
-    Edges.push_back({});
-    Edges.back().Start = { pos.x + size.x, pos.y + size.y }; Edges.back().End = { pos.x + size.x, pos.y };
-    Edges.back().FakeStart = { pos.x + size.x, pos.y + size.y }; Edges.back().FakeEnd = { pos.x + size.x, pos.y };
-
-    Edges.push_back({});
-    Edges.back().Start = { pos.x + size.x, pos.y };  Edges.back().End = { pos.x, pos.y };
-    Edges.back().FakeStart = { pos.x + size.x, pos.y };  Edges.back().FakeEnd = { pos.x, pos.y };
   }
 
-  void LightSystem::AddComplexObject(const std::vector<sf::Vector2f> &positions) 
+  void LightSystem::SetBoundaries(const sf::Vector2f & TopLeft, const sf::Vector2f & TopRight, const sf::Vector2f & BottomRight, const sf::Vector2f & BottomLeft)
+  {
+    Edges[0].Start = TopLeft; Edges[0].End = TopRight;
+    Edges[1].Start = TopRight; Edges[1].End = BottomRight;
+    Edges[2].Start = BottomRight; Edges[2].End = BottomLeft;
+    Edges[3].Start = BottomLeft; Edges[3].End = TopLeft;
+  }
+
+  void LightSystem::AddLightObject(std::shared_ptr<LightObject> Object)
+  {
+    LightObjects[Object->ID] = Object;
+
+    Edges.insert(Edges.end() - 0, Object->Edges.begin(), Object->Edges.end());
+    std::cerr << "Light system now has: " << Edges.size() << " edges " << std::endl;
+  }
+
+  void LightSystem::AddComplexObject(const std::vector<sf::Vector2f>& positions)
   {
     for (std::size_t i = 1; i < positions.size(); ++i) {
       Edges.push_back({}); Edges.back().Start = positions[i - 1]; Edges.back().End = positions[i];
 
-      Segments.push_back(sf::VertexArray(sf::Lines, 2));
-      Segments.back()[0].position = positions[i - 1];
-      Segments.back()[1].position = positions[i];
-      Segments.back()[0].color = sf::Color::Yellow;
-      Segments.back()[1].color = sf::Color::Yellow;
+      //Segments.push_back(sf::VertexArray(sf::Lines, 2));
+      //Segments.back()[0].position = positions[i - 1];
+      //Segments.back()[1].position = positions[i];
+      //Segments.back()[0].color = sf::Color::Yellow;
+      //Segments.back()[1].color = sf::Color::Yellow;
     }
   }
 
-  void LightSystem::Render() 
+  void LightSystem::RenderLightToTexture(std::shared_ptr<Light> light, std::shared_ptr<sf::RenderTexture> Target)
   {
-    LitTrianglesTexture.clear(sf::Color::Transparent);
+    auto texSize = Target->getSize();
 
-    for (auto & vec : LitTriangles)
-      LitTrianglesTexture.draw(vec, &LightTexture->getTexture());
-    LitTrianglesTexture.display();
+    LightShader->setUniform("color", sf::Glsl::Vec4(light->Color.r, light->Color.g, light->Color.b, light->Color.a));
+    LightShader->setUniform("center", sf::Glsl::Vec2(WindowSize.x / 2.f, WindowSize.y / 2.f));
+    LightShader->setUniform("radius", light->Radius);
+    LightShader->setUniform("expand", 0.2f);
+    LightShader->setUniform("windowHeight", (float)WindowSize.y);
 
-    TrianglesSprite.setTexture(this->LitTrianglesTexture.getTexture());
-    
-    for (auto & obj : Objects) {
-      Render::RenderShape(&obj.BlockingShape);
+    light->Circle.setRadius(light->Radius);
+    light->Circle.setOrigin(light->Circle.getRadius(), light->Circle.getRadius());
+    light->Circle.setPosition(sf::Glsl::Vec2(WindowSize.x / 2.f, WindowSize.y / 2.f));
+    light->Circle.setFillColor(sf::Color::Transparent);
+
+    Target->clear(sf::Color(0, 0, 0));
+    Target->draw(light->Circle, LightShader.get());
+    Target->display();
+  }
+
+  void LightSystem::BlurLightTexture(std::shared_ptr<Light> light)
+  {
+  }
+
+  void LightSystem::BlendLightMapWithScene(std::shared_ptr<Light> light, std::shared_ptr<sf::RenderTexture> SceneTexture, std::shared_ptr<sf::RenderTexture> OutputTexture)
+  {
+    static sf::RectangleShape rect;
+    rect.setSize(static_cast<sf::Vector2f>(SceneTexture->getSize()));
+    state.shader = BlendShader.get();
+    state.blendMode = sf::BlendAdd;
+
+    BlendShader->setUniform("MaskTexture", LightMaps[light->ID]->getTexture());
+    BlendShader->setUniform("SceneTexture", SceneTexture->getTexture());
+    BlendShader->setUniform("MinimumIntensity", 1.f);
+    BlendShader->setUniform("LightHue", sf::Glsl::Vec4(light->Color.r, light->Color.g, light->Color.b, light->Color.a));
+    BlendShader->setUniform("HueIntensity", 0.3f);
+    BlendShader->setUniform("MaximumIntensity", 10.f);
+
+    OutputTexture->draw(rect, state);
+  }
+
+  void LightSystem::AddLight(std::shared_ptr<Light> light)
+  {
+    try
+    {
+      Lights[light->ID] = light;
+
+      LightTextures[light->ID] = std::make_shared<sf::RenderTexture>();
+      LightTextures[light->ID]->create(WindowSize.x, WindowSize.y);
+      LightTextures[light->ID]->clear(sf::Color::Transparent);
+      RenderLightToTexture(Lights[light->ID], LightTextures[light->ID]);
+      LightTextures[light->ID]->display();
+      LightMaps[light->ID] = std::make_shared<sf::RenderTexture>();
+      LightMaps[light->ID]->create(WindowSize.x, WindowSize.y);
+      auto image = LightTextures[light->ID]->getTexture().copyToImage();
+      image.saveToFile("LIGHT_TEXTURE_IMAGE.png");
     }
-
-    Engine::Render::RenderSprite(&TrianglesSprite);
-
-    for (auto & seg : Segments)
-      Render::RenderVertexArray(seg);
+    catch (IDException &err)
+    {
+      throw;
+    }
   }
 
-  void LightSystem::Render(sf::RenderTarget &tgt, sf::RenderStates &state) 
+  void LightSystem::UpdateLight(std::shared_ptr<Light> light)
   {
-    static int framecnt = 0;
+    auto it = Lights.find(light->ID);
+    if (it != Lights.end()) {
+      it->second->Attenuation = light->Attenuation;
+      it->second->Color = light->Color;
+      it->second->Expand = light->Expand;
+      it->second->Position = light->Position;
+      it->second->Radius = light->Radius;
 
-    //IterationsAroundCircle.setString("IterationsAround: " + std::to_string(2 * PI / dtheta));
-
-    tgt.draw(OverallBounds);
-
-    for (auto & obj : Objects)
-      obj.Render(tgt);
-
-    for (auto & it = LitTriangles.rbegin(); it != LitTriangles.rend(); ++it)
-      tgt.draw(*it, &LightTexture->getTexture());
-
-    for (auto & seg : Segments)
-      tgt.draw(seg);
-
-    //for (auto & tri : LitTriangles)
-    //  tgt.draw(tri, state);
-
-    //tgt.draw(IterationsAroundCircle);
-
-    //tgt.draw(InstructionsSprite);
-
-    //tgt.draw(StatusText);
-    //tgt.draw(SecondLightText);
-    //tgt.draw(ThirdLightText);
-    //tgt.draw(AttenuationRadius);
+      RenderLightToTexture(light, LightTextures[light->ID]);
+    }
   }
 
-  void LightSystem::AddLight(const sf::Vector2f &pt, float atten, sf::Color c) 
+  void LightSystem::SweepLight(std::shared_ptr<Light> light)
   {
-    Lights.push_back({});
-    Lights.back().Color = c;
-    Lights.back().Position = { pt.x, pt.y };
-    Lights.back().Radius = atten;
-    Lights.back().Circle.setOrigin(atten, atten);
-    Lights.back().Circle.setFillColor(sf::Color::Transparent);
-    Lights.back().Circle.setRadius(atten);
-    Lights.back().Circle.setPosition({ pt.x, pt.y });
-
-    //LightTextures.push_back(std::shared_ptr<sf::RenderTexture>(new sf::RenderTexture));
-    //LightTextures.back()->create(window_size_x, window_size_y);
-    //DrawLightTexture(LightTextures.size() - 1);
-    LitTrianglesTexture.create(800, 800);
-    LitTrianglesTexture.clear(sf::Color::Transparent);
-  }
-
-  void LightSystem::AdvanceSweep(sf::Vector2f LightSource, float attenuation)
-  {
-
     //first move the bounding box with us
-    float LeftSide = LightSource.x - attenuation;
-    float RightSide = LightSource.x + attenuation;
-    float TopSide = LightSource.y - attenuation;
-    float BottomSide = LightSource.y + attenuation;
+    float LeftSide = light->Position.x - light->Attenuation;
+    float RightSide = light->Position.x + light->Attenuation;
+    float TopSide = light->Position.y - light->Attenuation;
+    float BottomSide = light->Position.y + light->Attenuation;
 
     Edges[0].Start = { LeftSide, TopSide }; Edges[0].End = { RightSide, TopSide };
     Edges[1].Start = { RightSide, TopSide }; Edges[1].End = { RightSide, BottomSide };
@@ -171,58 +195,73 @@ namespace Engine
     static sf::Vector2f SEGMENT_STARTED;
     static sf::Vector2f SWEEP_VERY_BEGINNING;
 
-    if (theta >= 2 * PI) {
-      LastHitEdge = -1;
-      theta = 0;
-    }
+    LAST_SEGMENT_ENDED = sf::Vector2f(WindowSize.x / 2.f, WindowSize.y);
+    SEGMENT_STARTED = sf::Vector2f(WindowSize.x / 2.f, WindowSize.y);
+    SWEEP_VERY_BEGINNING = sf::Vector2f(WindowSize.x / 2.f, WindowSize.y);
 
-    dtheta = 2 * PI / breaks_around_circle;
+    THETA = 0;
+    LastHitEdge = -1;
+    int PIBY2OFFSET = (int)(breaks_around_circle / 4.f);
+
+    dTheta = 2 * PI / breaks_around_circle;
 
     std::chrono::system_clock::time_point Start = std::chrono::system_clock::now();
     sf::Vector2f Intersection;
 
     //So we don't have to redraw the light texture, figure out what the offset is from the center of the texture
     //and offset the texture coordinates by that much
-    sf::Vector2f CenterOfTexture = sf::Vector2f(LightTexture->getSize().x / 2.f, LightTexture->getSize().y / 2.f);
-    sf::Vector2f OffsetFromCenterOfTexture = LightSource - CenterOfTexture;
+    auto texSize = LightTextures[light->ID]->getSize();
+    sf::Vector2f CenterOfTexture = sf::Vector2f(texSize.x / 2.f, texSize.y / 2.f);
+    sf::Vector2f OffsetFromCenterOfTexture = light->Position - CenterOfTexture;
+    sf::Vector2f PreviousPoint = {};
 
-    sf::Time START;
-    while (theta <= 2 * PI) {
+    std::size_t index = 0;
+    LightTriangles.clear();
+    LightTriangles = sf::VertexArray(sf::Triangles);
+    THETA = 0.f;
 
-      theta += dtheta;
-      x_dir = std::sin(theta);
-      y_dir = std::cos(theta);
+    while (THETA <= 2 * PI) {
+
+#ifdef USE_LOOKUP_TABLE
+
+      y_dir = fastsin(THETA);
+      x_dir = fastcos(THETA);
+#else
+      y_dir = std::sin(THETA);
+      x_dir = std::cos(THETA);
+#endif
+
+      THETA += dTheta;
 
       sf::Vector2f dir{ x_dir, y_dir }; //should not need to normalize
 
-      sf::Vector2f furthest_point = LightSource;
-      furthest_point.x += x_dir * 800.f;
-      furthest_point.y += y_dir * 800.f;
+      sf::Vector2f furthest_point = light->Position;
+      furthest_point.x += x_dir * light->Attenuation;
+      furthest_point.y += y_dir * light->Attenuation;
       int edge_index = -1;
 
-      draw_hit_segment = false;
+      if (FindClosestEdge(light->Position, furthest_point, light->Attenuation, Intersection, edge_index)) {
 
-      if (FindClosestEdge(LightSource, furthest_point, attenuation, Intersection, edge_index)) {
-
+        //we just stepped off an edge
         if (LastHitEdge != edge_index) {
           if (LastHitEdge != -1) {
 
             //and the ending point for the last segment will be determined by one final ray cast, exactly in the direction of the point, but at the segment we just left
-            sf::Vector2f StoppingPoint = CastRay(LightSource, Intersection, Edges[LastHitEdge].Start, Edges[LastHitEdge].End);
+            sf::Vector2f StoppingPoint = CastRay(light->Position, Intersection, Edges[LastHitEdge].Start, Edges[LastHitEdge].End);
             //now that we have that, we can cap off 
 
-            LitTriangles.push_back(sf::VertexArray(sf::Triangles, 3));
-            LitTriangles.back()[0].position = sf::Vector2f({ LightSource.x, LightSource.y });
-            LitTriangles.back()[0].texCoords = sf::Vector2f({ LightSource.x, LightSource.y }) - OffsetFromCenterOfTexture;
-            //LitTriangles.back()[0].color = sf::Color::White;
+            sf::Vertex V1, V2, V3;
+            V1.position = light->Position;
+            V1.texCoords = light->Position - OffsetFromCenterOfTexture;
 
-            LitTriangles.back()[1].position = sf::Vector2f({ SEGMENT_STARTED.x, SEGMENT_STARTED.y });
-            LitTriangles.back()[1].texCoords = sf::Vector2f({ SEGMENT_STARTED.x, SEGMENT_STARTED.y }) - OffsetFromCenterOfTexture;
-            //LitTriangles.back()[1].color = sf::Color::White;
+            V2.position = SEGMENT_STARTED;
+            V2.texCoords = SEGMENT_STARTED - OffsetFromCenterOfTexture;
 
-            LitTriangles.back()[2].position = sf::Vector2f({ StoppingPoint.x, StoppingPoint.y });
-            LitTriangles.back()[2].texCoords = sf::Vector2f({ StoppingPoint.x, StoppingPoint.y }) - OffsetFromCenterOfTexture;
-            //LitTriangles.back()[2].color = sf::Color::White;
+            V3.position = StoppingPoint;
+            V3.texCoords = StoppingPoint - OffsetFromCenterOfTexture;
+            LightTriangles.append(V1);
+            LightTriangles.append(V2);
+            LightTriangles.append(V3);
 
             //we need the starting point for this segment to be the point on the edge closest to this intersection
             //for now, we will just use the intersecion point. This will be improved later
@@ -244,64 +283,55 @@ namespace Engine
       }
 
       LastHitEdge = edge_index;
-
-      DrawSegment[0].position = { LightSource.x, LightSource.y }; DrawSegment[0].color = sf::Color::White;
-      DrawSegment[1].position = { Intersection.x, Intersection.y }; DrawSegment[1].color = sf::Color::White;
     }
 
-    std::chrono::system_clock::time_point End = std::chrono::system_clock::now();
-
-    auto delta = End - Start;
-
     //on our very last iteration, we shouldn't have been able to cap off the last triangle. We need to do so
-    LitTriangles.push_back(sf::VertexArray(sf::Triangles, 3));
-    LitTriangles.back()[0].position = sf::Vector2f({ LightSource.x, LightSource.y });
-    LitTriangles.back()[0].texCoords = sf::Vector2f({ LightSource.x, LightSource.y }) - OffsetFromCenterOfTexture;
-    //LitTriangles.back()[0].color = sf::Color::White;
+    sf::Vertex V1, V2, V3;
+    V1.position = light->Position;
+    V1.texCoords = light->Position - OffsetFromCenterOfTexture;
 
-    LitTriangles.back()[1].position = sf::Vector2f({ SEGMENT_STARTED.x, SEGMENT_STARTED.y });
-    LitTriangles.back()[1].texCoords = sf::Vector2f({ SEGMENT_STARTED.x, SEGMENT_STARTED.y }) - OffsetFromCenterOfTexture;
-    //LitTriangles.back()[1].color = sf::Color::White;
+    V2.position = SEGMENT_STARTED;
+    V2.texCoords = SEGMENT_STARTED - OffsetFromCenterOfTexture;
 
-    LitTriangles.back()[2].position = sf::Vector2f({ SWEEP_VERY_BEGINNING.x, SWEEP_VERY_BEGINNING.y });
-    LitTriangles.back()[2].texCoords = sf::Vector2f({ SWEEP_VERY_BEGINNING.x, SWEEP_VERY_BEGINNING.y }) - OffsetFromCenterOfTexture;
-    //LitTriangles.back()[2].color = sf::Color::White;
+    V3.position = SWEEP_VERY_BEGINNING;
+    V3.texCoords = SWEEP_VERY_BEGINNING - OffsetFromCenterOfTexture;
+    LightTriangles.append(V1);
+    LightTriangles.append(V2);
+    LightTriangles.append(V3);
     LastHitEdge = -1;
   }
+
+  void LightSystem::DrawLightMap(std::shared_ptr<Light> light)
+  {
+    static sf::RenderStates state;
+
+    LightMaps[light->ID]->clear(sf::Color::Transparent);
+    LightMaps[light->ID]->draw(LightTriangles, &LightTextures[light->ID]->getTexture());
+    LightMaps[light->ID]->display();
+  }
+
 
   bool LightSystem::CanIntersectSegment(sf::Vector2f start, sf::Vector2f end, sf::Vector2f light_source, sf::Vector2f vector, float rad)
   {
     sf::Vector2f VecToStart = start - light_source;
     sf::Vector2f VecToEnd = end - light_source;
-
-    //if the points are outside the attenuation radius, then there's no possibility it could hit it
-    if ((VecToStart.x > rad && VecToStart.y > rad) || (VecToEnd.x > rad && VecToEnd.y > rad))
-      return false;
-
-    Normalize(VecToEnd);
     Normalize(VecToStart);
+    Normalize(VecToEnd);
 
     float _acrossb = Cross2D(VecToStart, vector);
     float _acrossc = Cross2D(VecToStart, VecToEnd);
     float _ccrossb = Cross2D(VecToEnd, vector);
     float _ccrossa = Cross2D(VecToEnd, VecToStart);
 
-    if ((_acrossb * _acrossc > 0) && (_ccrossb * _ccrossa > 0)) {
-      return true;
-    }
-
-    return false;
+    return ((_acrossb * _acrossc >= 0) && (_ccrossa * _ccrossb >= 0));
   }
 
-  bool LightSystem::FindClosestEdge(sf::Vector2f LightSource, sf::Vector2f Point, float Attenuation, sf::Vector2f &Intersection, int &edge_index)
+  bool LightSystem::FindClosestEdge(sf::Vector2f LightSource, sf::Vector2f Point, float Attenuation, sf::Vector2f & Intersection, int &edge_index)
   {
     sf::Vector2f VecToPoint;
     sf::Vector2f VecToStart;
     sf::Vector2f VecToEnd;
-
-    sf::Vector2f VecToFakeStart;
-    sf::Vector2f VecToFakeEnd;
-
+    
     float Distance = FLOAT_MAX;
     float MinDistance = FLOAT_MAX;
     bool DidIntersect = false;
@@ -312,7 +342,7 @@ namespace Engine
     std::size_t index = 0;
     for (auto & edge : Edges) {
 
-      if (CanIntersectSegment(edge.Start, edge.End, LightSource, Point - LightSource, Attenuation)) {
+      if (CanIntersectSegment(edge.Start, edge.End, LightSource, Point, Attenuation)) {
         MaybeClosestEdge = CastRay(LightSource, Point, edge.Start, edge.End);
 
         if ((Distance = DistanceBetween(LightSource, MaybeClosestEdge)) < MinDistance) {
@@ -321,8 +351,8 @@ namespace Engine
           edge_index = index;
           DidIntersect = true;
         }
-
       }
+
       index++;
     }
 
@@ -333,14 +363,49 @@ namespace Engine
     return DidIntersect;
   }
 
-  void LightSystem::DrawLightTexture(std::size_t which) 
-  {
-    LightShader.setParameter("color", Lights[which].Color);
-    LightShader.setParameter("center", Lights[which].Position);
-    LightShader.setParameter("radius", Lights[which].Radius);
-    LightShader.setParameter("expand", Lights[which].Expand);
-    LightShader.setParameter("windowHeight", window_size_y);
 
+  void LightSystem::DrawLightTexture(std::size_t which)
+  {
+    sf::Color color = Lights[which]->Color;
+    sf::Vector2f Center = { WindowSize.x / 2.f, WindowSize.y / 2.f };
+    float rad = Lights[which]->Radius;
+    float exp = Lights[which]->Expand;
+
+    sf::CircleShape circle;
+    circle.setRadius(rad);
+    circle.setOrigin(circle.getRadius(), circle.getRadius());
+    circle.setPosition(Center);
+    circle.setFillColor(sf::Color::Transparent);
+
+    LightShader->setUniform("color", sf::Glsl::Vec4(color.r, color.g, color.b, color.a));
+    LightShader->setUniform("center", Center);
+    LightShader->setUniform("radius", rad);
+    LightShader->setUniform("expand", exp);
+    LightShader->setUniform("windowHeight", (float)WindowSize.y);
+
+    LightTextures[which]->clear();
+    LightTextures[which]->draw(circle, LightShader.get());
+    LightTextures[which]->display();
+  }
+
+  void Normalize(sf::Vector2f & v)
+  {
+    float mag = std::sqrt((v.x * v.x) + (v.y * v.y));
+    v.x /= mag;
+    v.y /= mag;
+  }
+
+  float Cross2D(const sf::Vector2f & v1, const sf::Vector2f & v2)
+  {
+    return ((v1.x * v2.y) - (v1.y * v2.x));
+  }
+
+  float DistanceBetween(const sf::Vector2f & v1, const sf::Vector2f & v2)
+  {
+    float x = v1.x - v2.x;
+    float y = v1.y - v2.y;
+
+    return (std::sqrt((x * x) + (y * y)));
   }
 
 }
