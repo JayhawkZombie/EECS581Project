@@ -21,6 +21,17 @@ namespace Engine
   {
 
   }
+//Starting the chaiscript bindings, need to figure out which functions need scripted
+  void LevelObject::BindScriptMethods(chaiscript::ModulePtr mptr)
+  {
+	  chaiscript::utility::add_class<Engine::LevelObject>(
+		  *mptr,
+		  "LevelObject",
+		  { 
+			  chaiscript::constructor<Engine::LevelObject()>() },
+			  { { chaiscript::fun(static_cast<void(LevelObject::*)(void)>(&LevelObject::OnKilled)), "OnKilled" } }
+	  );
+  }
 
   void LevelObject::TickUpdate(const double &delta)
   {
