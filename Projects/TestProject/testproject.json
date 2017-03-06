@@ -401,27 +401,15 @@
         }
       ],
 
-      "Objects": {
-        "TestBall": {
-          "IsGeneric": true,
-          "Type": "BasicObject",
-          "DefaultPosition": {
-            "x": 0,
-            "y": 0
-          },
-          "DefaultSize": {
-            "x": 50,
-            "y": 50
-          },
-          "IsTextured": false,
-          "IsCollisionEnabled": true,
-          "IsShaderEnabled": false,
-          "Mesh": {
-            "Type": "Ball",
-            "bDoRenderOutline": "DebugOnly"
-          }
+      "Actors": [
+        {
+          "Name": "Whatever",
+          "Script": "Whatever.chai",
+          "AnimationMap": [
+
+          ]
         }
-      },
+      ],
 
       "Levels": [
         {

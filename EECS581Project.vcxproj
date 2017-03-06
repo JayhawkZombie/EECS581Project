@@ -38,7 +38,7 @@
     <ProjectGuid>{87F72D0D-0935-4DF9-A2E4-8DF5A21C5F18}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EECS581Project</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -339,12 +339,13 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Scripting\ScriptComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
     <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Physics\Mesh.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\Collider.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\Alert.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\PopupObject.h" />
@@ -502,6 +503,26 @@
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml_iterators.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml_print.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml_utils.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\BitmapFont.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\BitmapText.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Common.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\ConsoleScreen.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\ConsoleScreenOld.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Crosshair.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Exception.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\GallerySprite.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Line.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\NinePatch.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\PaletteEnums.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\PieChart.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\ProgressBar.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Ring.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\SpinningCard.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Spline.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Sprite3d.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\Starfield.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\SelbaWard\TileMap.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Armor.cpp" />
@@ -683,6 +704,22 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\segHit.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\vec2d.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\waveSeg.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\BitmapFont.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\BitmapText.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\ConsoleScreen.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\ConsoleScreenOld.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\Crosshair.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\GallerySprite.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\Line.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\NinePatch.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\PieChart.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\ProgressBar.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\Ring.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\SpinningCard.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\Spline.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\Sprite3d.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\Starfield.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\SelbaWard\TileMap.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\UnitTesting\Catch.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -755,6 +792,7 @@
     </None>
     <None Include="SFEngine\Source\LightingRadialShader.fsh" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
+    <None Include="SFEngine\ThirdParty\SelbaWard\TileMap.inl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SFEngine\Samples\Levels\Graveyard\Graveyard.xml" />
