@@ -39,6 +39,52 @@ BattleActor* Party::removeFighter(int index)
 	return fighters[index];
 }
 
+BattleActor* Party::getActor(int index)
+{
+	if (index < 0||index > 3)
+	{
+		return nullptr;
+	}
+	else
+	{
+		return fighters[index];
+	}
+
+}
+
+float Party::levelAverage()
+{
+	int size = 0;
+	int total = 0;
+	//if(!(fighters[0] && fighters[1] && fighters[2] && fighters[3]))
+	if (fighters[0])
+	{
+		total += fighters[0]->getLevel();
+		size++;
+	}
+	if (fighters[1])
+	{
+		total += fighters[1]->getLevel();
+		size++;
+	}
+	if (fighters[2])
+	{
+		total += fighters[2]->getLevel();
+	}
+	if (fighters[3])
+	{
+		total += fighters[3]->getLevel();
+	}
+	if (total == 0 ||size ==0)
+	{
+		return 0;
+	}
+	else
+	{
+		return(total / size);
+	}
+}
+
 bool Party::hasLost()
 {
 	for(int i = 0; i < 4; i++)

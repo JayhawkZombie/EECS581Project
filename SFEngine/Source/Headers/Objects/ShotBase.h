@@ -16,14 +16,6 @@ namespace Engine
     virtual void SerializeIn(std::ifstream &in) override;
     virtual void SetPosition(const sf::Vector2f &pos);
 
-    virtual PhysicsEngineBaseMeshType* GetMesh() const {
-      return ProjectileBase::GetMesh();
-    }
-
-    virtual PhysicsEngineSegmentType* GetSegments() const {
-      return ProjectileBase::GetSegments();
-    }
-
     virtual void UpdateMesh();
     virtual void UpdateSegments();
 

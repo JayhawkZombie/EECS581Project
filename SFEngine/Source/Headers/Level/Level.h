@@ -119,7 +119,7 @@ namespace Engine
     std::vector<BaseMeshPtr> TestObjects;
     std::vector<SegmentPtr> Segments;
     std::vector<WaveSegmentPtr> Waves;
-
+	std::vector<std::shared_ptr<LevelObject>> Objects;
     sf::RectangleShape LevelRectangle; //to draw the scene to
     std::shared_ptr<sf::RenderTexture> SceneTarget;
     std::map<std::string, std::shared_ptr<sf::Texture>> Textures;

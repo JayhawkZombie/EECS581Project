@@ -112,7 +112,7 @@ namespace Engine
 
   void GenericActor::OnShutDown()
   {
-
+	  
   }
 
   void GenericActor::Render(std::shared_ptr<sf::RenderTarget> Target)
@@ -123,11 +123,9 @@ namespace Engine
 
   void GenericActor::TickUpdate(const double &delta)
   {
-    if (CurrentAnimation) {
-      CurrentAnimation->TickUpdate(delta);
-      CurrentAnimation->SetPosition(Position);
-      CurrentAnimation->SetSize(Size);
-    }
+	  Position = { ObjectMesh->pos.x - MeshRadius, ObjectMesh->pos.y - MeshRadius };
+	  Velocity = { ObjectMesh->v.x, ObjectMesh->v.y };
+	  Sprite.setPosition(Position);
   }
 
   bool GenericActor::WantsInputEvent(const Events &evnt) const
@@ -138,7 +136,8 @@ namespace Engine
   void GenericActor::SetActorPosition(const sf::Vector2f &pos)
   {
     Position = pos;
-
+	ObjectMesh->setPosition({ pos.x, pos.y });
+	Sprite.setPosition(pos);
   }
 
   void GenericActor::SetActorPosition(float x, float y)
@@ -162,9 +161,13 @@ namespace Engine
     Acceleration = acc;
   }
 
-  void GenericActor::GenerateActorMesh()
+  void GenericActor::GenerateActorMesh(const std::string & meshtype, const sf::Vector2f & pos)
   {
-    CollisionMesh = BuildBallMesh('B', Position, Velocity, static_cast<int>(std::ceil(Size.y / 2.f)), 1, 1, sf::Color::Transparent);
+	//Polygon Mesh parameters
+	//unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color
+    //CollisionMesh = BuildBallMesh('B', Position, Velocity, static_cast<int>(std::ceil(Size.y / 2.f)), 1, 1, sf::Color::Transparent);
+	  ObjectMesh = BuildPolygonMesh(4, 50, 3.141592653 / 4.f, { 100, 150 }, Velocity, 0.5f, 0.01f, sf::Color::White);
+	  MeshRadius = 50.f;
   }
 
   const sf::Vector2f& GenericActor::GetActorPosition() const
