@@ -18,6 +18,10 @@ namespace Engine
     for (auto & seg : TestSegments)
       seg->draw(*Target);
 
+	for (auto & object : Objects) {
+		Target->draw(object->Sprite);
+	}
+
 #ifdef WITH_EDITOR
     ShowSceneGraph();
     ShowAssetGraph();

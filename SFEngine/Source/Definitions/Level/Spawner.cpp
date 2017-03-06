@@ -214,8 +214,60 @@ namespace Engine
       //particle spawner logic
     }
 
-    if (ImGui::Selectable("Entities <none>")) {
-      //entity spawner logic
+    if (ImGui::CollapsingHeader("Entities")) {
+
+		static sf::Vector2f Position = { 0, 0 };
+
+		ImGui::Indent();
+		if (ImGui::CollapsingHeader("Actors")) {
+			//entity spawner logic
+			ImGui::Separator();
+			ImGui::Indent();
+
+			ImGui::Text("Position and Size");
+			if (ImGui::InputFloat("PosX", &Position.x, 5.f, 15.f)) {
+				if (Position.x < 0) Position.x = 0;
+			}
+			if (ImGui::InputFloat("PoxY", &Position.y, 5.f, 15.f)) {
+				if (Position.y < 0) Position.y = 0;
+			}
+			if (ImGui::InputInt("Radius", &radius, 1, 5)) {
+				if (radius < 0) radius = 0;
+			}
+			ImGui::Separator();
+
+			ImGui::Text("Velocity");
+			ImGui::InputFloat("x", &Vel.x, 1.f, 5.f);
+			ImGui::InputFloat("y", &Vel.y, 1.f, 5.f);
+			ImGui::Separator();
+			ImGui::Text("Color");
+			static float R = 0, G = 0, B = 0, A = 0;
+			if (ImGui::DragFloat("Red", &R, 0.01f, 0.f, 1.f)) {
+				color.r = static_cast<sf::Uint8>(std::floor(R * 255));
+			}
+			if (ImGui::DragFloat("Green", &G, 0.01f, 0.f, 1.f)) {
+				color.g = static_cast<sf::Uint8>(std::floor(G * 255));
+			}
+			if (ImGui::DragFloat("Blue", &B, 0.01f, 0.0f, 1.0f)) {
+				color.b = static_cast<sf::Uint8>(std::floor(B * 255));
+			}
+			ImGui::Separator();
+			if (ImGui::Button("Spawn")) {
+				ImGui::SameLine();
+				auto actor = std::make_shared<GenericActor>();
+				actor->GenerateActorMesh("Polygon", Position);
+				actor->SpriteTexture = Textures["ActorGuy"];
+				actor->Sprite.setTexture(*actor->SpriteTexture);
+				actor->Sprite.setScale(100 / 16.f, 100 / 16.f);
+				actor->SetPosition(Position);
+
+				SpawnActor(actor, Position);
+			}
+
+			ImGui::Unindent();
+		}
+
+		ImGui::Unindent();
     }
 
     //if (ImGui::InputFloat("x Coordinate", &Pos.x, 1.f, 5.f)) {

@@ -6,6 +6,8 @@
 #include "../Physics/PhysicsState.h"
 #include "../Animation/Animation.h"
 
+#include <Thor\Animations.hpp>
+
 namespace Engine
 {
 
@@ -37,7 +39,7 @@ namespace Engine
     virtual void SetActorSize(const sf::Vector2f &size);
     virtual void SetActorVelocity(const sf::Vector2f &vel);
     virtual void SetActorAcceleration(const sf::Vector2f &acc);
-    virtual void GenerateActorMesh();
+    virtual void GenerateActorMesh(const std::string &meshtype, const sf::Vector2f &pos);
 
     virtual const sf::Vector2f& GetActorPosition() const;
     virtual const sf::Vector2f& GetActorSize() const;
@@ -59,8 +61,6 @@ namespace Engine
     sf::Vector2f Acceleration;
     sf::Vector2f Position;
     sf::Vector2f Size;
-    sf::Sprite Sprite;
-    std::shared_ptr<PhysicsEngineBaseMeshType> CollisionMesh;
     bool DrawCollisionMesh = true;
 
     Animation *CurrentAnimation = nullptr;
@@ -68,8 +68,6 @@ namespace Engine
     float WindowHeight;
 
     sf::RectangleShape ActorRectangle;
-
-    std::shared_ptr<sf::Texture> SpriteTexture;
     
     void ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex);
   };

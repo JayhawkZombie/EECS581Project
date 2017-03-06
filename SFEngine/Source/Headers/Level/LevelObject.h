@@ -12,6 +12,7 @@ namespace Engine
 {
   class GenericActor;
   class Player;
+  class Level;
 
   enum class OverlapAction
   {
@@ -23,7 +24,7 @@ namespace Engine
   class LevelObject : public BaseEngineInterface
   {
   public:
-
+	friend class Level;
     LevelObject();
     LevelObject(const LevelObject &obj);
     virtual ~LevelObject();
@@ -37,12 +38,12 @@ namespace Engine
     virtual void SerializeIn(std::ifstream &in) override;
     virtual void SetPosition(const sf::Vector2f &pos);
 
-    virtual PhysicsEngineBaseMeshType* GetMesh() const {
-      return ObjectMesh.get();
+    virtual std::shared_ptr<PhysicsEngineBaseMeshType> GetMesh() const {
+      return ObjectMesh;
     }
 
-    virtual PhysicsEngineSegmentType* GetSegments() const {
-      return ObjectSegments.get();
+    virtual std::shared_ptr<PhysicsEngineSegmentType> GetSegments() const {
+      return ObjectSegments;
     }
 
     virtual void UpdateMesh();
@@ -64,13 +65,14 @@ namespace Engine
 
     std::shared_ptr<PhysicsEngineBaseMeshType> ObjectMesh;
     std::shared_ptr<PhysicsEngineSegmentType> ObjectSegments;
-
+	std::shared_ptr<sf::Texture> SpriteTexture;
+	sf::Sprite Sprite;
     std::shared_ptr<sf::Texture> Texture;
     sf::IntRect TextureRect;
     sf::RectangleShape ObjectRect;
     //Objects can be animated
     //std::map<std::string, std::shared_ptr<Animation>> Animations;
-
+	float MeshRadius = 0.f;
     bool AllowsActorOverlap; //if false, then actors will never be allowed to cross over this object
     bool RenderOutlined;
     bool TestingCollisions;

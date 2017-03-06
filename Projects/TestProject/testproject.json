@@ -35,7 +35,11 @@
         {
           "Name": "RotatingBoxesAnim",
           "Path": "/Textures/RotatingBoxesAnim.png"
-        }
+        },
+		{
+			"Name": "ActorGuy",
+			"Path": "/Textures/GuyForwards.png"
+		}
       ],
 
       "Audio": [

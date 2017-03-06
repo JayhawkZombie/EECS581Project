@@ -19,7 +19,9 @@ namespace Engine
       cumulative = 0.f;
       UpdatePhysics(TestObjects, TestSegments);
     }
-
+	for (auto & object : Objects) {
+		object->TickUpdate(delta);
+	}
   }
 
 }
