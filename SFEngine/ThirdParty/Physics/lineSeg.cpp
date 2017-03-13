@@ -13,6 +13,7 @@ void lineSeg::init(std::istream& fin)
   //    fin >> pos.x >> pos.y;
   segHit::init(fin);
   fin >> L.x >> L.y;
+  siz = { std::abs(L.x - pos.x), std::abs(L.y - pos.y) };
   L -= pos;// new
            //    fin >> r >> g >> b;
            //    vtx[0].color.r = r; vtx[0].color.g = g; vtx[0].color.b = b;

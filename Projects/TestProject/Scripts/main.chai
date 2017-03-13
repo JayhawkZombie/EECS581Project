@@ -1,9 +1,1 @@
 use("Player.chai")
-
-var p = Player("Player name")
-add_global(p, "testplayer")
-
-def GameStart()
-{
-  testplayer.GameStart()
-}

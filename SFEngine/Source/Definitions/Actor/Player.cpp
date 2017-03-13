@@ -102,4 +102,18 @@ namespace Engine
     
   }
 
+  void  Player::AttachComponent(std::shared_ptr<CollisionComponent> Component)
+  {
+
+  }
+
+  void  Player::AttachComponent(std::shared_ptr<ScriptComponent> Component)
+  {
+
+  }
+
+  void  Player::AttachComponent(std::shared_ptr<InteractionComponent> Component)
+  {
+
+  }
 }

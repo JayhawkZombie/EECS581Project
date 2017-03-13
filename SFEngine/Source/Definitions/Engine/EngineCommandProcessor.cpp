@@ -24,30 +24,30 @@ namespace Engine
         "Render EnableShaders" - enable shader
         "Render DisableShaders" - disable shader
   */
-  void SFEngine::CommandProcessor(const std::string &command)
-  {
-    //first see if there was a tag
-    std::cerr << "Command received: " << command << std::endl;
-    try
-    {
-      ScriptEngine->eval(command);
-    }
-    catch (chaiscript::exception::eval_error &err)
-    {    
-      EngineScriptConsole->IssueResponse("Eval error : " + std::string(err.what()));
-    }
-  }
+  //void SFEngine::CommandProcessor(const std::string &command)
+  //{
+  //  //first see if there was a tag
+  //  std::cerr << "Command received: " << command << std::endl;
+  //  try
+  //  {
+  //    ScriptEngine->eval(command);
+  //  }
+  //  catch (chaiscript::exception::eval_error &err)
+  //  {    
+  //    EngineScriptConsole->IssueResponse("Eval error : " + std::string(err.what()));
+  //  }
+  //}
 
-  void SFEngine::ProcessRenderCommand(const std::string & command)
-  {
-  }
+  //void SFEngine::ProcessRenderCommand(const std::string & command)
+  //{
+  //}
 
-  void SFEngine::ProcessImmediateCommand(const std::string & command)
-  {
-  }
+  //void SFEngine::ProcessImmediateCommand(const std::string & command)
+  //{
+  //}
 
-  void SFEngine::ProcessEventCommand(const std::string & command)
-  {
-  }
+  //void SFEngine::ProcessEventCommand(const std::string & command)
+  //{
+  //}
 
 }

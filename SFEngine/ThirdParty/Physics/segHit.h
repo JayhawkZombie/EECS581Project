@@ -13,6 +13,7 @@ class segHit
 {
 public:
   vec2d pos;
+  vec2d siz;
   bool testEnd1 = false, testEnd2 = false;
 
   float Cf = 0.5f;// friction coeff

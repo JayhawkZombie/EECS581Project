@@ -1,12 +1,7 @@
 #ifndef SFENGINE_ACTOR_H
 #define SFENGINE_ACTOR_H
 
-#include "../Engine/BaseEngineInterface.h"
 #include "../Level/LevelObject.h"
-#include "../Physics/PhysicsState.h"
-#include "../Animation/Animation.h"
-
-#include <Thor\Animations.hpp>
 
 namespace Engine
 {
@@ -40,6 +35,7 @@ namespace Engine
     virtual void SetActorVelocity(const sf::Vector2f &vel);
     virtual void SetActorAcceleration(const sf::Vector2f &acc);
     virtual void GenerateActorMesh(const std::string &meshtype, const sf::Vector2f &pos);
+    void MoveObject(const sf::Vector2f &delta);
 
     virtual const sf::Vector2f& GetActorPosition() const;
     virtual const sf::Vector2f& GetActorSize() const;
@@ -55,12 +51,12 @@ namespace Engine
     void Respawn(const sf::Vector2f &Position);
     void Kill();
 
+    virtual void AttachComponent(std::shared_ptr<CollisionComponent> Component);
+    virtual void AttachComponent(std::shared_ptr<ScriptComponent> Component);
+    virtual void AttachComponent(std::shared_ptr<InteractionComponent> Component);
+
   protected:
     void __HandleKeyPress(const sf::Keyboard::Key &key);
-    sf::Vector2f Velocity;
-    sf::Vector2f Acceleration;
-    sf::Vector2f Position;
-    sf::Vector2f Size;
     bool DrawCollisionMesh = true;
 
     Animation *CurrentAnimation = nullptr;

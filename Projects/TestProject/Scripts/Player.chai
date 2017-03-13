@@ -4,10 +4,15 @@ class Player
   var Name
   var health
   var stamina
-
-  def Player(name)
+  var Actor
+  var ID
+  
+  def Player(id)
   {
-    this.Name = name
+    this.ID = id
+    this.Actor = GetObjectByID(this.ID)
+    print("Player created!")
+    print("Player ID : " + this.ID)
   }
 
   def GameStart()
@@ -15,11 +20,26 @@ class Player
     print("Player " + this.Name + " starting")
   }
 
-}
+  def Update()
+  {
+    if (IsKeyDown(Key_Left))
+    {
+      GetObjectByID(this.ID).MoveObject(Vector2f(-2, 0))
+    }
+    if (IsKeyDown(Key_Right))
+    {
+      GetObjectByID(this.ID).MoveObject(Vector2f(2, 0))
+    }
+    if (IsKeyDown(Key_Up))
+    {
+      GetObjectByID(this.ID).MoveObject(Vector2f(0, -2))
+    }
+    if (IsKeyDown(Key_Down))
+    {
+      GetObjectByID(this.ID).MoveObject(Vector2f(0, 2))
+    }
+  }
 
-def Player::Update()
-{
-  
 }
 
 def Player::Killed()

@@ -2,9 +2,7 @@
 #define SFENGINE_LEVEL_TILE_H
 
 
-#include "../Level/LevelObject.h"
 #include "../Actor/Player.h"
-#include "../Lights/GenericLightSource.h"
 #include "../Lights/GlobalLightSource.h"
 #include "../Utils/SpriteSheet.h"
 

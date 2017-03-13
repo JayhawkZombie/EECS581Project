@@ -1,4 +1,7 @@
 #include "../../Headers/Engine/Engine.h"
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 namespace Engine

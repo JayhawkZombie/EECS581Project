@@ -1,6 +1,0 @@
-#ifndef SFENGINE_SCRIPT_COMPONENT_H
-#define SFENGINE_SCRIPT_COMPONENT_H
-
-
-
-#endif

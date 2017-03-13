@@ -13,15 +13,33 @@ namespace Engine
     for (auto & anim : EditorGraphAnimations)
       anim.second->TickUpdate(delta);
 #endif
-
+    TileMap.update(lvlData, 20);
     //Only want to update the physics 60 times per second, since it does not time itself ((((UGH))))
-    if (cumulative > updateInterval && DoUpdatePhysics && TestObjects.size() > 0 && TestSegments.size() > 0) {
+    
+    for (auto & obj : Objects)
+      obj->TickUpdate(delta);
+
+    if (cumulative > updateInterval) {
+
+      if (DoUpdatePhysics && TestObjects.size() > 0 && TestSegments.size() > 0)
+        UpdatePhysics(TestObjects, TestSegments);
+
+      for (auto & obj : Objects)
+        obj->PhysicsUpdate();
+
       cumulative = 0.f;
-      UpdatePhysics(TestObjects, TestSegments);
     }
-	for (auto & object : Objects) {
-		object->TickUpdate(delta);
-	}
+
+    //if (cumulative > updateInterval && DoUpdatePhysics && TestObjects.size() > 0 && TestSegments.size() > 0) {
+    //  
+    //  UpdatePhysics(TestObjects, TestSegments);
+    //}
+    //if (cumulative > updateInterval) {
+    //  for (auto & object : Objects) {
+    //    object->TickUpdate(delta);
+    //  }
+    //  
+    //}
   }
 
 }

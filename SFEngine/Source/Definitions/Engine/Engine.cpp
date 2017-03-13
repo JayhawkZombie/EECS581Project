@@ -23,13 +23,9 @@ namespace Engine
 
   }
 
-#ifdef WITH_EDITOR
-
-  void SFEngine::AddUIElement(std::shared_ptr<Engine::UI::BaseUIElement> element)
+  bool SFEngine::IsKeyLeftDown()
   {
-    
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
   }
-
-#endif
 
 }

@@ -10,18 +10,10 @@
 #include "EngineConfiguration.h"
 #include "ReturnValues.h"
 #include "../Events/EventHandler.h"
-#include "../Animation/Animation.h"
 #include "../Level/Level.h"
 #include "../Logging/Logger.h"
-#include "../Utils/AssetConverters.h" 
 #include "../Globals/GlobalHooks.h"
-#include "Editor.h"
 #include "../Events/UserEvent.h"
-#include "../../../../Game/GameMain.h"
-#include "ScriptConsole.h"
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 
 #include <TGUI/TGUI.hpp>
@@ -42,13 +34,6 @@ namespace Engine
     UINT32 Startup();
     void HandleEngineCrash();
 
-#ifdef WITH_EDITOR
-    //used for editor UI
-    void AddUIElement(std::shared_ptr<Engine::UI::BaseUIElement> element);
-    Editor GameEditor;
-    GameMain TestGame;
-#endif
-
     unsigned int GetCurrentFrameRate() {
       return FrameRate;
     }
@@ -68,11 +53,9 @@ namespace Engine
     void ProcessRenderCommand(const std::string &command);
     void ProcessImmediateCommand(const std::string &command);
     void ProcessEventCommand(const std::string &command);
-    std::shared_ptr<ScriptConsole> EngineScriptConsole;
 
-    //UI event objects
-    InputEvent UIInputEvent;
-    FocusChangeEvent UIFocusChangeEvent;
+    //event objects
+    UserEvent UEvent;
 
     bool IsFramerateLimited = false;
     unsigned int FrameRate;
@@ -84,9 +67,7 @@ namespace Engine
     UINT32 Shutdown();
     UINT32 GameLoop();
 
-    Animation LoadingAnimation[6];
-
-	  Player TestPlayer;
+    static bool IsKeyLeftDown();
 
     //chaiscript::ChaiScript *ScriptEngine;
     chaiscript::ModulePtr EngineModule;

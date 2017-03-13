@@ -98,7 +98,7 @@ void expandPolygon::init(std::istream& fin)
   fin >> m >> Cr >> growSpeed;// new
   unsigned int rd, gn, bu;
   fin >> rd >> gn >> bu;
-
+  siz = { rFull, rFull };
   ptVec.reserve(nSides);
   vtxVec.reserve(nSides + 1);
   r = growSpeed;

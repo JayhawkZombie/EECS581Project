@@ -1,15 +1,16 @@
 #include "../../../ThirdParty/PhysicsEngine.h"
 #include "../../Headers/Exceptions/Exceptions.h"
+
+namespace
+{
+  vec2d gravity;
+}
+
 namespace Engine
 {
 
-  namespace
-  {
-    vec2d gravity;
-  }
-
   template<typename T>
-  void InsertIntoStream(const T &Data, std::stringstream &data_stream, bool newline = false)
+  inline void InsertIntoStream(const T &Data, std::stringstream &data_stream, bool newline = false)
   {
     if (data_stream.fail())
       throw StreamException({ ExceptionCause::StreamFailure }, EXCEPTION_MESSAGE("StringStream is in a fail state"));
@@ -40,10 +41,6 @@ namespace Engine
       //Get the formatted data and try to use it to create a ball
       data_stream = GetFormattedBallConstructionData(BallType, InitialPosition, InitialVelocity, Radius, Mass, CoeffecientOfRest, Color);
 
-      //std::cerr << "--- Ball Mesh Data ---" << std::endl;
-      //std::cerr << data_stream.str() << std::endl;
-      //std::cerr << "----------------------" << std::endl;
-
       if (BallType == 'G')
         return (std::make_shared<ball_go>(data_stream));
       else
@@ -63,10 +60,6 @@ namespace Engine
     try
     {
       std::stringstream data = GetFormattedPolyConstructionData(num_sides, radius, init_rotation, InitialPosition, InitialVelocity, mass, CoeffOfRest, Color);
-
-      //std::cerr << "--- Poly Mesh Data ---" << std::endl;
-      //std::cerr << data.str() << std::endl;
-      //std::cerr << "----------------------" << std::endl;
       return (std::make_shared<regPolygon>(data));
     }
     catch (EngineRuntimeError &err)
@@ -87,7 +80,7 @@ namespace Engine
       throw;
     }
   }
-  WaveSegmentPtr BuildWaveSegment(char type, const sf::Vector2i & TopLeftCorner, const sf::Vector2i & BottomRightCorner, float radius, bool IsHard, unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight, unsigned int ampLeft, float waveLenLeft, float rFreqLeft, float elev, float airDen, float depth, float fluidDen)
+  WaveSegmentPtr BuildWaveSegment(char type, const sf::Vector2i & TopLeftCorner, const sf::Vector2i & BottomRightCorner, float radius, bool IsHard, unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight, float ampLeft, float waveLenLeft, float rFreqLeft, float elev, float airDen, float depth, float fluidDen)
   {
     try
     {
@@ -101,7 +94,7 @@ namespace Engine
   }
   std::stringstream GetFormattedWaveSegmentConstructionData(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius, bool IsHard,
                                                             unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight,
-                                                            unsigned int ampLeft, float waveLenLeft, float rFreqLeft,
+                                                            float ampLeft, float waveLenLeft, float rFreqLeft,
                                                             float elev, float airDen, float depth, float fluidDen)
   {
     std::stringstream data;
@@ -113,8 +106,6 @@ namespace Engine
       std::cerr << NumWavePts << " " << ampRight << " " << waveLenRight << " " << rFreqRight << " " << ampLeft << " " << waveLenLeft << " " << rFreqLeft << " " << std::endl;
       std::cerr << elev << " " << airDen << " " << depth << " " << fluidDen << std::endl;
 
-      //InsertIntoStream<char>(type, data);
-      //InsertIntoStream<int>(0, data);
       InsertIntoStream<int>(TopLeftCorner.x, data);
       InsertIntoStream<int>(TopLeftCorner.y, data);
       InsertIntoStream<int>(BottomRightCorner.x, data);
@@ -152,8 +143,6 @@ namespace Engine
 
     try
     {
-      //data << BallType << std::endl;
-      //InsertIntoStream<char>(BallType, data, true);
       InsertIntoStream<int>((int)(std::floor(InitialPosition.x)), data);
       InsertIntoStream<int>((int)(std::floor(InitialPosition.y)), data);
       InsertIntoStream<int>((int)(std::floor(InitialVelocity.x)), data);
@@ -274,7 +263,7 @@ namespace Engine
     PhysicsEngineBaseMeshType::wdwCf = 0.f;
   }
 
-  void SetGravity(vec2d *Gravity)
+  void SetGravity(::vec2d *Gravity)
   {
     gravity = *Gravity;
   }

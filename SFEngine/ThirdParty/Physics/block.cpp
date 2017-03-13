@@ -17,7 +17,7 @@ void block::init(std::istream& fin)// from file data
   fin >> m >> Cr;// new
   unsigned int rd, gn, bu;
   fin >> rd >> gn >> bu;
-
+  siz = { W, H };
   ptVec.reserve(nSides);
   vtxVec.reserve(nSides + 1);
   /*   float ang1 = atanf(W/H);

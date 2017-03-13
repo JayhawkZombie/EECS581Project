@@ -26,6 +26,7 @@ void ball::init(std::istream& fin)// from file data
   img.setPosition(pos.x, pos.y);
   img.setFillColor(sf::Color(red, g, b));
   img.setOrigin(r, r);
+  siz = { r, r };
   //    std::cout << "ball.v = " << v.mag() << '\n';
 }
 

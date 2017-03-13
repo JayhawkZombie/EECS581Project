@@ -1,6 +1,9 @@
 #include "../../Headers/Actor/Actor.h"
 #include <memory>
 
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 namespace Engine
 {
 
@@ -56,13 +59,28 @@ namespace Engine
       { chaiscript::fun(static_cast<void(GenericActor::*)(const std::string &)>(&GenericActor::SetAnimation)), "SetAnimation" },
       { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorAcceleration)), "SetAcceleration" },
       { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::SetActorVelocity)), "SetVelocity" },
-      { chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" }
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const double &)>(&GenericActor::TickUpdate)), "TickUpdate" },
+      { chaiscript::fun(static_cast<void(GenericActor::*)(const sf::Vector2f &)>(&GenericActor::MoveObject)), "MoveObject" }
     }
     );
   }
 
   GenericActor::GenericActor()
   {
+    try
+    {
+      ItemID = std::to_string(GenerateID());
+      ItemID = "Player" + ItemID;
+      std::cerr << "ActorID : " << ItemID << std::endl;
+
+      ScriptEngine->eval("var " + ItemID + " = Player(\"" + ItemID + "\")");
+    }
+    catch (std::exception &err)
+    {
+      std::cerr << "Exception in GenericActor constructor" << std::endl;
+
+      throw;
+    }
   }
 
   GenericActor::GenericActor(const GenericActor &actor)
@@ -123,9 +141,14 @@ namespace Engine
 
   void GenericActor::TickUpdate(const double &delta)
   {
-	  Position = { ObjectMesh->pos.x - MeshRadius, ObjectMesh->pos.y - MeshRadius };
-	  Velocity = { ObjectMesh->v.x, ObjectMesh->v.y };
-	  Sprite.setPosition(Position);
+    try
+    {
+      ScriptEngine->eval(ItemID + ".Update()");
+    }
+    catch (chaiscript::exception::eval_error &everr)
+    {
+      std::cerr << "Script eval error: " << everr.what() << std::endl;
+    }
   }
 
   bool GenericActor::WantsInputEvent(const Events &evnt) const
@@ -136,8 +159,8 @@ namespace Engine
   void GenericActor::SetActorPosition(const sf::Vector2f &pos)
   {
     Position = pos;
-	ObjectMesh->setPosition({ pos.x, pos.y });
-	Sprite.setPosition(pos);
+	  ObjectMesh->setPosition({ pos.x, pos.y });
+	  Sprite.setPosition(pos);
   }
 
   void GenericActor::SetActorPosition(float x, float y)
@@ -170,6 +193,11 @@ namespace Engine
 	  MeshRadius = 50.f;
   }
 
+  void GenericActor::MoveObject(const sf::Vector2f & delta)
+  {
+    Move(delta);
+  }
+
   const sf::Vector2f& GenericActor::GetActorPosition() const
   {
     return Position;
@@ -190,4 +218,18 @@ namespace Engine
     return Acceleration;
   }
 
+  void  GenericActor::AttachComponent(std::shared_ptr<CollisionComponent> Component)
+  {
+
+  }
+
+  void  GenericActor::AttachComponent(std::shared_ptr<ScriptComponent> Component)
+  {
+
+  }
+
+  void  GenericActor::AttachComponent(std::shared_ptr<InteractionComponent> Component)
+  {
+
+  }
 }

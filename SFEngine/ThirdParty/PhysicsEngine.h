@@ -1,6 +1,11 @@
 #ifndef SFENGINE_PHYSICS_INCLUDE_ALL_H
 #define SFENGINE_PHYSICS_INCLUDE_ALL_H
 
+#include <memory>
+#include <vector>
+#include <string>
+#include <sstream>
+
 #include "Physics/arcSeg.h"
 #include "Physics/ball.h"
 #include "Physics/ball_go.h"
@@ -14,12 +19,7 @@
 #include "Physics/regPolygon.h"
 #include "Physics/segHit.h"
 #include "Physics/vec2d.h"
-#include "Physics\waveSeg.h"
-
-#include <memory>
-#include <vector>
-#include <string>
-#include <sstream>
+#include "Physics/waveSeg.h"
 
 namespace Engine
 {
@@ -31,15 +31,12 @@ namespace Engine
   typedef std::shared_ptr<PhysicsEngineSegmentType> SegmentPtr;
   typedef std::shared_ptr<PhysicsEngineWaveSegment> WaveSegmentPtr;
 
-  //std::shared_ptr<PhysicsEngineBaseMeshType> BuildMesh(std::stringstream &data_stream);
-  //std::shared_ptr<PhysicsEngineSegmentType> BuildSegment(std::stringstream &data_stream);
-
   BaseMeshPtr BuildBallMesh(char BallType, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color &Color);
   BaseMeshPtr BuildPolygonMesh(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color);
   SegmentPtr BuildSegmentMesh(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius = -1);
   WaveSegmentPtr BuildWaveSegment(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius, bool IsHard,
                                   unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight,
-                                  unsigned int ampLeft, float waveLenLeft, float rFreqLeft,
+                                  float ampLeft, float waveLenLeft, float rFreqLeft,
                                   float elev, float airDen, float depth, float fluidDen);
 
   std::stringstream GetFormattedBallConstructionData(char BallType, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color &Color);
@@ -47,12 +44,12 @@ namespace Engine
   std::stringstream GetFormattedSegmentConstructionData(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius);
   std::stringstream GetFormattedWaveSegmentConstructionData(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius, bool IsHard, 
                                                             unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight,
-                                                            unsigned int ampLeft, float waveLenLeft, float rFreqLeft,
+                                                            float ampLeft, float waveLenLeft, float rFreqLeft,
                                                             float elev, float airDen, float depth, float fluidDen);
 
   void UpdatePhysics(std::vector<BaseMeshPtr> &Meshes, std::vector<SegmentPtr> Segments, std::size_t Steps = 1);
   void AssignBoundaries(float WindowHeight, float WindowWidth);
-  void SetGravity(vec2d *Gravity);
+  void SetGravity(::vec2d *Gravity);
 }
 
 #endif

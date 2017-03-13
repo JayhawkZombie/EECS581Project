@@ -1,5 +1,7 @@
 #include "../../Headers/Level/Level.h"
 
+#ifdef WITH_EDITOR
+
 namespace Engine
 {
 
@@ -14,13 +16,13 @@ namespace Engine
     ImGui::DragFloat("K left", &wave->K_wvLt, 0.01f, 0.f, 1.f);
     ImGui::DragFloat("K right", &wave->K_wvRt, 0.01f, 0.f, 1.f);
 
-    ImGui::DragFloat("Freq left", &wave->rotFreqLt, 0.0005, 0.f, 0.05f);
-    ImGui::DragFloat("Freq right", &wave->rotFreqRt, 0.0005, 0.f, 0.05f);
+    ImGui::DragFloat("Freq left", &wave->rotFreqLt, 0.0005f, 0.f, 0.05f);
+    ImGui::DragFloat("Freq right", &wave->rotFreqRt, 0.0005f, 0.f, 0.05f);
 
     ImGui::InputFloat("Elevation", &wave->Elev, 5.f, 15.f);
     ImGui::InputFloat("Depth", &wave->Depth, 5.f, 15.f);
-    ImGui::InputFloat("Air Density", &wave->airDensity, 0.00005, 0.0001);
-    ImGui::InputFloat("Fluid Density", &wave->fluidDensity, 0.005, 0.001);
+    ImGui::InputFloat("Air Density", &wave->airDensity, 0.00005f, 0.0001f);
+    ImGui::InputFloat("Fluid Density", &wave->fluidDensity, 0.005f, 0.001f);
 
     ImGui::Checkbox("IsHard", &wave->is_hard);
   }
@@ -165,3 +167,5 @@ namespace Engine
   }
 
 }
+
+#endif

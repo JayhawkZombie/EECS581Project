@@ -1,6 +1,9 @@
 #include "../../Headers/Level/Level.h"
 #include "../../Headers/Physics/PhysicsEngineInterface.h"
+#include "../../../ThirdParty/Physics/vec2d.h"
 #include "../../../ThirdParty/json/json.h"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+
 namespace
 {
   std::string PROJECT_PATH = "";
@@ -8,93 +11,37 @@ namespace
 
 namespace Engine
 {
+  Level* CurrentLevel;
 
   Level::Level(const sf::Vector2u &LevelSize, const sf::FloatRect &DefaultView, bool showlines, const sf::Vector2f &GridSpacing)
+    : ShowGridLines(showlines), Size(LevelSize), GridBlockSize(GridSpacing), CurrentView(DefaultView),
+    LightTexture(std::make_shared<sf::RenderTexture>()),
+    SceneBlendTexture(std::make_shared<sf::RenderTexture>()),
+    Gravity(new ::vec2d())
   {
-    ShowGridLines = showlines;
-    Size = LevelSize;
-    GridBlockSize = GridSpacing;
-    CurrentView = DefaultView;
-    //SceneTarget = std::make_shared<sf::RenderTexture>();
-    //SceneTarget->create(LevelSize.x, LevelSize.y);
     auto seg = BuildSegmentMesh('L', { 100, 300 }, { 550, 500 });
     TestSegments.push_back(seg);
 
-    LightTexture = std::make_shared<sf::RenderTexture>();
-    LightTexture->create(WindowSize.x, WindowSize.y);
+    LightTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
     LightTexture->clear(sf::Color::Transparent);
 
-    SceneBlendTexture = std::make_shared<sf::RenderTexture>();
-    SceneBlendTexture->create(WindowSize.x, WindowSize.y);
+    SceneBlendTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
     SceneBlendTexture->clear(sf::Color::Transparent);
-
-    //test light system
-    auto id = GenerateID();
-    LightSystems[id] = std::make_shared<LightSystem>();
-    LightSystems[id]->SetBoundaries({ 0, 0 }, { 1700, 0 }, { 1700, 900 }, { 0, 900 });
-    auto light = std::make_shared<Light>();
-    light->Attenuation = 100.f;
-    light->Color = sf::Color::White;
-    light->Expand = 0.3f;
-    light->ID = GenerateID();
-    light->Position = { 1700 / 2.f, 900 / 2.f };
-    light->Radius = 100.f;
-    Lights[light->ID] = light;
-    LightSystems[id]->AddLight(light);
-    auto lObj = std::make_shared<LightObject>();
-    lObj->ID = GenerateID();
-    lObj->Edges.push_back({});
-    lObj->Edges.back().Start = { 100, 300 };
-    lObj->Edges.back().End = { 550, 500 };
-
-    LightSystems[id]->AddComplexObject(
-    {
-      { 400, 400 },
-      { 400, 600 },
-      { 500, 600 },
-      { 600, 800 }
-    }
-    );
-    LightSystems[id]->AddLightObject(lObj);
-    //Gravity.x = 0.f;
-    //Gravity.y = 0.09f;
-    //SetGravity(&Gravity);
+    
     if (ShowGridLines) {
       GenerateGrid();
     }
+    CurrentLevel = this;
   }
 
   Level::Level(const std::string &lvl)
   {
-    Handler.BindCallback(Events::KeyPressed,
-
-                         [this](const sf::Keyboard::Key &k) -> void
-    {
-      this->HandleKeyPress(k);
-    }
-
-    );
-    Handler.BindCallback(Events::KeyReleased,
-
-                         [this](const sf::Keyboard::Key &k) ->void
-    {
-      this->HandleKeyRelease(k);
-    }
-    );
+    Handler.BindCallback(Events::KeyPressed, [this](const sf::Keyboard::Key &k) -> void { this->HandleKeyPress(k); } );
+    Handler.BindCallback(Events::KeyReleased, [this](const sf::Keyboard::Key &k) ->void { this->HandleKeyRelease(k); } );
   }
 
   Level::~Level()
   {
-    /*
-        std::shared_ptr<sf::RenderTexture> SceneTarget;
-    std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
-    std::map<std::string, std::shared_ptr<TileSheet>> TileSheets;
-    std::map<std::string, std::shared_ptr<Animation>> Animations;
-    std::map<std::string, std::shared_ptr<sf::SoundBuffer>> SoundBuffers;
-    std::map<std::uint32_t, std::shared_ptr<LightSystem>> LightSystems;
-    std::map<std::uint32_t, std::shared_ptr<Light>> Lights;
-    std::shared_ptr<sf::RenderTexture> LightTexture;
-    */
     SceneTarget.reset();
     for (auto & tex : Textures)
       tex.second.reset();
@@ -117,6 +64,21 @@ namespace Engine
     Lights.clear();
 
     LightTexture.reset();
+  }
+
+  void Level::BindMethods(chaiscript::ModulePtr mptr)
+  {
+    mptr->add(chaiscript::fun(&GetObjectByName), "GetObjectByID");
+  }
+
+  void Level::HandleKeyPress(const sf::Keyboard::Key &key)
+  {
+
+  }
+
+  void Level::HandleKeyRelease(const sf::Keyboard::Key &key)
+  {
+
   }
 
   void Level::GenerateGrid()
@@ -156,6 +118,21 @@ namespace Engine
   void Level::HandleWindowResized()
   {
 
+  }
+
+  std::shared_ptr<LevelObject> Level::GetObjectByName(const std::string & ID)
+  {
+    if (!CurrentLevel) {
+      std::cerr << "CurrentLevel is NULL" << std::endl;
+      return nullptr;
+    }
+
+    for (auto & obj : CurrentLevel->Objects) {
+      if (obj->ItemID == ID)
+        return obj;
+    }
+
+    return nullptr;
   }
 
   void Level::LoadFromFile(const std::string &file)
@@ -209,25 +186,9 @@ namespace Engine
     //auto poly = BuildPolygonMesh(num_sides, radius, init_rotation, InitialPosition, InitialVelocity, mass, CoeffOfRest, Color);
     TestObjects.push_back((BuildPolygonMesh(num_sides, radius, init_rotation, InitialPosition, InitialVelocity, mass, CoeffOfRest, Color)));
     auto ptr = TestObjects.back().get();
-
-    regPolygon *poly = dynamic_cast<regPolygon*>(ptr);
-    std::shared_ptr<LightObject> LOBJ = std::make_shared<LightObject>();
-    LOBJ->ID = GenerateID();
-
-    if (poly) {
-      //get the edges and add them to the light system
-      for (std::size_t i = 1; i < poly->ptVec.size(); ++i) {
-        LOBJ->Edges.push_back({});
-        LOBJ->Edges.back().Start = { poly->ptVec[i - 1].x, poly->ptVec[i - 1].y };
-        LOBJ->Edges.back().End = { poly->ptVec[i].x, poly->ptVec[i].y };
-      }
-    }
-
-    for (auto & sys : LightSystems)
-      sys.second->AddLightObject(LOBJ);
   }
 
-  void Level::SpawnWave(char type, const sf::Vector2i & TopLeftCorner, const sf::Vector2i & BottomRightCorner, float radius, bool IsHard, unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight, unsigned int ampLeft, float waveLenLeft, float rFreqLeft, float elev, float airDen, float depth, float fluidDen)
+  void Level::SpawnWave(char type, const sf::Vector2i & TopLeftCorner, const sf::Vector2i & BottomRightCorner, float radius, bool IsHard, unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight, float ampLeft, float waveLenLeft, float rFreqLeft, float elev, float airDen, float depth, float fluidDen)
   {
     auto ptr = BuildWaveSegment(type, TopLeftCorner, BottomRightCorner, radius, IsHard, NumWavePts, ampRight, waveLenRight, rFreqRight, ampLeft, waveLenLeft, rFreqLeft, elev, airDen, depth, fluidDen);
     TestSegments.push_back(ptr);

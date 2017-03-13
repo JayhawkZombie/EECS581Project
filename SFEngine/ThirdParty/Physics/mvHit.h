@@ -25,6 +25,7 @@ public:
   static float drag;
   //    static vec2d* pGravity;
   vec2d pos, v;// position, velocity
+  vec2d siz;
   float m, Cr;// mass and coefficient of restitution
   bool is_free = true;// new functionality: mvHits as fixed obstacles to other mvHits
 

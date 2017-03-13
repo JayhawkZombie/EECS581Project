@@ -2,10 +2,11 @@
 #include "../../Headers/Level/LevelLoader.h"
 #include <SFML/OpenGL.hpp>
 #include "../../Headers/Lights/LightingSystem.h"
-
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 #ifdef WITH_EDITOR
-#include "../../Headers/Engine/Editor.h"
 #include "../../../ThirdParty/IMGUI/imgui_internal.h"
 #endif
 
@@ -50,17 +51,17 @@ namespace Engine
 
     tgui::Theme::Ptr theme = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
 
-    EngineScriptConsole = std::make_shared<ScriptConsole>(sf::Vector2f(WindowSize.x, 400), sf::Vector2f(0, (WindowSize.y - 400.f)), theme);
-    EngineScriptConsole->SetInputCallback([this](std::string str) { this->CommandProcessor(str); });
+    //EngineScriptConsole = std::make_shared<ScriptConsole>(sf::Vector2f(WindowSize.x, 400), sf::Vector2f(0, (WindowSize.y - 400.f)), theme);
+    //EngineScriptConsole->SetInputCallback([this](std::string str) { this->CommandProcessor(str); });
 
-    AddKeyboardShortcut({ sf::Keyboard::LControl, sf::Keyboard::LShift, sf::Keyboard::C },
-                        [this]() { if (this && this->EngineScriptConsole) this->EngineScriptConsole->Open(); });
+    //AddKeyboardShortcut({ sf::Keyboard::LControl, sf::Keyboard::LShift, sf::Keyboard::C },
+    //                    [this]() { if (this && this->EngineScriptConsole) this->EngineScriptConsole->Open(); });
 
     chaiscript::ModulePtr mptr = std::make_shared<chaiscript::Module>();
-    ScriptConsole::BindMethods(mptr);
-    ScriptEngine->add(mptr);
-    EngineScriptConsole->AddToModule(mptr, "Console");
-    ScriptEngine->eval_file("./SFEngine/Source/CoreFiles/Scripts/ConsoleFunctions.chai");
+    //ScriptConsole::BindMethods(mptr);
+    //ScriptEngine->add(mptr);
+    //EngineScriptConsole->AddToModule(mptr, "Console");
+    //ScriptEngine->eval_file("./SFEngine/Source/CoreFiles/Scripts/ConsoleFunctions.chai");
     Window->setVerticalSyncEnabled(false);
     Window->setKeyRepeatEnabled(false);
     //Window->setFramerateLimit(60);
@@ -69,7 +70,6 @@ namespace Engine
     ScriptEngine->add(chaiscript::fun(Engine::func), "func");
 
 #ifdef WITH_EDITOR
-    //GameEditor.PreLoopSetup();
     sf::Clock dClock;
     ImGui::SFML::Init(*currentRenderWindow);
 #else
@@ -146,7 +146,7 @@ namespace Engine
 
     AssignBoundaries(900, 1700);
     Gravity.x = 0.f;
-    Gravity.y = 0.01f;
+    Gravity.y = 0.3f;
     SetGravity(&Gravity);
 
     std::shared_ptr<Level> MainLevel = std::make_shared<Level>(sf::Vector2u({ 1700, 900 }), sf::FloatRect(0, 0, 1700, 900), true, sf::Vector2f({ 1700 / 16.f, 900 / 16.f }));
@@ -161,7 +161,6 @@ namespace Engine
     LevelRect.setTextureRect({ 0, 0, 1700, 900 });
 
     ScriptEngine->eval_file("./Projects/TestProject/Scripts/main.chai");
-    ScriptEngine->eval("GameStart();");
     
 #ifdef WITH_EDITOR
     while (!FlagForClose && currentRenderWindow && currentRenderWindow->isOpen()) {
@@ -176,7 +175,6 @@ namespace Engine
       {
         CurrentFrameStart = std::chrono::high_resolution_clock::now();
         TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
-        LastFrameStart = std::chrono::high_resolution_clock::now();
 
         UpdateStart = std::chrono::high_resolution_clock::now();
 
@@ -197,17 +195,18 @@ namespace Engine
         MainLevel->Render(EditorTexture);
         EditorTexture->setActive(true);
         EditorTexture->display();
-
-        Window->setActive(true);
-        Window->draw(LevelRect);
 #else
         MainLevel->Render();
 #endif
+        Window->setActive(true);
+        Window->draw(LevelRect);
+
         ImGui::EndFrame();
         ImGui::Render();
 
         Window->setActive(true);
         Window->display();
+        LastFrameStart = CurrentFrameStart;
       }
       catch (chaiscript::exception::eval_error &e)
       {
@@ -215,7 +214,6 @@ namespace Engine
       }
 
     }
-    //delete RenderSettings.texture;
     EditorTexture.reset();
     LevelTexture.reset();
     return Shutdown();

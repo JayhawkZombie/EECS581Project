@@ -20,7 +20,7 @@ void waveSeg::init(std::istream& is)
   if (L_wv < magL / 100.0f) L_wv = magL / 100.0f;
   K_wvRt = PIx2 / L_wv;
   is >> rotFreqRt; if (rotFreqRt < 0.0f) rotFreqRt *= 0.0f;
-
+  siz = { Amp_wvLt, Amp_wvRt };
   is >> Amp_wvLt >> L_wv;
   if (L_wv < magL / 100.0f) L_wv = magL / 100.0f;
   K_wvLt = PIx2 / L_wv;
@@ -93,7 +93,7 @@ void waveSeg::update()
     wvVecLt[i].position.y = pos.y + y_wvLt(x_rel);
     wvVec[i].position.y = wvVecRt[i].position.y + wvVecLt[i].position.y - pos.y;
   }
-
+  siz = { Amp_wvLt, Amp_wvRt };
   return;
 }
 

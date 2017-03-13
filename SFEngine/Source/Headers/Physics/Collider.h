@@ -9,23 +9,19 @@ namespace Engine
 
   enum class MeshType : std::uint32_t
   {
-    Square,
-    Box,
-    Polygon
+    Base,
+    Ball,
+    BallGo,
+    Polygon,
+    Block,
+    ExpandPolygon
   };
 
-  struct MeshInfo
-  {
-
-    
-
-  };
-
-  class Collider2D
+  class ComponentCollider2D
   {
   public:
-    Collider2D();
-    ~Collider2D();
+    ComponentCollider2D();
+    ~ComponentCollider2D();
 
     std::shared_ptr<PhysicsEngineBaseMeshType> GetMesh();
     void SetMesh(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh);
@@ -33,6 +29,7 @@ namespace Engine
     void CreateMesh();
 
   protected:
+
     std::shared_ptr<PhysicsEngineBaseMeshType> ColliderMesh;
   };
 

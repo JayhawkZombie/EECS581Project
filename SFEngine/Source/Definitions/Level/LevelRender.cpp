@@ -22,6 +22,8 @@ namespace Engine
 		Target->draw(object->Sprite);
 	}
 
+  Target->draw(TileMap);
+
 #ifdef WITH_EDITOR
     ShowSceneGraph();
     ShowAssetGraph();

@@ -38,7 +38,7 @@
     <ProjectGuid>{87F72D0D-0935-4DF9-A2E4-8DF5A21C5F18}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EECS581Project</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -323,14 +323,12 @@
     <ClInclude Include="SFEngine\Source\CoreFiles\Shaders\GlowShader.fsh" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Editor\AnimationViewer.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Editor\CreateNewProject.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProject.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Editor\EditorProjectFile.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Editor\EntityCreator.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Editor\FileBrowser.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Editor\TileSheetEditor.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Components\CollisionComponent.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Components\ComponentBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Components\ComponentManager.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Components\InteractionComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\Console.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Engine\InputInterface.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\ScriptConsole.h" />
     <ClInclude Include="SFEngine\Source\Headers\Events\UserEvent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\EffectBase.h" />
@@ -339,7 +337,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Scripting\ScriptComponent.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Components\ScriptComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
     <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
@@ -347,20 +345,6 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Collider.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\Alert.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Alerts\PopupObject.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableRect.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\StickyBar.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Input\NumericComboBox.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Input\Spinner.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Input\TextInput.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\EditAnimationMenu.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\EditTilesMenu.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ClickButtonBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Draggables\DraggableTile.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Events\Events.h" />
     <ClInclude Include="SFEngine\Source\Headers\Actor\Actor.h" />
     <ClInclude Include="SFEngine\Source\Headers\Actor\Player.h" />
     <ClInclude Include="SFEngine\Source\Headers\Animation\Animation.h" />
@@ -368,7 +352,6 @@
     <ClInclude Include="SFEngine\Source\Headers\CustomLevels.h" />
     <ClInclude Include="SFEngine\Source\Headers\EngineTypes.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\BaseEngineInterface.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Engine\Editor.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\Engine.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\EngineConfiguration.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\EngineEventHandler.h" />
@@ -397,24 +380,9 @@
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
     <ClInclude Include="SFEngine\Source\Headers\Shaders\Shader.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Buttons\ButtonBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\CreationMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Drawables\Drawables.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\EventDelegateMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\Exceptions\Exceptions.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\List\List.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuScreen.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Menu\MenuWidget.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\ObjectView.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Text\TextLabel.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Theme.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Toggles\SimpleToggle.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\UIBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\UICreationMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIIconSheet.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\UIUtils.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\Widget.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\WidgetCollisionHelpers.h" />
-    <ClInclude Include="SFEngine\Source\Headers\UI\WIdgetHelper.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\AssetConverters.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\CollisionHelpers.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Convert.h" />
@@ -558,21 +526,11 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\AnimationViewer.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\CreateNewProject.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorLoadProject.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProject.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorProjectFile.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EntityCreator.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\FileBrowser.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\TileSheetEditor.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\Editor.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorCreateMenus.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorEventHandlers.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorObjectSpawning.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorSaveLoad.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Components\CollisionComponent.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Components\ComponentBase.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Components\ComponentManager.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Components\InteractionComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Editor\EditorTileEditing.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineBindScripts.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\EngineCommandProcessor.cpp" />
@@ -589,6 +547,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Engine\HandleWindowLostFocus.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\HandleWindowResized.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Init.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Engine\InputInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\ScriptConsole.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Shutdown.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Startup.cpp" />
@@ -601,8 +560,6 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelCollision.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEditorMethods.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventHandling.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEventSequences.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
@@ -612,9 +569,10 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\SceneViewer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Settings.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Physics\Collider.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Components\ScriptComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Streams\DataStream.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\LevelTile.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelTileSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelUpdate.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GenericLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GlobalLightSource.cpp" />
@@ -635,40 +593,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileGrid.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileSheet.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\Alert.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Alerts\PopupObject.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Buttons\ButtonBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Buttons\ClickButtonBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableRect.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\DraggableTile.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Draggables\StickyBar.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\ColoredQuad.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\TexturedQuad.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\Drawables.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Drawables\DrawableText.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\ComboBox.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\NumericComboBox.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\Spinner.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Input\TextInput.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\KeyTarget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListItem.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\List\ListWidget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Mat2D.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\EditAnimationMenu.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuScreen.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Menu\MenuWidget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\NullType.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\ObjectView.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Text\TextLabel.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Theme.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Toggles\SimpleToggle.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIIconSheet.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\UIUtils.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\Widget.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\WidgetCollisionHelpers.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\UI\WidgetHelper.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\AssetConverters.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Convert.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Decoders.cpp" />
@@ -790,6 +715,7 @@
     <None Include="Diagrams\Engine\ClassDiagram.cd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="SFEngine\Source\Headers\Streams\DataStream.inl" />
     <None Include="SFEngine\Source\LightingRadialShader.fsh" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
     <None Include="SFEngine\ThirdParty\SelbaWard\TileMap.inl" />

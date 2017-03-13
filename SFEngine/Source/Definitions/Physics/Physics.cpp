@@ -5,7 +5,7 @@ namespace
 
   sf::Vector2f __i = sf::Vector2f(1, 0);
   sf::Vector2f __j = sf::Vector2f(0, 1);
-  float __eps = 1E-4;
+  float __eps = 1E-4f;
 }
 
 namespace Engine
@@ -48,14 +48,14 @@ namespace Engine
       return std::sqrt(a.x * a.x + a.y * a.y);
     }
 
-    unsigned int Mag(const sf::Vector2u &a)
+    float Mag(const sf::Vector2u &a)
     {
-      return std::sqrt(a.x * a.x + a.y * a.y);
+      return static_cast<float>(std::sqrt(a.x * a.x + a.y * a.y));
     }
 
-    int Mag(const sf::Vector2i &a)
+    float Mag(const sf::Vector2i &a)
     {
-      return std::sqrt(a.x * a.x + a.y * a.y);
+      return static_cast<float>(std::sqrt(a.x * a.x + a.y * a.y));
     }
 
   }

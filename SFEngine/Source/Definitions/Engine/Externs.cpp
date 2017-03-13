@@ -2,6 +2,7 @@
 #include "../../Headers/Engine/Engine.h"
 
 #include <vector>
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 
 
 #ifdef _WINUSER_
@@ -19,7 +20,8 @@ namespace Engine
   std::unordered_set<std::uint32_t> UsedIDs;
   Render::RenderSettings EngineRenderSettings;
   std::shared_ptr<tgui::Gui> GUI;
-
+  std::uint32_t MaxIDGenerationAttempts;
+  bool FlagForClose = false;
   DataStream<UserEvent> EngineEventStream;
 
   void SetKeyRepeatEnabled(bool enabled)
@@ -200,6 +202,37 @@ namespace Engine
 
   void AddScriptGlobal()
   {
+  }
+
+  bool GetKeyDown(const sf::Keyboard::Key & key)
+  {
+    std::cerr << "GetKJeyDownCalled" << std::endl;
+    return sf::Keyboard::isKeyPressed(key);
+  }
+
+  bool GetKeyLeftDown(const sf::Keyboard::Key & key)
+  {
+    return (sf::Keyboard::isKeyPressed(sf::Keyboard::Left));
+  }
+
+  bool GetKeyUp(const sf::Keyboard::Key & key)
+  {
+    return !sf::Keyboard::isKeyPressed(key);
+  }
+
+  bool GetMouseButtonDown(const sf::Mouse::Button & button)
+  {
+    return sf::Mouse::isButtonPressed(button);
+  }
+
+  bool GetMouseButtonUp(const sf::Mouse::Button & button)
+  {
+    return !sf::Mouse::isButtonPressed(button);
+  }
+
+  sf::Vector2f GetMousePosition()
+  {
+    return static_cast<sf::Vector2f>(sf::Mouse::getPosition(*currentRenderWindow));
   }
 
   void SerializeString(const std::string & string, std::ofstream & out)
@@ -428,12 +461,5 @@ namespace Engine
   //if the editor is being used, link to the current engine and allow access to the global UI handler
 #ifdef WITH_EDITOR
   SFEngine *CurrentEngine = nullptr;
-
-  void AddUI(std::shared_ptr<Engine::UI::BaseUIElement> element)
-  {
-    if (CurrentEngine)
-      CurrentEngine->AddUIElement(element);
-  }
-
 #endif
 }

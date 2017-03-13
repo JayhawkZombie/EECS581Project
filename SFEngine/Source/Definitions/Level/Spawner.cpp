@@ -17,13 +17,13 @@ namespace Engine
 
   void Level::ShowPhysicsSpawner()
   {
-    static sf::Vector2f Pos = { 0, 0 };
-    static sf::Vector2f Vel = { 0, 0 };
+    static sf::Vector2f Pos = { 0.f, 0.f };
+    static sf::Vector2f Vel = { 0.f, 0.f };
     static int radius = 5;
-    static vec2d gravity = vec2d(0, 0.01);
+    static vec2d gravity = vec2d(0.f, 0.01f);
     static int numsides = 3;
-    static float mass = 0.01;
-    static float coeffRest = 0.1;
+    static float mass = 0.01f;
+    static float coeffRest = 0.1f;
     static float rotation = 0.f;
     static sf::Color color = sf::Color::White;
     static sf::RenderTexture ballTex;
@@ -60,10 +60,10 @@ namespace Engine
 
       ImGui::Text("Position and Size");
       if (ImGui::InputFloat("PosX", &Pos.x, 5.f, 15.f)) {
-        if (Pos.x < 0) Pos.x = 0;
+        if (Pos.x < 0) Pos.x = 0.f;
       }
       if (ImGui::InputFloat("PoxY", &Pos.y, 5.f, 15.f)) {
-        if (Pos.y < 0) Pos.y = 0;
+        if (Pos.y < 0) Pos.y = 0.f;
       }
       if (ImGui::InputInt("Radius", &radius, 1, 5)) {
         if (radius < 0) radius = 0;
@@ -76,13 +76,13 @@ namespace Engine
       ImGui::Separator();
 
       ImGui::Text("Gravity and Fraction");
-      if (ImGui::InputFloat("Mass", &mass, 0.01, 0.1)) {
-        if (mass < 0.01) mass = 0.01;
+      if (ImGui::InputFloat("Mass", &mass, 0.01f, 0.1f)) {
+        if (mass < 0.01f) mass = 0.01f;
       }
-      if (ImGui::InputFloat("Coeff of rest", &coeffRest, 0.05, 0.1)) {
-        if (coeffRest < 0.05) coeffRest = 0.05;
+      if (ImGui::InputFloat("Coeff of rest", &coeffRest, 0.05f, 0.1f)) {
+        if (coeffRest < 0.05f) coeffRest = 0.05f;
       }
-      if (ImGui::InputFloat("Gravity X", &gravity.x, 0.01, 0.1)) {
+      if (ImGui::InputFloat("Gravity X", &gravity.x, 0.01f, 0.1f)) {
         SetGravity(&gravity);
         for (auto & item : Segments) {
           auto ptr = dynamic_cast<waveSeg*>(item.get());
@@ -91,7 +91,7 @@ namespace Engine
           }
         }
       }
-      if (ImGui::InputFloat("Gravity Y", &gravity.y, 0.01, 0.1)) {
+      if (ImGui::InputFloat("Gravity Y", &gravity.y, 0.01f, 0.1f)) {
         SetGravity(&gravity);
       }
       ImGui::Separator();
@@ -110,7 +110,7 @@ namespace Engine
       ImGui::Separator();
 
       if (ImGui::CollapsingHeader("Ball")) {
-        Mesh = BuildBallMesh('B', { 50.f, 50.f }, { 0, 0 }, radius, mass, coeffRest, color);
+        Mesh = BuildBallMesh('B', { 50.f, 50.f }, { 0.f, 0.f }, radius, mass, coeffRest, color);
         ballTex.clear();
         Mesh->draw(ballTex);
         ballTex.display();
@@ -124,25 +124,25 @@ namespace Engine
       }
 
       if (ImGui::CollapsingHeader("N-Poly")) {
-        Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
+        Mesh = BuildPolygonMesh(numsides, __TO_FLOAT__(radius), rotation, { 50.f, 50.f }, { 0.f ,0.f }, mass, coeffRest, color);
 
         if (ImGui::SliderFloat("Rotation", &rotation, 0, 2 * ____PI)) {
-          Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
+          Mesh = BuildPolygonMesh(numsides, __TO_FLOAT__(radius), rotation, { 50.f, 50.f }, { 0.f ,0.f }, mass, coeffRest, color);
         }
         if (ImGui::InputInt("Num Sides", &numsides, 1, 5)) {
           if (numsides < 3)
             numsides = 3;
 
-          Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
+          Mesh = BuildPolygonMesh(numsides, __TO_FLOAT__(radius), rotation, { 50.f, 50.f }, { 0.f ,0.f }, mass, coeffRest, color);
         }
         polyTex.clear();
         Mesh->draw(polyTex);
         polyTex.display();
 
-        ImGui::Image(polyTex.getTexture(), ImVec2(100, 100), sf::FloatRect(0, 0, 100, 100));
+        ImGui::Image(polyTex.getTexture(), ImVec2(100, 100), sf::FloatRect(0.f, 0.f, 100.f, 100.f));
         if (ImGui::Button("Spawn")) {
           ImGui::SameLine();
-          SpawnNPoly(numsides, radius, rotation, Pos, Vel, mass, coeffRest, color);
+          SpawnNPoly(numsides, __TO_FLOAT__(radius), rotation, Pos, Vel, mass, coeffRest, color);
         }
       }
 
@@ -150,30 +150,30 @@ namespace Engine
     }
 
     if (ImGui::CollapsingHeader("Waves")) {
-      if (ImGui::InputFloat("Segment Drag", &drag, 0.05, 0.1)) {
+      if (ImGui::InputFloat("Segment Drag", &drag, 0.05f, 0.1f)) {
         mvHit::drag = drag;
       }
 
       ImGui::Indent();
 
       static sf::Vector2i leftCorner{ 0, 0 }, rightCorner{ 0, 0 };
-      static float waveRad = 5;
-      static float ampL{ 0 }, ampR{ 0 }, wvR{ 0 }, wvL{ 0 }, frL{ 0 }, frR{ 0 };
-      static float elev{ 0 }, airDen{ 0 }, fluidDen{ 0 }, depth{ 0 };
+      static float waveRad = 5.f;
+      static float ampL{ 0.f }, ampR{ 0.f }, wvR{ 0.f }, wvL{ 0.f }, frL{ 0.f }, frR{ 0.f };
+      static float elev{ 0.f }, airDen{ 0.f }, fluidDen{ 0.f }, depth{ 0.f };
 
       ImGui::Separator();
       ImGui::Text("Position and Size");
       if (ImGui::InputInt("Left PosX", &leftCorner.x, 5, 15)) {
-        if (Pos.x < 0) Pos.x = 0;
+        if (Pos.x < 0) Pos.x = 0.f;
       }
       if (ImGui::InputInt("Left PoxY", &leftCorner.y, 5, 15)) {
-        if (Pos.y < 0) Pos.y = 0;
+        if (Pos.y < 0) Pos.y = 0.f;
       }
       if (ImGui::InputInt("Right PosX", &rightCorner.x, 5, 15)) {
-        if (Pos.x < 0) Pos.x = 0;
+        if (Pos.x < 0) Pos.x = 0.f;
       }
       if (ImGui::InputInt("Right PoxY", &rightCorner.y, 5, 15)) {
-        if (Pos.y < 0) Pos.y = 0;
+        if (Pos.y < 0) Pos.y = 0.f;
       }
       if (ImGui::InputFloat("Radius", &waveRad, 10.f, 20.f)) {
         if (waveRad < 5.f)
@@ -187,11 +187,11 @@ namespace Engine
       ImGui::NewLine();
       ImGui::DragFloat("Amp", &ampL, 5.f, 0.f, 50.f);
       ImGui::DragFloat("Wavelen", &wvL, 5.f, 100.f, 1000.f);
-      ImGui::DragFloat("Frequency", &frL, 0.0005, 0.f, 0.05f);
+      ImGui::DragFloat("Frequency", &frL, 0.0005f, 0.f, 0.05f);
       ImGui::NextColumn();
       ImGui::DragFloat("Amp", &ampR, 5.f, 0.f, 50.f);
       ImGui::DragFloat("Wavelen", &wvR, 5.f, 100.f, 1000.f);
-      ImGui::DragFloat("Frequency", &frR, 0.0005, 0.f, 0.05f);
+      ImGui::DragFloat("Frequency", &frR, 0.0005f, 0.f, 0.05f);
 
       ImGui::Columns(1);
       ImGui::Separator();
@@ -200,11 +200,11 @@ namespace Engine
 
       ImGui::InputFloat("Elevation", &elev, 5.f, 15.f);
       ImGui::InputFloat("Depth", &depth, 5.f, 15.f);
-      ImGui::InputFloat("Air Density", &airDen, 0.00005, 0.0001);
-      ImGui::InputFloat("Fluid Density", &fluidDen, 0.005, 0.001);
+      ImGui::InputFloat("Air Density", &airDen, 0.00005f, 0.0001f);
+      ImGui::InputFloat("Fluid Density", &fluidDen, 0.005f, 0.001f);
 
       if (ImGui::Button("Spawn")) {
-        SpawnWave('W', leftCorner, rightCorner, radius, false, 300, ampR, wvR, frR, ampL, wvL, frL, elev, airDen, depth, fluidDen);
+        SpawnWave('W', leftCorner, rightCorner, __TO_FLOAT__(radius), false, 300u, ampR, wvR, frR, ampL, wvL, frL, elev, airDen, depth, fluidDen);
       }
 
       ImGui::Unindent();
@@ -216,7 +216,7 @@ namespace Engine
 
     if (ImGui::CollapsingHeader("Entities")) {
 
-		static sf::Vector2f Position = { 0, 0 };
+		static sf::Vector2f Position = { 0.f, 0.f };
 
 		ImGui::Indent();
 		if (ImGui::CollapsingHeader("Actors")) {
@@ -269,88 +269,6 @@ namespace Engine
 
 		ImGui::Unindent();
     }
-
-    //if (ImGui::InputFloat("x Coordinate", &Pos.x, 1.f, 5.f)) {
-    // /* if (Pos.x < 0)
-    //    Pos.x = 0;*/
-    //}
-    //if (ImGui::InputFloat("y Coordinate", &Pos.y, 1.f, 5.f)) {
-    //  /*if (Pos.y < 0)
-    //    Pos.y = 0;*/
-    //}
-    //if (ImGui::DragFloat("Velocity x", &Vel.x, 1.f, 0.f, 20.f)) {
-
-    //}
-    //if (ImGui::DragFloat("Velocity y", &Vel.y, 1.f, 0.f, 20.f)) {
-
-    //}
-    //if (ImGui::InputInt("Radius", &radius, 1, 5)) {
-    //  if (radius < 0)
-    //    radius = 0;
-    //}
-    //if (ImGui::DragFloat("Mass", &mass, 0.001, 0.001, 1.f)) {
-
-    //}
-    //if (ImGui::DragFloat("Gravity", &gravity.y, 0.01, 0.01f, 2.f)) {
-    //  SetGravity(&gravity);
-    //}
-    //if (ImGui::InputFloat("Coeff of Rest", &coeffRest, 0.1f, 0.2f)) {
-    //  if (coeffRest < 0)
-    //    coeffRest = 0;
-    //}
-    //if (ImGui::Button("Clear All")) {
-    //  for (auto & obj : TestObjects)
-    //    obj.reset();
-    //  TestObjects.clear();
-    //}
-    //ImGui::Text("Color");
-
-    //static float R = 0, G = 0, B = 0, A = 0;
-    //if (ImGui::DragFloat("Red", &R, 0.01f, 0.f, 1.f)) {
-    //  color.r = static_cast<sf::Uint8>(std::floor(R * 255));
-    //}
-    //if (ImGui::DragFloat("Green", &G, 0.01f, 0.f, 1.f)) {
-    //  color.g = static_cast<sf::Uint8>(std::floor(G * 255));
-    //}
-    //if (ImGui::DragFloat("Blue", &B, 0.01f, 0.0f, 1.0f)) {
-    //  color.b = static_cast<sf::Uint8>(std::floor(B * 255));
-    //}
-
-    //ImGui::Separator();
-
-    //if (ImGui::CollapsingHeader("Ball")) {
-    //  Mesh = BuildBallMesh('B', { 50.f, 50.f }, { 0, 0 }, radius, mass, coeffRest, color);
-    //  Mesh->draw(tex);
-    //  tex.display();
-
-    //  ImGui::Image(tex.getTexture(), ImVec2(100, 100));
-    //  if (ImGui::Button("Spawn")) {
-    //    ImGui::SameLine();
-    //    SpawnBall('B', Pos, Vel, radius, mass, coeffRest, color);
-    //  }
-    //}
-
-    //if (ImGui::CollapsingHeader("N-Poly")) {
-    //  Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
-
-    //  if (ImGui::SliderFloat("Rotation", &rotation, 0, 2 * PI)) {
-    //    Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
-    //  }
-    //  if (ImGui::InputInt("Num Sides", &numsides, 1, 5)) {
-    //    if (numsides < 3)
-    //      numsides = 3;
-
-    //    Mesh = BuildPolygonMesh(numsides, radius, rotation, { 50.f, 50.f }, { 0 ,0 }, mass, coeffRest, color);
-    //  }
-
-    //  Mesh->draw(tex);
-    //  tex.display();
-    //  ImGui::Image(tex.getTexture(), ImVec2(100, 100));
-    //  if (ImGui::Button("Spawn")) {
-    //    ImGui::SameLine();
-    //    SpawnNPoly(numsides, radius, rotation, Pos, Vel, mass, coeffRest, color);
-    //  }
-    //}
 
   }
 

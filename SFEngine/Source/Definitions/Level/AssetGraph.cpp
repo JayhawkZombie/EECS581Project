@@ -1,5 +1,7 @@
 #include "../../Headers/Level/Level.h"
 
+#ifdef WITH_EDITOR
+
 namespace Engine
 {
 
@@ -195,3 +197,5 @@ namespace Engine
   } //ShowAssetGraph
 
 }
+
+#endif

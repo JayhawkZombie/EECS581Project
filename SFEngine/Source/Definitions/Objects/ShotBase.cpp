@@ -42,4 +42,18 @@ namespace Engine
   {
   }
 
+  void ShotBase::AttachComponent(std::shared_ptr<CollisionComponent> Component)
+  {
+  }
+
+  void ShotBase::AttachComponent(std::shared_ptr<ScriptComponent> Component)
+  {
+
+  }
+
+  void ShotBase::AttachComponent(std::shared_ptr<InteractionComponent> Component)
+  {
+
+  }
+
 }

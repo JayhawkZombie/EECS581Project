@@ -2,6 +2,7 @@
 #define __QUAD_TREE_H
 
 #include "../Level/LevelObject.h"
+#include "../Lights/LightObject.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -18,15 +19,26 @@ namespace Engine
     QuadTree(const sf::Vector2f &cen, float wid, float hei, QuadTree *prnt, std::size_t level = 0);
     ~QuadTree();
 
-    void Insert(std::shared_ptr<Engine::LevelObject> shape);
+    void InsertObject(std::shared_ptr<Engine::LevelObject> Object);
+    void InsertShadowCaster(std::shared_ptr<Engine::LightObject> Caster);
+    void InsertCollidingMesh(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh);
+
     void Render(sf::RenderWindow &window);
     void Subdivide();
     void Clear();
     bool ShapeFitsInside(const sf::FloatRect &shape);
     void PlaceInsideChild(const sf::FloatRect &rect);
 
+    std::vector<std::shared_ptr<Engine::LevelObject>> GetContainedObjectsInRange(const sf::FloatRect &Region);
+    std::vector<std::shared_ptr<Engine::LightObject>> GetContainedShadowCastingObjectsInRange(const sf::FloatRect &Region);
+    std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> GetContainedCollidingMeshesInRange(const sf::FloatRect &Region);
+
   private:
     void PlaceInSelf(std::shared_ptr<Engine::LevelObject> shape);
+    int FitsInsideAnyChild(std::shared_ptr<Engine::LevelObject> LObject);
+    int FitsInsideAnyChild(std::shared_ptr<Engine::LightObject> LightObject);
+    int FitsInsideAnyChild(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh);
+    int PlaceInChild(std::shared_ptr<QuadTree> Tree);
   public:
 
     sf::Vector2f Center;
@@ -43,6 +55,8 @@ namespace Engine
     QuadTree *Parent;
     
     std::vector<std::shared_ptr<Engine::LevelObject>> ContainedObjects;
+    std::vector<std::shared_ptr<Engine::LightObject>> ShadowCastingObjects;
+    std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> CollidingMeshes;
   };
 }
 

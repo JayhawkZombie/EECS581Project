@@ -1,5 +1,9 @@
 #include "../../Headers/Engine/Engine.h"
 
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
+#include "../../Headers/Engine/InputInterface.h"
 namespace Engine
 {
 
@@ -11,6 +15,10 @@ namespace Engine
     EngineModule->add(chaiscript::fun(&SFEngine::SetAALevel, this), "SetAALevel");
     EngineModule->add(chaiscript::fun(&SFEngine::SetContrast, this), "SetContrast");
     EngineModule->add(chaiscript::fun(&SFEngine::SetGamma, this), "SetGamma");
+
+    InputInterface::BindMethods(EngineModule);
+    Level::BindMethods(EngineModule);
+    LevelObject::BindScriptMethods(EngineModule);
 
     ScriptEngine->add(EngineModule);
 
@@ -35,10 +43,48 @@ namespace Engine
 
     //Bind SFML scripts
     chaiscript::ModulePtr __SFML = chaiscript::ModulePtr(new chaiscript::Module);
-    __SFML->add(chaiscript::user_type<sf::Vector2f>(), "Vector2f");
-    __SFML->add(chaiscript::user_type<sf::IntRect>(), "IntRect");
-    __SFML->add(chaiscript::user_type<sf::FloatRect>(), "FloatRect");
-    __SFML->add(chaiscript::user_type<sf::Time>(), "SFTime");
+
+    //Bind Vector2f "class"
+    chaiscript::utility::add_class<sf::Vector2f>
+      (
+      *__SFML,
+      "Vector2f",
+       /* Constructors */
+      { chaiscript::constructor<sf::Vector2f()>(),
+        chaiscript::constructor<sf::Vector2f(float, float)>(),
+        chaiscript::constructor<sf::Vector2f(const sf::Vector2f &)>()
+      },
+       /* Member functions */
+      {
+        {
+          { chaiscript::fun(&sf::Vector2f::x), "x" },
+          { chaiscript::fun(&sf::Vector2f::y), "y" }
+        }
+      }
+      );
+
+    chaiscript::utility::add_class<sf::IntRect>
+      (
+        *__SFML,
+        "IntRect",
+        /* Constructors */
+        {
+          chaiscript::constructor<sf::IntRect()>(),
+          chaiscript::constructor<sf::IntRect(float, float, float, float)>()
+        },
+        {
+          {
+            { chaiscript::fun(&sf::IntRect::left), "left" },
+            { chaiscript::fun(&sf::IntRect::top), "top" },
+            { chaiscript::fun(&sf::IntRect::width), "width" },
+            { chaiscript::fun(&sf::IntRect::height), "height" }
+          }
+        }
+        );
+    //__SFML->add(chaiscript::user_type<sf::Vector2f>(), "Vector2f");
+    //__SFML->add(chaiscript::user_type<sf::IntRect>(), "IntRect");
+    //__SFML->add(chaiscript::user_type<sf::FloatRect>(), "FloatRect");
+    //__SFML->add(chaiscript::user_type<sf::Time>(), "SFTime");
 
 
     chaiscript::utility::add_class<sf::Time>
@@ -94,7 +140,8 @@ namespace Engine
          {sf::Keyboard::P, "Key_P"}, {sf::Keyboard::Q, "Key_Q"}, {sf::Keyboard::R, "Key_R"}, {sf::Keyboard::S, "Key_S"}, {sf::Keyboard::T, "Key_T"},
          {sf::Keyboard::U, "Key_U"}, {sf::Keyboard::V, "Key_V"}, {sf::Keyboard::W, "Key_W"}, {sf::Keyboard::X, "Key_X"}, {sf::Keyboard::Y, "Key_Y"},
          {sf::Keyboard::Z, "Key_Z"}, {sf::Keyboard::Escape, "Key_Esc"}, {sf::Keyboard::Space, "Key_Space"}, {sf::Keyboard::LShift, "Key_LShift"},
-         {sf::Keyboard::RShift, "Key_RShift"}
+         {sf::Keyboard::RShift, "Key_RShift"},
+         {sf::Keyboard::Left, "Key_Left"}, {sf::Keyboard::Right, "Key_Right"}, {sf::Keyboard::Up, "Key_Up"}, {sf::Keyboard::Down, "Key_Down"}
        });
     
 

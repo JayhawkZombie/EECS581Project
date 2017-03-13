@@ -1,5 +1,8 @@
 #include "../../Headers/Level/ExposedLevelApi.h"
 
+#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 namespace Engine
 {
 

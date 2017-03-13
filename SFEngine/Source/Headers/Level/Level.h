@@ -2,10 +2,10 @@
 #define SFENGINE_OPT_LEVEL_G
 
 #include "../Actor/Player.h"
-#include "../Actor/Actor.h"
 #include "../Physics/Physics.h"
 #include "../Lights/LightingSystem.h"
 #include "../Tiles/TileSheet.h"
+#include "../../../ThirdParty/SelbaWard.hpp"
 
 class GameMain;
 
@@ -57,6 +57,8 @@ namespace Engine
     Level(const std::string &levelFile);
     Level(const Level &) = delete;
     ~Level();
+    
+    static void BindMethods(chaiscript::ModulePtr mptr);
 
     void TickUpdate(const double &delta) override;
     void Render(std::shared_ptr<sf::RenderTarget> Target) override;
@@ -71,6 +73,8 @@ namespace Engine
     void HandleKeyPress(const sf::Keyboard::Key &key);
     void HandleKeyRelease(const sf::Keyboard::Key &key);
     void HandleWindowResized();
+
+    static std::shared_ptr<LevelObject> GetObjectByName(const std::string &ID);
 
     std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> TestLevelMeshes;
     std::vector<std::shared_ptr<PhysicsEngineSegmentType>> TestSegments;
@@ -87,7 +91,7 @@ namespace Engine
     void RenderRegular();
     void RenderLoadingScreen();
     void GenerateGrid();
-
+    sf::View Camera;
     std::shared_ptr<sf::RenderTexture> SceneTexture;
 
 #ifdef WITH_EDITOR
@@ -111,15 +115,19 @@ namespace Engine
     void SpawnNPoly(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
     void SpawnWave(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius, bool IsHard,
                    unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight,
-                   unsigned int ampLeft, float waveLenLeft, float rFreqLeft,
+                                            float ampLeft, float waveLenLeft, float rFreqLeft,
                    float elev, float airDen, float depth, float fluidDen);
     bool DoUpdatePhysics = true;
 
-    vec2d Gravity;
+    sw::TileMap TileMap;
+    sf::Texture TileMapTexture;
+    std::vector<unsigned char> lvlData;
+
+    ::vec2d *Gravity;
     std::vector<BaseMeshPtr> TestObjects;
     std::vector<SegmentPtr> Segments;
     std::vector<WaveSegmentPtr> Waves;
-	std::vector<std::shared_ptr<LevelObject>> Objects;
+    std::vector<std::shared_ptr<LevelObject>> Objects;
     sf::RectangleShape LevelRectangle; //to draw the scene to
     std::shared_ptr<sf::RenderTexture> SceneTarget;
     std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
@@ -151,6 +159,7 @@ namespace Engine
     void LoadAnimations(const Json::Value &value);
   };
 
+  extern Level* CurrentLevel;
 }
 
 #endif

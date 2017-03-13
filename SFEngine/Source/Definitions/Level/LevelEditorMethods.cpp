@@ -1,9 +1,12 @@
 #include "../../Headers/Level/Level.h"
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+
+#ifdef WITH_EDITOR
 
 namespace Engine
 {
 
-#ifdef WITH_EDITOR
+
   void Level::SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f &Position)
   {
 	  Actor->SetActorPosition(Position);
@@ -21,6 +24,6 @@ namespace Engine
 
   }
 
-#endif
-
 }
+
+#endif

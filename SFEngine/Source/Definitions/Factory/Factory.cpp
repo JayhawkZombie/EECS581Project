@@ -24,6 +24,8 @@ namespace Engine
     {
       err.AddCause({ ExceptionCause::ConstructionError });
       err.AddMessage(EXCEPTION_MESSAGE("Factory failed to construct GenericActor object"));
+
+      throw;
     }
   }
 

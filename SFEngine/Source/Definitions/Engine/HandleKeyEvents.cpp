@@ -48,96 +48,49 @@ namespace Engine
 
   void SFEngine::HandleTextEntered(const sf::Uint32 &unicode)
   {
-    UIInputEvent.Key = sf::Keyboard::Unknown;
-    UIInputEvent.TextUnicode = unicode;
-    UIInputEvent.TextWasEntered = true;
-    UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
-    UIInputEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
-    UIInputEvent.MouseButtonWasPressed = false;
-    UIInputEvent.MouseButtonWasReleased = false;
-    UIInputEvent.EventType = InputEventType::TextEntered;
-    UIInputEvent.KeyRepeat = false;
-    UIInputEvent.KeyWasPressed = false;
-    UIInputEvent.KeyWasReleased = false;
-
-#ifdef WITH_EDITOR
-    GameEditor.HandleTextEntered(UIInputEvent);
-#endif
+    UEvent.Key = sf::Keyboard::Unknown;
+    UEvent.TextUnicode = unicode;
+    UEvent.TextWasEntered = true;
+    UEvent.PreviousMousePosition = UEvent.CurrentMousePosition;
+    UEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
+    UEvent.MouseButtonWasPressed = false;
+    UEvent.MouseButtonWasReleased = false;
+    UEvent.EventType = UserEventType::TextEntered;
+    UEvent.KeyRepeat = false;
+    UEvent.KeyWasPressed = false;
+    UEvent.KeyWasReleased = false;
   }
 
   void SFEngine::HandleKeyPress(const sf::Keyboard::Key &k)
   {
-    UIInputEvent.Key = k;
-    UIInputEvent.TextUnicode = k;
-    UIInputEvent.TextWasEntered = false;
-    UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
-    UIInputEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
-    UIInputEvent.MouseButtonWasPressed = false;
-    UIInputEvent.MouseButtonWasReleased = false;
-    UIInputEvent.EventType = InputEventType::KeyboardPress;
-    UIInputEvent.KeyRepeat = false;
-    UIInputEvent.KeyWasPressed = true;
-    UIInputEvent.KeyWasReleased = false;
+    UEvent.Key = k;
+    UEvent.TextUnicode = k;
+    UEvent.TextWasEntered = false;
+    UEvent.PreviousMousePosition = UEvent.CurrentMousePosition;
+    UEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
+    UEvent.MouseButtonWasPressed = false;
+    UEvent.MouseButtonWasReleased = false;
+    UEvent.EventType = UserEventType::KeyboardPress;
+    UEvent.KeyRepeat = false;
+    UEvent.KeyWasPressed = true;
+    UEvent.KeyWasReleased = false;
 
     CheckKeyboardShortcuts();
-    
-#ifdef WITH_EDITOR
-    GameEditor.HandleKeyPressed(UIInputEvent);
-#else
-
-    if (k == sf::Keyboard::Escape)
-      EngineUIController.ToggleShown();
-    else
-      EngineUIController.Handler.HandleKeyPress(k);
-
-    for (auto & level : Levels) {
-      level->Handler.HandleKeyPress(k);
-    }
-
-#endif
   }
 
   void SFEngine::HandleKeyRelease(const sf::Keyboard::Key &k)
   {
-    UIInputEvent.Key = k;
-    UIInputEvent.TextUnicode = 0;
-    UIInputEvent.TextWasEntered = false;
-    UIInputEvent.PreviousMousePosition = UIInputEvent.CurrentMousePosition;
-    UIInputEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
-    UIInputEvent.MouseButtonWasPressed = false;
-    UIInputEvent.MouseButtonWasReleased = false;
-    UIInputEvent.EventType = InputEventType::KeyboardRelease;
-    UIInputEvent.KeyRepeat = false;
-    UIInputEvent.KeyWasPressed = false;
-    UIInputEvent.KeyWasReleased = true;
-
-    //CheckKeyboardShortcuts();
-
-#ifdef WITH_EDITOR
-    GameEditor.HandleKeyReleased(UIInputEvent);
-#endif
-
-    switch (k)
-    {
-      case sf::Keyboard::Num0:
-        RenderSettings.PostProcess = 0;
-        break;
-      case sf::Keyboard::Num1:
-        RenderSettings.PostProcess = 1;
-        break;
-      case sf::Keyboard::Num2:
-        RenderSettings.PostProcess = 2;
-        break;
-      case sf::Keyboard::Num3:
-        RenderSettings.PostProcess = 3;
-        break;
-    }
-
-    Render::__Set__Render__Settings(RenderSettings);
-
-    for (auto & level : Levels) {
-      level->HandleKeyRelease(k);
-    }
+    UEvent.Key = k;
+    UEvent.TextUnicode = 0;
+    UEvent.TextWasEntered = false;
+    UEvent.PreviousMousePosition = UEvent.CurrentMousePosition;
+    UEvent.CurrentMousePosition = sf::Mouse::getPosition(*currentRenderWindow);
+    UEvent.MouseButtonWasPressed = false;
+    UEvent.MouseButtonWasReleased = false;
+    UEvent.EventType = UserEventType::KeyboardRelease;
+    UEvent.KeyRepeat = false;
+    UEvent.KeyWasPressed = false;
+    UEvent.KeyWasReleased = true;
   }
 
 }

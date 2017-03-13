@@ -43,6 +43,7 @@ void lineBumper::update()
   vtx[1].position.x = pos.x + L.x + (float)bumpIdx*vel.x;
   vtx[1].position.y = pos.y + L.y + (float)bumpIdx*vel.y;
 
+  siz = { std::abs(vtx[0].position.x - vtx[1].position.x), std::abs(vtx[0].position.y - vtx[1].position.y) };
   return;
 }
 

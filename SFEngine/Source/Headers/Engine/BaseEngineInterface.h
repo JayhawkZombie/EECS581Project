@@ -5,10 +5,6 @@
 #include "../Events/EventHandler.h"
 #include "../Exceptions/Exceptions.h"
 
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
-
 namespace Engine
 {
   /**
@@ -17,7 +13,6 @@ namespace Engine
   *  will work on fixing later and getting GlobalHooks in better shape
   */
   class Level;
-  extern std::shared_ptr<Level> CurrentLevel;
 
 #define TYPEDEF_PARENT_CLASS(PARENTCLASS) \
   typedef PARENTCLASS Super; 

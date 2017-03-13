@@ -16,7 +16,6 @@
 #include <Thor/Animations.hpp>
 #include <Thor/Vectors/PolarVector2.hpp>
 #include <Thor/Math/Distributions.hpp>
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 #include "../../../ThirdParty/IMGUI/imgui.h"
 #include "../../../ThirdParty/IMGUI/imgui-SFML.h"
 
@@ -26,6 +25,12 @@ const std::string CORE_PATH{ "./SFEngine/Source/CoreFiles/" };
 
 //remove this to launch the engine without editing tools
 #define WITH_EDITOR
+
+namespace chaiscript {
+  class ChaiScript;
+  class Module;
+  typedef std::shared_ptr<Module> ModulePtr;
+}
 
 #ifdef WITH_EDITOR
 namespace Engine
@@ -45,7 +50,7 @@ Type Name;
 #define EDITOR_VISIBLE
 #define EDITOR_VISIBLE_TYPE(Type,Name)\
 Type Name;
-#endif
+#endif //WITH_EDITOR
 
 #ifdef WITH_EDITOR
 
@@ -55,7 +60,7 @@ VarType VarName;
 
 #else
 #define EDITORONLY(VarType, VarName)
-#endif //WITH_EDITOR -> EDITORONLY DEFINITION
+#endif //WITH_EDITOR -> EDITORONLY
 
 
 #define ___INTERNAL__SLASH(S)\
@@ -198,6 +203,12 @@ namespace Engine
   extern Render::RenderSettings EngineRenderSettings;
 
   //For interacting with the scripting engine
+  extern bool GetKeyDown(const sf::Keyboard::Key &key);
+  extern bool GetKeyLeftDown(const sf::Keyboard::Key &key);
+  extern bool GetKeyUp(const sf::Keyboard::Key &key);
+  extern bool GetMouseButtonDown(const sf::Mouse::Button &button);
+  extern bool GetMouseButtonUp(const sf::Mouse::Button &button);
+  extern sf::Vector2f GetMousePosition();
 
   //Some methods to use to serialize assets - put here so they can be globally accessible to anything that needs that
   void SerializeString(const std::string &string, std::ofstream &out);
@@ -224,28 +235,20 @@ namespace Engine
   void Confirm(const std::string &message);
 
   class UserEvent;
-  extern DataStream<UserEvent> EngineEventStream;
+
+  extern DataStream<UserEvent> EventStream;
   extern chaiscript::ChaiScript *ScriptEngine;
 
 #ifdef WITH_EDITOR
   class SFEngine;
   extern SFEngine *CurrentEngine;
   extern bool FlagForClose;
-  namespace UI {
-    class BaseUIElement;
-  };
-
-  extern void AddUI(std::shared_ptr<Engine::UI::BaseUIElement> element);
 #endif
 
   extern void SetKeyRepeatEnabled(bool);
 
   extern std::shared_ptr<tgui::Gui> GUI;
 }
-
-//This is pretty hacky, and will be changed later
-// Just used to flag that we need to close down (since we can't use a close button when in fullscreen mode)
-
 
 #define __TO_FLOAT__(VAR)\
 static_cast<float>(VAR)
