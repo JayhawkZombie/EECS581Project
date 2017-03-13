@@ -99,3 +99,84 @@ bool Party::hasLost()
 	}//if none of them are alive, we've lost
 	return true;
 }
+
+void Party::selectChar()
+{
+	int choice;
+	while (true)
+	{
+		std::cout << "Which fighter would you like to examine?\n";
+		for (int i = 0; i < 4; i++)
+		{
+			if (fighters[i])
+			{
+				std::cout << i << ") " << fighters[i]->getName();
+				if (fighters[i]->getHpCur() < 0)//this if block is so we dont print out negative hp/mp numbers
+				{
+					fighters[i]->setHpCur(0);
+				}
+				if (fighters[i]->getMpCur() < 0)
+				{
+					fighters[i]->setMpCur(0);
+				}
+				std::cout << " HP: " << fighters[i]->getHpCur() << "/" << fighters[i]->getHpMax();
+				std::cout << " MP: " << fighters[i]->getMpCur() << "/" << fighters[i]->getMpMax();
+			}
+		}
+		std::cout << "5) Exit\n";
+		try
+		{
+			std::cin >> choice;
+			if (choice == 5)
+			{
+				return;
+			}
+			else if (!fighters[choice])
+			{
+				std::cout << "Sorry we dont have a fighter at index: " << choice << "\n";
+			}
+			else if (fighters[choice])
+			{
+				charScreen(choice);
+			}
+			else
+			{
+				std::cout << "How did you get here?\n";
+			}
+		}
+		catch (int e)
+		{
+			std::cout << "Error code " << e <<"\n";
+		}
+	}
+}
+
+void Party::charScreen(int index)
+{
+	//Name Info
+	std::cout << "Name:        " << fighters[index]->getName() << "\n";
+	
+	//Hp Mp Status info
+	if (fighters[index]->getHpCur() < 0)
+	{
+		fighters[index]->setHpCur(0);
+	}
+	if (fighters[index]->getMpCur() < 0)
+	{
+		fighters[index]->setMpCur(0);
+	}
+	std::cout << "Hp: " << fighters[index]->getHpCur() << "/" << fighters[index]->getHpMax() << "\n";
+	std::cout << "Mp: " << fighters[index]->getMpCur() << "/" << fighters[index]->getMpMax() << "\n";
+
+	//Programming Class info
+	if (fighters[index]->getIsHuman())
+	{
+		std::cout << "Human\n";
+	}
+	else if (fighters[index]->getIsMonster())
+	{
+		std::cout << "Monster\n";
+	}
+
+
+}

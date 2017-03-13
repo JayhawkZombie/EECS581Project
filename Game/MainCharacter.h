@@ -12,9 +12,9 @@ public:
 	*/
 	MainCharacter();
 	~MainCharacter();
-	void IncrementAffinity(int index, int value);
+	virtual bool IncrementAffinity(int index, int value);
 	int getAffinity(int index);
-	void printAffinities();
+	virtual void printAffinities();
 
 private:
 	int m_affinity[6];

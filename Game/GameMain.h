@@ -45,7 +45,7 @@ public:
 	static std::map<int, std::map<int, std::map<int, std::map<int, MonsterType*>>>> Monsters(MonsterType** myArray);
 	static std::map<int, std::map<int, std::map<int, std::map<int, int>>>> indexLookup(MonsterType** myArray);
 	static std::map<int, std::map<int, std::map<int, int>>> numStagesLookup();
-
+	static void printMonsterIndexLookup();
     std::map<Type, std::map<Type, MonsterTree>> m_MonsterMap;
 
 private:

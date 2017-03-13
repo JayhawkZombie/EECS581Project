@@ -4,6 +4,8 @@
 
 Monster::Monster()
 {
+	m_isMonster = true;
+	m_isHumanActor = false;
 }
 
 

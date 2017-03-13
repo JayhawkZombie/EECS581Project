@@ -4,6 +4,9 @@
 //constructor/Destructor
 HumanActor::HumanActor()
 {
+	m_isHumanActor = true;
+	m_isMonster = false;
+
 	m_defense = Damage();
 	m_weaponLeft = nullptr;
 	m_weaponRight = nullptr;

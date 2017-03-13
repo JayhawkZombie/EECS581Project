@@ -4,7 +4,7 @@
 
 SkillSet::SkillSet()
 {
-  for (int i = 0; i < sizeof(skillArray); i++)
+  for (int i = 0; i < 12; i++)
   {
     skillArray[i] = false;
   }

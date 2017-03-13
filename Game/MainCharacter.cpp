@@ -35,21 +35,22 @@ void MainCharacter::gainExp(int gain)
 	HumanActor::gainExp(gain);
 }
 */
-void MainCharacter::IncrementAffinity(int index, int value)
+bool MainCharacter::IncrementAffinity(int index, int value)
 {
 	if (index < 1 || index>6)//no work done on bad values
 	{
-		return;
-	}
+		return false;
+	}/*
 	if (value > 20)
 	{
-		value = 20;
+		return false;
 	}
 	else if (value < -20)
 	{
-		value = -20;
-	}
+		return false;
+	}*/
 	m_affinity[index] = m_affinity[index] + value;
+	return true;
 }
 
 int MainCharacter::getAffinity(int index)

@@ -4,6 +4,8 @@
 
 BattleActor::BattleActor()
 {
+	m_isHumanActor = false;
+	m_isMonster = false;
 }
 
 
@@ -88,6 +90,16 @@ int BattleActor::getLevel()const
 int BattleActor::getExp()const
 {
   return m_exp;
+}
+
+bool BattleActor::getIsHuman()const
+{
+	return m_isHumanActor;
+}
+
+bool BattleActor::getIsMonster()const
+{
+	return m_isMonster;
 }
 
 //setters

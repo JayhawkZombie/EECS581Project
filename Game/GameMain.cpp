@@ -527,7 +527,8 @@ int GameMain::run()
 		std::cout << "4) Run Tests\n";
 		std::cout << "5) rewrite Weapon Content\n";
 		std::cout << "6) Peruse Reliquary\n";
-		std::cout << "7) Exit\n";
+		std::cout << "7) Print Monsters Simple\n";
+		std::cout << "8) Exit\n";
 		std::cin >> choice;
 		if (choice == 1)
 		{
@@ -572,7 +573,11 @@ int GameMain::run()
 		}
 		else if (choice == 7)
 		{
-			return 0;
+			GameMain::printMonsterIndexLookup();
+		}
+		else if (choice == 8)
+		{
+				return 0;
 		}
 		else
 		{
@@ -646,4 +651,14 @@ void GameMain::TickUpdate(const double &Delta)
 void GameMain::Render(std::shared_ptr<sf::RenderTexture> Target)
 {
 
+}
+
+void GameMain::printMonsterIndexLookup()
+{
+		ListReader list;
+		MonsterType** myArray = list.readMonsters("Game/ContentFiles/MonsterTypes/MonsterTypes.txt");
+		for (int i = 0; i < 319; i++)
+		{
+				std::cout << i << " " << myArray[i]->getPrimary() << " " << myArray[i]->getSecondary() << " " << myArray[i]->getName() << "/n";
+		}
 }
