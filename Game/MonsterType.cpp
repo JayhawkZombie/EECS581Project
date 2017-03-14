@@ -216,3 +216,83 @@ MonsterType* MonsterType::getMagicalEvolution()
 	return m_magicalEvolution;
 }
 
+MonsterType** MonsterType::readMonsters(std::string fileName)
+{
+		// Declares the ifstream to read in the file from the string file name.
+		
+		std::ifstream file;
+		file.open(fileName);
+		//If the file isn't there, then print no file, and return NULL
+		if (!file.is_open())
+		{
+				std::cout << "No file\n";
+				return NULL;
+		}
+		int numMonsters;
+		//Reads in total number of monsters
+		//Assumes the file size is on top of the text file's data
+		file >> numMonsters;
+
+		//Creation of monster array that will contain all of the monsters
+		MonsterType** monsters = new MonsterType*[numMonsters];
+
+		//Monster pointer for creation of new monster instances
+		MonsterType* newMonster;
+
+		//Curent index in monster array
+		int index = 0;
+
+		//Temporary types that will pass in data
+		std::string line;
+		int intVal;
+		std::getline(file, line);
+
+		//Main loop for passing in monster data
+		//Assumes completed monster descriptions. (might break if they aren't?)
+		//While the index is smaller (or equal to, since its index starts at 0) to the total number of monsters that's read in from the top of the file data
+		while (index < numMonsters)
+		{
+				//Create new monster instance
+				newMonster = new MonsterType;
+
+				//Reading in data given how it looks like you're formatting the text files
+				//   std::getline(file,line);
+				std::getline(file, line);
+				std::getline(file, line); //Gets the monster name here
+				newMonster->setName(line); //Sets the monster name
+
+				std::getline(file, line); //Gets the monster description
+				newMonster->setDescription(line); //Sets the monster description
+
+				file >> intVal; //Gets the primary element in integer form
+				newMonster->setPrimary(intVal); //Sets the primary element
+
+				file >> intVal; //Gets the secondary element
+				newMonster->setSecondary(intVal); //Sets the secondary element
+
+				file >> intVal; //Gets the evolution stage
+				newMonster->setEvolutionStage(intVal); //Sets the evolution stage
+
+				file >> intVal; //Gets the evolution type
+				newMonster->setEvolutionType(intVal); //Sets the evolution type
+
+				std::getline(file, line);
+				std::getline(file, line); //Gets the texture
+				newMonster->setTexture(line); //Sets the texture
+
+																			//Evolutions are not currently set because you mentioned it's not finished yet?
+				std::getline(file, line); //Gets the Physical Evolution
+																	//newMonster->setPhysicalEvolution(line);
+
+				std::getline(file, line); //Gets the Balanced Evolution
+																	//newMonster->setBalancedEvolution(line);
+
+				std::getline(file, line); //Gets the Magical Evolution
+																	//newMonster->setMagicalEvolution(line);
+
+				monsters[index] = newMonster; //Places the monster in the array
+				index++; //Increment the index
+		}
+		file.close(); //Close the data text file
+		return monsters; //Return the monster array
+}

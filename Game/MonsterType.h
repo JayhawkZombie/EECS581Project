@@ -3,6 +3,17 @@
 #include <string>
 #include <iostream>
 #include <map>
+
+//the below are included for reading files
+#include <ctype.h>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <stdlib.h>
+#include <regex>
+#include <memory>
+
 class MonsterType{
 
 public:	
@@ -33,9 +44,9 @@ public:
 	void setPhysicalEvolution(MonsterType* physicalEvolution);
 	void setBalancedEvolution(MonsterType* balancedEvolution);
 	void setMagicalEvolution(MonsterType* magicalEvolution);
-	std::map<int, std::map<int, std::map<int, std::map<int, int>>>> getMBPType();
-
-
+	static std::map<int, std::map<int, std::map<int, std::map<int, int>>>> getMBPType();
+	static MonsterType** readMonsters(std::string fileName);
+	
 private:
 	int m_primary;
 	int m_secondary;
@@ -49,5 +60,6 @@ private:
 	MonsterType* m_magicalEvolution;
 	int m_numEvolutions;
 	std::string m_texture;
+
 };
 #endif

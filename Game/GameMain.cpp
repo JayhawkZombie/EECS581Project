@@ -539,6 +539,8 @@ int GameMain::run()
 			MonsterType** myArray = list.readMonsters("Game/ContentFiles/MonsterTypes/MonsterTypes.txt");
 			for (int i = 0; i<319; i++)
 			{
+					std::cout << i << " " << myArray[i]->getName() << "\n";
+				/*
 				std::cout << "Index:            " << i << "\n";
 				std::cout << "Name:             " << myArray[i]->getName() << "\n";
 				std::cout << "Description:      " << myArray[i]->getDescription() << "\n";
@@ -550,8 +552,8 @@ int GameMain::run()
 				//		std::cout << "PhysicalEvolution:" << myArray[i]->getPhysicalEvolution() << "\n";
 				//		std::cout << "BalancedEvolution:" << myArray[i]->getBalancedEvolution() << "\n";
 				//		std::cout << "MagicalEvolution: " << myArray[i]->getMagicalEvolution() << "\n";
-
-				std::cout << "\n\n";
+				*/
+				//std::cout << "\n\n";
 			}
 		}
 		else if (choice == 3)

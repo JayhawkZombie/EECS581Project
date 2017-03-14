@@ -1,7 +1,23 @@
 #ifndef SKILL_H
 #define SKILL_H
 #include <string>
-#include "Damage.h"
+#include <map>
+
+#include "Damage.h" //for member variable m_effect
+
+
+#include "MonsterType.h"//for writing generic monster skills
+
+//the following two lines destroy everything if they are uncommented.
+//#include "ListReader.h"//for writing generic monster skills
+//#include "GameMain.h"//for subelement names when writing monster skills
+#include <math.h> //to use ceil when making damages
+
+#include <ctype.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdlib.h>
 class Skill
 {
 public:
@@ -32,6 +48,14 @@ public:
   void setCastOnEnemy(bool castOnEnemy);
   void setMpCost(int mpCost);
   void setDamage(Damage damage);
+	//		static Skill** readSkills(std::string fileName);
+	static void makeMonsterSkills();
+
+	//static std::map<int, std::map<int, std::string>> skillPrefixes();
+	static std::map<int, std::map<int, std::string>> AnimationFilePaths();
+	static std::map<int, std::string> skillDefinitions();
+	static std::map<int, std::string> specificSkillNames();
+	static std::map<int, std::map<int, std::string>> SubElementNames2();
 
 private:
   std::string m_name;

@@ -1,0 +1,319 @@
+0 Flarial
+1 Pyrus
+2 Flarpup
+3 PyroSymbol
+4 Pyos
+5 Comet
+6 FireOpal
+7 PyroElemental
+8 Pyres
+9 Bolide
+10 Ruby
+11 PyroAtronach
+12 Philammon
+13 Crerops
+14 Corynetes
+15 Philottus
+16 Cercyon
+17 Vulcanous
+18 Vagrus
+19 Salamander
+20 Raptor
+21 Winger
+22 Herbisaur
+23 Tyrant
+24 SteelWinger
+25 Spikevorsaur
+26 GreatWhiteTyrant
+27 EdgeWinger
+28 Broncheospikesaur
+29 Lesser Phoenix
+30 Chol
+31 Firebird
+32 Fawke
+33 FireEagle
+34 Fenghuang
+35 Franzer
+36 Angier
+37 Justicar
+38 Ayurved
+39 Ordinator
+40 Anyr
+41 Zireal
+42 Justicier
+43 Spiten
+44 Jacobia
+45 Lizebet
+46 Letham
+47 D'Hoffry
+48 Revenant
+49 Halfrec
+50 Minor Steamlet
+51 Lesser Steamlet
+52 Steamlet
+53 Greater Steamlet
+54 Minnow
+55 EdgeFinn
+56 Cuddlerfish
+57 Aqua Symbol
+58 SliceFinn
+59 Snugglerfish
+60 Torquoise
+61 Aqua Elemental
+62 Blue Dragon
+63 Levithan
+64 Sapphire
+65 Aqua Atronach
+66 Tapple
+67 Froget
+68 RainbowFrog
+69 Frogami
+70 Frogar
+71 Frogaudy
+72 Esotoad
+73 Tonguedancer
+74 Frogealer
+75 Meititode
+76 Cirrus
+77 Cumulus
+78 Stratus
+79 Nimbus
+80 Nephol
+81 CumuloStratus
+82 NimbuloPonderant
+83 Thunderus
+84 Cirricumulus
+85 Cumulonimbus
+86 SnoBall
+87 FauxIce
+88 Princeguin
+89 IceBreaker
+90 Freki
+91 Kinguin
+92 White Limper
+93 Ice Witch
+94 Bearon
+95 Emperorguin
+96 WhiteRunner
+97 Ice Lich
+98 Deepfish
+99 Inker
+100 Starish
+101 jelly
+102 Vasquid
+103 Ninjastar
+104 Hydroza
+105 Stauroza
+106 Kraken
+107 DeathStarFish
+108 Hydoridolina
+109 Trachylina
+110 Sprite
+111 Poorprechaun
+112 Aos si
+113 Shaboy
+114 Poshprechaun
+115 Tallf
+116 Shaman
+117 Metafilthy Poshprechaun
+118 Elder Elf
+119 Shamage
+120 Boggart
+121 Otter
+122 Will o' the Wisp
+123 Slough
+124 Wills o' the Wisp
+125 Slougtter
+126 Wills of the Wisps
+127 Babadger
+128 Bulbapup
+129 Stiket
+130 BadgeBadger
+131 VineWolf
+132 Trig
+133 Tera Symbol
+134 Honey Badger
+135 Greenwolf
+136 Professtrig
+137 Jade
+138 Tera Elemental
+139 Honey BadgeBear
+140 Sief
+141 Awarewolf
+142 Tenured Professtrig
+143 Emerald
+144 Tera Atronach
+145 Minor Pegasus
+146 Lesser Pegasus
+147 Sapwing
+148 Pegasus
+149 Wing Tree
+150 Greater Pegasus
+151 Flying Forest
+152 Buddi
+153 Bodisat
+154 Theresat
+155 Bodisatva
+156 Theresatva
+157 Shaolin
+158 Mother Theres
+159 Sewerat
+160 Smaugh
+161 Flint
+162 BeePee
+163 Kangarat
+164 Slynx
+165 Skorpi
+166 Humpless
+167 Sphynx
+168 Scarpi
+169 Unihump
+170 Greater Sphynx
+171 Scorpious
+172 Bihump
+173 Gullfish
+174 Guller
+175 Skipfish
+176 Peligull
+177 Flyfish
+178 Heligull
+179 Soarfish
+180 Colour
+181 Tusamcan
+182 Abstruse
+183 Threesamcan
+184 Fabstruse
+185 Foursamcan
+186 Seusstruse
+187 Flapper
+188 toupeagle
+189 Byrdi
+190 AeroSymbol
+191 Baldgul
+192 Wings
+193 Quartz
+194 Aero Elemental
+195 PatriotHawk
+196 Roc
+197 Topaz
+198 AeroAtronach
+199 Cockaone
+200 Cockarude
+201 Cockatwo
+202 Smilebird
+203 Cockadude
+204 Cockathree
+205 Lovebird
+206 CockaCrude
+207 CockaFour
+208 MotherBird
+209 Foreshadowwing
+210 ShadowWing
+211 Scavengair
+212 Rationowl
+213 Vampire
+214 Skulltrure
+215 Wisowl
+216 Vampelder
+217 Lenoraven
+218 Knowlowlegabel
+219 Tona
+220 FireFaux
+221 Diurnal
+222 Vega
+223 FlareWulf
+224 Solaire
+225 Antares
+226 Flarebear
+227 FireTyrant
+228 Sol
+229 Lona
+230 Lunapup
+231 Chandra
+232 Selen
+233 Mayari
+234 Celene
+235 Luna
+236 Escutcheoner
+237 Sheildar
+238 Haloss
+239 Scardar
+240 Halosses
+241 Guardainus
+242 Halarial
+243 Demiangel
+244 Hemiangel
+245 Semiangel
+246 Onangel
+247 Anangel
+248 Archangel
+249 Ultrangel
+250 Lumin
+251 Phage
+252 Candella
+253 Light Symbol
+254 Argenphage
+255 Luminace
+256 MoonStone
+257 Light Elemental
+258 Ascendenphage
+259 Luminacier
+260 Diamond
+261 Light Atronach
+262 Guiltor
+263 Atonet
+264 Reprate
+265 Dimmer
+266 Astone
+267 Restit
+268 Glowen
+269 Atonement
+270 Redeemer
+271 Enlighten
+272 Fiend
+273 Scamp
+274 Imp
+275 Jinn
+276 Incubus
+277 Succubus
+278 Grimiore
+279 Astaroth
+280 Asag
+281 Shedu
+282 Stinger
+283 BuzzBlade
+284 Slyther
+285 Creeper
+286 Wasplash
+287 Slyslyther
+288 Widow
+289 Queen B
+290 King Rattle
+291 Red Widow
+292 Stull
+293 Skullsaur
+294 Ghostet
+295 Skullclar
+296 Wraith
+297 Skulltyrant
+298 Specter
+299 Maltag
+300 Thundroar
+301 Tempestor
+302 Thundragon
+303 FallenDemiAngel
+304 Fallen HemiAngel
+305 Black Knight
+306 Avengeant
+307 Umbress
+308 Shadeoss
+309 Screel
+310 Umbral Symbol
+311 Senistair
+312 Caecus
+313 Obsidian
+314 Umbral Elemental
+315 Eye Of Dis
+316 Mang
+317 Onyx
+318 Umbral Atronach
