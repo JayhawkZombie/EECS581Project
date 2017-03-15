@@ -188,8 +188,7 @@ namespace Engine
   {
 	//Polygon Mesh parameters
 	//unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color
-    //CollisionMesh = BuildBallMesh('B', Position, Velocity, static_cast<int>(std::ceil(Size.y / 2.f)), 1, 1, sf::Color::Transparent);
-	  ObjectMesh = BuildPolygonMesh(4, 50, 3.141592653 / 4.f, { 100, 150 }, Velocity, 0.5f, 0.01f, sf::Color::White);
+	  ObjectMesh = BuildPolygonMesh(4, 80, 3.141592653 / 4.f, { 100, 150 }, Velocity, 0.5f, 0.01f, sf::Color::White);
 	  MeshRadius = 50.f;
   }
 
