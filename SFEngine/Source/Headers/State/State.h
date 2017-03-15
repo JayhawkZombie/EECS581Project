@@ -1,10 +1,16 @@
 #ifndef STATE_H
 #define STATE_H
+
+#include "../../../ThirdParty/cereal/cereal.hpp"
+#include "../../../ThirdParty/cereal/archives/json.hpp"
+
 namespace Engine {
 	class State {
 	public:
-		virtual void Save() = 0;
-		virtual void Restore() = 0;
+    template <class Archive>
+		virtual void Save(Archive & archive) = 0;
+    template <class Archive>
+		virtual void Restore(Archive & archive) = 0;
 
 	};
 }

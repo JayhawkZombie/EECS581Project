@@ -2,11 +2,11 @@
 #include "../../Headers/Engine/Engine.h"
 
 #include <vector>
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-
+//#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include <TGUI\TGUI.hpp>
 
 #ifdef _WINUSER_
-#undef _WINUSER_
+#pragma push_macro("MessageBox")
 #undef MessageBox
 #endif
 
@@ -436,6 +436,9 @@ namespace Engine
 
   void MessageAlert(const std::string & message)
   {
+#ifdef MessageBox
+#undef MessageBox
+#endif
     tgui::MessageBox::Ptr mbox = std::make_shared<tgui::MessageBox>();
     mbox->setText(message);
     mbox->setSize({ 400, 400 });
