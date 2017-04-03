@@ -1,8 +1,8 @@
 # EECS581Project
 
-###This project is still in pre-alpha, and is nowhere near ready for any sort of release
+### This project is still in pre-alpha, and is nowhere near ready for any sort of release
 
-##License
+## License
 This software is provided 'as-is', without any express or
 implied warranty. In no event will the authors be held
 liable for any damages arising from the use of this software.
@@ -23,12 +23,12 @@ it freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any
    source distribution.
 
-###SFML
+### SFML
 Used under license  
 Used for all rendering and graphics features.  
 SFML is used under license according to the SFML license terms.  
 [SFML License](https://github.com/SFML/SFML/blob/master/license.txt)  
 
-###Physics  
+### Physics  
 Used with permission of the author.  Credit is attributed to Derek Slagle  
 A link cannot be provided to an online repository as one does not exist for this code  
