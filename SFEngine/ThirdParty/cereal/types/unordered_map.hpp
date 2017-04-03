@@ -30,7 +30,11 @@
 #ifndef CEREAL_TYPES_UNORDERED_MAP_HPP_
 #define CEREAL_TYPES_UNORDERED_MAP_HPP_
 
+<<<<<<< HEAD
 #include "cereal/types/concepts/pair_associative_container.hpp"
+=======
+#include "../types/concepts/pair_associative_container.hpp"
+>>>>>>> aabc420d35d8d21d7273ffe4d906f8c9fc0d2341
 #include <unordered_map>
 
 #endif // CEREAL_TYPES_UNORDERED_MAP_HPP_

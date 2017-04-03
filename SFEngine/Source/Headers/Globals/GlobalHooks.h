@@ -1,11 +1,16 @@
 #ifndef SFENGINE_GLOBAL_HOOKS_H
 #define SFENGINE_GLOBAL_HOOKS_H
 
+#include <TGUI\Widgets\MessageBox.hpp>
+typedef tgui::MessageBox tguiMessageBox;
+
 #include <SFML\Graphics.hpp>
 #ifdef _WINUSER_
-#undef _WINUSER_
+#push_macro("MessageBox")
+#undef MessageBox
 #endif
 
+#include "../BasicIncludes.h"
 #include <algorithm>
 #include <unordered_set>
 #include <chrono>
@@ -19,8 +24,11 @@
 #include <Thor/Animations.hpp>
 #include <Thor/Vectors/PolarVector2.hpp>
 #include <Thor/Math/Distributions.hpp>
+#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 #include "../../../ThirdParty/IMGUI/imgui.h"
 #include "../../../ThirdParty/IMGUI/imgui-SFML.h"
+#include "../../../ThirdParty/cereal/cereal.hpp"
+#include "../../../ThirdParty/cereal/archives/json.hpp"
 
 const std::string EngineVersionString{ "0.0.1" };
 const std::string EditorVersionString{ "0.0.1.B-fIncomplete" };
@@ -28,7 +36,6 @@ const std::string CORE_PATH{ "./SFEngine/Source/CoreFiles/" };
 
 //remove this to launch the engine without editing tools
 #define WITH_EDITOR
-
 //Change this to redirect all error output
 #define ERR_STREAM std::cerr
 
@@ -69,7 +76,7 @@ Type Name;
 #define EDITOR_VISIBLE
 #define EDITOR_VISIBLE_TYPE(Type,Name)\
 Type Name;
-#endif //WITH_EDITOR
+#endif
 
 #ifdef WITH_EDITOR
 
@@ -79,7 +86,7 @@ VarType VarName;
 
 #else
 #define EDITORONLY(VarType, VarName)
-#endif //WITH_EDITOR -> EDITORONLY
+#endif //WITH_EDITOR -> EDITORONLY DEFINITION
 
 #define __PREPROC_ID_CONCAT(__X, __Y) __X ## __Y
 #define __STRINGIFY_PREPROC_STR(__X) #__X
@@ -223,13 +230,7 @@ namespace Engine
   extern Render::RenderSettings EngineRenderSettings;
 
   //For interacting with the scripting engine
-  extern bool GetKeyDown(const sf::Keyboard::Key &key);
-  extern bool GetKeyLeftDown(const sf::Keyboard::Key &key);
-  extern bool GetKeyUp(const sf::Keyboard::Key &key);
-  extern bool GetMouseButtonDown(const sf::Mouse::Button &button);
-  extern bool GetMouseButtonUp(const sf::Mouse::Button &button);
-  extern sf::Vector2f GetMousePosition();
-
+  
   //Some methods to use to serialize assets - put here so they can be globally accessible to anything that needs that
   void SerializeString(const std::string &string, std::ofstream &out);
   void SerializeInt32(const std::int32_t &value, std::ofstream &out);
@@ -258,20 +259,28 @@ namespace Engine
   extern void SwitchLevel(std::shared_ptr<BasicLevel> Level);
 
   class UserEvent;
-
-  extern DataStream<UserEvent> EventStream;
+  extern DataStream<UserEvent> EngineEventStream;
   extern chaiscript::ChaiScript *ScriptEngine;
 
 #ifdef WITH_EDITOR
   class SFEngine;
   extern SFEngine *CurrentEngine;
   extern bool FlagForClose;
+  namespace UI {
+    class BaseUIElement;
+  };
+
+  extern void AddUI(std::shared_ptr<Engine::UI::BaseUIElement> element);
 #endif
 
   extern void SetKeyRepeatEnabled(bool);
 
   extern std::shared_ptr<tgui::Gui> GUI;
 }
+
+//This is pretty hacky, and will be changed later
+// Just used to flag that we need to close down (since we can't use a close button when in fullscreen mode)
+
 
 #define __TO_FLOAT__(VAR)\
 static_cast<float>(VAR)

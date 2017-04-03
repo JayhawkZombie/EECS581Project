@@ -30,8 +30,13 @@
 #ifndef CEREAL_TYPES_BITSET_HPP_
 #define CEREAL_TYPES_BITSET_HPP_
 
+<<<<<<< HEAD
 #include "cereal/cereal.hpp"
 #include "cereal/types/string.hpp"
+=======
+#include "../cereal.hpp"
+#include "../types/string.hpp"
+>>>>>>> aabc420d35d8d21d7273ffe4d906f8c9fc0d2341
 #include <bitset>
 
 namespace cereal

@@ -2,8 +2,8 @@
 #include "../../Headers/Engine/Engine.h"
 #include "../../Headers/Level/BasicLevel.h"
 #include <vector>
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-
+//#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include <TGUI\TGUI.hpp>
 
 //This means war, Microsoft!
 #ifdef MessageBox
@@ -458,6 +458,9 @@ namespace Engine
 
   void MessageAlert(const std::string & message)
   {
+#ifdef MessageBox
+#undef MessageBox
+#endif
     tgui::MessageBox::Ptr mbox = std::make_shared<tgui::MessageBox>();
     mbox->setText(message);
     mbox->setSize({ 400, 400 });

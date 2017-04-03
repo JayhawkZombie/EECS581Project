@@ -32,7 +32,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef CEREAL_TYPES_VALARRAY_HPP_
 #define CEREAL_TYPES_VALARRAY_HPP_
 
+<<<<<<< HEAD
 #include "cereal/cereal.hpp"
+=======
+#include "../cereal.hpp"
+>>>>>>> aabc420d35d8d21d7273ffe4d906f8c9fc0d2341
 #include <valarray>
 
 namespace cereal

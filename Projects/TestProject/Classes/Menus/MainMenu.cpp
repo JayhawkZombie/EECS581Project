@@ -97,14 +97,14 @@ MainMenu::MainMenu(const sf::Vector2u & LevelSize, const sf::FloatRect & Default
 
 
   texture.loadFromFile("./Projects/TestProject/Textures/particle.png");
-  emitter.setEmissionRate(50.f);
+  emitter.setEmissionRate(85.f);
   emitter.setParticleLifetime(sf::seconds(6));
 
   system.setTexture(texture);
   system.addEmitter(thor::refEmitter(emitter));
   
   emitter.setParticlePosition(sf::Vector2f( 0, 0 ));
-  emitter.setParticleScale(sf::Vector2f(0.3, 0.2));
+  emitter.setParticleScale(sf::Vector2f(0.4, 0.3));
 
   gradient[0.f] = sf::Color(0, 242, 255);
   gradient[0.5f] = sf::Color(0, 106, 112, 112);
@@ -114,7 +114,7 @@ MainMenu::MainMenu(const sf::Vector2u & LevelSize, const sf::FloatRect & Default
 
   system.addAffector(thor::AnimationAffector(*colorizer));
   system.addAffector(thor::AnimationAffector(fader));
-  system.addAffector(thor::TorqueAffector(100.f));
+  system.addAffector(thor::TorqueAffector(150.f));
   system.addAffector(thor::ForceAffector(sf::Vector2f(0.f, 100.f)));
   velocity = thor::PolarVector2f(200.f, -90.f);
 
