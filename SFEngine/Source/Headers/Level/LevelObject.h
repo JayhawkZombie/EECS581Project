@@ -3,15 +3,17 @@
 
 #include "../Engine/BaseEngineInterface.h"
 #include "../Animation/Animation.h"
+#include "../Components/ComponentBase.h"
 #include "../../../ThirdParty/PhysicsEngine.h"
-#include "../Components/ComponentManager.h"
 
 namespace Engine
 {
   class GenericActor;
   class Player;
   class Level;
+  class BasicLevel;
   class Collider2DComponent;
+  class Collider2D;
   class Interact2DComponent;
 
   enum class OverlapAction
@@ -25,12 +27,13 @@ namespace Engine
   {
   public:
 	friend class Level;
+  friend class BasicLevel;
     LevelObject();
     LevelObject(const LevelObject &obj);
     virtual ~LevelObject();
 
     static void BindScriptMethods(chaiscript::ModulePtr module);
-
+    virtual void ScriptInit();
     virtual void TickUpdate(const double &delta) override;
     virtual void PhysicsUpdate();
     virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
@@ -39,16 +42,7 @@ namespace Engine
     virtual void SerializeIn(std::ifstream &in) override;
     virtual void SetPosition(const sf::Vector2f &pos);
 
-    virtual std::shared_ptr<PhysicsEngineBaseMeshType> GetMesh() const {
-      return ObjectMesh;
-    }
-
-    virtual std::shared_ptr<PhysicsEngineSegmentType> GetSegments() const {
-      return ObjectSegments;
-    }
-
-    virtual void UpdateMesh();
-    virtual void UpdateSegments();
+    virtual void HandleInputEvent(const UserEvent &evnt);
     virtual void SetID(const std::string &ID) override;
 
     virtual void OnGameStart();
@@ -58,15 +52,14 @@ namespace Engine
     static void AddItemAnimation(std::shared_ptr<LevelObject> Item, const std::string &animName);
     sf::FloatRect GetGlobalBounds() const;
 
-    virtual void AttachComponent(std::shared_ptr<CollisionComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<ScriptComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<InteractionComponent> Component);
-
     virtual void Move(const sf::Vector2f &delta);
     virtual void Move(float x, float y);
     virtual void Move(int x, int y);
 
     void MoveObject(const sf::Vector2f &delta);
+
+    std::vector<std::shared_ptr<Collider2D>> GetColliders();
+    void AddCollider(std::shared_ptr<Collider2D> Collider);
 
   protected:
     std::shared_ptr<
@@ -74,10 +67,9 @@ namespace Engine
     std::shared_ptr<
       thor::Animator<sf::Sprite, std::string>> Animator;
     std::map<std::string, thor::FrameAnimation> FrameAnimations;
-    ComponentManager Components;
 
-    std::shared_ptr<PhysicsEngineBaseMeshType> ObjectMesh;
-    std::shared_ptr<PhysicsEngineSegmentType> ObjectSegments;
+    std::vector<std::shared_ptr<Collider2D>> m_Colliders;
+
   	std::shared_ptr<sf::Texture> SpriteTexture;
 	  sf::Sprite Sprite;
     std::shared_ptr<sf::Texture> Texture;

@@ -1,4 +1,5 @@
 #include "../../Headers/Actor/Actor.h"
+#include "../../Headers/Physics/Collider.h"
 #include <memory>
 
 #include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
@@ -71,9 +72,6 @@ namespace Engine
     {
       ItemID = std::to_string(GenerateID());
       ItemID = "Player" + ItemID;
-      std::cerr << "ActorID : " << ItemID << std::endl;
-
-      ScriptEngine->eval("var " + ItemID + " = Player(\"" + ItemID + "\")");
     }
     catch (std::exception &err)
     {
@@ -151,6 +149,10 @@ namespace Engine
     }
   }
 
+  void GenericActor::HandleInputEvent(const UserEvent & evnt)
+  {
+  }
+
   bool GenericActor::WantsInputEvent(const Events &evnt) const
   {
     return false;
@@ -158,8 +160,11 @@ namespace Engine
 
   void GenericActor::SetActorPosition(const sf::Vector2f &pos)
   {
+    auto delta = Position - pos;
     Position = pos;
-	  ObjectMesh->setPosition({ pos.x, pos.y });
+    for (auto & coll : m_Colliders)
+      coll->Move(delta);
+
 	  Sprite.setPosition(pos);
   }
 
@@ -189,7 +194,8 @@ namespace Engine
 	//Polygon Mesh parameters
 	//unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color
     //CollisionMesh = BuildBallMesh('B', Position, Velocity, static_cast<int>(std::ceil(Size.y / 2.f)), 1, 1, sf::Color::Transparent);
-	  ObjectMesh = BuildPolygonMesh(4, 50, 3.141592653 / 4.f, { 100, 150 }, Velocity, 0.5f, 0.01f, sf::Color::White);
+    m_Colliders.push_back(Collider2D::CreatePolygonMesh(4, 50, 3.141592653 / 4.f, { 100, 150 }, Velocity, 0.5f, 0.01f, sf::Color::White));
+	  //ObjectMesh = BuildPolygonMesh(4, 50, 3.141592653 / 4.f, { 100, 150 }, Velocity, 0.5f, 0.01f, sf::Color::White);
 	  MeshRadius = 50.f;
   }
 
@@ -216,20 +222,5 @@ namespace Engine
   const sf::Vector2f& GenericActor::GetActorAcceleration() const
   {
     return Acceleration;
-  }
-
-  void  GenericActor::AttachComponent(std::shared_ptr<CollisionComponent> Component)
-  {
-
-  }
-
-  void  GenericActor::AttachComponent(std::shared_ptr<ScriptComponent> Component)
-  {
-
-  }
-
-  void  GenericActor::AttachComponent(std::shared_ptr<InteractionComponent> Component)
-  {
-
   }
 }

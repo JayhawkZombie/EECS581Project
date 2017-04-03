@@ -4,6 +4,8 @@
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
+#include "../../../../Projects/TestProject/Classes/Menus/MainMenu.h"
+
 namespace Engine
 {
 
@@ -86,6 +88,10 @@ namespace Engine
     Handler.BindTextEnterHandler([this](const sf::Uint32 &unicode) {this->HandleTextEntered(unicode); });
 
     std::ifstream _IN("SFEngine/Config/Engine.ini");
+    sf::Vector2u lSize;
+    sf::Vector2f gridSpac;
+    sf::FloatRect initView;
+    bool showgrid;
     if (_IN.fail()) {
       std::cerr << "Failed to open configuration file: \"Engine.ini\"" << std::endl;
 
@@ -106,6 +112,25 @@ namespace Engine
       ContextSettings.depthBits = Util::GetUnsignedIntConfig("Render", "uiDepthBits", 0, "Engine.ini", _IN);
       ContextSettings.sRgbCapable = Util::GetBooleanConfig("Render", "bSRGBCapable", true, "Engine.ini", _IN);
       ContextSettings.stencilBits = Util::GetUnsignedIntConfig("Render", "uiStencilBits", 0, "Engine.ini", _IN);
+
+      //Misleading variable name, this is actually the file path to the config file for the main entry level
+      //EntryLevelName = Util::GetStringConfig("Game", "EntryLevel", "", "Engine.ini", _IN);
+      //if (EntryLevelName == "") {
+      //  //No entry level found!!
+      //  ERR_STREAM << "No entry level defined!" << std::endl;
+      //  CurrentLevel = nullptr;
+      //}
+      //else {
+      //  lSize.x = Util::GetFloatConfig("Game", "SizeX", 0.f, "Engine.ini", _IN);
+      //  lSize.y = Util::GetFloatConfig("Game", "SizeY", 0.f, "Engine.ini", _IN);
+      //  showgrid = Util::GetBooleanConfig("Game", "ShowGrid", false, "Engine.ini", _IN);
+      //  gridSpac = Util::GetVec2fConfig("Game", "GridSpacing", sf::Vector2f(0, 0), "Engine.ini", _IN);
+      //  initView = Util::GetFloatRectConfig("Game", "InitialView", sf::FloatRect(0, 0, 0, 0), "Engine.ini", _IN);
+
+      //  Levels["Main"] = std::make_shared<BasicLevel>(lSize, initView, showgrid, gridSpac);
+      //  Levels["Main"]->LoadLevel(EntryLevelName);
+      //  CurrentLevel = Levels["Main"].get();
+      //}
       _IN.clear();
       _IN.close();
     }
@@ -180,11 +205,15 @@ namespace Engine
       std::cerr << "Script execution error: " << e.what() << std::endl;
     }
     Window->clear();
+
+    Levels["Main"] = std::make_shared<::MainMenu>(
+      sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900)
+      );
+    //CurrentLevel = Levels["Main"].get();
     
     
     ScriptEngine->add(chaiscript::fun(&MessageAlert), "Alert");
-    ScriptEngine->add(chaiscript::fun(&Confirm), "Confirm");
-    
+    ScriptEngine->add(chaiscript::fun(&Confirm), "Confirm");    
     return GameLoop();
   }
 }

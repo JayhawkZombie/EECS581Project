@@ -106,8 +106,6 @@ namespace Engine
       throw std::runtime_error("Unable to load tile sheet");
     }
 
-    ResourceManager->GiveTexture("LevelTileSheet", TileSheet);
-
     TileSpriteSheet = std::shared_ptr<SpriteSheet>(new SpriteSheet);
     TileSpriteSheet->SetTexture(TileSheet);
     TileSpriteSheet->EvenlyDivideFrames(TileWidth, TileHeight);

@@ -76,17 +76,28 @@ namespace Engine
         ImGui::Unindent();
       }
 
-      if (ImGui::CollapsingHeader("Physics Objects")) {
+      if (ImGui::CollapsingHeader("Game Objects")) {
         ImGui::Indent();
         if (ImGui::Button("Clear")) {
-          TestObjects.clear();
+          for (auto & Object : LevelObjects) {
+            LevelObjectMeshes[Object.second].clear();
+            Object.second.reset();
+          }
+
+          LevelObjectMeshes.clear();
+          LevelObjects.clear();
         }
         int i = 1000;
         std::string displaytext = "";
 
-        for (auto & item : TestObjects) {
-          displaytext = "pos: (" + std::to_string(item->pos.x) + ", " + std::to_string(item->pos.y) + ")";
-          ImGui::Text(displaytext.c_str());
+        for (auto & item : LevelObjects) {
+          displaytext = item.second->ItemID;
+
+          if (ImGui::CollapsingHeader(displaytext.c_str())) {
+            ImGui::Indent();
+            ImGui::Text(item.second->ItemID.c_str());
+            ImGui::Unindent();
+          }
         }
 
         ImGui::Unindent();

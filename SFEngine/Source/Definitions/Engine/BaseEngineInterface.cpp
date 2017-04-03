@@ -49,6 +49,14 @@ namespace Engine
       throw std::runtime_error("ItemID exceeds maximum length");
   }
 
+  void BaseEngineInterface::EventUpdate(sf::Event event)
+  {
+  }
+
+  void BaseEngineInterface::HandleInputEvent(const UserEvent & evnt)
+  {
+  }
+
   BaseEngineInterface::BaseEngineInterface(const BaseEngineInterface &b)
   {
 

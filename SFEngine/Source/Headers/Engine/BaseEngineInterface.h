@@ -39,6 +39,10 @@ namespace Engine
     virtual void SerializeOut(std::ofstream &out) = 0;
     virtual void SerializeIn(std::ifstream &in) = 0;
 
+    virtual void EventUpdate(sf::Event event);
+
+    virtual void HandleInputEvent(const UserEvent &evnt);
+
     EventHandler Handler;
     virtual std::string GetID() const;
     virtual void SetID(const std::string &ID);

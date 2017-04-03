@@ -1,5 +1,6 @@
 #include "../../../ThirdParty/PhysicsEngine.h"
 #include "../../Headers/Exceptions/Exceptions.h"
+#include "../../Headers/Physics/Collider.h"
 
 namespace
 {
@@ -225,7 +226,7 @@ namespace Engine
   }
 
 
-  void UpdatePhysics(std::vector<BaseMeshPtr> &Meshes, std::vector<SegmentPtr> Segments, std::size_t Steps)
+  void UpdatePhysics(std::vector<PhysicsEngineBaseMeshType *> &Meshes, std::vector<PhysicsEngineSegmentType *> Segments, std::size_t Steps)
   {
 
     for (std::size_t _step = 0; _step < Steps; ++_step) {
@@ -254,6 +255,44 @@ namespace Engine
 
 
     } //for _step = 0; _step < Steps;...
+  }
+
+  void UpdatePhysics(std::vector<std::shared_ptr<Engine::Collider2D>> Colliders, std::vector<PhysicsEngineSegmentType *> Segments, std::size_t steps)
+  {
+    for (std::size_t _step = 0; _step < steps; ++_step) {
+
+      for (auto & collider : Colliders) {
+        collider->Update(gravity);
+      }
+
+      for (auto & seg : Segments)
+        seg->update();
+
+      for (auto & seg : Segments) {
+        for (auto & coll : Colliders) {
+          auto mesh = coll->GetMesh();
+          if (mesh.lock() && seg->hit(*mesh.lock())) {
+            //Do something here
+          }
+        }
+      }
+
+      for (std::size_t i = 0; i < Colliders.size(); ++i) {
+        for (std::size_t j = 0; j < Colliders.size(); ++j) {
+          auto m_1 = Colliders[i]->GetMesh().lock();
+          auto m_2 = Colliders[j]->GetMesh().lock();
+
+          if (m_1 && m_2 && m_1->hit(*m_2)) {
+            if (Colliders[i]->IsAwake() && Colliders[j]->IsAwake()) {
+              Colliders[i]->HandleCollision(Colliders[j]);
+              Colliders[j]->HandleCollision(Colliders[i]);
+            }
+          }
+
+        }
+      }
+
+    }
   }
 
   void AssignBoundaries(float WindowHeight, float WindowWidth)

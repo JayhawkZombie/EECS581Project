@@ -1,4 +1,6 @@
 #include "../../Headers/Physics/QuadTree.h"
+#include "../../Headers/Physics/Collider.h"
+#include "../../Headers/Components/CollisionComponent.h"
 
 #include <iostream>
 
@@ -46,9 +48,9 @@ namespace Engine
       obj.reset();
     ContainedObjects.clear();
 
-    for (auto & caster : ShadowCastingObjects)
-      caster.reset();
-    ShadowCastingObjects.clear();
+    //for (auto & caster : ShadowCastingObjects)
+    //  caster.reset();
+    //ShadowCastingObjects.clear();
 
     for (auto & mesh : CollidingMeshes)
       mesh.reset();
@@ -63,9 +65,9 @@ namespace Engine
     }
   }
 
-  void QuadTree::InsertShadowCaster(std::shared_ptr<Engine::LightObject> Caster)
-  {
-  }
+  //void QuadTree::InsertShadowCaster(std::shared_ptr<Engine::LightObject> Caster)
+  //{
+  //}
 
   void QuadTree::InsertCollidingMesh(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh)
   {
@@ -83,24 +85,59 @@ namespace Engine
 
   }
 
-  std::vector<std::shared_ptr<Engine::LevelObject>> QuadTree::GetContainedObjectsInRange(const sf::FloatRect & Region)
+  std::vector<std::shared_ptr<Engine::LevelObject>> QuadTree::GetContainedObjectsInRange(const sf::FloatRect &Region)
   {
     return std::vector<std::shared_ptr<Engine::LevelObject>>();
   }
 
-  std::vector<std::shared_ptr<Engine::LightObject>> QuadTree::GetContainedShadowCastingObjectsInRange(const sf::FloatRect & Region)
+  void QuadTree::GetColliderObjectsInRange(const sf::FloatRect &Region, std::vector<std::shared_ptr<Collider2D>> & Colliders)
   {
-    return std::vector<std::shared_ptr<Engine::LightObject>>();
+    if (IntersectsChild(Region, SW.get()))
+      SW->GetColliderObjectsInRange(Region, Colliders);
+
+    if (IntersectsChild(Region, SE.get()))
+      SE->GetColliderObjectsInRange(Region, Colliders);
+
+    if (IntersectsChild(Region, NE.get()))
+      NE->GetColliderObjectsInRange(Region, Colliders);
+
+    if (IntersectsChild(Region, NW.get()))
+      NW->GetColliderObjectsInRange(Region, Colliders);
+
+    for (auto & coll : ContainedObjects) {
+      if (coll->GetGlobalBounds().intersects(Region)) {
+        auto vec = coll->GetColliders();
+        auto it = vec.end() - 1;
+        for (auto & v : vec)
+          Colliders.push_back(v);
+      }
+    }
   }
 
-  std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> QuadTree::GetContainedCollidingMeshesInRange(const sf::FloatRect & Region)
+  std::vector<std::shared_ptr<Collider2D>> QuadTree::GetContainedCollidingMeshesInRange(const sf::FloatRect & Region)
   {
-    return std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>>();
+    return{};
   }
 
-  void QuadTree::PlaceInSelf(std::shared_ptr<Engine::LevelObject> shape)
+  void QuadTree::PlaceInSelf(std::shared_ptr<Engine::Collider2D> shape)
   {
     
+  }
+
+  void QuadTree::GetCollidersInRangeSelf(std::vector<std::shared_ptr<Engine::Collider2D>>& Colliders)
+  {
+  }
+
+  void QuadTree::GetCollidersInRangeChild(std::vector<std::shared_ptr<Engine::Collider2D>> &Colliders, QuadTree *Child)
+  {
+  }
+
+  bool QuadTree::IntersectsChild(const sf::FloatRect & Region, QuadTree * Child)
+  {
+    if (!Child)
+      return false;
+
+    return (Child->Bounds.intersects(Region));
   }
 
   int QuadTree::FitsInsideAnyChild(std::shared_ptr<Engine::LevelObject> LObject)
@@ -112,14 +149,14 @@ namespace Engine
     return ((bounds.width < Width / 2.f) && (bounds.height < Height / 2.f));
   }
 
-  int QuadTree::FitsInsideAnyChild(std::shared_ptr<Engine::LightObject> LObject)
-  {
-    //will return true if the height and width and less than half ours
-    auto bounds = LObject->GetGlobalBounds();
+  //int QuadTree::FitsInsideAnyChild(std::shared_ptr<Engine::LightObject> LObject)
+  //{
+  //  //will return true if the height and width and less than half ours
+  //  auto bounds = LObject->GetGlobalBounds();
 
-    //AND the center of us is not contained within the rect
-    return ((bounds.width < Width / 2.f) && (bounds.height < Height / 2.f));
-  }
+  //  //AND the center of us is not contained within the rect
+  //  return ((bounds.width < Width / 2.f) && (bounds.height < Height / 2.f));
+  //}
 
   int QuadTree::FitsInsideAnyChild(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh)
   {

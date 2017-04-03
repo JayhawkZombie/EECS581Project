@@ -20,11 +20,6 @@ namespace Engine
     loadingtext.setPosition({ rect.width / 2.f, rect.height / 2.f });
     currentRenderWindow->draw(loadingtext);
     currentRenderWindow->display();
-    
-    ResourceManager = std::shared_ptr<Resource::ResourceManager>(new Resource::ResourceManager); 
-    ResourceManager->Start();
-    DefaultTexture = std::shared_ptr<sf::Texture>(new sf::Texture);
-    DefaultTexture->loadFromFile("./SFEngine/Samples/Textures/DefaultTexture.png");
 
     return Startup();
   }

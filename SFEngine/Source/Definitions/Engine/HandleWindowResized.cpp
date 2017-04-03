@@ -8,8 +8,7 @@ namespace Engine
 
     WindowSize = sf::Vector2f(static_cast<float>(wsize.x), static_cast<float>(wsize.y));
 
-    for (auto & lvl : Levels) {
-      lvl->HandleWindowResized();
-    }
+    if (CurrentLevel)
+      CurrentLevel->HandleWindowResized();
   }
 }

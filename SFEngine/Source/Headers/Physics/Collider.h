@@ -2,7 +2,8 @@
 #define SFENGINE_MESH_H
 
 #include "../../../ThirdParty/PhysicsEngine.h"
-
+#include <functional>
+#include <bitset>
 
 namespace Engine
 {
@@ -17,20 +18,84 @@ namespace Engine
     ExpandPolygon
   };
 
-  class ComponentCollider2D
+  enum ColliderProp : std::uint32_t
+  {
+    Active               = 0,
+    Sleeping             = 1,
+    Enabled              = 2,
+    CanBeAwoken          = 3,
+    HasPhysicalResponse  = 4,
+    NotifyEveryFrame     = 5,
+    SingleResponsePerObj = 6
+  };
+ 
+  class Collider2D
   {
   public:
-    ComponentCollider2D();
-    ~ComponentCollider2D();
+    Collider2D();
+    ~Collider2D();
 
-    std::shared_ptr<PhysicsEngineBaseMeshType> GetMesh();
-    void SetMesh(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh);
+    void SetMesh(std::shared_ptr<PhysicsEngineBaseMeshType> MeshPtr);
+    sf::FloatRect GetGlobalBounds() const;
 
-    void CreateMesh();
+    static std::shared_ptr<Collider2D> CreateCircularMesh
+    (
+      MeshType type,
+      const sf::Vector2f &position,
+      const sf::Vector2f &velocity,
+      unsigned int radius,
+      float mass,
+      float coeffOfRest,
+      sf::Color color = sf::Color::Transparent
+    );
+
+    static std::shared_ptr<Collider2D> CreatePolygonMesh
+    (
+      unsigned int num_sides,
+      float radius,
+      float init_rotation,
+      const sf::Vector2f & InitialPosition,
+      const sf::Vector2f & InitialVelocity,
+      float mass,
+      float CoeffOfRest,
+      sf::Color color = sf::Color::Transparent
+    );
+
+    void SetCollisionCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback, bool NotifyEveryFrame = true);
+    void SetPositionChangeCallback(std::function<void(sf::Vector2f delta)> Callback);
+    void SetSleepCallback(std::function<void(void)> Callback);
+    void SetAwakenCallback(std::function<void(void)> Callback);
+    void SetColliderStatus(ColliderProp Status);
+
+    void Update(const ::vec2d &gravity);
+
+    void Sleep();
+    void Awaken();
+    void EnableCollisions();
+    void DisableCollision();
+
+    bool IsAwake() const;
+    bool IsEnabled() const;
+    bool HasPhyicalResponse() const;
+    bool IsActive() const;
+
+    void Move(const sf::Vector2f &Delta);
+    void SetPosition(const sf::Vector2f &Position);
+
+    bool HandleCollision(std::weak_ptr<Collider2D> Collider);
+
+    std::weak_ptr<PhysicsEngineBaseMeshType> GetMesh();
+
+    void PhysicsUpdate();
 
   protected:
-
-    std::shared_ptr<PhysicsEngineBaseMeshType> ColliderMesh;
+    std::shared_ptr<PhysicsEngineBaseMeshType> m_Mesh;
+    bool m_NotifyOfCollisionEveryFrame = true; //If true, a notification will be issues every frame two objects are overlapping
+    std::bitset<32> m_Status;
+    std::function<void(std::weak_ptr<Collider2D>)> m_CollisionCallback;
+    std::function<void(sf::Vector2f)> m_PositionChangeCallback;
+    std::function<void(void)> m_SleepCallback;
+    std::function<void(void)> m_AwakenCallback;
   };
 
 }

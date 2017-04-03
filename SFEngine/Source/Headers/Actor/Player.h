@@ -34,13 +34,10 @@ namespace Engine
       return Sprite.getPosition().y;
     }
 
+    virtual void HandleInputEvent(const UserEvent &evnt);
     virtual bool WantsInputEvent(const Events &evnt) const override;
 
     virtual void MoveTo(const sf::Vector2f &pos);
-
-    virtual void AttachComponent(std::shared_ptr<CollisionComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<ScriptComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<InteractionComponent> Component);
 
   protected:
     void KeyWasPressed(const sf::Keyboard::Key &k);

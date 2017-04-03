@@ -27,6 +27,8 @@ namespace Engine
   typedef segHit PhysicsEngineSegmentType;
   typedef waveSeg PhysicsEngineWaveSegment;
 
+  class Collider2D;
+
   typedef std::shared_ptr<PhysicsEngineBaseMeshType> BaseMeshPtr;
   typedef std::shared_ptr<PhysicsEngineSegmentType> SegmentPtr;
   typedef std::shared_ptr<PhysicsEngineWaveSegment> WaveSegmentPtr;
@@ -47,7 +49,8 @@ namespace Engine
                                                             float ampLeft, float waveLenLeft, float rFreqLeft,
                                                             float elev, float airDen, float depth, float fluidDen);
 
-  void UpdatePhysics(std::vector<BaseMeshPtr> &Meshes, std::vector<SegmentPtr> Segments, std::size_t Steps = 1);
+  void UpdatePhysics(std::vector<PhysicsEngineBaseMeshType *> &Meshes, std::vector<PhysicsEngineSegmentType *> Segments, std::size_t Steps = 1);
+  void UpdatePhysics(std::vector<std::shared_ptr<Engine::Collider2D>> Colliders, std::vector<PhysicsEngineSegmentType *> Segments, std::size_t steps = 1);
   void AssignBoundaries(float WindowHeight, float WindowWidth);
   void SetGravity(::vec2d *Gravity);
 }

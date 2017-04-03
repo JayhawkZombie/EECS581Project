@@ -10,12 +10,12 @@ namespace Engine
     ImGui::SFML::Shutdown();
 
     for (auto & lvl : Levels)
-      lvl->OnShutDown();
+      lvl.second->OnEnd();
+
     GUI.reset();
     delete Window;
 
     currentRenderWindow = nullptr;
-    ResourceManager->Shutdown();
 
     delete FragmentShader;
     delete VertexShader;

@@ -35,6 +35,8 @@ for(auto & message : VECTOR_MESSAGES){\
     ObjectWasInvalidated, //An object was invalidated and this SELF-RAISED this excpetion
     IDGenerationError, //Were not able to generate an ID for this, something has clogged the ID set
     ConstructionError, //Something blew up while trying to construct this
+    SpawnError, //An error occurred while spawning
+    SpawnFailure, //An object completely failed to spawn
     InvalidContainer, //The container was unable to hold an item that needed it
     InvalidParameter,
     Catastrophic,
@@ -49,6 +51,7 @@ for(auto & message : VECTOR_MESSAGES){\
     ValueTooLarge,
     ValueTooSmall,
     ValueNaN,
+    StdException, //Exception occcurred from the standard library
     Unknown, //Undocumented reason, but something threw an exception and didn't provide a known documented cause
   };
 
@@ -92,6 +95,19 @@ for(auto & message : VECTOR_MESSAGES){\
     std::string msg_;
     std::vector<ExceptionCause> Causes = { ExceptionCause::Unknown };
     std::vector<std::string> Messages = {};
+  };
+
+  class StdException : public EngineRuntimeError {
+  public:
+    explicit StdException(const std::vector<ExceptionCause> &causes, const char *message)
+      : EngineRuntimeError(causes, message) {}
+    explicit StdException(const std::vector<ExceptionCause> &causes, const std::string &string)
+      : EngineRuntimeError(causes, string) {}
+    virtual ~StdException() throw () {}
+
+    virtual const char* what() {
+      return msg_.c_str();
+    }
   };
 
   class FormattingError : public EngineRuntimeError

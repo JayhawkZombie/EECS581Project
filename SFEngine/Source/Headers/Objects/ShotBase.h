@@ -19,10 +19,6 @@ namespace Engine
     virtual void UpdateMesh();
     virtual void UpdateSegments();
 
-    virtual void AttachComponent(std::shared_ptr<CollisionComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<ScriptComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<InteractionComponent> Component);
-
   protected:
 
   };

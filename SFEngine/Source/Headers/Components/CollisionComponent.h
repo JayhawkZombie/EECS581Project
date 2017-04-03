@@ -9,24 +9,19 @@ class mvHit;
 namespace Engine
 {
 
+  class Collider2D;
+
   class CollisionComponent : protected ComponentBase
   {
   public:
     CollisionComponent();
     ~CollisionComponent();
-    void AttachedTo(ComponentManager *newManager) override;
-    void AttachedTo(LevelObject *Object) override;
-    void Detach() override;
-    void Update() override;
-    void Enable() override;
-    void Disable() override;
-    std::string GetComponentName() const override;
 
     void CreateMesh(std::shared_ptr<::mvHit> Mesh);
-    std::shared_ptr<PhysicsEngineBaseMeshType> GetMesh();
+    std::shared_ptr<Collider2D> GetCollider();
 
   protected:
-    std::shared_ptr<PhysicsEngineBaseMeshType> CollisionMesh;
+    std::shared_ptr<Collider2D> CollisionMesh;
     bool Enabled = true;
   };
 

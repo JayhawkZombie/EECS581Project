@@ -26,26 +26,30 @@ namespace Engine
     static float coeffRest = 0.1f;
     static float rotation = 0.f;
     static sf::Color color = sf::Color::White;
-    static sf::RenderTexture ballTex;
-    static sf::RenderTexture polyTex;
+    static std::shared_ptr<sf::RenderTexture> ballTex;
+    static std::shared_ptr<sf::RenderTexture> polyTex;
     static bool created = false;
     static sf::Sprite bRect;
     static sf::Sprite pRect;
+    static unsigned int BallTexID;
+    static unsigned int PolyTexID;
     if (!created) {
-      ballTex.create(100, 100);
-      polyTex.create(100, 100);
-      bRect.setTexture(ballTex.getTexture());
-      pRect.setTexture(ballTex.getTexture());
+      ballTex = std::make_shared<sf::RenderTexture>();
+      polyTex = std::make_shared<sf::RenderTexture>();
+      ballTex->create(100, 100);
+      polyTex->create(100, 100);
+      bRect.setTexture(ballTex->getTexture());
+      pRect.setTexture(ballTex->getTexture());
       bRect.setTextureRect({ 0, 0, 100, 100 });
       pRect.setTextureRect({ 0, 0, 100, 100 });
       created = true;
     }
     static float drag = 0.5f;
 
-    ballTex.setActive(true);
-    polyTex.setActive(true);
-    ballTex.clear(sf::Color::Transparent);
-    polyTex.clear(sf::Color::Transparent);
+    //ballTex.setActive(true);
+    //polyTex.setActive(true);
+    //ballTex.clear(sf::Color::Transparent);
+    //polyTex.clear(sf::Color::Transparent);
 
     static std::shared_ptr<PhysicsEngineBaseMeshType> Mesh;
 
@@ -111,11 +115,14 @@ namespace Engine
 
       if (ImGui::CollapsingHeader("Ball")) {
         Mesh = BuildBallMesh('B', { 50.f, 50.f }, { 0.f, 0.f }, radius, mass, coeffRest, color);
-        ballTex.clear();
-        Mesh->draw(ballTex);
-        ballTex.display();
-
-        ImGui::Image(ballTex.getTexture(), ImVec2(100, 100), sf::FloatRect(0, 0, 100, 100));
+        //ballTex->setActive(true);
+        ballTex->clear();
+        ballTex->resetGLStates();
+        Mesh->draw(*ballTex);
+        ballTex->display();
+        bRect.setTexture(ballTex->getTexture());
+        ImGui::ImageButton(bRect);
+        //ImGui::Image(ballTex.getTexture(), sf::Vector2f( 100, 100 ), sf::FloatRect( 0, 0, 100, 100));
 
         if (ImGui::Button("Spawn")) {
           ImGui::SameLine();
@@ -135,11 +142,14 @@ namespace Engine
 
           Mesh = BuildPolygonMesh(numsides, __TO_FLOAT__(radius), rotation, { 50.f, 50.f }, { 0.f ,0.f }, mass, coeffRest, color);
         }
-        polyTex.clear();
-        Mesh->draw(polyTex);
-        polyTex.display();
-
-        ImGui::Image(polyTex.getTexture(), ImVec2(100, 100), sf::FloatRect(0.f, 0.f, 100.f, 100.f));
+        //polyTex->setActive(true);
+        polyTex->resetGLStates();
+        polyTex->clear();
+        Mesh->draw(*polyTex);
+        polyTex->display();
+        pRect.setTexture(polyTex->getTexture());
+        //ImGui::Image(polyTex.getTexture(), sf::Vector2f(100, 100), sf::FloatRect(0, 0, 100, 100));
+        ImGui::ImageButton(pRect);
         if (ImGui::Button("Spawn")) {
           ImGui::SameLine();
           SpawnNPoly(numsides, __TO_FLOAT__(radius), rotation, Pos, Vel, mass, coeffRest, color);

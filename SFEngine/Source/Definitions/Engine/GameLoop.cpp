@@ -51,20 +51,9 @@ namespace Engine
 
     tgui::Theme::Ptr theme = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
 
-    //EngineScriptConsole = std::make_shared<ScriptConsole>(sf::Vector2f(WindowSize.x, 400), sf::Vector2f(0, (WindowSize.y - 400.f)), theme);
-    //EngineScriptConsole->SetInputCallback([this](std::string str) { this->CommandProcessor(str); });
-
-    //AddKeyboardShortcut({ sf::Keyboard::LControl, sf::Keyboard::LShift, sf::Keyboard::C },
-    //                    [this]() { if (this && this->EngineScriptConsole) this->EngineScriptConsole->Open(); });
-
     chaiscript::ModulePtr mptr = std::make_shared<chaiscript::Module>();
-    //ScriptConsole::BindMethods(mptr);
-    //ScriptEngine->add(mptr);
-    //EngineScriptConsole->AddToModule(mptr, "Console");
-    //ScriptEngine->eval_file("./SFEngine/Source/CoreFiles/Scripts/ConsoleFunctions.chai");
     Window->setVerticalSyncEnabled(false);
     Window->setKeyRepeatEnabled(false);
-    //Window->setFramerateLimit(60);
     bool Closed = false;
 
     ScriptEngine->add(chaiscript::fun(Engine::func), "func");
@@ -72,8 +61,6 @@ namespace Engine
 #ifdef WITH_EDITOR
     sf::Clock dClock;
     ImGui::SFML::Init(*currentRenderWindow);
-#else
-    std::shared_ptr<Level> MainLevel(new Level);
 #endif
 
 #ifdef WITH_EDITOR
@@ -149,9 +136,6 @@ namespace Engine
     Gravity.y = 0.3f;
     SetGravity(&Gravity);
 
-    std::shared_ptr<Level> MainLevel = std::make_shared<Level>(sf::Vector2u({ 1700, 900 }), sf::FloatRect(0, 0, 1700, 900), true, sf::Vector2f({ 1700 / 16.f, 900 / 16.f }));
-    MainLevel->LoadLevel("./Projects/TestProject/testproject.json"); //Just for testing for right now
-
     std::shared_ptr<sf::RenderTexture> LevelTexture = std::make_shared<sf::RenderTexture>();
     LevelTexture->create(1700, 900);
     sf::RectangleShape LevelRect;
@@ -161,15 +145,25 @@ namespace Engine
     LevelRect.setTextureRect({ 0, 0, 1700, 900 });
 
     ScriptEngine->eval_file("./Projects/TestProject/Scripts/main.chai");
+
+    //There should already have been a Main level loaded in Startup
+    auto it = Levels.find("Main");
+
+    if (it != Levels.end()) {
+      it->second->OnBegin();
+      CurrentLevel = it->second.get();
+    }
+    else {
+      FlagForClose = true;
+    }
     
-#ifdef WITH_EDITOR
-    while (!FlagForClose && currentRenderWindow && currentRenderWindow->isOpen()) {
-#else
-    while (currentRenderWindow && currentRenderWindow->isOpen()) {
-#endif
+    sf::Time fTime = { sf::seconds(0) };
+
+    while (true) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       Closed = Handler.PollEvents(currentRenderWindow, evnt, true);
-      sf::Time fTime = { sf::seconds(0) };
+      if (Closed || FlagForClose || !currentRenderWindow || !currentRenderWindow->isOpen())
+        break;
 
       try
       {
@@ -183,28 +177,22 @@ namespace Engine
         ImGui::SFML::Update(*currentRenderWindow, fTime);
         
         //ImGui::ShowTestWindow();
-        MainLevel->TickUpdate(TickDelta);
+        if (CurrentLevel) {
+          CurrentLevel->TickUpdate(TickDelta);
+        }
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
         Window->clear(EngineRenderSettings.BGClearColor);
         EditorTexture->clear(EngineRenderSettings.BGClearColor); 
         
-#ifdef WITH_EDITOR
-        EditorTexture->setActive(true);
-        MainLevel->Render(EditorTexture);
-        EditorTexture->setActive(true);
+        if (CurrentLevel) {
+          CurrentLevel->RenderOnTexture(EditorTexture);
+        }
         EditorTexture->display();
-#else
-        MainLevel->Render();
-#endif
-        Window->setActive(true);
-        Window->draw(LevelRect);
-
-        ImGui::EndFrame();
+        Window->draw(LevelRect);     
+        Window->resetGLStates();
         ImGui::Render();
-
-        Window->setActive(true);
         Window->display();
         LastFrameStart = CurrentFrameStart;
       }
@@ -216,6 +204,9 @@ namespace Engine
     }
     EditorTexture.reset();
     LevelTexture.reset();
+
+    CurrentLevel = nullptr;
+
     return Shutdown();
   }
 }

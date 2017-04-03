@@ -1,5 +1,6 @@
 #include "../../Headers/Level/Level.h"
 #include "../../Headers/Engine/Console.h"
+#include "../../Headers/Physics/Collider.h"
 
 namespace Engine
 {
@@ -21,25 +22,68 @@ namespace Engine
 
     if (cumulative > updateInterval) {
 
-      if (DoUpdatePhysics && TestObjects.size() > 0 && TestSegments.size() > 0)
-        UpdatePhysics(TestObjects, TestSegments);
+      if (DoUpdatePhysics && ( LevelObjects.size() > 0 || Segments.size() > 0) ) {
+        UpdateObjectPhysics();
 
-      for (auto & obj : Objects)
-        obj->PhysicsUpdate();
+        for (auto & obj : LevelObjects) {
+          obj.second->PhysicsUpdate();
+        }
+      }
 
       cumulative = 0.f;
     }
 
-    //if (cumulative > updateInterval && DoUpdatePhysics && TestObjects.size() > 0 && TestSegments.size() > 0) {
-    //  
-    //  UpdatePhysics(TestObjects, TestSegments);
-    //}
-    //if (cumulative > updateInterval) {
-    //  for (auto & object : Objects) {
-    //    object->TickUpdate(delta);
-    //  }
-    //  
-    //}
+
+
+#ifdef WITH_EDITOR
+    ShowSceneGraph();
+    ShowAssetGraph();
+    ShowGraphicalSettings();
+    ShowSpawner();
+    ShowAssetEditor();
+
+    if (ImGui::BeginMainMenuBar()) {
+      if (ImGui::BeginMenu("File")) {
+        if (ImGui::MenuItem("Exit")) {
+          FlagForClose = true;
+        }
+        ImGui::EndMenu();
+      }
+      if (ImGui::BeginMenu("Edit")) {
+        if (ImGui::MenuItem("Something")) {
+
+        }
+        ImGui::EndMenu();
+      }
+      ImGui::EndMainMenuBar();
+    }
+    Console::ShowDebugConsole(NULL);
+#endif
+  }
+
+  void Level::UpdateObjectPhysics()
+  {
+    static std::vector<PhysicsEngineBaseMeshType *> MeshVector;
+    static std::vector<PhysicsEngineSegmentType *> SegVector;
+
+    static std::vector<std::shared_ptr<Engine::Collider2D>> Colliders;
+   
+
+    MeshVector.clear();
+    SegVector.clear();
+    Colliders.clear();
+
+    for (auto & obj : LevelObjects) {
+      auto vec = obj.second->GetColliders();
+      for (auto & mesh : vec) {
+        Colliders.push_back(mesh);
+      }
+    }
+    
+    for (auto & seg : Segments)
+      SegVector.push_back(seg.get());
+
+    UpdatePhysics(Colliders, SegVector);
   }
 
 }

@@ -131,9 +131,10 @@ namespace Engine
   }
   void Animation::RequestSpriteSheet(const std::string Filepath, const std::string ID) {
     m_texture;
-    ResourceManager->RequestTexture(Filepath, ID,
-                                    [this](std::shared_ptr<sf::Texture> t, const std::string &s) {this->SetSpriteSheet(t, s); }
-    );
+    SetSpriteSheet(LoadTexture(Filepath, ID), ID);
+    //ResourceManager->RequestTexture(Filepath, ID,
+    //                                [this](std::shared_ptr<sf::Texture> t, const std::string &s) {this->SetSpriteSheet(t, s); }
+    //);
   }
   void Animation::SetSpriteSheet(std::shared_ptr<sf::Texture> tex, const std::string &ID) {
     sprite.setTexture(*tex.get());

@@ -27,6 +27,7 @@ namespace Engine
     virtual void SerializeOut(std::ofstream &out) override;
     virtual void SerializeIn(std::ifstream &in) override;
 
+    virtual void HandleInputEvent(const UserEvent &evnt);
     virtual bool WantsInputEvent(const Events &evnt) const;
 
     virtual void SetActorPosition(const sf::Vector2f &pos);
@@ -50,10 +51,6 @@ namespace Engine
     void Spawn(const sf::Vector2f &Position);
     void Respawn(const sf::Vector2f &Position);
     void Kill();
-
-    virtual void AttachComponent(std::shared_ptr<CollisionComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<ScriptComponent> Component);
-    virtual void AttachComponent(std::shared_ptr<InteractionComponent> Component);
 
   protected:
     void __HandleKeyPress(const sf::Keyboard::Key &key);

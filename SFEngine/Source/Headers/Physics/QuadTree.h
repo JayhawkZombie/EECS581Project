@@ -12,6 +12,8 @@ namespace Engine
 {
   const std::size_t MaxDepth = 6;
 
+  class Collider2D;
+
   class QuadTree
   {
   public:
@@ -20,7 +22,7 @@ namespace Engine
     ~QuadTree();
 
     void InsertObject(std::shared_ptr<Engine::LevelObject> Object);
-    void InsertShadowCaster(std::shared_ptr<Engine::LightObject> Caster);
+    //void InsertShadowCaster(std::shared_ptr<Engine::LightObject> Caster);
     void InsertCollidingMesh(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh);
 
     void Render(sf::RenderWindow &window);
@@ -30,13 +32,17 @@ namespace Engine
     void PlaceInsideChild(const sf::FloatRect &rect);
 
     std::vector<std::shared_ptr<Engine::LevelObject>> GetContainedObjectsInRange(const sf::FloatRect &Region);
-    std::vector<std::shared_ptr<Engine::LightObject>> GetContainedShadowCastingObjectsInRange(const sf::FloatRect &Region);
-    std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> GetContainedCollidingMeshesInRange(const sf::FloatRect &Region);
+    void GetColliderObjectsInRange(const sf::FloatRect &Region, std::vector<std::shared_ptr<Collider2D>> &Colliders);
+    //std::vector<std::shared_ptr<Engine::LightObject>> GetContainedShadowCastingObjectsInRange(const sf::FloatRect &Region);
+    std::vector<std::shared_ptr<Collider2D>> GetContainedCollidingMeshesInRange(const sf::FloatRect &Region);
 
   private:
-    void PlaceInSelf(std::shared_ptr<Engine::LevelObject> shape);
+    void PlaceInSelf(std::shared_ptr<Engine::Collider2D> shape);
+    void GetCollidersInRangeSelf(std::vector<std::shared_ptr<Engine::Collider2D>> &Colliders);
+    void GetCollidersInRangeChild(std::vector<std::shared_ptr<Engine::Collider2D>> &Colliders, QuadTree *Child);
+    inline bool IntersectsChild(const sf::FloatRect &Region, QuadTree *Child);
     int FitsInsideAnyChild(std::shared_ptr<Engine::LevelObject> LObject);
-    int FitsInsideAnyChild(std::shared_ptr<Engine::LightObject> LightObject);
+    //int FitsInsideAnyChild(std::shared_ptr<Engine::LightObject> LightObject);
     int FitsInsideAnyChild(std::shared_ptr<PhysicsEngineBaseMeshType> Mesh);
     int PlaceInChild(std::shared_ptr<QuadTree> Tree);
   public:
@@ -54,8 +60,10 @@ namespace Engine
     std::shared_ptr<QuadTree> SE;
     QuadTree *Parent;
     
+    std::vector<std::shared_ptr<Collider2D>> ContainedColliders;
+
     std::vector<std::shared_ptr<Engine::LevelObject>> ContainedObjects;
-    std::vector<std::shared_ptr<Engine::LightObject>> ShadowCastingObjects;
+    //std::vector<std::shared_ptr<Engine::LightObject>> ShadowCastingObjects;
     std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> CollidingMeshes;
   };
 }

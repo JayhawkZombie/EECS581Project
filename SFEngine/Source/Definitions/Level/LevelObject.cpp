@@ -1,6 +1,7 @@
 #include "../../Headers/Level/LevelObject.h"
 #include "../../Headers/Actor/Actor.h"
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "../../Headers/Physics/Collider.h"
 
 namespace Engine
 {
@@ -9,7 +10,7 @@ namespace Engine
     Animations(std::make_shared<thor::AnimationMap<sf::Sprite, std::string>>()),
     Animator(std::make_shared<thor::Animator<sf::Sprite, std::string>>(*Animations))
   {
-
+    
   }
 
   LevelObject::LevelObject(const LevelObject &copy)
@@ -24,7 +25,6 @@ namespace Engine
 //Starting the chaiscript bindings, need to figure out which functions need scripted
   void LevelObject::BindScriptMethods(chaiscript::ModulePtr mptr)
   {
-
 	  chaiscript::utility::add_class<Engine::LevelObject>(
 		  *mptr,
 		  "LevelObject",
@@ -35,6 +35,20 @@ namespace Engine
           { chaiscript::fun(static_cast<void(LevelObject::*)(const sf::Vector2f &)>(&LevelObject::MoveObject)), "MoveObject" }
         }
 	  );
+  }
+
+  void LevelObject::ScriptInit()
+  {
+    try
+    {
+      ScriptEngine->eval("var " + ItemID + " = Player(\"" + ItemID + "\")");
+    }
+    catch (std::exception &err)
+    {
+      std::cerr << "Exception in LevelObject ScriptInit" << std::endl;
+
+      throw;
+    }
   }
 
   void LevelObject::TickUpdate(const double &delta)
@@ -51,8 +65,9 @@ namespace Engine
 
   void LevelObject::PhysicsUpdate()
   {
-    Position = { ObjectMesh->pos.x - MeshRadius, ObjectMesh->pos.y - MeshRadius };
-    Velocity = { ObjectMesh->v.x, ObjectMesh->v.y };
+    for (auto & collider : m_Colliders)
+      collider->PhysicsUpdate();
+
     Sprite.setPosition(Position);
   }
 
@@ -81,12 +96,7 @@ namespace Engine
     
   }
 
-  void LevelObject::UpdateMesh()
-  {
-    
-  }
-
-  void LevelObject::UpdateSegments()
+  void LevelObject::HandleInputEvent(const UserEvent & evnt)
   {
   }
 
@@ -112,24 +122,9 @@ namespace Engine
     return sf::FloatRect();
   }
 
-  void LevelObject::AttachComponent(std::shared_ptr<CollisionComponent> Component)
-  {
-  }
-
-  void LevelObject::AttachComponent(std::shared_ptr<ScriptComponent> Component)
-  {
-
-  }
-
-  void LevelObject::AttachComponent(std::shared_ptr<InteractionComponent> Component)
-  {
-
-  }
-
   void LevelObject::Move(const sf::Vector2f & delta)
   {
-    ObjectMesh->pos += vec2d(delta.x, delta.y);
-    ObjectMesh->v = vec2d(0, 0);
+    
   }
 
   void LevelObject::Move(float x, float y)
@@ -145,6 +140,22 @@ namespace Engine
   void LevelObject::MoveObject(const sf::Vector2f &delta)
   {
     Move(delta);
+  }
+
+  std::vector<std::shared_ptr<Collider2D>> LevelObject::GetColliders()
+  {
+    std::vector<std::shared_ptr<Collider2D>> RetColls;
+    for (auto & coll : m_Colliders) {
+      if (coll->IsAwake() && coll->IsEnabled())
+        RetColls.push_back(coll);
+    }
+
+    return RetColls;
+  }
+
+  void LevelObject::AddCollider(std::shared_ptr<Collider2D> Collider)
+  {
+    m_Colliders.push_back(Collider);
   }
 
 }

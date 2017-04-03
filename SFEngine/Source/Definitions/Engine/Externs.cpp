@@ -1,19 +1,19 @@
 #include "../../Headers/Globals/GlobalHooks.h"
 #include "../../Headers/Engine/Engine.h"
-
+#include "../../Headers/Level/BasicLevel.h"
 #include <vector>
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 
 
-#ifdef _WINUSER_
-#undef _WINUSER_
+//This means war, Microsoft!
+#ifdef MessageBox
+#pragma push_macro("MessageBox")
 #undef MessageBox
 #endif
 
 namespace Engine
 {
   sf::RenderWindow *currentRenderWindow = nullptr;
-  std::shared_ptr<Resource::ResourceManager> ResourceManager;
   sf::Vector2f WindowSize;
   std::shared_ptr<sf::Texture> DefaultTexture;
   chaiscript::ChaiScript *ScriptEngine;
@@ -23,6 +23,9 @@ namespace Engine
   std::uint32_t MaxIDGenerationAttempts;
   bool FlagForClose = false;
   DataStream<UserEvent> EngineEventStream;
+  std::unordered_map<std::string, std::shared_ptr<BasicLevel>> Levels;
+  BasicLevel *CurrentLevel = nullptr;
+  std::string EntryLevelName;
 
   void SetKeyRepeatEnabled(bool enabled)
   {
@@ -432,6 +435,25 @@ namespace Engine
   void Confirm(const std::string & message)
   {
     ConfirmAlert(message);
+  }
+
+  void Shutdown()
+  {
+    FlagForClose = true;
+  }
+
+  void LoadLevel(const std::string & jsonPath)
+  {
+
+  }
+
+  void SwitchLevel(std::shared_ptr<BasicLevel> Level)
+  {
+    if (CurrentLevel) {
+      CurrentLevel->OnEnd();
+    }
+    CurrentLevel = Level.get();
+    CurrentLevel->OnBegin();
   }
 
   void MessageAlert(const std::string & message)

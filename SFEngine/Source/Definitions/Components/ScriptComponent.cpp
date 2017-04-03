@@ -1,7 +1,6 @@
 #include "../../Headers/Components/ScriptComponent.h"
 #include "../../Headers/Globals/GlobalHooks.h"
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../Headers/Components/ComponentManager.h"
 #include "../../Headers/Level/LevelObject.h"
 
 namespace Engine
@@ -33,36 +32,6 @@ namespace Engine
   ScriptComponent::~ScriptComponent()
   {
 
-  }
-
-  void ScriptComponent::AttachedTo(ComponentManager *newManager)
-  {
-  }
-
-  void ScriptComponent::AttachedTo(LevelObject *Object)
-  {
-
-  }
-
-  void ScriptComponent::Detach()
-  {
-  }
-
-  void ScriptComponent::Update()
-  {
-  }
-
-  void ScriptComponent::Enable()
-  {
-  }
-
-  void ScriptComponent::Disable()
-  {
-  }
-
-  std::string ScriptComponent::GetComponentName() const
-  {
-    return std::string();
   }
 
   void ScriptComponent::Execute(const std::string &command, const std::vector<std::string> &args)

@@ -141,7 +141,8 @@ namespace Engine
          {sf::Keyboard::U, "Key_U"}, {sf::Keyboard::V, "Key_V"}, {sf::Keyboard::W, "Key_W"}, {sf::Keyboard::X, "Key_X"}, {sf::Keyboard::Y, "Key_Y"},
          {sf::Keyboard::Z, "Key_Z"}, {sf::Keyboard::Escape, "Key_Esc"}, {sf::Keyboard::Space, "Key_Space"}, {sf::Keyboard::LShift, "Key_LShift"},
          {sf::Keyboard::RShift, "Key_RShift"},
-         {sf::Keyboard::Left, "Key_Left"}, {sf::Keyboard::Right, "Key_Right"}, {sf::Keyboard::Up, "Key_Up"}, {sf::Keyboard::Down, "Key_Down"}
+         {sf::Keyboard::Left, "Key_Left"}, {sf::Keyboard::Right, "Key_Right"}, {sf::Keyboard::Up, "Key_Up"}, {sf::Keyboard::Down, "Key_Down"},
+          {sf::Keyboard::Tab, "Key_Tab"}, {sf::Keyboard::Delete, "Key_Delete"}
        });
     
 

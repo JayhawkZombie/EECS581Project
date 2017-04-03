@@ -18,14 +18,6 @@ namespace Engine
     ScriptComponent();
     ~ScriptComponent();
 
-    void AttachedTo(ComponentManager *newManager) override;
-    void AttachedTo(LevelObject *Object) override;
-    void Detach() override;
-    void Update() override;
-    void Enable() override;
-    void Disable() override;
-    std::string GetComponentName() const override;
-
     void Execute(const std::string &command, const std::vector<std::string> &args);
     void Create();
     void CreateScriptFunction(const std::string &funcName, const std::string &signature);

@@ -7,6 +7,8 @@
 #include "../Tiles/TileSheet.h"
 #include "../../../ThirdParty/SelbaWard.hpp"
 
+#include "BasicLevel.h"
+
 class GameMain;
 
 namespace Engine
@@ -19,9 +21,6 @@ namespace Engine
   class Layer : public BaseEngineInterface
   {
   public:
-#ifdef WITH_EDITOR
-    friend class Editor;
-#endif
     Layer();
     Layer(const Layer &) = delete;
     ~Layer();
@@ -41,20 +40,15 @@ namespace Engine
     std::vector<std::shared_ptr<GenericActor>> Actors;
   };
 
-  class Level : public BaseEngineInterface
+  class Level : public BasicLevel
   {
 
   public:
     friend class GameMain;
-#ifdef WITH_EDITOR
-    friend class Editor;
-#endif
-    float updateInterval = 16.667f;
-    TYPEDEF_PARENT_CLASS(Engine::BaseEngineInterface);
+    TYPEDEF_PARENT_CLASS(Engine::BasicLevel);
 
-    Level() = default;
+    Level() = delete;
     Level(const sf::Vector2u &LevelSize, const sf::FloatRect &DefaultView, bool showlines = false, const sf::Vector2f &GridSpacing = { 0,0 });
-    Level(const std::string &levelFile);
     Level(const Level &) = delete;
     ~Level();
     
@@ -62,26 +56,24 @@ namespace Engine
 
     void TickUpdate(const double &delta) override;
     void Render(std::shared_ptr<sf::RenderTarget> Target) override;
+    void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture) override;
     void OnShutDown() override;
     void SerializeOut(std::ofstream &out) override;
     void SerializeIn(std::ifstream &in) override;
 
     void SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f &Position);
     void SpawnObject(std::shared_ptr<LevelObject> Object, const sf::Vector2f &Position);
-    void SpawnLight(std::shared_ptr<LightObject> Light, const sf::Vector2f &Position);
+    //void SpawnLight(std::shared_ptr<LightObject> Light, const sf::Vector2f &Position);
 
-    void HandleKeyPress(const sf::Keyboard::Key &key);
-    void HandleKeyRelease(const sf::Keyboard::Key &key);
-    void HandleWindowResized();
+    void HandleInputEvent(const UserEvent &evnt);
+    void HandleKeyPress(const sf::Keyboard::Key &key) override;
+    void HandleKeyRelease(const sf::Keyboard::Key &key) override;
+    void HandleWindowResized() override;
 
     static std::shared_ptr<LevelObject> GetObjectByName(const std::string &ID);
-
-    std::vector<std::shared_ptr<PhysicsEngineBaseMeshType>> TestLevelMeshes;
-    std::vector<std::shared_ptr<PhysicsEngineSegmentType>> TestSegments;
-
-    sf::RectangleShape testrect;
-
-    void LoadLevel(const std::string &lvlfile);
+    void LoadLevel(const std::string &lvlfile) override;
+    void OnBegin() override;
+    void OnEnd() override;
 
     std::size_t GetNumLayers() const {
       return Layers.size();
@@ -102,64 +94,105 @@ namespace Engine
     void ShowSpawner();
     void ShowPhysicsSpawner();
     void ShowScene(std::shared_ptr<sf::RenderTexture> Texture);
-
+    void ShowAssetEditor();
+    void ShowNewAssetMaker(); void ShowExistingAssetEditor();
     std::map<std::string, sf::RectangleShape> TextureRectsForAssetGraph;
     std::map<std::string, std::shared_ptr<Animation>> EditorGraphAnimations;
 #endif
-    void LoadFromFile(const std::string &file);
     //Methods for spawning in new object
-    void SpawnBall(char BallType, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, unsigned int Radius, float Mass, float CoeffecientOfRest, const sf::Color & Color);
-    void SpawnSquare(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
-    void SpawnRect(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
-    void SpawnTriangle(float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
-    void SpawnNPoly(unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f & InitialPosition, const sf::Vector2f & InitialVelocity, float mass, float CoeffOfRest, const sf::Color & Color);
-    void SpawnWave(char type, const sf::Vector2i &TopLeftCorner, const sf::Vector2i &BottomRightCorner, float radius, bool IsHard,
-                   unsigned int NumWavePts, float ampRight, float waveLenRight, float rFreqRight,
-                                            float ampLeft, float waveLenLeft, float rFreqLeft,
-                   float elev, float airDen, float depth, float fluidDen);
-    bool DoUpdatePhysics = true;
+    void SpawnBall
+    (
+      char BallType, 
+      const sf::Vector2f & InitialPosition, 
+      const sf::Vector2f & InitialVelocity,
+      unsigned int Radius, 
+      float Mass, 
+      float CoeffecientOfRest, 
+      const sf::Color & Color
+    );
+
+    void SpawnSquare
+    (
+      float radius, 
+      float init_rotation, 
+      const sf::Vector2f & InitialPosition, 
+      const sf::Vector2f & InitialVelocity, 
+      float mass, 
+      float CoeffOfRest, 
+      const sf::Color & Color
+    );
+
+    void SpawnRect
+    (
+      float radius, 
+      float init_rotation, 
+      const sf::Vector2f & InitialPosition, 
+      const sf::Vector2f & InitialVelocity, 
+      float mass, 
+      float CoeffOfRest, 
+      const sf::Color & Color
+    );
+
+    void SpawnTriangle
+    (
+      float radius, 
+      float init_rotation, 
+      const sf::Vector2f & InitialPosition, 
+      const sf::Vector2f & InitialVelocity, 
+      float mass, 
+      float CoeffOfRest, 
+      const sf::Color & Color
+    );
+    void SpawnNPoly
+    (
+      unsigned int num_sides, 
+      float radius, 
+      float init_rotation, 
+      const sf::Vector2f & InitialPosition, 
+      const sf::Vector2f & InitialVelocity, 
+      float mass, 
+      float CoeffOfRest, 
+      const sf::Color & Color
+    );
+
+    void SpawnWave
+    (
+      char type, 
+      const sf::Vector2i &TopLeftCorner, 
+      const sf::Vector2i &BottomRightCorner, 
+      float radius, 
+      bool IsHard,
+      unsigned int NumWavePts, 
+      float ampRight, 
+      float waveLenRight, 
+      float rFreqRight,
+      float ampLeft, 
+      float waveLenLeft, 
+      float rFreqLeft,
+      float elev, 
+      float airDen, 
+      float depth, 
+      float fluidDen
+    );
+
+    bool SpawnAutoGeneratedObject(std::shared_ptr<LevelObject> Object, std::string IDPrePend = "");
+    
+    void UpdateObjectPhysics() override;
 
     sw::TileMap TileMap;
     sf::Texture TileMapTexture;
     std::vector<unsigned char> lvlData;
-
-    ::vec2d *Gravity;
-    std::vector<BaseMeshPtr> TestObjects;
-    std::vector<SegmentPtr> Segments;
-    std::vector<WaveSegmentPtr> Waves;
-    std::vector<std::shared_ptr<LevelObject>> Objects;
-    sf::RectangleShape LevelRectangle; //to draw the scene to
-    std::shared_ptr<sf::RenderTexture> SceneTarget;
-    std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
-    std::map<std::string, std::shared_ptr<TileSheet>> TileSheets;
-    std::map<std::string, std::shared_ptr<Animation>> Animations;
-    std::map<std::string, std::shared_ptr<sf::SoundBuffer>> SoundBuffers;
-    std::map<std::uint32_t, std::shared_ptr<LightSystem>> LightSystems;
-    std::map<std::uint32_t, std::shared_ptr<Light>> Lights;
-    std::shared_ptr<sf::RenderTexture> LightTexture;
-    std::shared_ptr<sf::RenderTexture> SceneBlendTexture;
-
-    std::vector<thor::UniversalEmitter> ParticleEmitters;
-
-    sf::Vector2u Size;
-    sf::Vector2f GridBlockSize;
-    
-    std::vector<sf::VertexArray> GridLines;
     std::vector<Layer> Layers;
-    sf::FloatRect CurrentView;
-
-    bool ShowGridLines = false;
 
     //functions for loading from file
-    void LoadAssets(const Json::Value &value);
-    void LoadAudio(const Json::Value &value);
-    void LoadTextures(const Json::Value &value);
-    void LoadTileSheets(const Json::Value &value);
-    void LoadSheet(const Json::Value &value);
-    void LoadAnimations(const Json::Value &value);
+    void LoadFromFile(const std::string &file) override;
+    void LoadAssets(const Json::Value &value) override;
+    void LoadAudio(const Json::Value &value) override;
+    void LoadTextures(const Json::Value &value) override;
+    void LoadTileSheets(const Json::Value &value) override;
+    void LoadSheet(const Json::Value &value) override;
+    void LoadAnimations(const Json::Value &value) override;
   };
-
-  extern Level* CurrentLevel;
 }
 
 #endif

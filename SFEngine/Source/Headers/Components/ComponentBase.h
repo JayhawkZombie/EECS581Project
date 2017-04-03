@@ -5,31 +5,40 @@
 
 namespace Engine
 {
-  class ComponentManager;
-  class LevelObject;
-
   class ComponentBase
   {
   public:
-    friend class ComponentManager;
-
     ComponentBase();
     virtual ~ComponentBase();
 
-    virtual void AttachedTo(ComponentManager *newManager) = 0;
-    virtual void AttachedTo(LevelObject *Object) = 0;
-    virtual void Detach() = 0;
-    virtual void Update() = 0;
-    virtual void Enable() = 0;
-    virtual void Disable() = 0;
-    virtual std::string GetComponentName() const = 0;
-    std::uint32_t GetID() const;
-  protected:
-    ComponentManager *Manager;
     std::string ComponentName = "ComponentBase";
     std::uint32_t ComponentID;
   };
 
 }
+
+#define ENTITY_COMPONENT_BEGIN(NAME)                             \
+class NAME##Component                                            \
+: public Engine::ComponentBase                                   \
+{                                                                \
+
+
+
+#define ENTITY_COMPONENT_END(NAME) \
+} NAME;                           
+
+
+#define ENTITY_PART(TYPE, NAME)                                   \
+  public: TYPE var_##NAME;                                        \
+          TYPE Get##NAME##() const { return var_##NAME; }         \
+          void Set##NAME##(const TYPE &v) { var_##NAME = v; }     \
+
+#define ENTITY_PART_VECTOR(TYPE, NAME)                                          \
+  public: std::vector<TYPE> var_##NAME##Vector;                                 \
+          auto Get##NAME##s() { return var_##NAME##Vector; }                    \
+          void Add##NAME##(const TYPE &t) { var_##NAME##Vector.push_back(t); }  \
+
+#define ENTITY_VECTOR_GETTER(TYPE, NAME)         \
+  public: std::vector<TYPE> Get##NAME##s() { return NAME##.Get##NAME##s(); }    \
 
 #endif

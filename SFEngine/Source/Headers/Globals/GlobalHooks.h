@@ -8,6 +8,9 @@
 
 #include <algorithm>
 #include <unordered_set>
+#include <chrono>
+#include <unordered_map>
+
 #include "../Resources/ResourceManager.h"
 #include "../Streams/DataStream.h"
 #include "../Render/Render.h"
@@ -26,10 +29,26 @@ const std::string CORE_PATH{ "./SFEngine/Source/CoreFiles/" };
 //remove this to launch the engine without editing tools
 #define WITH_EDITOR
 
+//Change this to redirect all error output
+#define ERR_STREAM std::cerr
+
+//define away some of the longest C++ paths
+typedef std::chrono::high_resolution_clock hres_clock;
+typedef std::chrono::high_resolution_clock::time_point hres_time_point;
+
 namespace chaiscript {
   class ChaiScript;
   class Module;
   typedef std::shared_ptr<Module> ModulePtr;
+}
+
+//forward declaration of BasicLevel class for the global Levels object
+namespace Engine {
+  class BasicLevel;
+
+  extern std::unordered_map<std::string, std::shared_ptr<BasicLevel>> Levels;
+  extern std::string EntryLevelName;
+  extern BasicLevel *CurrentLevel;
 }
 
 #ifdef WITH_EDITOR
@@ -62,6 +81,8 @@ VarType VarName;
 #define EDITORONLY(VarType, VarName)
 #endif //WITH_EDITOR -> EDITORONLY
 
+#define __PREPROC_ID_CONCAT(__X, __Y) __X ## __Y
+#define __STRINGIFY_PREPROC_STR(__X) #__X
 
 #define ___INTERNAL__SLASH(S)\
 /##S
@@ -166,7 +187,6 @@ typedef ParentClass Super
 namespace Engine
 {
   extern sf::RenderWindow *currentRenderWindow;
-  extern std::shared_ptr<Resource::ResourceManager> ResourceManager;
   extern std::shared_ptr<sf::Texture> DefaultTexture;
   extern sf::Vector2f WindowSize;
   extern std::unordered_set<std::uint32_t> UsedIDs; //IDs that have been used. Can search this to verify an ID has not been used already
@@ -233,6 +253,9 @@ namespace Engine
   void MessageAlert(const std::string &message);
   void ConfirmAlert(const std::string &message, std::string OKText = "OK", std::string CancelText = "Cancel", std::function<void(void)> OKcb = []() {}, std::function<void(void)> Cancelcb = []() {});
   void Confirm(const std::string &message);
+  extern void Shutdown();
+  extern void LoadLevel(const std::string &jsonPath);
+  extern void SwitchLevel(std::shared_ptr<BasicLevel> Level);
 
   class UserEvent;
 

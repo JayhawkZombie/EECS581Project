@@ -11,9 +11,4 @@ namespace Engine
   {
   }
 
-  std::uint32_t ComponentBase::GetID() const
-  {
-    return ComponentID;
-  }
-
 }

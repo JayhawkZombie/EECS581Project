@@ -1,52 +1,39 @@
 #include "../../Headers/Level/Level.h"
 #include "../../Headers/Engine/Console.h"
+#include "../../Headers/Physics/Collider.h"
 
 namespace Engine
 {
-  void Level::Render(std::shared_ptr<sf::RenderTarget> Target)
+  void Level::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   {
     SceneBlendTexture->clear(sf::Color::Transparent);
 
+    Texture->draw(TileMap);
+
     if (ShowGridLines) {
       for (auto & arr : GridLines)
-        Target->draw(arr);
+        Texture->draw(arr);
     }
 
-    for (auto & obj : TestObjects)
-      obj->draw(*Target);
+    for (auto & obj : LevelObjects)
+      Texture->draw(obj.second->Sprite);
 
-    for (auto & seg : TestSegments)
-      seg->draw(*Target);
-
-	for (auto & object : Objects) {
-		Target->draw(object->Sprite);
-	}
-
-  Target->draw(TileMap);
-
+    //If we are using the editor, draw the meshes too
+    //Make this configurable later
 #ifdef WITH_EDITOR
-    ShowSceneGraph();
-    ShowAssetGraph();
-    ShowGraphicalSettings();
-    ShowSpawner();
+    for (auto & MeshCollection : LevelObjectMeshes)
+      for (auto & Mesh : MeshCollection.second)
+        if (Mesh->GetMesh().lock())
+          Mesh->GetMesh().lock()->draw(*Texture);
 
-    if (ImGui::BeginMainMenuBar()) {
-      if (ImGui::BeginMenu("File")) {
-        if (ImGui::MenuItem("Exit")) {
-          FlagForClose = true;
-        }
-        ImGui::EndMenu();
-      }
-      if (ImGui::BeginMenu("Edit")) {
-        if (ImGui::MenuItem("Something")) {
-
-        }
-        ImGui::EndMenu();
-      }
-      ImGui::EndMainMenuBar();
-    }
-    Console::ShowDebugConsole(NULL);
+    for (auto & seg : Segments)
+      seg->draw(*Texture);
 #endif
+  }
+
+  void Level::Render(std::shared_ptr<sf::RenderTarget> Target)
+  {
+
   }
 
   void Level::RenderRegular()

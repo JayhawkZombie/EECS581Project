@@ -111,7 +111,7 @@ namespace Engine
      *
      */
     std::string InitialLevel;
-    std::vector<std::shared_ptr<Level>> Levels;
+    //std::vector<std::shared_ptr<Level>> Levels;
 
     //Every method used for event handling must contain its own personal method AND
     //a function pointer bound to that method

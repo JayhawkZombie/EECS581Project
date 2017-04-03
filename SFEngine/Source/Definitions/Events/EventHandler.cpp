@@ -1,4 +1,5 @@
 #include "../../Headers/Events/EventHandler.h"
+#include "../../Headers/Level/BasicLevel.h"
 
 namespace Engine
 {
@@ -125,6 +126,8 @@ namespace Engine
     v2iMousePosArg = sf::Mouse::getPosition(*currentRenderWindow);
     while (win->pollEvent(evnt)) {
       ImGui::SFML::ProcessEvent(evnt);
+      if (CurrentLevel)
+        CurrentLevel->EventUpdate(evnt);
 
       if (!GUI->handleEvent(evnt) && makeCallbacks) {
         switch (evnt.type)

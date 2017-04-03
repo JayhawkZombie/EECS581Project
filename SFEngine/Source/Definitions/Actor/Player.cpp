@@ -77,6 +77,10 @@ namespace Engine
 
   }
 
+  void Player::HandleInputEvent(const UserEvent & evnt)
+  {
+  }
+
   bool Player::WantsInputEvent(const Events &evnt) const
   {
     return false;
@@ -100,20 +104,5 @@ namespace Engine
   void Player::TryToMove(const sf::Vector2f &amount)
   {
     
-  }
-
-  void  Player::AttachComponent(std::shared_ptr<CollisionComponent> Component)
-  {
-
-  }
-
-  void  Player::AttachComponent(std::shared_ptr<ScriptComponent> Component)
-  {
-
-  }
-
-  void  Player::AttachComponent(std::shared_ptr<InteractionComponent> Component)
-  {
-
   }
 }

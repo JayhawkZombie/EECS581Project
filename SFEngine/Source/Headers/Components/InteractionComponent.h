@@ -14,15 +14,6 @@ namespace Engine
     InteractionComponent();
     ~InteractionComponent();
 
-    void AttachedTo(ComponentManager *newManager) override;
-    void AttachedTo(LevelObject *Object) override;
-    void Detach() override;
-    void Update() override;
-    void Enable() override;
-    void Disable() override;
-    std::string GetComponentName() const override;
-  protected:
-
   };
 
 }

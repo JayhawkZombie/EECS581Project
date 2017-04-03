@@ -133,7 +133,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\aurora\include;C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\aurora\include;C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;D:\glew-2.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -148,8 +148,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\Thor\lib;C:\SFML_FILES\WINDOWS_241\TGUI\lib\Debug;C:\SFML_FILES\WINDOWS_241\lib\Debug;C:\SFML_FILES\aurora\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;thor-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;tgui-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\glew-2.0.0\lib\Debug\Win32;C:\SFML_FILES\WINDOWS_241\Thor\lib;C:\SFML_FILES\WINDOWS_241\TGUI\lib\Debug;C:\SFML_FILES\WINDOWS_241\lib\Debug;C:\SFML_FILES\aurora\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;thor-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;tgui-s-d.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -318,6 +318,7 @@
     <ClInclude Include="Game\Tile.h" />
     <ClInclude Include="Game\Useable.h" />
     <ClInclude Include="Game\Weapon.h" />
+    <ClInclude Include="Projects\TestProject\Classes\Menus\MainMenu.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreFiles\Shaders\GlowShader.fsh" />
@@ -325,12 +326,13 @@
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\CollisionComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\ComponentBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Components\ComponentManager.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\InteractionComponent.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Editor\AssetEditor.hpp" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\Console.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\InputInterface.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\ScriptConsole.h" />
     <ClInclude Include="SFEngine\Source\Headers\Events\UserEvent.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Level\BasicLevel.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\EffectBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\FastShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\ProjectileBase.h" />
@@ -338,6 +340,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\ScriptComponent.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
     <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
@@ -397,8 +400,88 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\String.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\StringMap.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\TextReader.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\ThorUtils.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Various.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Vec.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\access.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\archives\adapters.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\archives\binary.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\archives\json.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\archives\portable_binary.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\archives\xml.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\cereal.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\details\helpers.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\details\polymorphic_impl.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\details\polymorphic_impl_fwd.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\details\static_object.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\details\traits.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\details\util.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\base64.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\allocators.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\document.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\encodedstream.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\encodings.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\error\en.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\error\error.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\filereadstream.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\filewritestream.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\fwd.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\itoa.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\meta.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\pow10.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\regex.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\stack.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\strtod.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\internal\swap.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\memorybuffer.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\memorystream.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\pointer.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\prettywriter.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\rapidjson.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\reader.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\schema.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\stream.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\stringbuffer.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidjson\writer.h" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidxml\rapidxml.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidxml\rapidxml_iterators.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidxml\rapidxml_print.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\external\rapidxml\rapidxml_utils.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\macros.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\array.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\base_class.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\bitset.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\boost_variant.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\chrono.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\common.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\complex.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\concepts\pair_associative_container.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\deque.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\forward_list.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\functional.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\list.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\map.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\memory.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\polymorphic.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\queue.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\set.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\stack.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\string.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\tuple.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\unordered_map.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\unordered_set.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\utility.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\valarray.hpp" />
+    <ClInclude Include="SFEngine\ThirdParty\cereal\types\vector.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_basic.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\chaiscript\chaiscript_defines.hpp" />
@@ -521,6 +604,7 @@
     <Text Include="SFEngine\Source\CoreFiles\Scripts\CoreScripts.chai">
       <FileType>CppCode</FileType>
     </Text>
+    <ClCompile Include="Projects\TestProject\Classes\Menus\MainMenu.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\EventHandlerTests.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\ResourceManagerTests.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
@@ -528,7 +612,6 @@
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\CollisionComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ComponentBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Components\ComponentManager.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\InteractionComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\BaseEngineInterface.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Engine\Engine.cpp" />
@@ -554,11 +637,11 @@
     <ClCompile Include="SFEngine\Source\Definitions\Events\EventHandler.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Events\EventSequence.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Factory\Factory.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\AssetEditor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\AssetGraph.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\ExposedLevelApi.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Layer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelCollision.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEditorMethods.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelObject.cpp" />
@@ -568,6 +651,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\SceneGraph.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\SceneViewer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Settings.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\BasicLevel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collider.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ScriptComponent.cpp" />
@@ -603,6 +687,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Utils\SpriteSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\String.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Utils\ThorUtils.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Various.cpp" />
     <ClCompile Include="SFEngine\Source\main.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\IMGUI\imgui-SFML.cpp" />
@@ -683,6 +768,7 @@
     <None Include="Projects\TestProject\Scripts\main.chai" />
     <None Include="Projects\TestProject\Scripts\testuiscript.chai" />
     <None Include="Projects\TestProject\testproject.json" />
+    <None Include="Projects\TestProject\UIThemes\TransparentGray.theme" />
     <None Include="SFEngine\Config\Engine.ini" />
     <None Include="SFEngine\Samples\Actors\testactor.ini" />
     <None Include="SFEngine\Samples\Fonts\AbstractBitmap.xcf" />
@@ -718,6 +804,7 @@
     <None Include="SFEngine\Source\Headers\Streams\DataStream.inl" />
     <None Include="SFEngine\Source\LightingRadialShader.fsh" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
+    <None Include="SFEngine\ThirdParty\cereal\external\rapidxml\manual.html" />
     <None Include="SFEngine\ThirdParty\SelbaWard\TileMap.inl" />
   </ItemGroup>
   <ItemGroup>

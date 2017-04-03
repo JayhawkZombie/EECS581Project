@@ -409,6 +409,7 @@
         {
           "Name": "Whatever",
           "Script": "Whatever.chai",
+          "CerelFile": "TestActor.cereal",
           "AnimationMap": [
 
           ]

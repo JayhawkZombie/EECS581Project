@@ -24,19 +24,19 @@ class Player
   {
     if (IsKeyDown(Key_Left))
     {
-      GetObjectByID(this.ID).MoveObject(Vector2f(-2, 0))
+      this.Actor.MoveObject(Vector2f(-2, 0))
     }
     if (IsKeyDown(Key_Right))
     {
-      GetObjectByID(this.ID).MoveObject(Vector2f(2, 0))
+      this.Actor.MoveObject(Vector2f(2, 0))
     }
     if (IsKeyDown(Key_Up))
     {
-      GetObjectByID(this.ID).MoveObject(Vector2f(0, -2))
+      this.Actor.MoveObject(Vector2f(0, -2))
     }
     if (IsKeyDown(Key_Down))
     {
-      GetObjectByID(this.ID).MoveObject(Vector2f(0, 2))
+      this.Actor.MoveObject(Vector2f(0, 2))
     }
   }
 
