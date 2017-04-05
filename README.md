@@ -22,6 +22,15 @@ it freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any
    source distribution.
+   
+### The following Third-Party libraries are used:  
+*  [SFML](https://www.sfml-dev.org/)  
+*  [Thor](http://www.bromeon.ch/libraries/thor/)  
+*  [Aurora](http://www.bromeon.ch/libraries/aurora/index.html)  
+*  [Selba Ward](https://github.com/Hapaxia/SelbaWard)  
+*  [JsonCPP](https://github.com/open-source-parsers/jsoncpp)  
+*  [Cereal](http://uscilab.github.io/cereal/)  
+*  [Chaiscript](http://chaiscript.com/)  
 
 ### SFML
 Used under license  
@@ -31,4 +40,5 @@ SFML is used under license according to the SFML license terms.
 
 ### Physics  
 Used with permission of the author.  Credit is attributed to Derek Slagle  
-A link cannot be provided to an online repository as one does not exist for this code  
+A link cannot be provided to an external online repository as one does not exist for this code.  
+The code for this exists in [SFEngine/ThirdParty/Physics/](https://github.com/JayhawkZombie/EECS581Project/tree/master/SFEngine/ThirdParty/Physics)  
