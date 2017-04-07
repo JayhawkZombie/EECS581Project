@@ -234,7 +234,14 @@ namespace Engine
   extern Render::RenderSettings EngineRenderSettings;
 
   //For interacting with the scripting engine
-  
+ 
+  /*
+  Serialization function template:
+  template <class Archive>
+  void SerializeWhatever(Archive & archive, Whatever);
+  */
+
+/* Not using these anymore 
   //Some methods to use to serialize assets - put here so they can be globally accessible to anything that needs that
   void SerializeString(const std::string &string, std::ofstream &out);
   void SerializeInt32(const std::int32_t &value, std::ofstream &out);
@@ -254,7 +261,7 @@ namespace Engine
   void DeserializeInt64(std::int64_t &value, std::ifstream &out);
   void DeserializeUint64(std::uint64_t &value, std::ifstream &out);
   void DeserializeChar(char &c, std::ifstream &out);
-
+*/
   void MessageAlert(const std::string &message);
   void ConfirmAlert(const std::string &message, std::string OKText = "OK", std::string CancelText = "Cancel", std::function<void(void)> OKcb = []() {}, std::function<void(void)> Cancelcb = []() {});
   void Confirm(const std::string &message);

@@ -1,8 +1,8 @@
 # EECS581Project
 
-###This project is still in pre-alpha, and is nowhere near ready for any sort of release
+### This project is still in pre-alpha, and is nowhere near ready for any sort of release
 
-##License
+## License
 This software is provided 'as-is', without any express or
 implied warranty. In no event will the authors be held
 liable for any damages arising from the use of this software.
@@ -22,13 +22,23 @@ it freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any
    source distribution.
+   
+### The following Third-Party libraries are used:  
+*  [SFML](https://www.sfml-dev.org/)  
+*  [Thor](http://www.bromeon.ch/libraries/thor/)  
+*  [Aurora](http://www.bromeon.ch/libraries/aurora/index.html)  
+*  [Selba Ward](https://github.com/Hapaxia/SelbaWard)  
+*  [JsonCPP](https://github.com/open-source-parsers/jsoncpp)  
+*  [Cereal](http://uscilab.github.io/cereal/)  
+*  [Chaiscript](http://chaiscript.com/)  
 
-###SFML
+### SFML
 Used under license  
 Used for all rendering and graphics features.  
 SFML is used under license according to the SFML license terms.  
 [SFML License](https://github.com/SFML/SFML/blob/master/license.txt)  
 
-###Physics  
+### Physics  
 Used with permission of the author.  Credit is attributed to Derek Slagle  
-A link cannot be provided to an online repository as one does not exist for this code  
+A link cannot be provided to an external online repository as one does not exist for this code.  
+The code for this exists in [SFEngine/ThirdParty/Physics/](https://github.com/JayhawkZombie/EECS581Project/tree/master/SFEngine/ThirdParty/Physics)  
