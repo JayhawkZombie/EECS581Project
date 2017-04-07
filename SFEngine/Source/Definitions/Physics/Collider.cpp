@@ -109,6 +109,10 @@ namespace Engine
     m_AwakenCallback = Callback;
   }
 
+  void Collider2D::SetOverlapCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback)
+  {
+  }
+
   void Collider2D::SetColliderStatus(ColliderProp Status)
   {
     m_Status = Status;
@@ -172,6 +176,18 @@ namespace Engine
   {
     if (m_Mesh) {
       m_Mesh->pos = { Position.x, Position.y };
+    }
+  }
+
+  void Collider2D::SetRespondsToOverlaps(bool b)
+  {
+    if (b) {
+      m_Status.set(ColliderProp::NotifyOfOverlap);
+      m_Status.reset(ColliderProp::HasPhysicalResponse);
+    }
+    else {
+      m_Status.set(ColliderProp::HasPhysicalResponse);
+      m_Status.reset(ColliderProp::NotifyOfOverlap);
     }
   }
 

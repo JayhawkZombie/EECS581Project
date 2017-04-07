@@ -1,4 +1,5 @@
 #include "../../Headers/Level/Level.h"
+#include "../../Headers/Actor/Actor.h"
 
 #ifdef WITH_EDITOR
 namespace Engine
@@ -265,7 +266,7 @@ namespace Engine
 			if (ImGui::Button("Spawn")) {
 				ImGui::SameLine();
 				auto actor = std::make_shared<GenericActor>();
-				actor->GenerateActorMesh("Polygon", Position);
+				actor->GenerateActorMesh("Polygon", Position, mass, coeffRest, 4, 0);
 				actor->SpriteTexture = Textures["ActorGuy"];
 				actor->Sprite.setTexture(*actor->SpriteTexture);
 				actor->Sprite.setScale(100 / 16.f, 100 / 16.f);

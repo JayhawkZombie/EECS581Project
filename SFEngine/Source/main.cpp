@@ -1,3 +1,6 @@
+#pragma warning( disable : 4503 ) //Disable "decorated name length exceeded, name was truncated"
+#pragma warning( disable : 4996 ) //Disable "strcpy may be unsafe"
+
 #include "Headers\Engine\Engine.h"
 #include "../../Game/RPGTest.h"
 #include "../../Game/GameMain.h"

@@ -49,5 +49,6 @@ sf::Vector2f CastRay(const sf::Vector2f &R0, const sf::Vector2f &RA, const sf::V
   catch (std::runtime_error &e)
   {
     std::cerr << "Matrix error: " << e.what() << std::endl;
+    throw;
   }
 }

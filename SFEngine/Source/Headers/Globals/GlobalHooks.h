@@ -1,3 +1,6 @@
+#pragma warning( disable : 4503 ) //Disable "decorated name length exceeded, name was truncated"
+#pragma warning( disable : 4996 ) //Disable "strcpy may be unsafe"
+
 #ifndef SFENGINE_GLOBAL_HOOKS_H
 #define SFENGINE_GLOBAL_HOOKS_H
 
@@ -19,6 +22,7 @@ typedef tgui::MessageBox tguiMessageBox;
 #include "../Resources/ResourceManager.h"
 #include "../Streams/DataStream.h"
 #include "../Render/Render.h"
+#include "../State/DeviceState.h"
 #include <TGUI\TGUI.hpp>
 #include <Thor/Particles.hpp>
 #include <Thor/Animations.hpp>
@@ -261,6 +265,7 @@ namespace Engine
   class UserEvent;
   extern DataStream<UserEvent> EngineEventStream;
   extern chaiscript::ChaiScript *ScriptEngine;
+  extern InputDeviceState InputState;
 
 #ifdef WITH_EDITOR
   class SFEngine;

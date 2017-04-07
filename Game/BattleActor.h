@@ -23,6 +23,7 @@ public:
   std::map<int, int> ElementDominator();//returns the element dominated by the index
   std::map<int, int> ElementDominated();//returns the element that dominates the index
 
+  
 
   //getters
   Element getPrimary()const;

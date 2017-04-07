@@ -26,7 +26,8 @@ namespace Engine
     CanBeAwoken          = 3,
     HasPhysicalResponse  = 4,
     NotifyEveryFrame     = 5,
-    SingleResponsePerObj = 6
+    SingleResponsePerObj = 6,
+    NotifyOfOverlap      = 7
   };
  
   class Collider2D
@@ -65,6 +66,7 @@ namespace Engine
     void SetPositionChangeCallback(std::function<void(sf::Vector2f delta)> Callback);
     void SetSleepCallback(std::function<void(void)> Callback);
     void SetAwakenCallback(std::function<void(void)> Callback);
+    void SetOverlapCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback);
     void SetColliderStatus(ColliderProp Status);
 
     void Update(const ::vec2d &gravity);
@@ -81,6 +83,7 @@ namespace Engine
 
     void Move(const sf::Vector2f &Delta);
     void SetPosition(const sf::Vector2f &Position);
+    void SetRespondsToOverlaps(bool b);
 
     bool HandleCollision(std::weak_ptr<Collider2D> Collider);
 
@@ -93,6 +96,7 @@ namespace Engine
     bool m_NotifyOfCollisionEveryFrame = true; //If true, a notification will be issues every frame two objects are overlapping
     std::bitset<32> m_Status;
     std::function<void(std::weak_ptr<Collider2D>)> m_CollisionCallback;
+    std::function<void(std::weak_ptr<Collider2D>)> m_OverlapCallback;
     std::function<void(sf::Vector2f)> m_PositionChangeCallback;
     std::function<void(void)> m_SleepCallback;
     std::function<void(void)> m_AwakenCallback;

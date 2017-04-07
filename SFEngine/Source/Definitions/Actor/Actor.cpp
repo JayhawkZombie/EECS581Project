@@ -77,7 +77,7 @@ namespace Engine
     {
       std::cerr << "Exception in GenericActor constructor" << std::endl;
 
-      throw;
+      throw err;
     }
   }
 
@@ -189,12 +189,12 @@ namespace Engine
     Acceleration = acc;
   }
 
-  void GenericActor::GenerateActorMesh(const std::string & meshtype, const sf::Vector2f & pos)
+  void GenericActor::GenerateActorMesh(const std::string & meshtype, const sf::Vector2f & pos, float mass, float coeffOfRest, unsigned int num_sides, float init_rot)
   {
 	//Polygon Mesh parameters
 	//unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color
-    m_Colliders.push_back(Collider2D::CreatePolygonMesh(4, 50, 3.141592653 / 4.f, { 100, 150 }, Velocity, 0.5f, 0.01f, sf::Color::White));
-	  MeshRadius = 50.f;
+    m_Colliders.push_back(Collider2D::CreatePolygonMesh(num_sides, std::max(Size.x, Size.y) / 2.f, init_rot, pos, Velocity, mass, coeffOfRest, sf::Color::White));
+	  MeshRadius = std::max(Size.x, Size.y) / 2.f;
   }
 
   void GenericActor::MoveObject(const sf::Vector2f & delta)

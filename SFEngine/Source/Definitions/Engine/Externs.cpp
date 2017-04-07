@@ -26,6 +26,7 @@ namespace Engine
   std::unordered_map<std::string, std::shared_ptr<BasicLevel>> Levels;
   BasicLevel *CurrentLevel = nullptr;
   std::string EntryLevelName;
+  InputDeviceState InputState;
 
   void SetKeyRepeatEnabled(bool enabled)
   {

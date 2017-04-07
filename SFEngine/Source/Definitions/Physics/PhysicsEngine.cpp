@@ -65,6 +65,8 @@ namespace Engine
     }
     catch (EngineRuntimeError &err)
     {
+      err.AddCause(ExceptionCause::PhysicsInitError);
+      err.AddMessage(EXCEPTION_MESSAGE("Physics error : Cannot construct poly"));
       throw;
     }
   }
@@ -78,6 +80,8 @@ namespace Engine
     }
     catch (EngineRuntimeError &err)
     {
+      err.AddCause(ExceptionCause::PhysicsInitError);
+      err.AddMessage(EXCEPTION_MESSAGE("Physics error : Cannot construct segment"));
       throw;
     }
   }
@@ -90,6 +94,8 @@ namespace Engine
     }
     catch (EngineRuntimeError &err)
     {
+      err.AddCause(ExceptionCause::PhysicsInitError);
+      err.AddMessage(EXCEPTION_MESSAGE("Physics error : Cannot construct wave"));
       throw;
     }
   }

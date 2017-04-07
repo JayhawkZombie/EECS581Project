@@ -5,6 +5,8 @@
 #include "../Events/EventHandler.h"
 #include "../Exceptions/Exceptions.h"
 
+#include "../../../ThirdParty/cereal/cereal.hpp"
+
 namespace Engine
 {
   /**
@@ -36,6 +38,7 @@ namespace Engine
     *   this will be REQUIRED to be overridden by base classes
     *   if they want to be able to be encoded/decoded
     */
+
     virtual void SerializeOut(std::ofstream &out) = 0;
     virtual void SerializeIn(std::ifstream &in) = 0;
 

@@ -2,7 +2,11 @@
 #define RPG_ACTOR_H
 
 #include <string>
-class RPGActor
+
+#include "../SFEngine/Source/Headers/Actor/Actor.h"
+#include "../SFEngine/Source/Headers/Physics/Collider.h"
+
+class RPGActor : public Engine::GenericActor
 {
 public:
 	//constructor/destructor
@@ -14,9 +18,18 @@ public:
     std::string getFilePath() const;
 	void setName(std::string name);
     void setFilePath(std::string filePath);
+
+    
+
+    virtual void TickUpdate(const double &delta) override;
+    virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
+
 private:
 	std::string m_name;
     std::string m_filePath;
+    sf::Vector2i m_Cell;
+
+    virtual void HandleCollisionWithActor(std::weak_ptr<Engine::Collider2D> Collided);
 };
 
 #endif

@@ -6,6 +6,8 @@
 #include "../Components/ComponentBase.h"
 #include "../../../ThirdParty/PhysicsEngine.h"
 
+#include <Thor\Animations.hpp>
+
 namespace Engine
 {
   class GenericActor;
@@ -61,12 +63,12 @@ namespace Engine
     std::vector<std::shared_ptr<Collider2D>> GetColliders();
     void AddCollider(std::shared_ptr<Collider2D> Collider);
 
+    void AddFrameAnimation(const std::string &ID, const std::vector<sf::IntRect> &Frames, sf::Time Duration);
+
   protected:
-    std::shared_ptr<
-      thor::AnimationMap<sf::Sprite, std::string>> Animations;
-    std::shared_ptr<
-      thor::Animator<sf::Sprite, std::string>> Animator;
-    std::map<std::string, thor::FrameAnimation> FrameAnimations;
+    thor::AnimationMap<sf::Sprite, std::string> m_AnimationMap;
+    thor::Animator<sf::Sprite, std::string> m_Animator;
+    std::unordered_map<std::string, thor::FrameAnimation> m_FrameAnimations;
 
     std::vector<std::shared_ptr<Collider2D>> m_Colliders;
 

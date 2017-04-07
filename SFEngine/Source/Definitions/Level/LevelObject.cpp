@@ -7,13 +7,13 @@ namespace Engine
 {
   LevelObject::LevelObject()
     :
-    Animations(std::make_shared<thor::AnimationMap<sf::Sprite, std::string>>()),
-    Animator(std::make_shared<thor::Animator<sf::Sprite, std::string>>(*Animations))
+    m_Animator(m_AnimationMap)
   {
     
   }
 
   LevelObject::LevelObject(const LevelObject &copy)
+    : LevelObject()
   {
 
   }
@@ -47,7 +47,7 @@ namespace Engine
     {
       std::cerr << "Exception in LevelObject ScriptInit" << std::endl;
 
-      throw;
+      throw err;
     }
   }
 
@@ -124,7 +124,8 @@ namespace Engine
 
   void LevelObject::Move(const sf::Vector2f & delta)
   {
-    
+    for (auto & collider : m_Colliders)
+      collider->Move(delta);
   }
 
   void LevelObject::Move(float x, float y)
@@ -156,6 +157,16 @@ namespace Engine
   void LevelObject::AddCollider(std::shared_ptr<Collider2D> Collider)
   {
     m_Colliders.push_back(Collider);
+  }
+
+  void LevelObject::AddFrameAnimation(const std::string & ID, const std::vector<sf::IntRect>& Frames, sf::Time Duration)
+  {
+    m_FrameAnimations[ID] = {};
+    for (auto & frame : Frames) {
+      m_FrameAnimations[ID].addFrame(1.f, frame);
+    }
+
+    m_AnimationMap.addAnimation(ID, m_FrameAnimations[ID], Duration);
   }
 
 }

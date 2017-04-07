@@ -133,7 +133,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\aurora\include;C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;D:\glew-2.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\aurora\include;C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -148,8 +148,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\glew-2.0.0\lib\Debug\Win32;C:\SFML_FILES\WINDOWS_241\Thor\lib;C:\SFML_FILES\WINDOWS_241\TGUI\lib\Debug;C:\SFML_FILES\WINDOWS_241\lib\Debug;C:\SFML_FILES\aurora\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;thor-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;tgui-s-d.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SFML_FILES\WINDOWS_241\Thor\lib;C:\SFML_FILES\WINDOWS_241\TGUI\lib\Debug;C:\SFML_FILES\WINDOWS_241\lib\Debug;C:\SFML_FILES\aurora\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;thor-s-d.lib;flac.lib;freetype.lib;jpeg.lib;ogg.lib;openal32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;opengl32.lib;winmm.lib;sfml-main-d.lib;tgui-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -319,6 +319,8 @@
     <ClInclude Include="Game\Useable.h" />
     <ClInclude Include="Game\Weapon.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\MainMenu.h" />
+    <ClInclude Include="Projects\TestProject\Classes\Menus\TopDownLevel.h" />
+    <ClInclude Include="Projects\TestProject\Classes\ObjectGrid.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
     <ClInclude Include="SFEngine\EngineRequirements.h" />
     <ClInclude Include="SFEngine\Source\CoreFiles\Shaders\GlowShader.fsh" />
@@ -341,6 +343,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\ScriptComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
+    <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
     <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
@@ -605,6 +608,7 @@
       <FileType>CppCode</FileType>
     </Text>
     <ClCompile Include="Projects\TestProject\Classes\Menus\MainMenu.cpp" />
+    <ClCompile Include="Projects\TestProject\Classes\ObjectGrid.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\EventHandlerTests.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\ResourceManagerTests.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
@@ -643,6 +647,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Layer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEditorMethods.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEditorObjectProperties.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
@@ -655,6 +660,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collider.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ScriptComponent.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\State\DeviceState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Streams\DataStream.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\LevelTile.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelUpdate.cpp" />

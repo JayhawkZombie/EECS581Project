@@ -53,6 +53,8 @@ namespace Engine
   {
     if (index < Sprites.size())
       return Sprites[index];
+
+    throw EngineRuntimeError({ ExceptionCause::InvalidObjectUsed }, EXCEPTION_MESSAGE("Sprite index out of boudns"));
   }
 
   SharedTexture SpriteSheet::GetTexture() const

@@ -95,7 +95,7 @@ namespace Engine
 
           if (ImGui::CollapsingHeader(displaytext.c_str())) {
             ImGui::Indent();
-            ImGui::Text(item.second->ItemID.c_str());
+            ShowObjectProperties(item.second);
             ImGui::Unindent();
           }
         }

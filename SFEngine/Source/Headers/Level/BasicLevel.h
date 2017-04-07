@@ -3,6 +3,8 @@
 
 #include "../Engine/BaseEngineInterface.h"
 #include "../../../ThirdParty/PhysicsEngine.h"
+#include "../Globals/GlobalHooks.h"
+#include "../../../ThirdParty/SelbaWard/TileMap.hpp"
 
 namespace Engine
 {
@@ -57,6 +59,8 @@ namespace Engine
     std::vector<sf::VertexArray> GridLines;
     sf::Vector2u Size;
     sf::Vector2f GridBlockSize;
+    sw::TileMap TileMap;
+    sf::Texture TileMapTexture;
 
     std::map<std::string, std::shared_ptr<LevelObject>> AssetObjects;
 
