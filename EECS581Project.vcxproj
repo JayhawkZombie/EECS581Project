@@ -301,6 +301,9 @@
     <ClInclude Include="Game\Damage.h" />
     <ClInclude Include="Game\ElementsEnum.h" />
     <ClInclude Include="Game\GameMain.h" />
+    <ClInclude Include="Game\gametgui\CreateNewConvo.h" />
+    <ClInclude Include="Game\gametgui\CreateNewShop.h" />
+    <ClInclude Include="Game\gametgui\tguicall.h" />
     <ClInclude Include="Game\HumanActor.h" />
     <ClInclude Include="Game\Inventory.h" />
     <ClInclude Include="Game\ListReader.h" />
@@ -590,6 +593,9 @@
     <ClCompile Include="Game\Conversation.cpp" />
     <ClCompile Include="Game\Damage.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
+    <ClCompile Include="Game\gametgui\CreateNewConvo.cpp" />
+    <ClCompile Include="Game\gametgui\CreateNewShop.cpp" />
+    <ClCompile Include="Game\gametgui\tguicall.cpp" />
     <ClCompile Include="Game\HumanActor.cpp" />
     <ClCompile Include="Game\Inventory.cpp" />
     <ClCompile Include="Game\ListReader.cpp" />
