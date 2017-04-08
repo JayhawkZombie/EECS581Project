@@ -93,7 +93,7 @@ namespace Engine
 #ifdef WITH_EDITOR
     static void UpdateEditorUI(const double &delta);
     static void RenderEditorUI(std::shared_ptr<sf::RenderTexture> Target);
-
+    
     void ShowObjectProperties(std::shared_ptr<Engine::LevelObject> Object);
     void ShowSceneGraph();
     void ShowAssetGraph();
