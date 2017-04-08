@@ -88,6 +88,10 @@ int Inventory::getGold()
 {
 	return m_gold;
 }
+void Inventory::setGold(int delta)
+{
+  m_gold += delta;
+}
 
 bool Inventory::incrementArmor(int index, int delta)
 {
@@ -99,7 +103,6 @@ bool Inventory::incrementArmor(int index, int delta)
 	{
 		return false;//cant have a negative number of an item
 	}
-	m_armorCount[index] += delta;
 	return true;
 }
 
@@ -113,7 +116,6 @@ bool Inventory::incrementWeapons(int index, int delta)
 	{
 		return false;
 	}
-	m_weaponCount[index] += delta;
 	return true;
 }
 
@@ -127,6 +129,20 @@ bool Inventory::incrementUseables(int index, int delta)
 	{
 		return false;
 	}
-	m_useableCount[index] += delta;
 	return true;
+}
+
+void Inventory::updateArmor(int index, int delta)
+{
+  m_armorCount[index] += delta;
+}
+
+void Inventory::updateWeapons(int index, int delta)
+{
+  m_weaponCount[index] += delta;
+}
+
+void Inventory::updateUseables(int index, int delta)
+{
+  m_useableCount[index] += delta;
 }

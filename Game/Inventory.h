@@ -17,6 +17,12 @@ public:
 	bool incrementArmor(int index, int delta);//returns if successful or not
 	bool incrementWeapons(int index, int delta);
 	bool incrementUseables(int index, int delta);
+
+  void updateArmor(int index, int delta);
+  void updateWeapons(int index, int delta);
+  void updateUseables(int index, int delta);
+  
+  void setGold(int delta);
 	int getGold();
 private:
 	int* m_armorCount;//the number of each type of armor the party has

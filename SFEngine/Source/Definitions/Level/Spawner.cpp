@@ -80,7 +80,7 @@ namespace Engine
       ImGui::InputFloat("y", &Vel.y, 1.f, 5.f);
       ImGui::Separator();
 
-      ImGui::Text("Gravity and Fraction");
+      ImGui::Text("Gravity and Friction");
       if (ImGui::InputFloat("Mass", &mass, 0.01f, 0.1f)) {
         if (mass < 0.01f) mass = 0.01f;
       }
