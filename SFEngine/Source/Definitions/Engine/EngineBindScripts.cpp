@@ -70,7 +70,7 @@ namespace Engine
         /* Constructors */
         {
           chaiscript::constructor<sf::IntRect()>(),
-          chaiscript::constructor<sf::IntRect(float, float, float, float)>()
+          chaiscript::constructor<sf::IntRect(int, int, int, int)>()
         },
         {
           {
@@ -80,7 +80,26 @@ namespace Engine
             { chaiscript::fun(&sf::IntRect::height), "height" }
           }
         }
-        );
+      );
+
+    chaiscript::utility::add_class<sf::IntRect>
+    (
+      *__SFML,
+      "FloatRect",
+      /* Constructors */
+      {
+        chaiscript::constructor<sf::FloatRect()>(),
+        chaiscript::constructor<sf::FloatRect(float, float, float, float)>()
+      },
+      {
+        {
+          { chaiscript::fun(&sf::FloatRect::left), "left" },
+          { chaiscript::fun(&sf::FloatRect::top), "top" },
+          { chaiscript::fun(&sf::FloatRect::width), "width" },
+          { chaiscript::fun(&sf::FloatRect::height), "height" }
+        }
+      }
+      );
     //__SFML->add(chaiscript::user_type<sf::Vector2f>(), "Vector2f");
     //__SFML->add(chaiscript::user_type<sf::IntRect>(), "IntRect");
     //__SFML->add(chaiscript::user_type<sf::FloatRect>(), "FloatRect");

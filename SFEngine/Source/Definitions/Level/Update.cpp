@@ -33,32 +33,12 @@ namespace Engine
       cumulative = 0.f;
     }
 
-
-
 #ifdef WITH_EDITOR
-    ShowSceneGraph();
-    ShowAssetGraph();
-    ShowGraphicalSettings();
-    ShowSpawner();
-    ShowAssetEditor();
 
-    if (ImGui::BeginMainMenuBar()) {
-      if (ImGui::BeginMenu("File")) {
-        if (ImGui::MenuItem("Exit")) {
-          FlagForClose = true;
-        }
-        ImGui::EndMenu();
-      }
-      if (ImGui::BeginMenu("Edit")) {
-        if (ImGui::MenuItem("Something")) {
+    BasicLevel::UpdateEditorUI(delta);
 
-        }
-        ImGui::EndMenu();
-      }
-      ImGui::EndMainMenuBar();
-    }
-    Console::ShowDebugConsole(NULL);
 #endif
+
   }
 
   void Level::UpdateObjectPhysics()

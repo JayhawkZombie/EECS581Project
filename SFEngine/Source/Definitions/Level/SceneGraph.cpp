@@ -27,7 +27,7 @@ namespace Engine
     ImGui::Checkbox("IsHard", &wave->is_hard);
   }
 
-  void Level::ShowSceneGraph()
+  void BasicLevel::ShowSceneGraph()
   {
 
     if (!ImGui::Begin("SceneGraph")) {
@@ -80,11 +80,10 @@ namespace Engine
         ImGui::Indent();
         if (ImGui::Button("Clear")) {
           for (auto & Object : LevelObjects) {
-            LevelObjectMeshes[Object.second].clear();
+            Object.second->OnKilled();
             Object.second.reset();
           }
 
-          LevelObjectMeshes.clear();
           LevelObjects.clear();
         }
         int i = 1000;

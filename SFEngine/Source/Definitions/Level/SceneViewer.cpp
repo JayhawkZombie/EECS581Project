@@ -5,7 +5,7 @@
 namespace Engine
 {
 
-  void Level::ShowScene(std::shared_ptr<sf::RenderTexture> Texture)
+  void BasicLevel::ShowScene(std::shared_ptr<sf::RenderTexture> Texture)
   {
 
     //if (ImGui::Begin("Scene Viewer", NULL, ImGuiWindowFlags_MenuBar)) {

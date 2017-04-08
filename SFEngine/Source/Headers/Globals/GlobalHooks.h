@@ -23,6 +23,7 @@ typedef tgui::MessageBox tguiMessageBox;
 #include "../Streams/DataStream.h"
 #include "../Render/Render.h"
 #include "../State/DeviceState.h"
+#include "../UI/UIMacros.h"
 #include <TGUI\TGUI.hpp>
 #include <Thor/Particles.hpp>
 #include <Thor/Animations.hpp>

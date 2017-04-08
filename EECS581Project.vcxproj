@@ -318,6 +318,7 @@
     <ClInclude Include="Game\Tile.h" />
     <ClInclude Include="Game\Useable.h" />
     <ClInclude Include="Game\Weapon.h" />
+    <ClInclude Include="Projects\TestProject\Classes\Levels\OakTree.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\MainMenu.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\TopDownLevel.h" />
     <ClInclude Include="Projects\TestProject\Classes\ObjectGrid.h" />
@@ -336,6 +337,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Events\UserEvent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\BasicLevel.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\EffectBase.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\Equippable.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\FastShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\ProjectileBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
@@ -389,6 +391,7 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\Drawables\Drawables.h" />
     <ClInclude Include="SFEngine\Source\Headers\Exceptions\Exceptions.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIIconSheet.h" />
+    <ClInclude Include="SFEngine\Source\Headers\UI\UIMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\AssetConverters.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\CollisionHelpers.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Convert.h" />
@@ -607,6 +610,7 @@
     <Text Include="SFEngine\Source\CoreFiles\Scripts\CoreScripts.chai">
       <FileType>CppCode</FileType>
     </Text>
+    <ClCompile Include="Projects\TestProject\Classes\Levels\OakTree.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Menus\MainMenu.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\ObjectGrid.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\EventHandlerTests.cpp" />
@@ -648,22 +652,24 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Level.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEditorMethods.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelEditorObjectProperties.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelLoader.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\Loader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\LevelObject.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelRender.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeIn.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelSerializeOut.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\Render.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\SerializeIn.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\SerializeOut.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\RenderEditorUI.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\SceneGraph.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\SceneViewer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Settings.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\BasicLevel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\UpdateEditorUI.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collider.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ScriptComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\State\DeviceState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Streams\DataStream.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\LevelTile.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Level\LevelUpdate.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Level\Update.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GenericLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GlobalLightSource.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\LightingSystem.cpp" />
@@ -678,7 +684,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\QuadTree.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Render\Render.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Render\Renderer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManager.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileGrid.cpp" />

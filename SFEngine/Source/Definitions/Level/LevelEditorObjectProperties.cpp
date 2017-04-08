@@ -5,7 +5,7 @@
 namespace Engine
 {
 
-  void Level::ShowObjectProperties(std::shared_ptr<Engine::LevelObject> Object)
+  void BasicLevel::ShowObjectProperties(std::shared_ptr<Engine::LevelObject> Object)
   {
     static sf::Vector2f __Position = { 0.f, 0.f };
     static sf::Vector2f __Size = { 0.f, 0.f };

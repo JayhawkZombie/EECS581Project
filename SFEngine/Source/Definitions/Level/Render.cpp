@@ -21,13 +21,7 @@ namespace Engine
     //If we are using the editor, draw the meshes too
     //Make this configurable later
 #ifdef WITH_EDITOR
-    for (auto & MeshCollection : LevelObjectMeshes)
-      for (auto & Mesh : MeshCollection.second)
-        if (Mesh->GetMesh().lock())
-          Mesh->GetMesh().lock()->draw(*Texture);
-
-    for (auto & seg : Segments)
-      seg->draw(*Texture);
+    BasicLevel::RenderEditorUI(Texture);
 #endif
   }
 

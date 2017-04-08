@@ -3,7 +3,7 @@
 namespace Engine
 {
 
-  void Level::ShowAssetEditor()
+  void BasicLevel::ShowAssetEditor()
   {
     //whether to show existing assets or make a new asset
     static bool ShowAssetMaker = false;
@@ -30,7 +30,7 @@ namespace Engine
     ImGui::End();
   }
 
-  void Level::ShowNewAssetMaker()
+  void BasicLevel::ShowNewAssetMaker()
   {
     static char nameBuf[500] = { 0 };
     ImGui::InputText("Name:", nameBuf, 500, ImGuiInputTextFlags_CharsNoBlank);
@@ -39,7 +39,7 @@ namespace Engine
 
   }
 
-  void Level::ShowExistingAssetEditor()
+  void BasicLevel::ShowExistingAssetEditor()
   {
   }
 

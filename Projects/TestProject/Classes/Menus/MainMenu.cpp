@@ -104,7 +104,7 @@ MainMenu::MainMenu(const sf::Vector2u & LevelSize, const sf::FloatRect & Default
   system.addEmitter(thor::refEmitter(emitter));
   
   emitter.setParticlePosition(sf::Vector2f( 0, 0 ));
-  emitter.setParticleScale(sf::Vector2f(0.4, 0.3));
+  emitter.setParticleScale(sf::Vector2f(0.4f, 0.3f));
 
   gradient[0.f] = sf::Color(0, 242, 255);
   gradient[0.5f] = sf::Color(0, 106, 112, 112);

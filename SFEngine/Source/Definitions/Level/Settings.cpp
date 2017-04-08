@@ -3,7 +3,7 @@
 namespace Engine
 {
 
-  void Level::ShowGraphicalSettings()
+  void BasicLevel::ShowGraphicalSettings()
   {
     static bool IsVertSyncEnabled;
 

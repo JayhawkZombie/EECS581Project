@@ -169,9 +169,6 @@ namespace Engine
       Object->InternalID = _id;
       Object->ItemID = objid;
       LevelObjects[objid] = Object;
-      LevelObjectMeshes[Object] = {};
-      LevelObjectMeshes[Object] = Object->GetColliders();
-
       return true;
     }
     //When we implement logging, we will log the errors here

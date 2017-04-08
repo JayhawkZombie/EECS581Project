@@ -5,7 +5,7 @@
 namespace Engine
 {
 
-  void Level::ShowSpawner()
+  void BasicLevel::ShowSpawner()
   {
     if (!ImGui::Begin("Spawner")) {
       ImGui::End();
@@ -16,7 +16,7 @@ namespace Engine
     ImGui::End();
   }
 
-  void Level::ShowPhysicsSpawner()
+  void BasicLevel::ShowPhysicsSpawner()
   {
     static sf::Vector2f Pos = { 0.f, 0.f };
     static sf::Vector2f Vel = { 0.f, 0.f };

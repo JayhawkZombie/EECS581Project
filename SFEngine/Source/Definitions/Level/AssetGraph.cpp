@@ -86,7 +86,7 @@ namespace Engine
     }
   }
 
-  void Level::ShowAnimationEditor(const std::string &name)
+  void BasicLevel::ShowAnimationEditor(const std::string &name)
   {
     if (ImGui::BeginPopup("Animation Editor")) {
 
@@ -100,7 +100,7 @@ namespace Engine
     }
   }
 
-  void Level::ShowAssetGraph()
+  void BasicLevel::ShowAssetGraph()
   {
 
     if (!ImGui::Begin("Asset Viewer")) {
