@@ -10,6 +10,8 @@
 #include <Thor/Vectors/PolarVector2.hpp>
 #include <Thor/Math/Distributions.hpp>
 
+#include "../Levels/OakTree.h"
+
 class MainMenu : public Engine::BasicLevel
 {
 public:
@@ -38,6 +40,8 @@ protected:
   tgui::Theme::Ptr MenuTheme;
 
   std::shared_ptr<BasicLevel> NewGameLevel;
+
+  std::shared_ptr<OakTreeLevel> OakTreeLevelptr;
 
   tgui::Panel::Ptr MainPanel;
   tgui::Panel::Ptr OptionsPanel;

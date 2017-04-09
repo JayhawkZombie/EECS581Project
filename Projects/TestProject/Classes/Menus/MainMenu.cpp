@@ -9,6 +9,8 @@ MainMenu::MainMenu(const sf::Vector2u & LevelSize, const sf::FloatRect & Default
   font.loadFromFile("./Projects/TestProject/Fonts/Marvel-Regular.ttf");
   MainGUI->setFont(font);
 
+  OakTreeLevelptr = std::make_shared<OakTreeLevel>();
+
   NewGameLevel = std::make_shared<Engine::Level>(LevelSize, DefaultView, showlines, GridSpacing);
 
   //Create some buttons
@@ -193,7 +195,8 @@ void MainMenu::OnBegin()
 
 void MainMenu::CreateNewGame()
 {
-  Engine::SwitchLevel(NewGameLevel);
+ // Engine::SwitchLevel(NewGameLevel);
+  Engine::SwitchLevel(OakTreeLevelptr);
 }
 
 void MainMenu::LoadSaveGame()

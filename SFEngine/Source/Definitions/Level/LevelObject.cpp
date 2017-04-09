@@ -73,7 +73,7 @@ namespace Engine
 
   void LevelObject::Render(std::shared_ptr<sf::RenderTarget> Target)
   {
-    
+    Target->draw(Sprite);
   }
 
   void LevelObject::OnShutDown()
@@ -93,7 +93,24 @@ namespace Engine
 
   void LevelObject::SetPosition(const sf::Vector2f &pos)
   {
-    
+    Position = pos;
+    Sprite.setPosition(Position);
+  }
+
+	void LevelObject::SetSize(const sf::Vector2f & size)
+	{
+			Size = size;
+	}
+
+	void LevelObject::SetTexture(std::shared_ptr<sf::Texture> mytexture)
+	{
+			SpriteTexture = mytexture;
+			Sprite.setTexture(*(SpriteTexture));
+	}
+
+  void LevelObject::SetTextureRect(sf::IntRect myRect)
+  {
+    Sprite.setTextureRect(myRect);
   }
 
   void LevelObject::HandleInputEvent(const UserEvent & evnt)

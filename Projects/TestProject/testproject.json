@@ -36,6 +36,30 @@
           "Name": "RotatingBoxesAnim",
           "Path": "/Textures/RotatingBoxesAnim.png"
         },
+        {
+          "Name": "5by5Shops",
+          "Path": "/Textures/5X5ShopTemplate.png"
+        },
+        {
+          "Name": "Bigoaktree",
+          "Path": "/Textures/9X9OakTree.png"
+        },
+        {
+          "Name": "BigBuildings",
+          "Path": "/Textures/BigBuildings.png"
+        },
+        {
+          "Name": "Church",
+          "Path": "/Textures/Church.png"
+        },
+        {
+          "Name": "Grass",
+          "Path": "/Textures/Grass.png"
+        },
+        {
+          "Name": "TreeBlock",
+          "Path":  "/Textures/LayeredTreeGrid.png"
+        },
 		{
 			"Name": "ActorGuy",
 			"Path": "/Textures/GuyForwards.png"

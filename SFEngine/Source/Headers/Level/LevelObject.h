@@ -43,6 +43,10 @@ namespace Engine
     virtual void SerializeOut(std::ofstream &out) override;
     virtual void SerializeIn(std::ifstream &in) override;
     virtual void SetPosition(const sf::Vector2f &pos);
+		virtual void SetSize(const sf::Vector2f &size);
+		virtual void SetTexture(std::shared_ptr<sf::Texture> mytexture);
+    virtual void SetTextureRect(sf::IntRect myRect);
+
 
     virtual void HandleInputEvent(const UserEvent &evnt);
     virtual void SetID(const std::string &ID) override;
