@@ -58,7 +58,15 @@
         },
         {
           "Name": "TreeBlock",
-          "Path":  "/Textures/LayeredTreeGrid.png"
+          "Path": "/Textures/LayeredTreeGrid.png"
+        },
+        {
+          "Name": "4House",
+          "Path": "/Textures/4x4HouseTemplate.png"
+        },
+        {
+          "Name": "5House",
+          "Path": "/Textures/5x5HouseTemplate.png"
         },
 		{
 			"Name": "ActorGuy",
