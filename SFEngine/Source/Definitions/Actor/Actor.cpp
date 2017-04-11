@@ -100,12 +100,12 @@ namespace Engine
   {
 
   }
-
+  /*
   void GenericActor::SetTexture(const std::string &texfile, const std::string &texID)
   {
 
   }
-
+  */
   void GenericActor::ReceiveSprite(const std::string &ID, std::shared_ptr<sf::Texture> tex)
   {
 

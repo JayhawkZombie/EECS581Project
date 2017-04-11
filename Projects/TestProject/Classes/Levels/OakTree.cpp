@@ -1,5 +1,6 @@
 #include "OakTree.h"
 #include "../../../../SFEngine/Source/Headers/Level/LevelObject.h"
+#include "../../../../Game/RPGActor.h"
 #include <map>
 
 OakTreeLevel::OakTreeLevel()
@@ -225,6 +226,13 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["BigOakTree"] = BigOakTreeTree;
   
 
+  std::shared_ptr<RPGActor> myActor = std::make_shared<RPGActor>();
+  
+  myActor->SetTexture(Textures["ActorGuy"]);
+  SpawnActor(myActor, { 24*16,33*16 });
+  LevelObjects["MainGuy"] = myActor;
+  MainCharacter = myActor;
+  //SpawnActor(RPGActor());
 
 //  LevelObjects["Shop1"] = Shop;
   //Shop
@@ -240,6 +248,7 @@ OakTreeLevel::OakTreeLevel(const sf::Vector2u & LevelSize, const sf::FloatRect &
 
 void OakTreeLevel::TickUpdate(const double & delta)
 {
+	LevelObjects["MainGuy"]->TickUpdate(delta);
 }
 
 void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
@@ -273,4 +282,9 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   //Make this configurable later
 
  // Texture->setView(oldView);
+}
+
+void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
+{
+	MainCharacter->HandleInputEvent(evnt);
 }

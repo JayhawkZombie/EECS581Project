@@ -38,9 +38,69 @@ void RPGActor::setFilePath(std::string filePath)
   m_filePath = filePath;
 }
 
+void RPGActor::HandleInputEvent(const Engine::UserEvent & evnt)
+{
+	if (evnt.EventType == Engine::UserEventType::KeyboardPress)
+	{
+		if (evnt.Key == sf::Keyboard::A)
+			Velocity.x = -1;
+		else if (evnt.Key == sf::Keyboard::S)
+			Velocity.y = 1;
+		else if (evnt.Key == sf::Keyboard::D)
+			Velocity.x = 1;
+		else if (evnt.Key == sf::Keyboard::W)
+			Velocity.y = -1;
+	}
+	if (evnt.EventType == Engine::UserEventType::KeyboardRelease)
+	{
+		if (evnt.Key == sf::Keyboard::A || evnt.Key == sf::Keyboard::D)
+			Velocity.x = 0;
+		else if (evnt.Key == sf::Keyboard::S || evnt.Key == sf::Keyboard::W)
+			Velocity.y = 0;
+	}
+}
+
 void RPGActor::TickUpdate(const double & delta)
 {
   Engine::LevelObject::TickUpdate(delta);
+  /*
+  //Right
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+  {
+	  Velocity.x = 1;
+  }
+  else 
+  {
+	  Velocity.x = 0;
+  }
+  //Left
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+  {
+	  Velocity.x = -1;
+  }
+  else
+  {
+	  Velocity.x = 0;
+  }
+  //Up
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+  {
+	  Velocity.y = -1;
+  }/*
+  else
+  {
+	  Velocity.y = 0;
+  }
+  //Down
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+  {
+	  Velocity.y = 1;
+  }
+  else/*
+  {
+	  Velocity.y = 0;
+  }*/
+  this->MoveObject({ Velocity.x*(float)delta*(float).1, Velocity.y*(float)delta*(float).1 });
 
 }
 
