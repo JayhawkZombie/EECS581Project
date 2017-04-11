@@ -5,6 +5,7 @@
 #include "../../../ThirdParty/PhysicsEngine.h"
 #include "../Globals/GlobalHooks.h"
 #include "../../../ThirdParty/SelbaWard/TileMap.hpp"
+#include "../Weather/WeatherSystem.h"
 
 namespace Engine
 {
@@ -14,6 +15,9 @@ namespace Engine
   class Animation;
   class Collider2D;
   class GenericActor;
+  class ProjectileBase;
+  class WeatherSystem;
+  class WeatherEvent;
 
   class BasicLevel : public BaseEngineInterface
   {
@@ -68,13 +72,9 @@ namespace Engine
     sw::TileMap TileMap;
     sf::Texture TileMapTexture;
 
-    std::map<std::string, std::shared_ptr<LevelObject>> AssetObjects;
-
     ::vec2d *Gravity;
     std::map<std::string, std::shared_ptr<Engine::LevelObject>> LevelObjects;
-    //std::map<std::shared_ptr<Engine::LevelObject>,
-    //  std::vector<std::shared_ptr<Collider2D>>
-    //> LevelObjectMeshes;
+    WeatherSystem m_WeatherSystem;
 
     std::vector<SegmentPtr> Segments;
     std::vector<WaveSegmentPtr> Waves;
@@ -85,10 +85,9 @@ namespace Engine
     std::map<std::string, std::shared_ptr<TileSheet>> TileSheets;
     std::map<std::string, std::shared_ptr<Animation>> Animations;
     std::map<std::string, std::shared_ptr<sf::SoundBuffer>> SoundBuffers;
-    std::shared_ptr<sf::RenderTexture> LightTexture;
-    std::shared_ptr<sf::RenderTexture> SceneBlendTexture;
 
     std::vector<thor::UniversalEmitter> ParticleEmitters;
+    std::vector<std::shared_ptr<ProjectileBase>> Projectiles;
 
 #ifdef WITH_EDITOR
     static void UpdateEditorUI(const double &delta);

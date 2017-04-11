@@ -6,7 +6,7 @@ namespace Engine
 {
   void Level::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   {
-    SceneBlendTexture->clear(sf::Color::Transparent);
+    //SceneBlendTexture->clear(sf::Color::Transparent);
 
     Texture->draw(TileMap);
 

@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{95C45AA1-ACC4-4925-BD8F-51999F4BF7F0}</ProjectGuid>
+    <ProjectGuid>{87F72D0D-0935-4DF9-A2E4-8DF5A21C5F18}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EECS581Project</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -321,15 +321,20 @@
     <ClInclude Include="Game\Tile.h" />
     <ClInclude Include="Game\Useable.h" />
     <ClInclude Include="Game\Weapon.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Level1.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\LoadingScreen.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.h" />
     <ClInclude Include="Projects\TestProject\Classes\Levels\OakTree.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\MainMenu.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\TopDownLevel.h" />
     <ClInclude Include="Projects\TestProject\Classes\ObjectGrid.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
     <ClInclude Include="SFEngine\EngineRequirements.h" />
+    <ClInclude Include="SFEngine\ProjectIncludes.h" />
     <ClInclude Include="SFEngine\Source\CoreFiles\Shaders\GlowShader.fsh" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Camera\2DCamera.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\CollisionComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\ComponentBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\InteractionComponent.h" />
@@ -347,12 +352,14 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Components\ScriptComponent.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\Static.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
     <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileSheet.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Tiles\TMXMap.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Collider.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -412,6 +419,8 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\ThorUtils.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Various.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Vec.hpp" />
+    <ClInclude Include="SFEngine\Source\Headers\Weather\Lightning.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Weather\WeatherSystem.h" />
     <ClInclude Include="SFEngine\ThirdParty\cereal\access.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\cereal\archives\adapters.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\cereal\archives\binary.hpp" />
@@ -616,6 +625,9 @@
     <Text Include="SFEngine\Source\CoreFiles\Scripts\CoreScripts.chai">
       <FileType>CppCode</FileType>
     </Text>
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Level1.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\LoadingScreen.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Levels\OakTree.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Menus\MainMenu.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\ObjectGrid.cpp" />
@@ -624,6 +636,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Camera\2DCamera.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\CollisionComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ComponentBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\InteractionComponent.cpp" />
@@ -670,6 +683,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\BasicLevel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\UpdateEditorUI.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\Static.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collider.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ScriptComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\State\DeviceState.cpp" />
@@ -695,6 +709,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManagerThread.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileGrid.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileSheet.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Tiles\TMXMap.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIIconSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\AssetConverters.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Convert.cpp" />
@@ -707,6 +722,9 @@
     <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\ThorUtils.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Various.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Weather\Lightning.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Weather\LightningStorm.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Weather\WeatherSystem.cpp" />
     <ClCompile Include="SFEngine\Source\main.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\IMGUI\imgui-SFML.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\IMGUI\imgui.cpp" />

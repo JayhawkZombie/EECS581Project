@@ -6,41 +6,40 @@
 
 namespace Engine
 {
-
-  class LevelObject;
-
-  class ProjectileBase : LevelObject
+  
+  class ProjectileBase
   {
   public:
     ProjectileBase();
     virtual ~ProjectileBase();
 
-    void OnObjectHit(LevelObject *objectHit);
+    virtual std::shared_ptr<ProjectileBase> Clone() = 0;
+
+    virtual void OnObjectHit(LevelObject *objectHit) = 0;
     void SetOrigin(const sf::Vector2f &Point);
     void SetDirection(const sf::Vector2f &Dir);
     void SetVelocity(const sf::Vector2f &Vel);
 
 
-    virtual void TickUpdate(const double &delta) override;
-    virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
-    virtual void OnShutDown() override;
-    virtual void SerializeOut(std::ofstream &out) override;
-    virtual void SerializeIn(std::ifstream &in) override;
+    virtual void TickUpdate(const double &delta) = 0;
+    virtual void Render(std::shared_ptr<sf::RenderTarget> Target) = 0;
+    virtual void Kill() = 0;
+    virtual void SerializeOut(std::ofstream &out);
+    virtual void SerializeIn(std::ifstream &in);
     virtual void SetPosition(const sf::Vector2f &pos);
+    virtual void SetTexture(std::shared_ptr<sf::Texture> Texture);
 
-    virtual void UpdateMesh();
-    virtual void UpdateSegments();
-
+    virtual void SetCollisionCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback);
 
     sf::Vector2f GetOrigin() const;
     sf::Vector2f GetDirection() const;
     sf::Vector2f GetVelocity() const;
   protected:
-    sf::Vector2f Origin;
-    sf::Vector2f Direction;
-    sf::Vector2f Velocity;
-    
-    std::shared_ptr<PhysicsEngineBaseMeshType> CollisionMesh;
+    sf::Sprite m_Sprite;
+    sf::Vector2f m_Origin;
+    sf::Vector2f m_Direction;
+    sf::Vector2f m_Velocity;
+    std::shared_ptr<Collider2D> m_Collider;
   };
 
 }

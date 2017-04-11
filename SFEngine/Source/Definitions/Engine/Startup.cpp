@@ -4,7 +4,7 @@
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
-#include "../../../../Projects/TestProject/Classes/Menus/MainMenu.h"
+#include "../../../../Projects/PuzzleDemo/Classes/Level1.h"
 
 namespace Engine
 {
@@ -206,9 +206,7 @@ namespace Engine
     }
     Window->clear();
 
-    Levels["Main"] = std::make_shared<::MainMenu>(
-      sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900)
-      );
+    Levels["Main"] = std::make_shared<Level1>();
     //CurrentLevel = Levels["Main"].get();
     
     

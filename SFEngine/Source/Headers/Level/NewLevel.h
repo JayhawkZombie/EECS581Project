@@ -4,7 +4,6 @@
 #include "../BasicIncludes.h"
 #include "../Engine/BaseEngineInterface.h"
 
-#include "Layer.h"
 #include "LevelObject.h"
 
 namespace Engine

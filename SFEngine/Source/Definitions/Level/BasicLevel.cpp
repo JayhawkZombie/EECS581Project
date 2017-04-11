@@ -13,8 +13,8 @@ namespace Engine
 {
 
   BasicLevel::BasicLevel(const sf::Vector2u &LevelSize, const sf::FloatRect &DefaultView, bool showlines, const sf::Vector2f &GridSpacing)
-    : LightTexture(std::make_shared<sf::RenderTexture>()),
-    SceneBlendTexture(std::make_shared<sf::RenderTexture>()),
+    : //LightTexture(std::make_shared<sf::RenderTexture>()),
+    //SceneBlendTexture(std::make_shared<sf::RenderTexture>()),
     ShowGridLines(showlines), Size(LevelSize), GridBlockSize(GridSpacing), CurrentView(DefaultView),
     Gravity(new ::vec2d)
   {
@@ -70,7 +70,7 @@ namespace Engine
 
     Texture->setView(_view);
 
-    SceneBlendTexture->clear(sf::Color::Transparent);
+    //SceneBlendTexture->clear(sf::Color::Transparent);
 
     if (ShowGridLines) {
       for (auto & arr : GridLines)

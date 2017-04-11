@@ -158,7 +158,7 @@ namespace Engine
     }
     
     sf::Time fTime = { sf::seconds(0) };
-
+    EngineRenderSettings.BGClearColor = sf::Color::Black;
     while (true) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       Closed = Handler.PollEvents(currentRenderWindow, evnt, true);

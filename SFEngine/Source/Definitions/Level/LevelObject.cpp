@@ -112,6 +112,21 @@ namespace Engine
     Sprite.setTextureRect(myRect);
   }
 
+  std::shared_ptr<sf::Texture> LevelObject::GetTexture() const
+  {
+    return SpriteTexture;
+  }
+
+  sf::Vector2f LevelObject::GetSize() const
+  {
+    return Size;
+  }
+
+  sf::IntRect LevelObject::GetTextureRect() const
+  {
+    return TextureRect;
+  }
+
   void LevelObject::HandleInputEvent(const UserEvent & evnt)
   {
   }
@@ -142,7 +157,8 @@ namespace Engine
   {
     for (auto & collider : m_Colliders)
       collider->Move(delta);
-	Sprite.move(delta);
+
+    Sprite.move(delta);
   }
 
   void LevelObject::Move(float x, float y)

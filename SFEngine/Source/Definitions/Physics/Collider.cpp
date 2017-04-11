@@ -1,5 +1,6 @@
 #include "../../Headers/Physics/Collider.h"
 #include "../../../ThirdParty/PhysicsEngine.h"
+#include "../../Headers/Level/LevelObject.h"
 
 namespace Engine
 {
@@ -8,6 +9,7 @@ namespace Engine
   */
 
   Collider2D::Collider2D()
+    : m_MyObject(nullptr)
   {
     m_Status.set(ColliderProp::HasPhysicalResponse);
     m_Status.set(ColliderProp::Enabled);
@@ -17,6 +19,24 @@ namespace Engine
   Collider2D::~Collider2D()
   {
     m_Mesh.reset();
+  }
+
+  std::shared_ptr<Collider2D> Collider2D::Clone()
+  {
+    auto Cloned = std::make_shared<Collider2D>();
+    Cloned->m_Status = m_Status;
+    if (m_Mesh) {
+      Cloned->m_Mesh = std::shared_ptr<PhysicsEngineBaseMeshType>(m_Mesh->clone());
+    }
+    Cloned->m_CollisionCallback           = m_CollisionCallback;
+    Cloned->m_AwakenCallback              = m_AwakenCallback;
+    Cloned->m_NotifyOfCollisionEveryFrame = m_NotifyOfCollisionEveryFrame;
+    Cloned->m_OverlapCallback             = m_OverlapCallback;
+    Cloned->m_PositionChangeCallback      = m_PositionChangeCallback;
+    Cloned->m_SleepCallback               = m_SleepCallback;
+    Cloned->m_Status                      = m_Status;
+
+    return Cloned;
   }
 
   void Collider2D::SetMesh(std::shared_ptr<PhysicsEngineBaseMeshType> MeshPtr)
@@ -111,6 +131,7 @@ namespace Engine
 
   void Collider2D::SetOverlapCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback)
   {
+    m_OverlapCallback = Callback;
   }
 
   void Collider2D::SetColliderStatus(ColliderProp Status)
@@ -191,6 +212,17 @@ namespace Engine
     }
   }
 
+  sf::Vector2f Collider2D::GetPosition() const
+  {
+    if (m_Mesh) {
+      return sf::Vector2f(
+        m_Mesh->pos.x, m_Mesh->pos.y
+      );
+    }
+    else
+      return sf::Vector2f(0, 0);
+  }
+
   bool Collider2D::HandleCollision(std::weak_ptr<Collider2D> Collider)
   {
     if (m_Status.test(ColliderProp::Active) && m_Status.test(ColliderProp::Enabled)) {
@@ -203,6 +235,16 @@ namespace Engine
   std::weak_ptr<PhysicsEngineBaseMeshType> Collider2D::GetMesh()
   {
     return m_Mesh;
+  }
+
+  void Collider2D::SetObjectPtr(LevelObject * Object)
+  {
+    m_MyObject = Object;
+  }
+
+  LevelObject * Collider2D::GetObjectPtr() const
+  {
+    return m_MyObject;
   }
 
   void Collider2D::PhysicsUpdate()
