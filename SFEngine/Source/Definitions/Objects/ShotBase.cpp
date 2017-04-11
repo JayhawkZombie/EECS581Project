@@ -18,10 +18,6 @@ namespace Engine
   {
   }
 
-  void ShotBase::OnShutDown()
-  {
-  }
-
   void ShotBase::SerializeOut(std::ofstream & out)
   {
   }

@@ -29,12 +29,17 @@ namespace Engine
     SingleResponsePerObj = 6,
     NotifyOfOverlap      = 7
   };
- 
+
+  class LevelObject;
+
   class Collider2D
   {
   public:
     Collider2D();
+    Collider2D(const Collider2D &Copy) = delete;
     ~Collider2D();
+
+    std::shared_ptr<Collider2D> Clone();
 
     void SetMesh(std::shared_ptr<PhysicsEngineBaseMeshType> MeshPtr);
     sf::FloatRect GetGlobalBounds() const;
@@ -85,16 +90,20 @@ namespace Engine
     void SetPosition(const sf::Vector2f &Position);
     void SetRespondsToOverlaps(bool b);
 
+    sf::Vector2f GetPosition() const;
+
     bool HandleCollision(std::weak_ptr<Collider2D> Collider);
 
     std::weak_ptr<PhysicsEngineBaseMeshType> GetMesh();
-
+    void SetObjectPtr(LevelObject *Object);
+    LevelObject* GetObjectPtr() const;
     void PhysicsUpdate();
 
   protected:
     std::shared_ptr<PhysicsEngineBaseMeshType> m_Mesh;
     bool m_NotifyOfCollisionEveryFrame = true; //If true, a notification will be issues every frame two objects are overlapping
     std::bitset<32> m_Status;
+    LevelObject *m_MyObject;
     std::function<void(std::weak_ptr<Collider2D>)> m_CollisionCallback;
     std::function<void(std::weak_ptr<Collider2D>)> m_OverlapCallback;
     std::function<void(sf::Vector2f)> m_PositionChangeCallback;

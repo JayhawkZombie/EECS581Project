@@ -19,11 +19,11 @@ namespace Engine
     auto seg = BuildSegmentMesh('L', { 100, 300 }, { 550, 500 });
     Segments.push_back(seg);
 
-    LightTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
-    LightTexture->clear(sf::Color::Transparent);
+    //LightTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
+    //LightTexture->clear(sf::Color::Transparent);
 
-    SceneBlendTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
-    SceneBlendTexture->clear(sf::Color::Transparent);
+    //SceneBlendTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
+    //SceneBlendTexture->clear(sf::Color::Transparent);
     
     if (ShowGridLines) {
       GenerateGrid();
@@ -50,7 +50,7 @@ namespace Engine
       buff.second.reset();
     SoundBuffers.clear();
 
-    LightTexture.reset();
+    //LightTexture.reset();
   }
 
   void Level::BindMethods(chaiscript::ModulePtr mptr)

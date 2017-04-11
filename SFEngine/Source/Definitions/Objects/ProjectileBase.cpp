@@ -1,10 +1,11 @@
 #include "../../Headers/Objects/ProjectileBase.h"
+#include "../../Headers/Physics/Collider.h"
 
 namespace Engine
 {
 
   ProjectileBase::ProjectileBase()
-    : Origin({ 0,0 }), Direction({ 0,0 }), Velocity({ 0,0 })
+    : m_Origin({ 0,0 }), m_Direction({ 0,0 }), m_Velocity({ 0,0 })
   {
   }
 
@@ -36,7 +37,7 @@ namespace Engine
   {
   }
 
-  void ProjectileBase::OnShutDown()
+  void ProjectileBase::Kill()
   {
   }
 
@@ -52,27 +53,27 @@ namespace Engine
   {
   }
 
-  void ProjectileBase::UpdateMesh()
+  void ProjectileBase::SetTexture(std::shared_ptr<sf::Texture> Texture)
   {
   }
 
-  void ProjectileBase::UpdateSegments()
+  void ProjectileBase::SetCollisionCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback)
   {
   }
 
   sf::Vector2f ProjectileBase::GetOrigin() const
   {
-    return Origin;
+    return m_Origin;
   }
 
   sf::Vector2f ProjectileBase::GetDirection() const
   {
-    return Direction;
+    return m_Direction;
   }
 
   sf::Vector2f ProjectileBase::GetVelocity() const
   {
-    return Velocity;
+    return m_Velocity;
   }
 
 }

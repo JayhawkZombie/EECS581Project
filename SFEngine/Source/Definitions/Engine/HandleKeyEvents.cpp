@@ -75,6 +75,9 @@ namespace Engine
     UEvent.KeyWasPressed = true;
     UEvent.KeyWasReleased = false;
 
+    if (CurrentLevel)
+      CurrentLevel->HandleInputEvent(UEvent);
+
     CheckKeyboardShortcuts();
   }
 
@@ -91,6 +94,9 @@ namespace Engine
     UEvent.KeyRepeat = false;
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = true;
+
+    if (CurrentLevel)
+      CurrentLevel->HandleInputEvent(UEvent);
   }
 
 }

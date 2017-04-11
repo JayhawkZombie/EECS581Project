@@ -15,6 +15,8 @@ namespace Engine
     UEvent.KeyWasReleased = false;
     UEvent.EventType = UserEventType::MouseMovement;
 
+    if (CurrentLevel)
+      CurrentLevel->HandleInputEvent(UEvent);
   }
 
   void SFEngine::HandleMousePress(const sf::Vector2i &v, const sf::Mouse::Button &b)
@@ -29,6 +31,9 @@ namespace Engine
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = false;
     UEvent.EventType = UserEventType::MousePress;
+
+    if (CurrentLevel)
+      CurrentLevel->HandleInputEvent(UEvent);
   }
 
   void SFEngine::HandleMouseRelease(const sf::Vector2i &v, const sf::Mouse::Button &b)
@@ -43,5 +48,8 @@ namespace Engine
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = false;
     UEvent.EventType = UserEventType::MouseRelease;
+
+    if (CurrentLevel)
+      CurrentLevel->HandleInputEvent(UEvent);
   }
 }

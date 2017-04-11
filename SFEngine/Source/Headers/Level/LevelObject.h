@@ -47,6 +47,9 @@ namespace Engine
 		virtual void SetTexture(std::shared_ptr<sf::Texture> mytexture);
     virtual void SetTextureRect(sf::IntRect myRect);
 
+    std::shared_ptr<sf::Texture> GetTexture() const;
+    sf::Vector2f GetSize() const;
+    sf::IntRect GetTextureRect() const;
 
     virtual void HandleInputEvent(const UserEvent &evnt);
     virtual void SetID(const std::string &ID) override;
@@ -78,7 +81,6 @@ namespace Engine
 
   	std::shared_ptr<sf::Texture> SpriteTexture;
 	  sf::Sprite Sprite;
-    std::shared_ptr<sf::Texture> Texture;
     sf::IntRect TextureRect;
     sf::RectangleShape ObjectRect;
     sf::Vector2f Velocity;

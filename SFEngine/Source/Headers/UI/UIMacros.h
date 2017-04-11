@@ -10,11 +10,11 @@
 #undef __TEXT
 #endif
 
-#define TGUI_ELEMENT_CREATE(ELEMENT, NAME, THEME, _SIZE, POSITION, TEXT, GUI)          \
-ELEMENT = THEME->load("button");                                                       \
-ELEMENT->setPosition(POSITION);                                                        \
-ELEMENT->setText(TEXT);                                                                \
-ELEMENT->setSize(_SIZE);                                                               \
-GUI->add(ELEMENT, NAME);                                                               \
+#define TGUI_ELEMENT_CREATE(ELEMENT, NAME, THEME, _SIZE, POSITION, TEXT, TEXTSIZE, GUI)          \
+ELEMENT = THEME->load("button");                                                                 \
+ELEMENT->setPosition(POSITION);                                                                  \
+ELEMENT->setText(TEXT);                                                                          \
+ELEMENT->setSize(_SIZE);                                                                         \
+GUI->add(ELEMENT, NAME);                                                                         \
 
 #endif
