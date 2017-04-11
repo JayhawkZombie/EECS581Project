@@ -3,7 +3,7 @@
 #include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
-
+#include "../../../../Projects/TestProject/Classes/Levels/OakTree.h"
 #include "../../../../Projects/PuzzleDemo/Classes/Level1.h"
 
 namespace Engine
@@ -206,8 +206,9 @@ namespace Engine
     }
     Window->clear();
 
-    Levels["Main"] = std::make_shared<Level1>();
-    //CurrentLevel = Levels["Main"].get();
+    //Levels["Main"] = std::make_shared<Level1>();
+	Levels["Main"] = std::make_shared<OakTreeLevel>();
+	//CurrentLevel = Levels["Main"].get();
     
     
     ScriptEngine->add(chaiscript::fun(&MessageAlert), "Alert");
