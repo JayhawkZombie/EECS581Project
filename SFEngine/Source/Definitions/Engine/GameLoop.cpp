@@ -170,6 +170,8 @@ namespace Engine
         CurrentFrameStart = std::chrono::high_resolution_clock::now();
         TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
 
+        TickDelta *= TimeScaleFactor;
+
         UpdateStart = std::chrono::high_resolution_clock::now();
 
         fTime = dClock.restart();
@@ -191,7 +193,7 @@ namespace Engine
         }
         EditorTexture->display();
         Window->draw(LevelRect);     
-        Window->resetGLStates();
+        //Window->resetGLStates();
         ImGui::Render();
         Window->display();
         LastFrameStart = CurrentFrameStart;

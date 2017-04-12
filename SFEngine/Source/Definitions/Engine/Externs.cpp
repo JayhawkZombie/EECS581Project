@@ -27,6 +27,7 @@ namespace Engine
   BasicLevel *CurrentLevel = nullptr;
   std::string EntryLevelName;
   InputDeviceState InputState;
+  double TimeScaleFactor = 1.0;
 
   void SetKeyRepeatEnabled(bool enabled)
   {
@@ -476,6 +477,11 @@ namespace Engine
       CurrentLevel = it->second.get();
       CurrentLevel->OnBegin();
     }
+  }
+
+  void ScaleTimeUpdate(const double & factor)
+  {
+    TimeScaleFactor = factor;
   }
 
   void MessageAlert(const std::string & message)

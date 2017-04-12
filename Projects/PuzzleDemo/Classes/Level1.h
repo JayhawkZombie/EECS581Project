@@ -26,6 +26,7 @@ public:
   void EventUpdate(sf::Event event) override;
 
   void OnBegin() override;
+  void OnEnd()   override;
   
 protected:
   sf::Font font;
@@ -50,6 +51,9 @@ protected:
   sf::Texture texture;
   sf::Clock fClock;
   thor::PolarVector2f velocity;
+
+  sf::SoundBuffer m_BGMusicBuffer;
+  sf::Sound m_BGMusic;
 
   //Pointers for levels
   std::shared_ptr<BasicLevel> OakTreeLevelPtr;

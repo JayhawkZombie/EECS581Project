@@ -7,6 +7,9 @@ Level1::Level1()
   : BasicLevel(sf::Vector2u( 1700, 900 ), sf::FloatRect(0, 0, 1700, 900 )),
   fader(0.1f, 0.1f)
 {
+  if (m_BGMusicBuffer.loadFromFile("./Projects/PuzzleDemo/Assets/Sound/Chamber-of-Jewels.ogg"))
+    m_BGMusic.setBuffer(m_BGMusicBuffer);
+
   MainGUI = std::make_shared<tgui::Gui>(*Engine::currentRenderWindow);
   MenuTheme = std::make_shared<tgui::Theme>("./Projects/PuzzleDemo/Assets/UIThemes/TransparentGray.theme");
   font.loadFromFile("./Projects/TestProject/Fonts/Marvel-Regular.ttf");
@@ -209,7 +212,14 @@ void Level1::EventUpdate(sf::Event event)
 
 void Level1::OnBegin()
 {
+  std::cerr << "Level1::OnBegin()" << std::endl;
+  m_BGMusic.setLoop(true);
+  m_BGMusic.play();
+}
 
+void Level1::OnEnd()
+{
+  m_BGMusic.stop();
 }
 
 void Level1::CreateNewGame()

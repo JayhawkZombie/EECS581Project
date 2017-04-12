@@ -16,14 +16,17 @@ namespace Engine
     
   }
 
-  SequenceNode::SequenceNode(double delta, std::function<void(void)> start, std::function<void(void)> end)
-    : m_Duration(delta), m_StartCallBack(start), m_EndCallBack(end)
+  SequenceNode::SequenceNode(double delta, std::function<void(void)> start, std::function<void(void)> update, std::function<void(void)> end)
+    : m_Duration(delta), m_StartCallBack(start), m_UpdateCallBack(update), m_EndCallBack(end)
   {
   }
 
   void SequenceNode::TickUpdate(const double & delta)
   {
     m_CurrentDuration += delta;
+
+    if (m_UpdateCallBack)
+      m_UpdateCallBack();
 
     if (m_CurrentDuration >= m_Duration) {
       m_IsDone = true;;
@@ -47,12 +50,13 @@ namespace Engine
       m_EndCallBack();
   }
 
-  void TimedSequence::AddSequence(double Duration, std::function<void(void)> StartCB, std::function<void(void)> EndCB)
+  void TimedSequence::AddSequence(double Duration, std::function<void(void)> StartCB, std::function<void(void)> Update, std::function<void(void)> EndCB)
   {
-    m_Nodes.push({ Duration, StartCB, EndCB });
+    m_Nodes.push({ Duration, StartCB, Update, EndCB });
   }
 
   void TimedSequence::AddSequences(std::function<void(void)> Start,
+                                   std::function<void(void)> Update,
                                    std::function<void(void)> End,
                                    std::initializer_list<SequenceNode> Nodes)
   {
@@ -90,6 +94,11 @@ namespace Engine
             m_EndCallBack();
       }
     }
+  }
+
+  void TimedSequence::SetUpdateCallback(std::function<void(const double&)> CB)
+  {
+    m_UpdateCallBack = CB;
   }
 
 }

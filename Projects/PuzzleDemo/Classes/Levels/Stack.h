@@ -6,6 +6,7 @@
 #include "../../../../SFEngine/Source/Headers/Time/TimedSequence.h"
 
 #include "../Objects/PuzzleBall.h"
+#include "../Objects/Gem.h"
 
 class BallStackLevel : public Engine::BasicLevel
 {
@@ -32,7 +33,10 @@ protected:
   void SpawnBall();
   void KillBall();
   
+  void SpawnGem(const sf::Vector2f &Pos);
+
   std::shared_ptr<PuzzleBall> m_CurrentBall;
+  std::vector<std::shared_ptr<ShatterGem>> m_ShatterGems;
   sf::Color m_CurrentBallColor;
   sf::Color m_CurrentBoltColor;
 

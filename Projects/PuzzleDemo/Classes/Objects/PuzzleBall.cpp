@@ -4,7 +4,7 @@ PuzzleBall::PuzzleBall()
 {
   m_ExplosionTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/explosion91.png");
 
-  if (m_ShatterBuffer.loadFromFile("./Projects/PuzzleDemo/Assets/Sound/267889__wjl__breaking-glass.wav"))
+  if (m_ShatterBuffer.loadFromFile("./Projects/PuzzleDemo/Assets/Sound/Glass,Bottle,Break,Smash,Messy.ogg"))
     m_ShatterSound.setBuffer(m_ShatterBuffer);
   
   if (m_ReverseShatterBuffer.loadFromFile("./Projects/PuzzleDemo/Assets/Sound/ReverseShatter.ogg"))

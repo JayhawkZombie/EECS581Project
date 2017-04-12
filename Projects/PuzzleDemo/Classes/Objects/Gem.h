@@ -2,11 +2,13 @@
 #define GAME_GEM_H
 
 #include "../../../../SFEngine/ProjectIncludes.h"
+#include "../../../../SFEngine/Source/Headers/Time/TimedSequence.h"
+#include "../../../../SFEngine/Source/Headers/Weather/Lightning.h"
 
 class ShatterGem : public Engine::LevelObject
 {
 public:
-  ShatterGem();
+  ShatterGem(const sf::Vector2f &InitPos);
   ~ShatterGem();
 
   void Render(std::shared_ptr<sf::RenderTarget> Target) override;
@@ -21,16 +23,27 @@ public:
 
   void Shatter();
   void Reassemble();
-protected:
+  void Reset();
 
+  bool IsDead() const;
+protected:
+  Engine::TimedSequence m_Sequencer;
+  float m_ShatterFade = 0.f;
+
+  Engine::LightningBolt m_Bolts[4];
+  
   void RenderShatteredFragments();
-  void UpdateShatteredFragments();
+  void UpdateShatteredFragments(const double &delta);
 
   std::vector<sf::VertexArray> m_ShatteredFragmentArrays;
   std::vector<sf::Vector2f>    m_ShatteredFragmentVelocities;
 
   std::vector<sf::IntRect> m_ShatterPieces;
-  sf::Texture m_ShatterTexture;
+  sf::Texture              m_ShatterTexture;
+  sf::Texture              m_GemTexture;
+  bool m_IsShattered = false;
+  bool m_IsReversing = false;
+  bool m_IsDead      = false;
 
   thor::FrameAnimation m_NormalAnimation;
   thor::FrameAnimation m_DeathAnimation;

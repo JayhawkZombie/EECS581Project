@@ -205,7 +205,7 @@ namespace Engine
   extern bool IsIDUsed(const std::uint32_t &ID);
   extern void FreeID(const std::uint32_t &ID); //Make an ID available for use again
   extern std::uint32_t GenerateID(); //Use to try to generate a unique ID. This will throw an IDException if it cannot generate one after a set number of attempts
-
+  extern double TimeScaleFactor;
   extern std::uint32_t MaxIDGenerationAttempts; //max # of times we will try to generate an ID for an item before giving up - defined in Widget.cpp
 
   //ENGINE GLOBAL API EXTERNS
@@ -271,6 +271,8 @@ namespace Engine
   extern void SwitchLevel(std::shared_ptr<BasicLevel> Level);
   extern void SwitchLevel_RawPtr(BasicLevel *Level);
   extern void LoadMainLevel();
+
+  extern void ScaleTimeUpdate(const double &factor);
 
   class UserEvent;
   extern DataStream<UserEvent> EngineEventStream;
