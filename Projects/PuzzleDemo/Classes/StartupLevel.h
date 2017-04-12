@@ -39,7 +39,7 @@ protected:
   sf::Texture m_SpinnerTexture;
 
   bool m_LightningSequenceDone = false;
-  void LightningSequenceCB(int Bolt1, int Bolt2, int Bolt3, int Bolt4, std::string ltext);
+  void LightningSequenceCB(int Bolt1, int Bolt2, int Bolt3, int Bolt4);
   std::vector<std::vector<sf::Vector2f>> m_LightningTraces;
   std::vector<sf::Vector2f> m_BoltStrikePositions;
 
@@ -50,10 +50,6 @@ protected:
 
   std::shared_ptr<Engine::LightningStorm> m_LightningStorm;
   Engine::CrawlingLightningBolt m_CrawlBolts[32];
-  sf::Text m_LightningText;
-  sf::Font m_LightningFont;
-  sf::Texture m_BGTexture;
-  sf::Sprite m_BGSprite;
 
   std::shared_ptr<Engine::BasicLevel> m_NextLevel;
 };

@@ -3,28 +3,20 @@
 StartupLevel::StartupLevel()
   : BasicLevel(sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900))
 {
-  m_LightningFont.loadFromFile("./Projects/PuzzleDemo/Assets/Fonts/ABSTRACT.TTF");
-  m_LightningText.setCharacterSize(86);
-  m_LightningText.setPosition({ 0, 318 });
-  m_LightningText.setFillColor(sf::Color(0, 130, 130));
-
-  m_BGTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/SFENGINE_TEXT.png");
-  m_BGSprite.setTexture(m_BGTexture);
-
   m_LightningSequence.AddSequences(
     [this]() {this->LightningSequenceStarted(); }, //CB for the lightning sequence starting
     [this]() {this->LightningSequenceEnded(); },   //CB for the lightning sequence ending
     {
-      { 400.0, [this]() { this->LightningSequenceCB(0,  1,  2,  3, "S");  }, []() {} }, // 4 bolts strike the 'S' character
-      { 400.0, [this]() { this->LightningSequenceCB(4,  5,  6,  7, "SF");  }, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(8,  9,  10, 11, "SFE"); }, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(12, 13, 14, 15, "SFEN"); }, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(16, 17, 18, 19, "SFENG"); }, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(20, 21, 22, 23, "SFENGI"); }, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(24, 25, 26, 27, "SFENGIN"); }, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(28, 29, 30, 31, "SFENGINE"); }, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(0,  1,  2,  3);  }, []() {} }, // 4 bolts strike the 'S' character
+      { 400.0, [this]() { this->LightningSequenceCB(4,  5,  6,  7);  }, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(8,  9,  10, 11); }, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(12, 13, 14, 15); }, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(16, 17, 18, 19); }, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(20, 21, 22, 23); }, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(24, 25, 26, 27); }, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(28, 29, 30, 31); }, []() {} }, // 4 botls strike the 'F' character
     }
-    );
+  );
 
   m_SpinnerTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/LoadingWhite.png");
   m_SpinnerSprite.setTexture(m_SpinnerTexture);
@@ -36,7 +28,7 @@ StartupLevel::StartupLevel()
 
   m_AnimMap = thor::AnimationMap<sf::Sprite, std::string>();
 
-  m_AnimMap.addAnimation("loading", m_spinnerFrames, sf::seconds(0.25));
+  m_AnimMap.addAnimation("loading", m_spinnerFrames, sf::seconds(0.5));
   m_animator = new thor::Animator<sf::Sprite, std::string>(m_AnimMap);
 
   m_SpinnerSprite.setPosition({ 1700 - 200, 900 - 200 });
@@ -74,7 +66,6 @@ void StartupLevel::Render(std::shared_ptr<sf::RenderTarget> Target)
 void StartupLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
 {
   Texture->clear(sf::Color::Transparent);
-  Texture->draw(m_LightningText);
   m_BoltTopLeft.Render(Texture);
   m_BoltTopRight.Render(Texture);
   m_BoltBottomLeft.Render(Texture);
@@ -394,9 +385,8 @@ void StartupLevel::LightningSequenceEnded()
   m_LightningSequenceDone = true;
 }
 
-void StartupLevel::LightningSequenceCB(int Bolt1, int Bolt2, int Bolt3, int Bolt4, std::string ltext)
+void StartupLevel::LightningSequenceCB(int Bolt1, int Bolt2, int Bolt3, int Bolt4)
 {
-  m_LightningText.setString(ltext);
   m_BoltTopLeft.Spark(    { 0.f,    0.f },   m_BoltStrikePositions[Bolt1]);
   m_BoltTopRight.Spark(   { 1700.f, 0.f },   m_BoltStrikePositions[Bolt2]);
   m_BoltBottomLeft.Spark( { 0.f,    900.f }, m_BoltStrikePositions[Bolt3]);

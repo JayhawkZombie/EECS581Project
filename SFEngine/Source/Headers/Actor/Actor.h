@@ -43,7 +43,7 @@ namespace Engine
     virtual const sf::Vector2f& GetActorVelocity() const;
     virtual const sf::Vector2f& GetActorAcceleration() const;
 
-    virtual void SetTexture(const std::string &texfile, const std::string &texID);
+  //  virtual void SetTexture(const std::string &texfile, const std::string &texID);
     virtual void AddAnimation(const std::string &ID, std::shared_ptr<Animation> info);
     virtual void SetAnimation(const std::string &ID);
 

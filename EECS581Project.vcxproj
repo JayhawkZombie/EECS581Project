@@ -624,6 +624,7 @@
     <ClCompile Include="Game\Tile.cpp" />
     <ClCompile Include="Game\Useable.cpp" />
     <ClCompile Include="Game\Weapon.cpp" />
+    <Text Include="Projects\PuzzleDemo\Assets\Textures\Attributions.txt" />
     <Text Include="SFEngine\Source\CoreFiles\Scripts\CoreScripts.chai">
       <FileType>CppCode</FileType>
     </Text>
@@ -788,6 +789,7 @@
     <Font Include="SFEngine\Source\CoreFiles\Fonts\Raleway-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Projects\PuzzleDemo\Assets\Textures\LoadingWhite.png" />
     <Image Include="SFEngine\Samples\Fonts\AbstractBitmap18.png" />
     <Image Include="SFEngine\Samples\Fonts\AbstractBitmap30.png" />
     <Image Include="SFEngine\Samples\Logos\SFEngineLogo.png" />

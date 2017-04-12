@@ -47,7 +47,6 @@ namespace Engine
     {
       std::cerr << "Exception in LevelObject ScriptInit" << std::endl;
 
-      throw err;
     }
   }
 
@@ -158,6 +157,7 @@ namespace Engine
   {
     for (auto & collider : m_Colliders)
       collider->Move(delta);
+
     Sprite.move(delta);
   }
 

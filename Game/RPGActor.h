@@ -19,8 +19,7 @@ public:
 	void setName(std::string name);
     void setFilePath(std::string filePath);
 
-    
-
+	void HandleInputEvent(const Engine::UserEvent &evnt) override;
     virtual void TickUpdate(const double &delta) override;
     virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
 
