@@ -30,6 +30,7 @@ namespace Engine
   {
     m_IsAlive = true;
     m_Points.clear();
+    m_currentFadeTime = 0.0;
     CreateBolt(StartPosition, EndPosition);
     alpha = 255;
   }
@@ -100,7 +101,7 @@ namespace Engine
 
     std::sort(Positions.begin(), Positions.end());
 
-    const float sway = 70;
+    const float sway = 90;
     const float jaggedness = 1.f / sway;
 
     std::uniform_real_distribution<> _dis(-sway, sway);
@@ -172,7 +173,7 @@ namespace Engine
     std::sort(Positions.begin(), Positions.end());
 
     const float sway = 15;
-    const float jaggedness = 1.f / 70.f;
+    const float jaggedness = 1.f / 50.f;
 
     std::uniform_real_distribution<> _dis(-sway, sway);
     sf::Vector2f prevPoint = Start;
@@ -210,7 +211,7 @@ namespace Engine
     static float _delta_count = 0;
     _delta_count += (float)delta;
 
-    if (_delta_count >= 1.4f * m_TimeBetweenCrawlSteps) {
+    if (_delta_count >= 0.6 * m_TimeBetweenCrawlSteps) {
       StepBolt(1);
       _delta_count = 0;
       if (m_DisplayedPoints.size() > m_MaxBoltLength)
@@ -284,6 +285,8 @@ namespace Engine
   {
     m_IsAlive = false;
     m_currentFadeTime = 0.f;
+    m_Points.clear();
+    m_DisplayedPoints.clear();
   }
 
   void CrawlingLightningBolt::SetCrawlSpeed(const float & BetweenSteps)

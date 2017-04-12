@@ -5,6 +5,7 @@
 #include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 
 #include "../../../../Projects/PuzzleDemo/Classes/Level1.h"
+#include "../../../../Projects/PuzzleDemo/Classes/StartupLevel.h"
 
 namespace Engine
 {
@@ -206,9 +207,10 @@ namespace Engine
     }
     Window->clear();
 
-    Levels["Main"] = std::make_shared<Level1>();
-    //CurrentLevel = Levels["Main"].get();
-    
+    std::shared_ptr<::StartupLevel> EngineStartupLevel = std::make_shared<::StartupLevel>();
+    Levels["Main"] = EngineStartupLevel;
+
+    EngineStartupLevel->SetNextLevel(std::make_shared<::Level1>());    
     
     ScriptEngine->add(chaiscript::fun(&MessageAlert), "Alert");
     ScriptEngine->add(chaiscript::fun(&Confirm), "Confirm");    

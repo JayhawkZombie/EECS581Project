@@ -451,10 +451,16 @@ namespace Engine
   void SwitchLevel(std::shared_ptr<BasicLevel> Level)
   {
     if (CurrentLevel) {
+      CurrentLevel->CleanUp();
       CurrentLevel->OnEnd();
     }
     CurrentLevel = Level.get();
     CurrentLevel->OnBegin();
+  }
+
+  void SwitchLevel_RawPtr(BasicLevel * Level)
+  {
+    Level->CleanUp();
   }
 
   void MessageAlert(const std::string & message)

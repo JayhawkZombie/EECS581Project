@@ -28,7 +28,7 @@ namespace Engine
     bool   m_IsAlive         = false;
     float  m_SparkSpeed      = 1.f;
     double m_currentFadeTime = 0.0;
-    double m_TotalFadeTime   = 900.0;
+    double m_TotalFadeTime   = 400.0;
     unsigned char alpha      = 255;
     std::vector<sf::VertexArray> m_Points;
   };
@@ -52,8 +52,8 @@ namespace Engine
     void SetMaxBoltLength(const float &Length);
 
   protected:
-    float m_TimeBetweenCrawlSteps = 16.f;
-    float m_MaxBoltLength         = 3500.f;
+    float m_TimeBetweenCrawlSteps = 3.f;
+    float m_MaxBoltLength         = 1000.f;
 
     std::function<void(sf::Vector2f)> m_StrikeCallback;
     std::function<void(void)> m_BoltDoneFunc;

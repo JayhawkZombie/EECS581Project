@@ -324,6 +324,7 @@
     <ClInclude Include="Projects\PuzzleDemo\Classes\Level1.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\LoadingScreen.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\StartupLevel.h" />
     <ClInclude Include="Projects\TestProject\Classes\Levels\OakTree.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\MainMenu.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\TopDownLevel.h" />
@@ -360,6 +361,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TMXMap.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Time\TimedSequence.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Collider.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
@@ -628,6 +630,7 @@
     <ClCompile Include="Projects\PuzzleDemo\Classes\Level1.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\LoadingScreen.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\StartupLevel.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Levels\OakTree.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Menus\MainMenu.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\ObjectGrid.cpp" />
@@ -710,6 +713,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileGrid.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TileSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\TMXMap.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Time\TimedSequence.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIIconSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\AssetConverters.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Convert.cpp" />

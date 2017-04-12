@@ -183,8 +183,8 @@ namespace Engine
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
-        Window->clear(EngineRenderSettings.BGClearColor);
-        EditorTexture->clear(EngineRenderSettings.BGClearColor); 
+        Window->clear(sf::Color::Black);
+        EditorTexture->clear(sf::Color::Black); 
         
         if (CurrentLevel) {
           CurrentLevel->RenderOnTexture(EditorTexture);

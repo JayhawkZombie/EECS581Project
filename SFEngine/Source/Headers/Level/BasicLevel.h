@@ -59,6 +59,7 @@ namespace Engine
     virtual void LoadTileSheets(const Json::Value &value);
     virtual void LoadSheet(const Json::Value &value);
     virtual void LoadAnimations(const Json::Value &value);
+    virtual void CleanUp();
 
     bool DoUpdatePhysics = true;
     float updateInterval = 16.667f;

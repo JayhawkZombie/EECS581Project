@@ -6,6 +6,7 @@
 
 #include "../../../SFEngine/Source/Headers/Weather/WeatherSystem.h"
 #include "../../../SFEngine/Source/Headers/Weather/Lightning.h"
+#include "../../../SFEngine/Source/Headers/Time/TimedSequence.h"
 
 class Level1 : public Engine::BasicLevel
 {
@@ -25,17 +26,17 @@ public:
   void EventUpdate(sf::Event event) override;
 
   void OnBegin() override;
-
+  
 protected:
-  void TriggerCrawlingLightning();
-
   sf::Font font;
   std::shared_ptr<tgui::Gui> MainGUI;
   tgui::Theme::Ptr MenuTheme;
   tgui::Panel::Ptr MainPanel;
   tgui::Panel::Ptr OptionsPanel;
+  tgui::Panel::Ptr LevelSelectPanel;
 
   tgui::Button::Ptr NewGameButton;
+  tgui::Button::Ptr LevelSelectButon;
   tgui::Button::Ptr LoadGameButton;
   tgui::Button::Ptr OptionsButton;
   tgui::Button::Ptr AboutButton;
@@ -50,23 +51,11 @@ protected:
   sf::Clock fClock;
   thor::PolarVector2f velocity;
 
+  //Pointers for levels
+  std::shared_ptr<BasicLevel> OakTreeLevelPtr;
+  tgui::Button::Ptr LevelSelectBack;
+
   bool m_Paused = false;
-
-  Engine::LightningBolt m_BoltTopLeft;
-  Engine::LightningBolt m_BoltTopRight;
-  Engine::LightningBolt m_BoltBottomLeft;
-  Engine::LightningBolt m_BoltBottomRight;
-
-  std::shared_ptr<Engine::LightningStorm> m_LightningStorm;
-  Engine::CrawlingLightningBolt m_CrawlBolts[32];
-
-  bool m_ExplosionPlay = false;
-  bool m_drawflare = true;
-  thor::AnimationMap<sf::Sprite, std::string> m_AnimMap;
-  thor::FrameAnimation m_flare;
-  thor::Animator<sf::Sprite, std::string> *m_animator;
-  sf::Sprite m_flareSprite;
-  sf::Texture flareTexture;
 
   void CreateNewGame();
   void LoadSaveGame();
@@ -74,6 +63,8 @@ protected:
 
   void ShowAboutScreen();
 
+  void ShowLevelSelectScreen();
+  void LevelSelectGoBack();
 };
 
 #endif

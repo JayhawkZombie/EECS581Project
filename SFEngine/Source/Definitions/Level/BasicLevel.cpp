@@ -412,6 +412,10 @@ namespace Engine
     }
   }
 
+  void BasicLevel::CleanUp()
+  {
+  }
+
   void BasicLevel::UpdateObjectPhysics()
   {
     static std::vector<PhysicsEngineBaseMeshType *> MeshVector;

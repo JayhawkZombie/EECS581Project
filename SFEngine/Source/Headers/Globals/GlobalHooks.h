@@ -269,6 +269,7 @@ namespace Engine
   extern void Shutdown();
   extern void LoadLevel(const std::string &jsonPath);
   extern void SwitchLevel(std::shared_ptr<BasicLevel> Level);
+  extern void SwitchLevel_RawPtr(BasicLevel *Level);
 
   class UserEvent;
   extern DataStream<UserEvent> EngineEventStream;
