@@ -100,6 +100,9 @@ OakTreeLevel::OakTreeLevel()
   Shop->SetPosition({ 0,144 });
   */
 
+  std::map<int, std::shared_ptr <Engine::SegmentPtr>> LevelSegments;
+
+
   //Declaration of the Buildings
   std::shared_ptr <Engine::LevelObject> Barracks = std::make_shared<Engine::LevelObject>(); //Barracks Declaration
   std::shared_ptr <Engine::LevelObject> TownHall = std::make_shared<Engine::LevelObject>(); //TownHall Declaration
@@ -232,12 +235,24 @@ OakTreeLevel::OakTreeLevel()
   SpawnActor(myActor, { 24*16,33*16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
+
+ std::shared_ptr<Engine::Collider2D> ActorCollider;
+// ActorCollider->SetMesh(Engine::Collider2D::CreatePolygonMesh(4, 16, 0, { 24 * 16,33 * 16 }, { 0,0 }, 1, 1, sf::Color::White));
+ ActorCollider = Engine::Collider2D::CreatePolygonMesh(4, 1, 0, { 24 * 16,33 * 16 }, { 0,0 }, 1, 1, sf::Color::White);
+  myActor->AddCollider(ActorCollider);
+	  
   //SpawnActor(RPGActor());
 
 //  LevelObjects["Shop1"] = Shop;
   //Shop
+  // LevelSegments[0] = Engine::BuildSegmentMesh('b', Barracks->getUpperLeft(), Barracks->getLowerRight());
 
-    
+  int i = 0;
+  for (auto & obj : LevelObjects)
+  {
+	  LevelSegments[i] = Engine::BuildSegmentMesh('b', obj.second->getUpperLeft(), obj.second->getLowerRight());
+	  i++;
+  }
 }
 
 OakTreeLevel::OakTreeLevel(const sf::Vector2u & LevelSize, const sf::FloatRect & DefaultView, bool showlines, const sf::Vector2f & GridSpacing)

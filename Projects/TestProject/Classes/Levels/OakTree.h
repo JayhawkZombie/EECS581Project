@@ -3,6 +3,7 @@
 
 #include "../../../../SFEngine/Source/Headers/Level/BasicLevel.h"
 #include "../../../../SFEngine/Source/Headers/Globals/GlobalHooks.h"
+#include "../../../../SFEngine/Source/Headers/Physics/Collider.h"
 
 class OakTreeLevel : public Engine::BasicLevel
 {
