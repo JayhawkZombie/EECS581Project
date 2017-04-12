@@ -112,6 +112,16 @@ namespace Engine
     Sprite.setTextureRect(myRect);
   }
 
+  sf::Vector2i LevelObject::getTopLeft() const
+  {
+	  return{(int)Position.x,(int)Position.y};
+  }
+
+  sf::Vector2i LevelObject::getBottomRight() const
+  {
+	  return{ (int)Position.x + Sprite.getTextureRect().width,(int)Position.y + Sprite.getTextureRect().height };
+  }
+
   std::shared_ptr<sf::Texture> LevelObject::GetTexture() const
   {
     return SpriteTexture;
