@@ -207,22 +207,6 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["SmallHouse1Obj"] = SmallHouse1;
   LevelObjects["SmallHouse2Obj"] = SmallHouse2;
   LevelObjects["SmallHouse3Obj"] = SmallHouse3;
-/*  LevelObjects["Trees0"] = Trees[0];
-  LevelObjects["Trees1"] = Trees[1];
-  LevelObjects["Trees2"] = Trees[2];
-  LevelObjects["Trees3"] = Trees[3];
-  LevelObjects["Trees4"] = Trees[4];
-  LevelObjects["Trees5"] = Trees[5];
-  LevelObjects["Trees6"] = Trees[6];
-  LevelObjects["Trees7"] = Trees[7];
-  LevelObjects["Trees8"] = Trees[8];
-  LevelObjects["Trees9"] = Trees[9];
-  LevelObjects["Trees10"] = Trees[10];
-  LevelObjects["Trees11"] = Trees[11];
-  LevelObjects["Trees12"] = Trees[12];
-  LevelObjects["Trees13"] = Trees[13];
-  LevelObjects["Trees14"] = Trees[14];
-  LevelObjects["Trees15"] = Trees[15];*/
   LevelObjects["BigOakTree"] = BigOakTreeTree;
   
 
@@ -232,10 +216,16 @@ OakTreeLevel::OakTreeLevel()
   SpawnActor(myActor, { 24*16,33*16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
-  //SpawnActor(RPGActor());
+  myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 1, 0, { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1, 1, sf::Color::White));
 
-//  LevelObjects["Shop1"] = Shop;
-  //Shop
+  for (auto & obj : LevelObjects)
+  {
+		  if (!(obj.first == "MainGuy"))
+		  {
+			  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomRight()));
+		}
+  }
+
 
     
 }
