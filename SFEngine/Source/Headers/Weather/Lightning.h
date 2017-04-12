@@ -20,11 +20,13 @@ namespace Engine
     void SetDoneCallback(std::function<void(void)> Callback);
     void SetStrikeCallback(std::function<void(sf::Vector2f)> Callback);
     void Reset();
+    void SetColor(sf::Color color);
   protected:
     std::function<void(sf::Vector2f)> m_StrikeCallback;
     std::function<void(void)> m_BoltDoneFunc;
     void UpdateBolt(const double &delta);
     void CreateBolt(const sf::Vector2f &StartPosition, const sf::Vector2f &EndPosition);
+    sf::Color m_Color        = sf::Color::White;
     bool   m_IsAlive         = false;
     float  m_SparkSpeed      = 1.f;
     double m_currentFadeTime = 0.0;
@@ -69,7 +71,6 @@ namespace Engine
     float m_Sway = 40.f;
     float m_Jaggedness = 1.f / 90.f;
     float m_PrevDisplacement = 0.f;
-
     bool   m_IsAlive         = false;
     float  m_SparkSpeed      = 1.f;
     double m_currentFadeTime = 0.0;

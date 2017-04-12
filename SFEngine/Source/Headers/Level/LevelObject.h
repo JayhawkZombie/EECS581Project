@@ -57,6 +57,7 @@ namespace Engine
     virtual void OnGameStart();
     virtual void OnGameEnd();
     virtual void OnKilled();
+    virtual void OnSpawn();
 
     static void AddItemAnimation(std::shared_ptr<LevelObject> Item, const std::string &animName);
     sf::FloatRect GetGlobalBounds() const;

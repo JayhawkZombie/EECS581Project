@@ -63,13 +63,6 @@ namespace Engine
 
   void BasicLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   {
-    sf::View _view;
-    _view.setViewport(CurrentView);
-
-    sf::View oldView = Texture->getView();
-
-    Texture->setView(_view);
-
     //SceneBlendTexture->clear(sf::Color::Transparent);
 
     if (ShowGridLines) {
@@ -78,7 +71,9 @@ namespace Engine
     }
 
     for (auto & obj : LevelObjects)
-      Texture->draw(obj.second->Sprite);
+      obj.second->Render(Texture);
+      
+    //Texture->draw(obj.second->Sprite);
 
     //If we are using the editor, draw the meshes too
     //Make this configurable later
@@ -93,8 +88,6 @@ namespace Engine
     for (auto & seg : Segments)
       seg->draw(*Texture);
 #endif
-
-    Texture->setView(oldView);
   }
 
   void BasicLevel::OnShutDown()
@@ -134,6 +127,10 @@ namespace Engine
   }
 
   void BasicLevel::OnEnd()
+  {
+  }
+
+  void BasicLevel::Reset()
   {
   }
 

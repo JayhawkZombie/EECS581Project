@@ -322,8 +322,11 @@
     <ClInclude Include="Game\Useable.h" />
     <ClInclude Include="Game\Weapon.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Level1.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\Stack.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\LoadingScreen.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Gem.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\StartupLevel.h" />
     <ClInclude Include="Projects\TestProject\Classes\Levels\OakTree.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\MainMenu.h" />
@@ -629,8 +632,11 @@
       <FileType>CppCode</FileType>
     </Text>
     <ClCompile Include="Projects\PuzzleDemo\Classes\Level1.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\Stack.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\LoadingScreen.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Gem.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\StartupLevel.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Levels\OakTree.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Menus\MainMenu.cpp" />

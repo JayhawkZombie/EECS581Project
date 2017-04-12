@@ -56,6 +56,16 @@ namespace Engine
     m_IsAlive = false;
   }
 
+  void LightningBolt::SetColor(sf::Color color)
+  {
+    m_Color = color;
+
+    for (auto & seg : m_Points) {
+      seg[0].color = color;
+      seg[1].color = color;
+    }
+  }
+
   void LightningBolt::UpdateBolt(const double &delta)
   {
     if (!m_IsAlive) {
@@ -101,7 +111,7 @@ namespace Engine
 
     std::sort(Positions.begin(), Positions.end());
 
-    const float sway = 90;
+    const float sway = 60;
     const float jaggedness = 1.f / sway;
 
     std::uniform_real_distribution<> _dis(-sway, sway);
@@ -123,16 +133,16 @@ namespace Engine
 
       sf::Vector2f point = StartPosition + postan + dispn;
       m_Points.push_back(sf::VertexArray(sf::Lines, 2));
-      m_Points.back()[0].position = prevPoint; m_Points.back()[0].color = sf::Color(255, 229, 255);
-      m_Points.back()[1].position = point;     m_Points.back()[1].color = sf::Color(255, 229, 255);
+      m_Points.back()[0].position = prevPoint; m_Points.back()[0].color = m_Color;
+      m_Points.back()[1].position = point;     m_Points.back()[1].color = m_Color;
 
       prevPoint = point;
       prevDisplacement = displ;
     }
 
     m_Points.push_back(sf::VertexArray(sf::Lines, 2));
-    m_Points.back()[0].position = prevPoint;   m_Points.back()[0].color = sf::Color(255, 229, 255);
-    m_Points.back()[1].position = EndPosition; m_Points.back()[1].color = sf::Color(255, 229, 255);
+    m_Points.back()[0].position = prevPoint;   m_Points.back()[0].color = m_Color;
+    m_Points.back()[1].position = EndPosition; m_Points.back()[1].color = m_Color;
   }
 
 

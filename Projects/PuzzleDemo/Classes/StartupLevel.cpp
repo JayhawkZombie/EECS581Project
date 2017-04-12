@@ -27,23 +27,44 @@ StartupLevel::StartupLevel()
   m_spinnerFrames.addFrame(1.f, sf::IntRect(0,  78, 78, 78));
 
   m_AnimMap = thor::AnimationMap<sf::Sprite, std::string>();
-
-  m_AnimMap.addAnimation("loading", m_spinnerFrames, sf::seconds(0.5));
+  m_AnimMap.addAnimation("loading", m_spinnerFrames, sf::seconds(0.35));
   m_animator = new thor::Animator<sf::Sprite, std::string>(m_AnimMap);
-
   m_SpinnerSprite.setPosition({ 1700 - 200, 900 - 200 });
 
+
+  m_SFMLShatterTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/sfml-logo-big.png");
+  m_SFMLLogoFrame.addFrame(0.f, sf::IntRect(0, 0, 1001, 304));
+  m_SFMLLogoMap.addAnimation("sfml-logo", m_SFMLLogoFrame, sf::seconds(5.f));
+  m_SFMLBeforeShatter.setTexture(m_SFMLShatterTexture);
+  m_SFMLAnimator = new thor::Animator<sf::Sprite, std::string>(m_SFMLLogoMap);
+
+  m_SFMLBeforeShatter.setPosition({ 349.5, 298 });
   Engine::CurrentLevel = this;
 }
 
 StartupLevel::~StartupLevel()
 {
+  
 }
 
 void StartupLevel::TickUpdate(const double & delta)
 {
   static sf::Clock thorClock;
+  if (m_SequenceDone) {
+    Engine::SwitchLevel(m_NextLevel);
+    return;
+  }
 
+  if (m_DrawShatters) {
+    m_CurrentFadeDuration += (float)delta;
+
+    if (m_CurrentFadeDuration >= m_SFMLFadeDuration)
+      m_CurrentFadeDuration = (float)m_SFMLFadeDuration;
+  }
+  else
+    m_CurrentFadeDuration = 0.f;
+
+  m_SFMLBeforeShatter.setColor(sf::Color(255, 255, 255, 255 * (floor(m_CurrentFadeDuration / m_SFMLFadeDuration))));
   m_BoltTopLeft.TickUpdate(delta);
   m_BoltTopRight.TickUpdate(delta);
   m_BoltBottomLeft.TickUpdate(delta);
@@ -55,8 +76,13 @@ void StartupLevel::TickUpdate(const double & delta)
   for (int i = 0; i < 32; ++i)
     m_CrawlBolts[i].TickUpdate(delta);
 
-  m_animator->update(thorClock.restart());
+  auto time = thorClock.restart();
+
+  m_animator->update(time);
   m_animator->animate(m_SpinnerSprite);
+
+  m_SFMLAnimator->update(time);
+  m_SFMLAnimator->animate(m_SFMLBeforeShatter);
 }
 
 void StartupLevel::Render(std::shared_ptr<sf::RenderTarget> Target)
@@ -73,12 +99,15 @@ void StartupLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
 
   Texture->draw(m_SpinnerSprite);
 
+  if (m_DrawShatters)
+    Texture->draw(m_SFMLBeforeShatter);
+
+  if (m_DrawShatters)
+    Texture->draw(m_SFMLBeforeShatter);
+
   m_WeatherSystem.Render(Texture);
   for (int i = 0; i < 32; ++i)
     m_CrawlBolts[i].Render(Texture);
-
-  if (m_LightningSequenceDone && !m_CrawlBolts[31].IsAlive())
-    Engine::SwitchLevel(m_NextLevel);
 }
 
 void StartupLevel::OnShutDown()
@@ -383,6 +412,9 @@ void StartupLevel::LightningSequenceStarted()
 void StartupLevel::LightningSequenceEnded()
 {
   m_LightningSequenceDone = true;
+  m_DrawShatters = true;
+  m_SequenceDone = true;
+  //m_LightningSequence.AddSequence(2500.0, []() {}, [this]() { this->m_SequenceDone = true; });
 }
 
 void StartupLevel::LightningSequenceCB(int Bolt1, int Bolt2, int Bolt3, int Bolt4)

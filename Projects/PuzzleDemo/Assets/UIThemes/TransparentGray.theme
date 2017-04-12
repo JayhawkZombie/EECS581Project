@@ -1,5 +1,5 @@
 Button {
-    BackgroundColorNormal : rgba(0, 0, 0, 215);
+    BackgroundColorNormal : rgba(80, 80, 80, 215);
     BackgroundColorHover  : rgba(50, 50, 50, 215);
     BackgroundColorDown   : rgba(20, 20, 20, 215);
     TextColorNormal       : rgba(255, 255, 255, 215);

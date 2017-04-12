@@ -463,6 +463,21 @@ namespace Engine
     Level->CleanUp();
   }
 
+  void LoadMainLevel()
+  {
+    auto it = Levels.find("Main");
+
+    if (it != Levels.end()) {
+      if (CurrentLevel) {
+        CurrentLevel->OnEnd();
+        CurrentLevel->CleanUp();
+      }
+
+      CurrentLevel = it->second.get();
+      CurrentLevel->OnBegin();
+    }
+  }
+
   void MessageAlert(const std::string & message)
   {
 #ifdef MessageBox

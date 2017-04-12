@@ -1,6 +1,7 @@
 #include "Level1.h"
 
 #include "../../TestProject/Classes/Levels/OakTree.h"
+#include "Levels\Stack.h"
 
 Level1::Level1()
   : BasicLevel(sf::Vector2u( 1700, 900 ), sf::FloatRect(0, 0, 1700, 900 )),
@@ -11,7 +12,8 @@ Level1::Level1()
   font.loadFromFile("./Projects/TestProject/Fonts/Marvel-Regular.ttf");
   MainGUI->setFont(font);
 
-  OakTreeLevelPtr = std::make_shared<OakTreeLevel>();
+  OakTreeLevelPtr    = std::make_shared<OakTreeLevel>();
+  BallPuzzleLevelPtr = std::make_shared<BallStackLevel>();
 
   //Create some buttons
   LevelSelectButon = MenuTheme->load("button");
@@ -101,8 +103,16 @@ Level1::Level1()
   OakTreeLevel->connect("clicked", [this]() { Engine::SwitchLevel(this->OakTreeLevelPtr); });
   LevelSelectPanel->add(OakTreeLevel);
 
+  tgui::Button::Ptr BallLevel = MenuTheme->load("button");
+  BallLevel->setPosition({ 25, 575 });
+  BallLevel->setSize({ 200, 25 });
+  BallLevel->setText("Ball Puzzle");
+  BallLevel->setTextSize(20);
+  BallLevel->connect("clicked", [this]() {Engine::SwitchLevel(this->BallPuzzleLevelPtr); });
+  LevelSelectPanel->add(BallLevel);
+
   LevelSelectBack = MenuTheme->load("button");
-  LevelSelectBack->setPosition({ 25, 650 });
+  LevelSelectBack->setPosition({ 25, 700 });
   LevelSelectBack->setSize({ 200, 55 });
   LevelSelectBack->setText("back");
   LevelSelectBack->setTextSize(20);

@@ -148,6 +148,10 @@ namespace Engine
   {
   }
 
+  void LevelObject::OnSpawn()
+  {
+  }
+
   sf::FloatRect LevelObject::GetGlobalBounds() const
   {
     return sf::FloatRect();
