@@ -82,8 +82,8 @@ void StartupLevel::TickUpdate(const double & delta)
   m_animator->update(time);
   m_animator->animate(m_SpinnerSprite);
 
-  m_SFMLAnimator->update(time);
-  m_SFMLAnimator->animate(m_SFMLBeforeShatter);
+  //m_SFMLAnimator->update(time);
+  //m_SFMLAnimator->animate(m_SFMLBeforeShatter);
 }
 
 void StartupLevel::Render(std::shared_ptr<sf::RenderTarget> Target)

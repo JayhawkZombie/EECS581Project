@@ -221,7 +221,7 @@ namespace Engine
     static float _delta_count = 0;
     _delta_count += (float)delta;
 
-    if (_delta_count >= 0.6 * m_TimeBetweenCrawlSteps) {
+    if (_delta_count >= m_TimeBetweenCrawlSteps) {
       StepBolt(1);
       _delta_count = 0;
       if (m_DisplayedPoints.size() > m_MaxBoltLength)

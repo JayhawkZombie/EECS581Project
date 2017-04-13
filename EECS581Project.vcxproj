@@ -422,6 +422,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\StringMap.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\TextReader.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\ThorUtils.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\UntimedSequence.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Various.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Vec.hpp" />
     <ClInclude Include="SFEngine\Source\Headers\Weather\Lightning.h" />
@@ -732,6 +733,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Utils\String.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\ThorUtils.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Utils\UntimedSequence.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Various.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Weather\Lightning.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Weather\LightningStorm.cpp" />
