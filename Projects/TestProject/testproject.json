@@ -71,6 +71,10 @@
 		{
 			"Name": "ActorGuy",
 			"Path": "/Textures/GuyForwards.png"
+		},
+		{
+			"Name": "MyActor_sheet",
+			"Path": "/Textures/Guy12FSpriteSheetBig.png"
 		}
       ],
 

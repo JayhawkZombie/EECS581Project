@@ -13,6 +13,8 @@ public:
 	RPGActor();
 	~RPGActor();
 
+	void AddAnimations();
+
 	//getters/setters
 	std::string getName() const;
     std::string getFilePath() const;
@@ -27,6 +29,7 @@ private:
 	std::string m_name;
     std::string m_filePath;
     sf::Vector2i m_Cell;
+	sf::Texture myActor_texture;
 
     virtual void HandleCollisionWithActor(std::weak_ptr<Engine::Collider2D> Collided);
 };

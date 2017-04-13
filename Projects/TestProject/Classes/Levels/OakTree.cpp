@@ -212,7 +212,7 @@ OakTreeLevel::OakTreeLevel()
 
   std::shared_ptr<RPGActor> myActor = std::make_shared<RPGActor>();
   
-  myActor->SetTexture(Textures["ActorGuy"]);
+  myActor->SetTexture(Textures["MyActor_sheet"]);
   SpawnActor(myActor, { 24*16,33*16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
