@@ -41,7 +41,7 @@ namespace Engine
   {
     try
     {
-      ScriptEngine->eval("var " + ItemID + " = Player(\"" + ItemID + "\")");
+      //ScriptEngine->eval("var " + ItemID + " = Player(\"" + ItemID + "\")");
     }
     catch (std::exception &err)
     {
@@ -54,7 +54,7 @@ namespace Engine
   {
     try
     {
-      ScriptEngine->eval(ItemID + ".Update()");
+      //ScriptEngine->eval(ItemID + ".Update()");
     }
     catch (std::exception &err)
     {
