@@ -25,9 +25,6 @@ namespace Engine
   {
     m_CurrentDuration += delta;
 
-    if (m_UpdateCallBack)
-      m_UpdateCallBack();
-
     if (m_CurrentDuration >= m_Duration) {
       m_IsDone = true;;
     }

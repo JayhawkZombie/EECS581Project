@@ -4,6 +4,7 @@
 #include "../../../../SFEngine/ProjectIncludes.h"
 #include "../../../../SFEngine/Source/Headers/Weather/Lightning.h"
 #include "../../../../SFEngine/Source/Headers/Time/TimedSequence.h"
+#include "../../../../SFEngine/Source/Headers/Utils/UntimedSequence.h"
 
 #include "../Objects/PuzzleBall.h"
 #include "../Objects/Gem.h"
@@ -51,7 +52,8 @@ protected:
   tgui::Theme::Ptr  m_LevelTheme;
   sf::Font          m_MenuFont;
 
-  Engine::TimedSequence m_GameSequencer;
+  Engine::TimedSequence   m_GameSequencer;
+  Engine::UntimedSequence m_UntimedSequencer;
 
   std::shared_ptr<Engine::PhysicsEngineSegmentType> m_PipeLeftWall;
   std::shared_ptr<Engine::PhysicsEngineSegmentType> m_PipeWallRight;

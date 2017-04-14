@@ -141,7 +141,7 @@ namespace Engine
   {
     try
     {
-      ScriptEngine->eval(ItemID + ".Update()");
+      //ScriptEngine->eval(ItemID + ".Update()");
     }
     catch (chaiscript::exception::eval_error &everr)
     {

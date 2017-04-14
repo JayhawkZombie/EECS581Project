@@ -63,6 +63,7 @@ void BallStackLevel::TickUpdate(const double & delta)
 
   static sf::Clock GUITimer;
   m_GameSequencer.TickUpdate(delta);
+  m_UntimedSequencer.Update();
 
   for (auto & gem : m_ShatterGems)
       gem->TickUpdate(delta);
@@ -74,7 +75,7 @@ void BallStackLevel::TickUpdate(const double & delta)
       ((*it)->OnKilled());
     }
   }
-
+  
   std::remove_if(m_ShatterGems.begin(), m_ShatterGems.end(), [](auto it) {return (*it).IsDead(); });
 }
 
@@ -102,6 +103,7 @@ void BallStackLevel::OnShutDown()
 void BallStackLevel::HandleInputEvent(const Engine::UserEvent & evnt)
 {
   if (evnt.EventType == Engine::UserEventType::KeyboardPress) {
+    std::cerr << "User pressed key! " << std::endl;
     if (evnt.IsButtonPressed(sf::Keyboard::Escape))
       if (m_Paused)
         HideMenu();
@@ -138,6 +140,25 @@ void BallStackLevel::OnBegin()
   m_BGMusic.play();
   m_GameSequencer.Start();
   SpawnGem(sf::Vector2f(835, 40));
+
+
+  m_UntimedSequencer.AddSequences(
+    []() {std::cerr << "Untimed seq starting" << std::endl; }, []() {std::cerr << "Untimed seq done" << std::endl; },
+    {
+      { 
+        []() -> void { std::cerr << "Seq1 starting" << std::endl; }, 
+        []() -> bool { return sf::Keyboard::isKeyPressed(sf::Keyboard::Return); }, 
+        []() -> void { std::cerr << "Seq1 done" << std::endl; }
+      },
+      {
+        []() -> void { std::cerr << "Seq2 starting" << std::endl; },
+        []() -> bool { return sf::Keyboard::isKeyPressed(sf::Keyboard::E); },
+        []() -> void { std::cerr << "Seq2 done" << std::endl; }
+      }
+    }
+  );
+
+  m_UntimedSequencer.Start();
 }
 
 void BallStackLevel::OnEnd()
