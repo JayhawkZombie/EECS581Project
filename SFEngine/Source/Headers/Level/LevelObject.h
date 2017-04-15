@@ -46,7 +46,9 @@ namespace Engine
 	virtual void SetSize(const sf::Vector2f &size);
 	virtual void SetTexture(std::shared_ptr<sf::Texture> mytexture);
     virtual void SetTextureRect(sf::IntRect myRect);
+	virtual sf::Vector2i getTopRight() const;
 	virtual sf::Vector2i getTopLeft() const;
+	virtual sf::Vector2i getBottomLeft() const;
 	virtual sf::Vector2i getBottomRight() const;
     std::shared_ptr<sf::Texture> GetTexture() const;
     sf::Vector2f GetSize() const;
