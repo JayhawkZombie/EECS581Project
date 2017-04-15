@@ -24,6 +24,8 @@ public:
   void EventUpdate(sf::Event event) override;
   void OnBegin() override;
   void OnEnd() override;
+  void ShowUI() override;
+  void HideUI() override;
   void Reset() override;
   void UpdateObjectPhysics() override;
 

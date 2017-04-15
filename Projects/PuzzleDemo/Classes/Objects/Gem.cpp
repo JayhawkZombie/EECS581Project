@@ -33,30 +33,30 @@ ShatterGem::ShatterGem(const sf::Vector2f &InitPos)
   };
 
   for (std::size_t i = 0; i < 100; ++i) {
-    m_ShatteredFragmentArrays[i][0].texCoords.x = m_ShatterPieces[i].left;
-    m_ShatteredFragmentArrays[i][0].texCoords.y = m_ShatterPieces[i].top;
+    m_ShatteredFragmentArrays[i][0].texCoords.x = __TO_FLOAT__(m_ShatterPieces[i].left);
+    m_ShatteredFragmentArrays[i][0].texCoords.y = __TO_FLOAT__(m_ShatterPieces[i].top);
 
-    m_ShatteredFragmentArrays[i][1].texCoords.x = m_ShatterPieces[i].left + m_ShatterPieces[i].width;
-    m_ShatteredFragmentArrays[i][1].texCoords.y = m_ShatterPieces[i].top;
+    m_ShatteredFragmentArrays[i][1].texCoords.x = __TO_FLOAT__(m_ShatterPieces[i].left) + __TO_FLOAT__(m_ShatterPieces[i].width);
+    m_ShatteredFragmentArrays[i][1].texCoords.y = __TO_FLOAT__(m_ShatterPieces[i].top);
 
-    m_ShatteredFragmentArrays[i][2].texCoords.x = m_ShatterPieces[i].left + m_ShatterPieces[i].width;
-    m_ShatteredFragmentArrays[i][2].texCoords.y = m_ShatterPieces[i].top  + m_ShatterPieces[i].height;
+    m_ShatteredFragmentArrays[i][2].texCoords.x = __TO_FLOAT__(m_ShatterPieces[i].left) + __TO_FLOAT__(m_ShatterPieces[i].width);
+    m_ShatteredFragmentArrays[i][2].texCoords.y = __TO_FLOAT__(m_ShatterPieces[i].top)  + __TO_FLOAT__(m_ShatterPieces[i].height);
 
-    m_ShatteredFragmentArrays[i][3].texCoords.x = m_ShatterPieces[i].left;
-    m_ShatteredFragmentArrays[i][3].texCoords.y = m_ShatterPieces[i].top  + m_ShatterPieces[i].height;
+    m_ShatteredFragmentArrays[i][3].texCoords.x = __TO_FLOAT__(m_ShatterPieces[i].left);
+    m_ShatteredFragmentArrays[i][3].texCoords.y = __TO_FLOAT__(m_ShatterPieces[i].top) + __TO_FLOAT__(m_ShatterPieces[i].height);
 
     /*Position data for fragments*/
-    m_ShatteredFragmentArrays[i][0].position.x = m_ShatterPieces[i].left;
-    m_ShatteredFragmentArrays[i][0].position.y = m_ShatterPieces[i].top;
+    m_ShatteredFragmentArrays[i][0].position.x = __TO_FLOAT__(m_ShatterPieces[i].left);
+    m_ShatteredFragmentArrays[i][0].position.y = __TO_FLOAT__(m_ShatterPieces[i].top);
 
-    m_ShatteredFragmentArrays[i][1].position.x = m_ShatterPieces[i].left + GemScale.x * m_ShatterPieces[i].width;
-    m_ShatteredFragmentArrays[i][1].position.y = m_ShatterPieces[i].top;
+    m_ShatteredFragmentArrays[i][1].position.x = __TO_FLOAT__(m_ShatterPieces[i].left) + __TO_FLOAT__(GemScale.x * m_ShatterPieces[i].width);
+    m_ShatteredFragmentArrays[i][1].position.y = __TO_FLOAT__(m_ShatterPieces[i].top);
 
-    m_ShatteredFragmentArrays[i][2].position.x = m_ShatterPieces[i].left + GemScale.x * m_ShatterPieces[i].width;
-    m_ShatteredFragmentArrays[i][2].position.y = m_ShatterPieces[i].top  + GemScale.y * m_ShatterPieces[i].height;
+    m_ShatteredFragmentArrays[i][2].position.x = __TO_FLOAT__(m_ShatterPieces[i].left) + __TO_FLOAT__(GemScale.x * m_ShatterPieces[i].width);
+    m_ShatteredFragmentArrays[i][2].position.y = __TO_FLOAT__(m_ShatterPieces[i].top)  + __TO_FLOAT__(GemScale.y * m_ShatterPieces[i].height);
 
-    m_ShatteredFragmentArrays[i][3].position.x = m_ShatterPieces[i].left;
-    m_ShatteredFragmentArrays[i][3].position.y = m_ShatterPieces[i].top  + GemScale.y * m_ShatterPieces[i].height;
+    m_ShatteredFragmentArrays[i][3].position.x = __TO_FLOAT__(m_ShatterPieces[i].left);
+    m_ShatteredFragmentArrays[i][3].position.y = __TO_FLOAT__(m_ShatterPieces[i].top)  + __TO_FLOAT__(GemScale.y * m_ShatterPieces[i].height);
   }
 
   m_ShatterTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/gems/gem2_horizontal.png");

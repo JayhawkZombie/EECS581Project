@@ -452,11 +452,13 @@ namespace Engine
   void SwitchLevel(std::shared_ptr<BasicLevel> Level)
   {
     if (CurrentLevel) {
+      CurrentLevel->HideUI();
       CurrentLevel->CleanUp();
       CurrentLevel->OnEnd();
     }
     CurrentLevel = Level.get();
     CurrentLevel->OnBegin();
+    CurrentLevel->ShowUI();
   }
 
   void SwitchLevel_RawPtr(BasicLevel * Level)
@@ -469,13 +471,7 @@ namespace Engine
     auto it = Levels.find("Main");
 
     if (it != Levels.end()) {
-      if (CurrentLevel) {
-        CurrentLevel->OnEnd();
-        CurrentLevel->CleanUp();
-      }
-
-      CurrentLevel = it->second.get();
-      CurrentLevel->OnBegin();
+      SwitchLevel((*it).second);
     }
   }
 

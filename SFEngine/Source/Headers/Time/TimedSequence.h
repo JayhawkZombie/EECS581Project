@@ -47,6 +47,8 @@ namespace Engine
     TimedSequence() = default;
     ~TimedSequence() = default;
 
+    void Clear();
+
     void AddSequence(
       double Duration,
       std::function<void(void)> StartCB,

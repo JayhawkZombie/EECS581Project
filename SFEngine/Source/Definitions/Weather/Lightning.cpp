@@ -106,7 +106,7 @@ namespace Engine
     std::vector<float> Positions;
     Positions.push_back(0);
     for (std::size_t i = 0; i < (int)(Distance / 8); ++i) {
-      Positions.push_back(dis(gen));
+      Positions.push_back(__TO_FLOAT__(dis(gen)));
     }
 
     std::sort(Positions.begin(), Positions.end());
@@ -124,7 +124,7 @@ namespace Engine
 
       float envelope = pos > 0.95f ? 20 * (1 - pos) : 1;
 
-      float displ = _dis(gen);
+      float displ = __TO_FLOAT__(_dis(gen));
       displ -= (displ - prevDisplacement) * (1 - scale);
       displ *= envelope;
 
@@ -177,7 +177,7 @@ namespace Engine
     std::vector<float> Positions;
     Positions.push_back(0);
     for (std::size_t i = 0; i < (int)(Distance / 8); ++i) {
-      Positions.push_back(dis(gen));
+      Positions.push_back(__TO_FLOAT__(dis(gen)));
     }
 
     std::sort(Positions.begin(), Positions.end());
@@ -195,7 +195,7 @@ namespace Engine
 
       float envelope = pos > 0.95f ? 20 * (1 - pos) : 1;
 
-      float displ = _dis(gen);
+      float displ = __TO_FLOAT__(_dis(gen));
       displ -= (displ - prevDisplacement) * (1 - scale);
       displ *= envelope;
 

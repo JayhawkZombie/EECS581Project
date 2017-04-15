@@ -1,5 +1,5 @@
 #ifndef SFENGINE_UMTIMED_SEQUENCE_H
-#define SFENGINE_UNTIMED_SEQUENCE_H
+#define SFENGINE_UMTIMED_SEQUENCE_H
 
 #include "../BasicIncludes.h"
 

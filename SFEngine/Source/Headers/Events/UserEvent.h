@@ -31,7 +31,8 @@ namespace Engine
       KeyWasReleased(event.KeyWasReleased),
       KeyRepeat(event.KeyRepeat),
       Key(event.Key),
-      Button(event.Button)
+      Button(event.Button),
+      EventType(event.EventType)
     {}
 
     bool IsButtonPressed(const sf::Keyboard::Key key) const {

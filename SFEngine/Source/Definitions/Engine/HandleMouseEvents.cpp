@@ -32,6 +32,8 @@ namespace Engine
     UEvent.KeyWasReleased = false;
     UEvent.EventType = UserEventType::MousePress;
 
+    std::cerr << "MousePressed" << std::endl;
+
     if (CurrentLevel)
       CurrentLevel->HandleInputEvent(UEvent);
   }

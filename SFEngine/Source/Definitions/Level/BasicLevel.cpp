@@ -18,7 +18,7 @@ namespace Engine
     ShowGridLines(showlines), Size(LevelSize), GridBlockSize(GridSpacing), CurrentView(DefaultView),
     Gravity(new ::vec2d)
   {
-
+    
   }
 
   BasicLevel::~BasicLevel()
@@ -127,6 +127,14 @@ namespace Engine
   }
 
   void BasicLevel::OnEnd()
+  {
+  }
+
+  void BasicLevel::HideUI()
+  {
+  }
+
+  void BasicLevel::ShowUI()
   {
   }
 

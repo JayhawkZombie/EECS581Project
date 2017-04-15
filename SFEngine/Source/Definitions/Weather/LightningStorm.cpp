@@ -125,10 +125,10 @@ namespace Engine
   void LightningStorm::SpawnBolt(std::size_t Index)
   {
     sf::Vector2f EndPosition;
-    int _x = (int)(rand() % 1700);
+    float _x = __TO_FLOAT__((rand() % 1700));
 
-    EndPosition.x = _x + (int)(rand() % 150) + 35;
-    EndPosition.y = 700 + (int)(rand() % 200) + 50;
+    EndPosition.x = _x + __TO_FLOAT__((rand() % 150) + 35);
+    EndPosition.y = 700.f + + __TO_FLOAT__((rand() % 200) + 50);
     m_Bolts[Index]->Spark(sf::Vector2f(_x, 0.f), EndPosition);
     m_FreeBolts.erase(Index);
   }

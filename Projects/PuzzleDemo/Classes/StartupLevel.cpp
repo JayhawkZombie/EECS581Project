@@ -28,9 +28,9 @@ StartupLevel::StartupLevel()
   m_spinnerFrames.addFrame(1.f, sf::IntRect(0,  78, 78, 78));
 
   m_AnimMap = thor::AnimationMap<sf::Sprite, std::string>();
-  m_AnimMap.addAnimation("loading", m_spinnerFrames, sf::seconds(0.35));
+  m_AnimMap.addAnimation("loading", m_spinnerFrames, sf::seconds(0.35f));
   m_animator = new thor::Animator<sf::Sprite, std::string>(m_AnimMap);
-  m_SpinnerSprite.setPosition({ 1700 - 200, 900 - 200 });
+  m_SpinnerSprite.setPosition({ 1700.f - 200.f, 900.f - 200.f });
 
 
   m_SFMLShatterTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/sfml-logo-big.png");
@@ -40,12 +40,12 @@ StartupLevel::StartupLevel()
   m_SFMLAnimator = new thor::Animator<sf::Sprite, std::string>(m_SFMLLogoMap);
 
   m_SFMLBeforeShatter.setPosition({ 349.5, 298 });
-  Engine::CurrentLevel = this;
 }
 
 StartupLevel::~StartupLevel()
 {
-  
+  if (m_animator)
+    delete m_animator;
 }
 
 void StartupLevel::TickUpdate(const double & delta)
@@ -117,10 +117,16 @@ void StartupLevel::OnShutDown()
 
 void StartupLevel::HandleInputEvent(const Engine::UserEvent & evnt)
 {
+
 }
 
 void StartupLevel::EventUpdate(sf::Event event)
 {
+  if (event.type == sf::Event::MouseButtonPressed) {
+    m_SequenceDone = true;
+    m_LightningSequence.Clear();
+    Engine::SwitchLevel(m_NextLevel);
+  }
 }
 
 void StartupLevel::OnBegin()
@@ -139,8 +145,9 @@ void StartupLevel::CleanUp()
   for (int i = 0; i < 32; ++i)
     m_CrawlBolts->Reset();
 
-  if (m_animator)
-    delete m_animator;
+  if (m_animator) {
+    m_animator->stop();
+  }
 }
 
 void StartupLevel::SetNextLevel(std::shared_ptr<Engine::BasicLevel> NextLevel)

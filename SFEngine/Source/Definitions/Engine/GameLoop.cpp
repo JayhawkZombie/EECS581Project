@@ -132,9 +132,6 @@ namespace Engine
     vec2d Gravity;
 
     AssignBoundaries(900, 1700);
-    Gravity.x = 0.f;
-    Gravity.y = 0.3f;
-    SetGravity(&Gravity);
 
     std::shared_ptr<sf::RenderTexture> LevelTexture = std::make_shared<sf::RenderTexture>();
     LevelTexture->create(1700, 900);
@@ -192,7 +189,8 @@ namespace Engine
           CurrentLevel->RenderOnTexture(EditorTexture);
         }
         EditorTexture->display();
-        Window->draw(LevelRect);     
+        Window->draw(LevelRect); 
+        GUI->draw();
         //Window->resetGLStates();
         ImGui::Render();
         Window->display();

@@ -47,6 +47,17 @@ namespace Engine
       m_EndCallBack();
   }
 
+  void TimedSequence::Clear()
+  {
+    while (!m_Nodes.empty())
+      m_Nodes.pop();
+
+    m_IsTiming = false;
+
+    if (m_EndCallBack)
+      m_EndCallBack();
+  }
+
   void TimedSequence::AddSequence(double Duration, std::function<void(void)> StartCB, std::function<void(void)> Update, std::function<void(void)> EndCB)
   {
     m_Nodes.push({ Duration, StartCB, Update, EndCB });

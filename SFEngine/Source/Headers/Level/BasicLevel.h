@@ -45,6 +45,8 @@ namespace Engine
     virtual void LoadLevel(const std::string &lvlfile);
     virtual void OnBegin();
     virtual void OnEnd();
+    virtual void HideUI();
+    virtual void ShowUI();
     virtual void Reset();
 
     virtual void SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f &Position);

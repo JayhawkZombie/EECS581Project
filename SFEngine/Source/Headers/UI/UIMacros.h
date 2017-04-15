@@ -30,6 +30,7 @@ GUI->add(ELEMENT, NAME)
 #define TGUI_ELEMENT_BUTTON_CREATE(ELEMENT, NAME, THEME, _SIZE, POSITION, TEXT, TEXTSIZE, GUI)   \
 ELEMENT = THEME->load("button");                                                                 \
 ELEMENT->setText(TEXT);                                                                          \
+ELEMENT->setTextSize(TEXTSIZE);                                                                  \
 __TGUI_ELEMENT_PLACE(ELEMENT, POSITION, _SIZE, GUI, NAME);                                       \
 
 #define TGUI_ELEMENT_BUTTON_CREATE_HIDDEN(ELEMENT, NAME, THEME, _SIZE, POSITION, TEXT, TEXTSIZE, GUI)   \
@@ -50,6 +51,18 @@ PANEL_HIDE->hideWithEffect(tgui::ShowAnimationType::SlideToRight, DURATION);    
 PANEL_HIDE->disable();                                                          \
 PANEL_SHOW->showWithEffect(tgui::ShowAnimationType::SlideFromLeft, DURATION);   \
 PANEL_SHOW->enable();                                                           \
+
+#define TGUI_PANEL_SWITCH_TRANSITION_SHOW_LEFT_HIDE_RIGHT(PANEL_SHOW, PANEL_HIDE, DURATION)   \
+PANEL_HIDE->hideWithEffect(tgui::ShowAnimationType::SlideToRight, DURATION);                  \
+PANEL_HIDE->disable();                                                                        \
+PANEL_SHOW->showWithEffect(tgui::ShowAnimationType::SlideFromLeft, DURATION);                 \
+PANEL_SHOW->enable();                                                                         
+
+#define TGUI_PANEL_SWITCH_TRANSITION_SHOW_RIGHT_HIDE_LEFT(PANEL_SHOW, PANEL_HIDE, DURATION)   \
+PANEL_HIDE->hideWithEffect(tgui::ShowAnimationType::SlideToLeft, DURATION);                   \
+PANEL_HIDE->disable();                                                                        \
+PANEL_SHOW->showWithEffect(tgui::ShowAnimationType::SlideFromRight, DURATION);                \
+PANEL_SHOW->enable();                                                                         \
 
 #define TGUI_CONNECT_MAKE_LAMBDA_MACRO(ELEMENT, SIGNAL, MACRO_CALL)             \
 ELEMENT->connect(SIGNAL,  [this](){ MACRO_CALL; });                             \

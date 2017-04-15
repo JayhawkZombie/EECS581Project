@@ -27,6 +27,8 @@ public:
 
   void OnBegin() override;
   void OnEnd()   override;
+  void HideUI()  override;
+  void ShowUI()  override;
   
 protected:
   void MakeCreditsPanel();
