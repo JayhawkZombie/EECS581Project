@@ -139,10 +139,10 @@ void RPGActor::AddAnimations()
 	m_AnimationMap.addAnimation("myActor_standUp", myActor_standUp, sf::microseconds(1));
 	m_AnimationMap.addAnimation("myActor_standLeft", myActor_standLeft, sf::microseconds(1));
 	m_AnimationMap.addAnimation("myActor_standRight", myActor_standRight, sf::microseconds(1));
-	m_AnimationMap.addAnimation("myActor_walkDown", myActor_walkDown, sf::seconds(0.1f));
-	m_AnimationMap.addAnimation("myActor_walkUp", myActor_walkUp, sf::seconds(0.1f));
-	m_AnimationMap.addAnimation("myActor_walkLeft", myActor_walkLeft, sf::seconds(0.1f));
-	m_AnimationMap.addAnimation("myActor_walkRight", myActor_walkRight, sf::seconds(0.1f));
+	m_AnimationMap.addAnimation("myActor_walkDown", myActor_walkDown, sf::seconds(0.6f));
+	m_AnimationMap.addAnimation("myActor_walkUp", myActor_walkUp, sf::seconds(0.6f));
+	m_AnimationMap.addAnimation("myActor_walkLeft", myActor_walkLeft, sf::seconds(0.6f));
+	m_AnimationMap.addAnimation("myActor_walkRight", myActor_walkRight, sf::seconds(0.6f));
 
 	//myActor_texture.loadFromFile("./Projects/TestProject/Textures/Guy12FSpriteSheetBig.png");
 	Sprite.scale({ 16 / 256.f, 16 / 256.f });
