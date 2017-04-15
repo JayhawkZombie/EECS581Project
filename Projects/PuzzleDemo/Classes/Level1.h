@@ -29,19 +29,32 @@ public:
   void OnEnd()   override;
   
 protected:
-  sf::Font font;
-  std::shared_ptr<tgui::Gui> MainGUI;
-  tgui::Theme::Ptr MenuTheme;
-  tgui::Panel::Ptr MainPanel;
-  tgui::Panel::Ptr OptionsPanel;
-  tgui::Panel::Ptr LevelSelectPanel;
+  void MakeCreditsPanel();
 
-  tgui::Button::Ptr NewGameButton;
-  tgui::Button::Ptr LevelSelectButon;
-  tgui::Button::Ptr LoadGameButton;
-  tgui::Button::Ptr OptionsButton;
-  tgui::Button::Ptr AboutButton;
-  tgui::Button::Ptr CloseButton;
+
+  sf::Font font;
+  std::shared_ptr<tgui::Gui> m_MainGUI;
+  tgui::Theme::Ptr m_MenuTheme;
+  tgui::Panel::Ptr m_MainPanel;
+  tgui::Panel::Ptr m_OptionsPanel;
+  tgui::Panel::Ptr m_LevelSelectPanel;
+
+  tgui::Button::Ptr m_NewGameButton;
+  tgui::Button::Ptr m_LevelSelectButon;
+  tgui::Button::Ptr m_LoadGameButton;
+  tgui::Button::Ptr m_OptionsButton;
+  tgui::Button::Ptr m_AboutButton;
+  tgui::Button::Ptr m_CloseButton;
+  tgui::Button::Ptr m_CreditsButton;
+
+  tgui::Button::Ptr    m_ToMainMenuButton;
+  tgui::Label::Ptr     m_CreditsLabel;
+  tgui::Scrollbar::Ptr m_CreditsScrollBar;
+  tgui::Panel::Ptr     m_CreditsPanel;
+
+  tgui::Label::Ptr     m_ProgrammingSectionLabel;
+  tgui::Label::Ptr     m_DesignSectionLabel;
+  tgui::Label::Ptr     m_MusicSectionLabel;
 
   thor::UniversalEmitter emitter;
   thor::ParticleSystem system;

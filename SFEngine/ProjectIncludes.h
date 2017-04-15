@@ -8,5 +8,7 @@
 #include "Source\Headers\Events\UserEvent.h"
 #include "Source\Headers\State\DeviceState.h"
 #include "Source\Headers\UI\UIMacros.h"
+#include "Source\Headers\Time\TimedSequence.h"
+#include "Source\Headers\Utils\UntimedSequence.h"
 
 #endif
