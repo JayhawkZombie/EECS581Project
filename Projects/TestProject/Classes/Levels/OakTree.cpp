@@ -214,20 +214,36 @@ OakTreeLevel::OakTreeLevel()
   
   myActor->SetTexture(Textures["MyActor_sheet"]);
   SpawnActor(myActor, { 24*16,33*16 });
+  myActor->SetPosition({ 24 * 16,33 * 16 });
+  myActor->SetActorSize({ 16,16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
-  myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 1, 0, { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1, 1, sf::Color::White));
+  myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 8, (3.141592653 / 4), { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1.f, 1.f, sf::Color::Blue));
+  
+
+  //SmallHouse1->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 64.f, 0.f, { 32 * 16,26 * 16 }, { 0,0 }, 1.f, 0.4f, sf::Color::White));
+  //std::cout << "Height of Actor: " << myActor->GetColliders()[0]->GetGlobalBounds().height << "\n";//checks to see that the actor has a collider
+  //std::cout << "Height" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().height <<"\n";
+  //std::cout << "Top" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().top << "\n";
+  //myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 1, 0, { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1.f, 1., sf::Color::White));
 
   for (auto & obj : LevelObjects)
   {
-		  if (!(obj.first == "MainGuy"))
-		  {
-			  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomRight()));
-		}
+	  if (obj.first != "MainGuy")
+	  {
+		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomRight()));//creates a diagonal from top left to bottom right
+		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getTopRight()));
+		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopRight(), obj.second->getBottomRight()));
+		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getBottomLeft(), obj.second->getBottomRight()));
+		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomLeft()));
+	  }
+																											  //}
+	//Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->GetGlobalBounds().top, obj.second->GetGlobalBounds().top + obj.second->GetGlobalBounds().height ));
   }
 
-
-    
+  Gravity->x = 0;
+  Gravity->y = 0;
+  Engine::SetGravity(Gravity);
 }
 
 OakTreeLevel::OakTreeLevel(const sf::Vector2u & LevelSize, const sf::FloatRect & DefaultView, bool showlines, const sf::Vector2f & GridSpacing)
@@ -238,6 +254,7 @@ OakTreeLevel::OakTreeLevel(const sf::Vector2u & LevelSize, const sf::FloatRect &
 
 void OakTreeLevel::TickUpdate(const double & delta)
 {
+	BasicLevel::TickUpdate(delta);
 	LevelObjects["MainGuy"]->TickUpdate(delta);
 }
 
@@ -259,13 +276,16 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   }
   */
 
-
-
 	Texture->draw(TileMap);
-	
+
+	BasicLevel::RenderOnTexture(Texture);
+
+	/*
   for (auto & obj : LevelObjects)
     obj.second->Render(Texture);
 	
+  LevelObjects["SmallHouse1Object"];
+  */
 
 
   //If we are using the editor, draw the meshes too
@@ -277,4 +297,13 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
 void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
 {
 	MainCharacter->HandleInputEvent(evnt);
+}
+
+void OakTreeLevel::OnBegin()
+{
+	Engine::SetGravity(Gravity);
+}
+
+void OakTreeLevel::OnEnd()
+{
 }

@@ -112,9 +112,19 @@ namespace Engine
     Sprite.setTextureRect(myRect);
   }
 
+  sf::Vector2i LevelObject::getTopRight() const
+  {
+	  return{ (int)Position.x + Sprite.getTextureRect().width, (int)Position.y };
+  }
+
   sf::Vector2i LevelObject::getTopLeft() const
   {
 	  return{(int)Position.x,(int)Position.y};
+  }
+
+  sf::Vector2i LevelObject::getBottomLeft() const
+  {
+	  return{ (int)Position.x,(int)Position.y + Sprite.getTextureRect().height };
   }
 
   sf::Vector2i LevelObject::getBottomRight() const
@@ -171,7 +181,7 @@ namespace Engine
   {
     for (auto & collider : m_Colliders)
       collider->Move(delta);
-
+	Position += delta;
     Sprite.move(delta);
   }
 

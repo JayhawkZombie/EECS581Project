@@ -13,6 +13,8 @@ public:
   void TickUpdate(const double &delta) override;
   void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture) override;
   void HandleInputEvent(const Engine::UserEvent &evnt) override;
+  void OnBegin() override;
+  void OnEnd() override;
 
 protected:
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
