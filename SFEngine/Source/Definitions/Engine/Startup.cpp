@@ -19,7 +19,7 @@ namespace Engine
       delete currentRenderWindow;
 
 #ifdef WITH_EDITOR
-    Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine Editor", sf::Style::None | sf::Style::Titlebar, csettings);
+    Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine", sf::Style::Resize | sf::Style::Close | sf::Style::Titlebar, csettings);
     WindowSize = static_cast<sf::Vector2f>(Window->getSize());
 #else
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
@@ -27,7 +27,7 @@ namespace Engine
 #endif
     MaximumWindowView = Window->getDefaultView();
     Window->setKeyRepeatEnabled(false);
-    Window->setVerticalSyncEnabled(false);
+    Window->setVerticalSyncEnabled(true);
     currentRenderWindow = Window;
     CurrentEngine = this;
 

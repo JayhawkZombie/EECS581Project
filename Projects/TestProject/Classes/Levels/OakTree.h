@@ -3,6 +3,7 @@
 
 #include "../../../../SFEngine/Source/Headers/Level/BasicLevel.h"
 #include "../../../../SFEngine/Source/Headers/Globals/GlobalHooks.h"
+#include "../../../../SFEngine/Source/Headers/Camera/2DCamera.h"
 
 class OakTreeLevel : public Engine::BasicLevel
 {
@@ -19,6 +20,7 @@ public:
 
 protected:
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
+	Engine::Camera2D myActor_camera;
 };
 
 #endif

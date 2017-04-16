@@ -67,7 +67,14 @@ namespace Engine
     for (auto & collider : m_Colliders)
       collider->PhysicsUpdate();
 
-    Sprite.setPosition(Position);
+	if (!m_Colliders.size() > 0)
+		return;
+
+	  auto v = m_Colliders[0]->GetMesh().lock();
+	  if (v) {
+      Position = sf::Vector2f(v->pos.x, v->pos.y);
+		  Sprite.setPosition({ v->pos.x - Size.x / 2.f, v->pos.y - Size.y / 2.f });
+	  }
   }
 
   void LevelObject::Render(std::shared_ptr<sf::RenderTarget> Target)
@@ -174,14 +181,17 @@ namespace Engine
 
   sf::FloatRect LevelObject::GetGlobalBounds() const
   {
-    return sf::FloatRect();
+	  return sf::FloatRect(
+		  Position,
+		  Size
+	  );
   }
 
   void LevelObject::Move(const sf::Vector2f & delta)
   {
     for (auto & collider : m_Colliders)
       collider->Move(delta);
-	Position += delta;
+	  Position += delta;
     Sprite.move(delta);
   }
 

@@ -6,6 +6,7 @@
 OakTreeLevel::OakTreeLevel()
  : BasicLevel({ 800,800 }, { 0,0,800,800 })//: BasicLevel({ 50 * 16, 50 * 16 }, { 28 * 16, 18 * 16, 9 * 16, 9 * 16 }) //:BasicLevel({ 144,144 }, { 0,0,144,144 })//
 {
+
   LoadFromFile("./Projects/TestProject/testproject.json");
 
   //sf::Texture LayeredTree;
@@ -195,18 +196,20 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["SmallHouse3Obj"] = SmallHouse3;
   LevelObjects["BigOakTree"] = BigOakTreeTree;
   
-
+  sf::FloatRect myActor_spawnLocation(176.f, 176.f, 256.f, 256.f);
   std::shared_ptr<RPGActor> myActor = std::make_shared<RPGActor>();
   
   myActor->SetTexture(Textures["MyActor_sheet"]);
   SpawnActor(myActor, { 24*16,33*16 });
   myActor->SetPosition({ 24 * 16,33 * 16 });
+  
   myActor->SetActorSize({ 16,16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
-  myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 8, (3.141592653 / 4), { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1.f, 1.f, sf::Color::Blue));
+  myActor_camera.AttachToActor(myActor);
+  myActor_camera.SetView(myActor_spawnLocation);
+  //myActor->GenerateActorMesh("Polygon", { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, 1.0, 1.0, 4, 3.14159 / 4);
   
-
   //SmallHouse1->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 64.f, 0.f, { 32 * 16,26 * 16 }, { 0,0 }, 1.f, 0.4f, sf::Color::White));
   //std::cout << "Height of Actor: " << myActor->GetColliders()[0]->GetGlobalBounds().height << "\n";//checks to see that the actor has a collider
   //std::cout << "Height" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().height <<"\n";
@@ -245,6 +248,7 @@ void OakTreeLevel::TickUpdate(const double & delta)
 {
 	BasicLevel::TickUpdate(delta);
 	LevelObjects["MainGuy"]->TickUpdate(delta);
+	myActor_camera.Update();
 }
 
 void OakTreeLevel::makeSegment(sf::Vector2i endPoint1, sf::Vector2i endPoint2)
@@ -270,8 +274,11 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   }
   */
 
-	Texture->draw(TileMap);
+	sf::View view(myActor_camera.GetView());
+	view.setViewport({ 0.f,0.f,1.f,1.f });
 
+	Texture->draw(TileMap);
+	Texture->setView(view);
 	BasicLevel::RenderOnTexture(Texture);
 
 	/*
