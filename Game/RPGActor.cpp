@@ -7,12 +7,12 @@ RPGActor::RPGActor()
 {
 	m_name = "";
   m_filePath = "";
-
+  /*
   m_Colliders.push_back(Engine::Collider2D::CreatePolygonMesh(4, 16.f, 0.f, { Position.x, Position.y }, { 0, 0 }, 1.f, 0.4f, sf::Color::Blue));
   m_Colliders[0]->SetCollisionCallback(
     [this](auto ptr) { this->HandleCollisionWithActor(ptr); }
   );
-
+  */
 
 
   AddAnimations();
