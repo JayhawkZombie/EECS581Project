@@ -126,20 +126,6 @@ OakTreeLevel::OakTreeLevel()
   }*/
   BigOakTreeTree->SetTexture(Textures["Bigoaktree"]);//sets the texture for the big oak tree in the middle of town
   BigOakTreeTree->SetTextureRect({ 0,0,144,144 });
-
-  //Position Set of the Trees
-  /*
-  for (int i = 0; i <= 8; i++)
-  {
-    Trees[i]->SetPosition({ 0, (float) i*16*5 });
-  }
-  Trees[9]->SetPosition({ 16 * 5,0 });
-  Trees[10]->SetPosition({ 16 * 5,16 * 5 });
-  Trees[11]->SetPosition({ 16 * 10,0 });
-  Trees[12]->SetPosition({ 16 * 10,16 * 5 });
-  Trees[13]->SetPosition({ 16 * 15,0 });
-  Trees[14]->SetPosition({ 16 * 15,16 * 5 });
-  Trees[15]->SetPosition({ 16 * 20,0 });*/
   BigOakTreeTree->SetPosition({ 20 * 16,19 * 16 });
 
   //Sets the Textures and the positions of the buildings
@@ -229,9 +215,10 @@ OakTreeLevel::OakTreeLevel()
 
   for (auto & obj : LevelObjects)
   {
-	  if (obj.first != "MainGuy")
+	  if (!(obj.second == myActor))
 	  {
-		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomRight()));//creates a diagonal from top left to bottom right
+	//	  std::cout << obj.first << "\n";//debugging
+		 // Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomRight()));//creates a diagonal from top left to bottom right
 		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getTopRight()));
 		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopRight(), obj.second->getBottomRight()));
 		  Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getBottomLeft(), obj.second->getBottomRight()));
@@ -240,6 +227,8 @@ OakTreeLevel::OakTreeLevel()
 																											  //}
 	//Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->GetGlobalBounds().top, obj.second->GetGlobalBounds().top + obj.second->GetGlobalBounds().height ));
   }
+
+
 
   Gravity->x = 0;
   Gravity->y = 0;
@@ -256,6 +245,11 @@ void OakTreeLevel::TickUpdate(const double & delta)
 {
 	BasicLevel::TickUpdate(delta);
 	LevelObjects["MainGuy"]->TickUpdate(delta);
+}
+
+void OakTreeLevel::makeSegment(sf::Vector2i endPoint1, sf::Vector2i endPoint2)
+{
+
 }
 
 void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)

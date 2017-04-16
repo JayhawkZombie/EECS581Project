@@ -15,6 +15,7 @@ public:
   void HandleInputEvent(const Engine::UserEvent &evnt) override;
   void OnBegin() override;
   void OnEnd() override;
+  void makeSegment(sf::Vector2i endPoint1, sf::Vector2i endPoint2);
 
 protected:
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
