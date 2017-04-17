@@ -5,10 +5,10 @@
 
 RPGActor::RPGActor()
 {
-	m_name = "";
+  m_name = "";
   m_filePath = "";
 
-  m_Colliders.push_back(Engine::Collider2D::CreatePolygonMesh(4, 16.f, 0.f, { Position.x, Position.y }, { 0, 0 }, 1.f, 0.4f, sf::Color::Blue));
+  m_Colliders.push_back(Engine::Collider2D::CreatePolygonMesh(4, 11.31370f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.f, sf::Color::Blue));
   m_Colliders[0]->SetCollisionCallback(
     [this](auto ptr) { this->HandleCollisionWithActor(ptr); }
   );
@@ -48,43 +48,43 @@ void RPGActor::setFilePath(std::string filePath)
 
 void RPGActor::HandleInputEvent(const Engine::UserEvent & evnt)
 {
-	
+	auto c_v = m_Colliders[0]->GetMesh().lock();
 	if (evnt.EventType == Engine::UserEventType::KeyboardPress)
 	{
 		if (evnt.Key == sf::Keyboard::A||evnt.Key == sf::Keyboard::Left) {
 			m_Animator.play() << "myActor_walkLeft" << thor::Playback::loop("myActor_walkLeft");
-			Velocity.x = -1;
+			c_v->v.x = -1.f;
 
 		}
 		else if (evnt.Key == sf::Keyboard::S||evnt.Key == sf::Keyboard::Down) {
 			m_Animator.play() << "myActor_walkDown" << thor::Playback::loop("myActor_walkDown");
-			Velocity.y = 1;
+			c_v->v.y = 1.f;
 		}
 		else if (evnt.Key == sf::Keyboard::D||evnt.Key == sf::Keyboard::Right) {
 			m_Animator.play() << "myActor_walkRight" << thor::Playback::loop("myActor_walkRight");
-			Velocity.x = 1;
+			c_v->v.x = 1.f;
 		}
 		else if (evnt.Key == sf::Keyboard::W||evnt.Key == sf::Keyboard::Up) {
 			m_Animator.play() << "myActor_walkUp" << thor::Playback::loop("myActor_walkUp");
-			Velocity.y = -1;
+			c_v->v.y = -1.f;
 		}
 	}
 	if (evnt.EventType == Engine::UserEventType::KeyboardRelease)
 	{
 		if (evnt.Key == sf::Keyboard::A || evnt.Key == sf::Keyboard::Left) {
-			Velocity.x = 0;
+			c_v->v = { 0.f, c_v->v.y };
 			m_Animator.play() << "myActor_standLeft";
 		}
 		else if (evnt.Key == sf::Keyboard::D || evnt.Key == sf::Keyboard::Right) {
-			Velocity.x = 0;
+			c_v->v = { 0.f, c_v->v.y };
 			m_Animator.play() << "myActor_standRight";
 		}
 		else if (evnt.Key == sf::Keyboard::S || evnt.Key == sf::Keyboard::Down) {
-			Velocity.y = 0;
+			c_v->v = { c_v->v.x, 0.f };
 			m_Animator.play() << "myActor_standDown";
 		}
 		else if (evnt.Key == sf::Keyboard::W || evnt.Key == sf::Keyboard::Up) {
-			Velocity.y = 0;
+			c_v->v = { c_v->v.x, 0.f };
 			m_Animator.play() << "myActor_standUp";
 		}
 	}

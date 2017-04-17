@@ -161,12 +161,18 @@ namespace Engine
 
   void GenericActor::SetActorPosition(const sf::Vector2f &pos)
   {
-    auto delta = Position - pos;
-    Position = pos;
-    for (auto & coll : m_Colliders)
-      coll->Move(delta);
+    //auto delta = Position - pos;
+    //Position = pos;
+    //for (auto & coll : m_Colliders)
+    //  coll->Move(delta);
 
-	  Sprite.setPosition(pos);
+	Sprite.setPosition(pos);
+
+	if (m_Colliders.size() > 0) {
+		auto mesh = m_Colliders.front()->GetMesh().lock();
+		if (mesh)
+			mesh->setPosition(::vec2d(pos.x, pos.y));
+	}
   }
 
   void GenericActor::SetActorPosition(float x, float y)
@@ -210,7 +216,7 @@ namespace Engine
   {
 	//Polygon Mesh parameters
 	//unsigned int num_sides, float radius, float init_rotation, const sf::Vector2f &InitialPosition, const sf::Vector2f &InitialVelocity, float mass, float CoeffOfRest, const sf::Color &Color
-    m_Colliders.push_back(Collider2D::CreatePolygonMesh(num_sides, std::max(Size.x, Size.y) / 2.f, init_rot, pos, Velocity, mass, coeffOfRest, sf::Color::White));
+	  m_Colliders.push_back(Collider2D::CreatePolygonMesh(num_sides, std::max(Size.x, Size.y) / 2.f, init_rot, pos, { 0.f, 0.f }, mass, coeffOfRest, sf::Color::White));
 	  MeshRadius = std::max(Size.x, Size.y) / 2.f;
   }
 

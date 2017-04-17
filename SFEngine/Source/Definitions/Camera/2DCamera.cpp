@@ -72,7 +72,7 @@ namespace Engine
 
   sf::FloatRect Camera2D::GetView() const
   {
-    return sf::FloatRect();
+    return m_View;
   }
 
   void Camera2D::CheckBoundaries()

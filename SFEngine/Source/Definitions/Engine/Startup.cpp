@@ -26,7 +26,7 @@ namespace Engine
 #endif
     MaximumWindowView = Window->getDefaultView();
     Window->setKeyRepeatEnabled(false);
-    Window->setVerticalSyncEnabled(false);
+    Window->setVerticalSyncEnabled(true);
     currentRenderWindow = Window;
     CurrentEngine = this;
 
