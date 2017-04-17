@@ -1,6 +1,5 @@
-#include "../../Headers/Physics/QuadTree.h"
-#include "../../Headers/Physics/Collider.h"
-#include "../../Headers/Components/CollisionComponent.h"
+#include "Physics\QuadTree.h"
+#include "Physics\Collider.h"
 
 #include <iostream>
 

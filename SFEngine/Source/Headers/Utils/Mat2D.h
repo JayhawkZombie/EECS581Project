@@ -1,7 +1,7 @@
+#pragma once
 
 #include <math.h>
 #include <cmath>
-#pragma once
 #include <algorithm>
 #include <stdexcept>
 

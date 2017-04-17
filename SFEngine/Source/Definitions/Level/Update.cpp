@@ -1,6 +1,6 @@
-#include "../../Headers/Level/Level.h"
-#include "../../Headers/Engine/Console.h"
-#include "../../Headers/Physics/Collider.h"
+#include "Level\Level.h"
+#include "Engine\Console.h"
+#include "Physics\Collider.h"
 
 namespace Engine
 {
@@ -14,11 +14,11 @@ namespace Engine
     for (auto & anim : EditorGraphAnimations)
       anim.second->TickUpdate(delta);
 #endif
-    TileMap.update(lvlData, 20);
+    TileMap->update(lvlData, 20);
     //Only want to update the physics 60 times per second, since it does not time itself ((((UGH))))
     
-    for (auto & obj : Objects)
-      obj->TickUpdate(delta);
+    for (auto & obj : LevelObjects)
+      obj.second->TickUpdate(delta);
 
     if (cumulative > updateInterval) {
 

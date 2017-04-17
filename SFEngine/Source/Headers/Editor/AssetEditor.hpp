@@ -1,9 +1,9 @@
 #ifndef SFENGINE_ASSET_EDITOR_H
 #define SFENGINE_ASSET_EDITOR_H
 
-#include "../../../ThirdParty/IMGUI/imgui-SFML.h"
-#include "../../../ThirdParty/IMGUI/imgui.h"
-#include "../../../ThirdParty/IMGUI/imconfig.h"
+#include "IMGUI\imgui.h"
+#include "IMGUI\imconfig.h"
+#include "IMGUI\imconfig-SFML.h"
 
 namespace Engine
 {

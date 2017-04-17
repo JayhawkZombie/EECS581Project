@@ -1,7 +1,7 @@
 #ifndef SFENGINE_PLAYER_H
 #define SFENGINE_PLAYER_H
 
-#include "Actor.h"
+#include "Actor\Actor.h"
 
 namespace Engine
 {

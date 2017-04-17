@@ -1,11 +1,10 @@
-#include "../../Headers/Engine/Engine.h"
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
-#include "../../../../Projects/TestProject/Classes/Levels/OakTree.h"
-#include "../../../../Projects/PuzzleDemo/Classes/Level1.h"
-#include "../../../../Projects/PuzzleDemo/Classes/StartupLevel.h"
+#include "Engine\Engine.h"
+#include "chaiscript\chaiscript_defines.hpp"
+#include "chaiscript\chaiscript.hpp"
+#include "chaiscript\chaiscript_stdlib.hpp"
+#include "Projects\TestProject\Classes\Levels\OakTree.h"
+#include "Projects\PuzzleDemo\Classes\Level1.h"
+#include "Projects\PuzzleDemo\Classes\StartupLevel.h"
 
 namespace Engine
 {
@@ -19,7 +18,7 @@ namespace Engine
       delete currentRenderWindow;
 
 #ifdef WITH_EDITOR
-    Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine Editor", sf::Style::None | sf::Style::Titlebar, csettings);
+    Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine", sf::Style::Resize | sf::Style::Close | sf::Style::Titlebar, csettings);
     WindowSize = static_cast<sf::Vector2f>(Window->getSize());
 #else
     Window = new sf::RenderWindow(sf::VideoMode(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y), "SFEngine V0.1.1", sf::Style::Default, ContextSettings);
@@ -87,6 +86,9 @@ namespace Engine
                          [this](const sf::Keyboard::Key &k) {this->HandleKeyRelease(k); });
 
     Handler.BindTextEnterHandler([this](const sf::Uint32 &unicode) {this->HandleTextEntered(unicode); });
+
+    Handler.BindCallback(Events::MouseScrolled,
+                         [this](const sf::Vector2i &v, sf::Mouse::Wheel w, float d) { this->HandleMouseScroll(v, w, d); });
 
     std::ifstream _IN("SFEngine/Config/Engine.ini");
     sf::Vector2u lSize;

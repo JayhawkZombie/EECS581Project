@@ -1,12 +1,12 @@
-#include "..\..\Headers\Factory\Factory.h"
-#include "../../../ThirdParty/json/json.h"
-#include "../../Headers/Actor/Actor.h"
-#include "../../Headers/Actor/Player.h"
-#include "../../Headers/Animation/Animation.h"
-#include "../../Headers/Level/Level.h"
-#include "../../Headers/Tiles/LevelTile.h"
-#include "../../Headers/Tiles/TileSheet.h"
+#include "Factory\Factory.h"
+#include "Actor\Actor.h"
+#include "Actor\Player.h"
+#include "Animation\Animation.h"
+#include "Level\Level.h"
+#include "Tiles\LevelTile.h"
+#include "Tiles\TileSheet.h"
 
+#include "json\json.h"
 
 namespace Engine
 {

@@ -1,14 +1,13 @@
 #ifndef SFENGINE_STRING_H
 #define SFENGINE_STRING_H
+
+#include "ListTemplates.h" //LinkedList.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <iterator>
-
 #include <cassert>
-
-#include "ListTemplates.h" //LinkedList.h"
-
 
 class STRING
 {

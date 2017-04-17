@@ -3,6 +3,8 @@
 
 #include<cmath>
 
+#include <SFML\Graphics.hpp>
+
 class vec2d
 {
 public:
@@ -20,6 +22,10 @@ public:
   }
   vec2d operator*(float c)const;
   vec2d operator/(float c)const;
+
+  explicit operator ::sf::Vector2f() const {
+    sf::Vector2f(x, y);
+  }
 
   vec2d operator-() const {
     return (*this)*-1.0f;

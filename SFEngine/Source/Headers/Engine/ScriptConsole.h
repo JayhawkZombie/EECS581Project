@@ -1,9 +1,10 @@
 #ifndef SFENGINE_SCRIPT_CONSOLE_H
 #define SFENGINE_SCRIPT_CONSOLE_H
 
-#include "../Globals/GlobalHooks.h"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/utility/utility.hpp"
+#include "Globals\GlobalHooks.h"
+
+#include "chaiscript\chaiscript.hpp"
+#include "chaiscript\utility\utility.hpp"
 #include <TGUI\TGUI.hpp>
 
 

@@ -1,7 +1,7 @@
 #ifndef SFENGINE_ACTOR_H
 #define SFENGINE_ACTOR_H
 
-#include "../Level/LevelObject.h"
+#include "Level\LevelObject.h"
 
 namespace Engine
 {
@@ -33,6 +33,7 @@ namespace Engine
     virtual void SetActorPosition(const sf::Vector2f &pos);
     virtual void SetActorPosition(float x, float y);
     virtual void SetActorSize(const sf::Vector2f &size);
+    virtual void CenterAroundCollider(std::shared_ptr<Collider2D> Collider);
     virtual void SetActorVelocity(const sf::Vector2f &vel);
     virtual void SetActorAcceleration(const sf::Vector2f &acc);
     virtual void GenerateActorMesh(const std::string &meshtype, const sf::Vector2f &pos, float mass, float coeffOfRest, unsigned int num_sides = 4, float init_rot = 0.f);

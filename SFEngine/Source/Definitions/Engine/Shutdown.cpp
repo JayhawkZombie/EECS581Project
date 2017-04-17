@@ -1,7 +1,7 @@
-#include "../../Headers/Engine/Engine.h"
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
+#include "Engine\Engine.h"
+#include "Resources\ResourceManager.h"
+
+#include "chaiscript\chaiscript.hpp"
 
 namespace Engine
 {
@@ -10,7 +10,13 @@ namespace Engine
     ImGui::SFML::Shutdown();
 
     for (auto & lvl : Levels)
-      lvl.second->OnEnd();
+      lvl.second->OnShutDown();
+    Levels.clear();
+
+    ClearTextures();
+    ClearShaders();
+    ClearFonts();
+    ClearSoundBuffers();
 
     GUI.reset();
     delete Window;

@@ -1,5 +1,5 @@
-#include "../../Headers/Engine/InputInterface.h"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "Engine\InputInterface.h"
+#include "chaiscript\chaiscript.hpp"
 
 namespace Engine
 {

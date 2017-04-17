@@ -1,4 +1,4 @@
-#include "../../Headers/Streams/DataStream.h"
+#include "Streams\DataStream.h"
 
 namespace Engine
 {

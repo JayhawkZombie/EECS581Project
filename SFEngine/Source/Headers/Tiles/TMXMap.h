@@ -1,9 +1,9 @@
 #ifndef SFENGINE_TMX_MAP_H
 #define SFENGINE_TMX_MAP_H
 
-#include "../../../ThirdParty/json/json.h"
+#include "BasicIncludes.h"
 
-#include "../BasicIncludes.h"
+#include "json\json.h"
 
 namespace
 {

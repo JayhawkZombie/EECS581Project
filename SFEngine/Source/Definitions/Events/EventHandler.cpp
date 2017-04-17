@@ -1,5 +1,5 @@
-#include "../../Headers/Events/EventHandler.h"
-#include "../../Headers/Level/BasicLevel.h"
+#include "Events\EventHandler.h"
+#include "Level\BasicLevel.h"
 
 namespace Engine
 {
@@ -14,7 +14,7 @@ namespace Engine
     ftnCallback_MouseMovement = [this](const sf::Vector2i &v) {};
     ftnCallback_MousePress = [this](const sf::Vector2i &v, const sf::Mouse::Button &b) {};
     ftnCallback_MouseRelease = [this](const sf::Vector2i &v, const sf::Mouse::Button &b) {};
-    ftnCallback_MouseScroll = [this](const sf::Vector2i &v) {};
+    ftnCallback_MouseScroll = [this](const sf::Vector2i &v, sf::Mouse::Wheel, float) {};
     ftnCallback_WindowClosed = [this]() {};
     ftnCallback_WindowResized = [this]() {}; 
   }
@@ -49,9 +49,9 @@ namespace Engine
     ftnCallback_MouseRelease(v, b);
   }
 
-  void EventHandler::HandleMouseScroll(const sf::Vector2i &v)
+  void EventHandler::HandleMouseScroll(const sf::Vector2i &v, sf::Mouse::Wheel wheel, float delta)
   {
-    ftnCallback_MouseScroll(v);
+    ftnCallback_MouseScroll(v, wheel, delta);
   }
 
   void EventHandler::HandleKeyPress(const sf::Keyboard::Key &k)
@@ -91,6 +91,15 @@ namespace Engine
         ftnCallback_MousePress = std::bind(ftn, std::placeholders::_1, std::placeholders::_2); break;
       case Events::MouseReleased:
         ftnCallback_MouseRelease = std::bind(ftn, std::placeholders::_1, std::placeholders::_2); break;
+    }
+  }
+
+  void EventHandler::BindCallback(const Events &type, std::function<void(const sf::Vector2i, sf::Mouse::Wheel, float)> ftn)
+  {
+    switch (type)
+    {
+    case Events::MouseScrolled:
+      ftnCallback_MouseScroll = std::bind(ftn, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3); break;
     }
   }
 
@@ -146,6 +155,10 @@ namespace Engine
             ftnCallback_MouseRelease(v2iMousePosArg, evnt.mouseButton.button); return false;
           case sf::Event::MouseMoved:
             ftnCallback_MouseMovement(v2iMousePosArg); return false;
+          case sf::Event::MouseWheelScrolled:
+            ftnCallback_MouseScroll(v2iMousePosArg, evnt.mouseWheelScroll.wheel, evnt.mouseWheelScroll.delta); return false;
+          case sf::Event::Resized:
+            ftnCallback_WindowResized(); return false;
         }
       }
     }

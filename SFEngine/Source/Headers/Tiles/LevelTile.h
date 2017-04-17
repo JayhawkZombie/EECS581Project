@@ -2,9 +2,9 @@
 #define SFENGINE_LEVEL_TILE_H
 
 
-#include "../Actor/Player.h"
-#include "../Lights/GlobalLightSource.h"
-#include "../Utils/SpriteSheet.h"
+#include "Actor\Player.h"
+#include "Lights\GlobalLightSource.h"
+#include "Utils\SpriteSheet.h"
 
 
 namespace Engine

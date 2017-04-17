@@ -1,13 +1,13 @@
 #ifndef SFENGINE_READINI_H
 #define SFENGINE_READINI_H
 
+#include "Utils\Decoders.h"
+
 #include <fstream>
 #include <string>
 #include <iostream>
 
 #include <SFML\Graphics.hpp>
-
-#include "../Utils/Convert.h"
 
 namespace Engine
 {

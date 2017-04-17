@@ -1,6 +1,6 @@
-#include "../../Headers/Level/Level.h"
-#include "../../Headers/Engine/Console.h"
-#include "../../Headers/Physics/Collider.h"
+#include "Level\Level.h"
+#include "Engine\Console.h"
+#include "Physics\Collider.h"
 
 namespace Engine
 {
@@ -8,7 +8,7 @@ namespace Engine
   {
     //SceneBlendTexture->clear(sf::Color::Transparent);
 
-    Texture->draw(TileMap);
+    Texture->draw(*TileMap);
 
     if (ShowGridLines) {
       for (auto & arr : GridLines)

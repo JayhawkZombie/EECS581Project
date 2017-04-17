@@ -1,7 +1,8 @@
 #ifndef SFENGINE_FACTORY_CLASS_CREATE_BIND_H
 #define SFENGINE_FACTORY_CLASS_CREATE_BIND_H
 
-#include "../BasicIncludes.h"
+#include "BasicIncludes.h"
+
 #include <Thor\Animations.hpp>
 #include <Thor\Particles.hpp>
 #include <Thor\Time.hpp>

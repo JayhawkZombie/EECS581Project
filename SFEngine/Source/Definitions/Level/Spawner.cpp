@@ -1,5 +1,5 @@
-#include "../../Headers/Level/Level.h"
-#include "../../Headers/Actor/Actor.h"
+#include "Level\BasicLevel.h"
+#include "Actor\Actor.h"
 
 #ifdef WITH_EDITOR
 namespace Engine

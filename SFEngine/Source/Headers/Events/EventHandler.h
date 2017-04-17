@@ -1,7 +1,7 @@
 #ifndef SFENGINE_EVENT_HANDLER_H
 #define SFENGINE_EVENT_HANDLER_H
 
-#include "../BasicIncludes.h"
+#include "BasicIncludes.h"
 
 namespace Engine
 {
@@ -42,6 +42,7 @@ namespace Engine
     void BindCallback(const Events &type, std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftn);
     void BindCallback(const Events &type, std::function<void(const sf::Keyboard::Key &)> ftn);
     void BindCallback(const Events &type, std::function<void(void)> ftn);
+    void BindCallback(const Events &type, std::function<void(const sf::Vector2i, sf::Mouse::Wheel, float)> ftn);
     void BindTextEnterHandler(std::function<void(const sf::Uint32 &)> ftn);
 
     bool PollEvents(sf::RenderWindow *win, sf::Event &evnt, const bool &makeCallbacks);
@@ -51,7 +52,7 @@ namespace Engine
     void HandleMouseExit(const sf::Vector2i &v);
     void HandleMousePress(const sf::Vector2i &v, const sf::Mouse::Button &b);
     void HandleMouseRelease(const sf::Vector2i &v, const sf::Mouse::Button &b);
-    void HandleMouseScroll(const sf::Vector2i &v);
+    void HandleMouseScroll(const sf::Vector2i &v, sf::Mouse::Wheel wheel, float delta);
     void HandleKeyPress(const sf::Keyboard::Key &k);
     void HandleKeyRelease(const sf::Keyboard::Key &k);
     void HandleTextEntered(const sf::Keyboard::Key &k);
@@ -67,7 +68,7 @@ namespace Engine
     std::function<void(const sf::Vector2i &)> ftnCallback_MouseExit;
     std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftnCallback_MousePress;
     std::function<void(const sf::Vector2i &, const sf::Mouse::Button &)> ftnCallback_MouseRelease;
-    std::function<void(const sf::Vector2i &)> ftnCallback_MouseScroll;
+    std::function<void(const sf::Vector2i &, sf::Mouse::Wheel, float)> ftnCallback_MouseScroll;
     std::function<void(const sf::Keyboard::Key &)> ftnCallback_KeyPress;
     std::function<void(const sf::Keyboard::Key &)> ftnCallback_KeyRelease;
     std::function<void(const sf::Uint32 &)> ftnCallback_TextEntered;

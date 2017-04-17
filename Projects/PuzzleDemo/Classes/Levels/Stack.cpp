@@ -134,6 +134,10 @@ void BallStackLevel::EventUpdate(sf::Event event)
 
 void BallStackLevel::OnBegin()
 {
+  BasicLevel::OnBegin();
+
+  Engine::SetGravity(Gravity);
+
   std::cerr << "BallStackLevel::OnBegin()" << std::endl;
   Engine::SetGravity(Gravity);
   //m_GameMenu->add(m_PausePanel);

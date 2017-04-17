@@ -10,8 +10,8 @@ namespace Engine
     MousePress, //Pressing on a mouse button
     MouseRelease, //Releasing a mouse button
     MouseMovement, //Moving the mouse inside the bounds of an element
-    MouseScrollUp, //Scrolling a mouse wheel up
-    MouseScrollDown, //Scrolling a mouse wheel down
+    MouseScrollVertical, //Scrolling a mouse wheel up/down
+    MouseScrollHorizontal, //Scrolling a mouse wheel left/right
     KeyboardPress, //Pressing a key on the keyboard
     KeyboardRelease, //Releasing a key on the keyboard
     TextEntered,
@@ -41,6 +41,9 @@ namespace Engine
     bool IsMouseButtonDown(const sf::Mouse::Button &button) const {
       return sf::Mouse::isButtonPressed(button);
     }
+    bool WasMouseWheelScrolled() const {
+      return MouseScrolled;
+    }
 
     bool MouseButtonWasPressed = false;
     bool MouseButtonWasReleased = false;
@@ -50,7 +53,9 @@ namespace Engine
     bool KeyRepeat = false;
 
     bool TextWasEntered = false;
+    bool MouseScrolled = false;
 
+    float MouseScrollDelta = 0.f;
     sf::Uint32 TextUnicode;
 
     sf::Keyboard::Key Key;
@@ -58,6 +63,8 @@ namespace Engine
 
     sf::Vector2i CurrentMousePosition = { 0, 0 };
     sf::Vector2i PreviousMousePosition = { 0, 0 };
+
+    sf::Mouse::Wheel MouseWheenScrolled;
 
     UserEventType EventType;
   };

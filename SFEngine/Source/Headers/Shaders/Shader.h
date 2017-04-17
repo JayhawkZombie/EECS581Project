@@ -1,7 +1,7 @@
 #ifndef SFENGINE_SHADER_H
 #define SFENGINE_SHADER_H
 
-#include "../BasicIncludes.h"
+#include "BasicIncludes.h"
 
 namespace Engine
 {

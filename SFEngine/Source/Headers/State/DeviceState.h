@@ -1,7 +1,7 @@
 #ifndef SFENGINE_DEVICE_STATE_H
 #define SFENGINE_DEVICE_STATE_H
 
-#include "../Events/UserEvent.h"
+#include "Events\UserEvent.h"
 #include <unordered_map>
 #include <SFML\System.hpp>
 

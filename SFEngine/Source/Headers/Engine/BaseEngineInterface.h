@@ -1,11 +1,11 @@
 #ifndef SFENGINE_BASE_ENGINE_INTERFACE_H
 #define SFENGINE_BASE_ENGINE_INTERFACE_H
 
-#include "../BasicIncludes.h"
-#include "../Events/EventHandler.h"
-#include "../Exceptions/Exceptions.h"
+#include "BasicIncludes.h"
+#include "Events\EventHandler.h"
+#include "Exceptions\Exceptions.h"
 
-#include "../../../ThirdParty/cereal/cereal.hpp"
+#include "cereal\cereal.hpp"
 
 namespace Engine
 {

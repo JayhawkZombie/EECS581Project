@@ -1,4 +1,4 @@
-#include "../../Headers/Utils/ThorUtils.h"
+#include "Utils\ThorUtils.h"
 
 namespace Engine
 {

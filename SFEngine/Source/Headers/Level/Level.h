@@ -1,13 +1,13 @@
 #ifndef SFENGINE_OPT_LEVEL_G
 #define SFENGINE_OPT_LEVEL_G
 
-#include "../Actor/Player.h"
-#include "../Physics/Physics.h"
-#include "../Lights/LightingSystem.h"
-#include "../Tiles/TileSheet.h"
-#include "../../../ThirdParty/SelbaWard.hpp"
-
 #include "BasicLevel.h"
+#include "Actor\Actor.h"
+#include "Physics\Physics.h"
+#include "Lights\LightingSystem.h"
+#include "Tiles\TileSheet.h"
+
+#include "SelbaWard\TileMap.hpp"
 
 class GameMain;
 

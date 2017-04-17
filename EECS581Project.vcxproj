@@ -131,9 +131,9 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\SFML_FILES\WINDOWS_241\aurora\include;C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Kurt\Documents\Visual Studio 2015\Projects\EECS581Project\EECS581Project;C:\Users\Kurt\Documents\Visual Studio 2015\Projects\EECS581Project\EECS581Project\SFEngine\ThirdParty;C:\Users\Kurt\Documents\Visual Studio 2015\Projects\EECS581Project\EECS581Project\SFEngine\Source\Headers;C:\SFML_FILES\WINDOWS_241\aurora\include;C:\SFML_FILES\WINDOWS_241\Thor\include;C:\SFML_FILES\WINDOWS_241\TGUI\include;C:\SFML_FILES\WINDOWS_241\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -144,6 +144,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatSpecificWarningsAsErrors>%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
+      <DisableSpecificWarnings>4100</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -339,9 +341,6 @@
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
     <ClInclude Include="SFEngine\Source\Headers\Camera\2DCamera.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Components\CollisionComponent.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Components\ComponentBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Components\InteractionComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\AssetEditor.hpp" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\Console.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\InputInterface.h" />
@@ -355,7 +354,6 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\ShotBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Components\ScriptComponent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\Static.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
@@ -367,7 +365,6 @@
     <ClInclude Include="SFEngine\Source\Headers\Time\TimedSequence.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\Input\ComboBox.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Collider.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsEngineInterface.h" />
     <ClInclude Include="SFEngine\Source\Headers\Actor\Actor.h" />
     <ClInclude Include="SFEngine\Source\Headers\Actor\Player.h" />
     <ClInclude Include="SFEngine\Source\Headers\Animation\Animation.h" />
@@ -389,15 +386,12 @@
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelLoader.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\LevelObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\LevelTile.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Level\NewLevel.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GenericLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\GlobalLightSource.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\LightingSystem.h" />
     <ClInclude Include="SFEngine\Source\Headers\Lights\LightObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Logging\Logger.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Physics\Collision.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\Physics.h" />
-    <ClInclude Include="SFEngine\Source\Headers\Physics\PhysicsState.h" />
     <ClInclude Include="SFEngine\Source\Headers\Physics\QuadTree.h" />
     <ClInclude Include="SFEngine\Source\Headers\Render\Render.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\ResourceManager.h" />
@@ -709,11 +703,8 @@
     <ClCompile Include="SFEngine\Source\Definitions\Objects\ProjectileBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\ShotBase.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\SpellBase.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Physics\Collision.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Physics\InitialPhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Physics.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsEngine.cpp" />
-    <ClCompile Include="SFEngine\Source\Definitions\Physics\PhysicsState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\QuadTree.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Render\Renderer.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Resources\ResourceManager.cpp" />

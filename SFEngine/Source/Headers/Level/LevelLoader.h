@@ -1,18 +1,13 @@
 #ifndef SFENGINE_LEVEL_LOADER_H
 #define SFENGINE_LEVEL_LOADER_H
 
-
-#include "../BasicIncludes.h"
-#include "../Globals/GlobalHooks.h"
-#include "LevelObject.h"
-#include "../Actor/Player.h"
-#include "../Tiles/LevelTile.h"
-#include "../Lights/GenericLightSource.h"
-#include "../Lights/GlobalLightSource.h"
-
-#include "../Physics/QuadTree.h"
-#include "../Factory/Factory.h"
-
+#include "Globals\GlobalHooks.h"
+#include "Level\LevelObject.h"
+#include "Actor\Player.h"
+#include "Tiles\LevelTile.h"
+#include "Lights\GlobalLightSource.h"
+#include "Physics\QuadTree.h"
+#include "Factory\Factory.h"
 
 namespace Engine
 {

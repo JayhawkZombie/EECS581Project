@@ -1,5 +1,5 @@
-#include "../../Headers/State/DeviceState.h"
-#include "../../Headers/Globals/GlobalHooks.h"
+#include "State\DeviceState.h"
+#include "Globals\GlobalHooks.h"
 
 namespace Engine
 {

@@ -1,5 +1,4 @@
-#include "../../Headers/Tiles/TMXMap.h"
-#include "../../Headers/Globals/GlobalHooks.h"
+#include "Tiles\TMXMap.h"
 
 namespace Engine
 {

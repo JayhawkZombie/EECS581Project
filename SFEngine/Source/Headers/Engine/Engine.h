@@ -1,20 +1,14 @@
 #ifndef SFENGINE_ENGINE_H
 #define SFENGINE_ENGINE_H
 
-//Standard library headers
-
-//SFML libraries/third-party libraries
-
-//Our files
-#include "../BasicIncludes.h"
-#include "EngineConfiguration.h"
-#include "ReturnValues.h"
-#include "../Events/EventHandler.h"
-#include "../Level/Level.h"
-#include "../Logging/Logger.h"
-#include "../Globals/GlobalHooks.h"
-#include "../Events/UserEvent.h"
-
+#include "Engine\BaseEngineInterface.h"
+#include "Engine\EngineConfiguration.h"
+#include "Engine\ReturnValues.h"
+#include "Events\EventHandler.h"
+#include "Level\BasicLevel.h"
+#include "Logging\Logger.h"
+#include "Globals\GlobalHooks.h"
+#include "Events\UserEvent.h"
 
 #include <TGUI/TGUI.hpp>
 
@@ -48,11 +42,8 @@ namespace Engine
       else
         return{ 0, 0 };
     }
-    void CommandProcessor(const std::string &command);
+
   private:
-    void ProcessRenderCommand(const std::string &command);
-    void ProcessImmediateCommand(const std::string &command);
-    void ProcessEventCommand(const std::string &command);
 
     //event objects
     UserEvent UEvent;
@@ -104,7 +95,6 @@ namespace Engine
     sf::RenderWindow *Window;
 
     EventHandler Handler;
-    BaseEngineInterface *testAnimaiton;
 
     /**
      * Engine configuration settings
@@ -145,6 +135,9 @@ namespace Engine
 
     void HandleKeyRelease(const sf::Keyboard::Key &k);
     std::function<void(const sf::Keyboard::Key &k)> Callback_HandleKeyRelease;
+
+    void HandleMouseScroll(const sf::Vector2i &v, sf::Mouse::Wheel wheel, float delta);
+    std::function<void(const sf::Vector2i &v, sf::Mouse::Wheel, float delta)> Callback_MouseScrolled;
   };
 
 }

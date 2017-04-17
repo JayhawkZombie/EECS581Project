@@ -1,5 +1,5 @@
-#include "../../Headers/Engine/Engine.h"
-#include "../../Headers/Exceptions/Exceptions.h"
+#include "Engine\Engine.h"
+#include "Exceptions\Exceptions.h"
 
 Engine::SFEngine *CurrentEngine = nullptr;
 

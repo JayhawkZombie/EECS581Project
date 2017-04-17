@@ -4,8 +4,8 @@
 //--DEFINE IN_GAME WHEN COOKING FOR RELEASE!!!
 #ifndef IN_GAME //if we aren't actually launching a game (ie we are in the compiler)
 
-#include "Encoders.h"
-#include "ReadIni.h"
+#include "Utils\Encoders.h"
+#include "Utils\ReadIni.h"
 
 #include <memory>
 #include <string>

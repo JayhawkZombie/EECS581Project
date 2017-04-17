@@ -1,7 +1,8 @@
-#include "../../Headers/Level/LevelObject.h"
-#include "../../Headers/Actor/Actor.h"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../Headers/Physics/Collider.h"
+#include "Level\LevelObject.h"
+#include "Actor\Actor.h"
+#include "Physics\Collider.h"
+
+#include "chaiscript\chaiscript.hpp"
 
 namespace Engine
 {

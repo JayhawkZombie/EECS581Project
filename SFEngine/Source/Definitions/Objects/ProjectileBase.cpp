@@ -1,5 +1,5 @@
-#include "../../Headers/Objects/ProjectileBase.h"
-#include "../../Headers/Physics/Collider.h"
+#include "Objects\ProjectileBase.h"
+#include "Physics\Collider.h"
 
 namespace Engine
 {

@@ -74,12 +74,12 @@ OakTreeLevel::OakTreeLevel()
   /*49*/ 17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17, 3, 4, 4, 5,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,
   /*50*/ 17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17, 3, 4, 4, 5,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17};
 
-  TileMap.setSize({ 800,800 });
-  TileMap.setGridSize({ 50,50 });
-  TileMap.setTexture(*Textures["ForestSpriteSheet"]);
-  TileMap.setNumberOfTextureTilesPerRow(3);
-  TileMap.setTextureTileSize({ 16,16 });
-  TileMap.update(levelData,50);
+  TileMap->setSize({ 800,800 });
+  TileMap->setGridSize({ 50,50 });
+  TileMap->setTexture(*Textures["ForestSpriteSheet"]);
+  TileMap->setNumberOfTextureTilesPerRow(3);
+  TileMap->setTextureTileSize({ 16,16 });
+  TileMap->update(levelData,50);
   //for (auto& tile : levelData)
 	//	  tile = rand() % 9;
   
@@ -276,7 +276,7 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   }
   */
 
-	Texture->draw(TileMap);
+	Texture->draw(*TileMap);
 
 	BasicLevel::RenderOnTexture(Texture);
 

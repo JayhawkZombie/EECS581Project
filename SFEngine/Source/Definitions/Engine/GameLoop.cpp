@@ -1,13 +1,12 @@
-#include "../../Headers/Engine/Engine.h"
-#include "../../Headers/Level/LevelLoader.h"
-#include <SFML/OpenGL.hpp>
-#include "../../Headers/Lights/LightingSystem.h"
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
+#include "Engine\Engine.h"
+#include "Lights\LightingSystem.h"
+
+#include "chaiscript\chaiscript.hpp"
+#include "chaiscript\chaiscript_defines.hpp"
+#include "chaiscript\chaiscript_stdlib.hpp"
 
 #ifdef WITH_EDITOR
-#include "../../../ThirdParty/IMGUI/imgui_internal.h"
+#include "IMGUI\imgui_internal.h"
 #endif
 
 namespace Engine

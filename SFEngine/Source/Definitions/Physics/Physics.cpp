@@ -1,4 +1,4 @@
-#include "../../Headers/Physics/Collision.h"
+#include <SFML\Graphics.hpp>
 
 namespace
 {

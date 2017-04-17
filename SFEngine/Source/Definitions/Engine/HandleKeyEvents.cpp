@@ -1,4 +1,4 @@
-#include "../../Headers/Engine/Engine.h"
+#include "Engine\Engine.h"
 
 
 namespace
@@ -59,6 +59,12 @@ namespace Engine
     UEvent.KeyRepeat = false;
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = false;
+    UEvent.MouseScrollDelta = 0.f;
+    UEvent.MouseScrolled = false;
+
+    if (CurrentLevel)
+      CurrentLevel->HandleInputEvent(UEvent);
+
   }
 
   void SFEngine::HandleKeyPress(const sf::Keyboard::Key &k)
@@ -74,6 +80,8 @@ namespace Engine
     UEvent.KeyRepeat = false;
     UEvent.KeyWasPressed = true;
     UEvent.KeyWasReleased = false;
+    UEvent.MouseScrollDelta = 0.f;
+    UEvent.MouseScrolled = false;
 
     if (CurrentLevel)
       CurrentLevel->HandleInputEvent(UEvent);
@@ -94,6 +102,8 @@ namespace Engine
     UEvent.KeyRepeat = false;
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = true;
+    UEvent.MouseScrollDelta = 0.f;
+    UEvent.MouseScrolled = false;
 
     if (CurrentLevel)
       CurrentLevel->HandleInputEvent(UEvent);

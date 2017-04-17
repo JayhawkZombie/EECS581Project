@@ -1,9 +1,14 @@
-#include "../../Headers/Engine/Engine.h"
+#include "Engine\Engine.h"
+#include "Engine\InputInterface.h"
+#include "Level\Level.h"
+#include "Actor\Player.h"
 
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
-#include "../../Headers/Engine/InputInterface.h"
+#include "chaiscript\chaiscript.hpp"
+#include "chaiscript\chaiscript_defines.hpp"
+#include "chaiscript\chaiscript_stdlib.hpp"
+
+#include <SFML\Graphics.hpp>
+
 namespace Engine
 {
 

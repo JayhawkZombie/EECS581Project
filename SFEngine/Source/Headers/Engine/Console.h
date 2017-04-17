@@ -1,5 +1,6 @@
-#include "../BasicIncludes.h"
-#include "../../../ThirdParty/IMGUI/imgui_internal.h"
+#include "BasicIncludes.h"
+
+#include "IMGUI\imgui_internal.h"
 
 namespace Engine
 {
@@ -65,7 +66,7 @@ namespace Engine
 
     void ExecCommand(const char* command_line)
     {
-      if (command_line == "alert")
+      if (strcmp(command_line, "alert") == 0)
         MessageAlert("test alert");
 
       AddLog(command_line);

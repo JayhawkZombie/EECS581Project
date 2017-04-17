@@ -1,4 +1,4 @@
-#include "../../Headers/Engine/BaseEngineInterface.h"
+#include "Engine\BaseEngineInterface.h"
 
 namespace Engine
 {
@@ -11,7 +11,7 @@ namespace Engine
     Handler.ftnCallback_MouseOver = [this](auto p) {};
     Handler.ftnCallback_MousePress = [this](auto b, auto p) {};
     Handler.ftnCallback_MouseRelease = [this](auto b, auto p) {};
-    Handler.ftnCallback_MouseScroll = [this](auto p) {};
+    Handler.ftnCallback_MouseScroll = [this](auto v, auto w, auto d) {};
     Handler.ftnCallback_TextEntered = [this](auto t) {};
     Handler.ftnCallback_WindowClosed = [this]() {};
     Handler.ftnCallback_WindowResized = [this]() {};

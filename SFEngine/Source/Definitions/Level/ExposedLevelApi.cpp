@@ -1,8 +1,9 @@
-#include "../../Headers/Level/ExposedLevelApi.h"
+#include "Level\ExposedLevelApi.h"
 
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
+#include "chaiscript\chaiscript.hpp"
+#include "chaiscript\chaiscript_defines.hpp"
+#include "chaiscript\chaiscript_stdlib.hpp"
+
 namespace Engine
 {
 

@@ -1,5 +1,6 @@
-#include "../../Headers/Level/Level.h"
-#include "../../Headers/Physics/Collider.h"
+#include "Level\BasicLevel.h"
+#include "Level\LevelObject.h"
+#include "Physics\Collider.h"
 
 #ifdef WITH_EDITOR
 

@@ -1,11 +1,12 @@
 #ifndef SFENGINE_BASIC_LEVEL_H
 #define SFENGINE_BASIC_LEVEL_H
 
-#include "../Engine/BaseEngineInterface.h"
-#include "../../../ThirdParty/PhysicsEngine.h"
-#include "../Globals/GlobalHooks.h"
-#include "../../../ThirdParty/SelbaWard/TileMap.hpp"
-#include "../Weather/WeatherSystem.h"
+#include "Engine\BaseEngineInterface.h"
+#include "Globals\GlobalHooks.h"
+#include "Weather\WeatherSystem.h"
+
+#include "PhysicsEngine.h"
+#include "SelbaWard\TileMap.hpp"
 
 namespace Engine
 {
@@ -73,7 +74,7 @@ namespace Engine
     std::vector<sf::VertexArray> GridLines;
     sf::Vector2u Size;
     sf::Vector2f GridBlockSize;
-    sw::TileMap TileMap;
+    std::shared_ptr<sw::TileMap> TileMap;
     sf::Texture TileMapTexture;
 
     ::vec2d *Gravity;
@@ -82,9 +83,6 @@ namespace Engine
 
     std::vector<SegmentPtr> Segments;
     std::vector<WaveSegmentPtr> Waves;
-    std::vector<std::shared_ptr<LevelObject>> Objects;
-    sf::RectangleShape LevelRectangle; //to draw the scene to
-    std::shared_ptr<sf::RenderTexture> SceneTarget;
     std::map<std::string, std::shared_ptr<sf::Texture>> Textures;
     std::map<std::string, std::shared_ptr<TileSheet>> TileSheets;
     std::map<std::string, std::shared_ptr<Animation>> Animations;

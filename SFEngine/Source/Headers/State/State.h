@@ -1,8 +1,8 @@
-#ifndef STATE_H
-#define STATE_H
+#ifndef SFENGINE_STATE_H
+#define SFENGINE_STATE_H
 
-#include "../../../ThirdParty/cereal/cereal.hpp"
-#include "../../../ThirdParty/cereal/archives/json.hpp"
+#include "cereal\cereal.hpp"
+#include "cereal\archives\json.hpp"
 
 namespace Engine {
 	class State {

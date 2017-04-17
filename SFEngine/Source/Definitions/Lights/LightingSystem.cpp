@@ -1,5 +1,5 @@
-#include "../../Headers/Lights/LightingSystem.h"
-#include "../../Headers/Physics/QuadTree.h"
+#include "Lights\LightingSystem.h"
+#include "Physics\QuadTree.h"
 
 namespace Engine
 {

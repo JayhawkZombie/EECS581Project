@@ -1,7 +1,7 @@
 #ifndef SFENGINE_DATA_STREAM_H
 #define SFENGINE_DATA_STREAM_H
 
-#include "../Exceptions/Exceptions.h"
+#include "Exceptions\Exceptions.h"
 
 #include <queue>
 #include <string>

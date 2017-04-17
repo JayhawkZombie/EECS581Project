@@ -1,4 +1,4 @@
-#include "../../Headers/Lights/GenericLightSource.h"
+#include "Lights\GenericLightSource.h"
 
 namespace Engine
 {

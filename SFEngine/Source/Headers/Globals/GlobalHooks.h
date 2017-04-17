@@ -1,5 +1,9 @@
 #pragma warning( disable : 4503 ) //Disable "decorated name length exceeded, name was truncated"
 #pragma warning( disable : 4996 ) //Disable "strcpy may be unsafe"
+//Disable "unreferenced local variable" because we catch an exception 
+//  & assoc a var name with it, but don't use that name when rethrowing it
+#pragma warning( disable : 4101 )
+#pragma warning( disable : 4100 ) //Unreferenced formal parameter
 
 #ifndef SFENGINE_GLOBAL_HOOKS_H
 #define SFENGINE_GLOBAL_HOOKS_H
@@ -8,32 +12,35 @@
 typedef tgui::MessageBox tguiMessageBox;
 
 #include <SFML\Graphics.hpp>
-#ifdef _WINUSER_
-#push_macro("MessageBox")
-#undef MessageBox
-#endif
 
-#include "../BasicIncludes.h"
 #include <algorithm>
 #include <unordered_set>
 #include <chrono>
 #include <unordered_map>
 
-#include "../Resources/ResourceManager.h"
-#include "../Streams/DataStream.h"
-#include "../Render/Render.h"
-#include "../State/DeviceState.h"
-#include "../UI/UIMacros.h"
+#include "BasicIncludes.h"
+#include "Resources\ResourceManager.h"
+#include "Streams\DataStream.h"
+#include "Render\Render.h"
+#include "State\DeviceState.h"
+#include "UI\UIMacros.h"
+
+#include "chaiscript\chaiscript.hpp"
+#include "IMGUI\imgui.h"
+#include "IMGUI\imgui-SFML.h"
+#include "cereal\cereal.hpp"
+#include "cereal\archives\json.hpp"
 #include <TGUI\TGUI.hpp>
 #include <Thor/Particles.hpp>
 #include <Thor/Animations.hpp>
 #include <Thor/Vectors/PolarVector2.hpp>
 #include <Thor/Math/Distributions.hpp>
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/IMGUI/imgui.h"
-#include "../../../ThirdParty/IMGUI/imgui-SFML.h"
-#include "../../../ThirdParty/cereal/cereal.hpp"
-#include "../../../ThirdParty/cereal/archives/json.hpp"
+
+#ifdef _WINUSER_
+#pragma push_macro("MessageBox")
+#undef MessageBox
+#undef _WINUSER_
+#endif
 
 const std::string EngineVersionString{ "0.0.1" };
 const std::string EditorVersionString{ "0.0.1.B-fIncomplete" };
@@ -192,7 +199,9 @@ if (false)\
 #define MAKE_PARENT(ParentClass) \
 typedef ParentClass Super
 
-
+#ifndef ____PI
+#define ____PI 3.141592653
+#endif
 
 //EXTERN DECLARATIONS
 

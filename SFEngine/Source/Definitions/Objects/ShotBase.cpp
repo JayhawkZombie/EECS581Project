@@ -1,4 +1,4 @@
-#include "../../Headers/Objects/ShotBase.h"
+#include "Objects\ShotBase.h"
 
 namespace Engine
 {

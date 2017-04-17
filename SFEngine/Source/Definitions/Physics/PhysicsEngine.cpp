@@ -1,6 +1,6 @@
-#include "../../../ThirdParty/PhysicsEngine.h"
-#include "../../Headers/Exceptions/Exceptions.h"
-#include "../../Headers/Physics/Collider.h"
+#include "Exceptions\Exceptions.h"
+#include "Physics\Collider.h"
+#include "PhysicsEngine.h"
 
 namespace
 {

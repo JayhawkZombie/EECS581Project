@@ -1,11 +1,10 @@
 #ifndef __QUAD_TREE_H
 #define __QUAD_TREE_H
 
-#include "../Level/LevelObject.h"
-#include "../Lights/LightObject.h"
+#include "Level\LevelObject.h"
+#include "Lights\LightObject.h"
 
 #include <SFML/Graphics.hpp>
-
 #include <memory>
 
 namespace Engine

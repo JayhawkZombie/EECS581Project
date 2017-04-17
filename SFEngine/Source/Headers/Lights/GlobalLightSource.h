@@ -1,7 +1,7 @@
 #ifndef SFENGINE_GLOBAL_LIGHT_SOURCE
 #define SFENGINE_GLOBAL_LIGHT_SOURCE
 
-#include "GenericLightSource.h"
+#include "Lights\GenericLightSource.h"
 
 namespace Engine
 {

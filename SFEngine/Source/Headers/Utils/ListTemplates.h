@@ -1,5 +1,6 @@
 #ifndef SFENGINE_LIST_TEMPLATES_H
 #define SFENGINE_LIST_TEMPLATES_H
+
 #include <memory>
 
 namespace Engine

@@ -1,7 +1,7 @@
 #ifndef SF_STRING_MAP_H
 #define SF_STRING_MAP_H
 
-#include "STRING.h"
+#include "Utils\String.h"
 
 template<typename FIRST, typename SECOND>
 struct SimplePair {

@@ -1,8 +1,8 @@
 #ifndef SFENGINE_ANIMATION_H
 #define SFENGINE_ANIMATION_H
 
-#include "../BasicIncludes.h"
-#include "../Engine/BaseEngineInterface.h"
+#include "BasicIncludes.h"
+#include "Engine\BaseEngineInterface.h"
 
 namespace Engine
 {

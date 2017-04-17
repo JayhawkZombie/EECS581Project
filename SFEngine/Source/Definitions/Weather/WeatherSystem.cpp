@@ -1,9 +1,7 @@
-#include "../../Headers/Weather/WeatherSystem.h"
+#include "Weather\WeatherSystem.h"
 
 namespace Engine
 {
-
-
 
   WeatherEvent::WeatherEvent()
   {

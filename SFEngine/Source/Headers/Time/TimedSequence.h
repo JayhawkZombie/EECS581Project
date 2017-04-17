@@ -1,7 +1,7 @@
 #ifndef SFENGINE_TIMED_SEQUENCE_H
 #define SFENGINE_TIMED_SEQUENCE_H
 
-#include "../BasicIncludes.h"
+#include "BasicIncludes.h"
 
 #include <queue>
 

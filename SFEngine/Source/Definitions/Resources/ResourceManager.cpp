@@ -1,4 +1,5 @@
-#include "../../Headers/Resources/ResourceManager.h"
+#include "Resources\ResourceManager.h"
+
 #include <iterator>
 
 namespace
@@ -51,6 +52,11 @@ namespace Engine
     Textures.clear();
   }
 
+  void ClearTextures()
+  {
+    Textures.clear();
+  }
+
   std::shared_ptr<sf::Font> LoadFont(const std::string & path, const std::string &ID)
   {
     auto it = Fonts.find(ID);
@@ -85,6 +91,11 @@ namespace Engine
     for (auto & font : Fonts)
       delete font.second.get();
 
+    Fonts.clear();
+  }
+
+  void ClearFonts()
+  {
     Fonts.clear();
   }
 
@@ -123,6 +134,11 @@ namespace Engine
     Shaders.clear();
   }
 
+  void ClearShaders()
+  {
+    Shaders.clear();
+  }
+
   std::shared_ptr<sf::SoundBuffer> LoadSoundBuffer(const std::string & path, const std::string &ID)
   {
     auto it = SoundBuffers.find(ID);
@@ -154,6 +170,11 @@ namespace Engine
     for (auto & sndbuf : SoundBuffers)
       sndbuf.second.reset();
 
+    SoundBuffers.clear();
+  }
+
+  void ClearSoundBuffers()
+  {
     SoundBuffers.clear();
   }
 

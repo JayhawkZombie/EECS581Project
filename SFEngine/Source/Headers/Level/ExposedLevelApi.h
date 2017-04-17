@@ -1,8 +1,8 @@
 #ifndef SFENGINE_EXPOSED_LEVEL_API_H
 #define SFENGINE_EXPOSED_LEVEL_API_H
 
-#include "../BasicIncludes.h"
-#include "Level.h"
+#include "BasicIncludes.h"
+#include "Level\Level.h"
 
 namespace Engine
 {

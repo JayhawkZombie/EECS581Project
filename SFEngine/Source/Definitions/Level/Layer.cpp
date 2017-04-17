@@ -1,5 +1,5 @@
-#include "../../Headers/Level/Level.h"
-#include "..\..\Headers\Tiles\TMXMap.h"
+#include "Level\Level.h"
+#include "Tiles\TMXMap.h"
 
 namespace Engine
 {

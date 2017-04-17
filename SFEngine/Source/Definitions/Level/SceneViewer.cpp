@@ -1,4 +1,5 @@
-#include "../../Headers/Level/Level.h"
+#include "Level\BasicLevel.h"
+#include "Level\LevelObject.h"
 
 #ifdef WITH_EDITOR
 

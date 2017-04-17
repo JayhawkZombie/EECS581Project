@@ -1,11 +1,11 @@
 #ifndef SFENGINE_LEVEL_OBJECT_H
 #define SFENGINE_LEVEL_OBJECT_H
 
-#include "../Engine/BaseEngineInterface.h"
-#include "../Animation/Animation.h"
-#include "../Components/ComponentBase.h"
-#include "../../../ThirdParty/PhysicsEngine.h"
+#include "Engine\BaseEngineInterface.h"
+#include "Animation\Animation.h"
+#include "Components\ComponentBase.h"
 
+#include "PhysicsEngine.h"
 #include <Thor\Animations.hpp>
 
 namespace Engine

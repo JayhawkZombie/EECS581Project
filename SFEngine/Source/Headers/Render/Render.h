@@ -1,12 +1,12 @@
 #ifndef SFENGINE_RENDER_H
 #define SFENGINE_RENDER_H
 
+#include "Lights\GenericLightSource.h"
+#include "Lights\GlobalLightSource.h"
+
+#include <vector>
 #include <SFML\Graphics.hpp>
 #include <cassert>
-
-#include "../Lights/GenericLightSource.h"
-#include "../Lights/GlobalLightSource.h"
-#include <vector>
 
 namespace Engine
 {

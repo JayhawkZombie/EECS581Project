@@ -1,4 +1,7 @@
-#include "../../Headers/Utils/ReadIni.h"
+#include "Utils\ReadIni.h"
+#include "Utils\Convert.h"
+
+#include <sstream>
 
 namespace Engine
 {

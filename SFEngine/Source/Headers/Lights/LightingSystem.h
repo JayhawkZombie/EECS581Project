@@ -1,10 +1,9 @@
 #ifndef SFENGINE_LIGHTING_SYSTEM_H
 #define SFENGINE_LIGHTING_SYSTEM_H
 
-#include "LightObject.h"
-#include "../Utils/RayCast.h"
+#include "Lights\LightObject.h"
+#include "Utils\RayCast.h"
 
-#define ____PI 3.141592653f
 #define COSPIBY4 0.25
 
 namespace Engine

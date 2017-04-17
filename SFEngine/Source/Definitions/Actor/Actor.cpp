@@ -1,10 +1,11 @@
-#include "../../Headers/Actor/Actor.h"
-#include "../../Headers/Physics/Collider.h"
+#include "Actor\Actor.h"
+#include "Physics\Collider.h"
+#include "chaiscript\chaiscript.hpp"
+#include "chaiscript\chaiscript_defines.hpp"
+#include "chaiscript\chaiscript_stdlib.hpp"
+
 #include <memory>
 
-#include "../../../ThirdParty/chaiscript/chaiscript_defines.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../../ThirdParty/chaiscript/chaiscript_stdlib.hpp"
 namespace Engine
 {
 
@@ -177,6 +178,22 @@ namespace Engine
   {
     Size = size;
 
+  }
+
+  void GenericActor::CenterAroundCollider(std::shared_ptr<Collider2D> Collider)
+  {
+    auto ptr = Collider->GetMesh().lock();
+    if (ptr) {
+      auto vec = ptr->pos;
+      auto siz = ptr->siz;
+
+      Sprite.setPosition({ vec.x, vec.y });
+      //diff in size
+      sf::Vector2f sizeDiff = Size - sf::Vector2f(siz.x, siz.y);
+      sizeDiff /= 2.f;
+
+      Sprite.move(sizeDiff);
+    }
   }
 
   void GenericActor::SetActorVelocity(const sf::Vector2f &vel)

@@ -1,4 +1,5 @@
-#include "../../Headers/Animation/Animation.h"
+#include "Animation\Animation.h"
+
 namespace Engine
 {
   Animation::~Animation()

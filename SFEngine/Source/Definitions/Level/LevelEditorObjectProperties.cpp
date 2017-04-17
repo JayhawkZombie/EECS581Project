@@ -1,6 +1,8 @@
-#include "../../Headers/Level/Level.h"
-#include "../../../ThirdParty/IMGUI/imgui.h"
-#include "../../../ThirdParty/IMGUI/imgui_internal.h"
+#include "Level\BasicLevel.h"
+#include "Level\LevelObject.h"
+
+#include "IMGUI\imgui.h"
+#include "IMGUI\imgui_internal.h"
 
 namespace Engine
 {

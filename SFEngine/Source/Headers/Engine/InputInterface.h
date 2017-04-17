@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include "../Globals/GlobalHooks.h"
+
+#include "Globals\GlobalHooks.h"
 
 namespace Engine
 {

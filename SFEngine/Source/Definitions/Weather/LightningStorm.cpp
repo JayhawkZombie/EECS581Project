@@ -1,5 +1,5 @@
-#include "../../Headers/Weather/WeatherSystem.h"
-#include "../../Headers/Weather/Lightning.h"
+#include "Weather\Lightning.h"
+#include "Weather\WeatherSystem.h"
 
 namespace Engine
 {

@@ -1,7 +1,7 @@
 #ifndef SFENGINE_SPRITE_SHEET_H
 #define SFENGINE_SPRITE_SHEET_H
 
-#include "../BasicIncludes.h"
+#include "BasicIncludes.h"
 
 namespace Engine
 {

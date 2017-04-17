@@ -1,5 +1,5 @@
-#include "../../Headers/Level/LevelLoader.h"
-#include "../../Headers/Level/Level.h"
+#include "Level\Level.h"
+#include "Level\LevelLoader.h"
 
 #include <regex>
 

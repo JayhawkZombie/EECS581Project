@@ -1,5 +1,5 @@
-#include "../../Headers/Level/Level.h"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
+#include "Level\BasicLevel.h"
+#include "chaiscript\chaiscript.hpp"
 
 #ifdef WITH_EDITOR
 

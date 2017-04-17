@@ -1,4 +1,4 @@
-#include "../../Headers/Weather/Lightning.h"
+#include "Weather\Lightning.h"
 
 namespace Engine
 {

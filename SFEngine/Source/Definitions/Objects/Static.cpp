@@ -1,5 +1,5 @@
-#include "../../Headers/Objects/Static.h"
-#include "../../Headers/Physics/Collider.h"
+#include "Objects\Static.h"
+#include "Physics\Collider.h"
 
 #include <cassert>
 

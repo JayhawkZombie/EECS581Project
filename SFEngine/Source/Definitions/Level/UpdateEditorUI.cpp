@@ -1,7 +1,7 @@
-#include "../../Headers/Level/Level.h"
+#include "Level\BasicLevel.h"
 
 #ifdef WITH_EDITOR
-#include "../../Headers/Engine/Console.h"
+#include "Engine\Console.h"
 
 namespace Engine
 {

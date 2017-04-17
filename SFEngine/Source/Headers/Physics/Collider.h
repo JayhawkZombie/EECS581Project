@@ -1,7 +1,8 @@
 #ifndef SFENGINE_MESH_H
 #define SFENGINE_MESH_H
 
-#include "../../../ThirdParty/PhysicsEngine.h"
+#include "PhysicsEngine.h"
+
 #include <functional>
 #include <bitset>
 

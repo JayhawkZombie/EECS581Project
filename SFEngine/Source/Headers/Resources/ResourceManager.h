@@ -20,18 +20,22 @@ namespace Engine
   std::shared_ptr<sf::Texture> LoadTexture(const std::string &path, const std::string &ID);
   bool ReleaseTexture(const std::string &ID);
   void ForceClearTextures();
+  void ClearTextures();
 
   std::shared_ptr<sf::Font> LoadFont(const std::string &path, const std::string &ID);
   bool ReleaseFont(const std::string &path);
   void ForceClearFonts();
+  void ClearFonts();
 
   std::shared_ptr<sf::Shader> LoadShader(const std::string &path, const std::string &ID);
   bool ReleaseShader(const std::string &path);
   void ForceClearShaders();
+  void ClearShaders();
 
   std::shared_ptr<sf::SoundBuffer> LoadSoundBuffer(const std::string &path, const std::string &ID);
   bool ReleaseSoundBuffer(const std::string &path);
   void ForceClearSoundBuffers();
+  void ClearSoundBuffers();
 
   void StreamMusic(const std::string &path);
   void PauseMusic(const std::string &path);

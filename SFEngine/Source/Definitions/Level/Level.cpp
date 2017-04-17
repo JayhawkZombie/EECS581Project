@@ -1,9 +1,9 @@
-#include "../../Headers/Level/Level.h"
-#include "../../Headers/Physics/PhysicsEngineInterface.h"
-#include "../../../ThirdParty/Physics/vec2d.h"
-#include "../../../ThirdParty/json/json.h"
-#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
-#include "../../Headers/Physics/Collider.h"
+#include "Level\Level.h"
+#include "Physics\vec2d.h"
+#include "Physics\Collider.h"
+
+#include "json\json.h"
+#include "chaiscript\chaiscript.hpp"
 
 namespace
 {
@@ -19,12 +19,6 @@ namespace Engine
     auto seg = BuildSegmentMesh('L', { 100, 300 }, { 550, 500 });
     Segments.push_back(seg);
 
-    //LightTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
-    //LightTexture->clear(sf::Color::Transparent);
-
-    //SceneBlendTexture->create(__UINT_FROM_FLOAT__(WindowSize.x), __UINT_FROM_FLOAT__(WindowSize.y));
-    //SceneBlendTexture->clear(sf::Color::Transparent);
-    
     if (ShowGridLines) {
       GenerateGrid();
     }
@@ -35,7 +29,6 @@ namespace Engine
 
   Level::~Level()
   {
-    SceneTarget.reset();
     for (auto & tex : Textures)
       tex.second.reset();
 
@@ -126,9 +119,9 @@ namespace Engine
       return nullptr;
     }
 
-    for (auto & obj : CurrentLevel->Objects) {
-      if (obj->ItemID == ID)
-        return obj;
+    for (auto & obj : CurrentLevel->LevelObjects) {
+      if (obj.second->ItemID == ID)
+        return obj.second;
     }
 
     return nullptr;

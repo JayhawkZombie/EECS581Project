@@ -1,8 +1,7 @@
-#include "../../Headers/Level/BasicLevel.h"
-
-#include "../../Headers/Actor/Player.h"
-#include "../../Headers/Physics/Collider.h"
-#include "../../Headers/Tiles/TileSheet.h"
+#include "Level\BasicLevel.h"
+#include "Actor\Actor.h"
+#include "Physics\Collider.h"
+#include "Tiles\TileSheet.h"
 
 namespace
 {
@@ -16,7 +15,7 @@ namespace Engine
     : //LightTexture(std::make_shared<sf::RenderTexture>()),
     //SceneBlendTexture(std::make_shared<sf::RenderTexture>()),
     ShowGridLines(showlines), Size(LevelSize), GridBlockSize(GridSpacing), CurrentView(DefaultView),
-    Gravity(new ::vec2d)
+    Gravity(new ::vec2d), TileMap(std::make_shared<sw::TileMap>())
   {
     
   }
@@ -36,9 +35,9 @@ namespace Engine
 
     double Tick = delta;
 
-    for (auto & obj : Objects) {
+    for (auto & obj : LevelObjects) {
       Tick += std::chrono::duration<double, std::milli>(hres_clock::now() - FrameStart).count();
-      obj->TickUpdate(Tick);
+      obj.second->TickUpdate(Tick);
     }
 
     if (cumulative > updateInterval) {
@@ -92,6 +91,14 @@ namespace Engine
 
   void BasicLevel::OnShutDown()
   {
+    TileMap.reset();
+
+    for (auto & obj : LevelObjects)
+      obj.second->OnShutDown();
+
+    LevelObjects.clear();
+
+    Textures.clear();
   }
 
   void BasicLevel::SerializeOut(std::ofstream & out)
@@ -128,6 +135,8 @@ namespace Engine
 
   void BasicLevel::OnEnd()
   {
+    for (auto & obj : LevelObjects)
+      obj.second->OnGameEnd();
   }
 
   void BasicLevel::HideUI()

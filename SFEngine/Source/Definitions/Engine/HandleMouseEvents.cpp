@@ -1,4 +1,4 @@
-#include "../../Headers/Engine/Engine.h"
+#include "Engine\Engine.h"
 
 namespace Engine
 {
@@ -14,6 +14,8 @@ namespace Engine
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = false;
     UEvent.EventType = UserEventType::MouseMovement;
+    UEvent.MouseScrolled = false;
+    UEvent.MouseScrollDelta = 0.f;
 
     if (CurrentLevel)
       CurrentLevel->HandleInputEvent(UEvent);
@@ -31,6 +33,8 @@ namespace Engine
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = false;
     UEvent.EventType = UserEventType::MousePress;
+    UEvent.MouseScrolled = false;
+    UEvent.MouseScrollDelta = 0.f;
 
     std::cerr << "MousePressed" << std::endl;
 
@@ -50,6 +54,28 @@ namespace Engine
     UEvent.KeyWasPressed = false;
     UEvent.KeyWasReleased = false;
     UEvent.EventType = UserEventType::MouseRelease;
+    UEvent.MouseScrolled = false;
+    UEvent.MouseScrollDelta = 0.f;
+
+    if (CurrentLevel)
+      CurrentLevel->HandleInputEvent(UEvent);
+  }
+
+  void SFEngine::HandleMouseScroll(const sf::Vector2i &v, sf::Mouse::Wheel wheel, float delta)
+  {
+    UEvent.Key = sf::Keyboard::Unknown;
+    UEvent.PreviousMousePosition = UEvent.CurrentMousePosition;
+    UEvent.CurrentMousePosition = v;
+    UEvent.MouseButtonWasPressed = false;
+    UEvent.MouseButtonWasReleased = false;
+    UEvent.KeyRepeat = false;
+    UEvent.KeyWasPressed = false;
+    UEvent.KeyWasReleased = false;
+    UEvent.MouseScrolled = true;
+    UEvent.EventType = (wheel == sf::Mouse::Wheel::HorizontalWheel ? 
+                        UserEventType::MouseScrollHorizontal : UserEventType::MouseScrollVertical);
+    UEvent.MouseWheenScrolled = wheel;
+    UEvent.MouseScrollDelta = delta;
 
     if (CurrentLevel)
       CurrentLevel->HandleInputEvent(UEvent);

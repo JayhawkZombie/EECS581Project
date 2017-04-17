@@ -1,8 +1,9 @@
 #ifndef SFENGINE_PROJECTILE_BASE_H
 #define SFENGINE_PROJECTILE_BASE_H
 
-#include "../Level/LevelObject.h"
-#include "../../../ThirdParty/PhysicsEngine.h"
+#include "Level\LevelObject.h"
+
+#include "PhysicsEngine.h"
 
 namespace Engine
 {

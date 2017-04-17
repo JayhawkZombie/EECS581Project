@@ -1,6 +1,7 @@
-#include "../../Headers/Physics/Collider.h"
-#include "../../../ThirdParty/PhysicsEngine.h"
-#include "../../Headers/Level/LevelObject.h"
+#include "Physics\Collider.h"
+#include "Level\LevelObject.h"
+
+#include "PhysicsEngine.h"
 
 namespace Engine
 {

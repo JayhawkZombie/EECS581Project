@@ -1,4 +1,4 @@
-#include "../../Headers/Lights/GlobalLightSource.h"
+#include "Lights\GlobalLightSource.h"
 
 namespace Engine
 {

@@ -1,8 +1,8 @@
-#include "../../Headers/Globals/GlobalHooks.h"
-#include "../../Headers/Engine/Engine.h"
-#include "../../Headers/Level/BasicLevel.h"
+#include "Globals\GlobalHooks.h"
+#include "Engine\Engine.h"
+#include  "Level\BasicLevel.h"
+
 #include <vector>
-//#include "../../../ThirdParty/chaiscript/chaiscript.hpp"
 #include <TGUI\TGUI.hpp>
 
 //This means war, Microsoft!

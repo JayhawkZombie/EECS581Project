@@ -62,9 +62,6 @@ ShatterGem::ShatterGem(const sf::Vector2f &InitPos)
   m_ShatterTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/gems/gem2_horizontal.png");
   m_GemTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/gems/gem2.png");
 
-  if (m_ShatterBuffer.loadFromFile("./Projects/PuzzleDemo/Assets/Sound/Glass,Bottle,Break,Smash,Messy.ogg"))
-    m_ShatterSound.setBuffer(m_ShatterBuffer);
-
   Sprite.setTexture(m_GemTexture);
   Sprite.setPosition(InitPos);
   Sprite.setScale({ 41.f / 408.f, 41.f / 408.f });
@@ -75,6 +72,7 @@ ShatterGem::ShatterGem(const sf::Vector2f &InitPos)
 
 ShatterGem::~ShatterGem()
 {
+  m_ShatterSound.resetBuffer();
 }
 
 void ShatterGem::Render(std::shared_ptr<sf::RenderTarget> Target)
@@ -115,10 +113,14 @@ void ShatterGem::OnShutDown()
 
 void ShatterGem::OnGameStart()
 {
+  if (m_ShatterBuffer.loadFromFile("./Projects/PuzzleDemo/Assets/Sound/Glass,Bottle,Break,Smash,Messy.ogg"))
+    m_ShatterSound.setBuffer(m_ShatterBuffer);
 }
 
 void ShatterGem::OnGameEnd()
 {
+  m_ShatterSound.resetBuffer();
+  m_ReverseShatterSound.resetBuffer();
 }
 
 void ShatterGem::OnKilled()

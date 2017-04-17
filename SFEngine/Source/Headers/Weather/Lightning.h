@@ -1,7 +1,7 @@
 #ifndef SFENGINE_WEATHER_LIGHTNING_H
 #define SFENGINE_WEATHER_LIGHTNING_H
 
-#include "../Level/LevelObject.h"
+#include "Level\LevelObject.h"
 
 namespace Engine
 {
