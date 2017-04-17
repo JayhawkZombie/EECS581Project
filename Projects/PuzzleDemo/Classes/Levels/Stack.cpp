@@ -144,7 +144,7 @@ void BallStackLevel::OnBegin()
   m_BGMusic.play();
   m_GameSequencer.Start();
   SpawnGem(sf::Vector2f(835, 40));
-
+  m_BallKillerBolt->Spark({ 750, 600 }, { 950, 600 });
 
   m_UntimedSequencer.AddSequences(
     []() {std::cerr << "Untimed seq starting" << std::endl; }, []() {std::cerr << "Untimed seq done" << std::endl; },
@@ -168,7 +168,9 @@ void BallStackLevel::OnBegin()
 void BallStackLevel::OnEnd()
 {
   m_BGMusic.stop();
-
+  LevelObjects.clear();
+  m_ShatterGems.clear();
+  m_BallKillerBolt->Reset();
   BasicLevel::OnEnd();
 }
 

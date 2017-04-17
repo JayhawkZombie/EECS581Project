@@ -33,11 +33,8 @@ namespace Engine
 
     static hres_time_point FrameStart = hres_clock::now();
 
-    double Tick = delta;
-
     for (auto & obj : LevelObjects) {
-      Tick += std::chrono::duration<double, std::milli>(hres_clock::now() - FrameStart).count();
-      obj.second->TickUpdate(Tick);
+      obj.second->TickUpdate(delta);
     }
 
     if (cumulative > updateInterval) {

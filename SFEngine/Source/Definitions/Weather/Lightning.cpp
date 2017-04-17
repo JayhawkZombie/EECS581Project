@@ -54,6 +54,7 @@ namespace Engine
   {
     m_currentFadeTime = 0.f;
     m_IsAlive = false;
+    m_Points.clear();
   }
 
   void LightningBolt::SetColor(sf::Color color)
