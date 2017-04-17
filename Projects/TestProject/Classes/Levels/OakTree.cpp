@@ -232,6 +232,12 @@ OakTreeLevel::OakTreeLevel()
   }
 
 
+  //Four Corners of level
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 0,0 }, { 0,800 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 0,800 }, { 800,800 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 800,800 }, { 800,0 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 800,0 }, { 0,0 }));
+  //Austin please build the segments around the forest edge :D Thank you!
 
   Gravity->x = 0;
   Gravity->y = 0;
