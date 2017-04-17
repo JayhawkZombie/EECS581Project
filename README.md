@@ -1,5 +1,8 @@
 # EECS581Project
 
+## SFEngine  
+![SFEngine](https://github.com/JayhawkZombie/EECS581Project/blob/master/SFEngine/Samples/Logos/SFEngineLogo_Dark_Flame_Analogized.png)  
+
 ### This project is still in pre-alpha, and is nowhere near ready for any sort of release
 
 ## License
