@@ -36,8 +36,6 @@ namespace Engine
     UEvent.MouseScrolled = false;
     UEvent.MouseScrollDelta = 0.f;
 
-    std::cerr << "MousePressed" << std::endl;
-
     if (CurrentLevel)
       CurrentLevel->HandleInputEvent(UEvent);
   }

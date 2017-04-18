@@ -22,6 +22,18 @@ public:
 protected:
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
 	Engine::Camera2D myActor_camera;
+
+
+  /*If using this tool, first change,
+  *       "Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine", sf::Style::Resize | sf::Style::Close | sf::Style::Titlebar, csettings);"
+  * to
+  *       "Window = new sf::RenderWindow(sf::VideoMode(800, 800), "SFEngine", sf::Style::Resize | sf::Style::Close | sf::Style::Titlebar, csettings);"
+  * on line 21 in, 
+  *       "/SFEngine/Source/Definitions/Engine/Startup.cpp"
+  *
+  */
+  static const bool line_segment_builder_tool = false;
+  static const bool snap_to_16x16 = true;
 };
 
 #endif
