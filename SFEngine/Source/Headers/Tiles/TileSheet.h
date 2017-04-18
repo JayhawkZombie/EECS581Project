@@ -12,7 +12,10 @@ namespace Engine
   {
   public:
     TileSheet();
+    TileSheet(const TileSheet &Copy);
     virtual ~TileSheet();
+
+    std::shared_ptr<BaseEngineInterface> Clone() const override final;
 
     void SerializeIn(std::ifstream &in) override final;
     void SerializeOut(std::ofstream &out) override final;
@@ -37,6 +40,7 @@ namespace Engine
 
     void AddTile(const std::string &str, const sf::IntRect &Rect);
     void RemoveTile(const std::string &str);
+    std::string GetClass() const override;
 
   protected:
     std::shared_ptr<sf::Texture> Texture;

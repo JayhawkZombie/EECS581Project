@@ -12,9 +12,13 @@ namespace Engine
 
     Player();
     Player(const std::string &texfile, const std::string &texID);
-    Player(const Player &p);
     virtual ~Player();
 
+    //Forbid implicit copy construction and assignment definitions
+    //We [MUST] use a clone method
+    Player(const Player &p);
+    Player& operator=(const Player &) = delete;
+    virtual std::shared_ptr<BaseEngineInterface> Clone() const override;
 
     virtual void TickUpdate(const double &delta) override;
     virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
@@ -39,6 +43,9 @@ namespace Engine
 
     virtual void MoveTo(const sf::Vector2f &pos);
 
+    virtual std::string GetClass() const override {
+      return "Player";
+    }
   protected:
     void KeyWasPressed(const sf::Keyboard::Key &k);
     void KeyWasReleased(const sf::Keyboard::Key &k);

@@ -2,6 +2,18 @@
 
 namespace Engine
 {
+  Animation::Animation(const Animation & Copy)
+    : BaseEngineInterface()
+  {
+  }
+
+  std::shared_ptr<BaseEngineInterface> Animation::Clone() const
+  {
+    auto Anim = std::make_shared<Animation>(*this);
+
+    return Anim;
+  }
+
   Animation::~Animation()
   {
     CurrFrame = FrameList.GetHead();
@@ -122,6 +134,11 @@ namespace Engine
     }
   }
   void Animation::OnShutDown() {}
+
+  std::string Animation::GetClass() const
+  {
+    return std::string("Animation");
+  }
 
   void Animation::AddFrame(sf::IntRect rect)
   {

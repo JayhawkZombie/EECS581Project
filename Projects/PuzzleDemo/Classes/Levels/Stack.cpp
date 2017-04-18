@@ -1,5 +1,5 @@
 #include "Stack.h"
-#include "../../../../SFEngine/Source/Headers/Physics/Collider.h"
+#include "Physics\Collider.h"
 
 BallStackLevel::BallStackLevel()
   : BasicLevel(sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900))
@@ -81,9 +81,9 @@ void BallStackLevel::TickUpdate(const double & delta)
 
   //m_GameMenu->updateTime(GUITimer.restart());
 
-  for (auto it = m_ShatterGems.begin(); it != m_ShatterGems.end(); ++it) {
-    if ((*it)->IsDead()) {
-      ((*it)->OnKilled());
+  for (auto & m_ShatterGem : m_ShatterGems) {
+    if (m_ShatterGem->IsDead()) {
+      (m_ShatterGem->OnKilled());
     }
   }
   
@@ -135,10 +135,10 @@ void BallStackLevel::EventUpdate(sf::Event event)
 void BallStackLevel::OnBegin()
 {
   BasicLevel::OnBegin();
+  Engine::Messager::PostToActivityLog(
+    Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, "StackLevel - OnBegin()")
+  );
 
-  Engine::SetGravity(Gravity);
-
-  std::cerr << "BallStackLevel::OnBegin()" << std::endl;
   Engine::SetGravity(Gravity);
   //m_GameMenu->add(m_PausePanel);
   m_BGMusic.play();
@@ -167,6 +167,10 @@ void BallStackLevel::OnBegin()
 
 void BallStackLevel::OnEnd()
 {
+  Engine::Messager::PostToActivityLog(
+    Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, "StackLevel - OnEnd()")
+  );
+
   m_BGMusic.stop();
   LevelObjects.clear();
   m_ShatterGems.clear();
@@ -193,6 +197,11 @@ void BallStackLevel::UpdateObjectPhysics()
   BasicLevel::UpdateObjectPhysics();
 
   m_BallKillerBolt->Spark({ 750, 600 }, { 950, 600 });
+}
+
+std::string BallStackLevel::GetClass() const
+{
+  return std::string("BallStackLevel");
 }
 
 void BallStackLevel::HandleUserClick(sf::Vector2i Pos)

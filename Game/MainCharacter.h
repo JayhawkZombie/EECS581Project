@@ -11,7 +11,11 @@ public:
 	virtual void gainExp(int gain);
 	*/
 	MainCharacter();
+  MainCharacter(const MainCharacter &);
+  MainCharacter& operator=(const MainCharacter &) = delete;
 	~MainCharacter();
+
+  virtual std::shared_ptr<Engine::BaseEngineInterface> Clone() const override;
 	void IncrementAffinity(int index, int value);
 	int getAffinity(int index);
 	void printAffinities();

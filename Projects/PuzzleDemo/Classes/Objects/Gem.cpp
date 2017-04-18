@@ -129,7 +129,10 @@ void ShatterGem::OnKilled()
 
 void ShatterGem::OnSpawn()
 {
-  
+  Engine::Messager::PostToActivityLog(
+    Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, "PuzzleDemo/Gem - OnSpawn()")
+  );
+
   m_Sequencer.AddSequence(5000, []() {}, []() {}, [this]() {this->Shatter(); });
   m_Sequencer.Start();
 }

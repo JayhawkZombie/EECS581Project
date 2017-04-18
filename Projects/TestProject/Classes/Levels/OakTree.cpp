@@ -262,6 +262,11 @@ void OakTreeLevel::makeSegment(sf::Vector2i endPoint1, sf::Vector2i endPoint2)
 
 }
 
+std::string OakTreeLevel::GetClass() const
+{
+  return std::string("OakTreeLevel");
+}
+
 void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
 {
   /*

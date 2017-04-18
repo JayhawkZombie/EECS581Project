@@ -1,4 +1,5 @@
 #include "StartupLevel.h"
+#include "Messaging/CoreMessager.h"
 
 StartupLevel::StartupLevel()
   : BasicLevel(sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900))
@@ -123,6 +124,10 @@ void StartupLevel::HandleInputEvent(const Engine::UserEvent & evnt)
 void StartupLevel::EventUpdate(sf::Event event)
 {
   if (event.type == sf::Event::MouseButtonPressed) {
+    Engine::Messager::PostToActivityLog(
+      Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, 
+                            "StartupLevel - EventUpdate() - User Skipped Animation")
+    );
     m_SequenceDone = true;
     m_LightningSequence.Clear();
     Engine::SwitchLevel(m_NextLevel);
@@ -131,10 +136,23 @@ void StartupLevel::EventUpdate(sf::Event event)
 
 void StartupLevel::OnBegin()
 {
+  Engine::Messager::PostToActivityLog(
+    Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, "StartupLevel - OnBegin()")
+  );
+
   TriggerCrawlingLightning();
   m_LightningSequence.Start();
 
   m_animator->play() << "loading" << thor::Playback::loop("loading");
+}
+
+void StartupLevel::OnEnd()
+{
+  Engine::Messager::PostToActivityLog(
+    Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, "StartupLevel - OnEnd()")
+  );
+
+  CleanUp();
 }
 
 void StartupLevel::CleanUp()
@@ -153,6 +171,11 @@ void StartupLevel::CleanUp()
 void StartupLevel::SetNextLevel(std::shared_ptr<Engine::BasicLevel> NextLevel)
 {
   m_NextLevel = NextLevel;
+}
+
+std::string StartupLevel::GetClass() const
+{
+  return std::string("StartupLevel");
 }
 
 void StartupLevel::TriggerCrawlingLightning()

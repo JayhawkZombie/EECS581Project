@@ -1,5 +1,12 @@
 #include "Tiles\TileSheet.h"
 
+/*
+std::shared_ptr<sf::Texture> Texture;
+std::map<std::string, sf::VertexArray> GenericTiles;
+std::map<std::string, std::shared_ptr<LevelTile>> Tiles;
+sf::RenderStates SheetState;
+*/
+
 namespace Engine
 {
 
@@ -9,8 +16,25 @@ namespace Engine
 
   }
 
+  TileSheet::TileSheet(const TileSheet & Copy)
+    : 
+    Texture(Copy.Texture),
+    GenericTiles(Copy.GenericTiles),
+    Tiles(Copy.Tiles),
+    SheetState(Copy.SheetState),
+    BaseEngineInterface(Copy)
+  {
+  }
+
   TileSheet::~TileSheet()
   {
+  }
+
+  std::shared_ptr<BaseEngineInterface> TileSheet::Clone() const
+  {
+    auto Sheet = std::make_shared<TileSheet>(*this);
+
+    return Sheet;
   }
 
   void TileSheet::SerializeIn(std::ifstream & in)
@@ -153,6 +177,11 @@ namespace Engine
     auto it = GenericTiles.find(str);
     if (it != GenericTiles.end())
       GenericTiles.erase(it);
+  }
+
+  std::string TileSheet::GetClass() const
+  {
+    return std::string("TileSheet");
   }
 
 }

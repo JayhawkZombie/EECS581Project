@@ -1,0 +1,44 @@
+Ranked Log Purge
+
+	Normal Logs:
+
+**********************************************************************************
+Source: Engine
+PostText:
+EngineStartup
+
+**********************************************************************************
+Source: Engine
+PostText:
+Engine Startup
+
+**********************************************************************************
+Source: Engine
+PostText:
+Engine InitRenderWindow
+
+**********************************************************************************
+Source: Engine
+PostText:
+Engine GameLoop
+
+**********************************************************************************
+Source: Engine
+PostText:
+Engine Beginning Shutdown
+
+
+	Elevated Logs:
+
+
+High Logs:
+
+
+Critical Logs:
+
+
+Unrecoverable Logs:
+
+
+
+Log Purge Complete

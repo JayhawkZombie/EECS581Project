@@ -28,31 +28,84 @@ for(auto & message : VECTOR_MESSAGES){\
 
   enum class ExceptionCause : std::uint32_t
   {
-    InitializationError, //Was not able to init properly
-    InvalidObjectUsed, //Tried to use an invalid object
-    NullPointer, //Dereferenced a nullptr - if this is caused by something that could constantly fire this exception, it should be shut down
+    //Was not able to init properly
+    InitializationError, 
+
+    //Tried to use an invalid object
+    InvalidObjectUsed, 
+
+    //Dereferenced a nullptr - if this is caused by something that could constantly fire this exception, it should be shut down
     //Either the engine totally shut down if needed, or just the offending system shut down and restarted
-    ObjectWasInvalidated, //An object was invalidated and this SELF-RAISED this excpetion
-    IDGenerationError, //Were not able to generate an ID for this, something has clogged the ID set
-    ConstructionError, //Something blew up while trying to construct this
-    SpawnError, //An error occurred while spawning
-    SpawnFailure, //An object completely failed to spawn
-    InvalidContainer, //The container was unable to hold an item that needed it
+    NullPointer, 
+
+    //An object was invalidated and this SELF-RAISED this excpetion
+    ObjectWasInvalidated, 
+
+    //Were not able to generate an ID for this, something has clogged the ID set
+    IDGenerationError, 
+
+    //Something blew up while trying to construct this
+    ConstructionError, 
+
+    //Failed to copy something
+    CopyError, 
+
+    //An error occurred while spawning
+    SpawnError, 
+
+    //An object completely failed to spawn
+    SpawnFailure, 
+
+    //The container was unable to hold an item that needed it
+    InvalidContainer, 
+
+    //Passed an invalid parameter and could not recover
     InvalidParameter,
+
+    //Vague - an error occurred that is going to bring us down
     Catastrophic,
+
+    //Could not initialize physics because of bad data
     PhysicsInitInvalidData,
+
+    //An error occurred while initializing physics
     PhysicsInitError,
+
+    //An unknown error occurred with the physics
     PhysicsUnknown,
+
+    //An error occurred because of a formatting error
     DataFormatError,
+
+    //An error occurred while parsing
     DataParseError,
+
+    //An error occurred when trying to use a stream
     StreamError,
+
+    //A stream has failed - likely due to failing to obtain a valid destination
     StreamFailure,
+
+    //An invalid value - it could not be recovered from
     InvalidValue,
+
+    //The messager is invalid
+    MessagerInvalid,
+
+    //Value is too large
     ValueTooLarge,
+
+    //Value is too small
     ValueTooSmall,
+
+    //Value is NaN (likely due to division by zero)
     ValueNaN,
-    StdException, //Exception occcurred from the standard library
-    Unknown, //Undocumented reason, but something threw an exception and didn't provide a known documented cause
+
+    //Exception occcurred from the standard library
+    StdException, 
+
+    //Undocumented reason, but something threw an exception and didn't provide a known documented cause
+    Unknown, 
   };
 
 
@@ -64,7 +117,7 @@ for(auto & message : VECTOR_MESSAGES){\
       : msg_(message), Causes(causes), std::runtime_error(message) {}
     explicit EngineRuntimeError(const std::vector<ExceptionCause> &causes, const std::string &string)
       : msg_(string), Causes(causes), std::runtime_error(string) {}
-    virtual ~EngineRuntimeError() throw () {}
+    virtual ~EngineRuntimeError() throw () override = default;
 
     virtual const char* what() {
       std::string exception_trace;
@@ -97,15 +150,28 @@ for(auto & message : VECTOR_MESSAGES){\
     std::vector<std::string> Messages = {};
   };
 
+  class MessageException : public EngineRuntimeError {
+  public:
+    explicit MessageException(const std::vector<ExceptionCause> &causes, const char *message)
+      : EngineRuntimeError(causes, message) {}
+    explicit MessageException(const std::vector<ExceptionCause> &causes, const std::string &string)
+      : EngineRuntimeError(causes, string) {}
+    virtual ~MessageException() throw () override = default;
+
+    virtual const char* what() override {
+      return msg_.c_str();
+    }
+  };
+
   class StdException : public EngineRuntimeError {
   public:
     explicit StdException(const std::vector<ExceptionCause> &causes, const char *message)
       : EngineRuntimeError(causes, message) {}
     explicit StdException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
-    virtual ~StdException() throw () {}
+    virtual ~StdException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };
@@ -117,9 +183,9 @@ for(auto & message : VECTOR_MESSAGES){\
       : EngineRuntimeError(causes, message) {}
     explicit FormattingError(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
-    virtual ~FormattingError() throw () {}
+    virtual ~FormattingError() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };
@@ -131,9 +197,9 @@ for(auto & message : VECTOR_MESSAGES){\
       : EngineRuntimeError(causes, message) {}
     explicit StreamException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
-    virtual ~StreamException() throw () {}
+    virtual ~StreamException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };
@@ -145,9 +211,9 @@ for(auto & message : VECTOR_MESSAGES){\
       : EngineRuntimeError(causes, message) {}
     explicit PhysicsInterfaceException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
-    virtual ~PhysicsInterfaceException() throw () {}
+    virtual ~PhysicsInterfaceException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };
@@ -161,8 +227,7 @@ for(auto & message : VECTOR_MESSAGES){\
     explicit Exception(const std::string &string)
       : msg_(string.c_str()) {}
 
-    virtual ~Exception() throw () 
-    {}
+    virtual ~Exception() throw () override = default;
 
     virtual const char* what()
     {
@@ -182,9 +247,9 @@ for(auto & message : VECTOR_MESSAGES){\
       : EngineRuntimeError(causes, message) {}
     explicit ValueException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
-    virtual ~ValueException() throw () {}
+    virtual ~ValueException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
 
@@ -198,9 +263,9 @@ for(auto & message : VECTOR_MESSAGES){\
       : EngineRuntimeError(causes, message) {}
     explicit NullPointerException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
-    virtual ~NullPointerException() throw () {}
+    virtual ~NullPointerException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
 
@@ -218,9 +283,9 @@ for(auto & message : VECTOR_MESSAGES){\
     explicit InitializationException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
 
-    virtual ~InitializationException() throw () {}
+    virtual ~InitializationException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
 
@@ -242,9 +307,9 @@ for(auto & message : VECTOR_MESSAGES){\
       : EngineRuntimeError(causes, string)
     {}
 
-    virtual ~InvalidObjectException() throw () {}
+    virtual ~InvalidObjectException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };
@@ -258,9 +323,9 @@ for(auto & message : VECTOR_MESSAGES){\
     explicit InvalidParameter(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
 
-    virtual ~InvalidParameter() throw () {}
+    virtual ~InvalidParameter() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };
@@ -274,9 +339,9 @@ for(auto & message : VECTOR_MESSAGES){\
       explicit IDException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
 
-    virtual ~IDException() throw () {}
+    virtual ~IDException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };
@@ -289,9 +354,9 @@ for(auto & message : VECTOR_MESSAGES){\
     explicit ConstructionException(const std::vector<ExceptionCause> &causes, const std::string &string)
       : EngineRuntimeError(causes, string) {}
 
-    virtual ~ConstructionException() throw () {}
+    virtual ~ConstructionException() throw () override = default;
 
-    virtual const char* what() {
+    virtual const char* what() override {
       return msg_.c_str();
     }
   };

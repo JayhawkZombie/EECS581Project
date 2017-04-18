@@ -13,17 +13,46 @@ namespace Engine
     
   }
 
-  LevelObject::LevelObject(const LevelObject &copy)
-    : LevelObject()
-  {
-
-  }
-
   LevelObject::~LevelObject()
   {
 
   }
-//Starting the chaiscript bindings, need to figure out which functions need scripted
+  
+
+
+  LevelObject::LevelObject(const LevelObject & obj)
+    : 
+    m_Animator(m_AnimationMap),
+    Position(obj.Position), 
+    Size(obj.Size), 
+    SpriteTexture(obj.SpriteTexture),
+    Acceleration(obj.Acceleration), 
+    AllowsActorOverlap(obj.AllowsActorOverlap),
+    ObjectRect(obj.ObjectRect), 
+    TextureRect(obj.TextureRect),
+    RenderOutlined(obj.RenderOutlined), 
+    Velocity(obj.Velocity),
+    BaseEngineInterface()
+  {
+    
+    for (auto & collider : obj.m_Colliders) {
+      m_Colliders.push_back(collider->Clone());
+    }
+
+  }
+
+  std::shared_ptr<BaseEngineInterface> LevelObject::Clone() const
+  {
+    auto Object = std::make_shared<LevelObject>(*this);
+
+    for (auto & collider : m_Colliders) {
+      Object->m_Colliders.push_back(collider->Clone());
+    }
+
+    return Object;
+  }
+
+  //Starting the chaiscript bindings, need to figure out which functions need scripted
   void LevelObject::BindScriptMethods(chaiscript::ModulePtr mptr)
   {
 	  chaiscript::utility::add_class<Engine::LevelObject>(
@@ -40,27 +69,12 @@ namespace Engine
 
   void LevelObject::ScriptInit()
   {
-    try
-    {
-      //ScriptEngine->eval("var " + ItemID + " = Player(\"" + ItemID + "\")");
-    }
-    catch (std::exception &err)
-    {
-      std::cerr << "Exception in LevelObject ScriptInit" << std::endl;
 
-    }
   }
 
   void LevelObject::TickUpdate(const double &delta)
   {
-    try
-    {
-      //ScriptEngine->eval(ItemID + ".Update()");
-    }
-    catch (std::exception &err)
-    {
-      std::cerr << "Script error: " << err.what() << std::endl;
-    }
+    
   }
 
   void LevelObject::PhysicsUpdate()
@@ -180,6 +194,10 @@ namespace Engine
   {
   }
 
+  void LevelObject::Reset()
+  {
+  }
+
   sf::FloatRect LevelObject::GetGlobalBounds() const
   {
 	  return sf::FloatRect(
@@ -211,7 +229,7 @@ namespace Engine
     Move(delta);
   }
 
-  std::vector<std::shared_ptr<Collider2D>> LevelObject::GetColliders()
+  std::vector<std::shared_ptr<Collider2D>> LevelObject::GetColliders() const
   {
     std::vector<std::shared_ptr<Collider2D>> RetColls;
     for (auto & coll : m_Colliders) {

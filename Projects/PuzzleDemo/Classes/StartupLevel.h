@@ -1,29 +1,31 @@
 #ifndef GAME_STARTUP_LEVEL_H
 #define GAME_STARTUP_LEVEL_H
 
-#include "../../../SFEngine/ProjectIncludes.h"
-#include "../../../SFEngine/Source/Headers/Objects/ProjectileBase.h"
-
-#include "../../../SFEngine/Source/Headers/Weather/WeatherSystem.h"
-#include "../../../SFEngine/Source/Headers/Weather/Lightning.h"
-#include "../../../SFEngine/Source/Headers/Time/TimedSequence.h"
+#include "../ProjectIncludes.h"
+#include "Objects\ProjectileBase.h"
+#include "Weather\Lightning.h"
+#include "Weather\WeatherSystem.h"
+#include "Time\TimedSequence.h"
+#include "Utils\UntimedSequence.h"
 
 class StartupLevel : public Engine::BasicLevel
 {
 public:
   StartupLevel();
-  ~StartupLevel();
+  ~StartupLevel() override final;
 
-  void TickUpdate(const double &delta) override;
-  void Render(std::shared_ptr<sf::RenderTarget> Target) override;
-  void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture);
-  void OnShutDown() override;
-  void HandleInputEvent(const Engine::UserEvent &evnt) override;
-  void EventUpdate(sf::Event event) override;
-  void OnBegin() override;
+  void TickUpdate(const double &delta) override final;
+  void Render(std::shared_ptr<sf::RenderTarget> Target) override final;
+  void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture) override final;
+  void OnShutDown() override final;
+  void HandleInputEvent(const Engine::UserEvent &evnt) override final;
+  void EventUpdate(sf::Event event) override final;
+  void OnBegin() override final;
+  void OnEnd() override final;
 
-  void CleanUp() override;
+  void CleanUp() override final;
   void SetNextLevel(std::shared_ptr<Engine::BasicLevel> NextLevel);
+  std::string GetClass() const override final;
 
 protected:
 

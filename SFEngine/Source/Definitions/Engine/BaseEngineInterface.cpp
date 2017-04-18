@@ -28,6 +28,23 @@ namespace Engine
     }
   }
 
+  BaseEngineInterface::BaseEngineInterface(const BaseEngineInterface & b)
+    : InternalID(b.InternalID), ItemID(b.ItemID)
+  {
+    try
+    {
+      ItemID = b.ItemID + "_Copy";
+      InternalID = GenerateID();
+    }
+    catch (EngineRuntimeError& e)
+    {
+      e.AddCause(ExceptionCause::ConstructionError);
+      e.AddMessage(EXCEPTION_MESSAGE("Failed to create InternalID for BaseEngineInterface copy"));
+
+      throw;
+    }
+  }
+
   void BaseEngineInterface::SerializeOut(std::ofstream &out)
   {
     //need to write the item ID to the binary file
@@ -57,14 +74,11 @@ namespace Engine
   {
   }
 
-  BaseEngineInterface::BaseEngineInterface(const BaseEngineInterface &b)
-  {
-
-  }
   BaseEngineInterface::~BaseEngineInterface()
   {
 
   }
+
   void BaseEngineInterface::NO_ACTION(BaseEngineInterface *item, const sf::Vector2i &i)
   {
 

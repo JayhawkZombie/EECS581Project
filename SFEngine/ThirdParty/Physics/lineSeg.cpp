@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "lineSeg.h"
 #include "mvHit.h"
 
@@ -107,3 +110,5 @@ return true;
 
 return false;
 }   */
+
+#pragma warning ( pop )

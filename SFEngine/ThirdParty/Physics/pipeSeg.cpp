@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "pipeSeg.h"
 
 // pipeSeg funcs
@@ -68,3 +71,5 @@ bool pipeSegArc::is_inMe(mvHit& mh, float& b, vec2d& T)// writes distance off ce
 {
   return false;
 }
+
+#pragma warning ( pop )

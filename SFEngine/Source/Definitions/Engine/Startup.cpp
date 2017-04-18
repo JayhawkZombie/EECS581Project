@@ -12,6 +12,8 @@ namespace Engine
   void SFEngine::InitRenderWindow()
   {
     sf::ContextSettings csettings;
+
+    Messager::PostLogMessage(0, SystemMessage(SystemMessageType::ActivityLog, 0, 0, "Engine InitRenderWindow"), MessageLogLevel::Normal);
    
     csettings.antialiasingLevel = 8;
     if (currentRenderWindow)
@@ -58,6 +60,9 @@ namespace Engine
     if (!sf::Shader::isAvailable()) {
       return(GL_NO_SHADERS);
     }
+
+    Messager::PostLogMessage(0, SystemMessage(SystemMessageType::ActivityLog, 0, 0, "Engine Startup"), MessageLogLevel::Normal);
+
     Handler.BindCallback(Events::GainedFocus,
                          [this]() {this->HandleWindowGainedFocus(); });
 
@@ -100,46 +105,26 @@ namespace Engine
 
     }
     else {
-      EngineConfig.Window_v2fWindowSize = Util::GetVec2fConfig("Window", "WindowSize", sf::Vector2f(800, 800), "Engine.ini", _IN);
+      EngineConfig.Window_v2fWindowSize   = Util::GetVec2fConfig("Window", "WindowSize", sf::Vector2f(800, 800), "Engine.ini", _IN);
       //WindowSize = EngineConfig.Window_v2fWindowSize;
-      InitialLevel = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", _IN);
-      EngineRenderSettings.Brightness = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", _IN);
-      EngineRenderSettings.Contrast = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", _IN);
-      EngineRenderSettings.Gamma = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", _IN);
-      EngineRenderSettings.PostProcess = Util::GetUnsignedIntConfig("Render", "PostProcess", 0, "Engine.ini", _IN);
-      EngineRenderSettings.BGClearColor.r = Util::GetUnsignedIntConfig("Render", "ClearColor.r", 0, "Engine.ini", _IN);
-      EngineRenderSettings.BGClearColor.g = Util::GetUnsignedIntConfig("Render", "ClearColor.g", 0, "Engine.ini", _IN);
-      EngineRenderSettings.BGClearColor.b = Util::GetUnsignedIntConfig("Render", "ClearColor.b", 0, "Engine.ini", _IN);
+      InitialLevel                        = Util::GetStringConfig("Game", "InitialLevel", "test.map", "Engine.ini", _IN);
+      EngineRenderSettings.Brightness     = Util::GetFloatConfig("Render", "Brightness", 1, "Engine.ini", _IN);
+      EngineRenderSettings.Contrast       = Util::GetFloatConfig("Render", "Contrast", 0.5, "Engine.ini", _IN);
+      EngineRenderSettings.Gamma          = Util::GetFloatConfig("Render", "Gamma", 0.5, "Engine.ini", _IN);
+      EngineRenderSettings.PostProcess    = Util::GetUnsignedIntConfig("Render", "PostProcess", 0, "Engine.ini", _IN);
+      EngineRenderSettings.BGClearColor.r = static_cast<sf::Uint8>(Util::GetUnsignedIntConfig("Render", "ClearColor.r", 0, "Engine.ini", _IN));
+      EngineRenderSettings.BGClearColor.g = static_cast<sf::Uint8>(Util::GetUnsignedIntConfig("Render", "ClearColor.g", 0, "Engine.ini", _IN));
+      EngineRenderSettings.BGClearColor.b = static_cast<sf::Uint8>(Util::GetUnsignedIntConfig("Render", "ClearColor.b", 0, "Engine.ini", _IN));
 
-      ContextSettings.antialiasingLevel = Util::GetUnsignedIntConfig("Render", "uiAALevel", 1, "Engine.ini", _IN);
-      ContextSettings.depthBits = Util::GetUnsignedIntConfig("Render", "uiDepthBits", 0, "Engine.ini", _IN);
-      ContextSettings.sRgbCapable = Util::GetBooleanConfig("Render", "bSRGBCapable", true, "Engine.ini", _IN);
-      ContextSettings.stencilBits = Util::GetUnsignedIntConfig("Render", "uiStencilBits", 0, "Engine.ini", _IN);
-
-      //Misleading variable name, this is actually the file path to the config file for the main entry level
-      //EntryLevelName = Util::GetStringConfig("Game", "EntryLevel", "", "Engine.ini", _IN);
-      //if (EntryLevelName == "") {
-      //  //No entry level found!!
-      //  ERR_STREAM << "No entry level defined!" << std::endl;
-      //  CurrentLevel = nullptr;
-      //}
-      //else {
-      //  lSize.x = Util::GetFloatConfig("Game", "SizeX", 0.f, "Engine.ini", _IN);
-      //  lSize.y = Util::GetFloatConfig("Game", "SizeY", 0.f, "Engine.ini", _IN);
-      //  showgrid = Util::GetBooleanConfig("Game", "ShowGrid", false, "Engine.ini", _IN);
-      //  gridSpac = Util::GetVec2fConfig("Game", "GridSpacing", sf::Vector2f(0, 0), "Engine.ini", _IN);
-      //  initView = Util::GetFloatRectConfig("Game", "InitialView", sf::FloatRect(0, 0, 0, 0), "Engine.ini", _IN);
-
-      //  Levels["Main"] = std::make_shared<BasicLevel>(lSize, initView, showgrid, gridSpac);
-      //  Levels["Main"]->LoadLevel(EntryLevelName);
-      //  CurrentLevel = Levels["Main"].get();
-      //}
+      ContextSettings.antialiasingLevel   = Util::GetUnsignedIntConfig("Render", "uiAALevel", 1, "Engine.ini", _IN);
+      ContextSettings.depthBits           = Util::GetUnsignedIntConfig("Render", "uiDepthBits", 0, "Engine.ini", _IN);
+      ContextSettings.sRgbCapable         = Util::GetBooleanConfig("Render", "bSRGBCapable", true, "Engine.ini", _IN);
+      ContextSettings.stencilBits         = Util::GetUnsignedIntConfig("Render", "uiStencilBits", 0, "Engine.ini", _IN);
       _IN.clear();
       _IN.close();
     }
 
     InitRenderWindow();
-    std::cerr << "Initialized RenderWindow" << std::endl;
     //Create the GUI window immediately
     GUI = std::make_shared<tgui::Gui>(*currentRenderWindow);
 
@@ -172,7 +157,10 @@ namespace Engine
     Window->draw(EngineLoadingText);
     Window->display();
 
-    ScriptEngine = new chaiscript::ChaiScript({}, { "./Projects/TestProject/Scripts/" }, { chaiscript::Options::External_Scripts, chaiscript::Options::Load_Modules });
+    ScriptEngine = new chaiscript::ChaiScript({}, { "./Projects/TestProject/Scripts/",
+                                                    "./Projects/PuzzleDemo/Assets/Scripts/" }, 
+                                                    { chaiscript::Options::External_Scripts, chaiscript::Options::Load_Modules }
+                                              );
 
     //Add the engine class to the script engine
     chaiscript::ModulePtr __mptr(new chaiscript::Module);
@@ -191,22 +179,6 @@ namespace Engine
     Window->draw(EngineLogoSprite);
     Window->draw(EngineLoadingText);
     Window->display();
-
-    std::string str{ "" }, str2{ "" };
-    ScriptEngine->eval_file("./Game/GameSetup.chai");
-    ScriptEngine->eval_file("./SFEngine/Samples/Scripts/EngineEventTests.chai");
-    try
-    {
-      str = (*ScriptEngine).eval<std::string>("InitialGameLevel()");
-      str2 = (*ScriptEngine).eval<std::string>("SetupFile()");
-
-      std::cerr << "\n\n------------------InitialGameLevel: " << str << std::endl;
-      std::cerr << "\n\n------------------Setup File: " << str2 << std::endl;
-    }
-    catch (chaiscript::exception::eval_error &e)
-    {
-      std::cerr << "Script execution error: " << e.what() << std::endl;
-    }
     Window->clear();
 
     std::shared_ptr<::StartupLevel> EngineStartupLevel = std::make_shared<::StartupLevel>();

@@ -30,6 +30,11 @@ namespace Engine
 
   }
 
+  std::string Level::GetClass() const
+  {
+    return std::string("Level");
+  }
+
   void Level::RenderRegular()
   {
 

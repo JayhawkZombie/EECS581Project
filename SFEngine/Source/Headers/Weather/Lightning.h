@@ -21,6 +21,8 @@ namespace Engine
     void SetStrikeCallback(std::function<void(sf::Vector2f)> Callback);
     void Reset();
     void SetColor(sf::Color color);
+    std::string GetClass() const override;
+
   protected:
     std::function<void(sf::Vector2f)> m_StrikeCallback;
     std::function<void(void)> m_BoltDoneFunc;
@@ -52,6 +54,7 @@ namespace Engine
 
     void SetCrawlSpeed(const float &BetweenSteps);
     void SetMaxBoltLength(const float &Length);
+    std::string GetClass() const override;
 
   protected:
     float m_TimeBetweenCrawlSteps = 3.f;

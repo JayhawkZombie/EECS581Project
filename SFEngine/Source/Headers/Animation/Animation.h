@@ -20,6 +20,9 @@ namespace Engine
   public:
     //NEW
     Animation() : m_currentFrame(0), m_currentTime(0), m_frameTime(0), m_isPaused(true), m_isRendered(false) {}
+    Animation(const Animation &Copy);
+    std::shared_ptr<BaseEngineInterface> Clone() const override final;
+
     ~Animation();
     void Update(double deltaTime);
     void Play(bool loop = true, bool notifycomplete = false);
@@ -46,6 +49,8 @@ namespace Engine
     void Render(std::shared_ptr<sf::RenderTarget> Target);
     void TickUpdate(const double& delta);
     void OnShutDown();
+
+    std::string GetClass() const override;
 
     std::function<void(void)> AnimationComplete = []() {};
     void MakePingPong(bool ping) {

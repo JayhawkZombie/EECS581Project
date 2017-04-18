@@ -25,8 +25,7 @@ namespace Engine
   {
     sf::FloatRect DefaultBounds()
     {
-
-      return sf::FloatRect(0, 0, WinSize.x, WinSize.y);
+      return sf::FloatRect(0.f, 0.f, static_cast<float>(WinSize.x), static_cast<float>(WinSize.y));
     }
 
     void RenderText(const sf::Text *text)

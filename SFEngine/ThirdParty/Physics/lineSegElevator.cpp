@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "lineSegElevator.h"
 #include "mvHit.h"
 
@@ -133,3 +136,5 @@ void lineSegElevator::set_dn()
   lineSeg::setPosition(iPos + uVel*s);
   vel *= 0.0f;
 }
+
+#pragma warning ( pop )

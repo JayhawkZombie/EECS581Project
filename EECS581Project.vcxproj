@@ -145,7 +145,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <TreatSpecificWarningsAsErrors>%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
-      <DisableSpecificWarnings>4100</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4100; 4189</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -347,6 +347,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Engine\ScriptConsole.h" />
     <ClInclude Include="SFEngine\Source\Headers\Events\UserEvent.h" />
     <ClInclude Include="SFEngine\Source\Headers\Level\BasicLevel.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Messaging\CoreMessager.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\EffectBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\Equippable.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\FastShot.h" />
@@ -355,6 +356,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\SlowShot.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\Static.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
@@ -688,7 +690,9 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\BasicLevel.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\UpdateEditorUI.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Messaging\CoreMessager.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\Static.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\TriggerObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collider.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ScriptComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\State\DeviceState.cpp" />

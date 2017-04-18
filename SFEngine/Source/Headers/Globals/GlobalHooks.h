@@ -24,6 +24,7 @@ typedef tgui::MessageBox tguiMessageBox;
 #include "Render\Render.h"
 #include "State\DeviceState.h"
 #include "UI\UIMacros.h"
+#include "Messaging\CoreMessager.h"
 
 #include "chaiscript\chaiscript.hpp"
 #include "IMGUI\imgui.h"
@@ -200,7 +201,7 @@ if (false)\
 typedef ParentClass Super
 
 #ifndef ____PI
-#define ____PI 3.141592653
+#define ____PI 3.141592653f
 #endif
 
 //EXTERN DECLARATIONS

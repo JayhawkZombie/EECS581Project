@@ -239,12 +239,20 @@ void Level1::EventUpdate(sf::Event event)
 
 void Level1::OnBegin()
 {
+  Engine::Messager::PostToActivityLog(
+    Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, "Level1 - OnBegin()")
+  );
+
   m_BGMusic.setLoop(true);
   m_BGMusic.play();
 }
 
 void Level1::OnEnd()
 {
+  Engine::Messager::PostToActivityLog(
+    Engine::SystemMessage(Engine::SystemMessageType::ActivityLog, InternalID, 0, "Level1 - OnEnd()")
+  );
+
   m_BGMusic.stop();
 
   Engine::GUI->remove(m_MainPanel);
@@ -282,6 +290,11 @@ void Level1::ShowUI()
   m_CloseButton->showWithEffect(tgui::ShowAnimationType::SlideFromLeft, sf::milliseconds(500));
   m_OptionsButton->showWithEffect(tgui::ShowAnimationType::SlideFromLeft, sf::milliseconds(500));
   m_MainPanel->showWithEffect(tgui::ShowAnimationType::Fade, sf::milliseconds(500));
+}
+
+std::string Level1::GetClass() const
+{
+  return std::string("Level1");
 }
 
 void Level1::MakeCreditsPanel()
