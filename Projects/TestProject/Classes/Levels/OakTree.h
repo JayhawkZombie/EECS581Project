@@ -17,6 +17,7 @@ public:
   void OnBegin() override;
   void OnEnd() override;
   void makeSegment(sf::Vector2i endPoint1, sf::Vector2i endPoint2);
+  void makeSegment(int pt1x, int pt1y, int pt2x, int pty);
 
 protected:
 	std::shared_ptr<Engine::GenericActor> MainCharacter;

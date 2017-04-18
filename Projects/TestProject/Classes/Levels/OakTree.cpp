@@ -206,8 +206,13 @@ OakTreeLevel::OakTreeLevel()
   myActor->SetActorSize({ 16,16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
-  myActor_camera.AttachToActor(myActor);
-  myActor_camera.SetView(myActor_spawnLocation);
+  //myActor_camera.AttachToActor(myActor);
+  //myActor_camera.SetView(myActor_spawnLocation);
+  //sf::View view1;
+  //view1.setCenter({ 176.f,256.f });
+  //view1.setSize({ 176.f,484.f });
+//  myActor_camera.SetView({ 176.f,176.f,176.f,176.f });
+  //myActor_camera.SetView({325.f,176.f,325.f,176.f});//this is the good one
   //myActor->GenerateActorMesh("Polygon", { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, 1.0, 1.0, 4, 3.14159 / 4);
   
   //SmallHouse1->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 64.f, 0.f, { 32 * 16,26 * 16 }, { 0,0 }, 1.f, 0.4f, sf::Color::White));
@@ -239,6 +244,15 @@ OakTreeLevel::OakTreeLevel()
   Segments.push_back(Engine::BuildSegmentMesh('b', { 800,0 }, { 0,0 }));
   //Austin please build the segments around the forest edge :D Thank you!
 
+  Segments.push_back(Engine::BuildSegmentMesh('b', { (4 * 16) - 1,14 * 16 }, { (4 * 16) - 1,17*16 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { (4 * 16) - 1, 14 * 16 - 1 }, { (5 * 16) - 1,14 * 16 - 1 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { (5 * 16), 14 * 16 }, { 5 * 16,13 * 16 }));
+  makeSegment({ 5,13 }, { 6,13 });
+  makeSegment({ 6,13 }, { 6,12 });
+  makeSegment(6, 12, 7, 12);
+  makeSegment(7, 12, 7, 13);
+  makeSegment(7, 13, 8, 13);
+  makeSegment(8, 13, 8, 12);
   Gravity->x = 0;
   Gravity->y = 0;
   Engine::SetGravity(Gravity);
@@ -259,7 +273,12 @@ void OakTreeLevel::TickUpdate(const double & delta)
 
 void OakTreeLevel::makeSegment(sf::Vector2i endPoint1, sf::Vector2i endPoint2)
 {
+	Segments.push_back(Engine::BuildSegmentMesh('b', { endPoint1.x * 16,endPoint1.y * 16 }, { endPoint2.x * 16,endPoint2.y * 16 }));
+}
 
+void OakTreeLevel::makeSegment(int pt1x, int pt1y, int pt2x, int pt2y)
+{
+	Segments.push_back(Engine::BuildSegmentMesh('b', { pt1x*16,pt1y*16 }, { pt2x*16,pt2y*16 }));
 }
 
 void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
@@ -279,10 +298,11 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
       Texture->draw(arr);
   }
   */
-	sf::View view(myActor_camera.GetView());
-	view.setViewport({ 0.f,0.f,1.f,1.f });
+//	sf::View view(myActor_camera.GetView());
+//	view.setViewport({ 0.f,0.f,1.f,1.f });
+	
 
-	Texture->setView(view);
+//	Texture->setView(view);
 
   Texture->draw(*TileMap);
 	BasicLevel::RenderOnTexture(Texture);
