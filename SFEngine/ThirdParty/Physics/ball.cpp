@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "ball.h"
 
 #include "lineSeg.h"
@@ -228,3 +231,5 @@ bool ball::is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)const//
 
   return true;
 }
+
+#pragma warning ( pop )

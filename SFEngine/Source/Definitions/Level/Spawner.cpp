@@ -134,7 +134,7 @@ namespace Engine
       if (ImGui::CollapsingHeader("N-Poly")) {
         Mesh = BuildPolygonMesh(numsides, __TO_FLOAT__(radius), rotation, { 50.f, 50.f }, { 0.f ,0.f }, mass, coeffRest, color);
 
-        if (ImGui::SliderFloat("Rotation", &rotation, 0, 2 * ____PI)) {
+        if (ImGui::SliderFloat("Rotation", &rotation, 0.f, 2.f * ____PI)) {
           Mesh = BuildPolygonMesh(numsides, __TO_FLOAT__(radius), rotation, { 50.f, 50.f }, { 0.f ,0.f }, mass, coeffRest, color);
         }
         if (ImGui::InputInt("Num Sides", &numsides, 1, 5)) {

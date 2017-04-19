@@ -6,7 +6,9 @@
 void NewConvoCreator::CreateConvoNode(std::string filename, MainCharacter mc)
   {
     ListReader reader;
-    my_mc = mc;
+
+    //This will cause a compiler failure, please use a cloning method
+    
     my_filename = filename;
 
     convo_arr = reader.readConversation("Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt", mc);
@@ -191,9 +193,6 @@ void NewConvoCreator::CreateConvoNode(std::string filename, MainCharacter mc)
   void NewConvoCreator::OpenTheme(tgui::Theme::Ptr ThemePtr)
   {
     Theme = ThemePtr;
-
-    sf::RenderWindow *Window;
-    sf::Vector2u WindowSize = Window->getSize();
 
     float xDiff = WindowSize.x - 700.f;
     float yDiff = WindowSize.y - 400.f;

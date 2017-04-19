@@ -31,8 +31,14 @@ namespace Engine
 	friend class Level;
   friend class BasicLevel;
     LevelObject();
-    LevelObject(const LevelObject &obj);
     virtual ~LevelObject();
+
+    //Forbid implicit copy construction and assignment definitions
+    //We [MUST] use a clone method
+    LevelObject(const LevelObject &obj);
+    LevelObject& operator=(const LevelObject &) = delete;
+    
+    virtual std::shared_ptr<BaseEngineInterface> Clone() const override;
 
     static void BindScriptMethods(chaiscript::ModulePtr module);
     virtual void ScriptInit();
@@ -61,6 +67,7 @@ namespace Engine
     virtual void OnGameEnd();
     virtual void OnKilled();
     virtual void OnSpawn();
+    virtual void Reset();
 
     static void AddItemAnimation(std::shared_ptr<LevelObject> Item, const std::string &animName);
     sf::FloatRect GetGlobalBounds() const;
@@ -71,10 +78,13 @@ namespace Engine
 
     void MoveObject(const sf::Vector2f &delta);
 
-    std::vector<std::shared_ptr<Collider2D>> GetColliders();
+    std::vector<std::shared_ptr<Collider2D>> GetColliders() const;
     void AddCollider(std::shared_ptr<Collider2D> Collider);
 
     void AddFrameAnimation(const std::string &ID, const std::vector<sf::IntRect> &Frames, sf::Time Duration);
+    virtual std::string GetClass() const override {
+      return "LevelObject";
+    }
 
   protected:
     thor::AnimationMap<sf::Sprite, std::string> m_AnimationMap;

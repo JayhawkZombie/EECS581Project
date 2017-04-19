@@ -1,12 +1,19 @@
 #include "Engine\Engine.h"
+#include "Messaging\CoreMessager.h"
 
 namespace Engine
 {
   UINT32 SFEngine::Init(int argc, char **argv)
   {
-    std::cerr << "[Command Line Arguments]\n";
+    //Initialize the messager
+    Messager::Init();
+
+    Messager::PostLogMessage(0, SystemMessage(SystemMessageType::ActivityLog, 0, 0, "EngineStartup"), MessageLogLevel::Normal);
+
+    std::vector<std::string> Commands;
+
     for (int i = 0; i < argc; i++) {
-      std::cout << "\t" << i << ": " << argv[i] << std::endl;
+      Commands.emplace_back(std::string(argv[i]));
     }
 
     currentRenderWindow = new sf::RenderWindow(sf::VideoMode(400, 400), "splash screen", sf::Style::None);

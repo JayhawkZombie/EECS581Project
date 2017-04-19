@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "regPolygon.h"
 #include "ball.h"
 
@@ -928,3 +931,5 @@ mhFree.setPosition( mhFree.pos );
 
 return;
 }   */
+
+#pragma warning ( pop )

@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "ball_go.h"
 
 ball_go::ball_go(std::istream& fin)// from file data
@@ -36,3 +39,5 @@ else { v.y += dV; if( v.y > maxVel ) v.y = maxVel; }
 return;
 }
 */
+
+#pragma warning ( pop )

@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "lineSegFlip.h"
 
 lineSegFlip::lineSegFlip(std::istream& fin) : lineSegRotate(fin)
@@ -101,3 +104,5 @@ void lineSegFlip::set_dn()
   N = L.get_LH_norm();
   isUp = false;
 }
+
+#pragma warning ( pop )

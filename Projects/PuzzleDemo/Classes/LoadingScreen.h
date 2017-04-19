@@ -10,6 +10,7 @@ public:
   LoadingScreen();
   ~LoadingScreen();
 
+  std::string GetClass() const override final;
 protected:
 
 };

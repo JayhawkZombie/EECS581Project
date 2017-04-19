@@ -4,7 +4,7 @@
 #include "Engine\BaseEngineInterface.h"
 #include "Globals\GlobalHooks.h"
 #include "Weather\WeatherSystem.h"
-
+#include "Objects\TriggerObject.h"
 #include "PhysicsEngine.h"
 #include "SelbaWard\TileMap.hpp"
 
@@ -24,10 +24,15 @@ namespace Engine
   {
   public:
     BasicLevel() = delete;
+
+    //Oh gawd no please don't every try this
     BasicLevel(const BasicLevel &) = delete;
+    BasicLevel(const BaseEngineInterface &Copy);
+    BasicLevel& operator=(const BasicLevel &) = delete;
     BasicLevel(const sf::Vector2u &LevelSize, const sf::FloatRect &DefaultView, bool showlines = false, const sf::Vector2f &GridSpacing = { 0,0 });
     virtual ~BasicLevel();
 
+    virtual std::shared_ptr<BaseEngineInterface> Clone() const override;
     virtual void TickUpdate(const double &delta) override;
 
     virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
@@ -79,6 +84,7 @@ namespace Engine
 
     ::vec2d *Gravity;
     std::map<std::string, std::shared_ptr<Engine::LevelObject>> LevelObjects;
+    std::map<std::string, std::shared_ptr<TriggerObject>> m_TriggerObjects;
     WeatherSystem m_WeatherSystem;
 
     std::vector<SegmentPtr> Segments;
@@ -91,6 +97,7 @@ namespace Engine
     std::vector<thor::UniversalEmitter> ParticleEmitters;
     std::vector<std::shared_ptr<ProjectileBase>> Projectiles;
 
+    virtual std::string GetClass() const override;
 #ifdef WITH_EDITOR
     static void UpdateEditorUI(const double &delta);
     static void RenderEditorUI(std::shared_ptr<sf::RenderTexture> Target);
@@ -184,6 +191,19 @@ namespace Engine
       float airDen,
       float depth,
       float fluidDen
+    );
+
+    void SpawnTrigger
+    (
+      const std::string &Name,
+      const sf::Vector2f &Where,
+      const sf::Vector2f &Size,
+      std::function<void(void)> TriggerCB,
+      std::function<void(std::shared_ptr<LevelObject>)> CheckCB,
+      bool NotifyEveryFrame,
+      bool DoPhysicalResponse,
+      bool RestrictTriggers,
+      std::vector<std::string> RestrictedTriggers = {}
     );
   };
 

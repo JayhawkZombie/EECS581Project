@@ -337,7 +337,6 @@ namespace Engine
     catch (Json::Exception &err)
     {
       throw EngineRuntimeError({ ExceptionCause::DataParseError }, EXCEPTION_MESSAGE("JSON error"));
-      throw;
     }
   }
   void Level::LoadAnimations(const Json::Value & value)

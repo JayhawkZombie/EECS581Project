@@ -5,7 +5,10 @@
 
 namespace Engine
 {
-
+  std::string BasicLevel::GetClass() const
+  {
+    return std::string("BasicLevel");
+  }
   void BasicLevel::UpdateEditorUI(const double &delta)
   {
     if (CurrentLevel) {

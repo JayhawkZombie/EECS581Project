@@ -10,11 +10,6 @@ namespace Engine
     
   }
 
-  Player::Player(const Player &p)
-  {
-
-  }
-
   Player::Player()
   {
     
@@ -57,6 +52,17 @@ namespace Engine
 
   void Player::SerializeIn(std::ifstream & in)
   {
+  }
+
+  Player::Player(const Player & p)
+    : GenericActor()
+  {
+  }
+
+  std::shared_ptr<BaseEngineInterface> Player::Clone() const
+  {
+    auto Player = std::make_shared<Engine::Player>(*this);
+    return Player;
   }
 
   void Player::TickUpdate(const double &delta)

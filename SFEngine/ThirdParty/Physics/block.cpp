@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "block.h"
 #include "ball.h"
 
@@ -210,3 +213,5 @@ return true;
 
 return false;
 }   */
+
+#pragma warning ( pop )

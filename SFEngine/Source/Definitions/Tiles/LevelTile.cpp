@@ -73,9 +73,9 @@ namespace Engine
     return Grid;
   }
 
-  void LevelTile::SetSize(const sf::Vector2f & Size)
+  void LevelTile::SetSize(const sf::Vector2f & _Size)
   {
-    TileRect.setSize(Size);
+    TileRect.setSize(_Size);
   }
 
 }

@@ -12,23 +12,25 @@ class Level1 : public Engine::BasicLevel
 {
 public:
   Level1();
-  ~Level1();
+  ~Level1() override final;
 
-  void TickUpdate(const double &delta) override;
+  void TickUpdate(const double &delta) override final;
 
-  void Render(std::shared_ptr<sf::RenderTarget> Target) override;
-  void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture);
+  void Render(std::shared_ptr<sf::RenderTarget> Target) override final;
+  void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture) override final;
 
-  void OnShutDown() override;
+  void OnShutDown() override final;
 
-  void HandleInputEvent(const Engine::UserEvent &evnt) override;
+  void HandleInputEvent(const Engine::UserEvent &evnt) override final;
 
-  void EventUpdate(sf::Event event) override;
+  void EventUpdate(sf::Event event) override final;
 
-  void OnBegin() override;
-  void OnEnd()   override;
-  void HideUI()  override;
-  void ShowUI()  override;
+  void OnBegin() override final;
+  void OnEnd()   override final;
+  void HideUI()  override final;
+  void ShowUI()  override final;
+
+  std::string GetClass() const override final;
   
 protected:
   void MakeCreditsPanel();

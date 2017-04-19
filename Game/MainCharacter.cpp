@@ -10,6 +10,16 @@ MainCharacter::MainCharacter()
 	}
 }
 
+MainCharacter::MainCharacter(const MainCharacter &copy)
+  : HumanActor()
+{
+  m_affinity[0] = copy.m_affinity[0];
+  m_affinity[1] = copy.m_affinity[1];
+  m_affinity[2] = copy.m_affinity[2];
+  m_affinity[3] = copy.m_affinity[3];
+  m_affinity[4] = copy.m_affinity[4];
+  m_affinity[5] = copy.m_affinity[5];
+}
 
 MainCharacter::~MainCharacter()
 {
@@ -35,6 +45,13 @@ void MainCharacter::gainExp(int gain)
 	HumanActor::gainExp(gain);
 }
 */
+std::shared_ptr<Engine::BaseEngineInterface> MainCharacter::Clone() const
+{
+  auto Character = std::make_shared<MainCharacter>(*this);
+
+  return Character;
+}
+
 void MainCharacter::IncrementAffinity(int index, int value)
 {
 	if (index < 1 || index>6)//no work done on bad values

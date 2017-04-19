@@ -10,6 +10,10 @@ namespace
 
 namespace Engine
 {
+  BasicLevel::BasicLevel(const BaseEngineInterface & Copy)
+    : BaseEngineInterface(Copy)
+  {
+  }
 
   BasicLevel::BasicLevel(const sf::Vector2u &LevelSize, const sf::FloatRect &DefaultView, bool showlines, const sf::Vector2f &GridSpacing)
     : //LightTexture(std::make_shared<sf::RenderTexture>()),
@@ -24,6 +28,13 @@ namespace Engine
   {
     if (Gravity)
       delete Gravity;
+  }
+
+  std::shared_ptr<BaseEngineInterface> BasicLevel::Clone() const
+  {
+    auto LevelCopy = std::make_shared<BasicLevel>(Size, CurrentView, ShowGridLines, GridBlockSize);
+
+    return LevelCopy;
   }
 
   void BasicLevel::TickUpdate(const double & delta)
@@ -273,6 +284,44 @@ namespace Engine
     Segments.push_back(ptr);
   }
 
+  void BasicLevel::SpawnTrigger(const std::string &Name, const sf::Vector2f & Where, const sf::Vector2f & _Size, std::function<void(void)> TriggerCB, std::function<void(std::shared_ptr<LevelObject>)> CheckCB, bool NotifyEveryFrame, bool DoPhysicalResponse, bool RestrictTriggers, std::vector<std::string> RestrictedTriggers)
+  {
+    try
+    {
+      auto Trigger = std::make_shared<TriggerObject>(TriggerMethod::Touch_NoPhysicalResponse);
+      Trigger->SetTriggerMethod(TriggerMethod::Touch_NoPhysicalResponse);
+      Trigger->SetNotifyEveryFrame(NotifyEveryFrame);
+      
+      auto collider = Collider2D::CreatePolygonMesh(
+        4, 
+        _Size.x / 2.f, 
+        0.f, 
+        Where, 
+        sf::Vector2f(0.f, 0.f), 
+        5.f, 
+        0.f, 
+        sf::Color::Red
+      );
+      
+      if (RestrictTriggers) {
+        Trigger->SetRestrictedTriggerIDs(RestrictedTriggers);
+      }
+
+      m_TriggerObjects.emplace(
+        std::piecewise_construct,
+        std::make_tuple(Name),
+        std::make_tuple(Trigger)
+      );
+    }
+    catch (EngineRuntimeError& e)
+    {
+      e.AddCause(ExceptionCause::SpawnFailure);
+      e.AddMessage(EXCEPTION_MESSAGE("Failed to spawn TriggerObject"));
+
+      throw;
+    }
+  }
+
   void BasicLevel::LoadFromFile(const std::string & file)
   {
     Json::Value ProjectFile;
@@ -375,7 +424,6 @@ namespace Engine
     catch (Json::Exception &err)
     {
       throw EngineRuntimeError({ ExceptionCause::DataParseError }, EXCEPTION_MESSAGE("JSON error"));
-      throw;
     }
   }
 

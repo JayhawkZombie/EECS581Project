@@ -1,11 +1,10 @@
 #ifndef GAME_LEVEL_STACK_H
 #define GAME_LEVEL_STACK_H
 
-#include "../../../../SFEngine/ProjectIncludes.h"
-#include "../../../../SFEngine/Source/Headers/Weather/Lightning.h"
-#include "../../../../SFEngine/Source/Headers/Time/TimedSequence.h"
-#include "../../../../SFEngine/Source/Headers/Utils/UntimedSequence.h"
-
+#include "../ProjectIncludes.h"
+#include "Weather\WeatherSystem.h"
+#include "Weather\Lightning.h"
+#include "Time\TimedSequence.h"
 #include "../Objects/PuzzleBall.h"
 #include "../Objects/Gem.h"
 
@@ -13,11 +12,11 @@ class BallStackLevel : public Engine::BasicLevel
 {
 public:
   BallStackLevel();
-  ~BallStackLevel();
+  ~BallStackLevel() override;
 
   void TickUpdate(const double &delta) override;
   void Render(std::shared_ptr<sf::RenderTarget> Target) override;
-  void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture);
+  void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture) override final;
 
   void OnShutDown() override;
   void HandleInputEvent(const Engine::UserEvent &evnt) override;
@@ -28,6 +27,7 @@ public:
   void HideUI() override;
   void Reset() override;
   void UpdateObjectPhysics() override;
+  std::string GetClass() const override final;
 
 protected:
   void HandleUserClick(sf::Vector2i Pos);

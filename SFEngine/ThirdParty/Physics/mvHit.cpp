@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "mvHit.h"
 
 float mvHit::wdwW, mvHit::wdwH;
@@ -185,3 +188,4 @@ float Ek_Cm(const mvHit& A, const mvHit& B)
   return 0.5f*Ek;
 }
 
+#pragma warning ( pop )

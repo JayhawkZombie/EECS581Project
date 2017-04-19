@@ -82,9 +82,9 @@ namespace Engine
     }
   }
 
-  GenericActor::GenericActor(const GenericActor &actor)
+  GenericActor::GenericActor(const GenericActor & Copy)
+    : LevelObject()
   {
-
   }
 
   void GenericActor::AddAnimation(const std::string &ID, std::shared_ptr<Animation> info)
@@ -136,6 +136,13 @@ namespace Engine
   {
     if (CurrentAnimation)
       CurrentAnimation->Render(Target);
+  }
+
+  std::shared_ptr<BaseEngineInterface> GenericActor::Clone() const
+  {
+    auto Actor = std::make_shared<GenericActor>(*this);
+
+    return Actor;
   }
 
   void GenericActor::TickUpdate(const double &delta)

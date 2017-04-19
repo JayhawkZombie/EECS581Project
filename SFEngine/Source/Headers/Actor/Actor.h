@@ -17,9 +17,14 @@ namespace Engine
     static void BindScriptMethods(chaiscript::ModulePtr module);
 
     GenericActor();
+    GenericActor(const GenericActor &Copy);
     GenericActor(const std::string &texfile, const std::string &texID);
-    GenericActor(const GenericActor &actor);
     virtual ~GenericActor();
+
+    //Forbid implicit copy assignment definitions
+    //We [MUST] use a clone method
+    GenericActor& operator=(const GenericActor &) = delete;
+    virtual std::shared_ptr<BaseEngineInterface> Clone() const override;
 
     virtual void TickUpdate(const double &delta) override;
     virtual void Render(std::shared_ptr<sf::RenderTarget> Target) override;
@@ -52,6 +57,10 @@ namespace Engine
     void Spawn(const sf::Vector2f &Position);
     void Respawn(const sf::Vector2f &Position);
     void Kill();
+
+    virtual std::string GetClass() const override {
+      return "GenericActor";
+    }
 
   protected:
     void __HandleKeyPress(const sf::Keyboard::Key &key);

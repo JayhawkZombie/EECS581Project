@@ -67,6 +67,11 @@ namespace Engine
     }
   }
 
+  std::string LightningBolt::GetClass() const
+  {
+    return std::string("LightningBolt");
+  }
+
   void LightningBolt::UpdateBolt(const double &delta)
   {
     if (!m_IsAlive) {
@@ -308,6 +313,11 @@ namespace Engine
   void CrawlingLightningBolt::SetMaxBoltLength(const float & Length)
   {
     m_MaxBoltLength = Length;
+  }
+
+  std::string CrawlingLightningBolt::GetClass() const
+  {
+    return std::string("CrawlingLightningBolt");
   }
 
 }

@@ -24,14 +24,19 @@ namespace Engine
 
   UINT32 SFEngine::GameLoop()
   {
+    Messager::PostLogMessage(0, SystemMessage(SystemMessageType::ActivityLog, 0, 0, "Engine GameLoop"), MessageLogLevel::Normal);
+
     std::chrono::high_resolution_clock::time_point LastFrameStart = std::chrono::high_resolution_clock::now();
     std::chrono::high_resolution_clock::time_point CurrentFrameStart = std::chrono::high_resolution_clock::now();
     std::chrono::high_resolution_clock::time_point TickEnd;
     std::chrono::high_resolution_clock::time_point UpdateStart;
     std::chrono::high_resolution_clock::time_point UpdateEnd;
+    std::chrono::high_resolution_clock::time_point RenderStart;
     std::chrono::high_resolution_clock::time_point RenderEnd;
 
-    double TickDelta;
+    double TickDelta = 0.0;
+    double RenderDelta = 0.0;
+    double UpdateDelta = 0.0;
     sf::Event evnt;
 
     std::shared_ptr<sf::RenderTexture> GameMainTexture = std::make_shared<sf::RenderTexture>();
@@ -155,6 +160,13 @@ namespace Engine
     
     sf::Time fTime = { sf::seconds(0) };
     EngineRenderSettings.BGClearColor = sf::Color::Black;
+
+    //Every 10 seconds we will log the tick time
+    double LogTickDelta = 0.0;
+    std::stringstream TimeString;
+    struct std::tm *ptm = nullptr;
+    std::time_t TickTimePoint;
+
     while (true) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       Closed = Handler.PollEvents(currentRenderWindow, evnt, true);
@@ -165,8 +177,25 @@ namespace Engine
       {
         CurrentFrameStart = std::chrono::high_resolution_clock::now();
         TickDelta = std::chrono::duration<double, std::milli>(CurrentFrameStart - LastFrameStart).count();
+        UpdateDelta = std::chrono::duration<double, std::milli>(UpdateEnd - UpdateStart).count();
+        RenderDelta = std::chrono::duration<double, std::milli>(RenderEnd - RenderStart).count();
 
         TickDelta *= TimeScaleFactor;
+        LogTickDelta += TickDelta;
+
+        if (LogTickDelta >= 1000.0) {
+          LogTickDelta = 0.0;
+          TickTimePoint = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+          ptm = std::localtime(&TickTimePoint);
+          TimeString.str("");
+
+          TimeString << std::put_time(ptm, "%H:%M:%S");
+          std::string ALogMsg = "\n\tTickLog     : [" + TimeString.str()            + "]\n"   +
+                                  "\tTick Time   :  "  + std::to_string(TickDelta)   + " ms\n" + 
+                                  "\tUpdate Time :  "  + std::to_string(UpdateDelta) + " ms\n" + 
+                                  "\tRender Time :  "  + std::to_string(RenderDelta) + " ms\n";
+          Messager::PostToActivityLog(SystemMessage(SystemMessageType::ActivityLog, 0, 0, ALogMsg));
+        }
 
         UpdateStart = std::chrono::high_resolution_clock::now();
 
@@ -181,6 +210,8 @@ namespace Engine
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
 
+        RenderStart = std::chrono::high_resolution_clock::now();
+
         Window->clear(sf::Color::Black);
         EditorTexture->clear(sf::Color::Black); 
         
@@ -193,6 +224,8 @@ namespace Engine
         //Window->resetGLStates();
         ImGui::Render();
         Window->display();
+
+        RenderEnd = std::chrono::high_resolution_clock::now();
         LastFrameStart = CurrentFrameStart;
       }
       catch (chaiscript::exception::eval_error &e)
@@ -206,6 +239,7 @@ namespace Engine
 
     CurrentLevel = nullptr;
 
+    Messager::PostLogMessage(0, SystemMessage(SystemMessageType::ActivityLog, 0, 0, "Engine Beginning Shutdown"), MessageLogLevel::Normal);
     return Shutdown();
   }
 }

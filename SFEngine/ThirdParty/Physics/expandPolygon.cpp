@@ -1,3 +1,6 @@
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+
 #include "expandPolygon.h"
 #include "ball.h"
 
@@ -188,3 +191,5 @@ else growState = -1;
 rFull = R;
 }
 */
+
+#pragma warning ( pop )
