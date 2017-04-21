@@ -53,6 +53,10 @@
           "Path": "/Textures/Church.png"
         },
         {
+          "Name": "ChurchInterior",
+          "Path": "/Textures/ChurchInteriorTilset.png"
+        },
+        {
           "Name": "Grass",
           "Path": "/Textures/Grass.png"
         },

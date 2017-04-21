@@ -75,6 +75,7 @@ protected:
   //Pointers for levels
   std::shared_ptr<BasicLevel> OakTreeLevelPtr;
   std::shared_ptr<BasicLevel> BallPuzzleLevelPtr;
+  std::shared_ptr<BasicLevel> OakTreeChurchInteriorLevelPtr;
   tgui::Button::Ptr LevelSelectBack;
 
   bool m_Paused = false;
