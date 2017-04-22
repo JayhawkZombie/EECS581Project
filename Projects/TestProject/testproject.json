@@ -69,6 +69,10 @@
           "Path": "/Textures/4x4HouseTemplate.png"
         },
         {
+          "Name": "TreeOverLap",
+           "Path": "/Textures/TreeTopLayer.png"
+        },
+        {
           "Name": "5House",
           "Path": "/Textures/5x5HouseTemplate.png"
         },

@@ -793,6 +793,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Projects\PuzzleDemo\Assets\Textures\LoadingWhite.png" />
+    <Image Include="Projects\TestProject\Textures\TreeTopLayer.png" />
     <Image Include="SFEngine\Samples\Fonts\AbstractBitmap18.png" />
     <Image Include="SFEngine\Samples\Fonts\AbstractBitmap30.png" />
     <Image Include="SFEngine\Samples\Logos\SFEngineLogo.png" />

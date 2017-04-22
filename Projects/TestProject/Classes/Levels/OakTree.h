@@ -40,6 +40,7 @@ protected:
   static const bool line_segment_builder_tool = false;
   static const bool snap_to_16x16 = true;
   sf::Vector2i lastPos;
+  sw::TileMap top;
 };
 
 #endif
