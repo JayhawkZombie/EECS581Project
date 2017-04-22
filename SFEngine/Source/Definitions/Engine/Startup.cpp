@@ -5,6 +5,7 @@
 #include "Projects\TestProject\Classes\Levels\OakTree.h"
 #include "Projects\PuzzleDemo\Classes\Level1.h"
 #include "Projects\PuzzleDemo\Classes\StartupLevel.h"
+#include "Projects\PuzzleDemo\Classes\Levels\DemoLoader.h"
 
 namespace Engine
 {
@@ -31,10 +32,6 @@ namespace Engine
     Window->setVerticalSyncEnabled(false);
     currentRenderWindow = Window;
     CurrentEngine = this;
-
-    //RenderSettings.texture = new sf::RenderTexture;
-    //RenderSettings.texture->create(EngineConfig.Window_v2fWindowSize.x, EngineConfig.Window_v2fWindowSize.y);
-    //RenderSettings.texture->setActive(true);
 
     FragmentShader = new sf::Shader;
     VertexShader = new sf::Shader;
@@ -181,7 +178,7 @@ namespace Engine
     Window->display();
     Window->clear();
 
-    std::shared_ptr<::StartupLevel> EngineStartupLevel = std::make_shared<::StartupLevel>();
+    std::shared_ptr<::DemoLoadLevel> EngineStartupLevel = std::make_shared<::DemoLoadLevel>();
     Levels["Main"] = EngineStartupLevel;
 
     EngineStartupLevel->SetNextLevel(std::make_shared<::Level1>());    

@@ -12,5 +12,12 @@ namespace Engine
 
       return (_s == "true" ? true : false);
     }
+    bool StringToBool(const std::string & s, bool Default)
+    {
+      std::string _s = s;
+      std::transform(_s.begin(), _s.end(), _s.begin(), ::tolower);
+
+      return (_s == "true" ? true : Default);
+    }
   }
 }

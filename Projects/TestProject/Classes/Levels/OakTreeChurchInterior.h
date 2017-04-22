@@ -19,10 +19,13 @@ public:
 	void OnBegin() override;
 	void OnEnd() override;
 	std::string GetClass() const override final;
+	void setJoint(int x, int y);
+	void nextSeg(int x, int y);
 
 protected:
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
 	Engine::Camera2D myActor_camera;
+	sf::Vector2i lastPos;
 };
 
 #endif

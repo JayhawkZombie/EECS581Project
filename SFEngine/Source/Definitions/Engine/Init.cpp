@@ -7,6 +7,7 @@ namespace Engine
   {
     //Initialize the messager
     Messager::Init();
+    ASyncLevelStreamThread::Launch();
 
     Messager::PostLogMessage(0, SystemMessage(SystemMessageType::ActivityLog, 0, 0, "EngineStartup"), MessageLogLevel::Normal);
 

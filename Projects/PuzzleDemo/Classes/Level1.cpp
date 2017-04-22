@@ -3,6 +3,7 @@
 #include "../../TestProject/Classes/Levels/OakTree.h"
 #include "../../TestProject/Classes/Levels/OakTreeChurchInterior.h"
 #include "Levels\Stack.h"
+#include "Levels\AITest.h"
 
 namespace
 {
@@ -37,6 +38,7 @@ Level1::Level1()
   OakTreeLevelPtr    = std::make_shared<OakTreeLevel>();
   OakTreeChurchInteriorLevelPtr = std::make_shared<OakTreeChurchInterior>();
   BallPuzzleLevelPtr = std::make_shared<BallStackLevel>();
+  AITestLevelPtr     = std::make_shared<AITestLevel>();
 
   //Create some buttons
   m_LevelSelectButon = m_MenuTheme->load("button");
@@ -133,6 +135,17 @@ Level1::Level1()
   BallLevel->setTextSize(12);
   BallLevel->connect("clicked", [this]() {Engine::SwitchLevel(this->BallPuzzleLevelPtr); });
   m_LevelSelectPanel->add(BallLevel);
+
+  tgui::Button::Ptr AILevel = m_MenuTheme->load("button");
+  AILevel->setPosition({ 25, 700 });
+  AILevel->setSize({ 200, 25 });
+  AILevel->setText("AI Test");
+  AILevel->setTextSize(12);
+  AILevel->connect("clicked", [this]() {Engine::SwitchLevel(this->AITestLevelPtr); });
+  m_LevelSelectPanel->add(AILevel);
+
+  LevelSelectBack = m_MenuTheme->load("button");
+  LevelSelectBack->setPosition({ 25, 825 });
 
   tgui::Button::Ptr OakTreeChurchInteriorLevel = m_MenuTheme->load("button");
   OakTreeChurchInteriorLevel->setPosition({ 25, 700 });

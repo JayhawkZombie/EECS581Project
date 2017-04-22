@@ -324,10 +324,14 @@
     <ClInclude Include="Game\Useable.h" />
     <ClInclude Include="Game\Weapon.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Level1.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\AITest.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\DemoLoader.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\Stack.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\LoadingScreen.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Flippable.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Gem.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\LoadingRing.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\StartupLevel.h" />
     <ClInclude Include="Projects\TestProject\Classes\Levels\OakTree.h" />
@@ -340,7 +344,10 @@
     <ClInclude Include="SFEngine\Source\CoreFiles\Shaders\GlowShader.fsh" />
     <ClInclude Include="SFEngine\Source\CoreTests\CoreTests.h" />
     <ClInclude Include="SFEngine\Source\CoreTests\TestDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\AI\BehaviorTree.h" />
     <ClInclude Include="SFEngine\Source\Headers\Camera\2DCamera.h" />
+    <ClInclude Include="SFEngine\Source\Headers\DefsX64.h" />
+    <ClInclude Include="SFEngine\Source\Headers\DefsX86.h" />
     <ClInclude Include="SFEngine\Source\Headers\Editor\AssetEditor.hpp" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\Console.h" />
     <ClInclude Include="SFEngine\Source\Headers\Engine\InputInterface.h" />
@@ -357,10 +364,12 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\SpellBase.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\Static.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerObject.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerVolume.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
     <ClInclude Include="SFEngine\Source\Headers\Streams\DataStream.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Threading\ASyncLoader.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileGrid.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TileSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\Tiles\TMXMap.h" />
@@ -404,6 +413,7 @@
     <ClInclude Include="SFEngine\Source\Headers\UI\UIIconSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\UI\UIMacros.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\AssetConverters.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\CacheIni.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\CollisionHelpers.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Convert.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\Decoders.h" />
@@ -629,10 +639,14 @@
       <FileType>CppCode</FileType>
     </Text>
     <ClCompile Include="Projects\PuzzleDemo\Classes\Level1.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\AITest.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\DemoLoader.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\Stack.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\LoadingScreen.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Flippable.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Gem.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\LoadingRing.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\StartupLevel.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Levels\OakTree.cpp" />
@@ -642,6 +656,7 @@
     <ClCompile Include="SFEngine\Source\CoreTests\ResourceManagerTests.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Actor.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Actor\Player.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\AI\BehaviorTree.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Animation\Animation.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Camera\2DCamera.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\CollisionComponent.cpp" />
@@ -693,10 +708,13 @@
     <ClCompile Include="SFEngine\Source\Definitions\Messaging\CoreMessager.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\Static.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\TriggerObject.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\TriggerVolume.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Physics\Collider.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Components\ScriptComponent.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\State\DeviceState.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Streams\DataStream.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Threading\ASyncLoader.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Threading\ASyncLoadThread.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Tiles\LevelTile.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\Update.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Lights\GenericLightSource.cpp" />
@@ -719,6 +737,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Time\TimedSequence.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\UI\UIIconSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\AssetConverters.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Utils\CacheIni.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Convert.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Decoders.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Encoders.cpp" />
@@ -847,6 +866,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="SFEngine\Source\Headers\Streams\DataStream.inl" />
+    <None Include="SFEngine\Source\Headers\Utils\CacheIni.inl" />
     <None Include="SFEngine\Source\LightingRadialShader.fsh" />
     <None Include="SFEngine\Source\SharpenFragmentShader.fsh" />
     <None Include="SFEngine\ThirdParty\cereal\external\rapidxml\manual.html" />
