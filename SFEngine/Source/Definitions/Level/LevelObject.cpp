@@ -169,6 +169,37 @@ namespace Engine
     return TextureRect;
   }
 
+  void LevelObject::HandleCollisionWithCollider(SPtrShared<Collider2D> Collider)
+  {
+  }
+
+  void LevelObject::HandleCollisionWithSegment(SPtrShared<PhysicsEngineSegmentType> Segment)
+  {
+    auto pos = Segment->pos;
+    auto diff = Position - sf::Vector2f(pos.x, pos.y);
+
+    sf::Vector2f move = { 0, 0 };
+    
+    auto right = Position.x + Size.x;
+    auto top = Position.y + Size.y;
+    
+    //If the distance from our right to the segment is less than our size
+    // we need to be pushed back a bit
+    // 
+    //Case for when we aproach from the left
+    if (Position.x <= pos.x && right > pos.x)
+      move.x = 1.2f * (pos.x - Position.x);
+    else if (pos.x <= right && Position.x < pos.x)
+      move.x = 1.2f * (right - pos.x);
+
+    if (pos.y >= Position.y && top > pos.y)
+      move.y = 1.2f * (pos.y - Position.y);
+    else if (top >= pos.y && Position.y <= pos.y)
+      move.y = 1.2f * (top - pos.y);
+
+    MoveObject(move);
+  }
+
   void LevelObject::HandleInputEvent(const UserEvent & evnt)
   {
   }
@@ -243,6 +274,7 @@ namespace Engine
   void LevelObject::AddCollider(std::shared_ptr<Collider2D> Collider)
   {
     m_Colliders.push_back(Collider);
+    m_Colliders.back()->SetObjectPtr(this);
   }
 
   void LevelObject::AddFrameAnimation(const std::string & ID, const std::vector<sf::IntRect>& Frames, sf::Time Duration)

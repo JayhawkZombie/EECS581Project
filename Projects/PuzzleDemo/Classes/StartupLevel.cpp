@@ -10,13 +10,14 @@ StartupLevel::StartupLevel()
     [this]() {this->LightningSequenceEnded(); },   //CB for the lightning sequence ending
     {
       { 400.0, [this]() { this->LightningSequenceCB(0,  1,  2,  3);  }, []() {}, []() {} }, // 4 bolts strike the 'S' character
-      { 400.0, [this]() { this->LightningSequenceCB(4,  5,  6,  7);  }, []() {}, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(8,  9,  10, 11); }, []() {}, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(12, 13, 14, 15); }, []() {}, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(16, 17, 18, 19); }, []() {}, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(20, 21, 22, 23); }, []() {}, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(24, 25, 26, 27); }, []() {}, []() {} }, // 4 botls strike the 'F' character
-      { 400.0, [this]() { this->LightningSequenceCB(28, 29, 30, 31); }, []() {}, []() {} }, // 4 botls strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(4,  5,  6,  7);  }, []() {}, []() {} }, // 4 bolts strike the 'F' character
+      { 400.0, [this]() { this->LightningSequenceCB(8,  9,  10, 11); }, []() {}, []() {} }, // 4 bolts strike the 'E' character
+      { 400.0, [this]() { this->LightningSequenceCB(12, 13, 14, 15); }, []() {}, []() {} }, // 4 bolts strike the 'N' character
+      { 400.0, [this]() { this->LightningSequenceCB(16, 17, 18, 19); }, []() {}, []() {} }, // 4 bolts strike the 'G' character
+      { 400.0, [this]() { this->LightningSequenceCB(20, 21, 22, 23); }, []() {}, []() {} }, // 4 bolts strike the 'I' character
+      { 400.0, [this]() { this->LightningSequenceCB(24, 25, 26, 27); }, []() {}, []() {} }, // 4 bolts strike the 'N' character
+      { 400.0, [this]() { this->LightningSequenceCB(28, 29, 30, 31); }, []() {}, []() {} }, // 4 bolts strike the 'E' character
+      { 3500.0, []() {}, []() {}, []() {} }
     }
   );
 

@@ -237,6 +237,9 @@ namespace Engine
       WriteToFile(0, message, File);
     }
 
+    sf::IntRect rect = { {0, 0}, {100, 500} };
+    sf::IntRect _rect(0, 0, 100, 500);
+
     File << "\n\nLog Purge Complete" << std::endl;
     File.close();
   }

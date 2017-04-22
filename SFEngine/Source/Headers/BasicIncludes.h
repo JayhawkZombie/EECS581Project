@@ -14,10 +14,8 @@
 #include <bitset>
 
 
-#include "../../ThirdParty/json/json.h"
-
-#include "EngineTypes.h"
 #include "Globals\GlobalHooks.h"
+#include "EngineTypes.h"
 #include "Utils\ReadIni.h"
 #include "Utils\Convert.h"
 #include "Utils\Encoders.h"
@@ -25,8 +23,10 @@
 #include "Utils\Vec.hpp"
 #include "Utils\ListTemplates.h"
 #include "Render\Render.h"
-
+#include "Threading\ASyncLoader.h"
 #include "Exceptions\Exceptions.h"
+
+#include "SFengine\ThirdParty\json\json.h"
 
 #include <SFML/OpenGL.hpp>
 

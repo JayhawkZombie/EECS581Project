@@ -60,6 +60,9 @@ namespace Engine
     sf::Vector2f GetSize() const;
     sf::IntRect GetTextureRect() const;
 
+    virtual void HandleCollisionWithCollider(SPtrShared<Collider2D> Collider);
+    virtual void HandleCollisionWithSegment(SPtrShared<PhysicsEngineSegmentType> Segment);
+
     virtual void HandleInputEvent(const UserEvent &evnt);
     virtual void SetID(const std::string &ID) override;
 

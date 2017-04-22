@@ -227,7 +227,18 @@ namespace Engine
   bool Collider2D::HandleCollision(std::weak_ptr<Collider2D> Collider)
   {
     if (m_Status.test(ColliderProp::Active) && m_Status.test(ColliderProp::Enabled)) {
-      m_CollisionCallback(Collider);
+      if (m_MyObject)
+        m_MyObject->HandleCollisionWithCollider(Collider.lock());
+    }
+
+    return m_Status.test(ColliderProp::HasPhysicalResponse);
+  }
+
+  bool Collider2D::HandleCollisionWithSegment(std::weak_ptr<PhysicsEngineSegmentType> Collider)
+  {
+    if (m_Status.test(ColliderProp::Active) && m_Status.test(ColliderProp::Enabled)) {
+      if (m_MyObject)
+        m_MyObject->HandleCollisionWithSegment(Collider.lock());
     }
 
     return m_Status.test(ColliderProp::HasPhysicalResponse);

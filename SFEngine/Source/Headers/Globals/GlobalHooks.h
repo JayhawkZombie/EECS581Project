@@ -18,7 +18,6 @@ typedef tgui::MessageBox tguiMessageBox;
 #include <chrono>
 #include <unordered_map>
 
-#include "BasicIncludes.h"
 #include "Resources\ResourceManager.h"
 #include "Streams\DataStream.h"
 #include "Render\Render.h"
