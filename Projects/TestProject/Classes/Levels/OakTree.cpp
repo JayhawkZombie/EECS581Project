@@ -197,6 +197,10 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["SmallHouse3Obj"] = SmallHouse3;
   LevelObjects["BigOakTree"] = BigOakTreeTree;
 
+  std::shared_ptr<Engine::Collider2D> church_transition_collider = Engine::Collider2D::CreatePolygonMesh(4, 22.6274f, (3.14159 / 4), { 368.f, 224.f }, { 0, 0 }, 1.f, 0.f, sf::Color::Blue);
+  church_transition_collider->SetCollisionCallback(switch_to_church(), true);
+
+
   sf::FloatRect myActor_spawnLocation(176.f, 176.f, 256.f, 256.f);
   sf::FloatRect full_map_view(0.f, 0.f, 800.f, 800.f);
   std::shared_ptr<RPGActor> myActor = std::make_shared<RPGActor>();
@@ -204,7 +208,6 @@ OakTreeLevel::OakTreeLevel()
   myActor->SetTexture(Textures["MyActor_sheet"]);
   SpawnActor(myActor, { 24 * 16,33 * 16 });
   myActor->SetPosition({ 24 * 16,33 * 16 });
-
   myActor->SetActorSize({ 16,16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
@@ -229,7 +232,7 @@ OakTreeLevel::OakTreeLevel()
   //std::cout << "Height" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().height <<"\n";
   //std::cout << "Top" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().top << "\n";
   //myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 1, 0, { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1.f, 1., sf::Color::White));
-
+  /*
   for (auto & obj : LevelObjects)
   {
     if (!(obj.second == myActor))
@@ -243,7 +246,7 @@ OakTreeLevel::OakTreeLevel()
     }
                                                         //}
   //Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->GetGlobalBounds().top, obj.second->GetGlobalBounds().top + obj.second->GetGlobalBounds().height ));
-  }
+  }*/
 
 
   //Four Corners of level
@@ -621,4 +624,8 @@ void OakTreeLevel::OnBegin()
 
 void OakTreeLevel::OnEnd()
 {
+}
+
+void OakTreeLevel::switch_to_church() {
+
 }

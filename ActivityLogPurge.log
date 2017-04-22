@@ -1,21 +1,46 @@
 Activity Log Purge
 **********************************************************************************
-Source: 901584625
+Source: 256282646
 PostText:
 StartupLevel - OnBegin()
 
 **********************************************************************************
-Source: 901584625
+Source: Engine
 PostText:
-StartupLevel - EventUpdate() - User Skipped Animation
+
+	TickLog     : [14:50:54]
+	Tick Time   :  2.081200 ms
+	Update Time :  0.224006 ms
+	Render Time :  1.830867 ms
+
 
 **********************************************************************************
-Source: 901584625
+Source: Engine
+PostText:
+
+	TickLog     : [14:50:55]
+	Tick Time   :  1.580980 ms
+	Update Time :  0.147701 ms
+	Render Time :  1.406952 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:50:56]
+	Tick Time   :  1.725558 ms
+	Update Time :  0.160641 ms
+	Render Time :  1.540820 ms
+
+
+**********************************************************************************
+Source: 256282646
 PostText:
 StartupLevel - OnEnd()
 
 **********************************************************************************
-Source: 456601923
+Source: 2883217353
 PostText:
 Level1 - OnBegin()
 
@@ -23,44 +48,204 @@ Level1 - OnBegin()
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:50]
-	Tick Time   :  11.948849 ms
-	Update Time :  3.872518 ms
-	Render Time :  8.036511 ms
+	TickLog     : [14:50:57]
+	Tick Time   :  1.587228 ms
+	Update Time :  0.514945 ms
+	Render Time :  1.045955 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:51]
-	Tick Time   :  11.562131 ms
-	Update Time :  4.531827 ms
-	Render Time :  6.799998 ms
+	TickLog     : [14:50:58]
+	Tick Time   :  2.294049 ms
+	Update Time :  1.148141 ms
+	Render Time :  1.120028 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:53]
-	Tick Time   :  12.063797 ms
-	Update Time :  2.659405 ms
-	Render Time :  9.029991 ms
+	TickLog     : [14:50:59]
+	Tick Time   :  3.038802 ms
+	Update Time :  1.762148 ms
+	Render Time :  1.250772 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:54]
-	Tick Time   :  11.189372 ms
-	Update Time :  2.909827 ms
-	Render Time :  8.240954 ms
+	TickLog     : [14:51:00]
+	Tick Time   :  4.376142 ms
+	Update Time :  2.477895 ms
+	Render Time :  1.868796 ms
 
 
 **********************************************************************************
-Source: 456601923
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:01]
+	Tick Time   :  4.584976 ms
+	Update Time :  2.976330 ms
+	Render Time :  1.572948 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:02]
+	Tick Time   :  5.195860 ms
+	Update Time :  3.532774 ms
+	Render Time :  1.636758 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:03]
+	Tick Time   :  5.337760 ms
+	Update Time :  3.636299 ms
+	Render Time :  1.675134 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:04]
+	Tick Time   :  5.292245 ms
+	Update Time :  3.560440 ms
+	Render Time :  1.705477 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:05]
+	Tick Time   :  5.272165 ms
+	Update Time :  3.607740 ms
+	Render Time :  1.629619 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:06]
+	Tick Time   :  5.368996 ms
+	Update Time :  3.666196 ms
+	Render Time :  1.676919 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:07]
+	Tick Time   :  5.331067 ms
+	Update Time :  3.629159 ms
+	Render Time :  1.675134 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:08]
+	Tick Time   :  5.714375 ms
+	Update Time :  3.618896 ms
+	Render Time :  2.059335 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:09]
+	Tick Time   :  5.360517 ms
+	Update Time :  3.563564 ms
+	Render Time :  1.770626 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:10]
+	Tick Time   :  5.505095 ms
+	Update Time :  3.754103 ms
+	Render Time :  1.715294 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:11]
+	Tick Time   :  5.389522 ms
+	Update Time :  3.701894 ms
+	Render Time :  1.652822 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:12]
+	Tick Time   :  5.308309 ms
+	Update Time :  3.633621 ms
+	Render Time :  1.647914 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:13]
+	Tick Time   :  5.481445 ms
+	Update Time :  3.712604 ms
+	Render Time :  1.740729 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:14]
+	Tick Time   :  5.333744 ms
+	Update Time :  3.647900 ms
+	Render Time :  1.659516 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:15]
+	Tick Time   :  5.316788 ms
+	Update Time :  3.613095 ms
+	Render Time :  1.668441 ms
+
+
+**********************************************************************************
+Source: Engine
+PostText:
+
+	TickLog     : [14:51:16]
+	Tick Time   :  5.434145 ms
+	Update Time :  3.678690 ms
+	Render Time :  1.630958 ms
+
+
+**********************************************************************************
+Source: 2883217353
 PostText:
 Level1 - OnEnd()
 
@@ -68,309 +253,189 @@ Level1 - OnEnd()
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:55]
-	Tick Time   :  7.707267 ms
-	Update Time :  0.189664 ms
-	Render Time :  7.481066 ms
+	TickLog     : [14:51:17]
+	Tick Time   :  2.471648 ms
+	Update Time :  0.058902 ms
+	Render Time :  2.385972 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:56]
-	Tick Time   :  7.992174 ms
-	Update Time :  0.129727 ms
-	Render Time :  7.822215 ms
+	TickLog     : [14:51:18]
+	Tick Time   :  1.443096 ms
+	Update Time :  0.051316 ms
+	Render Time :  1.365006 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:57]
-	Tick Time   :  7.664983 ms
-	Update Time :  0.088674 ms
-	Render Time :  7.504055 ms
+	TickLog     : [14:51:19]
+	Tick Time   :  1.490396 ms
+	Update Time :  0.051762 ms
+	Render Time :  1.412307 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:58]
-	Tick Time   :  8.158848 ms
-	Update Time :  0.147790 ms
-	Render Time :  7.963026 ms
+	TickLog     : [14:51:20]
+	Tick Time   :  1.466746 ms
+	Update Time :  0.052208 ms
+	Render Time :  1.388211 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:39:59]
-	Tick Time   :  8.318133 ms
-	Update Time :  0.076769 ms
-	Render Time :  7.630908 ms
+	TickLog     : [14:51:21]
+	Tick Time   :  1.481025 ms
+	Update Time :  0.051316 ms
+	Render Time :  1.403829 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:00]
-	Tick Time   :  7.776646 ms
-	Update Time :  0.126032 ms
-	Render Time :  7.501182 ms
+	TickLog     : [14:51:22]
+	Tick Time   :  1.470315 ms
+	Update Time :  0.051316 ms
+	Render Time :  1.393119 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:01]
-	Tick Time   :  8.403934 ms
-	Update Time :  0.093601 ms
-	Render Time :  7.565224 ms
+	TickLog     : [14:51:23]
+	Tick Time   :  1.462284 ms
+	Update Time :  0.070057 ms
+	Render Time :  1.366345 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:02]
-	Tick Time   :  9.079665 ms
-	Update Time :  0.106327 ms
-	Render Time :  8.811589 ms
+	TickLog     : [14:51:24]
+	Tick Time   :  1.493966 ms
+	Update Time :  0.064703 ms
+	Render Time :  1.403382 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:03]
-	Tick Time   :  8.368218 ms
-	Update Time :  0.164211 ms
-	Render Time :  8.114511 ms
+	TickLog     : [14:51:25]
+	Tick Time   :  1.507799 ms
+	Update Time :  0.063364 ms
+	Render Time :  1.418108 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:04]
-	Tick Time   :  9.307507 ms
-	Update Time :  0.254528 ms
-	Render Time :  8.986885 ms
+	TickLog     : [14:51:26]
+	Tick Time   :  1.513154 ms
+	Update Time :  0.052654 ms
+	Render Time :  1.434172 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:05]
-	Tick Time   :  8.548029 ms
-	Update Time :  0.171191 ms
-	Render Time :  8.339481 ms
+	TickLog     : [14:51:27]
+	Tick Time   :  1.484149 ms
+	Update Time :  0.065595 ms
+	Render Time :  1.391334 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:06]
-	Tick Time   :  7.905962 ms
-	Update Time :  0.237697 ms
-	Render Time :  7.626803 ms
+	TickLog     : [14:51:28]
+	Tick Time   :  1.507799 ms
+	Update Time :  0.051316 ms
+	Render Time :  1.417215 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:07]
-	Tick Time   :  7.827141 ms
-	Update Time :  0.135885 ms
-	Render Time :  7.641172 ms
+	TickLog     : [14:51:29]
+	Tick Time   :  1.497090 ms
+	Update Time :  0.051762 ms
+	Render Time :  1.419446 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:08]
-	Tick Time   :  7.594371 ms
-	Update Time :  0.112896 ms
-	Render Time :  7.441655 ms
+	TickLog     : [14:51:30]
+	Tick Time   :  1.536357 ms
+	Update Time :  0.051316 ms
+	Render Time :  1.459160 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:09]
-	Tick Time   :  8.422819 ms
-	Update Time :  0.197464 ms
-	Render Time :  8.184301 ms
+	TickLog     : [14:51:31]
+	Tick Time   :  1.523416 ms
+	Update Time :  0.095493 ms
+	Render Time :  1.384194 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:10]
-	Tick Time   :  9.312844 ms
-	Update Time :  0.121106 ms
-	Render Time :  9.141654 ms
+	TickLog     : [14:51:32]
+	Tick Time   :  1.485487 ms
+	Update Time :  0.065149 ms
+	Render Time :  1.394458 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:11]
-	Tick Time   :  8.693356 ms
-	Update Time :  0.172422 ms
-	Render Time :  8.475776 ms
+	TickLog     : [14:51:33]
+	Tick Time   :  1.478348 ms
+	Update Time :  0.062918 ms
+	Render Time :  1.388210 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:12]
-	Tick Time   :  8.814053 ms
-	Update Time :  0.230307 ms
-	Render Time :  8.534072 ms
+	TickLog     : [14:51:34]
+	Tick Time   :  1.496643 ms
+	Update Time :  0.064257 ms
+	Render Time :  1.405167 ms
 
 
 **********************************************************************************
 Source: Engine
 PostText:
 
-	TickLog     : [14:40:13]
-	Tick Time   :  8.286934 ms
-	Update Time :  0.098116 ms
-	Render Time :  8.149407 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:14]
-	Tick Time   :  7.980268 ms
-	Update Time :  0.112485 ms
-	Render Time :  7.828373 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:15]
-	Tick Time   :  7.627624 ms
-	Update Time :  0.107148 ms
-	Render Time :  7.481475 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:16]
-	Tick Time   :  7.605455 ms
-	Update Time :  0.109611 ms
-	Render Time :  7.454791 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:17]
-	Tick Time   :  7.676887 ms
-	Update Time :  0.196233 ms
-	Render Time :  7.442065 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:18]
-	Tick Time   :  7.893236 ms
-	Update Time :  0.107559 ms
-	Render Time :  7.700288 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:19]
-	Tick Time   :  8.725378 ms
-	Update Time :  0.184738 ms
-	Render Time :  8.495482 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:20]
-	Tick Time   :  8.809947 ms
-	Update Time :  0.090316 ms
-	Render Time :  8.671599 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:21]
-	Tick Time   :  8.167058 ms
-	Update Time :  0.243443 ms
-	Render Time :  7.850542 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:22]
-	Tick Time   :  7.903089 ms
-	Update Time :  0.110432 ms
-	Render Time :  7.751604 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:23]
-	Tick Time   :  8.073458 ms
-	Update Time :  0.093601 ms
-	Render Time :  7.671551 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:24]
-	Tick Time   :  9.232381 ms
-	Update Time :  0.203212 ms
-	Render Time :  8.963074 ms
-
-
-**********************************************************************************
-Source: Engine
-PostText:
-
-	TickLog     : [14:40:25]
-	Tick Time   :  8.029532 ms
-	Update Time :  0.193770 ms
-	Render Time :  7.790604 ms
+	TickLog     : [14:51:35]
+	Tick Time   :  1.753224 ms
+	Update Time :  0.071842 ms
+	Render Time :  1.653715 ms
 
 

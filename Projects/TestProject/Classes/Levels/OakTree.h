@@ -27,8 +27,7 @@ public:
 protected:
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
 	Engine::Camera2D myActor_camera;
-
-
+  void switch_to_church();
   /*If using this tool, first change,
   *       "Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine", sf::Style::Resize | sf::Style::Close | sf::Style::Titlebar, csettings);"
   * to
