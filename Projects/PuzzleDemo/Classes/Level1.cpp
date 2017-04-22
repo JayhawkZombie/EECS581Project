@@ -1,6 +1,7 @@
 #include "Level1.h"
 
 #include "../../TestProject/Classes/Levels/OakTree.h"
+#include "../../TestProject/Classes/Levels/OakTreeChurchInterior.h"
 #include "Levels\Stack.h"
 #include "Levels\AITest.h"
 
@@ -35,6 +36,7 @@ Level1::Level1()
   //MainGUI->setFont(font);
 
   OakTreeLevelPtr    = std::make_shared<OakTreeLevel>();
+  OakTreeChurchInteriorLevelPtr = std::make_shared<OakTreeChurchInterior>();
   BallPuzzleLevelPtr = std::make_shared<BallStackLevel>();
   AITestLevelPtr     = std::make_shared<AITestLevel>();
 
@@ -144,6 +146,17 @@ Level1::Level1()
 
   LevelSelectBack = m_MenuTheme->load("button");
   LevelSelectBack->setPosition({ 25, 825 });
+
+  tgui::Button::Ptr OakTreeChurchInteriorLevel = m_MenuTheme->load("button");
+  OakTreeChurchInteriorLevel->setPosition({ 25, 700 });
+  OakTreeChurchInteriorLevel->setSize({ 200,55 });
+  OakTreeChurchInteriorLevel->setText("OakTree Church");
+  OakTreeChurchInteriorLevel->setTextSize(10);
+  OakTreeChurchInteriorLevel->connect("clicked", [this]() {Engine::SwitchLevel(this->OakTreeChurchInteriorLevelPtr); });
+  m_LevelSelectPanel->add(OakTreeChurchInteriorLevel);
+
+  LevelSelectBack = m_MenuTheme->load("button");
+  LevelSelectBack->setPosition({ 25,  625 });
   LevelSelectBack->setSize({ 200, 55 });
   LevelSelectBack->setText("back");
   LevelSelectBack->setTextSize(12);

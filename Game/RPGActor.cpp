@@ -195,7 +195,7 @@ void RPGActor::TickUpdate(const double & delta)
   static sf::Clock c;
   m_Animator.update(c.restart());
   m_Animator.animate(Sprite);
-
+  //std::cout << "xPos: " << this->Position.x << " yPos: " << this->Position.y << "\n";//debugging code
 }
 
 void RPGActor::Render(std::shared_ptr<sf::RenderTarget> Target)

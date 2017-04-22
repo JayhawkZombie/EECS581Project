@@ -335,7 +335,7 @@
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\StartupLevel.h" />
     <ClInclude Include="Projects\TestProject\Classes\Levels\OakTree.h" />
-    <ClInclude Include="Projects\TestProject\Classes\Menus\MainMenu.h" />
+    <ClInclude Include="Projects\TestProject\Classes\Levels\OakTreeChurchInterior.h" />
     <ClInclude Include="Projects\TestProject\Classes\Menus\TopDownLevel.h" />
     <ClInclude Include="Projects\TestProject\Classes\ObjectGrid.h" />
     <ClInclude Include="SFEngine\EngineInfo.txt" />
@@ -650,7 +650,7 @@
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\StartupLevel.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\Levels\OakTree.cpp" />
-    <ClCompile Include="Projects\TestProject\Classes\Menus\MainMenu.cpp" />
+    <ClCompile Include="Projects\TestProject\Classes\Levels\OakTreeChurchInterior.cpp" />
     <ClCompile Include="Projects\TestProject\Classes\ObjectGrid.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\EventHandlerTests.cpp" />
     <ClCompile Include="SFEngine\Source\CoreTests\ResourceManagerTests.cpp" />
