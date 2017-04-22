@@ -157,6 +157,11 @@ namespace Engine
     }
   }
 
+  void GenericActor::HandleCollisionWithCollider(SPtrShared<Collider2D> Collider)
+  {
+    auto Object = Collider->GetObjectPtr();
+  }
+
   void GenericActor::HandleInputEvent(const UserEvent & evnt)
   {
   }

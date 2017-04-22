@@ -94,6 +94,7 @@ namespace Engine
     sf::Vector2f GetPosition() const;
 
     bool HandleCollision(std::weak_ptr<Collider2D> Collider);
+    bool HandleCollisionWithSegment(std::weak_ptr<PhysicsEngineSegmentType> Collider);
 
     std::weak_ptr<PhysicsEngineBaseMeshType> GetMesh();
     void SetObjectPtr(LevelObject *Object);
@@ -106,6 +107,7 @@ namespace Engine
     std::bitset<32> m_Status;
     LevelObject *m_MyObject;
     std::function<void(std::weak_ptr<Collider2D>)> m_CollisionCallback;
+    std::function<void(std::weak_ptr<PhysicsEngineSegmentType>)> m_HitSegmentCallback;
     std::function<void(std::weak_ptr<Collider2D>)> m_OverlapCallback;
     std::function<void(sf::Vector2f)> m_PositionChangeCallback;
     std::function<void(void)> m_SleepCallback;
