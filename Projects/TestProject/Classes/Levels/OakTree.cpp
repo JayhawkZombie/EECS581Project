@@ -662,7 +662,3 @@ void OakTreeLevel::OnBegin()
 void OakTreeLevel::OnEnd()
 {
 }
-
-void OakTreeLevel::switch_to_church() {
-
-}
