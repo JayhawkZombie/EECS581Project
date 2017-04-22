@@ -198,7 +198,7 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["BigOakTree"] = BigOakTreeTree;
 
   std::shared_ptr<Engine::Collider2D> church_transition_collider = Engine::Collider2D::CreatePolygonMesh(4, 22.6274f, (3.14159 / 4), { 368.f, 224.f }, { 0, 0 }, 1.f, 0.f, sf::Color::Blue);
-  church_transition_collider->SetCollisionCallback(switch_to_church(), true);
+
 
 
   sf::FloatRect myActor_spawnLocation(176.f, 176.f, 256.f, 256.f);
