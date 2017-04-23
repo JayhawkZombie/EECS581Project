@@ -491,7 +491,7 @@ bool regPolygon::is_inMe(const lineSeg& LS, vec2d& Pimp, vec2d& Nh, float& dSep)
     float d1 = s1.dot(T);
     float h1 = h + P.dot(N);
 
-    if (h1 < 0.0f && d1 > 0.0f && d1 <= magL)// P is across line and between line ends
+    if (h1 < 0.0f && d1 > 0.0f && d1 < magL)// P is across line and between line ends
     {
       // check for and dismiss the evil edge cases
       const vec2d& P_prev = (i == 0) ? ptVec.back() : ptVec[i - 1];// who loves the ternary operator? I do too!

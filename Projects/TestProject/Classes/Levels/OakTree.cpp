@@ -18,7 +18,7 @@ OakTreeLevel::OakTreeLevel()
   tileMap.setSize({ 800,800 });
   tileMap.setGridSize({ 50,50 });
   */
-
+  
   std::vector<unsigned char> levelData(100000);
   levelData = {
 
@@ -47,7 +47,7 @@ OakTreeLevel::OakTreeLevel()
     /*20*/ 17,17,17,17,15,15,15,15,15, 6,14,14,14,14, 2,15,19,20, 3, 5,26,17,17,17,17,17,17,17,26, 3, 5,20,17,17,17,17,17,16,17,17,17,17,17,17,17,17,17,17,17,17,
     /*21*/ 17,17,17,17,17,16,16,16,16,20,20,20,20,20,13,16,19,20, 3, 5,26,17,17,17,17,17,17,17,26, 3, 5,20,17,17,17,17,17,18,17,17,17,17,17,17,17,17,17,17,17,17,
     /*22*/ 17,17,17,17,17,20,17,17,17,17,17,17,24,20, 6,14,14,14, 4, 5,26,17,17,17,17,17,17,17,26, 3, 5,20,18,13,18,18,18,18,16,20, 9,15,15,15,17,17,17,17,17,17,
-    /*23*/ 17,17,17,17,17,20,17,17,17,17,17,17,24,20,19,19,19,19, 3, 5,26,17,17,17,17,17,17,17,26, 3, 5,14,14, 7,14,14,14,14,14,14, 8,17,17,17,17,17,17,17,17,17,
+    /*23*/ 17,17,17,17,17,20,17,17,17,17,17,17,24,20,19,19,19,19, 3, 5,26,17,17,17,17,17,17,17,26, 3, 4,14,14, 7,14,14,14,14,14,14, 8,17,17,17,17,17,17,17,17,17,
     /*24*/ 17,17,17,17,17,20,17,17,17,17,17,17,24,20,19,19,19,20, 3, 5,26,17,17,17,17,17,17,17,26, 3, 5,20,20,20,20,20,20,20,20,20,20,17,16,16,16,16,17,17,17,17,
     /*25*/ 17,17,17,17,17,20,17,17,17,17,17,17,24,20,19,15,18,20, 3, 5,26,17,17,17,17,17,17,17,26, 3, 5,20,17,17,17,17,20,17,17,17,17,17,17,17,17,17,17,17,17,17,
     /*26*/ 17,17,17,17,17,20,17,17,17,17,17,17,24,20,19,16,19,20, 3, 5,26,26,26,26,26,26,26,26,26, 3, 5,20,17,17,17,17,15,17,17,17,17,17,17,17,17,17,17,17,17,17,
@@ -76,12 +76,36 @@ OakTreeLevel::OakTreeLevel()
     /*49*/ 17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17, 3, 4, 4, 5,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,
     /*50*/ 17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17, 3, 4, 4, 5,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17 };
 
+  std::vector<unsigned char> levelData2(100000);
+  for (int i = 0; i < 2500; i++)
+  {
+	  if (levelData.at(i) == 15)
+	  {
+		  //std::cout << "i = " << i;
+		  levelData2.push_back(1);
+	  }
+	  else
+	  {
+		  levelData2.push_back(0);
+	  }
+  }
+
   TileMap->setSize({ 800,800 });
   TileMap->setGridSize({ 50,50 });
   TileMap->setTexture(*Textures["ForestSpriteSheet"]);
   TileMap->setNumberOfTextureTilesPerRow(3);
   TileMap->setTextureTileSize({ 16,16 });
   TileMap->update(levelData, 50);
+
+ // sw::TileMap top;
+  
+  top.setSize({ 800,800 });
+  top.setGridSize({ 50,50 });
+  top.setTexture(*Textures["TreeOverLap"]);
+  top.setNumberOfTextureTilesPerRow(2);
+  top.setTextureTileSize({ 16,16 });
+  top.update(levelData2, 50);
+	
   //for (auto& tile : levelData)
   //	  tile = rand() % 9;
 
@@ -197,6 +221,10 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["SmallHouse3Obj"] = SmallHouse3;
   LevelObjects["BigOakTree"] = BigOakTreeTree;
 
+  std::shared_ptr<Engine::Collider2D> church_transition_collider = Engine::Collider2D::CreatePolygonMesh(4, 22.6274f, (3.14159 / 4), { 368.f, 224.f }, { 0, 0 }, 1.f, 0.f, sf::Color::Blue);
+
+
+
   sf::FloatRect myActor_spawnLocation(176.f, 176.f, 256.f, 256.f);
   sf::FloatRect full_map_view(0.f, 0.f, 800.f, 800.f);
   std::shared_ptr<RPGActor> myActor = std::make_shared<RPGActor>();
@@ -204,7 +232,6 @@ OakTreeLevel::OakTreeLevel()
   myActor->SetTexture(Textures["MyActor_sheet"]);
   SpawnActor(myActor, { 24 * 16,33 * 16 });
   myActor->SetPosition({ 24 * 16,33 * 16 });
-
   myActor->SetActorSize({ 16,16 });
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
@@ -229,7 +256,7 @@ OakTreeLevel::OakTreeLevel()
   //std::cout << "Height" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().height <<"\n";
   //std::cout << "Top" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().top << "\n";
   //myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 1, 0, { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1.f, 1., sf::Color::White));
-
+  /*
   for (auto & obj : LevelObjects)
   {
     if (!(obj.second == myActor))
@@ -243,7 +270,7 @@ OakTreeLevel::OakTreeLevel()
     }
                                                         //}
   //Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->GetGlobalBounds().top, obj.second->GetGlobalBounds().top + obj.second->GetGlobalBounds().height ));
-  }
+  }*/
 
 
   //Four Corners of level
@@ -465,12 +492,12 @@ void OakTreeLevel::TickUpdate(const double & delta)
 
 void OakTreeLevel::makeSegment(sf::Vector2i endPoint1, sf::Vector2i endPoint2)
 {
-	Segments.push_back(Engine::BuildSegmentMesh('b', { endPoint1.x * 16,endPoint1.y * 16 }, { endPoint2.x * 16,endPoint2.y * 16 }));
+	Segments.push_back(Engine::BuildSegmentMesh('b', { endPoint1.x * 16,endPoint1.y * 16}, { endPoint2.x * 16,endPoint2.y * 16}));
 }
 
 void OakTreeLevel::makeSegment(int pt1x, int pt1y, int pt2x, int pt2y)
 {
-	Segments.push_back(Engine::BuildSegmentMesh('b', { pt1x*16,pt1y*16 }, { pt2x*16,pt2y*16 }));
+	Segments.push_back(Engine::BuildSegmentMesh('b', {pt1x*16,pt1y*16}, { pt2x*16,pt2y*16 }));
 }
 
 std::string OakTreeLevel::GetClass() const
@@ -485,7 +512,29 @@ void OakTreeLevel::setLastSegmentPos(sf::Vector2i last)
 
 void OakTreeLevel::nextSeg(int x, int y)
 {
-	Segments.push_back(Engine::BuildSegmentMesh('b', { lastPos.x*16,lastPos.y * 16 }, { x*16,y*16 }));
+	if (y == lastPos.y)//x corrdinates are the same, the line is vertical
+	{
+		if (lastPos.x < x)
+		{
+			Segments.push_back(Engine::BuildSegmentMesh('b', { lastPos.x * 16 - 1, lastPos.y * 16 }, { x * 16 + 1,y * 16 }));
+		}
+		else
+		{
+			Segments.push_back(Engine::BuildSegmentMesh('b', { lastPos.x * 16 + 1, lastPos.y * 16 }, { x * 16 - 1,y*16 }));
+		}
+	}
+	else
+	{
+		if (lastPos.y < y)
+		{
+			Segments.push_back(Engine::BuildSegmentMesh('b', { lastPos.x * 16,lastPos.y * 16 - 1 }, { x * 16,y * 16 + 1 }));
+		}
+		else
+		{
+			Segments.push_back(Engine::BuildSegmentMesh('b', { lastPos.x * 16, lastPos.y * 16 + 1 }, { x * 16,y * 16 - 1 }));
+		}
+	}
+	//Segments.push_back(Engine::BuildSegmentMesh('b', { lastPos.x*16,lastPos.y * 16 }, {x*16,y*16 }));
 	lastPos = { x,y };
 }
 
@@ -528,20 +577,11 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   Texture->setView(view);
 
   Texture->draw(*TileMap);
+  
   BasicLevel::RenderOnTexture(Texture);
 
-  /*
-  for (auto & obj : LevelObjects)
-    obj.second->Render(Texture);
+  Texture->draw(top);
 
-  LevelObjects["SmallHouse1Object"];
-  */
-
-
-  //If we are using the editor, draw the meshes too
-  //Make this configurable later
-
- // Texture->setView(oldView);
 }
 
 void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
@@ -560,14 +600,14 @@ void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
       end_line_segment = true;
     }
     if (evnt.KeyWasPressed && evnt.Key == sf::Keyboard::Z) {
-      std::cout << "Undo was pressed\n";
+      //std::cout << "Undo was pressed\n";
     }
 
     if (evnt.MouseButtonWasPressed) {
       if (number_of_clicks == 0) {
         start_position = evnt.CurrentMousePosition;
         number_of_clicks++;
-        std::cout << "Start click\n";
+        //std::cout << "Start click\n";
       }
       else {
         start_position = end_position;
@@ -576,7 +616,7 @@ void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
         end_position = evnt.CurrentMousePosition;
 
         if (end_line_segment == true) {
-          std::cout << "End line\n";
+          //std::cout << "End line\n";
           number_of_clicks = 0;
           end_line_segment = false;
         }
@@ -609,7 +649,7 @@ void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
       }
 
       Segments.push_back(Engine::BuildSegmentMesh('b', { start_position.x, start_position.y }, { end_position.x,end_position.y }));
-      std::cout << "Segments.push_back(Engine::BuildSegmentMesh('b', {" << start_position.x << ", " << start_position.y << " }, { " << end_position.x << "," << end_position.y << " }));\n";
+      //std::cout << "Segments.push_back(Engine::BuildSegmentMesh('b', {" << start_position.x << ", " << start_position.y << " }, { " << end_position.x << "," << end_position.y << " }));\n";
     }
   } 
 }

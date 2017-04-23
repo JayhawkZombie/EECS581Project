@@ -3,34 +3,35 @@
 
 //namespace Engine {
 
-void NewConvoCreator::CreateConvoNode(std::string filename, MainCharacter mc)
+void NewConvoCreator::CreateConvo(std::string filename)//, MainCharacter mc)
   {
-    ListReader reader;
-
+    std::unique_ptr<ListReader> reader = std::make_unique<ListReader>();
+    Theme = std::make_shared<tgui::Theme>("././SFEngine/Source/CoreFiles/UIThemes/Black.txt");
     //This will cause a compiler failure, please use a cloning method
-    
+    //Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt
     my_filename = filename;
+    GUI = Engine::GUI;
+    MainCharacter mc;
+    convo_arr = reader->readConversation(filename, mc);
+    totalNodes = reader->getNumConversations();
+    x_dim = 700;
+    y_dim = 400;
+    y_pos = 400;
+    x_pos = 10;
 
-    convo_arr = reader.readConversation("Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt", mc);
-    totalNodes = reader.getNumConversations();
-    sf::RenderWindow *Window;
-    WindowSize = Window->getSize();
+    LoadConvo(0);
 
-    //WindowSize = 
   }
-
-  void NewConvoCreator::LoadConvoGUI(int cur, int j)
+void NewConvoCreator::setSize(int x, int y) {
+  x_dim = x;
+  y_dim = y;
+  }
+void NewConvoCreator::setPosition(int x, int y) {
+  x_pos = x;
+  y_pos = y;
+}
+  void NewConvoCreator::LoadNewChoices(int cur, int j)
   {
-
-    ChoiceButton = Theme->load("Button");
-    ChoiceButton->setText(sizeof(convo_arr));
-    ChoiceButton->setSize({ 680, 30 });
-    ChoiceButton->setPosition({ 10, 350 });
-    CreationWindow->add(ChoiceButton);
-
-    int arrsize = sizeof(convo_arr) / sizeof(convo_arr[0]);
-
-    //for (int i = 0; i < arrsize; i++)
     for (int i = 0; i < totalNodes; i++)
     {
       if (convo_arr[i]->getConvoID() == convo_arr[cur]->getConvoNodes(j))
@@ -43,71 +44,85 @@ void NewConvoCreator::CreateConvoNode(std::string filename, MainCharacter mc)
     {
       Close();
     }
-
   }
+  /*
   void NewConvoCreator::setVariables(int numChoices, std::string contentText, std::string buttonText)
   {
     m_numChoices = numChoices;
     m_contentText = contentText;
     m_buttonText = buttonText;
   }
+  
   void NewConvoCreator::NewWindow()
   {
     CreationWindow->remove(CreationWindow);
     CreationWindow->destroy();
     OpenTheme(Theme);
   }
-
+  */
   void NewConvoCreator::LoadConvo(int cur)
   {
-    if (convo_arr == NULL)
-      CreateConvoNode(my_filename, my_mc);
     buttonPos = 0;
     textSize = 0;
-    Close();
-    float xDiff = WindowSize.x - 700.f;
-    float yDiff = WindowSize.y - 400.f;
+    if (CreationWindow != nullptr)
+      Close();
+    if (convo_arr == NULL)
+    {
+      return;
+    }
+   // float xDiff = WindowSize.x - 700.f;
+   // float yDiff = WindowSize.y - 400.f;
+    sf::Vector2f v1(x_dim, y_dim);
     CreationWindow = Theme->load("ChildWindow");
-    CreationWindow->setPosition({ xDiff / 2.f, yDiff / 4.f });
-    CreationWindow->setSize({ 700, 400 });
 
-    //create the edit fields to enter a project title
+
+    CreationWindow->setPosition({ x_pos,y_pos });
+    CreationWindow->setSize({ x_dim,y_dim });
+
+   // CreationWindow->setPosition({ x_pos,y_pos });
+    //CreationWindow->setSize({ v1.x,v1.y });
+    float y_size = y_dim/(convo_arr[cur]->getNumChoices() + 4);
+    //CreationWindow->setPosition({ xDiff / 2.f, yDiff / 4.f });
+    //CreationWindow->setSize({ 700, 400 });
+
     CharSpeaking = Theme->load("ChatBox");
     CharSpeaking->addLine(convo_arr[cur]->getUserID());
-    CharSpeaking->setSize({ 680, 30 });
-    CharSpeaking->setPosition({ 10, 10 });
+    CharSpeaking->setSize({ x_dim,y_size });
+    CharSpeaking->setPosition({ 0,0 });
 
-    //should be variable, dependent on how many choices there are
+ //   CharSpeaking->setSize({ 680, 30 });
+   // CharSpeaking->setPosition({ 10, 10 });
+
     textSize = 110;
     ContentText = Theme->load("TextBox");
     ContentText->addText(convo_arr[cur]->getContent());
-    ContentText->setSize({ 680, textSize });
-    ContentText->setPosition({ 10, 50 });
+    ContentText->setSize({ x_dim, y_size*3 });
+    ContentText->setPosition({ 0, y_size });
 
-    buttonPos = textSize + 60;
+    buttonPos = y_size*4;
 
     for (int j = 0; j < convo_arr[cur]->getNumChoices(); j++)
     {
       ChoiceButton = Theme->load("Button");
       ChoiceButton->setText(convo_arr[cur]->getConvoNodesContent(j));
-      ChoiceButton->setSize({ 680, 30 });
-      ChoiceButton->setPosition({ 10, buttonPos });
+      ChoiceButton->setSize({ x_dim, y_size });
+      ChoiceButton->setPosition({ 0, buttonPos });
 
       nodeID = (convo_arr[cur]->getConvoNodes(j));
-      ChoiceButton->connect("clicked", &NewConvoCreator::LoadConvoGUI, this, cur, j);
-      buttonPos += 40;
+      ChoiceButton->connect("clicked", &NewConvoCreator::LoadNewChoices, this, cur, j);
+      buttonPos += y_size;
       CreationWindow->add(ChoiceButton);
-
     }
 
     CreationWindow->add(CharSpeaking);
     CreationWindow->add(ContentText);
-
+    
     GUI->add(CreationWindow);
     GUI->focusWidget(CreationWindow);
     CreationWindow->showWithEffect(tgui::ShowAnimationType::Scale, sf::milliseconds(150));
 
   }
+  /*
   void NewConvoCreator::NewConvo()
   {
     buttonPos = 200;
@@ -170,9 +185,7 @@ void NewConvoCreator::CreateConvoNode(std::string filename, MainCharacter mc)
   {
     if (buttonPos < 360)
     {
-      //needs to be pushed to a vector so that the choices can be loaded in by their IDs
-      //vector needs to be cleared after every choice...??
-      //otherwise IDs and stuff get too messy for an engine run game made to make things simpler
+      
       EditChoiceID = Theme->load("EditBox");
       EditChoiceID->setDefaultText("Go to ID #");
       EditChoiceID->setTextSize(10);
@@ -190,6 +203,7 @@ void NewConvoCreator::CreateConvoNode(std::string filename, MainCharacter mc)
     }
 
   }
+  
   void NewConvoCreator::OpenTheme(tgui::Theme::Ptr ThemePtr)
   {
     Theme = ThemePtr;
@@ -221,7 +235,7 @@ void NewConvoCreator::CreateConvoNode(std::string filename, MainCharacter mc)
     GUI->focusWidget(CreationWindow);
     CreationWindow->showWithEffect(tgui::ShowAnimationType::Scale, sf::milliseconds(150));
   }
-
+  */
   void NewConvoCreator::Close()
   {
     CreationWindow->remove(CreationWindow);
