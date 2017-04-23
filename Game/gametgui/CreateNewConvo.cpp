@@ -8,11 +8,11 @@ void NewConvoCreator::CreateConvo(std::string filename)//, MainCharacter mc)
     std::unique_ptr<ListReader> reader = std::make_unique<ListReader>();
     Theme = std::make_shared<tgui::Theme>("././SFEngine/Source/CoreFiles/UIThemes/Black.txt");
     //This will cause a compiler failure, please use a cloning method
-    my_filename = "Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt";
-    //my_filename = filename;
+    //my_filename = "Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt";
+    my_filename = filename;
     GUI = Engine::GUI;
     MainCharacter mc;
-    convo_arr = reader->readConversation("Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt", mc);
+    convo_arr = reader->readConversation(my_filename, mc);
     totalNodes = reader->getNumConversations();
     x_dim = 700;
     y_dim = 400;
