@@ -44,11 +44,17 @@ OakTreeChurchInterior::OakTreeChurchInterior(): BasicLevel({352,208},{0,0,352,20
 	//Segments
 
 	//border
-	setJoint(0, 0);
-	nextSeg(13,0);
-	nextSeg(13, 22);
-	nextSeg(0, 22);
-	nextSeg(0, 0);
+	//setJoint(0, 0);
+	//nextSeg(13,0);
+	//nextSeg(13, 22);
+	//nextSeg(0, 22);
+	//nextSeg(0, 0);
+
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 0,0 }, { 208,0 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 208,0 }, { 208,352 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 208,352 }, { 112,352 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 0,352 }, { 96,352 }));
+  Segments.push_back(Engine::BuildSegmentMesh('b', { 0,0 }, { 0,352 }));
 
 	//Wall protection
 	setJoint(0, 5);
@@ -135,8 +141,8 @@ OakTreeChurchInterior::OakTreeChurchInterior(): BasicLevel({352,208},{0,0,352,20
 	//Actor/View information
 	std::shared_ptr<RPGActor> myActor = std::make_shared<RPGActor>();
 	myActor->SetTexture(Textures["MyActor_sheet"]);
-	SpawnActor(myActor,{ 6 * 16,21 * 16 });
-	myActor->SetPosition({ 6 * 16,21 * 16 });
+	SpawnActor(myActor,{ 6 * 16,20.5 * 16 });
+	myActor->SetPosition({ 6 * 16,20.5 * 16 });
 	myActor->SetActorSize({ 15,15 });//could be 16 but collisiions
 	MainCharacter = myActor;
 
@@ -154,7 +160,7 @@ OakTreeChurchInterior::OakTreeChurchInterior(): BasicLevel({352,208},{0,0,352,20
   Church_Exit->SetID("church_exit");
   Church_Exit->SetPosition({ 6*16,22*16 });
   Church_Exit->SetSize({ 32, 32 });
-  Church_Exit->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 11.31f, (3.14159 / 4), { 6.5 * 16,22 * 16 }, { 0, 0 }, 100000.f, 0.f, sf::Color::Red));
+  Church_Exit->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 11.31f, (3.14159 / 4), { 6.5 * 16,22.5 * 16 }, { 0, 0 }, 1000000000000.f, 0.f, sf::Color::Red));
   LevelObjects["Church_Exit"] = Church_Exit;
 }
 
@@ -189,6 +195,7 @@ void OakTreeChurchInterior::HandleInputEvent(const Engine::UserEvent & evnt)
 void OakTreeChurchInterior::OnBegin()
 {
 	Engine::SetGravity(Gravity);
+  MainCharacter->SetActorPosition({ 6 * 16,20.5 * 16 });
 
 }
 

@@ -136,7 +136,7 @@ OakTreeLevel::OakTreeLevel()
 
   Church_Door->SetPosition({ 368.f, 224.f });
   Church_Door->SetSize({ 32, 32 });
-  Church_Door->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 22.6274f, (3.14159 / 4), { 400.f, 224.f }, { 0, 0 }, 100000.f, 0.f, sf::Color::Red));
+  Church_Door->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 22.6274f, (3.14159 / 4), { 400.f, 224.f }, { 0, 0 }, 1000000000.f, 0.f, sf::Color::Red));
 
   ItemShop->SetTexture(Textures["5by5Shops"]);
   ItemShop->SetTextureRect({ 0 , 80, 80 ,80 });
@@ -584,6 +584,9 @@ void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
 void OakTreeLevel::OnBegin()
 {
   Engine::SetGravity(Gravity);
+  if (MainCharacter->GetActorPosition().x != 384 && MainCharacter->GetActorPosition().y != 528) {
+    MainCharacter->SetActorPosition({ 398, 250 });
+  }
 }
 
 void OakTreeLevel::OnEnd()
