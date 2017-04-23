@@ -4,30 +4,37 @@
 #include <TGUI\TGUI.hpp>
 #include "../Conversation.h"
 #include "../ListReader.h"
-
 #include "../../SFEngine/Source/Headers/Engine/Engine.h"
+#include "../../SFEngine/Source/Headers/Globals/GlobalHooks.h"
 
-//namespace Engine {
-
+//Call using CreateConvo
+//example call:
+//std::shared_ptr<NewConvoCreator> convoPtr;
+//convoPtr = std::make_shared<NewConvoCreator>();
+//convoPtr->CreateConvo("hey.txt");
+//convoPtr->setSize(x,y);
+//convoPtr->setPosition(x,y);
   class NewConvoCreator
   {
   public:
     NewConvoCreator() = default;
     ~NewConvoCreator() = default;
 
-    void CreateConvoNode(std::string filename, MainCharacter mc);
-    void OpenTheme(tgui::Theme::Ptr Theme);
+    //Call this function to create a new conversation during collisions, pass in the filename
+    void CreateConvo(std::string filename);// , MainCharacter mc);
+   // void OpenTheme(tgui::Theme::Ptr Theme);
     void Close();
-    void setVariables(int numChoices, std::string contentText, std::string buttonText);
+   // void setVariables(int numChoices, std::string contentText, std::string buttonText);
+    void setSize(int x, int y);
+    void setPosition(int x, int y);
 
   protected:
 
-    void NewWindow();
+   // void NewWindow();
     void LoadConvo(int cur);
-    void NewConvo();
-    void addChoice();
-
-    void LoadConvoGUI(int cur, int j);
+   // void NewConvo();
+   // void addChoice();
+    void LoadNewChoices(int cur, int j);
 
     tgui::Theme::Ptr Theme;
     tgui::ChildWindow::Ptr CreationWindow;
@@ -56,18 +63,24 @@
     std::string m_contentText;
     std::string m_buttonText;
     std::string m_id;
-    Conversation** convo_arr = NULL;
+    //std::vector<std::shared_ptr<Conversation>> convo_arr;
     int totalNodes = 0;
+    Conversation** convo_arr;
 
     std::vector<std::shared_ptr<std::string>> nodeIDs;
-    sf::Vector2u WindowSize;
+
     std::shared_ptr<tgui::Gui> GUI;
     MainCharacter my_mc;
     std::string my_filename;
 
+    float x_dim;
+    float y_dim;
+
+    float x_pos;
+    float y_pos;
+    
 
   };
 
-//}
 
 #endif
