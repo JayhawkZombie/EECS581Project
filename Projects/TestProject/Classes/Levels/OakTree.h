@@ -4,6 +4,7 @@
 #include "../../../../SFEngine/Source/Headers/Level/BasicLevel.h"
 #include "../../../../SFEngine/Source/Headers/Globals/GlobalHooks.h"
 #include "../../../../SFEngine/Source/Headers/Camera/2DCamera.h"
+#include "OakTreeChurchInterior.h"
 
 class OakTreeLevel : public Engine::BasicLevel
 {
@@ -25,6 +26,7 @@ public:
 
 
 protected:
+  std::shared_ptr<OakTreeChurchInterior> OakTreeChurchInteriorLevelPtr;
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
 	Engine::Camera2D myActor_camera;
   /*If using this tool, first change,

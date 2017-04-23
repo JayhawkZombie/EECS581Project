@@ -37,7 +37,8 @@ private:
   sf::Texture myActor_texture;
   WalkingDirection m_Direction;
 
-  virtual void HandleCollisionWithActor(std::weak_ptr<Engine::Collider2D> Collided);
+  virtual void HandleCollisionWithObject(Engine::LevelObject *Object) override;
+  virtual void HandleCollisionWithObject(std::weak_ptr<Engine::Collider2D> Collided);
 };
 
 #endif

@@ -135,7 +135,7 @@ OakTreeChurchInterior::OakTreeChurchInterior(): BasicLevel({352,208},{0,0,352,20
 	//Actor/View information
 	std::shared_ptr<RPGActor> myActor = std::make_shared<RPGActor>();
 	myActor->SetTexture(Textures["MyActor_sheet"]);
-	SpawnActor(myActor,{ 6 * 16,22 * 16 });
+	SpawnActor(myActor,{ 6 * 16,21 * 16 });
 	myActor->SetPosition({ 6 * 16,21 * 16 });
 	myActor->SetActorSize({ 15,15 });//could be 16 but collisiions
 	MainCharacter = myActor;
@@ -149,6 +149,13 @@ OakTreeChurchInterior::OakTreeChurchInterior(): BasicLevel({352,208},{0,0,352,20
 	Gravity->x = 0;
 	Gravity->y = 0;
 	Engine::SetGravity(Gravity);
+
+  std::shared_ptr <Engine::LevelObject> Church_Exit = std::make_shared<Engine::LevelObject>();
+  Church_Exit->SetID("church_exit");
+  Church_Exit->SetPosition({ 6*16,22*16 });
+  Church_Exit->SetSize({ 32, 32 });
+  Church_Exit->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 11.31f, (3.14159 / 4), { 6.5 * 16,22 * 16 }, { 0, 0 }, 100000.f, 0.f, sf::Color::Red));
+  LevelObjects["Church_Exit"] = Church_Exit;
 }
 
 
@@ -182,6 +189,7 @@ void OakTreeChurchInterior::HandleInputEvent(const Engine::UserEvent & evnt)
 void OakTreeChurchInterior::OnBegin()
 {
 	Engine::SetGravity(Gravity);
+
 }
 
 void OakTreeChurchInterior::OnEnd()

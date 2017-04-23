@@ -7,18 +7,11 @@
 OakTreeLevel::OakTreeLevel()
   : BasicLevel({ 800,800 }, { 0,0,800,800 })//: BasicLevel({ 50 * 16, 50 * 16 }, { 28 * 16, 18 * 16, 9 * 16, 9 * 16 }) //:BasicLevel({ 144,144 }, { 0,0,144,144 })//
 {
-
+  OakTreeChurchInteriorLevelPtr = std::make_shared<OakTreeChurchInterior>();
+  OakTreeChurchInteriorLevelPtr->SetID("oaktree_church");
+  Engine::Levels["oaktree_church"] = OakTreeChurchInteriorLevelPtr;
   LoadFromFile("./Projects/TestProject/testproject.json");
   lastPos = { 0,0 };
-  //sf::Texture LayeredTree;
-  //LayeredTree
-
-  //sw::TileMap tileMap;
-  /*
-  tileMap.setSize({ 800,800 });
-  tileMap.setGridSize({ 50,50 });
-  */
-  
   std::vector<unsigned char> levelData(100000);
   levelData = {
 
@@ -96,8 +89,6 @@ OakTreeLevel::OakTreeLevel()
   TileMap->setNumberOfTextureTilesPerRow(3);
   TileMap->setTextureTileSize({ 16,16 });
   TileMap->update(levelData, 50);
-
- // sw::TileMap top;
   
   top.setSize({ 800,800 });
   top.setGridSize({ 50,50 });
@@ -105,31 +96,13 @@ OakTreeLevel::OakTreeLevel()
   top.setNumberOfTextureTilesPerRow(2);
   top.setTextureTileSize({ 16,16 });
   top.update(levelData2, 50);
-	
-  //for (auto& tile : levelData)
-  //	  tile = rand() % 9;
-
-
-
-
-
-  /*
-  std::shared_ptr <Engine::LevelObject> Tree = std::make_shared<Engine::LevelObject>();
-  std::shared_ptr <Engine::LevelObject> Shop = std::make_shared<Engine::LevelObject>();
-
-  Tree->SetTexture(Textures["Oaktree"]);
-  Tree->SetPosition({ 0,0 });
-  LevelObjects["Oaktree"] = Tree;
-
-  Shop->SetTexture(Textures["5by5Shops"]);
-  Shop->SetTextureRect({ 0,0,80,80 });
-  Shop->SetPosition({ 0,144 });
-  */
 
   //Declaration of the Buildings
   std::shared_ptr <Engine::LevelObject> Barracks = std::make_shared<Engine::LevelObject>(); //Barracks Declaration
   std::shared_ptr <Engine::LevelObject> TownHall = std::make_shared<Engine::LevelObject>(); //TownHall Declaration
   std::shared_ptr <Engine::LevelObject> Church = std::make_shared<Engine::LevelObject>();  //Church Declaration
+  std::shared_ptr <Engine::LevelObject> Church_Door = std::make_shared<Engine::LevelObject>(); // Church Door collider
+  Church_Door->SetID("oaktree_churchdoor");
   std::shared_ptr <Engine::LevelObject> ItemShop = std::make_shared<Engine::LevelObject>(); //ItemShop Declaration
   std::shared_ptr <Engine::LevelObject> ArmorShop = std::make_shared<Engine::LevelObject>();//ArmorShop Declaration
   std::shared_ptr <Engine::LevelObject> WeaponShop = std::make_shared<Engine::LevelObject>();//WeaponShop Declaration
@@ -144,12 +117,7 @@ OakTreeLevel::OakTreeLevel()
   //Declaration of The Trees-Texture Set of the Trees
   std::map<int, std::shared_ptr <Engine::LevelObject>> Trees;//Declares an array of trees -these will be the 5x5 tree blocks for filler
   std::shared_ptr <Engine::LevelObject> BigOakTreeTree = std::make_shared<Engine::LevelObject>(); //Declares The big tree in the middle of town
-  /* //decided to do the trees a different way
-  for (int i = 0; i <= 15; i++)//Declares/gives textures to all of the big tree blocks
-  {
-    Trees[i] = std::make_shared<Engine::LevelObject>();
-    Trees[i]->SetTexture(Textures["TreeBlock"]);
-  }*/
+
   BigOakTreeTree->SetTexture(Textures["Bigoaktree"]);//sets the texture for the big oak tree in the middle of town
   BigOakTreeTree->SetTextureRect({ 0,0,144,144 });
   BigOakTreeTree->SetPosition({ 20 * 16,19 * 16 });
@@ -165,6 +133,10 @@ OakTreeLevel::OakTreeLevel()
 
   Church->SetTexture(Textures["Church"]);//may be a bad idea to double use 'church'
   Church->SetPosition({ 22 * 16,6 * 16 });
+
+  Church_Door->SetPosition({ 368.f, 224.f });
+  Church_Door->SetSize({ 32, 32 });
+  Church_Door->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 22.6274f, (3.14159 / 4), { 400.f, 224.f }, { 0, 0 }, 100000.f, 0.f, sf::Color::Red));
 
   ItemShop->SetTexture(Textures["5by5Shops"]);
   ItemShop->SetTextureRect({ 0 , 80, 80 ,80 });
@@ -220,10 +192,8 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["SmallHouse2Obj"] = SmallHouse2;
   LevelObjects["SmallHouse3Obj"] = SmallHouse3;
   LevelObjects["BigOakTree"] = BigOakTreeTree;
-
-  std::shared_ptr<Engine::Collider2D> church_transition_collider = Engine::Collider2D::CreatePolygonMesh(4, 22.6274f, (3.14159 / 4), { 368.f, 224.f }, { 0, 0 }, 1.f, 0.f, sf::Color::Blue);
-
-
+  LevelObjects["Church_Door"] = Church_Door;
+  
 
   sf::FloatRect myActor_spawnLocation(176.f, 176.f, 256.f, 256.f);
   sf::FloatRect full_map_view(0.f, 0.f, 800.f, 800.f);
@@ -236,41 +206,25 @@ OakTreeLevel::OakTreeLevel()
   LevelObjects["MainGuy"] = myActor;
   MainCharacter = myActor;
   myActor_camera.AttachToActor(myActor);
-  //myActor_camera.SetView(myActor_spawnLocation);
-  //sf::View view1;
-  //view1.setCenter({ 176.f,256.f });
-  //view1.setSize({ 176.f,484.f });
-//  myActor_camera.SetView({ 176.f,176.f,176.f,176.f });
   myActor_camera.SetView({325.f,176.f,325.f,176.f});//this is the good one
-//  myActor_camera.AttachToActor(myActor);
-//  myActor_camera.SetView(myActor_spawnLocation);
+
 
   if (line_segment_builder_tool == true) {
     myActor_camera.DetachFromActor();
     myActor_camera.SetView(full_map_view);
   }
-  //myActor->GenerateActorMesh("Polygon", { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, 1.0, 1.0, 4, 3.14159 / 4);
 
-  //SmallHouse1->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 64.f, 0.f, { 32 * 16,26 * 16 }, { 0,0 }, 1.f, 0.4f, sf::Color::White));
-  //std::cout << "Height of Actor: " << myActor->GetColliders()[0]->GetGlobalBounds().height << "\n";//checks to see that the actor has a collider
-  //std::cout << "Height" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().height <<"\n";
-  //std::cout << "Top" << SmallHouse1->GetColliders()[0]->GetGlobalBounds().top << "\n";
-  //myActor->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 1, 0, { myActor->GetActorPosition().x, myActor->GetActorPosition().y }, { 0,0 }, 1.f, 1., sf::Color::White));
-  /*
+  
   for (auto & obj : LevelObjects)
   {
     if (!(obj.second == myActor))
     {
-  //	  std::cout << obj.first << "\n";//debugging
-     // Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomRight()));//creates a diagonal from top left to bottom right
       Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getTopRight()));
       Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopRight(), obj.second->getBottomRight()));
       Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getBottomLeft(), obj.second->getBottomRight()));
       Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->getTopLeft(), obj.second->getBottomLeft()));
     }
-                                                        //}
-  //Segments.push_back(Engine::BuildSegmentMesh('b', obj.second->GetGlobalBounds().top, obj.second->GetGlobalBounds().top + obj.second->GetGlobalBounds().height ));
-  }*/
+  }
 
 
   //Four Corners of level
@@ -549,39 +503,12 @@ void OakTreeLevel::treeBaseSeg(int x, int y)
 
 void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
 {
-  /*
-  sf::View _view;
-  _view.setViewport(CurrentView);
-
-  sf::View oldView = Texture->getView();
-
-  Texture->setView(_view);
-
-  SceneBlendTexture->clear(sf::Color::Transparent);
-
-  if (ShowGridLines) {
-    for (auto & arr : GridLines)
-      Texture->draw(arr);
-  }
-  */
-
-//	sf::View view(myActor_camera.GetView());
-//	view.setViewport({ 0.f,0.f,1.f,1.f });
-	
-
-//	Texture->setView(view);
-
   sf::View view(myActor_camera.GetView());
   view.setViewport({ 0.f,0.f,1.f,1.f });
-
   Texture->setView(view);
-
   Texture->draw(*TileMap);
-  
   BasicLevel::RenderOnTexture(Texture);
-
   Texture->draw(top);
-
 }
 
 void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)

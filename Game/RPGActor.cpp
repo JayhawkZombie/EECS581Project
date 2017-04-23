@@ -7,12 +7,11 @@ RPGActor::RPGActor()
 {
   m_name = "";
   m_filePath = "";
-  m_Colliders.push_back(Engine::Collider2D::CreatePolygonMesh(4, 11.31370f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.1f, sf::Color::Blue));
-  m_Colliders[0]->SetCollisionCallback(
-    [this](LevelObject* ptr) { 
-    this->HandleCollisionWithObject(ptr); }
-  );
-
+  this->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 10.f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.1f, sf::Color::Blue));
+  //m_Colliders[0]->SetCollisionCallback(
+  //  [this](LevelObject* ptr) { 
+  //  this->HandleCollisionWithObject(ptr); }
+  //);
   //m_Colliders[0]->SetSegmentCallback([](auto seg) {std::cerr << "RPGActor Hit Segment" << std::endl; });
 
   AddAnimations();
@@ -195,7 +194,17 @@ void RPGActor::Render(std::shared_ptr<sf::RenderTarget> Target)
   Engine::LevelObject::Render(Target);
 }
 
-void RPGActor::HandleCollisionWithActor(std::weak_ptr<Engine::Collider2D> Collided)
+void RPGActor::HandleCollisionWithObject(Engine::LevelObject * Object)
 {
+  if (Object->GetID() == "oaktree_churchdoor") {
+    Engine::LoadLevelByName("oaktree_church");
+  }
+  else if (Object->GetID() == "church_exit") {
+    Engine::LoadLevelByName("oaktree");
+  }
+}
 
+void RPGActor::HandleCollisionWithObject(std::weak_ptr<Engine::Collider2D> Collided)
+{
+  
 }
