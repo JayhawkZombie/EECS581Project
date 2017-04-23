@@ -19,9 +19,9 @@ DemoLoadLevel::DemoLoadLevel()
   m_SFMLCard.Center();
   m_LevelMutex = std::make_shared<std::mutex>();
 
-  std::ifstream BMPFile("./SFEngine/Source/CoreFiles/Fonts/BitmapFonts/DenseBitmap_100.fnt");
+  std::ifstream BMPFile("./SFEngine/Source/CoreFiles/Fonts/BitmapFonts/MarvelBitmap.fnt");
 
-  m_BitmapFont.loadTexture("./SFEngine/Source/CoreFiles/Fonts/BitmapFonts/DenseBitmap_100_0.png");
+  m_BitmapFont.loadTexture("./SFEngine/Source/CoreFiles/Fonts/BitmapFonts/MarvelBitmap_0.png");
 
   //get the char count
   std::string discard, linestart, equal, val_id; int count;

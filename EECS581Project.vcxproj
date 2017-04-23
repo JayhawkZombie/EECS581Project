@@ -147,6 +147,7 @@
       <TreatSpecificWarningsAsErrors>%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <DisableSpecificWarnings>4100; 4189</DisableSpecificWarnings>
       <AdditionalOptions>/std:c++14 /volatile:iso %(AdditionalOptions)</AdditionalOptions>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -366,6 +367,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\Static.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerVolume.h" />
+    <ClInclude Include="SFEngine\Source\Headers\OSXDefs.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
@@ -434,6 +436,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\Vec.hpp" />
     <ClInclude Include="SFEngine\Source\Headers\Weather\Lightning.h" />
     <ClInclude Include="SFEngine\Source\Headers\Weather\WeatherSystem.h" />
+    <ClInclude Include="SFEngine\Source\Headers\WindowsDefs.h" />
     <ClInclude Include="SFEngine\ThirdParty\cereal\access.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\cereal\archives\adapters.hpp" />
     <ClInclude Include="SFEngine\ThirdParty\cereal\archives\binary.hpp" />

@@ -62,6 +62,11 @@
 #        error Strict volatile semantics MUST be enforced
 #      endif
 #    endif // _ARM 
+#   ifdef _DEBUG 
+#     ifndef _MT
+#       error Multithreaded Debug (/MTd) must be set
+#     endif
+#   endif // _DEBUG
 /* Test for GCC */
 #    elif defined ( __GNUG__ )
 #      ifdef __OBJC__
@@ -83,12 +88,6 @@
 
 
 #  endif // __cplusplus < 201103L
-#endif
-
-#ifdef _DEBUG 
-#  ifndef _MT
-#    error Multithreaded Debug (/MTd) must be set
-#  endif
 #endif
 
 #ifndef SFML_STATIC
