@@ -1,5 +1,7 @@
 #include "StartupLevel.h"
 #include "Messaging/CoreMessager.h"
+#include "Threading/ASyncLoader.h"
+#include "Level1.h"
 
 StartupLevel::StartupLevel()
   : BasicLevel(sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900))
@@ -42,6 +44,28 @@ StartupLevel::StartupLevel()
   m_SFMLAnimator = new thor::Animator<sf::Sprite, std::string>(m_SFMLLogoMap);
 
   m_SFMLBeforeShatter.setPosition({ 349.5, 298 });
+  m_LoadingNextLevel = true;
+
+  Engine::ASyncLevelStreamThread::Load(
+  
+    [this]() -> SPtrShared<BasicLevel>
+    {
+      try
+      {
+        this->m_NextLevel = std::make_shared<Level1>();
+        this->m_LoadingNextLevel = false;
+        return m_NextLevel;
+      }
+      catch (std::exception& e)
+      {
+        std::cerr << "Failed to load level Level1" << std::endl;
+        return nullptr;
+      }
+    },
+  "Level1"
+  );
+
+
 }
 
 StartupLevel::~StartupLevel()
@@ -53,7 +77,7 @@ StartupLevel::~StartupLevel()
 void StartupLevel::TickUpdate(const double & delta)
 {
   static sf::Clock thorClock;
-  if (m_SequenceDone) {
+  if (m_SequenceDone && !m_LoadingNextLevel) {
     Engine::SwitchLevel(m_NextLevel);
     return;
   }

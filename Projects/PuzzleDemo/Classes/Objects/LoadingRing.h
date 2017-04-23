@@ -27,6 +27,7 @@ public:
   void SetArcFill(float Size);
   void SetColor(sf::Color Color);
   void SetPosition(const sf::Vector2f &pos) override final;
+  void Reset() override final;
 
   void SetFillRate(float PercPerMs);
   void Fill(float ms);

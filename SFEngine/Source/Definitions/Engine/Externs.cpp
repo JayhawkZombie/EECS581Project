@@ -27,6 +27,7 @@ namespace Engine
   BasicLevel *CurrentLevel = nullptr;
   std::string EntryLevelName;
   InputDeviceState InputState;
+  SPtrSharedMutex LevelsLock;
   double TimeScaleFactor = 1.0;
 
   void SetKeyRepeatEnabled(bool enabled)
@@ -469,6 +470,15 @@ namespace Engine
   void LoadMainLevel()
   {
     auto it = Levels.find("Main");
+
+    if (it != Levels.end()) {
+      SwitchLevel((*it).second);
+    }
+  }
+
+  void LoadLevelByName(const std::string & Name)
+  {
+    auto it = Levels.find(Name);
 
     if (it != Levels.end()) {
       SwitchLevel((*it).second);

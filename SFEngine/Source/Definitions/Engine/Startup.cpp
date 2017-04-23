@@ -179,9 +179,8 @@ namespace Engine
     Window->clear();
 
     std::shared_ptr<::DemoLoadLevel> EngineStartupLevel = std::make_shared<::DemoLoadLevel>();
-    Levels["Main"] = EngineStartupLevel;
-
-    EngineStartupLevel->SetNextLevel(std::make_shared<::Level1>());    
+    EngineStartupLevel->OnBegin();
+    Levels["Main"] = EngineStartupLevel; 
     
     ScriptEngine->add(chaiscript::fun(&MessageAlert), "Alert");
     ScriptEngine->add(chaiscript::fun(&Confirm), "Confirm");    

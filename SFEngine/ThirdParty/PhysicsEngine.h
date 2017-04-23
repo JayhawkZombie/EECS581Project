@@ -23,8 +23,8 @@
 
 namespace Engine
 {
-  typedef mvHit PhysicsEngineBaseMeshType;
-  typedef segHit PhysicsEngineSegmentType;
+  typedef mvHit   PhysicsEngineBaseMeshType;
+  typedef lineSeg PhysicsEngineSegmentType;
   typedef waveSeg PhysicsEngineWaveSegment;
 
   class Collider2D;

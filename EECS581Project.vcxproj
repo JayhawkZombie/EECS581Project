@@ -331,6 +331,7 @@
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Flippable.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Gem.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\LoadingBar.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\LoadingRing.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\StartupLevel.h" />
@@ -646,6 +647,7 @@
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Flippable.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Gem.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Lightning_C.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\LoadingBar.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\LoadingRing.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\PuzzleBall.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\StartupLevel.cpp" />

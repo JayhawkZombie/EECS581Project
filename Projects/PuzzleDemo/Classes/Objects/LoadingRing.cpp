@@ -2,7 +2,7 @@
 
 LoadingRing::LoadingRing()
 {
-  m_CurrentFillAmount = 0.5f;
+  m_CurrentFillAmount = 0.f;
   m_Ring.setSectorSize(0.f);
   m_Ring.setSectorOffset(0.25f);
   m_FillingUp = false;
@@ -21,9 +21,8 @@ void LoadingRing::Render(std::shared_ptr<sf::RenderTarget> Target)
 
 void LoadingRing::TickUpdate(const double &delta)
 {
-  m_CurrentTime += (float)(delta);
-
   if (m_IsFilling) {
+    m_CurrentTime += (float)(delta);
     m_CurrentFillAmount += (float)(delta * m_FillRate);
 
     if (m_FillingUp && m_CurrentFillAmount >= m_FinalFillAmount) {
@@ -37,6 +36,8 @@ void LoadingRing::TickUpdate(const double &delta)
 
     m_Ring.setSectorSize(m_CurrentFillAmount);
   }
+  else
+    m_CurrentTime = 0.0;
 }
 
 void LoadingRing::PhysicsUpdate()
@@ -104,6 +105,16 @@ void LoadingRing::SetPosition(const sf::Vector2f & pos)
   m_Ring.setPosition(pos);
 }
 
+void LoadingRing::Reset()
+{
+  m_IsFilling = false;
+  m_FillingUp = true;
+  m_CurrentTime = 0.0;
+  m_CurrentFillAmount = 0.f;
+  m_FillRate = 0.0;
+  m_TimeBetweenFills = 0.0;
+}
+
 void LoadingRing::SetFillRate(float PercPerMs)
 {
   m_FillRate = PercPerMs;
@@ -113,7 +124,7 @@ void LoadingRing::SetFillRate(float PercPerMs)
 void LoadingRing::Fill(float ms)
 {
   m_FinalFillAmount = 1.f;
-  m_FillRate = (m_CurrentFillAmount - m_FinalFillAmount) / ms;
+  m_FillRate = (m_FinalFillAmount - m_CurrentFillAmount) / ms;
   m_IsFilling = true;
   m_FillingUp = (m_FillRate > 0.f);
 }

@@ -15,6 +15,8 @@ namespace Engine
     m_Status.set(ColliderProp::HasPhysicalResponse);
     m_Status.set(ColliderProp::Enabled);
     m_Status.set(ColliderProp::NotifyEveryFrame);
+    m_Status.set(ColliderProp::Active);
+    m_Status.reset(ColliderProp::Sleeping);
   }
 
   Collider2D::~Collider2D()
@@ -105,7 +107,7 @@ namespace Engine
     return Collider;
   }
 
-  void Collider2D::SetCollisionCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback, bool NotifyEveryFrame)
+  void Collider2D::SetCollisionCallback(std::function<void(LevelObject*)> Callback, bool NotifyEveryFrame)
   {
     m_NotifyOfCollisionEveryFrame = NotifyEveryFrame;
     m_Status |= (m_NotifyOfCollisionEveryFrame ?
@@ -113,6 +115,11 @@ namespace Engine
                  ColliderProp::SingleResponsePerObj
                  );
     m_CollisionCallback = Callback;
+  }
+
+  void Collider2D::SetSegmentCallback(std::function<void(PhysicsEngineSegmentType *)> Callback)
+  {
+    m_HitSegmentCallback = Callback;
   }
 
   void Collider2D::SetPositionChangeCallback(std::function<void(sf::Vector2f delta)> Callback)
@@ -229,16 +236,20 @@ namespace Engine
     if (m_Status.test(ColliderProp::Active) && m_Status.test(ColliderProp::Enabled)) {
       if (m_MyObject)
         m_MyObject->HandleCollisionWithCollider(Collider.lock());
+      if (m_CollisionCallback)
+        m_CollisionCallback(m_MyObject);
     }
 
     return m_Status.test(ColliderProp::HasPhysicalResponse);
   }
 
-  bool Collider2D::HandleCollisionWithSegment(std::weak_ptr<PhysicsEngineSegmentType> Collider)
+  bool Collider2D::HandleCollisionWithSegment(PhysicsEngineSegmentType *Collider)
   {
     if (m_Status.test(ColliderProp::Active) && m_Status.test(ColliderProp::Enabled)) {
       if (m_MyObject)
-        m_MyObject->HandleCollisionWithSegment(Collider.lock());
+        m_MyObject->HandleCollisionWithSegment(Collider);
+      if (m_HitSegmentCallback)
+        m_HitSegmentCallback(Collider);
     }
 
     return m_Status.test(ColliderProp::HasPhysicalResponse);

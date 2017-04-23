@@ -157,9 +157,18 @@ namespace Engine
     }
   }
 
+  void GenericActor::SetCollisionHandleCallback(std::function<void(LevelObject*)> Callback)
+  {
+    m_HandleCollisionWithObject = Callback;
+  }
+
   void GenericActor::HandleCollisionWithCollider(SPtrShared<Collider2D> Collider)
   {
     auto Object = Collider->GetObjectPtr();
+  }
+
+  void GenericActor::HandleCollisionWithObject(LevelObject * Object)
+  {
   }
 
   void GenericActor::HandleInputEvent(const UserEvent & evnt)

@@ -8,6 +8,7 @@ namespace Engine
     //Initialize the messager
     Messager::Init();
     ASyncLevelStreamThread::Launch();
+    LevelsLock = std::make_shared<std::mutex>();
 
     Messager::PostLogMessage(0, SystemMessage(SystemMessageType::ActivityLog, 0, 0, "EngineStartup"), MessageLogLevel::Normal);
 

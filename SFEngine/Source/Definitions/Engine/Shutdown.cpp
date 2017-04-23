@@ -32,8 +32,12 @@ namespace Engine
       delete ScriptEngine;
     }
 
+    ASyncLevelStreamThread::Shutdown();
+    LevelsLock.reset();
+
     Messager::PurgeLogsToFile("MessageCachePurge.log", "ActivityLogPurge.log", "RankedMessageLogPurge.log");
     Messager::Shutdown();
+
     return Success::GAMELOOP_SUCCESS;
   }
 }

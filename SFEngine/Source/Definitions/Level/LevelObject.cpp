@@ -169,11 +169,22 @@ namespace Engine
     return TextureRect;
   }
 
+  void LevelObject::HandleCollisionWithObject(LevelObject * Object)
+  {
+    if (m_HandleCollisionWithObject)
+      m_HandleCollisionWithObject(Object);
+  }
+
+  void LevelObject::SetCollisionHandleCallback(std::function<void(LevelObject*)> Callback)
+  {
+    m_HandleCollisionWithObject = Callback;
+  }
+
   void LevelObject::HandleCollisionWithCollider(SPtrShared<Collider2D> Collider)
   {
   }
 
-  void LevelObject::HandleCollisionWithSegment(SPtrShared<PhysicsEngineSegmentType> Segment)
+  void LevelObject::HandleCollisionWithSegment(PhysicsEngineSegmentType *Segment)
   {
     auto pos = Segment->pos;
     auto diff = Position - sf::Vector2f(pos.x, pos.y);

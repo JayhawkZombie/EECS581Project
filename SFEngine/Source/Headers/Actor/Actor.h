@@ -32,8 +32,10 @@ namespace Engine
     virtual void SerializeOut(std::ofstream &out) override;
     virtual void SerializeIn(std::ifstream &in) override;
 
-    virtual void HandleCollisionWithCollider(SPtrShared<Collider2D> Collider);
-    virtual void HandleInputEvent(const UserEvent &evnt);
+    virtual void SetCollisionHandleCallback(std::function<void(LevelObject *)> Callback) override;
+    virtual void HandleCollisionWithCollider(SPtrShared<Collider2D> Collider) override;
+    virtual void HandleCollisionWithObject(LevelObject *Object) override;
+    virtual void HandleInputEvent(const UserEvent &evnt) override;
     virtual bool WantsInputEvent(const Events &evnt) const;
 
     virtual void SetActorPosition(const sf::Vector2f &pos);

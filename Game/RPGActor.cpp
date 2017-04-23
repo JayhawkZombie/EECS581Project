@@ -8,10 +8,13 @@ RPGActor::RPGActor()
   m_name = "";
   m_filePath = "";
 
-  m_Colliders.push_back(Engine::Collider2D::CreatePolygonMesh(4, 11.31370f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.f, sf::Color::Blue));
+  m_Colliders.push_back(Engine::Collider2D::CreatePolygonMesh(4, 11.31370f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.1f, sf::Color::Blue));
   m_Colliders[0]->SetCollisionCallback(
-    [this](auto ptr) { this->HandleCollisionWithActor(ptr); }
+    [this](LevelObject* ptr) { 
+    this->HandleCollisionWithObject(ptr); }
   );
+
+  m_Colliders[0]->SetSegmentCallback([](auto seg) {std::cerr << "RPGActor Hit Segment" << std::endl; });
 
 
 

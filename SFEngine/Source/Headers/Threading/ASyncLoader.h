@@ -38,7 +38,7 @@ namespace Engine
     static SPtrShared<ASyncThreadStatus> Launch();
     static void Shutdown();
 
-    static bool Load(std::function<SPtrShared<BasicLevel>(void)> LoadFtn);
+    static bool Load(std::function<SPtrShared<BasicLevel>(void)> LoadFtn, std::string LevelName);
     static std::thread::id GetThreadID();
     static SPtrShared<ASyncThreadStatus> GetThreadStatus();
 
@@ -64,7 +64,10 @@ namespace Engine
     std::thread::id m_ThreadID;
 
     //Queue to push requests into
-    SPtrShared<std::queue<std::function<SPtrShared<BasicLevel>(void)>>> m_LoadingQueue;
+    SPtrShared<
+      std::queue<
+        std::pair<std::string, std::function<SPtrShared<BasicLevel>(void)>>
+      >> m_LoadingQueue;
   };
 
   class ASyncLoadManager

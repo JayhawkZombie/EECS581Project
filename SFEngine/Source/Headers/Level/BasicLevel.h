@@ -54,7 +54,7 @@ namespace Engine
     virtual void HideUI();
     virtual void ShowUI();
     virtual void Reset();
-
+    virtual void RequestLevelSwitch(const std::string &LevelName);
     virtual void SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f &Position);
     virtual void SpawnObject(std::shared_ptr<LevelObject> Object, const sf::Vector2f &Position);
 

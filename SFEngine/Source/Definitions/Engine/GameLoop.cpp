@@ -56,7 +56,7 @@ namespace Engine
     tgui::Theme::Ptr theme = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
 
     chaiscript::ModulePtr mptr = std::make_shared<chaiscript::Module>();
-    Window->setVerticalSyncEnabled(false);
+    Window->setFramerateLimit(120);
     Window->setKeyRepeatEnabled(false);
     bool Closed = false;
 
@@ -161,12 +161,6 @@ namespace Engine
     sf::Time fTime = { sf::seconds(0) };
     EngineRenderSettings.BGClearColor = sf::Color::Black;
 
-    //Every 10 seconds we will log the tick time
-    double LogTickDelta = 0.0;
-    std::stringstream TimeString;
-    struct std::tm *ptm = nullptr;
-    std::time_t TickTimePoint;
-
     while (true) {
       //When the window gets closed, we will be alerted, break out, and alert everything that we're closing down
       Closed = Handler.PollEvents(currentRenderWindow, evnt, true);
@@ -181,22 +175,6 @@ namespace Engine
         RenderDelta = std::chrono::duration<double, std::milli>(RenderEnd - RenderStart).count();
 
         TickDelta *= TimeScaleFactor;
-        LogTickDelta += TickDelta;
-
-        if (LogTickDelta >= 1000.0) {
-          LogTickDelta = 0.0;
-          TickTimePoint = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-          ptm = std::localtime(&TickTimePoint);
-          TimeString.str("");
-
-          TimeString << std::put_time(ptm, "%H:%M:%S");
-          std::string ALogMsg = "\n\tTickLog     : [" + TimeString.str()            + "]\n"   +
-                                  "\tTick Time   :  "  + std::to_string(TickDelta)   + " ms\n" + 
-                                  "\tUpdate Time :  "  + std::to_string(UpdateDelta) + " ms\n" + 
-                                  "\tRender Time :  "  + std::to_string(RenderDelta) + " ms\n";
-          Messager::PostToActivityLog(SystemMessage(SystemMessageType::ActivityLog, 0, 0, ALogMsg));
-        }
-
         UpdateStart = std::chrono::high_resolution_clock::now();
 
         fTime = dClock.restart();

@@ -159,6 +159,10 @@ namespace Engine
   {
   }
 
+  void BasicLevel::RequestLevelSwitch(const std::string & LevelName)
+  {
+  }
+
   void BasicLevel::SpawnActor(std::shared_ptr<GenericActor> Actor, const sf::Vector2f & Position)
   {
     Actor->SetActorPosition(Position);

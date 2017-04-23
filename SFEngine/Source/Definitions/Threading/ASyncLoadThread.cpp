@@ -7,7 +7,7 @@ namespace Engine
   SPtrShared<ASyncThreadStatus> ASyncLevelStreamThread::Launch()
   {
     auto Streamer = Get();
-    Streamer->m_LoadingQueue = std::make_shared<std::queue<std::function<SPtrShared<BasicLevel>(void)>>>();
+    Streamer->m_LoadingQueue = std::make_shared<std::queue<std::pair<std::string, std::function<SPtrShared<BasicLevel>(void)>>>>();
     Streamer->m_QueueLock = std::make_shared<std::mutex>();
     Streamer->m_StreamerStatus = std::make_shared<ASyncThreadStatus>();
 
@@ -44,15 +44,21 @@ namespace Engine
     delete Streamer;
   }
 
-  bool ASyncLevelStreamThread::Load(std::function<SPtrShared<BasicLevel>(void)> LoadFtn)
+  bool ASyncLevelStreamThread::Load(std::function<SPtrShared<BasicLevel>(void)> LoadFtn, std::string LevelName)
   {
     auto Streamer = Get();
     if (!Streamer)
       return false;
 
     Streamer->m_QueueLock->lock();
-    Streamer->m_LoadingQueue->push(LoadFtn);
+    Streamer->m_LoadingQueue->push(std::pair<std::string, std::function<SPtrShared<BasicLevel>(void)>>(LevelName, LoadFtn));
     Streamer->m_QueueLock->unlock();
+
+    Streamer->m_StreamerStatus->StatusLock.lock();
+    Streamer->m_StreamerStatus->bHasWork = true;
+    Streamer->m_StreamerStatus->StatusLock.unlock();
+
+    Streamer->m_StreamerStatus->ThreadCond.notify_all();
     return true;
   }
 
@@ -111,11 +117,15 @@ namespace Engine
 
       //If the queue is not empty, pop of the queue and attempt to load the level
       std::function<SPtrShared<BasicLevel>(void)> LoadFunction;
+      std::string LevelName{ "" };
+
       if (!m_LoadingQueue->empty()) {
         //Load the level
         m_QueueLock->lock();
 
-        LoadFunction = m_LoadingQueue->front();
+        LevelName = m_LoadingQueue->front().first;
+        LoadFunction = m_LoadingQueue->front().second;
+
         m_LoadingQueue->pop();
         m_QueueLock->unlock();
 
@@ -128,6 +138,9 @@ namespace Engine
           try
           {
             LoadedLevel = LoadFunction();
+            LevelsLock->lock();
+            Levels[LevelName] = LoadedLevel;
+            LevelsLock->unlock();
           }
           catch (EngineRuntimeError& e)
           {

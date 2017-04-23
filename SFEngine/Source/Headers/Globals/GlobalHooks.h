@@ -18,6 +18,7 @@ typedef tgui::MessageBox tguiMessageBox;
 #include <chrono>
 #include <unordered_map>
 
+#include "EngineTypes.h"
 #include "Resources\ResourceManager.h"
 #include "Streams\DataStream.h"
 #include "Render\Render.h"
@@ -65,6 +66,7 @@ namespace chaiscript {
 namespace Engine {
   class BasicLevel;
 
+  extern SPtrSharedMutex LevelsLock;
   extern std::unordered_map<std::string, std::shared_ptr<BasicLevel>> Levels;
   extern std::string EntryLevelName;
   extern BasicLevel *CurrentLevel;
@@ -280,7 +282,7 @@ namespace Engine
   extern void SwitchLevel(std::shared_ptr<BasicLevel> Level);
   extern void SwitchLevel_RawPtr(BasicLevel *Level);
   extern void LoadMainLevel();
-
+  extern void LoadLevelByName(const std::string &Name);
   extern void ScaleTimeUpdate(const double &factor);
 
   class UserEvent;

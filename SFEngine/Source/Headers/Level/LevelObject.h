@@ -60,8 +60,10 @@ namespace Engine
     sf::Vector2f GetSize() const;
     sf::IntRect GetTextureRect() const;
 
+    virtual void HandleCollisionWithObject(LevelObject *Object);
+    virtual void SetCollisionHandleCallback(std::function<void(LevelObject*)> Callback);
     virtual void HandleCollisionWithCollider(SPtrShared<Collider2D> Collider);
-    virtual void HandleCollisionWithSegment(SPtrShared<PhysicsEngineSegmentType> Segment);
+    virtual void HandleCollisionWithSegment(PhysicsEngineSegmentType *Segment);
 
     virtual void HandleInputEvent(const UserEvent &evnt);
     virtual void SetID(const std::string &ID) override;
@@ -95,6 +97,7 @@ namespace Engine
     std::unordered_map<std::string, thor::FrameAnimation> m_FrameAnimations;
 
     std::vector<std::shared_ptr<Collider2D>> m_Colliders;
+    std::function<void(LevelObject *)> m_HandleCollisionWithObject;
 
   	std::shared_ptr<sf::Texture> SpriteTexture;
 	  sf::Sprite Sprite;

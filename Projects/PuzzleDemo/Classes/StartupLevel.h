@@ -52,6 +52,7 @@ protected:
 
   //Stuff for shattering the textures after the initial lightning letters
   bool  m_DrawShatters        = false;
+  bool  m_LoadingNextLevel    = false;
   float m_SFMLFadeDuration    = 2000.f;
   float m_CurrentFadeDuration = 0.f;
 
