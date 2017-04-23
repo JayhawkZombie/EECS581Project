@@ -147,8 +147,8 @@ namespace Engine
     static void NO_ACTION(BaseEngineInterface *item, const sf::Keyboard::Key &);
     static void NO_ACTION(BaseEngineInterface *item);
 
-    std::string ItemID;
-    std::uint32_t InternalID;
+    std::string ItemID = "";
+    std::uint32_t InternalID = 0;
   };
 }
 
