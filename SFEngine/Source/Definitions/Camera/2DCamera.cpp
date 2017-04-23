@@ -4,8 +4,6 @@
 namespace Engine
 {
 
-
-
   Camera2D::Camera2D()
   {
   }

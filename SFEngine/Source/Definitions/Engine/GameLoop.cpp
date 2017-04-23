@@ -53,9 +53,6 @@ namespace Engine
     sf::Sprite EditorSprite;
     EditorSprite.setTexture(EditorTexture->getTexture());
 
-    tgui::Theme::Ptr theme = std::make_shared<tgui::Theme>("./SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
-
-    chaiscript::ModulePtr mptr = std::make_shared<chaiscript::Module>();
     Window->setFramerateLimit(120);
     Window->setKeyRepeatEnabled(false);
     bool Closed = false;
@@ -181,13 +178,11 @@ namespace Engine
 
         ImGui::SFML::Update(*currentRenderWindow, fTime);
         
-        //ImGui::ShowTestWindow();
         if (CurrentLevel) {
           CurrentLevel->TickUpdate(TickDelta);
         }
 
         UpdateEnd = std::chrono::high_resolution_clock::now();
-
         RenderStart = std::chrono::high_resolution_clock::now();
 
         Window->clear(sf::Color::Black);
@@ -196,10 +191,11 @@ namespace Engine
         if (CurrentLevel) {
           CurrentLevel->RenderOnTexture(EditorTexture);
         }
+
         EditorTexture->display();
         Window->draw(LevelRect); 
+
         GUI->draw();
-        //Window->resetGLStates();
         ImGui::Render();
         Window->display();
 

@@ -2,7 +2,7 @@
 #keep the vcxproj file, don't get rid of it
 /Debug/**
 *.sln
-.vs/
+.vs/**
 #ignore all assets
 *.db
 *.opendb
@@ -10,4 +10,4 @@
 *.zip
 *.VC.db
 *.filters
-ActivityLogPurge.log
+*.log

@@ -71,7 +71,8 @@ license you like.
 
 
 
-
+#pragma warning ( push )
+#pragma warning ( disable : 4702 )
 
 #include "json/json.h"
 
@@ -5308,4 +5309,4 @@ JSONCPP_OSTREAM& operator<<(JSONCPP_OSTREAM& sout, Value const& root) {
 
 
 
-
+#pragma warning ( pop )

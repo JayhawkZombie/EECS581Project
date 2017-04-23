@@ -68,8 +68,8 @@ license you like.
 // End of content of file: LICENSE
 // //////////////////////////////////////////////////////////////////////
 
-
-
+#pragma warning ( push )
+#pragma warning ( disable : 4702 )
 
 
 #ifndef JSON_AMALGATED_H_INCLUDED
@@ -2159,3 +2159,5 @@ JSON_API JSONCPP_OSTREAM& operator<<(JSONCPP_OSTREAM&, const Value& root);
 
 
 #endif //ifndef JSON_AMALGATED_H_INCLUDED
+
+#pragma warning ( pop )

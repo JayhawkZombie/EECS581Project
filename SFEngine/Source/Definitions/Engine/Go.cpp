@@ -15,10 +15,6 @@ void TerminateHandler()
 
 namespace Engine
 {
-#if !defined(__cplusplus)
-#error A C++ Compiler must be used. Please compile using a C++14 compliant compiler
-#endif
-
   UINT32 SFEngine::Go(int argc, char **argv)
   {
     CurrentEngine = this;
