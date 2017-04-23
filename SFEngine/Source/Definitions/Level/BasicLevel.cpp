@@ -185,7 +185,9 @@ namespace Engine
       auto _id = GenerateID();
       std::string objid = IDPrePend + std::to_string(_id);
       Object->InternalID = _id;
-      Object->ItemID = objid;
+      if (Object->ItemID == "") {
+        Object->ItemID = objid;
+      }
       LevelObjects[objid] = Object;
 
       return true;

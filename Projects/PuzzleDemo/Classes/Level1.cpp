@@ -36,6 +36,8 @@ Level1::Level1()
   //MainGUI->setFont(font);
 
   OakTreeLevelPtr    = std::make_shared<OakTreeLevel>();
+  OakTreeLevelPtr->SetID("oaktree");
+  Engine::Levels["oaktree"] = OakTreeLevelPtr;
   OakTreeChurchInteriorLevelPtr = std::make_shared<OakTreeChurchInterior>();
   BallPuzzleLevelPtr = std::make_shared<BallStackLevel>();
   AITestLevelPtr     = std::make_shared<AITestLevel>();
