@@ -28,14 +28,14 @@
     void setSize(int x, int y);
     void setPosition(int x, int y);
 
-  protected:
+
 
    // void NewWindow();
     void LoadConvo(int cur);
    // void NewConvo();
    // void addChoice();
     void LoadNewChoices(int cur, int j);
-
+  protected:
     tgui::Theme::Ptr Theme;
     tgui::ChildWindow::Ptr CreationWindow;
 
