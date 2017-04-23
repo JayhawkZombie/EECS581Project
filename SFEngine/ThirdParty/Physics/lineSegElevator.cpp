@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "lineSegElevator.h"
 #include "mvHit.h"
 
@@ -74,7 +71,7 @@ bool lineSegElevator::hit(mvHit& mh)
   vec2d Pimp, Nh;
   float dSep;
 
-  if (is_onMe(mh, Pimp, Nh, dSep))
+  if (mh.is_inMe(*static_cast<const lineSeg*>(this), Pimp, Nh, dSep))
   {
     mh.v -= vel;// relative to co-moving reference frame
     mh.bounce(Cf, Nh, friction_on);// velocity response
@@ -136,5 +133,3 @@ void lineSegElevator::set_dn()
   lineSeg::setPosition(iPos + uVel*s);
   vel *= 0.0f;
 }
-
-#pragma warning ( pop )

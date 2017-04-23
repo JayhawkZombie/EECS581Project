@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "expandPolygon.h"
 #include "ball.h"
 
@@ -101,7 +98,7 @@ void expandPolygon::init(std::istream& fin)
   fin >> m >> Cr >> growSpeed;// new
   unsigned int rd, gn, bu;
   fin >> rd >> gn >> bu;
-  siz = { rFull, rFull };
+
   ptVec.reserve(nSides);
   vtxVec.reserve(nSides + 1);
   r = growSpeed;
@@ -144,6 +141,12 @@ void expandPolygon::update()
   }
 
   regPolygon::update();
+}
+
+state_ab* expandPolygon::newState()
+{
+  std::function<void(vec2d, vec2d, float, int)> p_SetFuncVVFI = std::bind(&expandPolygon::setState_xp, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+  return new state_vvfi(&pos, &v, &r, &growState, p_SetFuncVVFI);
 }
 
 /*
@@ -191,5 +194,3 @@ else growState = -1;
 rFull = R;
 }
 */
-
-#pragma warning ( pop )

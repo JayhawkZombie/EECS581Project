@@ -1,11 +1,8 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "lineSegSwing.h"
 #include "mvHit.h"
 
-bool lineSegSwing::gravity_on = false;
-vec2d lineSegSwing::grav = vec2d();
+bool lineSegSwing::gravity_on = true;
+vec2d lineSegSwing::grav = vec2d(0.0f, 0.4f);
 
 lineSegSwing::lineSegSwing(std::istream& fin) : lineSegRotate(fin)
 {
@@ -31,7 +28,7 @@ void lineSegSwing::to_file(std::ofstream& fout)
 void lineSegSwing::update()
 {
   float I = m*L.dot(L) / 3.0f;
-  if (gravity_on) rotVel -= grav.cross(L) / (2.0f*I);
+  if (gravity_on) rotVel -= grav.cross(L)*m / (2.0f*I);
   // rotate L
   L = L.Rotate(rotVel);
   vtx[1].position.x = pos.x + L.x; vtx[1].position.y = pos.y + L.y;
@@ -44,7 +41,7 @@ bool lineSegSwing::hit(mvHit& mh)
   vec2d Pimp, Nh;
   float dSep;
 
-  if (is_onMe(mh, Pimp, Nh, dSep))
+  if (mh.is_inMe(*static_cast<const lineSeg*>(this), Pimp, Nh, dSep))
   {
     float magL = L.mag();// as per hit() above
     vec2d T = L / magL;
@@ -181,5 +178,3 @@ return true;
 return false;
 }
 */
-
-#pragma warning ( pop )

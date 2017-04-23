@@ -21,9 +21,10 @@ public:
   virtual void draw(sf::RenderTarget& rRW)const {
     rRW.draw(Q, 20, sf::LinesStrip);
   }
-  //   virtual bool hit( mvHit& );
-  bool is_onMe(const mvHit& mh, vec2d& Pimp, vec2d& N, float& pen)const;
-  virtual vec2d getSurfaceNormal(const mvHit& mh)const;
+  virtual bool hit(mvHit&);
+  virtual bool is_thruMe(vec2d pt1, vec2d pt2, vec2d& Pimp, float& fos)const;
+  //   bool is_onMe( const mvHit& mh, vec2d& Pimp, vec2d& N, float& pen )const;
+  //   virtual vec2d getSurfaceNormal( const mvHit& mh )const;
 };
 
 

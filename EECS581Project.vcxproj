@@ -573,6 +573,7 @@
     <ClInclude Include="SFEngine\ThirdParty\Physics\expandPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineBumper.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSeg.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegConveyor.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegElevator.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegFlip.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegRotate.h" />
@@ -580,8 +581,10 @@
     <ClInclude Include="SFEngine\ThirdParty\Physics\mvHit.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\pipeSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\polyHitFuncs.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\rec.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\regPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\segHit.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\stateTypes.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\vec2d.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\waveSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml.hpp" />
@@ -771,6 +774,7 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\expandPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineBumper.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSeg.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegConveyor.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegElevator.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegFlip.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegRotate.cpp" />
@@ -778,6 +782,7 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\mvHit.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\pipeSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\polyHitFuncs.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\rec.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\regPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\segHit.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\vec2d.cpp" />

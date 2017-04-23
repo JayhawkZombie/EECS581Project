@@ -13,6 +13,11 @@
 #include "SFEngine\ThirdParty\SelbaWard\BitmapText.hpp"
 #include "SFEngine\ThirdParty\SelbaWard\ProgressBar.hpp"
 
+#include <Thor/Particles.hpp>
+#include <Thor/Animations.hpp>
+#include <Thor/Vectors/PolarVector2.hpp>
+#include <Thor/Math/Distributions.hpp>
+
 class DemoLoadLevel : public Engine::BasicLevel
 {
 public:
@@ -35,6 +40,30 @@ protected:
   sw::BitmapFont  m_BitmapFont;
   sw::BitmapText  m_BitmapText;
   LoadingBar      m_ProgressBar;
+
+  sf::Texture m_PSystemTexture;
+
+  thor::ParticleSystem m_PSystem1;
+  thor::UniversalEmitter m_PEmitter1;
+  thor::ColorGradient m_PColorGradient1;
+  thor::ColorAnimation m_PColorAnimation1;
+  thor::FadeAnimation m_PFadeAnimation1;
+  thor::TorqueAffector m_PTorqueAffector1;
+  thor::ForceAffector m_PGravityAffector1;
+
+  thor::ParticleSystem m_PSystem2;
+  thor::UniversalEmitter m_PEmitter2;
+  thor::ColorGradient m_PColorGradient2;
+  thor::ColorAnimation m_PColorAnimation2;
+  thor::FadeAnimation m_PFadeAnimation2;
+  thor::TorqueAffector m_PTorqueAffector2;
+  thor::ForceAffector m_PGravityAffector2;
+
+  SDOUBLE m_PSystem1Time;
+  SDOUBLE m_PSystem2Time;
+
+  SVector2F m_PSystem1Position;
+  SVector2F m_PSystem2Position;
 
   std::shared_ptr<Engine::BasicLevel> m_NextLevel;
   SPtrSharedMutex m_LevelMutex;

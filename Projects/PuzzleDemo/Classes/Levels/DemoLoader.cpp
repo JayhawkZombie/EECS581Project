@@ -3,7 +3,16 @@
 #include "Projects\PuzzleDemo\Classes\Level1.h"
 
 DemoLoadLevel::DemoLoadLevel()
-  : BasicLevel(sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900))
+  : 
+  m_PColorAnimation1(m_PColorGradient1),
+  m_PColorAnimation2(m_PColorGradient2),
+  m_PFadeAnimation1(0.1f, 0.1f),
+  m_PFadeAnimation2(0.1f, 0.1f),
+  m_PTorqueAffector1(100.f),
+  m_PTorqueAffector2(100.f),
+  m_PGravityAffector1(sf::Vector2f(0.f, 5.f)),
+  m_PGravityAffector2(sf::Vector2f(0.f, 5.f)),
+  BasicLevel(sf::Vector2u(1700, 900), sf::FloatRect(0, 0, 1700, 900))
 {
   m_TestRing.SetColor(sf::Color::Green);
   m_TestRing.SetPosition(sf::Vector2f(150, 270));
@@ -107,6 +116,29 @@ DemoLoadLevel::DemoLoadLevel()
   } ,
     "MainMenu"
     );
+
+
+  m_PSystemTexture.loadFromFile("./SFEngine/Source/CoreFiles/Textures/particle.png");
+
+  m_PEmitter1.setEmissionRate(45.f);
+  m_PEmitter1.setParticleLifetime(sf::seconds(5.f));
+
+  m_PSystem1.setTexture(m_PSystemTexture);
+  m_PSystem1.addEmitter(thor::refEmitter(m_PEmitter1));
+  m_PColorGradient1[0.f] = sf::Color(221, 62, 0);
+  m_PColorGradient1[0.5f] = sf::Color(219, 32, 0);
+  m_PColorGradient1[1.f] = sf::Color(219, 105, 0);
+
+
+  m_PEmitter2.setEmissionRate(45.f);
+  m_PEmitter2.setParticleLifetime(sf::seconds(5.f));
+
+  m_PSystem2.setTexture(m_PSystemTexture);
+  m_PSystem2.addEmitter(thor::refEmitter(m_PEmitter2));
+  m_PColorGradient2[0.f] = sf::Color(0, 219, 215);
+  m_PColorGradient2[0.5f] = sf::Color(193, 0, 219);
+  m_PColorGradient2[1.f] = sf::Color(160, 0, 0);
+
 }
 
 DemoLoadLevel::~DemoLoadLevel()

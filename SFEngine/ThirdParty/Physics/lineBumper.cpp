@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "lineBumper.h"
 #include "mvHit.h"
 
@@ -15,7 +12,7 @@ void lineBumper::init(std::istream& fin)
   float magV;
   fin >> magV >> bumpSteps;
   vel = N*magV;
-  //std::cerr << "lineBumper: vel.x = " << vel.x << "  vel.y = " << vel.y << '\n';
+  std::cerr << "lineBumper: vel.x = " << vel.x << "  vel.y = " << vel.y << '\n';
 }
 
 void lineBumper::to_file(std::ofstream& fout)
@@ -46,7 +43,6 @@ void lineBumper::update()
   vtx[1].position.x = pos.x + L.x + (float)bumpIdx*vel.x;
   vtx[1].position.y = pos.y + L.y + (float)bumpIdx*vel.y;
 
-  siz = { std::abs(vtx[0].position.x - vtx[1].position.x), std::abs(vtx[0].position.y - vtx[1].position.y) };
   return;
 }
 
@@ -55,7 +51,8 @@ bool lineBumper::hit(mvHit& mh)
   vec2d Pimp, Nh;
   float dSep;
 
-  if (is_onMe(mh, Pimp, Nh, dSep))
+  //   if( is_onMe( mh, Pimp, Nh, dSep ) )
+  if (mh.is_inMe(*static_cast<const lineSeg*>(this), Pimp, Nh, dSep))
   {
     float magL = L.mag();// as per hit() above
     vec2d T = L / magL;
@@ -246,5 +243,3 @@ return true;
 return false;
 }
 */
-
-#pragma warning ( pop )

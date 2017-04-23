@@ -51,6 +51,7 @@ public:
   virtual bool is_inMe(const ball& rB, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response
   bool is_inMe(vec2d pt, vec2d ctr, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response toward ctr
                                                                             //    void handleImpact( mvHit& mh, vec2d sep, vec2d N, float dSep );
+  virtual bool is_thruMe(vec2d pt1, vec2d pt2, vec2d& Pimp, float& fos)const;// for bulletproofing, laser sighting, etc = ball version for now
 
   virtual float project(vec2d vUnit)const;// max projection along vUnit
 

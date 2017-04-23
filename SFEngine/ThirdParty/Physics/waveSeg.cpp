@@ -20,11 +20,15 @@ void waveSeg::init(std::istream& is)
   if (L_wv < magL / 100.0f) L_wv = magL / 100.0f;
   K_wvRt = PIx2 / L_wv;
   is >> rotFreqRt; if (rotFreqRt < 0.0f) rotFreqRt *= 0.0f;
-  siz = { Amp_wvLt, Amp_wvRt };
+
+  wvSpeed = rotFreqRt*L_wv / PIx2;
+
   is >> Amp_wvLt >> L_wv;
   if (L_wv < magL / 100.0f) L_wv = magL / 100.0f;
   K_wvLt = PIx2 / L_wv;
   is >> rotFreqLt; if (rotFreqLt < 0.0f) rotFreqLt *= 0.0f;
+
+  rotFreqLt = wvSpeed*K_wvLt;
 
   is >> Elev >> airDensity;
   is >> Depth >> fluidDensity;
@@ -63,6 +67,39 @@ void waveSeg::init(std::istream& is)
     vtx.position.y = wvVecRt[i].position.y + wvVecLt[i].position.y - pos.y;
     wvVec.push_back(vtx);
   }
+
+  // under water image
+  //   viewBelow = true;
+  if (viewBelow)
+  {
+    underColor = sf::Color(0, 50, 205, 30);
+    initUnderView();
+  }
+}
+
+void waveSeg::initUnderView()
+{
+  wvVtxVec.resize(4 * Npts_wv);
+  for (int i = 0; i<Npts_wv - 1; ++i)
+  {
+    wvVtxVec[4 * i].position = wvVtxVec[4 * i + 3].position = wvVec[i].position;// lt side
+    wvVtxVec[4 * i + 3].position.y = pos.y + Amp_wvLt + Amp_wvRt;
+
+    wvVtxVec[4 * i + 1].position = wvVtxVec[4 * i + 2].position = wvVec[i + 1].position;// rt side
+    wvVtxVec[4 * i + 2].position.y = pos.y + Amp_wvLt + Amp_wvRt;
+
+    wvVtxVec[4 * i].color = wvVtxVec[4 * i + 1].color = wvVtxVec[4 * i + 2].color = wvVtxVec[4 * i + 3].color = underColor;
+  }
+
+  underQuad[0].position.x = pos.x;
+  underQuad[0].position.y = pos.y + Amp_wvLt + Amp_wvRt;// up lt
+  underQuad[1].position = underQuad[2].position = underQuad[3].position = underQuad[0].position;
+  underQuad[1].position.x += magL;// up rt
+  underQuad[2].position.x += magL; underQuad[2].position.y = pos.y + Depth;// dn rt
+  underQuad[3].position.y = pos.y + Depth;// dn lt
+  underQuad[0].color = underQuad[1].color = underQuad[2].color = underQuad[3].color = underColor;
+
+  //   std::cerr << "\n initUnderView";
 }
 
 void waveSeg::to_file(std::ofstream& fout)
@@ -76,25 +113,67 @@ void waveSeg::draw(sf::RenderTarget& rRW)const
   rRW.draw(&wvVec[0], wvVec.size(), sf::LinesStrip);
   if (viewLt)  rRW.draw(&wvVecLt[0], wvVecLt.size(), sf::LinesStrip);
   if (viewRt)  rRW.draw(&wvVecRt[0], wvVecRt.size(), sf::LinesStrip);
+
+  if (viewBelow)
+  {
+    rRW.draw(&wvVtxVec[0], wvVtxVec.size(), sf::Quads);
+    rRW.draw(underQuad, 4, sf::Quads);
+  }
 }
 
 void waveSeg::update()
 {
   phsLt += rotFreqLt; if (phsLt > PIx2) phsLt -= PIx2;
   phsRt += rotFreqRt; if (phsRt > PIx2) phsRt -= PIx2;
-  float dx = magL / (float)(Npts_wv - 1);
+  setState_1();
+  /*   float dx = magL/(float)(Npts_wv-1);
   float x_rel = 0.0f;
 
   // don't assign all if only resultant being drawn require if( viewLt || viewRt )
-  for (int i = 0; i<Npts_wv; ++i)
+  for( int i=0; i<Npts_wv; ++i )
+  {
+  x_rel = dx*(float)i;
+  wvVecRt[i].position.y = pos.y + y_wvRt(x_rel);
+  wvVecLt[i].position.y = pos.y + y_wvLt(x_rel);
+  wvVec[i].position.y = wvVecRt[i].position.y + wvVecLt[i].position.y - pos.y;
+  }   */
+
+  return;
+}
+
+void waveSeg::setState(float phase_left, float phase_right)
+{
+  phsLt = phase_left;
+  phsRt = phase_right;
+  setState_1();
+}
+
+void waveSeg::setState_1()
+{
+  float dx = magL / (float)(Npts_wv - 1);
+  float x_rel = 0.0f;
+  for (size_t i = 0; i<wvVec.size(); ++i)
   {
     x_rel = dx*(float)i;
-    wvVecRt[i].position.y = pos.y + y_wvRt(x_rel);
-    wvVecLt[i].position.y = pos.y + y_wvLt(x_rel);
+    if (viewRt && wvVecRt.size() == wvVec.size()) wvVecRt[i].position.y = pos.y + y_wvRt(x_rel);
+    if (viewLt && wvVecLt.size() == wvVec.size()) wvVecLt[i].position.y = pos.y + y_wvLt(x_rel);
     wvVec[i].position.y = wvVecRt[i].position.y + wvVecLt[i].position.y - pos.y;
+    wvVec[i].position.y = pos.y + y_wvLt(x_rel) + y_wvRt(x_rel);
+
+    if (viewBelow && i + 1 < wvVec.size())
+    {
+      wvVtxVec[4 * i].position.y = wvVec[i].position.y;
+      wvVtxVec[4 * i + 1].position.y = wvVec[i + 1].position.y;
+    }
   }
-  siz = { Amp_wvLt, Amp_wvRt };
+
   return;
+}
+
+state_ab* waveSeg::newState()
+{
+  std::function<void(float, float)> p_SetFuncFF = std::bind(&waveSeg::setState, this, std::placeholders::_1, std::placeholders::_2);
+  return new state_ff(&phsLt, &phsRt, p_SetFuncFF);
 }
 
 bool waveSeg::hit(mvHit& mh)
@@ -129,7 +208,8 @@ bool waveSeg::hit(mvHit& mh)
   bool Hit = false;
   vec2d Pimp, Nh;
   float dSep;
-  if (is_onMe(mh, Pimp, Nh, dSep))
+  //    if( is_onMe( mh, Pimp, Nh, dSep ) )
+  if (mh.is_inMe(*static_cast<const lineSeg*>(this), Pimp, Nh, dSep))
   {
     if (is_hard)
     {
