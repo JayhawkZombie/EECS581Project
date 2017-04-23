@@ -147,7 +147,7 @@
       <TreatSpecificWarningsAsErrors>%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <DisableSpecificWarnings>4100; 4189</DisableSpecificWarnings>
       <AdditionalOptions>/std:c++14 /volatile:iso %(AdditionalOptions)</AdditionalOptions>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -710,6 +710,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\UpdateEditorUI.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Messaging\CoreMessager.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\Equippable.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\Static.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\TriggerObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\TriggerVolume.cpp" />
