@@ -22,26 +22,28 @@ void segHit::update() {
   return;
 }
 
-bool segHit::hit(mvHit& mh)
+
+/*
+bool segHit::hit( mvHit& mh )
 {
-  vec2d Pimp, Nh;
-  float dSep;
+vec2d Pimp, Nh;
+float dSep;
 
-  if (is_onMe(mh, Pimp, Nh, dSep))
-  {
-    if (is_hard)
-    {
-      mh.bounce(Cf, Nh, friction_on);// velocity response
-      mh.setPosition(mh.pos + Nh*dSep);// position change response
-    }
-    else
-    {
-      float grav_N = 0.02f, airDensity = 0.0004, fluidDensity = 0.04;
-      mh.Float(getSurfaceNormal(mh), Nh, dSep, grav_N, airDensity, fluidDensity);
-    }
-
-    return true;
-  }
-
-  return false;
+if( is_onMe( mh, Pimp, Nh, dSep ) )
+{
+if( is_hard )
+{
+mh.bounce( Cf, Nh, friction_on );// velocity response
+mh.setPosition( mh.pos + Nh*dSep );// position change response
 }
+else
+{
+float grav_N = 0.02f, airDensity = 0.0004, fluidDensity = 0.04;
+mh.Float( getSurfaceNormal(mh), Nh, dSep, grav_N, airDensity, fluidDensity );
+}
+
+return true;
+}
+
+return false;
+}   */

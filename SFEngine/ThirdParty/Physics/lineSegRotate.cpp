@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "lineSegRotate.h"
 #include "mvHit.h"
 
@@ -39,7 +36,7 @@ bool lineSegRotate::hit(mvHit& mh)
   vec2d Pimp, Nh;
   float dSep;
 
-  if (is_onMe(mh, Pimp, Nh, dSep))
+  if (mh.is_inMe(*static_cast<const lineSeg*>(this), Pimp, Nh, dSep))
   {
     float magL = L.mag();// as per hit() above
     vec2d T = L / magL;
@@ -57,5 +54,3 @@ bool lineSegRotate::hit(mvHit& mh)
 
   return false;
 }
-
-#pragma warning ( pop )

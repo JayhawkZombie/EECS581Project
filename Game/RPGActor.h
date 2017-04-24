@@ -5,6 +5,7 @@
 
 #include "../SFEngine/Source/Headers/Actor/Actor.h"
 #include "../SFEngine/Source/Headers/Physics/Collider.h"
+#include "Physics\Occluder.h"
 
 enum class WalkingDirection
 {

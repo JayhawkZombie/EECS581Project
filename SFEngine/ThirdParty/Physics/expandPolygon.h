@@ -29,6 +29,11 @@ public:
   virtual bool bounce(float Cf, vec2d N, bool isFric);// rigid bounce. N is line of action
   virtual void update();
 
+  void setState_xp(vec2d Pos, vec2d Vel, float R, int growSt) {
+    r = R; growState = growSt; v = Vel; setPosition(Pos);
+  }
+  virtual state_ab* newState();
+
   // utility
   void Transform();// expand or shrink. Will reverse transform in progress.
   void set_rFull(float R);

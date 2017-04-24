@@ -39,6 +39,8 @@ public:
   virtual bool is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)const;// code goes here. Impact point is written.
   virtual bool is_inMe(vec2d pt, vec2d& sep, vec2d& N, float& dSep)const;// writes qtys needed for collision response
 
+  virtual bool is_thruMe(vec2d pt1, vec2d pt2, vec2d& Pimp, float& fos)const;// for bulletproofing, laser sighting, etc.
+
   virtual bool Float(vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airDensity, float fluidDensity);
   virtual bool Float(vec2d Nsurf, float grav_N, float Density);
   virtual float project(vec2d vUnit)const {

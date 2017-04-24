@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "arcSeg.h"
 #include "mvHit.h"
 
@@ -103,15 +100,49 @@ if( mh.is_inMe( *static_cast<const arcSeg*>(this), Pimp, N, pen ) ) return true;
 return false;
 }   */
 
-bool arcSeg::is_onMe(const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen)const
+/*
+bool arcSeg::is_onMe( const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen )const
 {
-  return mh.is_inMe(*static_cast<const arcSeg*>(this), Pimp, Nh, pen);
+return mh.is_inMe( *static_cast<const arcSeg*>(this), Pimp, Nh, pen );
 }
 
-vec2d arcSeg::getSurfaceNormal(const mvHit& mh)const
+vec2d arcSeg::getSurfaceNormal( const mvHit& mh )const
 {
-  vec2d sep = mh.pos - pos;
-  return sep / sep.mag();
+vec2d sep = mh.pos - pos;
+return sep/sep.mag();
+}   */
+
+bool arcSeg::hit(mvHit& mh)
+{
+  vec2d Pimp, Nh;
+  float dSep;
+
+  if (mh.is_inMe(*static_cast<const arcSeg*>(this), Pimp, Nh, dSep))
+  {
+    if (is_hard)
+    {
+      mh.bounce(Cf, Nh, friction_on);// velocity response
+      mh.setPosition(mh.pos + Nh*dSep);// position change response
+    }
+    else
+    {
+      float grav_N = 0.02f, airDensity = 0.0004, fluidDensity = 0.04;
+      vec2d sep = mh.pos - pos;
+      float sepMag = sep.mag();
+      if (sepMag < 1.0f) sep = s[0] / R;// line drive if centers coincident
+      else sep = sep / sepMag;
+      mh.Float(sep, Nh, dSep, grav_N, airDensity, fluidDensity);
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
+bool arcSeg::is_thruMe(vec2d pt1, vec2d pt2, vec2d& Pimp, float& fos)const
+{
+  return false;// for now
 }
 
 /*
@@ -129,5 +160,3 @@ return true;
 
 return false;
 }   */
-
-#pragma warning ( pop )

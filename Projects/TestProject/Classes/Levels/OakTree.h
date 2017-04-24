@@ -6,6 +6,9 @@
 #include "../../../../SFEngine/Source/Headers/Camera/2DCamera.h"
 #include "OakTreeChurchInterior.h"
 
+#include "Physics\Occluder.h"
+#include "Lights\LightingSystem.h"
+
 class OakTreeLevel : public Engine::BasicLevel
 {
 public:
@@ -26,6 +29,8 @@ public:
 
 
 protected:
+  Engine::LightSystem m_LightSystem;
+
   std::shared_ptr<OakTreeChurchInterior> OakTreeChurchInteriorLevelPtr;
 	std::shared_ptr<Engine::GenericActor> MainCharacter;
 	Engine::Camera2D myActor_camera;

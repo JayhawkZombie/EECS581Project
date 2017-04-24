@@ -28,10 +28,12 @@ namespace Engine
     HasPhysicalResponse  = 4,
     NotifyEveryFrame     = 5,
     SingleResponsePerObj = 6,
-    NotifyOfOverlap      = 7
+    NotifyOfOverlap      = 7,
+    CastShadows          = 8
   };
 
   class LevelObject;
+  class Occluder2D;
 
   class Collider2D
   {
@@ -65,7 +67,8 @@ namespace Engine
       const sf::Vector2f & InitialVelocity,
       float mass,
       float CoeffOfRest,
-      sf::Color color = sf::Color::Transparent
+      sf::Color color = sf::Color::Transparent,
+      bool CastShadows = false
     );
 
     void SetCollisionCallback(std::function<void(LevelObject*)> Callback, bool NotifyEveryFrame = true);
@@ -87,6 +90,7 @@ namespace Engine
     bool IsEnabled() const;
     bool HasPhyicalResponse() const;
     bool IsActive() const;
+    bool DoesCastShadows() const;
 
     void Move(const sf::Vector2f &Delta);
     void SetPosition(const sf::Vector2f &Position);
@@ -95,9 +99,10 @@ namespace Engine
     sf::Vector2f GetPosition() const;
 
     bool HandleCollision(std::weak_ptr<Collider2D> Collider);
+    bool HandleCollision(std::weak_ptr<Occluder2D> Occluder);
     bool HandleCollisionWithSegment(PhysicsEngineSegmentType* Collider);
 
-    
+    std::vector<::vec2d> GetVertices();
 
     std::weak_ptr<PhysicsEngineBaseMeshType> GetMesh();
     void SetObjectPtr(LevelObject *Object);

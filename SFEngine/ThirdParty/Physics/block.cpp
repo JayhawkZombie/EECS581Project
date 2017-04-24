@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "block.h"
 #include "ball.h"
 
@@ -20,7 +17,7 @@ void block::init(std::istream& fin)// from file data
   fin >> m >> Cr;// new
   unsigned int rd, gn, bu;
   fin >> rd >> gn >> bu;
-  siz = { W, H };
+
   ptVec.reserve(nSides);
   vtxVec.reserve(nSides + 1);
   /*   float ang1 = atanf(W/H);
@@ -58,6 +55,7 @@ float block::getRotation()const
 
 void block::setRotation(float angle)
 {
+  //   circPos = angle;
   float hW = W / 2.0f, hH = H / 2.0f;
   ptVec[0].x = -hW; ptVec[0].y = -hH;// up lt
   ptVec[1].x = hW; ptVec[1].y = -hH;// up rt
@@ -213,5 +211,3 @@ return true;
 
 return false;
 }   */
-
-#pragma warning ( pop )

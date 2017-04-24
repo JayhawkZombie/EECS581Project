@@ -8,11 +8,11 @@ void NewConvoCreator::CreateConvo(std::string filename)//, MainCharacter mc)
     std::unique_ptr<ListReader> reader = std::make_unique<ListReader>();
     Theme = std::make_shared<tgui::Theme>("././SFEngine/Source/CoreFiles/UIThemes/Black.txt");
     //This will cause a compiler failure, please use a cloning method
-    //Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt
+    //my_filename = "Game/ContentFiles/Conversation/ConvoJohnWakeUp.txt";
     my_filename = filename;
     GUI = Engine::GUI;
     MainCharacter mc;
-    convo_arr = reader->readConversation(filename, mc);
+    convo_arr = reader->readConversation(my_filename, mc);
     totalNodes = reader->getNumConversations();
     x_dim = 700;
     y_dim = 400;
@@ -32,18 +32,21 @@ void NewConvoCreator::setPosition(int x, int y) {
 }
   void NewConvoCreator::LoadNewChoices(int cur, int j)
   {
-    for (int i = 0; i < totalNodes; i++)
-    {
-      if (convo_arr[i]->getConvoID() == convo_arr[cur]->getConvoNodes(j))
-      {
-        LoadConvo(i);
-        return;
-      }
-    }
     if (convo_arr[cur]->getNumChoices() == 0)
     {
       Close();
     }
+
+    for (int i = 0; i < totalNodes; i++)
+    {
+      if (convo_arr[i]->getConvoID() == convo_arr[cur]->getConvoNodes(j))
+      {
+        Close();
+        LoadConvo(i);
+        return;
+      }
+    }
+
   }
   /*
   void NewConvoCreator::setVariables(int numChoices, std::string contentText, std::string buttonText)
@@ -64,17 +67,14 @@ void NewConvoCreator::setPosition(int x, int y) {
   {
     buttonPos = 0;
     textSize = 0;
-    if (CreationWindow != nullptr)
-      Close();
+    
     if (convo_arr == NULL)
     {
       return;
     }
+    CreationWindow = Theme->load("ChildWindow");
    // float xDiff = WindowSize.x - 700.f;
    // float yDiff = WindowSize.y - 400.f;
-    sf::Vector2f v1(x_dim, y_dim);
-    CreationWindow = Theme->load("ChildWindow");
-
 
     CreationWindow->setPosition({ x_pos,y_pos });
     CreationWindow->setSize({ x_dim,y_dim });
@@ -109,7 +109,8 @@ void NewConvoCreator::setPosition(int x, int y) {
       ChoiceButton->setPosition({ 0, buttonPos });
 
       nodeID = (convo_arr[cur]->getConvoNodes(j));
-      ChoiceButton->connect("clicked", &NewConvoCreator::LoadNewChoices, this, cur, j);
+      ChoiceButton->connect("clicked", [this, _j = j, _cur = cur ]() { this->LoadNewChoices(_cur, _j); });
+      //ChoiceButton->connect("clicked", &NewConvoCreator::LoadNewChoices, this, cur, j);
       buttonPos += y_size;
       CreationWindow->add(ChoiceButton);
     }

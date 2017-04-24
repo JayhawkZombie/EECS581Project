@@ -15,10 +15,9 @@
     NewShopCreator() = default;
     ~NewShopCreator() = default;
 
-    void CreateShop();
     void CreateShopNode(Inventory pinv, Inventory sinv);
 
-    void OpenTheme(tgui::Theme::Ptr Theme);
+    void OpenTheme();
     void Close();
 
   protected:

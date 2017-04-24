@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "lineSeg.h"
 #include "mvHit.h"
 
@@ -16,7 +13,6 @@ void lineSeg::init(std::istream& fin)
   //    fin >> pos.x >> pos.y;
   segHit::init(fin);
   fin >> L.x >> L.y;
-  siz = { std::abs(L.x - pos.x), std::abs(L.y - pos.y) };
   L -= pos;// new
            //    fin >> r >> g >> b;
            //    vtx[0].color.r = r; vtx[0].color.g = g; vtx[0].color.b = b;
@@ -26,6 +22,7 @@ void lineSeg::init(std::istream& fin)
   vtx[0].position.x = pos.x; vtx[0].position.y = pos.y;
   vtx[1].position.x = pos.x + L.x; vtx[1].position.y = pos.y + L.y;
   N = L.get_LH_norm();
+  len = L.mag();
 }
 
 void lineSeg::to_file(std::ofstream& fout)
@@ -49,6 +46,7 @@ void lineSeg::init(float x1, float y1, float x2, float y2, sf::Color clr)
   vtx[0].position.x = x1; vtx[0].position.y = y1;
   vtx[1].position.x = x2; vtx[1].position.y = y2;
   N = L.get_LH_norm();
+  len = L.mag();
 }
 
 void lineSeg::init(vec2d pt1, vec2d pt2, sf::Color clr)
@@ -59,6 +57,7 @@ void lineSeg::init(vec2d pt1, vec2d pt2, sf::Color clr)
   vtx[0].position.x = pt1.x; vtx[0].position.y = pt1.y;
   vtx[1].position.x = pt2.x; vtx[1].position.y = pt2.y;
   N = L.get_LH_norm();
+  len = L.mag();
 }
 
 void lineSeg::setPosition(vec2d Pos)
@@ -69,30 +68,85 @@ void lineSeg::setPosition(vec2d Pos)
 }
 
 /*
-// ball works perfect. undercut flaw returns for poly
 bool lineSeg::is_onMe( const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen )const
 {
-bool Hit = mh.is_inMe( pos, Pimp, Nh, pen );
-if( !Hit ) Hit = mh.is_inMe( pos+L, Pimp, Nh, pen );
-// face test even if end is hit. mvHit can roll over end point across face.
-if( mh.is_inMe( *static_cast<const lineSeg*>(this), Pimp, Nh, pen ) ) Hit = true;
-
-return Hit;
+return mh.is_inMe( *static_cast<const lineSeg*>(this), Pimp, Nh, pen );
 }   */
 
-/*
-// poly works perfect. ball can roll off end across face so, "pothole" issue exists for ball
-bool lineSeg::is_onMe( const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen )const
+bool lineSeg::hit(mvHit& mh)
 {
-if( mh.is_inMe( pos, Pimp, Nh, pen ) ) return true;
-if( mh.is_inMe( pos+L, Pimp, Nh, pen ) ) return true;
-if( mh.is_inMe( *static_cast<const lineSeg*>(this), Pimp, Nh, pen ) ) return true;
-return false;
-}   */
+  //   if( is_hard && deflect(mh) ) return true;
 
-bool lineSeg::is_onMe(const mvHit& mh, vec2d& Pimp, vec2d& Nh, float& pen)const
+  vec2d Pimp, Nh;
+  float dSep;
+
+  if (is_bulletProof && is_hard && is_thruMe(mh.pos, mh.pos + mh.v, Pimp, dSep))// this ruins normal behavior. This acts at too low a speed.
+  {
+    // v is opposite sidedness
+    if (hitSide == 1 && mh.v.dot(N) > 0.0f) return false;// new
+    if (hitSide == -1 && mh.v.dot(N) < 0.0f) return false;// new
+                                                          // it penetrated
+                                                          //     mh.v = mh.v.to_base(N);
+                                                          //     mh.v.x *= -mh.Cr;
+                                                          //     mh.v = mh.v.from_base(N);
+    deflect(mh);
+    mh.setPosition(pos + Pimp + dSep*mh.v);
+    return true;
+  }
+
+  if (mh.is_inMe(*static_cast<const lineSeg*>(this), Pimp, Nh, dSep))
+  {
+    if (hitSide == 1 && Nh.dot(N) < 0.0f) return false;// new
+    if (hitSide == -1 && Nh.dot(N) > 0.0f) return false;// new
+
+    if (is_hard)
+    {
+      mh.bounce(Cf, Nh, friction_on);// velocity response
+      mh.setPosition(mh.pos + Nh*dSep);// position change response
+    }
+    else
+    {
+      float grav_N = 0.4f, airDensity = 0.001, fluidDensity = 0.04;
+      mh.Float(N, Nh, dSep, grav_N, airDensity, fluidDensity);
+    }
+
+    return true;
+  }
+
+
+  return false;
+}
+
+bool lineSeg::is_thruMe(vec2d pt1, vec2d pt2, vec2d& Pimp, float& fos)const
 {
-  return mh.is_inMe(*static_cast<const lineSeg*>(this), Pimp, Nh, pen);
+  vec2d Sf = pt1 - pos;
+  vec2d Si = pt2 - pos;
+  float Sin = Si.dot(N);
+  if (Sin == 0.0f) return false;// because on line. There are other tests for this case.
+  float Sfn = Sf.dot(N);
+  if (Sfn / Sin > 0.0f) return false;// didn't cross
+  float vn = (Sf - Si).dot(N);
+  if (vn == 0.0f) return false;// travelling paralel
+  fos = Sfn / vn;
+  Pimp = Sf - fos*(Sf - Si);
+  //    float magL = L.mag();
+  //    vec2d T = L/magL;
+  vec2d T = L / len;
+  float d = Pimp.dot(T);
+  //   std::cerr << "\n d: "  << d << " lnpos.N: " << linePos.dot(N);
+  //    if( d < 0.0f || d > magL ) return false;// missed ends
+  if (d < 0.0f || d > len) return false;// missed ends
+
+  return true;
+}
+
+void lineSeg::deflect(mvHit& mh)
+{
+  mh.v = mh.v.to_base(N);
+  mh.v.x *= -mh.Cr;
+  mh.v = mh.v.from_base(N);
+  //    mh.setPosition( pos + linePos + fos*mh.v );
+  return;
 }
 
 /*
@@ -110,5 +164,3 @@ return true;
 
 return false;
 }   */
-
-#pragma warning ( pop )

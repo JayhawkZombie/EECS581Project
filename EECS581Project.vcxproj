@@ -147,7 +147,7 @@
       <TreatSpecificWarningsAsErrors>%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <DisableSpecificWarnings>4100; 4189</DisableSpecificWarnings>
       <AdditionalOptions>/std:c++14 /volatile:iso %(AdditionalOptions)</AdditionalOptions>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -368,6 +368,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerVolume.h" />
     <ClInclude Include="SFEngine\Source\Headers\OSXDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\Occluder.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
@@ -573,6 +574,7 @@
     <ClInclude Include="SFEngine\ThirdParty\Physics\expandPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineBumper.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSeg.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegConveyor.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegElevator.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegFlip.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\lineSegRotate.h" />
@@ -580,8 +582,10 @@
     <ClInclude Include="SFEngine\ThirdParty\Physics\mvHit.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\pipeSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\polyHitFuncs.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\rec.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\regPolygon.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\segHit.h" />
+    <ClInclude Include="SFEngine\ThirdParty\Physics\stateTypes.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\vec2d.h" />
     <ClInclude Include="SFEngine\ThirdParty\Physics\waveSeg.h" />
     <ClInclude Include="SFEngine\ThirdParty\rapidxml-1.13\rapidxml.hpp" />
@@ -710,6 +714,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Level\Spawner.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Level\UpdateEditorUI.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Messaging\CoreMessager.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Objects\Equippable.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\Static.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\TriggerObject.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Objects\TriggerVolume.cpp" />
@@ -770,6 +775,7 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\expandPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineBumper.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSeg.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegConveyor.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegElevator.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegFlip.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\lineSegRotate.cpp" />
@@ -777,6 +783,7 @@
     <ClCompile Include="SFEngine\ThirdParty\Physics\mvHit.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\pipeSeg.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\polyHitFuncs.cpp" />
+    <ClCompile Include="SFEngine\ThirdParty\Physics\rec.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\regPolygon.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\segHit.cpp" />
     <ClCompile Include="SFEngine\ThirdParty\Physics\vec2d.cpp" />

@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "ball.h"
 
 #include "lineSeg.h"
@@ -12,6 +9,19 @@ bool ball::hit(regPolygon& py) {
 bool ball::hit(mvHit& mh) {
   return mh.hit(*static_cast<ball*>(this));
 }
+
+/*
+bool ball::hit( mvHit& mh )
+{
+vec2d& Pimp;
+float& fos;
+if( is_thruMe( vec2d pt1, vec2d pt2, vec2d& Pimp, float& fos ) )
+{
+return true;
+}
+
+return mh.hit( *static_cast<ball*>(this) );
+}   */
 
 ball::ball() {}// default
 
@@ -29,7 +39,6 @@ void ball::init(std::istream& fin)// from file data
   img.setPosition(pos.x, pos.y);
   img.setFillColor(sf::Color(red, g, b));
   img.setOrigin(r, r);
-  siz = { r, r };
   //    std::cout << "ball.v = " << v.mag() << '\n';
 }
 
@@ -109,7 +118,29 @@ bool ball::hit(ball& rB)
   return true;
 }
 
-//bool ball::Float( vec2d Nsurf, vec2d Npen, float penAmt )
+/* // This is working ok
+bool ball::Float( vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airDensity, float fluidDensity )
+{
+float belowSurface = (Npen*penAmt).mag();
+if( Nsurf.dot(Npen) < 0.0f ) belowSurface = 2.0f*r - belowSurface;
+
+if( belowSurface > 0.0f && belowSurface < 2.0f*r )// partially immersed
+{
+float b = r - belowSurface;
+float A = 2.0f*r*acosf(b/r) - b*sqrtf(r*r - b*b);
+float Fbuoy = grav_N*( A*fluidDensity + (3.1416*r*r - A)*airDensity );
+v = v.to_base(Nsurf);
+v.x += Fbuoy/m;
+if( v.x < 0.0f ) v.x -= drag*fluidDensity*v.x*r*2.0f/m;
+v.y -= drag*fluidDensity*v.y*belowSurface/m;
+v = v.from_base(Nsurf);
+return true;
+}
+
+return false;
+}   */
+
+// accepted version works best so far
 bool ball::Float(vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airDensity, float fluidDensity)
 {
   float belowSurface = (Npen*penAmt).mag();
@@ -130,6 +161,7 @@ bool ball::Float(vec2d Nsurf, vec2d Npen, float penAmt, float grav_N, float airD
 
   return false;
 }
+
 
 bool ball::Float(vec2d Nsurf, float grav_N, float Density)// fully immersed
 {
@@ -232,4 +264,20 @@ bool ball::is_inMe(const arcSeg& AS, vec2d& Pimp, vec2d& Nh, float& dSep)const//
   return true;
 }
 
-#pragma warning ( pop )
+bool ball::is_thruMe(vec2d pt1, vec2d pt2, vec2d& Pimp, float& fos)const// for bulletproofing, laser sighting, etc.
+{
+  vec2d L = pt1 - pt2;
+  float magL = L.mag();
+  if (magL < 1.0f) return false;
+  vec2d Lu = L / magL;
+  vec2d S = pt1 - pos;
+  vec2d N = vec2d(Lu.y, -Lu.x);
+  float b = Lu.cross(S);
+  if (b < 0.0f && b < -r) return false;// missed
+  if (b > 0.0f && b > r)  return false;// missed
+  float a = sqrtf(r*r - b*b);
+  Pimp = pos + b*N - a*Lu;
+  fos = (pt1 - Pimp).dot(Lu) / magL;
+
+  return true;
+}

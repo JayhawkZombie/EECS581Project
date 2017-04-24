@@ -1,5 +1,6 @@
 #include "Physics\Collider.h"
 #include "Level\LevelObject.h"
+#include "Physics\Occluder.h"
 
 #include "PhysicsEngine.h"
 
@@ -17,6 +18,7 @@ namespace Engine
     m_Status.set(ColliderProp::NotifyEveryFrame);
     m_Status.set(ColliderProp::Active);
     m_Status.reset(ColliderProp::Sleeping);
+    m_Status.reset(ColliderProp::CastShadows);
   }
 
   Collider2D::~Collider2D()
@@ -95,7 +97,8 @@ namespace Engine
     const sf::Vector2f & InitialVelocity, 
     float mass, 
     float CoeffOfRest, 
-    sf::Color color
+    sf::Color color,
+    bool CastShadows
   )
   {
     std::shared_ptr<PhysicsEngineBaseMeshType> Mesh
@@ -103,7 +106,8 @@ namespace Engine
 
     std::shared_ptr<Collider2D> Collider = std::make_shared<Collider2D>();
     Collider->m_Mesh = Mesh;
-
+    if (CastShadows)
+      Collider->m_Status.set(ColliderProp::CastShadows);
     return Collider;
   }
 
@@ -194,6 +198,11 @@ namespace Engine
     return m_Status.test(ColliderProp::Active);
   }
 
+  bool Collider2D::DoesCastShadows() const
+  {
+    return m_Status.test(ColliderProp::CastShadows);
+  }
+
   void Collider2D::Move(const sf::Vector2f & Delta)
   {
     if (m_Mesh) {
@@ -247,6 +256,11 @@ namespace Engine
     return m_Status.test(ColliderProp::HasPhysicalResponse);
   }
 
+  bool Collider2D::HandleCollision(std::weak_ptr<Occluder2D> Occluder)
+  {
+    return false;
+  }
+
   bool Collider2D::HandleCollisionWithSegment(PhysicsEngineSegmentType *Collider)
   {
     if (m_Status.test(ColliderProp::Active) && m_Status.test(ColliderProp::Enabled)) {
@@ -257,6 +271,14 @@ namespace Engine
     }
 
     return m_Status.test(ColliderProp::HasPhysicalResponse);
+  }
+
+  std::vector<::vec2d> Collider2D::GetVertices()
+  {
+    if (m_Mesh)
+      return m_Mesh->get_verts();
+
+    return { };
   }
 
   std::weak_ptr<PhysicsEngineBaseMeshType> Collider2D::GetMesh()

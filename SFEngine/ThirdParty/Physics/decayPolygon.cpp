@@ -1,6 +1,3 @@
-#pragma warning ( push )
-#pragma warning ( disable : 4244 )
-
 #include "decayPolygon.h"
 #include "ball.h"
 
@@ -160,5 +157,3 @@ V = B.v - Vcm;
 Ek += B.m*V.dot(V);
 return 0.5f*Ek;
 }   */
-
-#pragma warning ( pop )
