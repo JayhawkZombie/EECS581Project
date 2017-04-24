@@ -368,6 +368,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerVolume.h" />
     <ClInclude Include="SFEngine\Source\Headers\OSXDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\Occluder.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />

@@ -1,6 +1,7 @@
 #include "Level\LevelObject.h"
 #include "Actor\Actor.h"
 #include "Physics\Collider.h"
+#include "Physics\Occluder.h"
 
 #include "chaiscript\chaiscript.hpp"
 
@@ -252,6 +253,8 @@ namespace Engine
   {
     for (auto & collider : m_Colliders)
       collider->Move(delta);
+    for (auto & occluder : m_Occluders)
+      occluder->Move(delta);
 	  Position += delta;
     Sprite.move(delta);
   }
@@ -286,6 +289,24 @@ namespace Engine
   {
     m_Colliders.push_back(Collider);
     m_Colliders.back()->SetObjectPtr(this);
+  }
+
+  std::vector<std::shared_ptr<Collider2D>> LevelObject::GetOccluders() const
+  {
+    static std::vector<std::shared_ptr<Collider2D>> _Occluders;
+    _Occluders.clear();
+
+    for (auto & collider : m_Colliders) {
+      if (collider->DoesCastShadows())
+        _Occluders.push_back(collider);
+    }
+
+    return _Occluders;
+  }
+
+  void LevelObject::AddOccluder(std::shared_ptr<Collider2D> Collider)
+  {
+    AddCollider(Collider);
   }
 
   void LevelObject::AddFrameAnimation(const std::string & ID, const std::vector<sf::IntRect>& Frames, sf::Time Duration)

@@ -2,6 +2,7 @@
 #include "Actor\Actor.h"
 #include "Physics\Collider.h"
 #include "Tiles\TileSheet.h"
+#include "Physics\Occluder.h"
 
 namespace
 {
@@ -90,6 +91,10 @@ namespace Engine
       for (auto & collider : obj.second->GetColliders())
         if (collider->GetMesh().lock())
           collider->GetMesh().lock()->draw(*Texture);
+
+      for (auto & occluder : obj.second->GetOccluders())
+        if (occluder->GetMesh().lock())
+          occluder->GetMesh().lock()->draw(*Texture);
     }
 
     for (auto & seg : Segments)
@@ -495,6 +500,7 @@ namespace Engine
 
     for (auto & obj : LevelObjects) {
       auto vec = obj.second->GetColliders();
+      auto _vec = obj.second->GetOccluders();
       for (auto & mesh : vec) {
         Colliders.push_back(mesh);
       }

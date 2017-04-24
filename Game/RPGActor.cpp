@@ -7,7 +7,8 @@ RPGActor::RPGActor()
 {
   m_name = "";
   m_filePath = "";
-  this->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 10.f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.f, sf::Color::Blue));
+  this->AddCollider(Engine::Collider2D::CreatePolygonMesh(4, 10.f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.f, sf::Color::Blue, true));
+  //this->AddOccluder(Engine::Collider2D::CreatePolygonMesh(4, 10.f, (3.14159 / 4), Sprite.getPosition(), { 0, 0 }, 1.f, 0.f, sf::Color::White));
   //m_Colliders[0]->SetCollisionCallback(
   //  [this](LevelObject* ptr) { 
   //  this->HandleCollisionWithObject(ptr); }
