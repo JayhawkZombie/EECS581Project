@@ -36,6 +36,11 @@ public:
 protected:
   Engine::LightSystem m_LightSystem;
 
+  sf::Texture m_TorchTexture;
+  Engine::Light m_TorchLight;
+  thor::AnimationMap<sf::Sprite, std::string> m_TorchAnimationMap;
+  thor::Animator<sf::Sprite, std::string> m_TorchAnimator;
+
   SPtrShared<Engine::PhysicsEngineWaveSegment> m_Wave;
 
   thor::ParticleSystem m_PSystem1;
