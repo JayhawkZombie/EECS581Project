@@ -33,6 +33,7 @@ namespace Engine
     sf::Color m_Hue;
     std::string m_Name;
     sf::CircleShape m_OutlinedCircleArea;
+    sf::Sprite m_LightSprite;
   };
 
   class LightSystem
@@ -42,11 +43,13 @@ namespace Engine
     ~LightSystem();
 
     void Update(std::map<std::string, SPtrShared<LevelObject>>& Objects);
-    void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture);
+    void RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture, sf::View View);
 
     void AddLight(sf::Vector2f Pos, float Atten, sf::Color Color, std::string Name);
 
   protected:
+    void CreateLightTexture(const Light &light);
+
     bool m_DrawTriangles = true;
     bool m_DrawLines = false;
 
@@ -57,6 +60,7 @@ namespace Engine
     //std::vector<::vec2d> m_LightRegions;
     //std::vector<::vec2d> m_DarkRegions;
     sf::RenderStates RenderState;
+    sf::Texture m_RadialLightTexture;
 
     std::vector<SPtrShared<Collider2D>> m_MapDrawn;
 
@@ -64,7 +68,9 @@ namespace Engine
 
     std::map<std::string, SPtrShared<Light>> m_Lights;
     std::map<std::string, SPtrShared<sf::RenderTexture>> m_LightTextures;
-
+    sf::Shader m_BlendingShader;
+    
+    sf::Shader m_LightShader;
     sf::Shader m_BlendVertexShader;
     sf::Shader m_BlendFragmentShader;
   };

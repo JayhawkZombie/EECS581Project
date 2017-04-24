@@ -81,14 +81,14 @@ DemoLoadLevel::DemoLoadLevel()
   auto __siz = m_BitmapText.getGlobalBounds();
 
   m_BitmapText.setPosition({ (Engine::WindowSize.x - __siz.width) / 2.f, (Engine::WindowSize.y - __siz.height) / 2.f - 50.f });
-  m_ProgressBar.SetSize({ 500, 55 });
+  m_ProgressBar.SetSize({ 500, 35 });
   m_ProgressBar.SetBackgroundColor(sf::Color(0, 71, 5));
   m_ProgressBar.SetFillColor(sf::Color(0, 255, 21));
   m_ProgressBar.SetFrameColor(sf::Color(99, 99, 99));
   m_ProgressBar.SetFrameThickness(2.f);
   m_ProgressBar.SetProgress(0.f);
   m_ProgressBar.SetPosition({ (Engine::WindowSize.x - 500.f) / 2.f, (Engine::WindowSize.y - __siz.height) / 2.f + __siz.height + 50.f });
-  m_ProgressBar.SetFillRate(0.03f);
+  m_ProgressBar.SetFillRate(0.023f);
 
   Engine::ASyncLevelStreamThread::Load(
     [this]() -> SPtrShared<Engine::BasicLevel>

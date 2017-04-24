@@ -66,6 +66,11 @@ namespace Engine
 
   LightSystem::LightSystem()
   {
+    m_LightShader.loadFromFile("./SFEngine/Source/CoreFiles/Shaders/BrightPoint.fsh", sf::Shader::Fragment);
+    m_BlendingShader.loadFromFile("./SFEngine/Source/CoreFiles/Shaders/LightBlender.fsh", sf::Shader::Fragment);
+    m_RadialLightTexture.loadFromFile("./SFEngine/Source/CoreFiles/Textures/RadialLight.png");
+    m_MapTexture = std::make_shared<sf::RenderTexture>();
+    m_MapTexture->create((unsigned int)Engine::WindowSize.x, (unsigned int)Engine::WindowSize.y);
   }
 
   LightSystem::~LightSystem()
@@ -149,16 +154,54 @@ namespace Engine
     }
   }
 
-  void LightSystem::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
+  void LightSystem::CreateLightTexture(const Light &light)
   {
-    RenderState.blendMode = sf::BlendAdd;
+    m_LightTextures[light.m_Name] = std::make_shared<sf::RenderTexture>();
+    m_LightTextures[light.m_Name]->create((unsigned int)WindowSize.x, (unsigned int)WindowSize.y);
 
-    //for (auto & light_region : m_LightRegions)
-    //  Texture->draw(light_region.second);
-    for (auto & dark_region : m_DarkRegions)
-      Texture->draw(dark_region.second);
-    for (auto & light : m_Lights)
-      Texture->draw(light.second->m_OutlinedCircleArea);
+    sf::CircleShape Circle;
+    Circle.setPosition({ Engine::WindowSize.x / 2.f, Engine::WindowSize.y / 2.f });
+    Circle.setOrigin({light.m_Attenuation / 2.f, light.m_Attenuation / 2.f});
+    Circle.setRadius(light.m_Attenuation);
+    Circle.setFillColor(light.m_Hue);
+
+    m_LightShader.setUniform("color", sf::Glsl::Vec4(light.m_Hue));
+    m_LightShader.setUniform("expand", 1.f);
+    m_LightShader.setUniform("center", sf::Glsl::Vec2(Engine::WindowSize.x / 2.f, Engine::WindowSize.y / 2.f));
+    m_LightShader.setUniform("radius", light.m_Attenuation);
+    m_LightShader.setUniform("windowHeight", Engine::WindowSize.y);
+
+    m_LightTextures[light.m_Name]->clear(sf::Color::Transparent);
+    m_LightTextures[light.m_Name]->draw(Circle, &m_LightShader);
+    m_LightTextures[light.m_Name]->display();
+
+    m_LightTextures[light.m_Name]->getTexture().copyToImage().saveToFile("TexturedRedLightSystem.png");
+  }
+
+  void LightSystem::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture, sf::View View)
+  {
+    static bool ONCE = false;
+    sf::View OldView = View; 
+    sf::Color color;
+    sf::Sprite Sprite;
+    Sprite.setTexture(Texture->getTexture());
+
+    sf::Vector2f Pos;
+    RenderState.blendMode = sf::BlendAdd;
+    RenderState.texture = &Texture->getTexture();
+    RenderState.shader = &m_BlendingShader;
+    sf::CircleShape Circle;
+
+    for (auto & light : m_Lights) {
+      color = sf::Color::White;
+      Pos = light.second->m_Position;
+      m_BlendingShader.setUniform("LightTexture", m_RadialLightTexture);
+      m_BlendingShader.setUniform("SceneTexture", Texture->getTexture());
+
+      light.second->m_OutlinedCircleArea.setTexture(&m_RadialLightTexture);
+      light.second->m_OutlinedCircleArea.setTextureRect({ sf::Vector2i(0, 0), (sf::Vector2i)m_RadialLightTexture.getSize() });
+      Texture->draw(light.second->m_OutlinedCircleArea, RenderState);
+    }
   }
 
   void LightSystem::AddLight(sf::Vector2f Pos, float Atten, sf::Color Color, std::string Name)
@@ -168,16 +211,18 @@ namespace Engine
     m_Lights[Name]->m_Attenuation = Atten;
     m_Lights[Name]->m_Hue = Color;
     m_Lights[Name]->m_Name = Name;
+    m_Lights[Name]->m_LightSprite.setPosition(Pos);
 
     m_Lights[Name]->m_OutlinedCircleArea.setPosition(Pos);
     m_Lights[Name]->m_OutlinedCircleArea.setRadius(Atten);
     m_Lights[Name]->m_OutlinedCircleArea.setOrigin({ Atten, Atten });
-    m_Lights[Name]->m_OutlinedCircleArea.setFillColor(sf::Color(98, 98, 98, 115));
-    m_Lights[Name]->m_OutlinedCircleArea.setOutlineThickness(2);
-    m_Lights[Name]->m_OutlinedCircleArea.setOutlineColor(sf::Color::White);
+    m_Lights[Name]->m_OutlinedCircleArea.setFillColor(Color);
+    //m_Lights[Name]->m_OutlinedCircleArea.setOutlineThickness(2);
+    //m_Lights[Name]->m_OutlinedCircleArea.setOutlineColor(sf::Color::White);
 
     m_LightRegions[Name] = sf::VertexArray(sf::Triangles);
     m_DarkRegions[Name] = sf::VertexArray(sf::Triangles);
+    //CreateLightTexture(*m_Lights[Name]);
     
   }
 

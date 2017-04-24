@@ -207,7 +207,7 @@ OakTreeLevel::OakTreeLevel()
   MainCharacter = myActor;
   myActor_camera.AttachToActor(myActor);
   myActor_camera.SetView({325.f,176.f,325.f,176.f});//this is the good one
-
+  //myActor_camera.SetView(full_map_view);
 
   if (line_segment_builder_tool == true) {
     myActor_camera.DetachFromActor();
@@ -430,7 +430,7 @@ OakTreeLevel::OakTreeLevel()
   Gravity->y = 0;
   Engine::SetGravity(Gravity);
 
-  m_LightSystem.AddLight({ 200, 400 }, 50.f, sf::Color::Red, "RedLight");
+  m_LightSystem.AddLight({ 24 * 16,33 * 16 }, 50.f, sf::Color::Red, "RedLight");
 }
 
 OakTreeLevel::OakTreeLevel(const sf::Vector2u & LevelSize, const sf::FloatRect & DefaultView, bool showlines, const sf::Vector2f & GridSpacing)
@@ -512,7 +512,7 @@ void OakTreeLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   Texture->draw(*TileMap);
   BasicLevel::RenderOnTexture(Texture);
   Texture->draw(top);
-  //m_LightSystem.RenderOnTexture(Texture);
+  m_LightSystem.RenderOnTexture(Texture, view);
 }
 
 void OakTreeLevel::HandleInputEvent(const Engine::UserEvent & evnt)
