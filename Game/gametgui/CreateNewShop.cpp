@@ -6,17 +6,23 @@
 
   void NewShopCreator::CreateShopNode(Inventory pinv, Inventory sinv)
   {
-    //to be dynamic initializations
-    ListReader reader;
-    use_arr = reader.readUseables("Game/ContentFiles/useable.txt");
+    Theme = std::make_shared<tgui::Theme>("././SFEngine/Source/CoreFiles/UIThemes/UIDark.txt");
+    GUI = Engine::GUI;
+    OpenTheme();
+
+    std::unique_ptr<ListReader> reader;
+    reader = std::make_unique<ListReader>();
+   
+    use_arr = reader->readUseables("Game/ContentFiles/useable.txt");
+
     /*
     currently armor and weapon read-in don't work, not sure what their end product is supposed to look like
     armor_arr = reader.readArmor("Game/ContentFiles/armor.txt");
     weapon_arr = reader.readWeapons("Game/ContentFiles/weapon.txt");
     */
-    totalUseables = reader.getNumUseables();
-    totalArmor = reader.getNumArmor();
-    totalWeapons = reader.getNumWeapons();
+    totalUseables = reader->getNumUseables() - 1;
+    //totalArmor = reader->getNumArmor();
+    //totalWeapons = reader->getNumWeapons();
 
     //pinven = pinv;
     //sinven = sinv;
@@ -34,6 +40,9 @@
     }
     pinven->setGold(100);
     sinven->setGold(110);
+    
+
+
 
     playerGold->addLine(std::to_string(pinven->getGold()));
     playerGold->addLine("0");
@@ -61,8 +70,10 @@
         decOne->setText("-");
         incOne->setSize({ 10,10 });
         decOne->setSize({ 10,10 });
-        incOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, 1);
-        decOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, -1);
+        incOne->connect("clicked", [this, _i = i]() { this->TotalSellAmount(_i, 1); });
+        decOne->connect("clicked", [this, _i = i]() { this->TotalSellAmount(_i, -1); });
+        //incOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, 1);
+        //decOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, -1);
         incOne->setPosition({ 10,(35 + i * 21) });
         decOne->setPosition({ 20,(35 + i * 21) });
         ShopWindow->add(incOne);
@@ -87,8 +98,10 @@
         decOne->setText("-");
         incOne->setSize({ 10,10 });
         decOne->setSize({ 10,10 });
-        incOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, 1);
-        decOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, -1);
+        incOne->connect("clicked", [this, _i = i]() { this->TotalBuyAmount(_i, 1); });
+        decOne->connect("clicked", [this, _i = i]() { this->TotalBuyAmount(_i, -1); });
+        //incOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, 1);
+        //decOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, -1);
         incOne->setPosition({ 360,(35 + i * 21) });
         decOne->setPosition({ 370,(35 + i * 21) });
         ShopWindow->add(incOne);
@@ -271,8 +284,10 @@
         decOne->setText("-");
         incOne->setSize({ 10,10 });
         decOne->setSize({ 10,10 });
-        incOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, 1);
-        decOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, -1);
+        incOne->connect("clicked", [this, _i = i]() { this->TotalSellAmount(_i, 1); });
+        decOne->connect("clicked", [this, _i = i]() { this->TotalSellAmount(_i, -1); });
+        //incOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, 1);
+        //decOne->connect("clicked", &NewShopCreator::TotalSellAmount, this, i, -1);
         incOne->setPosition({ 10,(35 + buttonIndex * 21) });
         decOne->setPosition({ 20,(35 + buttonIndex * 21) });
         ShopWindow->add(incOne);
@@ -304,8 +319,11 @@
         decOne->setText("-");
         incOne->setSize({ 10,10 });
         decOne->setSize({ 10,10 });
-        incOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, 1);
-        decOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, -1);
+
+        incOne->connect("clicked", [this, _i = i]() { this->TotalBuyAmount(_i, 1); });
+        decOne->connect("clicked", [this, _i = i]() { this->TotalBuyAmount(_i, -1); });
+        //incOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, 1);
+        //decOne->connect("clicked", &NewShopCreator::TotalBuyAmount, this, i, -1);
         incOne->setPosition({ 360,(35 + buttonIndex2 * 21) });
         decOne->setPosition({ 370,(35 + buttonIndex2 * 21) });
         ShopWindow->add(incOne);
@@ -322,10 +340,6 @@
         buttonIndex2++;
       }
     }
-
-  }
-  void NewShopCreator::CreateShop()
-  {
 
   }
 
@@ -500,16 +514,12 @@
     //update the gold display
     updateGold();
   }
-  void NewShopCreator::OpenTheme(tgui::Theme::Ptr ThemePtr)
+  void NewShopCreator::OpenTheme()
   {
-    //layout
 
-    Theme = ThemePtr;
-    float xDiff = WindowSize.x - 700.f;
-    float yDiff = WindowSize.y - 400.f;
 
     ShopWindow = Theme->load("ChildWindow");
-    ShopWindow->setPosition({ xDiff / 2.f, yDiff / 4.f });
+    ShopWindow->setPosition({ 10,10 });
     ShopWindow->setSize({ 700, 400 });
 
     tgui::ChatBox::Ptr pi = Theme->load("ChatBox");
@@ -597,11 +607,7 @@
     shopCost->setLinesStartFromTop();
     playerGold->setLinesStartFromTop();
     shopGold->setLinesStartFromTop();
-
-    if (use_arr == NULL)
-      CreateShopNode(*pinven,*sinven);
-
-
+    
     GUI->add(ShopWindow);
     GUI->focusWidget(ShopWindow);
     ShopWindow->showWithEffect(tgui::ShowAnimationType::Scale, sf::milliseconds(150));
