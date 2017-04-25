@@ -1,9 +1,6 @@
-uniform float BRIGHTNESS;
-uniform float CONTRAST;
+#version 120
+
 uniform sampler2D SCENE;
-uniform float GAMMA;
-uniform int POST_PROCESS_EFFECT;
-uniform float BLUR_AMOUNT;
 
 uniform float offset = 1.0/300;
 
@@ -25,7 +22,7 @@ float kernel[9] = float[](
     -1, -1, -1
 );
 
-vec4 KernelMethod(vec4 color)
+vec4 KernelMethod()
 {
 
   vec3 sampletex[9];
@@ -44,7 +41,7 @@ vec4 KernelMethod(vec4 color)
 
 void main()
 {
-  color = KernelMethod(color);
+  vec4 color = KernelMethod();
 
-  gl_FragColor = gl_Color;
+  gl_FragColor = color;
 }

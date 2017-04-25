@@ -212,11 +212,14 @@ namespace Engine
   extern sf::RenderWindow *currentRenderWindow;
   extern std::shared_ptr<sf::Texture> DefaultTexture;
   extern sf::Vector2f WindowSize;
+  extern std::string WindowTitle;
+  extern sf::Uint32 WindowStyle;
   extern std::unordered_set<std::uint32_t> UsedIDs; //IDs that have been used. Can search this to verify an ID has not been used already
   extern bool IsIDUsed(const std::uint32_t &ID);
   extern void FreeID(const std::uint32_t &ID); //Make an ID available for use again
   extern std::uint32_t GenerateID(); //Use to try to generate a unique ID. This will throw an IDException if it cannot generate one after a set number of attempts
-  extern double TimeScaleFactor;
+  extern volatile double TimeScaleFactor;
+  extern volatile unsigned int FramerateLimit;
   extern std::uint32_t MaxIDGenerationAttempts; //max # of times we will try to generate an ID for an item before giving up - defined in Widget.cpp
 
   //ENGINE GLOBAL API EXTERNS
@@ -230,6 +233,10 @@ namespace Engine
   extern decltype(auto) GetCurrentTexturePoolSize();
   extern decltype(auto) GetCurrentShaderPoolSize();
   extern decltype(auto) GetCurrentFramerateSetting();
+
+  extern void SetFramerateLimit(unsigned int Limit);
+  extern void SetVSyncEnabled(bool Enabled);
+  extern void SetAALevel(unsigned int Level);
 
   extern decltype(auto) GetIsGlobalShadingEnabled();
   extern decltype(auto) GetIsStaticShadingEnabled();
@@ -293,7 +300,7 @@ namespace Engine
 #ifdef WITH_EDITOR
   class SFEngine;
   extern SFEngine *CurrentEngine;
-  extern bool FlagForClose;
+  extern volatile bool FlagForClose;
   namespace UI {
     class BaseUIElement;
   };

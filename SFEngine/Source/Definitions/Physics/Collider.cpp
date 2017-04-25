@@ -111,6 +111,23 @@ namespace Engine
     return Collider;
   }
 
+  std::shared_ptr<Collider2D> Collider2D::CreateBlockMesh
+  (
+    float Width, 
+    float Height, 
+    float IAngle, 
+    const sf::Vector2f & Position, 
+    const sf::Vector2f & Velocity, 
+    float Mass, float CoeffOfRest, 
+    sf::Color Color
+  )
+  {
+    std::shared_ptr<PhysicsEngineBaseMeshType> Mesh = BuildBlockMesh(Width, Height, IAngle, Position, Velocity, Mass, CoeffOfRest, Color);
+    std::shared_ptr<Collider2D> Collider = std::make_shared<Collider2D>();
+    Collider->m_Mesh = Mesh;
+    return Collider;
+  }
+
   void Collider2D::SetCollisionCallback(std::function<void(LevelObject*)> Callback, bool NotifyEveryFrame)
   {
     m_NotifyOfCollisionEveryFrame = NotifyEveryFrame;
@@ -146,6 +163,11 @@ namespace Engine
     m_OverlapCallback = Callback;
   }
 
+  void Collider2D::SetTouchCallback(std::function<void(LevelObject*)> Callback)
+  {
+    m_TouchCallback = Callback;
+  }
+
   void Collider2D::SetColliderStatus(ColliderProp Status)
   {
     m_Status = Status;
@@ -178,6 +200,16 @@ namespace Engine
     m_Status.reset(ColliderProp::Enabled);
   }
 
+  void Collider2D::Makestatic()
+  {
+    m_Status.set(ColliderProp::Static);
+  }
+
+  void Collider2D::MakeNonstatic()
+  {
+    m_Status.reset(ColliderProp::Static);
+  }
+
   bool Collider2D::IsAwake() const
   {
     return !m_Status.test(ColliderProp::Sleeping);
@@ -193,6 +225,11 @@ namespace Engine
     return m_Status.test(ColliderProp::HasPhysicalResponse);
   }
 
+  bool Collider2D::NotifyOnTouch() const
+  {
+    return m_Status.test(ColliderProp::NotifyOnTouch);
+  }
+
   bool Collider2D::IsActive() const
   {
     return m_Status.test(ColliderProp::Active);
@@ -201,6 +238,11 @@ namespace Engine
   bool Collider2D::DoesCastShadows() const
   {
     return m_Status.test(ColliderProp::CastShadows);
+  }
+
+  bool Collider2D::IsStatic() const
+  {
+    return m_Status.test(ColliderProp::Static);
   }
 
   void Collider2D::Move(const sf::Vector2f & Delta)
@@ -226,6 +268,18 @@ namespace Engine
     else {
       m_Status.set(ColliderProp::HasPhysicalResponse);
       m_Status.reset(ColliderProp::NotifyOfOverlap);
+    }
+  }
+
+  void Collider2D::SetNotifyOnTouch(bool b)
+  {
+    if (b) {
+      m_Status.set(ColliderProp::NotifyOnTouch);
+      m_Status.reset(ColliderProp::HasPhysicalResponse);
+    }
+    else {
+      m_Status.set(ColliderProp::HasPhysicalResponse);
+      m_Status.reset(ColliderProp::NotifyOnTouch);
     }
   }
 
@@ -271,6 +325,16 @@ namespace Engine
     }
 
     return m_Status.test(ColliderProp::HasPhysicalResponse);
+  }
+
+  bool Collider2D::HandleTouch(std::weak_ptr<Collider2D> Collider)
+  {
+    if (m_Status.test(ColliderProp::Active) && m_Status.test(ColliderProp::Enabled)) {
+      if (m_TouchCallback)
+        m_TouchCallback(Collider.lock()->GetObjectPtr());
+    }
+
+    return m_Status.test(ColliderProp::NotifyOnTouch);
   }
 
   std::vector<::vec2d> Collider2D::GetVertices()

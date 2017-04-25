@@ -72,7 +72,8 @@ public:
 	void removeVertex(unsigned int index);
 	void removeVertices(unsigned int index, unsigned int numberOfVertices = 0u); // if numberOfVertices is zero (the default), removes all vertices from specified index until the end
 	void reverseVertices();
-	
+  sf::Vector2f getInterpolatedVertex(unsigned int index);
+  unsigned int getInterpolatedVertexCount() const;
 	void setPosition(unsigned int index, sf::Vector2f position = { 0.f, 0.f });
 	void setPositions(unsigned int index, unsigned int numberOfVertices = 0u, sf::Vector2f position = { 0.f, 0.f }); // if numberOfVertices is zero (the default), sets positions of all vertices from specified index until the end
 	void setPositions(const std::vector<sf::Vector2f>& positions, unsigned int index = 0u);

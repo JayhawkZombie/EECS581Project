@@ -46,7 +46,8 @@ namespace Engine
     static hres_time_point FrameStart = hres_clock::now();
 
     for (auto & obj : LevelObjects) {
-      obj.second->TickUpdate(delta);
+      if (!obj.second->IsFrozen())
+        obj.second->TickUpdate(delta);
     }
 
     if (cumulative > updateInterval) {

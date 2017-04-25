@@ -65,6 +65,7 @@ namespace Engine
     virtual void SetCollisionHandleCallback(std::function<void(LevelObject*)> Callback);
     virtual void HandleCollisionWithCollider(SPtrShared<Collider2D> Collider);
     virtual void HandleCollisionWithSegment(PhysicsEngineSegmentType *Segment);
+    virtual void SetSegmentCollisionCallback(std::function<void(PhysicsEngineSegmentType*)> Callback);
 
     virtual void HandleInputEvent(const UserEvent &evnt);
     virtual void SetID(const std::string &ID) override;
@@ -74,6 +75,9 @@ namespace Engine
     virtual void OnKilled();
     virtual void OnSpawn();
     virtual void Reset();
+    virtual void Freeze();
+    virtual void Unfreeze();
+    bool IsFrozen() const;
 
     static void AddItemAnimation(std::shared_ptr<LevelObject> Item, const std::string &animName);
     sf::FloatRect GetGlobalBounds() const;
@@ -97,6 +101,7 @@ namespace Engine
     }
 
   protected:
+    bool m_IsFrozen = false;
     thor::AnimationMap<sf::Sprite, std::string> m_AnimationMap;
     thor::Animator<sf::Sprite, std::string> m_Animator;
     std::unordered_map<std::string, thor::FrameAnimation> m_FrameAnimations;
@@ -104,6 +109,7 @@ namespace Engine
     std::vector<std::shared_ptr<Collider2D>> m_Colliders;
     std::vector<std::shared_ptr<Collider2D>> m_Occluders;
     std::function<void(LevelObject *)> m_HandleCollisionWithObject;
+    std::function<void(PhysicsEngineSegmentType*)> m_HandleSegmentWithSegment;
 
   	std::shared_ptr<sf::Texture> SpriteTexture;
 	  sf::Sprite Sprite;

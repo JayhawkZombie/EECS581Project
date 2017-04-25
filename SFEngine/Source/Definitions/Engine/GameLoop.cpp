@@ -53,7 +53,7 @@ namespace Engine
     sf::Sprite EditorSprite;
     EditorSprite.setTexture(EditorTexture->getTexture());
 
-    Window->setFramerateLimit(120);
+    //Window->setFramerateLimit(120);
     Window->setKeyRepeatEnabled(false);
     bool Closed = false;
 

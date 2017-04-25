@@ -660,7 +660,8 @@ namespace Engine
     for (std::size_t _step = 0; _step < steps; ++_step) {
 
       for (auto & collider : Colliders) {
-        collider->Update(gravity);
+        if (!collider->IsStatic())
+          collider->Update(gravity);
       }
 
       for (auto & seg : Segments)
@@ -670,7 +671,7 @@ namespace Engine
         for (auto & coll : Colliders) {
           auto mesh = coll->GetMesh();
           if (mesh.lock() && seg->hit(*mesh.lock())) {
-            //Do something here
+            coll->HandleCollisionWithSegment(seg);
           }
         }
       }
@@ -680,12 +681,34 @@ namespace Engine
           auto m_1 = Colliders[i]->GetMesh().lock();
           auto m_2 = Colliders[j]->GetMesh().lock();
 
-          if (m_1 && m_2 && m_1->hit(*m_2)) {
-            if (Colliders[i]->IsAwake() && Colliders[j]->IsAwake()) {
-              Colliders[i]->HandleCollision(Colliders[j]);
+          if (Colliders[i]->HasPhyicalResponse() && Colliders[j]->HasPhyicalResponse()) {
+            if (m_1 && m_2 && m_1->hit(*m_2)) {
               Colliders[j]->HandleCollision(Colliders[i]);
+              Colliders[i]->HandleCollision(Colliders[j]);
             }
           }
+
+          else {
+            if (Colliders[i]->NotifyOnTouch() || Colliders[j]->NotifyOnTouch()) {
+              auto pos1 = m_1->pos;
+              auto pos2 = m_2->pos;
+              if (m_1->hit(*m_2)) {
+                Colliders[i]->HandleTouch(Colliders[j]);
+                Colliders[j]->HandleTouch(Colliders[i]);
+
+                m_1->setPosition(pos1); //Move them back because they didn't actually want to be moved
+                m_2->setPosition(pos2);
+              }
+            }
+          }
+
+          //if (m_1 && m_2 && m_1->hit(*m_2)) {
+          //  if (Colliders[i]->IsAwake() && Colliders[j]->IsAwake()) {
+
+          //    Colliders[i]->HandleCollision(Colliders[j]);
+          //    Colliders[j]->HandleCollision(Colliders[i]);
+          //  }
+          //}
 
         }
       }
