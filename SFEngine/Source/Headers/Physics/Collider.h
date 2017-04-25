@@ -28,10 +28,14 @@ namespace Engine
     HasPhysicalResponse  = 4,
     NotifyEveryFrame     = 5,
     SingleResponsePerObj = 6,
-    NotifyOfOverlap      = 7
+    NotifyOfOverlap      = 7,
+    CastShadows          = 8,
+    NotifyOnTouch        = 9,
+    Static               = 10
   };
 
   class LevelObject;
+  class Occluder2D;
 
   class Collider2D
   {
@@ -65,7 +69,20 @@ namespace Engine
       const sf::Vector2f & InitialVelocity,
       float mass,
       float CoeffOfRest,
-      sf::Color color = sf::Color::Transparent
+      sf::Color color = sf::Color::Transparent,
+      bool CastShadows = false
+    );
+
+    static std::shared_ptr<Collider2D> CreateBlockMesh
+    (
+      float Width,
+      float Height,
+      float IAngle,
+      const sf::Vector2f &Position,
+      const sf::Vector2f &Velocity,
+      float Mass,
+      float CoeffOfRest,
+      sf::Color Color = sf::Color::Transparent
     );
 
     void SetCollisionCallback(std::function<void(LevelObject*)> Callback, bool NotifyEveryFrame = true);
@@ -74,6 +91,7 @@ namespace Engine
     void SetSleepCallback(std::function<void(void)> Callback);
     void SetAwakenCallback(std::function<void(void)> Callback);
     void SetOverlapCallback(std::function<void(std::weak_ptr<Collider2D>)> Callback);
+    void SetTouchCallback(std::function<void(LevelObject*)> Callback);
     void SetColliderStatus(ColliderProp Status);
 
     void Update(const ::vec2d &gravity);
@@ -82,22 +100,30 @@ namespace Engine
     void Awaken();
     void EnableCollisions();
     void DisableCollision();
+    void Makestatic();
+    void MakeNonstatic();
 
     bool IsAwake() const;
     bool IsEnabled() const;
     bool HasPhyicalResponse() const;
+    bool NotifyOnTouch() const;
     bool IsActive() const;
+    bool DoesCastShadows() const;
+    bool IsStatic() const;
 
     void Move(const sf::Vector2f &Delta);
     void SetPosition(const sf::Vector2f &Position);
     void SetRespondsToOverlaps(bool b);
+    void SetNotifyOnTouch(bool b);
 
     sf::Vector2f GetPosition() const;
 
     bool HandleCollision(std::weak_ptr<Collider2D> Collider);
+    bool HandleCollision(std::weak_ptr<Occluder2D> Occluder);
     bool HandleCollisionWithSegment(PhysicsEngineSegmentType* Collider);
+    bool HandleTouch(std::weak_ptr<Collider2D> Collider);
 
-    
+    std::vector<::vec2d> GetVertices();
 
     std::weak_ptr<PhysicsEngineBaseMeshType> GetMesh();
     void SetObjectPtr(LevelObject *Object);
@@ -110,6 +136,7 @@ namespace Engine
     std::bitset<32> m_Status;
     LevelObject *m_MyObject;
     std::function<void(LevelObject*)> m_CollisionCallback;
+    std::function<void(LevelObject*)> m_TouchCallback;
     std::function<void(PhysicsEngineSegmentType *)> m_HitSegmentCallback;
     std::function<void(std::weak_ptr<Collider2D>)> m_OverlapCallback;
     std::function<void(sf::Vector2f)> m_PositionChangeCallback;

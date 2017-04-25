@@ -14,6 +14,11 @@ void mvHit::init(std::istream& fin)
   fin >> m >> Cr;
 }
 
+std::vector<vec2d> mvHit::get_verts()
+{
+  return { pos };
+}
+
 bool mvHit::bounce(float Cf, vec2d N, bool isFric)// rigid bounce. N is line of action
 {
   if (v.dot(N) < 0.0f)// pre-collision

@@ -4,6 +4,9 @@
 #include "../../TestProject/Classes/Levels/OakTreeChurchInterior.h"
 #include "Levels\Stack.h"
 #include "Levels\AITest.h"
+#include "Levels\PhysicsDemo.h"
+
+#include <Thor\Math.hpp>
 
 namespace
 {
@@ -24,8 +27,18 @@ namespace
 }
 
 Level1::Level1()
-  : BasicLevel(sf::Vector2u( 1700, 900 ), sf::FloatRect(0, 0, 1700, 900 )),
-  fader(0.1f, 0.1f)
+  : 
+  m_PColorAnimation1(m_PColorGradient1),
+  m_PFadeAnimation1(0.3f, 0.3f),
+  m_PTorqueAffector1(100.f),
+  m_PGravityAffector1(sf::Vector2f(0.f, 5.f)),
+  BasicLevel(sf::Vector2u( 1700, 900 ), sf::FloatRect(0, 0, 1700, 900 )),
+  fader(0.1f, 0.1f),
+  m_StarField(Engine::WindowSize, 1200u, sf::Color(0, 255, 255)),
+  m_PColorAnimation2(m_PColorGradient2),
+  m_PFadeAnimation2(0.3f, 0.3f),
+  m_PTorqueAffector2(100.f),
+  m_PGravityAffector2(sf::Vector2f(0.f, 5.f))
 {
   if (m_BGMusicBuffer.loadFromFile("./Projects/PuzzleDemo/Assets/Sound/Chamber-of-Jewels.ogg"))
     m_BGMusic.setBuffer(m_BGMusicBuffer);
@@ -41,6 +54,7 @@ Level1::Level1()
   OakTreeChurchInteriorLevelPtr = std::make_shared<OakTreeChurchInterior>();
   BallPuzzleLevelPtr = std::make_shared<BallStackLevel>();
   AITestLevelPtr     = std::make_shared<AITestLevel>();
+  PhysicsDemoLevelPtr = std::make_shared<PhysicsDemoLevel>();
 
   //Create some buttons
   m_LevelSelectButon = m_MenuTheme->load("button");
@@ -79,10 +93,7 @@ Level1::Level1()
   m_OptionsButton->setSize({ 200, 55 });
   m_OptionsButton->connect("clicked", [this]()
   {
-    this->m_MainPanel->disable();
-    this->m_MainPanel->hideWithEffect(tgui::ShowAnimationType::SlideToLeft, sf::milliseconds(250));
-    this->m_OptionsPanel->enable();
-    this->m_OptionsPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(250));
+    this->ShowOptionsPanel();
   });
 
   m_OptionsButton->setText("options");
@@ -105,10 +116,7 @@ Level1::Level1()
   OptionsBack->setTextSize(12);
   OptionsBack->connect("clicked", [this]()
   {
-    this->m_OptionsPanel->disable();
-    this->m_OptionsPanel->hideWithEffect(tgui::ShowAnimationType::SlideToRight, sf::milliseconds(250));
-    this->m_MainPanel->showWithEffect(tgui::ShowAnimationType::SlideFromLeft, sf::milliseconds(250));
-    this->m_MainPanel->enable();
+    this->HideOptionsPanel();
   });
   m_OptionsPanel->add(OptionsBack);
 
@@ -138,16 +146,16 @@ Level1::Level1()
   BallLevel->connect("clicked", [this]() {Engine::SwitchLevel(this->BallPuzzleLevelPtr); });
   m_LevelSelectPanel->add(BallLevel);
 
-  tgui::Button::Ptr AILevel = m_MenuTheme->load("button");
-  AILevel->setPosition({ 25, 700 });
-  AILevel->setSize({ 200, 25 });
-  AILevel->setText("AI Test");
-  AILevel->setTextSize(12);
-  AILevel->connect("clicked", [this]() {Engine::SwitchLevel(this->AITestLevelPtr); });
-  m_LevelSelectPanel->add(AILevel);
-
   LevelSelectBack = m_MenuTheme->load("button");
   LevelSelectBack->setPosition({ 25, 825 });
+
+  tgui::Button::Ptr PhysisDemoLevelButton = m_MenuTheme->load("button");
+  PhysisDemoLevelButton->setPosition({ 25, 800 });
+  PhysisDemoLevelButton->setSize({ 200,55 });
+  PhysisDemoLevelButton->setText("PhysicsDemo");
+  PhysisDemoLevelButton->setTextSize(10);
+  PhysisDemoLevelButton->connect("clicked", [this]() {Engine::SwitchLevel(this->PhysicsDemoLevelPtr); });
+  m_LevelSelectPanel->add(PhysisDemoLevelButton);
 
   tgui::Button::Ptr OakTreeChurchInteriorLevel = m_MenuTheme->load("button");
   OakTreeChurchInteriorLevel->setPosition({ 25, 700 });
@@ -191,6 +199,7 @@ Level1::Level1()
   MakeCreditsPanel();
 
   texture.loadFromFile("./Projects/TestProject/Textures/particle.png");
+
   emitter.setEmissionRate(85.f);
   emitter.setParticleLifetime(sf::seconds(6));
 
@@ -211,6 +220,148 @@ Level1::Level1()
   system.addAffector(thor::TorqueAffector(150.f));
   system.addAffector(thor::ForceAffector(sf::Vector2f(0.f, 50.f)));
   velocity = thor::PolarVector2f(200.f, -90.f);
+
+
+  /*
+   *      tgui::CheckBox::Ptr m_EnableVSync;
+  tgui::SpinButton::Ptr m_FrameRateSpinButton;
+  tgui::ComboBox::Ptr m_AALevelOptions;
+   *
+   **/
+
+  m_EnableVSync = m_MenuTheme->load("checkbox");
+  m_EnableVSync->setText("EnableVSync");
+  m_EnableVSync->setPosition(sf::Vector2f(40.f, 100.f));
+  m_EnableVSync->setSize(sf::Vector2f(15.f, 15.f));
+  m_EnableVSync->setTextSize(16);
+  m_OptionsPanel->add(m_EnableVSync);
+  m_EnableVSync->connect("checked",
+                         [this]()
+  {
+    this->fRateLabel->setText("Framerate Limit: <locked>");
+    this->m_FrameRateSpinButton->disable();
+  });
+
+  m_EnableVSync->connect("unchecked",
+                         [this]()
+  {
+    this->fRateLabel->setText("Framerate Limit: " + std::to_string(Engine::FramerateLimit));
+    this->m_FrameRateSpinButton->enable();
+  });
+
+  m_FrameRateSpinButton = m_MenuTheme->load("spinbutton");
+  m_FrameRateSpinButton->setValue(120);
+  m_FrameRateSpinButton->setVerticalScroll(true);
+  
+  fRateLabel = m_MenuTheme->load("label");
+  fRateLabel->setText("Framerate Limit: " + std::to_string(Engine::FramerateLimit));
+  fRateLabel->setPosition({ 40.f, 150.f });
+  fRateLabel->setSize({ 100.f, 35.f });
+  fRateLabel->setTextSize(16);
+  m_FrameRateSpinButton->connect("valuechanged", [this](int val) 
+  { 
+    if (val <= 30)
+      val = 30;
+    this->fRateLabel->setText("Framerate Limit: " + std::to_string(val));
+    Engine::FramerateLimit = val;
+    Engine::currentRenderWindow->setFramerateLimit(val);
+  });
+
+  m_ParticlePath.AddVertices({ 
+    { 100.f, 550.f },
+    { 150.f, 545.f },
+    { 200.f, 560.f },
+    { 30.f,  570.f },
+    { 40.f,  800.f },
+    { 600.f, 900.f },
+    { 700.f, 510.f },
+    { 800.f, 473.f },
+    { 1200.f, 861.f },
+    { 1093.f, 627.f },
+    { 893.f, 549.f },
+    { 729.f, 555.f },
+    { 600.f, 460.f },
+    { 230.f, 220.f },
+    { 100.f, 550.f } });
+  m_ParticlePath.SetInterpolationSteps(80);
+  m_ParticlePath.MakeSmooth();
+  m_ParticlePath.Update();
+
+
+  m_ParticlePath2.AddVertices({
+    { 700.f, 510.f },
+    { 800.f, 473.f },
+    { 1200.f, 861.f },
+    { 1093.f, 627.f },
+    { 893.f, 549.f },
+    { 729.f, 555.f },
+    { 600.f, 460.f },
+    { 230.f, 220.f },
+    { 100.f, 550.f },
+    { 150.f, 545.f },
+    { 200.f, 560.f },
+    { 30.f,  570.f },
+    { 40.f,  800.f },
+    { 600.f, 900.f },
+    { 700.f, 510.f } });
+  m_ParticlePath2.SetInterpolationSteps(80);
+  m_ParticlePath2.MakeSmooth();
+  m_ParticlePath2.Update();
+
+  /************************************************************************/
+  /*                              PARTICLE SYSTEM 1                       */
+  /************************************************************************/
+
+  m_TorchParticleTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/superblurredparticle.png");
+  m_PEmitter1.setEmissionRate(250.f);
+  m_PEmitter1.setParticleLifetime(sf::seconds(2.5f));
+
+  m_PSystem1.setTexture(m_TorchParticleTexture);
+  m_PSystem1.addEmitter(thor::refEmitter(m_PEmitter1));
+
+  m_PEmitter1.setParticlePosition(sf::Vector2f(64.f, 764.f));
+  m_PEmitter1.setParticleScale(sf::Vector2f(0.6f, 0.6f));
+  //m_PEmitter1.setParticleRotationSpeed(thor::randomDev(0.f, 15.f));
+
+  m_PColorGradient1[0.f] = sf::Color(255, 229, 0);
+  m_PColorGradient1[0.4f] = sf::Color(255, 59, 0);
+  m_PColorGradient1[0.5f] = sf::Color(186, 55, 0);
+  m_PColorGradient1[0.7f] = sf::Color(130, 2, 0);
+  m_PColorGradient1[1.f] = sf::Color(63, 63, 63);
+
+  m_PColorAnimation1 = thor::ColorAnimation(m_PColorGradient1);
+
+  m_PSystem1.addAffector(thor::AnimationAffector(m_PColorAnimation1));
+  m_PSystem1.addAffector(thor::AnimationAffector(m_PFadeAnimation1));
+  m_PSystem1.addAffector(thor::TorqueAffector(150.f));
+  m_PSystem1.addAffector(thor::ForceAffector(sf::Vector2f(0.f, -50.f)));
+
+
+  /************************************************************************/
+  /*                              PARTICLE SYSTEM 2                       */
+  /************************************************************************/
+  m_PEmitter2.setEmissionRate(250.f);
+  m_PEmitter2.setParticleLifetime(sf::seconds(2.5f));
+
+  m_PSystem2.setTexture(m_TorchParticleTexture);
+  m_PSystem2.addEmitter(thor::refEmitter(m_PEmitter2));
+
+  m_PEmitter2.setParticlePosition(sf::Vector2f(64.f, 764.f));
+  m_PEmitter2.setParticleScale(sf::Vector2f(0.6f, 0.6f));
+  //m_PEmitter2.setParticleRotationSpeed(thor::randomDev(0.f, 15.f));
+
+  m_PColorGradient2[0.f] = sf::Color(0, 255, 255);
+  m_PColorGradient2[0.4f] = sf::Color(0, 40, 186);
+  m_PColorGradient2[0.5f] = sf::Color(64, 0, 155);
+  m_PColorGradient2[0.7f] = sf::Color(78, 0, 104);
+  m_PColorGradient2[1.f] = sf::Color(48, 48, 48);
+
+  m_PColorAnimation2 = thor::ColorAnimation(m_PColorGradient2);
+
+  m_PSystem2.addAffector(thor::AnimationAffector(m_PColorAnimation2));
+  m_PSystem2.addAffector(thor::AnimationAffector(m_PFadeAnimation2));
+  m_PSystem2.addAffector(thor::TorqueAffector(150.f));
+  m_PSystem2.addAffector(thor::ForceAffector(sf::Vector2f(0.f, -50.f)));
 }
 
 Level1::~Level1()
@@ -220,14 +371,37 @@ Level1::~Level1()
 
 void Level1::TickUpdate(const double & delta)
 {
+  static double particle_move_count = 0.0;
+  static sf::Vector2f part_pos = sf::Vector2f(4.f, 764.f);
+  particle_move_count += delta;
+
   static sf::Clock thorClock;
   m_WeatherSystem.TickUpdate(delta);
 
-  static sf::Time _time = sf::seconds(0);
+  static sf::Time time = sf::seconds(0);
   static sf::Clock _clock;
 
-  emitter.setParticlePosition(thor::Distributions::rect({ 1700 / 2.f, 900 / 2.f }, { 1700 / 2.f, 900 / 2.f }));
-  system.update(fClock.restart());
+  auto pos = m_ParticlePath.GetNextPathPoint();
+  auto pos2 = m_ParticlePath2.GetNextPathPoint();
+  m_PEmitter1.setParticlePosition(thor::Distributions::circle(pos, 17.f));
+  m_PEmitter2.setParticlePosition(thor::Distributions::circle(pos2, 21.f));
+  //m_PSystem1.addAffector(thor::ForceAffector(sf::Vector2f(0.f, 1.f)));
+  //m_PEmitter1.setParticleRotation(thor::randomDev(45.f, 32.f));
+  // m_PEmitter1.setParticleVelocity(pos - part_pos);
+  //m_PEmitter1.setParticleRotationSpeed(thor::randomDev(0.f, 45.f));
+
+  part_pos = pos;
+
+  //m_PEmitter1.setParticlePosition(thor::Distributions::circle(sf::Vector2f(64.f, 764.f), 35.f));
+  //m_PEmitter1.setParticleRotationSpeed(thor::randomDev(0.f, 45.f));
+
+  auto __time = fClock.restart();
+
+  m_PSystem1.update(__time);
+  m_PSystem2.update(__time);
+  m_StarField.move(sf::Vector2f(0.f, __time.asMilliseconds() * 0.1f));
+  //emitter.setParticlePosition(thor::Distributions::rect({ 1700 / 2.f, 900 / 2.f }, { 1700 / 2.f, 900 / 2.f }));
+  //system.update(__time);
   //MainGUI->updateTime(_clock.restart());
   //Engine::GUI->updateTime(_clock.restart());
 }
@@ -239,8 +413,13 @@ void Level1::Render(std::shared_ptr<sf::RenderTarget> Target)
 void Level1::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
 {
   Texture->clear(sf::Color::Transparent);
-  Texture->draw(system);
+  //Texture->draw(system);
+  Texture->draw(m_StarField);
+  Texture->draw(m_PSystem1);
+  Texture->draw(m_PSystem1);
 
+  Texture->draw(m_PSystem2);
+  Texture->draw(m_PSystem2);
   m_WeatherSystem.Render(Texture);
   //MainGUI->draw();
 }
@@ -270,6 +449,7 @@ void Level1::OnBegin()
 
   m_BGMusic.setLoop(true);
   m_BGMusic.play();
+  m_StarField.regenerate();
 }
 
 void Level1::OnEnd()
@@ -444,6 +624,24 @@ void Level1::MakeCreditsPanel()
 
     _pos += sf::Vector2f(0.f, 35.f);
   }
+}
+
+void Level1::ShowOptionsPanel()
+{
+  this->m_MainPanel->disable();
+  this->m_MainPanel->hideWithEffect(tgui::ShowAnimationType::SlideToLeft, sf::milliseconds(250));
+  this->m_OptionsPanel->enable();
+  this->m_OptionsPanel->showWithEffect(tgui::ShowAnimationType::SlideFromRight, sf::milliseconds(250));
+  m_EnableVSync->enable();
+}
+
+void Level1::HideOptionsPanel()
+{
+  this->m_OptionsPanel->disable();
+  this->m_OptionsPanel->hideWithEffect(tgui::ShowAnimationType::SlideToRight, sf::milliseconds(250));
+  this->m_MainPanel->showWithEffect(tgui::ShowAnimationType::SlideFromLeft, sf::milliseconds(250));
+  this->m_MainPanel->enable();
+  m_EnableVSync->disable();
 }
 
 void Level1::CreateNewGame()

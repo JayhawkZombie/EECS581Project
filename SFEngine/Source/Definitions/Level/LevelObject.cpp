@@ -1,6 +1,7 @@
 #include "Level\LevelObject.h"
 #include "Actor\Actor.h"
 #include "Physics\Collider.h"
+#include "Physics\Occluder.h"
 
 #include "chaiscript\chaiscript.hpp"
 
@@ -79,6 +80,9 @@ namespace Engine
 
   void LevelObject::PhysicsUpdate()
   {
+    if (m_IsFrozen)
+      return;
+
     for (auto & collider : m_Colliders)
       collider->PhysicsUpdate();
 
@@ -114,8 +118,12 @@ namespace Engine
 
   void LevelObject::SetPosition(const sf::Vector2f &pos)
   {
+    sf::Vector2f delta = Position - pos;
     Position = pos;
     Sprite.setPosition(Position);
+
+    for (auto & collider : m_Colliders)
+      collider->SetPosition(pos);
   }
 
 	void LevelObject::SetSize(const sf::Vector2f & size)
@@ -186,6 +194,9 @@ namespace Engine
 
   void LevelObject::HandleCollisionWithSegment(PhysicsEngineSegmentType *Segment)
   {
+    if (m_HandleSegmentWithSegment)
+      m_HandleSegmentWithSegment(Segment);
+
     auto pos = Segment->pos;
     auto diff = Position - sf::Vector2f(pos.x, pos.y);
 
@@ -209,6 +220,11 @@ namespace Engine
       move.y = 1.2f * (top - pos.y);
 
     MoveObject(move);
+  }
+
+  void LevelObject::SetSegmentCollisionCallback(std::function<void(PhysicsEngineSegmentType*)> Callback)
+  {
+    m_HandleSegmentWithSegment = Callback;
   }
 
   void LevelObject::HandleInputEvent(const UserEvent & evnt)
@@ -240,6 +256,21 @@ namespace Engine
   {
   }
 
+  void LevelObject::Freeze()
+  {
+    m_IsFrozen = true;
+  }
+
+  void LevelObject::Unfreeze()
+  {
+    m_IsFrozen = false;
+  }
+
+  bool LevelObject::IsFrozen() const
+  {
+    return m_IsFrozen;
+  }
+
   sf::FloatRect LevelObject::GetGlobalBounds() const
   {
 	  return sf::FloatRect(
@@ -252,6 +283,8 @@ namespace Engine
   {
     for (auto & collider : m_Colliders)
       collider->Move(delta);
+    for (auto & occluder : m_Occluders)
+      occluder->Move(delta);
 	  Position += delta;
     Sprite.move(delta);
   }
@@ -286,6 +319,24 @@ namespace Engine
   {
     m_Colliders.push_back(Collider);
     m_Colliders.back()->SetObjectPtr(this);
+  }
+
+  std::vector<std::shared_ptr<Collider2D>> LevelObject::GetOccluders() const
+  {
+    static std::vector<std::shared_ptr<Collider2D>> _Occluders;
+    _Occluders.clear();
+
+    for (auto & collider : m_Colliders) {
+      if (collider->DoesCastShadows())
+        _Occluders.push_back(collider);
+    }
+
+    return _Occluders;
+  }
+
+  void LevelObject::AddOccluder(std::shared_ptr<Collider2D> Collider)
+  {
+    AddCollider(Collider);
   }
 
   void LevelObject::AddFrameAnimation(const std::string & ID, const std::vector<sf::IntRect>& Frames, sf::Time Duration)

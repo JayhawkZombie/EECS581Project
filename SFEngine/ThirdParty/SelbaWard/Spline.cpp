@@ -95,6 +95,7 @@ Spline::Spline(const unsigned int vertexCount, const sf::Vector2f initialPositio
 	, m_useBezier(false)
 	, m_lockHandleMirror(true)
 	, m_lockHandleAngle(true)
+  , m_thickness(0.f)
 {
 }
 
@@ -283,6 +284,16 @@ void Spline::reverseVertices()
 		vertex.frontHandle = vertex.backHandle;
 		vertex.backHandle = tempHandle;
 	}
+}
+
+sf::Vector2f Spline::getInterpolatedVertex(unsigned int index)
+{
+  return m_sfmlVertices[index].position;
+}
+
+unsigned int Spline::getInterpolatedVertexCount() const
+{
+  return m_sfmlVertices.size();
 }
 
 void Spline::setPosition(const unsigned int index, const sf::Vector2f position)

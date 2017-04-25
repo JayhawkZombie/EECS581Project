@@ -7,6 +7,7 @@
 #include "../../../SFEngine/Source/Headers/Weather/WeatherSystem.h"
 #include "../../../SFEngine/Source/Headers/Weather/Lightning.h"
 #include "../../../SFEngine/Source/Headers/Time/TimedSequence.h"
+#include "Utils\SplinePath.h"
 
 class Level1 : public Engine::BasicLevel
 {
@@ -34,7 +35,45 @@ public:
   
 protected:
   void MakeCreditsPanel();
+  void ShowOptionsPanel();
+  void HideOptionsPanel();
 
+  Engine::SplinePath m_ParticlePath;
+  Engine::SplinePath m_ParticlePath2;
+  sw::Starfield m_StarField;
+
+  sf::Shader BlurShader;
+  sf::Sprite BlurSprite;
+  sf::Sprite FinalSprite;
+  sf::RenderTexture BlurBuffer;
+  sf::RenderTexture BlurBuffer2;
+
+  thor::ParticleSystem m_PSystem1;
+  thor::UniversalEmitter m_PEmitter1;
+  thor::ColorGradient m_PColorGradient1;
+  thor::ColorAnimation m_PColorAnimation1;
+  thor::FadeAnimation m_PFadeAnimation1;
+  thor::TorqueAffector m_PTorqueAffector1;
+  thor::ForceAffector m_PGravityAffector1;
+
+
+  thor::ParticleSystem m_PSystem2;
+  thor::UniversalEmitter m_PEmitter2;
+  thor::ColorGradient m_PColorGradient2;
+  thor::ColorAnimation m_PColorAnimation2;
+  thor::FadeAnimation m_PFadeAnimation2;
+  thor::TorqueAffector m_PTorqueAffector2;
+  thor::ForceAffector m_PGravityAffector2;
+
+
+  sf::Texture m_TorchParticleTexture;
+  thor::PolarVector2f m_TorchParticleVelocity;
+
+
+  tgui::CheckBox::Ptr m_EnableVSync;
+  tgui::SpinButton::Ptr m_FrameRateSpinButton;
+  tgui::ComboBox::Ptr m_AALevelOptions;
+  tgui::Label::Ptr fRateLabel;
 
   sf::Font font;
   std::shared_ptr<tgui::Gui> m_MainGUI;
@@ -77,6 +116,7 @@ protected:
   std::shared_ptr<BasicLevel> BallPuzzleLevelPtr;
   std::shared_ptr<BasicLevel> AITestLevelPtr;
   std::shared_ptr<BasicLevel> OakTreeChurchInteriorLevelPtr;
+  SPtrShared<Engine::BasicLevel> PhysicsDemoLevelPtr;
   tgui::Button::Ptr LevelSelectBack;
 
   bool m_Paused = false;

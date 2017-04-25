@@ -16,6 +16,7 @@ namespace Engine
   class BasicLevel;
   class Collider2DComponent;
   class Collider2D;
+  class Occluder2D;
   class Interact2DComponent;
 
   enum class OverlapAction
@@ -64,6 +65,7 @@ namespace Engine
     virtual void SetCollisionHandleCallback(std::function<void(LevelObject*)> Callback);
     virtual void HandleCollisionWithCollider(SPtrShared<Collider2D> Collider);
     virtual void HandleCollisionWithSegment(PhysicsEngineSegmentType *Segment);
+    virtual void SetSegmentCollisionCallback(std::function<void(PhysicsEngineSegmentType*)> Callback);
 
     virtual void HandleInputEvent(const UserEvent &evnt);
     virtual void SetID(const std::string &ID) override;
@@ -73,6 +75,9 @@ namespace Engine
     virtual void OnKilled();
     virtual void OnSpawn();
     virtual void Reset();
+    virtual void Freeze();
+    virtual void Unfreeze();
+    bool IsFrozen() const;
 
     static void AddItemAnimation(std::shared_ptr<LevelObject> Item, const std::string &animName);
     sf::FloatRect GetGlobalBounds() const;
@@ -86,18 +91,25 @@ namespace Engine
     std::vector<std::shared_ptr<Collider2D>> GetColliders() const;
     void AddCollider(std::shared_ptr<Collider2D> Collider);
 
+    std::vector<std::shared_ptr<Collider2D>> GetOccluders() const;
+    void AddOccluder(std::shared_ptr<Occluder2D> Occluder);
+    void AddOccluder(std::shared_ptr<Collider2D> Collider);
+
     void AddFrameAnimation(const std::string &ID, const std::vector<sf::IntRect> &Frames, sf::Time Duration);
     virtual std::string GetClass() const override {
       return "LevelObject";
     }
 
   protected:
+    bool m_IsFrozen = false;
     thor::AnimationMap<sf::Sprite, std::string> m_AnimationMap;
     thor::Animator<sf::Sprite, std::string> m_Animator;
     std::unordered_map<std::string, thor::FrameAnimation> m_FrameAnimations;
 
     std::vector<std::shared_ptr<Collider2D>> m_Colliders;
+    std::vector<std::shared_ptr<Collider2D>> m_Occluders;
     std::function<void(LevelObject *)> m_HandleCollisionWithObject;
+    std::function<void(PhysicsEngineSegmentType*)> m_HandleSegmentWithSegment;
 
   	std::shared_ptr<sf::Texture> SpriteTexture;
 	  sf::Sprite Sprite;

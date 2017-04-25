@@ -21,14 +21,17 @@ namespace Engine
   Render::RenderSettings EngineRenderSettings;
   std::shared_ptr<tgui::Gui> GUI;
   std::uint32_t MaxIDGenerationAttempts;
-  bool FlagForClose = false;
+  volatile bool FlagForClose = false;
   DataStream<UserEvent> EngineEventStream;
   std::unordered_map<std::string, std::shared_ptr<BasicLevel>> Levels;
   BasicLevel *CurrentLevel = nullptr;
   std::string EntryLevelName;
   InputDeviceState InputState;
   SPtrSharedMutex LevelsLock;
-  double TimeScaleFactor = 1.0;
+  volatile double TimeScaleFactor = 1.0;
+  std::string WindowTitle = "<NO TITLE>";
+  sf::Uint32 WindowStyle;
+  volatile unsigned int FramerateLimit;
 
   void SetKeyRepeatEnabled(bool enabled)
   {
@@ -164,6 +167,24 @@ namespace Engine
       return CurrentEngine->GetCurrentFrameRate();
     else
       return 0U;
+  }
+
+  void SetFramerateLimit(unsigned int Limit)
+  {
+    currentRenderWindow->setFramerateLimit(Limit);
+  }
+
+  void SetVSyncEnabled(bool Enabled)
+  {
+    currentRenderWindow->setVerticalSyncEnabled(Enabled);
+  }
+
+  void SetAALevel(unsigned int Level)
+  {
+    auto settings = currentRenderWindow->getSettings();
+    settings.antialiasingLevel = Level;
+    auto Winsize = currentRenderWindow->getSize();
+    currentRenderWindow->create(sf::VideoMode(Winsize.x, Winsize.y), WindowTitle, WindowStyle, settings);
   }
 
   decltype(auto) GetIsGlobalShadingEnabled()

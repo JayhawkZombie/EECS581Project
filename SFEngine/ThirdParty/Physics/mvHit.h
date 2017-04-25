@@ -41,7 +41,7 @@ public:
 
   virtual ~mvHit() {}
   virtual void init(std::istream& fin);
-
+  virtual std::vector<vec2d> get_verts();
   virtual void update() = 0;
   void update(vec2d g);
   virtual void draw(sf::RenderTarget& rRW)const = 0;

@@ -327,6 +327,7 @@
     <ClInclude Include="Projects\PuzzleDemo\Classes\Level1.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\AITest.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\DemoLoader.h" />
+    <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\PhysicsDemo.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Levels\Stack.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\LoadingScreen.h" />
     <ClInclude Include="Projects\PuzzleDemo\Classes\Objects\Flippable.h" />
@@ -368,6 +369,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerObject.h" />
     <ClInclude Include="SFEngine\Source\Headers\Objects\TriggerVolume.h" />
     <ClInclude Include="SFEngine\Source\Headers\OSXDefs.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Physics\Occluder.h" />
     <ClInclude Include="SFEngine\Source\Headers\Resources\CerealAsset.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\DeviceState.h" />
     <ClInclude Include="SFEngine\Source\Headers\State\State.h" />
@@ -426,6 +428,7 @@
     <ClInclude Include="SFEngine\Source\Headers\Utils\NullType.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\RayCast.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\ReadIni.h" />
+    <ClInclude Include="SFEngine\Source\Headers\Utils\SplinePath.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\SpriteSheet.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\String.h" />
     <ClInclude Include="SFEngine\Source\Headers\Utils\StringMap.h" />
@@ -647,6 +650,7 @@
     <ClCompile Include="Projects\PuzzleDemo\Classes\Level1.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\AITest.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\DemoLoader.cpp" />
+    <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\PhysicsDemo.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Levels\Stack.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\LoadingScreen.cpp" />
     <ClCompile Include="Projects\PuzzleDemo\Classes\Objects\Flippable.cpp" />
@@ -751,6 +755,7 @@
     <ClCompile Include="SFEngine\Source\Definitions\Utils\Encoders.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\RayCast.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\ReadIni.cpp" />
+    <ClCompile Include="SFEngine\Source\Definitions\Utils\SplinePath.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\SpriteSheet.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\String.cpp" />
     <ClCompile Include="SFEngine\Source\Definitions\Utils\TextReader.cpp" />
@@ -866,6 +871,7 @@
     <None Include="SFEngine\Source\CoreFiles\Scripts\ConsoleFunctions.chai" />
     <None Include="SFEngine\Source\CoreFiles\Shaders\BrightPoint.fsh" />
     <None Include="SFEngine\Source\CoreFiles\Shaders\HorizontalGaussBlur.fsh" />
+    <None Include="SFEngine\Source\CoreFiles\Shaders\LightBlender.fsh" />
     <None Include="SFEngine\Source\CoreFiles\Shaders\LightBlendShader.fsh" />
     <None Include="SFEngine\Source\CoreFiles\Shaders\LightShader.fsh" />
     <None Include="SFEngine\Source\CoreFiles\Shaders\VerticalGaussBlur.fsh" />

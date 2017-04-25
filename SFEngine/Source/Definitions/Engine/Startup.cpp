@@ -21,6 +21,8 @@ namespace Engine
       delete currentRenderWindow;
 
 #ifdef WITH_EDITOR
+    WindowStyle = sf::Style::Resize | sf::Style::Close | sf::Style::Titlebar;
+    WindowTitle = "SFEngine";
     Window = new sf::RenderWindow(sf::VideoMode(1700, 900), "SFEngine", sf::Style::Resize | sf::Style::Close | sf::Style::Titlebar, csettings);
     WindowSize = static_cast<sf::Vector2f>(Window->getSize());
 #else

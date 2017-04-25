@@ -75,6 +75,15 @@ else { v.y += dV; if( v.y > 0.0f ) v.y = 0.0f; }
 return;
 }   */
 
+std::vector<vec2d> regPolygon::get_verts()
+{
+  static std::vector<vec2d> vec(this->nSides);
+  for (size_t i = 0; i < nSides; ++i) {
+    vec[i] = pos + ptVec[i];
+  }
+  return vec;
+}
+
 void regPolygon::update()
 {
   if (!is_free) return;

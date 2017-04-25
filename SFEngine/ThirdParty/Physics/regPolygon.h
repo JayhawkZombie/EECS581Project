@@ -27,7 +27,7 @@ public:
   virtual const char* myName() const {
     return "regPolygon";
   }
-
+  virtual std::vector<vec2d> get_verts() override;
   virtual void update();
   virtual void draw(sf::RenderTarget& rRW)const;
   virtual void setPosition(vec2d Pos);
