@@ -3,7 +3,9 @@
 ## SFEngine  
 ![SFEngine](https://github.com/JayhawkZombie/EECS581Project/blob/master/SFEngine/Samples/Logos/SFEngineLogo_Dark_Flame_Analogized.png)  
 
-### This project is still in pre-alpha, and is nowhere near ready for any sort of release
+### This project is still in pre-alpha, and is nowhere near ready for any sort of release  
+
+**This repo is frozen**. The code base has been migrated to a new repo for further development.  It will be posted here when the migration is complete.  
 
 ## License
 This software is provided 'as-is', without any express or
