@@ -92,6 +92,32 @@ namespace Engine
     }
   }
 
+  ExpandMeshPtr BuildExpandPolygonMesh
+  (
+    unsigned int numSides, 
+    float radiusWhenFull, 
+    float IAngle, 
+    const sf::Vector2f & InitialPosition, 
+    const sf::Vector2f & InitialVelocity, 
+    float Mass, 
+    float CoeffOfRest, 
+    float GrowSpeed, 
+    sf::Color Color
+  )
+  {
+    try
+    {
+      std::stringstream data = GetFormattedExpandPolyConstructionData(numSides, radiusWhenFull, IAngle, InitialPosition, InitialVelocity, Mass, CoeffOfRest, GrowSpeed, Color);
+      return (std::make_shared<expandPolygon>(data));
+    }
+    catch (EngineRuntimeError& e)
+    {
+      e.AddCause(ExceptionCause::PhysicsInitError);
+      e.AddMessage(EXCEPTION_MESSAGE("Physics error : cannot construct expand poly"));
+      throw;
+    }
+  }
+
   SegmentPtr BuildSegmentMesh
   (
     char type, 
@@ -590,6 +616,42 @@ namespace Engine
     return data;
   }
 
+  std::stringstream GetFormattedExpandPolyConstructionData
+  (
+    unsigned int numSides, 
+    float radiusWhenFull, 
+    float IAngle,
+    const sf::Vector2f & InitialPosition,
+    const sf::Vector2f & InitialVelocity,
+    float Mass, 
+    float CoeffOfRest, 
+    float GrowSpeed, 
+    sf::Color Color
+  )
+  {
+    std::stringstream data;
+    try
+    {
+      InsertIntoStream((std::size_t)numSides, data);
+      InsertIntoStream(radiusWhenFull, data);
+      InsertIntoStream(IAngle, data);
+      InsertIntoStream(InitialPosition.x, data); InsertIntoStream(InitialPosition.y, data);
+      InsertIntoStream(InitialVelocity.x, data); InsertIntoStream(InitialVelocity.y, data);
+      InsertIntoStream(Mass, data);
+      InsertIntoStream(CoeffOfRest, data);
+      InsertIntoStream(GrowSpeed, data);
+      InsertIntoStream(Color.r, data); InsertIntoStream(Color.g, data); InsertIntoStream(Color.b, data);
+
+      return data;
+
+      
+    }
+    catch (EngineRuntimeError& e)
+    {
+      throw Engine::InitializationException({ Engine::ExceptionCause::PhysicsInitError }, EXCEPTION_MESSAGE("Failed to constrict expand poly data"));
+    }
+  }
+
   std::stringstream GetFormattedSegmentConstructionData
   (
     char type, 
@@ -667,14 +729,22 @@ namespace Engine
       for (auto & seg : Segments)
         seg->update();
 
-      for (auto & seg : Segments) {
-        for (auto & coll : Colliders) {
+      for (auto & coll : Colliders) {
+        for (auto & seg : Segments) {
           auto mesh = coll->GetMesh();
-          if (mesh.lock() && seg->hit(*mesh.lock())) {
+          if (mesh.lock() && seg->hit(*(mesh.lock())))
             coll->HandleCollisionWithSegment(seg);
-          }
         }
       }
+
+      //for (auto & seg : Segments) {
+      //  for (auto & coll : Colliders) {
+      //    auto mesh = coll->GetMesh();
+      //    if (mesh.lock() && seg->hit(*mesh.lock())) {
+      //      coll->HandleCollisionWithSegment(seg);
+      //    }
+      //  }
+      //}
 
       for (std::size_t i = 0; i < Colliders.size(); ++i) {
         for (std::size_t j = 0; j < Colliders.size(); ++j) {

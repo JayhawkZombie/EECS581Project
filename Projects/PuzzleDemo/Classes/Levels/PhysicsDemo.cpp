@@ -113,8 +113,8 @@ PhysicsDemoLevel::PhysicsDemoLevel()
 
 
   m_TorchParticleTexture.loadFromFile("./Projects/PuzzleDemo/Assets/Textures/superblurredparticle.png");
-  m_PEmitter1.setEmissionRate(150.f);
-  m_PEmitter1.setParticleLifetime(sf::seconds(6.f));
+  m_PEmitter1.setEmissionRate(25.f);
+  m_PEmitter1.setParticleLifetime(sf::seconds(2.f));
 
   m_PSystem1.setTexture(m_TorchParticleTexture);
   m_PSystem1.addEmitter(thor::refEmitter(m_PEmitter1));
@@ -122,6 +122,7 @@ PhysicsDemoLevel::PhysicsDemoLevel()
   m_PEmitter1.setParticlePosition(sf::Vector2f(64.f, 764.f));
   m_PEmitter1.setParticleScale(sf::Vector2f(0.4f, 0.3f));
   m_PEmitter1.setParticleRotationSpeed(thor::randomDev(0.f, 15.f));
+  m_PEmitter1.setParticleVelocity(thor::Distributions::deflect(sf::Vector2f(0, 1), 15.f));
 
   m_PColorGradient1[0.f] = sf::Color(221, 62, 0);
   m_PColorGradient1[0.5f] = sf::Color(219, 32, 0);
@@ -132,23 +133,15 @@ PhysicsDemoLevel::PhysicsDemoLevel()
 
   m_PSystem1.addAffector(thor::AnimationAffector(m_PColorAnimation1));
   m_PSystem1.addAffector(thor::AnimationAffector(m_PFadeAnimation1));
-  m_PSystem1.addAffector(thor::TorqueAffector(150.f));
+  //m_PSystem1.addAffector(thor::TorqueAffector(150.f));
   m_PSystem1.addAffector(thor::ForceAffector(sf::Vector2f(0.f, -50.f)));
   m_TorchParticleVelocity = thor::PolarVector2f(200.f, -90.f);
 
 
   m_StarField.setColor(sf::Color(0, 255, 255));
 
-  m_FallingCollider = Engine::Collider2D::CreatePolygonMesh(4, 40.f, 1.5707, { Engine::WindowSize.x / 2.f, 10.f }, { 0.f, 0.f }, 0.5f, 0.f, sf::Color::White);
-  
-  m_Faller = std::make_shared<Engine::LevelObject>();
-  m_Faller->SetPosition({ Engine::WindowSize.x / 2.f, 10.f });
-  m_Faller->AddCollider(m_FallingCollider);
-  m_Faller->Freeze();
-  LevelObjects["Faller"] = m_Faller;
-
   Gravity->x = 0.f;
-  Gravity->y = 0.f;
+  Gravity->y = 0.2f;
 
   /************************************************************************/
   /*                     Set up bitmap fonts                              */
@@ -238,44 +231,8 @@ PhysicsDemoLevel::PhysicsDemoLevel()
   auto bounds = m_BMPText.getGlobalBounds();
   m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
 
-  /************************************************************************/
-  /*                     Add the shattering area                          */
-  /************************************************************************/
-  m_ShatterRegionSegment = Engine::BuildSegmentMesh('b', sf::Vector2i(0, 700), sf::Vector2i((int)Engine::WindowSize.x, 700));
-  Segments.push_back(m_ShatterRegionSegment);
-
-  m_Faller->SetSegmentCollisionCallback(
-    [this](Engine::PhysicsEngineSegmentType *Segment)
-  {
-    if (this->m_TimeDialationBegan) return;
-
-    if (Segment == m_ShatterRegionSegment.get()) {
-      this->m_TimeDialationBegan = true;
-      std::cerr << "Starting time dialation sequence" << std::endl;
-      this->m_Faller->SetSegmentCollisionCallback([](auto ptr) {});
-
-      this->m_TimeDialationSequence.AddSequences(
-        [this]() { this->BeginTimeDialation(); },
-        []() {},
-        [this]() { this->EndTimeDialation(); },
-        {
-          { 2000.f, []() {}, [this]() { this->UpdateTimeDialation(); } , []() {} }
-        }
-        );
-      //m_ShatterRegionSegment
-      this->m_TimeDialationSequence.Start();
-    }
-  }
-  );
-
-  //m_ParticlePath.AddVertices({ { 100.f, 550.f },{ 150.f, 545.f },{ 200.f, 560.f },{ 30.f, 570.f },{ 40.f, 800.f },{ 600.f, 900.f },{ 700.f, 510.f }, { 600.f, 460.f }, { 230.f, 220.f }, { 100.f, 550.f } });
-  //m_ParticlePath.SetInterpolationSteps(20);
-  //m_ParticlePath.MakeSmooth();
-  //m_ParticlePath.Update();
-  // 
-
   m_PEmitter2.setEmissionRate(450.f);
-  m_PEmitter2.setParticleLifetime(sf::seconds(6.f));
+  m_PEmitter2.setParticleLifetime(sf::seconds(8.f));
 
   m_PSystem2.setTexture(m_TorchParticleTexture);
   m_PSystem2.addEmitter(thor::refEmitter(m_PEmitter2));
@@ -283,6 +240,8 @@ PhysicsDemoLevel::PhysicsDemoLevel()
   m_PEmitter2.setParticlePosition(sf::Vector2f(64.f, 764.f));
   m_PEmitter2.setParticleScale(sf::Vector2f(0.4f, 0.3f));
   m_PEmitter2.setParticleRotationSpeed(thor::randomDev(0.f, 15.f));
+  m_PEmitter2.setParticleVelocity(thor::Distributions::circle(sf::Vector2f(0, 0), 900.f));
+  m_PEmitter2.setParticlePosition(thor::Distributions::circle(sf::Vector2f(1700.f / 2.f, 700.f), 35.f));
 
   m_PColorGradient2[0.f] = sf::Color(0, 216, 255);
   m_PColorGradient2[0.5f] = sf::Color(132, 244, 255);
@@ -297,6 +256,32 @@ PhysicsDemoLevel::PhysicsDemoLevel()
   //m_PSystem2.addAffector(thor::ForceAffector(sf::Vector2f(0.f, -50.f)));
   m_TorchParticleVelocity = thor::PolarVector2f(200.f, -90.f);
 
+
+  m_RenderedScene.create((unsigned int)(Engine::WindowSize.x), (unsigned int)(700));
+
+  SPtrShared<Engine::Collider2D> phy_1_collider = std::make_shared<Engine::Collider2D>();
+  
+  auto exp_m1 = Engine::BuildExpandPolygonMesh(4, 175.f, 0.f, sf::Vector2f(700.f, 650.f), sf::Vector2f(0.f, 0.f), 1.f, 0.f, 9.f, sf::Color::Green);
+ // auto exp_m2 = Engine::BuildExpandPolygonMesh(4, 95.f, 0.f, sf::Vector2f(300.f, 650.f), sf::Vector2f(0.f, 0.f), 1.f, 0.f, 3.f, sf::Color::Green);
+
+  m_ExpandingPolygons.emplace_back(exp_m1);
+ // m_ExpandingPolygons.emplace_back(exp_m2);
+
+  phy_1_collider->SetMesh(exp_m1);
+//  phy_2_collider->SetMesh(exp_m2);
+
+  m_ExpandObjects.emplace_back(std::make_shared<Engine::LevelObject>());
+  m_ExpandObjects.back()->AddCollider(phy_1_collider);
+  LevelObjects["phy_1"] = m_ExpandObjects.back();
+
+
+  segwall1 = Engine::BuildSegmentMesh('b', { 325, 0 }, { 475, 325 }); segwall1->is_bulletProof = true;
+  segwall2 = Engine::BuildSegmentMesh('b', { 1675, 0 }, { 1675 - 450, 75 + 250 }); segwall2->is_bulletProof = true;
+  segFlip = Engine::BuildSegmentMesh('b', { 470, 325 }, { 1230, 325 }); segFlip->is_bulletProof = true;
+
+  for (int i = 0; i < 50; ++i) {
+    SpawnNPoly(5, 15, 0.f, { 350.f + 25.f * i, 10.f }, { 0, 0 }, 7.f, 0.9f, sf::Color::Red);
+  }
 }
 
 PhysicsDemoLevel::~PhysicsDemoLevel()
@@ -312,19 +297,28 @@ void PhysicsDemoLevel::CleanUp()
 void PhysicsDemoLevel::OnEnd()
 {
   m_CountdownSequence.Clear();
+  m_CountdownSequence.Stop();
   m_TimeDialationSequence.Clear();
+  m_TimeDialationSequence.Stop();
+  m_FlipOpenSeq.Clear();
+  m_FlipOpenSeq.Stop();
 }
 
 void PhysicsDemoLevel::OnBegin()
 {
   m_TorchAnimator.play() << "Flame" << thor::Playback::loop("Flame");
   m_PEmitter1.setParticleLifetime(thor::Distributions::uniform(sf::seconds(0.3f), sf::seconds(2.3f)));
-  m_PEmitter1.setParticlePosition(thor::Distributions::circle(sf::Vector2f(64.f, 700.f), 15.f));
-  m_PEmitter1.setParticleVelocity(thor::Distributions::deflect(sf::Vector2f(0.f, 1.f), 15.f));
   m_PEmitter1.setParticleScale(sf::Vector2f(0.2f, 0.25f));
   _clock.restart();
-  m_Faller->SetPosition({ Engine::WindowSize.x / 2.f, 10.f });
+ // m_Faller->SetPosition({ Engine::WindowSize.x / 2.f, 10.f });
+  LevelObjects["phy_1"]->GetColliders()[0]->GetMesh().lock()->setPosition(::vec2d(700.f, 450.f));
+  LevelObjects["phy_1"]->GetColliders()[0]->GetMesh().lock()->v = ::vec2d(0, 0);
   Engine::SetGravity(Gravity);
+
+  Segments.clear();
+  Segments.push_back(segwall1);
+  Segments.push_back(segwall2);
+  Segments.push_back(segFlip);
 
   //reset countdown sequence
   m_CountdownSequence.Clear();
@@ -344,30 +338,22 @@ void PhysicsDemoLevel::OnBegin()
   m_TimeDialationSequence.Clear();
 
 
-  m_BMPText.setString("Countdown...");
-  Gravity->y = 0;
+  m_BMPText.setString("Dynamic Physics and Time Dilation");
+  
   Engine::SetGravity(Gravity);
   m_CountdownSeqNumber = 5;
+  m_CountdownSequence.Start();
   auto bounds = m_BMPText.getGlobalBounds();
   m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
-  m_Faller->Freeze();
+  //m_Faller->Freeze();
   m_ExplosionActive = false;
   m_IsSlowingTime = false;
   TimeScale = 1.0;
   m_PSystem2.clearParticles();
   TotalTimeSpentDialating = 0.0;
-  m_Faller->SetSegmentCollisionCallback(
-    [this](Engine::PhysicsEngineSegmentType *Segment)
-  {
-    if (this->m_TimeDialationBegan) return;
+  m_FlipOpenSeq.Stop();
 
-    if (Segment == m_ShatterRegionSegment.get()) {
-      this->m_TimeDialationBegan = true;
-      std::cerr << "Starting time dialation sequence" << std::endl;
-      this->BeginTimeDialation();
-    }
-  }
-  );
+  Engine::AssignBoundaries(Engine::WindowSize.y, Engine::WindowSize.x);
 }
 
 void PhysicsDemoLevel::HideUI()
@@ -387,7 +373,13 @@ void PhysicsDemoLevel::OnShutDown()
 
 void PhysicsDemoLevel::EventUpdate(sf::Event event)
 {
-
+  if (event.type == sf::Event::KeyPressed) {
+    if (event.key.code == sf::Keyboard::A) {
+      for (auto & expander : m_ExpandingPolygons) {
+        expander->Transform();
+      }
+    }
+  }
 }
 
 void PhysicsDemoLevel::TickUpdate(const double &delta)
@@ -395,14 +387,15 @@ void PhysicsDemoLevel::TickUpdate(const double &delta)
   static double particle_move_count = 0.0;
   static sf::Vector2f part_pos = sf::Vector2f(4.f, 764.f);
 
-
   if (m_IsSlowingTime) {
     TotalTimeSpentDialating += delta;
-    if (TotalTimeSpentDialating >= 9000.0)
-      TotalTimeSpentDialating = 9000.0;
+    if (TotalTimeSpentDialating >= 4000.0)
+      TotalTimeSpentDialating = 4000.0;
 
-    TimeScale = (1 - (TotalTimeSpentDialating / 5000.0));
-    TimeScale *= TimeScale;
+    TimeScale = (1 - (TotalTimeSpentDialating / 4000.0));
+    TimeScale = sqrt(TimeScale);
+    //TimeScale *= TimeScale;
+
     if (TimeScale <= 0.001f) {
       m_IsSlowingTime = false;
       TotalTimeSpentDialating = 0.0;
@@ -421,7 +414,7 @@ void PhysicsDemoLevel::TickUpdate(const double &delta)
 
   m_TorchAnimator.update(time * (float)TimeScale);
   m_TorchAnimator.animate(m_TorchSprite);
-
+  m_FlipOpenSeq.TickUpdate(delta);
   //if (particle_move_count >= 50.0) {
   //  particle_move_count = 0.0;
   //  auto pos = m_ParticlePath.GetNextPathPoint();
@@ -438,16 +431,13 @@ void PhysicsDemoLevel::TickUpdate(const double &delta)
     sf::Time __t = time;
     __t *= (float)TimeScale;
 
-    m_PEmitter2.setParticleVelocity(thor::Distributions::circle(sf::Vector2f(0, 0), 900.f));
-    m_PEmitter2.setParticlePosition(thor::Distributions::circle(sf::Vector2f(1700.f / 2.f, 700.f), 35.f));
-
     m_PSystem2.update(__t);
   }
 
   m_PEmitter1.setParticlePosition(thor::Distributions::circle(sf::Vector2f(64.f, 764.f), 35.f));
   m_PEmitter1.setParticleRotationSpeed(thor::randomDev(0.f, 45.f));
   
-  m_PSystem1.update(time * (float)d);
+  m_PSystem1.update(time * (float)TimeScale);
   m_StarField.move(sf::Vector2f(time.asMilliseconds() * 0.05f, 0.f));
 
   m_CountdownSequence.TickUpdate(delta);
@@ -472,6 +462,15 @@ void PhysicsDemoLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Textur
 
   BasicLevel::RenderOnTexture(Texture);
 
+  segwall1->draw(*Texture);
+  segwall2->draw(*Texture);
+
+  if (!m_FlipperOpen)
+    segFlip->draw(*Texture);
+
+  for (auto & ex : m_ExpandingPolygons)
+    ex->draw(*Texture);
+
   if (m_ExplosionActive) {
     Texture->draw(m_PSystem2);
   }
@@ -490,17 +489,29 @@ std::string PhysicsDemoLevel::GetClass() const
   return std::string("PhysicsDemo");
 }
 
+void PhysicsDemoLevel::OpenFlipper()
+{
+  if (Segments.size() > 2)
+    Segments.erase(Segments.end() - 1);
+
+  m_ExplosionActive = true;
+  m_PSystem2.clearParticles();
+ // segFlip->init_dn();
+  m_FlipperOpen = true;
+  m_IsSlowingTime = true;
+}
+
 void PhysicsDemoLevel::ShatterCollider()
 {
 }
 
 void PhysicsDemoLevel::BeginTimeDialation()
 {
-  m_BMPText.setString("Time dialation...");
+  //m_BMPText.setString("Time dialation...");
   m_IsSlowingTime = true;
   m_ExplosionActive = true;
-  auto bounds = m_BMPText.getGlobalBounds();
-  m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
+  //auto bounds = m_BMPText.getGlobalBounds();
+  //m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
 }
 
 void PhysicsDemoLevel::UpdateTimeDialation()
@@ -509,34 +520,43 @@ void PhysicsDemoLevel::UpdateTimeDialation()
 
 void PhysicsDemoLevel::EndTimeDialation()
 {
-  m_BMPText.setString("Time frozen...");
+  //m_BMPText.setString("Time frozen...");
   m_IsSlowingTime = false;
-  auto bounds = m_BMPText.getGlobalBounds();
-  m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
+  
+  //auto bounds = m_BMPText.getGlobalBounds();
+  //m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
 }
 
 void PhysicsDemoLevel::UpdateCountdown()
 {
-  m_BMPText.setString("Countdown:    " + std::to_string(--m_CountdownSeqNumber) + "  ...");
-  auto bounds = m_BMPText.getGlobalBounds();
-  m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
+ // m_BMPText.setString("Countdown:    " + std::to_string(--m_CountdownSeqNumber) + "  ...");
+  //auto bounds = m_BMPText.getGlobalBounds();
+ // m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
 }
 
 void PhysicsDemoLevel::StartCountdown()
 {
-  m_BMPText.setString("Countdown:    5  ...");
-  auto bounds = m_BMPText.getGlobalBounds();
-  Gravity->y = 0;
+ // m_BMPText.setString("Countdown:    5  ...");
+ // auto bounds = m_BMPText.getGlobalBounds();
+  
   Engine::SetGravity(Gravity);
-  m_BMPText.setPosition(sf::Vector2f(   (Engine::WindowSize.x - bounds.width) / 2.f, 150.f ));
+ // m_BMPText.setPosition(sf::Vector2f(   (Engine::WindowSize.x - bounds.width) / 2.f, 150.f ));
 }
 
 void PhysicsDemoLevel::EndCountdown()
 {
-  m_BMPText.setString("GO");
-  m_Faller->Unfreeze();
-  Gravity->y = 0.3f;
+ // m_BMPText.setString("GO");
+  //m_Faller->Unfreeze();
+  
   Engine::SetGravity(Gravity);
   auto bounds = m_BMPText.getGlobalBounds();
   m_BMPText.setPosition(sf::Vector2f((Engine::WindowSize.x - bounds.width) / 2.f, 150.f));
+
+  m_FlipOpenSeq.AddSequences(
+    []() {}, []() {}, [this]() { this->OpenFlipper(); },
+    {
+      { 2000, []() {}, []() {}, []() {}}
+    }
+    );
+  m_FlipOpenSeq.Start();
 }

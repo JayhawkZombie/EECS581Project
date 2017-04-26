@@ -128,6 +128,25 @@ namespace Engine
     return Collider;
   }
 
+  std::shared_ptr<Collider2D> Collider2D::CreateExpandingMesh
+  (
+    unsigned int numSides, 
+    float radiusWhenFull, 
+    float IAngle, 
+    const sf::Vector2f & InitialPosition,
+    const sf::Vector2f & InitialVelocity,
+    float Mass, 
+    float CoeffOfRest, 
+    float GrowSpeed,
+    sf::Color Color
+  )
+  {
+    SPtrShared<PhysicsEngineBaseMeshType> Polygon = BuildExpandPolygonMesh(numSides, radiusWhenFull, IAngle, InitialPosition, InitialVelocity, Mass, CoeffOfRest, GrowSpeed, Color);
+    SPtrShared<Collider2D> Collider = std::make_shared<Collider2D>();
+    Collider->m_Mesh = Polygon;
+    return Collider;
+  }
+
   void Collider2D::SetCollisionCallback(std::function<void(LevelObject*)> Callback, bool NotifyEveryFrame)
   {
     m_NotifyOfCollisionEveryFrame = NotifyEveryFrame;

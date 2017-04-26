@@ -86,8 +86,16 @@ namespace Engine
       m_StartCallBack;
   }
 
+  void TimedSequence::Stop()
+  {
+    m_IsTiming = false;
+  }
+
   void TimedSequence::TickUpdate(const double & delta)
   {
+    if (!m_IsTiming)
+      return;
+
     if (!m_Nodes.empty()) {
       if (!m_Nodes.front().IsDone())
         m_Nodes.front().TickUpdate(delta);

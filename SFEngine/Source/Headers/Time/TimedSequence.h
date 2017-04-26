@@ -64,6 +64,7 @@ namespace Engine
     );
 
     void Start();
+    void Stop();
     void TickUpdate(const double &delta);
     void SetUpdateCallback(std::function<void(const double &)> CB);
   protected:

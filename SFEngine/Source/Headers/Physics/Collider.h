@@ -85,6 +85,19 @@ namespace Engine
       sf::Color Color = sf::Color::Transparent
     );
 
+    static std::shared_ptr<Collider2D> CreateExpandingMesh
+    (
+      unsigned int numSides,
+      float radiusWhenFull,
+      float IAngle,
+      const sf::Vector2f &InitialPosition,
+      const sf::Vector2f &InitialVelocity,
+      float Mass,
+      float CoeffOfRest,
+      float GrowSpeed,
+      sf::Color Color
+    );
+
     void SetCollisionCallback(std::function<void(LevelObject*)> Callback, bool NotifyEveryFrame = true);
     void SetSegmentCallback(std::function<void(PhysicsEngineSegmentType *)> Callback);
     void SetPositionChangeCallback(std::function<void(sf::Vector2f delta)> Callback);

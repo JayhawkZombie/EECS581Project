@@ -54,6 +54,7 @@ namespace Engine
     EditorSprite.setTexture(EditorTexture->getTexture());
 
     //Window->setFramerateLimit(120);
+    Window->setVerticalSyncEnabled(false);
     Window->setKeyRepeatEnabled(false);
     bool Closed = false;
 

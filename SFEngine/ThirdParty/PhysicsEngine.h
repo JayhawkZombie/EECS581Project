@@ -35,8 +35,9 @@ namespace Engine
   using PhysicsEnginePipeSegmentType = pipeSeg;
   using PhysicsEngineElevatorType = lineSegElevator;
   using PhysicsEngineSegFlipType = lineSegFlip;
-  using PysicsEngineSegRotateType = lineSegRotate;
+  using PhysicsEngineSegRotateType = lineSegRotate;
   using PhysicsEngineSegSwingType = lineSegSwing;
+  using PhysicsEngineExpandingPolygon = expandPolygon;
 
   class Collider2D;
   class Occluder2D;
@@ -49,9 +50,9 @@ namespace Engine
   using PipeSegmentPtr = std::shared_ptr<PhysicsEnginePipeSegmentType>;
   using ElevatorSegmentPtr = std::shared_ptr<PhysicsEngineElevatorType>;
   using SegFlipPtr = std::shared_ptr<PhysicsEngineSegFlipType>;
-  using SegRotatePtr = std::shared_ptr<PysicsEngineSegRotateType>;
+  using SegRotatePtr = std::shared_ptr<PhysicsEngineSegRotateType>;
   using SegSwingPtr = std::shared_ptr<PhysicsEngineSegSwingType>;
-  
+  using ExpandMeshPtr = std::shared_ptr<PhysicsEngineExpandingPolygon>;
 
   BaseMeshPtr BuildBallMesh
   (
@@ -73,6 +74,19 @@ namespace Engine
     const sf::Vector2f &InitialVelocity, 
     float mass, float CoeffOfRest, 
     const sf::Color &Color
+  );
+
+  ExpandMeshPtr BuildExpandPolygonMesh
+  (
+    unsigned int numSides,
+    float radiusWhenFull,
+    float IAngle,
+    const sf::Vector2f &InitialPosition,
+    const sf::Vector2f &InitialVelocity,
+    float Mass,
+    float CoeffOfRest,
+    float GrowSpeed,
+    sf::Color Color
   );
 
   SegmentPtr BuildSegmentMesh
@@ -176,6 +190,19 @@ namespace Engine
     float mass, 
     float CoeffOfRest, 
     const sf::Color &Color
+  );
+
+  std::stringstream GetFormattedExpandPolyConstructionData
+  (
+    unsigned int numSides,
+    float radiusWhenFull,
+    float IAngle,
+    const sf::Vector2f &InitialPosition,
+    const sf::Vector2f &InitialVelocity,
+    float Mass,
+    float CoeffOfRest,
+    float GrowSpeed,
+    sf::Color Color
   );
 
   std::stringstream GetFormattedSegmentConstructionData

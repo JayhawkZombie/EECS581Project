@@ -46,7 +46,18 @@ protected:
   double TotalTimeSpentDialating = 0.0;
   bool m_IsSlowingTime = false;
   
+  std::vector<SPtrShared<expandPolygon>> m_ExpandingPolygons;
+  std::vector<SPtrShared<Engine::LevelObject>> m_ExpandObjects;
+
+  Engine::TimedSequence m_FlipOpenSeq;
+  void OpenFlipper();
+  bool m_FlipperOpen = false;
+
+  SPtrShared<Engine::PhysicsEngineSegmentType> segwall1;// = Engine::BuildSegmentMesh('b', { 25, 75 }, { 275, 225 });
+  SPtrShared<Engine::PhysicsEngineSegmentType> segwall2;// = Engine::BuildSegmentMesh('b', { 1675 - 250, 75 + 150 }, { 1675, 75 });
+  SPtrShared<Engine::PhysicsEngineSegmentType> segFlip;
   void ShatterCollider();
+  sf::RenderTexture m_RenderedScene;
 
   bool m_ExplosionActive = false;
   thor::ParticleSystem m_PSystem2;

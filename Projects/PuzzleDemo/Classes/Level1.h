@@ -38,6 +38,8 @@ protected:
   void ShowOptionsPanel();
   void HideOptionsPanel();
 
+  bool m_DrawSplines = false;
+
   Engine::SplinePath m_ParticlePath;
   Engine::SplinePath m_ParticlePath2;
   sw::Starfield m_StarField;

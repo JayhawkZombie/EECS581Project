@@ -195,7 +195,7 @@ void DemoLoadLevel::TickUpdate(const double & delta)
   }
 
   m_ProgressBar.TickUpdate(delta);
-  m_SFMLCard.TickUpdate(delta);
+  //m_SFMLCard.TickUpdate(delta);
   m_LevelMutex->unlock();
 }
 
@@ -221,7 +221,7 @@ void DemoLoadLevel::Render(std::shared_ptr<sf::RenderTarget> Target)
 void DemoLoadLevel::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
 {
   m_LevelMutex->lock();
-  m_SFMLCard.Render(Texture);
+  //m_SFMLCard.Render(Texture);
 
   if (!m_TimingWaitCount)
     m_ProgressBar.Render(Texture);

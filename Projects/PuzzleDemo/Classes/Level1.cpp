@@ -15,14 +15,15 @@ namespace
     "Engine - Kurt Slagle",
     "Engine - Nick Roudebush",
     "Engine - Colton Roemer",
-    "Game / Engine - Austin Bailey",
-    "Game / Engine - Cammy Vo"
+    "Game / Engine - Cammy Vo",
+    "Game / Engine - Austin Bailey"
   };
 
   std::vector<std::string> MusicSectionLabels = {
     "MainMenu Music - Chamber of Jewels - by Eric Matyas, www.soundimage.org",
     "Gem Demo Music - Castle of Despair - by Eric Matyas, www.soundimage.org",
-    "Gem Demo Effect : Shatter - public domain, GCC2017 release"
+    "Gem Demo Effect : Shatter - public domain, GCC2017 release",
+    "Game Music     - By Shleby Scot"
   };
 }
 
@@ -385,25 +386,14 @@ void Level1::TickUpdate(const double & delta)
   auto pos2 = m_ParticlePath2.GetNextPathPoint();
   m_PEmitter1.setParticlePosition(thor::Distributions::circle(pos, 17.f));
   m_PEmitter2.setParticlePosition(thor::Distributions::circle(pos2, 21.f));
-  //m_PSystem1.addAffector(thor::ForceAffector(sf::Vector2f(0.f, 1.f)));
-  //m_PEmitter1.setParticleRotation(thor::randomDev(45.f, 32.f));
-  // m_PEmitter1.setParticleVelocity(pos - part_pos);
-  //m_PEmitter1.setParticleRotationSpeed(thor::randomDev(0.f, 45.f));
 
   part_pos = pos;
-
-  //m_PEmitter1.setParticlePosition(thor::Distributions::circle(sf::Vector2f(64.f, 764.f), 35.f));
-  //m_PEmitter1.setParticleRotationSpeed(thor::randomDev(0.f, 45.f));
 
   auto __time = fClock.restart();
 
   m_PSystem1.update(__time);
   m_PSystem2.update(__time);
-  m_StarField.move(sf::Vector2f(0.f, __time.asMilliseconds() * 0.1f));
-  //emitter.setParticlePosition(thor::Distributions::rect({ 1700 / 2.f, 900 / 2.f }, { 1700 / 2.f, 900 / 2.f }));
-  //system.update(__time);
-  //MainGUI->updateTime(_clock.restart());
-  //Engine::GUI->updateTime(_clock.restart());
+  m_StarField.move(sf::Vector2f(__time.asMilliseconds() * 0.05, 0.f));
 }
 
 void Level1::Render(std::shared_ptr<sf::RenderTarget> Target)
@@ -415,6 +405,12 @@ void Level1::RenderOnTexture(std::shared_ptr<sf::RenderTexture> Texture)
   Texture->clear(sf::Color::Transparent);
   //Texture->draw(system);
   Texture->draw(m_StarField);
+
+  if (m_DrawSplines) { 
+    m_ParticlePath.Render(Texture);
+    m_ParticlePath2.Render(Texture);
+  }
+
   Texture->draw(m_PSystem1);
   Texture->draw(m_PSystem1);
 
@@ -439,6 +435,9 @@ void Level1::HandleInputEvent(const Engine::UserEvent & evnt)
 void Level1::EventUpdate(sf::Event event)
 {
   //Engine::GUI->handleEvent(event);
+  if (event.type == sf::Event::KeyPressed)
+    if (event.key.code == sf::Keyboard::S)
+      m_DrawSplines = !m_DrawSplines;
 }
 
 void Level1::OnBegin()
