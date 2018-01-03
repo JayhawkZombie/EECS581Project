@@ -5,7 +5,8 @@
 
 ### This project is still in pre-alpha, and is nowhere near ready for any sort of release  
 
-**This repo is frozen**. The code base has been migrated to a new repo for further development.  It will be posted here when the migration is complete.  
+~~**This repo is frozen**. The code base has been migrated to a new repo for further development.  It will be posted here when the migration is complete.~~
+This has been migrated to the [SFEngine](https://github.com/JayhawkZombie/SFEngine) project.  It is actively developed there.  This repo will remain to maintain records for academic purposes (as it was a senior college project), but no changes will be made to it.
 
 ## License
 This software is provided 'as-is', without any express or
